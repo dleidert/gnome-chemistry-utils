@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/arrow.cc
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -137,7 +137,7 @@ void Arrow::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	double theta = atan2 (m_yend - m_ystart, m_xend -m_xstart),
 		   length = sqrt ((m_yend - m_ystart) * (m_yend - m_ystart) + (m_xend -m_xstart) * (m_xend -m_xstart));
-	GOColor color = GetLineColor ();
+	GOColor color = GetEffectiveLineColor ();
 	if (color != 0) {
 		cairo_save (cr);
 		cairo_translate (cr, m_xstart, m_ystart);

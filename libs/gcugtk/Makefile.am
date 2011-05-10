@@ -3,14 +3,12 @@ MAINTAINERCLEANFILES = Makefile.in
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
-		$(gtkglext_CFLAGS) \
 		$(GCU_CFLAGS)
 libgcugtk_@GCU_API_VER@_la_LDFLAGS = \
 		-version-info  @GCU_VERSION_INFO@
 libgcugtk_@GCU_API_VER@_la_LIBADD = \
 		$(goffice_LIBS) \
 		$(gsf_LIBS) \
-		$(gtkglext_LIBS) \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 DEFS += -DDATADIR=\"$(datadir)\" \
 		-DLOCALEDIR=\"$(localedir)\" \

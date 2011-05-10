@@ -1,6 +1,6 @@
 AC_PREREQ(2.64)
 
-AC_INIT([gnome-chemistry-utils], [0.13.3], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
+AC_INIT([gnome-chemistry-utils], [0.13.4], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
 AC_CONFIG_SRCDIR([libs/gcugtk/gcuperiodic.c])
 AM_INIT_AUTOMAKE([1.11.1 tar-ustar dist-bzip2 dist-xz])
 AM_MAINTAINER_MODE
@@ -120,8 +120,8 @@ AC_PATH_PROG([DOXYGEN], [doxygen], [no])
 AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
 
 libgoffice=
-dnl Only 0.7.5, or later will work
-for ver in 0.8 ; do
+dnl Only 0.9.0, or later will work
+for ver in 1.0 ; do
   if test "x$libgoffice" = x; then
     if pkg-config --exists libgoffice-$ver; then
       libgoffice=libgoffice-$ver
@@ -130,17 +130,16 @@ for ver in 0.8 ; do
 done
 if test "x$libgoffice" = x; then
   # Not important.  Things will fail below.
-  libgoffice=libgoffice-0.8
+  libgoffice=libgoffice-1.0
 fi
 
 PKG_CHECK_MODULES(shared_mime_info, [shared-mime-info >= 0.12])
 PKG_CHECK_MODULES(cairo, [cairo >= 1.6.0])
 PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.26.0])
-PKG_CHECK_MODULES(gtk, [gtk+-2.0 >= 2.18.0])
-PKG_CHECK_MODULES(gtkglext, [gtkglext-1.0 >= 1.0.0])
+PKG_CHECK_MODULES(gtk, [gtk+-3.0 >= 3.0.0])
 PKG_CHECK_MODULES(xml, [libxml-2.0 >= 2.4.16])
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
-PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.7.16])
+PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.9.0])
 PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
 PKG_CHECK_MODULES(bodr, [bodr >= 5])
 PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.3.0])

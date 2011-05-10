@@ -30,7 +30,7 @@
 #include <gcugtk/glview.h>
 #include <list>
 #include <map>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 /*!\file*/
 namespace gcr

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/3d/main.cc 
  *
- * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,7 +27,6 @@
 #include "document.h"
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkglinit.h>
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
 #include <cstring>
@@ -85,7 +84,6 @@ int main(int argc, char *argv[])
 
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
-	gtk_gl_init (&argc, &argv);
 	Element::LoadBODR ();
 
 	if (argc > 1 && argv[1][0] == '-') {

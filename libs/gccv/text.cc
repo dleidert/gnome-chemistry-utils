@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/text.cc 
  *
- * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -1091,11 +1091,11 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 	}
 
 	switch (event->keyval) {
-	case GDK_Control_L:
-	case GDK_Control_R:
+	case GDK_KEY_Control_L:
+	case GDK_KEY_Control_R:
 		return false;
-	case GDK_Return:
-	case GDK_KP_Enter: {
+	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter: {
 		m_Text.insert (m_CurPos, "\n");
 		TextTag *tag = new NewLineTextTag ();
 		tag->SetStartIndex (m_CurPos++);
@@ -1108,14 +1108,14 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 			client->TextChanged (m_CurPos);
 		return true;
 	}
-	case GDK_Tab:
+	case GDK_KEY_Tab:
 		TextPrivate::OnCommit (m_ImContext, "\t", this);
 		if (client)
 			client->TextChanged (m_CurPos);
 		break;
 
 	/* MOVEMENT */
-	case GDK_Right:
+	case GDK_KEY_Right:
 		if (m_CurPos == m_Text.length ())
 			break;
 		if (event->state & GDK_CONTROL_MASK) {
@@ -1143,7 +1143,7 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		if (client)
 			client->SelectionChanged (m_StartSel, m_CurPos);
 		break;
-	case GDK_Left:
+	case GDK_KEY_Left:
 		if (m_CurPos == 0)
 			break;
 		if (event->state & GDK_CONTROL_MASK) {
@@ -1171,42 +1171,42 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		if (client)
 			client->SelectionChanged (m_StartSel, m_CurPos);
 		break;
-	case GDK_f:
+	case GDK_KEY_f:
 		/* TODO: write this code */
 		break;
-	case GDK_b:
+	case GDK_KEY_b:
 		/* TODO: write this code */
 		break;
-	case GDK_p:
+	case GDK_KEY_p:
 		if (!(event->state & GDK_CONTROL_MASK))
 			break;
-	case GDK_Up:
+	case GDK_KEY_Up:
 		/* TODO: write this code */
 		break;
-	case GDK_n:
+	case GDK_KEY_n:
 		if (!(event->state & GDK_CONTROL_MASK))
 			break;
-	case GDK_Down:
+	case GDK_KEY_Down:
 		/* TODO: write this code */
 		break;
-	case GDK_Home:
+	case GDK_KEY_Home:
 		/* TODO: write this code */
 		break;
-	case GDK_End:
+	case GDK_KEY_End:
 		/* TODO: write this code */
 		break;
-	case GDK_a:
+	case GDK_KEY_a:
 		/* TODO: write this code */
 		break;
-	case GDK_e:
+	case GDK_KEY_e:
 		/* TODO: write this code */
 		if (event->state & GDK_CONTROL_MASK) {
 		}
 		break;
 
 	/* DELETING TEXT */
-	case GDK_Delete:
-	case GDK_KP_Delete: {
+	case GDK_KEY_Delete:
+	case GDK_KEY_KP_Delete: {
 		if (m_CurPos != m_StartSel) {
 			ReplaceText (empty_st, MIN (m_CurPos, m_StartSel), abs (m_CurPos - m_StartSel));
 			if (client)
@@ -1223,10 +1223,10 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 			client->TextChanged (m_CurPos);
 		break;
 	}
-	case GDK_d:
+	case GDK_KEY_d:
 		/* TODO: write this code */
 		break;
-	case GDK_BackSpace: {
+	case GDK_KEY_BackSpace: {
 		if (m_CurPos != m_StartSel) {
 			ReplaceText (empty_st, MIN (m_CurPos, m_StartSel), abs (m_CurPos - m_StartSel));
 			if (client)
@@ -1243,19 +1243,19 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 			client->TextChanged (m_CurPos);
 		break;
 	}
-	case GDK_k:
+	case GDK_KEY_k:
 		if (event->state & GDK_CONTROL_MASK) {
 			/* delete from cursor to end of paragraph */
 			/* TODO: write this code */
 		}
 		break;
-	case GDK_u:
+	case GDK_KEY_u:
 		if (event->state & GDK_CONTROL_MASK) {
 			/* delete whole paragraph */
 			/* TODO: write this code */
 		}
 		break;
-	case GDK_backslash:
+	case GDK_KEY_backslash:
 		if (event->state & GDK_MOD1_MASK) {
 			/* delete all white spaces around the cursor */
 			/* TODO: write this code */

@@ -120,7 +120,7 @@ static BracketsMetrics const *GetBracketsMetrics (std::string &fontdesc)
 /* Brackets class implementation                                              */
 /******************************************************************************/
 Brackets::Brackets (Canvas *canvas, BracketsTypes type, BracketsUses used, char const *fontdesc, double x0, double y0, double x1, double y1):
-	Item (canvas)
+	LineItem (canvas)
 {
 	m_FontDesc = fontdesc;
 	m_x0 = x0;
@@ -129,13 +129,12 @@ Brackets::Brackets (Canvas *canvas, BracketsTypes type, BracketsUses used, char 
 	m_y1 = y1;
 	SetType (type);
 	m_Used = used;
-	m_Color = GO_COLOR_BLACK;
 	BoundsChanged ();
 	Invalidate ();
 }
 
 Brackets::Brackets (Group *parent, BracketsTypes type, BracketsUses used, char const *fontdesc, double x0, double y0, double x1, double y1, ItemClient *client):
-	Item (parent, client)
+	LineItem (parent, client)
 {
 	m_FontDesc = fontdesc;
 	m_x0 = x0;
@@ -144,7 +143,6 @@ Brackets::Brackets (Group *parent, BracketsTypes type, BracketsUses used, char c
 	m_y1 = y1;
 	SetType (type);
 	m_Used = used;
-	m_Color = GO_COLOR_BLACK;
 	BoundsChanged ();
 	Invalidate ();
 }
@@ -226,7 +224,7 @@ void Brackets::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 	pango_layout_set_font_description (layout, desc);
 	pango_font_description_free (desc);
 	cairo_save (cr);
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (m_Color));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (GetEffectiveLineColor ()));
 	std::list < BracketElem >::const_iterator it, end = m_Elems.end ();
 	for (it = m_Elems.begin (); it != end; it++) {
 		pango_layout_set_text (layout, (*it).ch, -1);

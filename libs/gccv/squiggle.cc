@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/squiggle.h 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -83,7 +83,7 @@ double Squiggle::Distance (double x, double y, Item **item) const
 
 void Squiggle::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
-	GOColor color = GetLineColor ();
+	GOColor color = GetEffectiveLineColor ();
 	if (color != 0) {
 		double dx = m_xend - m_xstart, dy = m_yend - m_ystart, length = sqrt (dx * dx + dy * dy);
 		dx /= length;

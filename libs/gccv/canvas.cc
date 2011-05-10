@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/canvas.cc 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -150,7 +150,8 @@ Canvas::Canvas (Client *client):
 	m_Dragging (false),
 	m_Zoom (1.),
 	m_Root (NULL),
-	m_Gap (0.)
+	m_Gap (0.),
+	m_BackgroundColor (0)
 {
 	m_Root = new Group (this);
 	m_Widget = GTK_WIDGET (gccv_canvas_new (this));
@@ -192,9 +193,9 @@ void Canvas::Invalidate (double x0, double y0, double x1, double y1)
 void Canvas::SetBackgroundColor (GOColor color)
 {
 	m_BackgroundColor = color;
-	GdkColor gcolor;
-	go_color_to_gdk (color, &gcolor);
-	gtk_widget_modify_bg (m_Widget, GTK_STATE_NORMAL, &gcolor);
+	GdkRGBA rgba;
+	go_color_to_gdk_rgba (color, &rgba);
+	gtk_widget_override_background_color (m_Widget, GTK_STATE_FLAG_NORMAL, &rgba);
 }
 
 void Canvas::SetZoom (double zoom)
@@ -207,6 +208,13 @@ void Canvas::SetZoom (double zoom)
 void Canvas::Render (cairo_t* cr, bool is_vector)
 {
 	double x0, y0, x1, y1;
+	// set the defaut color according to the current state
+	GtkStateFlags state = gtk_widget_get_state_flags (m_Widget);
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (m_Widget);
+	GdkRGBA rgba;
+	m_Color = GO_COLOR_FROM_GDK_RGBA (rgba);
+	gtk_style_context_get_color (ctxt, state, &rgba);
+	cairo_set_source_rgba (cr, rgba.red, rgba.green, rgba.blue, rgba.alpha);
 	m_Root->GetBounds (x0, y0, x1, y1);
 	m_Root->Draw (cr, x0, y0, x1, y1, is_vector);
 }

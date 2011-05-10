@@ -388,10 +388,10 @@ bool gcpResiduesDlg::OnKeyPress (GdkEventKey *event)
 // Next lines are commented out because they just do not work properly: FIXME if possible
 		if (event->state & GDK_CONTROL_MASK) {
 			switch (event->keyval) {
-			case GDK_Z:
+			case GDK_KEY_Z:
 				m_Document->OnRedo ();
 				break;
-			case GDK_z:
+			case GDK_KEY_z:
 				m_Document->OnUndo ();
 				break;
 			}
@@ -399,9 +399,9 @@ bool gcpResiduesDlg::OnKeyPress (GdkEventKey *event)
 		}
 		// Only when editing the residue
 		switch (event->keyval) {
-		case GDK_Delete:
-		case GDK_Clear:
-		case GDK_BackSpace: {
+		case GDK_KEY_Delete:
+		case GDK_KEY_Clear:
+		case GDK_KEY_BackSpace: {
 			// the molecule must not be deleted
 			Object *mol = m_Atom->GetMolecule ();
 			gcp::WidgetData *data = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (reinterpret_cast<GObject*> (m_Document->GetWidget ()), "data"));

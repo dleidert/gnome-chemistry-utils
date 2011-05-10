@@ -27,7 +27,6 @@
 #include <gcu/xml-utils.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <gtk/gtkgl.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>

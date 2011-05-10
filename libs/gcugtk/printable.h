@@ -25,10 +25,7 @@
 
 #include <gcu/dialog-owner.h>
 #include <gcu/macros.h>
-#include <gtk/gtkprintoperation.h>
-#include <gtk/gtkprintcontext.h>
-#include <gtk/gtkpagesetup.h>
-#include <gtk/gtkprintsettings.h>
+#include <gtk/gtk.h>
 
 /*!\file*/
 

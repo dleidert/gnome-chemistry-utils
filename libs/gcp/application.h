@@ -467,10 +467,12 @@ private:
 	std::list<BuildMenuCb> m_MenuCbs;
 	GdkCursor *m_Cursors[CursorMax];
 
+#if 0
 /*!\fn GetStyle()
 @return the default GtkStyle for the windows.
 */
 	GCU_RO_POINTER_PROP	(GtkStyle, Style)
+#endif
 /*!\fn GetHaveGhemical
 @return true if ghemical is usable on startup.
 */

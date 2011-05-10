@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/spectra/window.h
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,9 +25,7 @@
 #ifndef GSV_WINDOW_H
 #define GSV_WINDOW_H
 
-#include <gtk/gtkpagesetup.h>
-#include <gtk/gtkprintsettings.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 class gsvApplication;
 class gsvDocument;

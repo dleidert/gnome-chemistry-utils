@@ -25,8 +25,7 @@
 #ifndef GCU_FILECHOOSER_H
 #define GCU_FILECHOOSER_H
 
-#include <gtk/gtkstock.h>
-#include <gtk/gtkfilechooser.h>
+#include <gtk/gtk.h>
 #include <list>
 #include <string>
 

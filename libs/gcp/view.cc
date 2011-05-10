@@ -393,8 +393,8 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 		} else {
 			GtkAdjustment *horiz, *vert;
 			GtkWidget* parent = gtk_widget_get_parent (m_pWidget);
-			horiz = gtk_viewport_get_hadjustment (GTK_VIEWPORT (parent));
-			vert = gtk_viewport_get_vadjustment (GTK_VIEWPORT (parent));
+			horiz = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (parent));
+			vert = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (parent));
 			dx = gtk_adjustment_get_value (horiz) + gtk_adjustment_get_page_size (horiz) / 2.  - (rect.x0 + rect.x1) / 2.;
 			dy = gtk_adjustment_get_value (vert) + gtk_adjustment_get_page_size (vert) / 2.  - (rect.y0 + rect.y1) / 2.;
 		}
@@ -480,31 +480,31 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 	if (pActiveTool->OnKeyPress (event))
 		return true;
 	switch (event->keyval) {
-	case GDK_Delete:
-	case GDK_Clear:
-	case GDK_BackSpace:
+	case GDK_KEY_Delete:
+	case GDK_KEY_Clear:
+	case GDK_KEY_BackSpace:
 		OnDeleteSelection(w);
 		return true;
-	case GDK_Shift_L:
-	case GDK_Shift_R:
+	case GDK_KEY_Shift_L:
+	case GDK_KEY_Shift_R:
 		if (pActiveTool)
 			pActiveTool->OnKeyPressed (GDK_SHIFT_MASK);
 		return true;
-	case GDK_Control_L:
-	case GDK_Control_R:
+	case GDK_KEY_Control_L:
+	case GDK_KEY_Control_R:
 		if (pActiveTool)
 			pActiveTool->OnKeyPressed (GDK_CONTROL_MASK);
 		return true;
-	case GDK_Alt_L:
-	case GDK_Alt_R:
+	case GDK_KEY_Alt_L:
+	case GDK_KEY_Alt_R:
 		if (pActiveTool)
 			pActiveTool->OnKeyPressed (GDK_MOD1_MASK);//FIXME: might be not portable
 		return true;
-	case GDK_ISO_Level3_Shift:
+	case GDK_KEY_ISO_Level3_Shift:
 		if (pActiveTool)
 			pActiveTool->OnKeyPressed (GDK_MOD5_MASK);//FIXME: might be not portable
 		return true;
-	case GDK_Caps_Lock:
+	case GDK_KEY_Caps_Lock:
 		if (pActiveTool) {
 			if (event->state & GDK_LOCK_MASK)
 				pActiveTool->OnKeyReleased (GDK_LOCK_MASK);
@@ -519,82 +519,82 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 			unsigned min_bonds = (m_CurAtom)? m_CurAtom->GetTotalBondsNumber (): 0;
 			int Z = 0;
 			switch (event->keyval) {
-			case GDK_a:
+			case GDK_KEY_a:
 				Z = 13;
 				break;
-			case GDK_b:
+			case GDK_KEY_b:
 				Z = 5;
 				break;
-			case GDK_c:
+			case GDK_KEY_c:
 				Z = 6;
 				break;
-			case GDK_d:
+			case GDK_KEY_d:
 				Z = 11;
 				break;
-			case GDK_e:
+			case GDK_KEY_e:
 				Z = 34;
 				break;
-			case GDK_f:
+			case GDK_KEY_f:
 				Z = 9;
 				break;
-			case GDK_g:
+			case GDK_KEY_g:
 				Z = 32;
 				break;
-			case GDK_h:
+			case GDK_KEY_h:
 				Z = 1;
 				break;
-			case GDK_i:
+			case GDK_KEY_i:
 				Z = 53;
 				break;
-			case GDK_j:
+			case GDK_KEY_j:
 				Z = 22;
 				break;
-			case GDK_k:
+			case GDK_KEY_k:
 				Z = 19;
 				break;
-			case GDK_l:
+			case GDK_KEY_l:
 				Z = 3;
 				break;
-			case GDK_m:
+			case GDK_KEY_m:
 				Z = 12;
 				break;
-			case GDK_n:
+			case GDK_KEY_n:
 				Z = 7;
 				break;
-			case GDK_o:
+			case GDK_KEY_o:
 				Z = 8;
 				break;
-			case GDK_p:
+			case GDK_KEY_p:
 				Z = 15;
 				break;
-			case GDK_q:
+			case GDK_KEY_q:
 				Z = 14;
 				break;
-			case GDK_r:
+			case GDK_KEY_r:
 				Z = 35;
 				break;
-			case GDK_s:
+			case GDK_KEY_s:
 				Z = 16;
 				break;
-			case GDK_t:
+			case GDK_KEY_t:
 				Z = 78;
 				break;
-			case GDK_u:
+			case GDK_KEY_u:
 				Z = 29;
 				break;
-			case GDK_v:
+			case GDK_KEY_v:
 				Z = 23;
 				break;
-			case GDK_w:
+			case GDK_KEY_w:
 				Z = 74;
 				break;
-			case GDK_x:
+			case GDK_KEY_x:
 				Z = 17;
 				break;
-			case GDK_y:
+			case GDK_KEY_y:
 				Z = 39;
 				break;
-			case GDK_z:
+			case GDK_KEY_z:
 				Z = 40;
 				break;
 			}
@@ -668,18 +668,18 @@ bool View::OnKeyRelease (G_GNUC_UNUSED GtkWidget* w, GdkEventKey* event)
 	if (pActiveTool->OnKeyRelease (event))
 		return true;
 	switch(event->keyval) {
-	case GDK_Shift_L:
-	case GDK_Shift_R:
+	case GDK_KEY_Shift_L:
+	case GDK_KEY_Shift_R:
 		if (pActiveTool)
 			pActiveTool->OnKeyReleased (GDK_SHIFT_MASK);
 		return true;
-	case GDK_Control_L:
-	case GDK_Control_R:
+	case GDK_KEY_Control_L:
+	case GDK_KEY_Control_R:
 		if (pActiveTool)
 			pActiveTool->OnKeyReleased (GDK_CONTROL_MASK);
 		return true;
-	case GDK_Alt_L:
-	case GDK_Alt_R:
+	case GDK_KEY_Alt_L:
+	case GDK_KEY_Alt_R:
 		if (pActiveTool)
 			pActiveTool->OnKeyReleased (GDK_MOD1_MASK);//FIXME: might be not portable
 		return true;
@@ -687,7 +687,7 @@ bool View::OnKeyRelease (G_GNUC_UNUSED GtkWidget* w, GdkEventKey* event)
 		// Seems that when releasing the AltGr key, the keyval is 0 !!!
 		if (!(event->state & GDK_MOD5_MASK))
 			break;
-	case GDK_ISO_Level3_Shift:
+	case GDK_KEY_ISO_Level3_Shift:
 		if (pActiveTool)
 			pActiveTool->OnKeyReleased (GDK_MOD5_MASK);//FIXME: might be not portable
 		return true;
@@ -1070,8 +1070,8 @@ void View::GetVisibleArea (double &x0, double &y0, double &x1, double &y1)
 	GtkAdjustment *horiz, *vert;
 	GtkWidget* parent = gtk_widget_get_parent (m_pWidget);
 	double zoom = m_pDoc->GetTheme ()->GetZoomFactor ();
-	horiz = gtk_viewport_get_hadjustment (GTK_VIEWPORT (parent));
-	vert = gtk_viewport_get_vadjustment (GTK_VIEWPORT (parent));
+	horiz = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (parent));
+	vert = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (parent));
 	x0 = gtk_adjustment_get_value (horiz) / zoom;
 	x1 = x0 + gtk_adjustment_get_page_size (horiz) / zoom;
 	y0 = gtk_adjustment_get_value (vert) / zoom;

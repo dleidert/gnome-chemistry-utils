@@ -374,29 +374,28 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 		double width = (Theme->GetArrowLength () * Theme->GetZoomFactor () + 2 * Theme->GetArrowPadding ()),
 			height = Theme->GetArrowDist () + Theme->GetArrowWidth () + 2 * (Theme->GetArrowHeadB () + Theme->GetPadding ());
 		gtk_widget_set_size_request (canvas->GetWidget (), (int) width, (int) height);
-		GOColor color = GO_COLOR_FROM_GDK (m_pApp->GetStyle ()->fg[0]);
 		gccv::Arrow *arrow = new gccv::Arrow (canvas,
 											  (width - Theme->GetArrowLength () * Theme->GetZoomFactor ()) / 2.,
 											  (height - Theme->GetArrowDist  ()) / 2.,
 											  (width + Theme->GetArrowLength () * Theme->GetZoomFactor ()) / 2.,
 											  (height - Theme->GetArrowDist  ()) / 2.);
-		arrow->SetLineColor (color);
 		arrow->SetLineWidth (Theme->GetArrowWidth ());
 		arrow->SetA (Theme->GetArrowHeadA ());
 		arrow->SetB (Theme->GetArrowHeadB ());
 		arrow->SetC (Theme->GetArrowHeadC ());
 		arrow->SetEndHead (gccv::ArrowHeadLeft);
+		arrow->SetAutoColor (true);
 		arrow = new gccv::Arrow (canvas,
 								 (width + Theme->GetArrowLength () * Theme->GetZoomFactor ()) / 2.,
 								 (height + Theme->GetArrowDist  ()) / 2.,
 								 (width - Theme->GetArrowLength () * Theme->GetZoomFactor ()) / 2.,
 								 (height + Theme->GetArrowDist  ()) / 2.);
-		arrow->SetLineColor (color);
 		arrow->SetLineWidth (Theme->GetArrowWidth ());
 		arrow->SetA (Theme->GetArrowHeadA ());
 		arrow->SetB (Theme->GetArrowHeadB ());
 		arrow->SetC (Theme->GetArrowHeadC ());
 		arrow->SetEndHead (gccv::ArrowHeadLeft);
+		arrow->SetAutoColor (true);
 		gtk_widget_show (canvas->GetWidget ());
 		gtk_table_attach (table, canvas->GetWidget (), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 10, 0);
 		canvas = new gccv::Canvas (NULL);
@@ -405,21 +404,21 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 								 (height - Theme->GetArrowDist  ()) / 2.,
 								 (width + Theme->GetArrowLength () * Theme->GetZoomFactor ()) / 2.,
 								 (height - Theme->GetArrowDist  ()) / 2.);
-		arrow->SetLineColor (color);
 		arrow->SetLineWidth (Theme->GetArrowWidth ());
 		arrow->SetA (Theme->GetArrowHeadA ());
 		arrow->SetB (Theme->GetArrowHeadB ());
 		arrow->SetC (Theme->GetArrowHeadC ());
+		arrow->SetAutoColor (true);
 		arrow = new gccv::Arrow (canvas,
 								 (width + Theme->GetArrowLength () * Theme->GetZoomFactor ()) / 2.,
 								 (height + Theme->GetArrowDist  ()) / 2.,
 								 (width - Theme->GetArrowLength () * Theme->GetZoomFactor ()) / 2.,
 								 (height + Theme->GetArrowDist  ()) / 2.);
-		arrow->SetLineColor (color);
 		arrow->SetLineWidth (Theme->GetArrowWidth ());
 		arrow->SetA (Theme->GetArrowHeadA ());
 		arrow->SetB (Theme->GetArrowHeadB ());
 		arrow->SetC (Theme->GetArrowHeadC ());
+		arrow->SetAutoColor (true);
 		gtk_widget_show (canvas->GetWidget ());
 		gtk_table_attach (table, canvas->GetWidget (), 1, 2, 1, 2, GTK_FILL, GTK_FILL, 10, 0);
 		GtkWidget *b = builder->GetWidget ("full");

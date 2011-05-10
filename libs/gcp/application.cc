@@ -390,12 +390,14 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		OnDeleteSignal = Object::CreateNewSignalId ();
 		OnThemeChangedSignal = Object::CreateNewSignalId ();
 
+#if 0
 		/* get the theme style for labels so that tools buttons colors might
 		be adapted to the current theme */
 		GtkWidget *w = gtk_label_new ("");
-		m_Style = GTK_STYLE (g_object_ref (gtk_rc_get_style (w)));
+		GtkStyleContext *ctxt = gtk_widget_get_style_context (w);
 		g_object_ref_sink (w);
 		g_object_unref (w);
+#endif
 
 		// load settings before plugins
 		m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
@@ -496,7 +498,9 @@ Application::~Application ()
 	go_conf_free_node (m_ConfNode);
 	m_ConfNode = NULL;
 	TheThemeManager.Shutdown ();
+#if 0
 	g_object_unref (m_Style);
+#endif
 	// unref cursors
 	for (int i = 0; i < CursorMax; i++)
 		gdk_cursor_unref (m_Cursors[i]);
@@ -1039,6 +1043,7 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 			gtk_icon_source_set_state_wildcarded (src, false);
 			gtk_icon_source_set_direction_wildcarded (src, true);
 
+#if 0
 			for (int c = 0; c < 5; c++) {
 				GdkPixbuf *icon = gdk_pixbuf_copy (pixbuf);
 				// set the pixbuf color to the corresponding style for the style
@@ -1067,7 +1072,8 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 				gtk_icon_set_add_source (set, src);	/* copies the src */
 				g_object_unref (icon);
 			}
-		
+#endif
+
 			gtk_icon_source_free (src);
 			gtk_icon_factory_add (IconFactory, icons->name, set);	/* keeps reference to set */
 			gtk_icon_set_unref (set);

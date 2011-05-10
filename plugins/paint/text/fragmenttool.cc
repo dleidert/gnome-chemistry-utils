@@ -188,81 +188,81 @@ bool gcpFragmentTool::OnKeyPress (GdkEventKey *event)
 	if (m_Active) {
 		if (event->state & GDK_CONTROL_MASK) {
 			switch(event->keyval) {
-				case GDK_Right:
-				case GDK_Left:
-				case GDK_Up:
-				case GDK_Down:
-				case GDK_End:
-				case GDK_Home:
-				case GDK_Delete:
-				case GDK_KP_Delete:
-				case GDK_BackSpace:
+				case GDK_KEY_Right:
+				case GDK_KEY_Left:
+				case GDK_KEY_Up:
+				case GDK_KEY_Down:
+				case GDK_KEY_End:
+				case GDK_KEY_Home:
+				case GDK_KEY_Delete:
+				case GDK_KEY_KP_Delete:
+				case GDK_KEY_BackSpace:
 					break;
-				case GDK_KP_Add:
-				case GDK_plus:
+				case GDK_KEY_KP_Add:
+				case GDK_KEY_plus:
 					// enter/quit charge mode
 					m_CurMode = (m_CurMode == gcp::Fragment::ChargeMode)? gcp::Fragment::AutoMode: gcp::Fragment::ChargeMode;
 					m_Fragment->SetMode (m_CurMode);
 					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
-				case GDK_underscore:
+				case GDK_KEY_underscore:
 					// enter/quit subscript (not stoichiometric) mode
 					m_CurMode = (m_CurMode == gcp::Fragment::SubscriptMode)? gcp::Fragment::AutoMode: gcp::Fragment::SubscriptMode;
 					m_Fragment->SetMode (m_CurMode);
 					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
-				case GDK_dead_circumflex:
-				case GDK_asciicircum:
+				case GDK_KEY_dead_circumflex:
+				case GDK_KEY_asciicircum:
 					// enter/quit superscript (not charge) mode
 					m_CurMode = (m_CurMode == gcp::Fragment::SuperscriptMode)? gcp::Fragment::AutoMode: gcp::Fragment::SuperscriptMode;
 					m_Fragment->SetMode (m_CurMode);
 					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
-				case GDK_n:
+				case GDK_KEY_n:
 					// enter/quit stoichiometry mode
 					m_CurMode = (m_CurMode == gcp::Fragment::StoichiometryMode)? gcp::Fragment::AutoMode: gcp::Fragment::StoichiometryMode;
 					m_Fragment->SetMode (m_CurMode);
 					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
-				case GDK_space:
+				case GDK_KEY_space:
 					// back to auto mode
 					m_CurMode = gcp::Fragment::AutoMode;
 					m_Fragment->SetMode (m_CurMode);
 					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
-				case GDK_equal:
+				case GDK_KEY_equal:
 					// enter/quit normal mode
 					m_CurMode = (m_CurMode == gcp::Fragment::NormalMode)? gcp::Fragment::AutoMode: gcp::Fragment::NormalMode;
 					m_Fragment->SetMode (m_CurMode);
 					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
-				case GDK_z:
+				case GDK_KEY_z:
 					m_pView->GetDoc ()->OnUndo ();
 					return true;
-				case GDK_Z:
+				case GDK_KEY_Z:
 					m_pView->GetDoc ()->OnRedo ();
 					return true;
-				case GDK_c:
+				case GDK_KEY_c:
 					CopySelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
 					return true;
-				case GDK_v:
+				case GDK_KEY_v:
 					PasteSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
 					return true;
-				case GDK_x:
+				case GDK_KEY_x:
 					CutSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
 					return true;
 				default:
 					break;
 			}
 		}
-		if (event->keyval == GDK_KP_Enter || event->keyval == GDK_Return ||
-							event->keyval == GDK_space) // not allowed in fragments
+		if (event->keyval == GDK_KEY_KP_Enter || event->keyval == GDK_KEY_Return ||
+							event->keyval == GDK_KEY_space) // not allowed in fragments
 			return true;
 		m_Active->OnKeyPressed (event);
 		return true;

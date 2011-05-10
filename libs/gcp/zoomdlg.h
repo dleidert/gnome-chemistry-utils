@@ -26,7 +26,7 @@
 #define GCHEMPAINT_ZOOM_DLG_H
 
 #include <gcugtk/dialog.h>
-#include <gtk/gtkspinbutton.h>
+#include <gtk/gtk.h>
 
 /*!\file*/
 namespace gcp {

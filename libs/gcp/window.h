@@ -25,8 +25,7 @@
 #define GCP_WINDOW_H
 
 #include "target.h"
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkuimanager.h>
+#include <gtk/gtk.h>
 
 /*!\file*/
 

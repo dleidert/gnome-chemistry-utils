@@ -25,7 +25,7 @@
 #ifndef GCCV_BRACKETS_H
 #define GCCV_BRACKETS_H
 
-#include "item.h"
+#include "line-item.h"
 #include <list>
 #include <string>
 
@@ -71,7 +71,7 @@ typedef struct
 	bool needs_clip;
 } BracketElem;
 
-class Brackets: public Item
+class Brackets: public LineItem
 {
 public:
 	Brackets (Canvas *canvas, BracketsTypes type, BracketsUses use, char const *fontdesc, double x0, double y0, double x1, double y1);
@@ -147,15 +147,6 @@ GCCV_ITEM_POS_PROP (double, Size)
 GCCV_ITEM_POS_PROP (std::string, FontDesc)
 GCCV_ITEM_POS_PROP (BracketsTypes, Type)
 GCCV_ITEM_POS_PROP (BracketsUses, Used)
-/*!\fn SetColor(GOColor color)
-@param color the new brackets color.
-
-Sets the Brackets color.
-*/
-/*!\fn GetColor()
-@return the brackets color.
-*/
-GCCV_ITEM_PROP (GOColor, Color)
 };
 
 }

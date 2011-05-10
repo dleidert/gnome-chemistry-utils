@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/bezier-arrow.cc 
  *
- * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -146,7 +146,7 @@ void BezierArrow::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 	cairo_save (cr);
 	cairo_set_line_width (cr, GetLineWidth ());
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
-	GOColor color = GetLineColor ();
+	GOColor color = GetEffectiveLineColor ();
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	cairo_move_to (cr, m_Controls[0].x, m_Controls[0].y);
 	cairo_curve_to (cr, m_Controls[1].x, m_Controls[1].y, m_Controls[2].x, m_Controls[2].y, x, y);

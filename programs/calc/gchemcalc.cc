@@ -715,7 +715,7 @@ int main (int argc, char *argv[])
 	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/gchemcalc.ui", GETTEXT_PACKAGE);
 	App->window = GTK_WINDOW (builder->GetRefdWidget ("gchemcalc"));
 	gtk_window_set_icon_name (App->window, App->GetIconName ().c_str ());
-	g_signal_connect (GTK_OBJECT (App->window), "destroy",
+	g_signal_connect (G_OBJECT (App->window), "destroy",
 		 G_CALLBACK (gtk_main_quit),
 		 NULL);
 	
@@ -792,7 +792,7 @@ int main (int argc, char *argv[])
 
 	gtk_widget_hide (App->pattern_page);
 	GtkWidget *w = builder->GetWidget ("entry");
-	g_signal_connect (GTK_OBJECT (w), "activate",
+	g_signal_connect (G_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),
 		 App->window);
 	gcu_element_load_databases ("isotopes", NULL);

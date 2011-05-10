@@ -33,7 +33,7 @@ struct _GcuPeriodic
 {
 	GtkBin bin;
 	
-	GtkVBox* vbox;
+	GtkGrid *grid;
 	GtkToggleButton* buttons[119];
 	GtkLabel* labels[119];
 	GtkNotebook *book;
@@ -50,8 +50,6 @@ struct _GcuPeriodicClass
 
 	void (* element_changed_event)(GcuPeriodic *periodic);
 };
-
-static unsigned DefaultRed[4], DefaultGreen[4], DefaultBlue[4];
 
 GType
 gcu_periodic_color_style_get_type (void)
@@ -93,8 +91,6 @@ static guint gcu_periodic_signals[LAST_SIGNAL] = { 0 };
 static void gcu_periodic_class_init (GcuPeriodicClass  *klass);
 static void gcu_periodic_init(GcuPeriodic *periodic);
 static void gcu_periodic_finalize(GObject *object);
-static void gcu_periodic_size_allocate(GcuPeriodic* w, GtkAllocation *allocation);
-static void gcu_periodic_size_request(GcuPeriodic* w, GtkRequisition *requisition);
 static void gcu_periodic_set_property (GObject              *object,
 					    guint                 param_id,
 					    const GValue         *value,
@@ -135,7 +131,6 @@ gcu_periodic_get_type (void)
 void gcu_periodic_class_init (GcuPeriodicClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkWidgetClass * widget_class = GTK_WIDGET_CLASS (klass);
 	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
 	
 	gobject_class->set_property = gcu_periodic_set_property;
@@ -165,20 +160,17 @@ void gcu_periodic_class_init (GcuPeriodicClass *klass)
 								GCU_PERIODIC_COLOR_NONE,
 								(G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	gobject_class->finalize = gcu_periodic_finalize;
-	widget_class->size_request = (void(*)(GtkWidget*, GtkRequisition*)) gcu_periodic_size_request;
-	widget_class->size_allocate = (void(*)(GtkWidget*, GtkAllocation*)) gcu_periodic_size_allocate;
 }
 
 void gcu_periodic_init (GcuPeriodic *periodic)
 {
 	GtkBuilder* xml;
-	GtkStyle* style;
 	char name[8] = "elt";
 	GtkToggleButton* button;
 	int i;
 	xml = go_gtk_builder_new (UIDIR"/gcuperiodic.ui", GETTEXT_PACKAGE, NULL);
 	g_return_if_fail (xml);
-	periodic->vbox = GTK_VBOX (gtk_builder_get_object (xml, "vbox1"));
+	periodic->grid = GTK_GRID (gtk_builder_get_object (xml, "periodic-grid"));
 	periodic->book = GTK_NOTEBOOK (gtk_builder_get_object (xml, "book"));
 	periodic->colorstyle = GCU_PERIODIC_COLOR_NONE;
 	memset(periodic->buttons, 0, sizeof (GtkToggleButton*) * 119);
@@ -192,22 +184,8 @@ void gcu_periodic_init (GcuPeriodic *periodic)
 			g_signal_connect (G_OBJECT (button), "toggled", G_CALLBACK (on_clicked), periodic);
 		}
 	}
-	style = gtk_style_copy (gtk_widget_get_style (GTK_WIDGET (periodic->buttons[1])));
-	DefaultRed[0] = style->bg[0].red;
-	DefaultGreen[0] = style->bg[0].green;
-	DefaultBlue[0] = style->bg[0].blue;
-	DefaultRed[1] = style->bg[1].red;
-	DefaultGreen[1] = style->bg[1].green;
-	DefaultBlue[1] = style->bg[1].blue;
-	DefaultRed[2] = style->bg[2].red;
-	DefaultGreen[2] = style->bg[2].green;
-	DefaultBlue[2] = style->bg[2].blue;
-	DefaultRed[3] = style->bg[3].red;
-	DefaultGreen[3] = style->bg[3].green;
-	DefaultBlue[3] = style->bg[3].blue;
-	g_object_unref (style);
 	periodic->Z = 0;
-	gtk_container_add (GTK_CONTAINER (periodic), GTK_WIDGET (periodic->vbox));
+	gtk_container_add (GTK_CONTAINER (periodic), GTK_WIDGET (periodic->grid));
 	gtk_widget_show_all (GTK_WIDGET (periodic));
 	periodic->colorschemes = g_array_new (FALSE, FALSE, sizeof (struct ColorScheme));
 	g_object_unref (xml);
@@ -250,22 +228,6 @@ void on_clicked (GtkToggleButton *button, GcuPeriodic* periodic)
 		} else if (periodic->buttons[0])
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (periodic->buttons[0]), TRUE);
 	}
-}
-
-void gcu_periodic_size_allocate(GcuPeriodic* w, GtkAllocation *allocation)
-{
-	GtkWidget *widget = gtk_bin_get_child (GTK_BIN (w));
-	gboolean visible = FALSE;
-	if (widget)
-		g_object_get (G_OBJECT (widget), "visible", &visible, NULL);
-	if (visible)
-		gtk_widget_size_allocate (widget, allocation);
-	(GTK_WIDGET_CLASS(parent_class))->size_allocate(GTK_WIDGET(w), allocation);
-}
-
-void gcu_periodic_size_request(GcuPeriodic* w, GtkRequisition *requisition)
-{
-	gtk_widget_size_request (gtk_bin_get_child (GTK_BIN (w)), requisition);
 }
 
 guint gcu_periodic_get_element(GcuPeriodic* periodic)
@@ -357,37 +319,28 @@ gcu_periodic_get_property (GObject              *object,
 
 void gcu_periodic_set_colors(GcuPeriodic *periodic)
 {
-	GtkStyle* style;
 	const double *colors;
 	PangoAttribute *attr;
 	PangoAttrList *l;
 	int i;
-	GdkColor color;
+	GdkRGBA rgba;
+	rgba.alpha = 1.;
 	GcuPeriodicColorFunc func = NULL;
 	gpointer data = NULL;
+	GtkWidget *w;
 	if (periodic->colorstyle >= GCU_PERIODIC_COLOR_MAX) {
 		func = g_array_index (periodic->colorschemes, struct ColorScheme, periodic->colorstyle - GCU_PERIODIC_COLOR_MAX).f;
 		data = g_array_index (periodic->colorschemes, struct ColorScheme, periodic->colorstyle - GCU_PERIODIC_COLOR_MAX).data;
 	}
 	for (i = 1; i <= 118; i++)
 	{
-		if (!periodic->buttons[i]) continue;
-		style = gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(periodic->buttons[i])));
+		if (!periodic->buttons[i])
+			continue;
+		w = GTK_WIDGET (periodic->buttons[i]);
 		switch (periodic->colorstyle)
 		{
 		case GCU_PERIODIC_COLOR_NONE:
-			style->bg[0].red = DefaultRed[0];
-			style->bg[0].green = DefaultGreen[0];
-			style->bg[0].blue = DefaultBlue[0];
-			style->bg[1].red = DefaultRed[0];
-			style->bg[1].green = DefaultGreen[1];
-			style->bg[1].blue = DefaultBlue[1];
-			style->bg[2].red = DefaultRed[1];
-			style->bg[2].green = DefaultGreen[2];
-			style->bg[2].blue = DefaultBlue[2];
-			style->bg[3].red = DefaultRed[3];
-			style->bg[3].green = DefaultGreen[3];
-			style->bg[3].blue = DefaultBlue[3];
+			gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, NULL);
 			attr = pango_attr_foreground_new (0, 0, 0);
 			attr->start_index = 0;
 			attr->end_index = 100;
@@ -397,9 +350,10 @@ void gcu_periodic_set_colors(GcuPeriodic *periodic)
 		break;
 		case GCU_PERIODIC_COLOR_DEFAULT:
 			colors = gcu_element_get_default_color(i);
-			style->bg[0].red = style->bg[1].red = style->bg[2].red = style->bg[3].red = (guint16) (colors[0] * 65535.0);
-			style->bg[0].green = style->bg[1].green = style->bg[2].green = style->bg[3].green = (guint16) (colors[1] * 65535.0);
-			style->bg[0].blue = style->bg[1].blue = style->bg[2].blue = style->bg[3].blue = (guint16) (colors[2] * 65535.0);
+			rgba.red = colors[0];
+			rgba.green = colors[1];
+			rgba.blue = colors[2];
+			gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, &rgba);
 			if (colors[0] > 0.6 ||  colors[1] > 0.6 || colors[2] > 0.6)
 				attr = pango_attr_foreground_new (0, 0, 0);
 			else
@@ -411,9 +365,9 @@ void gcu_periodic_set_colors(GcuPeriodic *periodic)
 			gtk_label_set_attributes (periodic->labels[i], l);
 			break;
 		default: {
-			func (i, &color, data);
-			style->bg[0] = style->bg[1] = style->bg[2] = style->bg[3] = color;
-			if (color.red > 39321 ||  color.green > 39321 || color.blue > 39321)
+			func (i, &rgba, data);
+			gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, &rgba);
+			if (rgba.red > 0.6 ||  rgba.green > 0.6 || rgba.blue > 0.6)
 				attr = pango_attr_foreground_new (0, 0, 0);
 			else
 				attr = pango_attr_foreground_new (65535, 65535, 65535);
@@ -425,8 +379,6 @@ void gcu_periodic_set_colors(GcuPeriodic *periodic)
 			break;
 		}
 		}
-		gtk_widget_set_style(GTK_WIDGET(periodic->buttons[i]), style);
-		g_object_unref(style);
 	}
 }
 

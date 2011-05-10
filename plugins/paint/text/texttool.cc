@@ -146,63 +146,63 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 	if (m_Active) {
 		if (event->state & GDK_CONTROL_MASK) {
 			switch (event->keyval) {
-			case GDK_Right:
-			case GDK_Left:
-			case GDK_Up:
-			case GDK_Down:
-			case GDK_End:
-			case GDK_Home:
-			case GDK_Delete:
-			case GDK_KP_Delete:
-			case GDK_BackSpace:
+			case GDK_KEY_Right:
+			case GDK_KEY_Left:
+			case GDK_KEY_Up:
+			case GDK_KEY_Down:
+			case GDK_KEY_End:
+			case GDK_KEY_Home:
+			case GDK_KEY_Delete:
+			case GDK_KEY_KP_Delete:
+			case GDK_KEY_BackSpace:
 				break;
-			case GDK_a:
+			case GDK_KEY_a:
 				m_pView->OnSelectAll ();
 				return true;
-			case GDK_z:
+			case GDK_KEY_z:
 				m_pView->GetDoc()->OnUndo ();
 				return true;
-			case GDK_Z:
+			case GDK_KEY_Z:
 				m_pView->GetDoc()->OnRedo ();
 				return true;
-			case GDK_c:
+			case GDK_KEY_c:
 				CopySelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
 				return true;
-			case GDK_v:
+			case GDK_KEY_v:
 				PasteSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
 				return true;
-			case GDK_x:
+			case GDK_KEY_x:
 				CutSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
 				return true;
-			case GDK_i:
+			case GDK_KEY_i:
 				m_Style = (m_Style == PANGO_STYLE_NORMAL)? PANGO_STYLE_ITALIC: PANGO_STYLE_NORMAL;
 				SelectBestFontFace ();
 				BuildTagsList ();
 				return true;
-			case GDK_u:
+			case GDK_KEY_u:
 				gtk_combo_box_set_active (m_UnderlineBox, ((m_Underline == gccv::TextDecorationDefault)? 0: 1));
 				return true;
-			case GDK_b:
+			case GDK_KEY_b:
 				m_Weight = (m_Weight == PANGO_WEIGHT_NORMAL)? PANGO_WEIGHT_BOLD: PANGO_WEIGHT_NORMAL;
 				SelectBestFontFace ();
 				BuildTagsList ();
 				return true;
-			case GDK_k:
+			case GDK_KEY_k:
 				gtk_toggle_button_set_active (m_StrikethroughBtn, !m_Strikethrough);
 				return true;
-			case GDK_plus:
-			case GDK_dead_circumflex:
-			case GDK_KP_Add:
-			case GDK_asciicircum:
+			case GDK_KEY_plus:
+			case GDK_KEY_dead_circumflex:
+			case GDK_KEY_KP_Add:
+			case GDK_KEY_asciicircum:
 				m_Position = (m_Position == gccv::Superscript)? gccv::Normalscript: gccv::Superscript;
 				BuildTagsList ();
 				return true;
-			case GDK_equal:
-			case GDK_underscore:
+			case GDK_KEY_equal:
+			case GDK_KEY_underscore:
 				m_Position = (m_Position == gccv::Subscript)? gccv::Normalscript: gccv::Subscript;
 				BuildTagsList ();
 				return true;
-			case GDK_space: {
+			case GDK_KEY_space: {
 				gccv::Text *saved = m_Active;
 				m_Active = NULL;
 				UpdateTagsList ();
@@ -210,23 +210,23 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 				BuildTagsList ();
 				return true;
 			}
-			case GDK_l:
+			case GDK_KEY_l:
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_LEFT, true);
 				return true;
-			case GDK_r:
+			case GDK_KEY_r:
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_RIGHT, true);
 				return true;
-			case GDK_j:
+			case GDK_KEY_j:
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_FILL, true);
 				return true;
-			case GDK_m:
+			case GDK_KEY_m:
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_CENTER, true);
 				return true;
-			case GDK_w:
+			case GDK_KEY_w:
 				if (m_Active) {
 					double w = m_Active->GetInterline ();
 					if (w == 0.)
@@ -235,7 +235,7 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 					m_Active->SetInterline ((w > 0.? w: 0.), true);
 				}
 				return true;
-			case GDK_W:
+			case GDK_KEY_W:
 				if (m_Active) 
 					m_Active->SetInterline (m_Active->GetInterline () + 1., true);
 				return true;

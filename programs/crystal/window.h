@@ -4,7 +4,7 @@
  * Gnome Crystal
  * window.h 
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,9 +26,7 @@
 #define GCRYSTAL_WINDOW_H
 
 #include <gcu/macros.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkuimanager.h>
+#include <gtk/gtk.h>
 
 class gcApplication;
 class gcDocument;

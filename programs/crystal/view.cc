@@ -4,7 +4,7 @@
  * Gnome Crystal
  * view.cc 
  *
- * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,6 @@
 #include "config.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <gtk/gtkgl.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 #include "view.h"

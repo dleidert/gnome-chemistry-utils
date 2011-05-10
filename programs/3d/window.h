@@ -25,7 +25,7 @@
 #ifndef GC3D_WINDOW_H
 #define GC3D_WINDOW_H
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 class gc3dApplication;
 class gc3dDocument;

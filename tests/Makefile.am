@@ -7,7 +7,7 @@ DEPS = $(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la \
 	$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LIBS = $(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la \
 	$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
-	$(gtk_LIBS) $(xml_LIBS)
+	$(gtk_LIBS) $(xml_LIBS) -lGL
 AM_CFLAGS = -I$(top_srcdir)/libs $(GCU_CFLAGS) -Werror-implicit-function-declaration
 DEFS += -DSRCDIR=\"$(TESTSSRCDIR)\"
 

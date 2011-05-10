@@ -58,6 +58,8 @@ The destructor.
 */
 	virtual ~LineItem ();
 
+	GOColor GetEffectiveLineColor () const;
+
 /*!\fn SetLineWidth(double width)
 @param width the new line width.
 
@@ -76,6 +78,7 @@ Sets the LineItem color.
 @return the line color.
 */
 GCCV_ITEM_PROP (GOColor, LineColor)
+GCCV_ITEM_PROP (bool, AutoColor)
 };
 
 }

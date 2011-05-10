@@ -121,7 +121,7 @@ The callback used for color schemes. It takes three arguments:
 \li a pointer to the GdkColor structure to be filled by the callback
 \li a pointer to user's data.
 */
-typedef void (*GcuPeriodicColorFunc) (int, GdkColor*, gpointer);
+typedef void (*GcuPeriodicColorFunc) (int, GdkRGBA*, gpointer);
 
 /*!\return the GType associated to GcuPeriodic */
 GType               gcu_periodic_get_type          (void) G_GNUC_CONST;

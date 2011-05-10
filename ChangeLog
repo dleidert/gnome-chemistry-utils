@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post branching version bump (0.13.4).
+	* all files: port to gtk+-3.0.
+
 2011-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: fixed make dist.
 	* libs/gcu/application.cc: removed obsolete header.

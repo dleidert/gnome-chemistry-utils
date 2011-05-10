@@ -25,7 +25,7 @@
 #include "config.h"
 #include "application.h"
 #include "document.h"
-#include <gtk/gtkmain.h>
+#include <gtk/gtk.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 

@@ -24,7 +24,7 @@
 #ifndef GCU_CHEM3D_VIEWER_H
 #define GCU_CHEM3D_VIEWER_H
 
-#include <gtk/gtkbin.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

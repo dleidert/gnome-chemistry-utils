@@ -76,7 +76,7 @@ void gcpBracketsTool::OnDrag ()
 		static_cast <gccv::FillItem *> (m_Rect)->SetFillColor (0);
 		static_cast <gccv::LineItem *> (m_Rect)->SetLineColor (gcp::AddColor);
 		m_Bracket = new gccv::Brackets (static_cast < gccv::Group * > (m_Item), m_Type, m_Used, m_FontName.c_str (), 0., 0., 0., 0., NULL);
-		static_cast <gccv::Brackets *> (m_Bracket)->SetColor (gcp::AddColor);
+		static_cast <gccv::Brackets *> (m_Bracket)->SetLineColor (gcp::AddColor);
 	}
 	// find everything inside the selected rectangle and select
 	gccv::Group *group = m_pView->GetCanvas ()->GetRoot ();

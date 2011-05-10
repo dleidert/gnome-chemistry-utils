@@ -27,7 +27,7 @@
 
 #include <gcu/macros.h>
 #include <gcu/window.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 /*!\file*/
 namespace gcp {

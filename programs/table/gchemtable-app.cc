@@ -33,11 +33,7 @@
 #include <gcu/element.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkaboutdialog.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkuimanager.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <gio/gio.h>
 #include <cstdlib>
 #include <cstring>

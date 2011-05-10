@@ -26,15 +26,16 @@
 #include "application.h"
 #include "glview.h"
 #include <gcu/gldocument.h>
-#include <gtk/gtkgl.h>
 #include <GL/gl.h>
+#include <GL/glx.h>
+#include <gdk/gdkx.h>
 #include <cstring>
 
 #define ROOTDIR "/apps/gchemutils/gl/"
 
 namespace gcugtk {
 
-static GdkGLConfig *glconfig = NULL;
+//static GdkGLConfig *glconfig = NULL;
 GOConfNode *GLView::m_ConfNode = NULL;
 guint GLView::m_NotificationId = 0;
 bool OffScreenRendering = false;
@@ -55,9 +56,9 @@ public:
 // Callbacks
 bool GLViewPrivate::OnInit (GLView* View) 
 {
-	GdkGLContext *glcontext = gtk_widget_get_gl_context (View->m_pWidget);
-	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (View->m_pWidget);
-	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
+//	GdkGLContext *glcontext = gtk_widget_get_gl_context (View->m_pWidget);
+//	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (View->m_pWidget);
+//	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
 	    glEnable (GL_LIGHTING);
 		glEnable (GL_LIGHT0);
 		glEnable (GL_DEPTH_TEST);
@@ -71,9 +72,9 @@ bool GLViewPrivate::OnInit (GLView* View)
 		glPolygonMode (GL_FRONT, GL_FILL);
 		glEnable(GL_BLEND);
 		View->m_bInit = true;
-		gdk_gl_drawable_gl_end (gldrawable);
+//		gdk_gl_drawable_gl_end (gldrawable);
 		View->Update ();
-    }
+ //   }
 	return true;
 }
 
@@ -90,16 +91,16 @@ bool GLViewPrivate::OnDraw (GLView* View, GdkEventExpose *event)
 
 	if (!View->m_bInit)
 		return true;
-	GdkGLContext *glcontext = gtk_widget_get_gl_context (View->m_pWidget);
-	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (View->m_pWidget);
-	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
+//	GdkGLContext *glcontext = gtk_widget_get_gl_context (View->m_pWidget);
+//	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (View->m_pWidget);
+//	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
 		glClearColor (View->GetRed (), View->GetGreen (), View->GetBlue (), View->GetAlpha ());
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		View->m_Doc->Draw (View->m_Euler);
-		gdk_gl_drawable_gl_end (gldrawable);
+//		gdk_gl_drawable_gl_end (gldrawable);
 		/* Swap backbuffer to front */
-		gdk_gl_drawable_swap_buffers (gldrawable);
-    }
+//		gdk_gl_drawable_swap_buffers (gldrawable);
+ //   }
 	return true;
 }
 
@@ -148,21 +149,21 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 {
 	m_bInit = false;
 /* Create new OpenGL widget. */
-	if (glconfig == NULL)
+//	if (glconfig == NULL)
 	{
 		/* Check if OpenGL is supported. */
-		if (!gdk_gl_query_extension())
+		if (!glXQueryExtension (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), NULL, NULL))
 			throw  std::runtime_error ("*** OpenGL is not supported.\n");
 	
 		/* Configure OpenGL-capable visual. */
 	
 		/* Try double-buffered visual */
-		glconfig = gdk_gl_config_new_by_mode (GdkGLConfigMode (GDK_GL_MODE_RGB |
-											GDK_GL_MODE_DEPTH |
-											GDK_GL_MODE_DOUBLE));
-		if (glconfig == NULL)
-			throw  std::runtime_error ("*** Cannot find the double-buffered visual.\n");
-		m_ConfNode = go_conf_get_node (gcugtk::Application::GetConfDir (), GCU_CONF_DIR_GL);
+//		glconfig = gdk_gl_config_new_by_mode (GdkGLConfigMode (GDK_GL_MODE_RGB |
+//											GDK_GL_MODE_DEPTH |
+//											GDK_GL_MODE_DOUBLE));
+//		if (glconfig == NULL)
+//			throw  std::runtime_error ("*** Cannot find the double-buffered visual.\n");
+//		m_ConfNode = go_conf_get_node (gcugtk::Application::GetConfDir (), GCU_CONF_DIR_GL);
 		GCU_GCONF_GET_NO_CHECK ("off-screen-rendering", bool, OffScreenRendering, true)
 		m_NotificationId = go_conf_add_monitor (m_ConfNode, "off-screen-rendering", (GOConfMonitorFunc) on_config_changed, NULL);
 	}
@@ -170,11 +171,11 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 	m_pWidget = GTK_WIDGET (gtk_drawing_area_new());
 	
 	/* Set OpenGL-capability to the widget. */
-	gtk_widget_set_gl_capability(m_pWidget,
-					glconfig,
-					NULL,
-					TRUE,
-					GDK_GL_RGBA_TYPE);
+//	gtk_widget_set_gl_capability(m_pWidget,
+//					glconfig,
+//					NULL,
+//					TRUE,
+//					GDK_GL_RGBA_TYPE);
 	
 	gtk_widget_set_events(GTK_WIDGET(m_pWidget),
 		GDK_EXPOSURE_MASK |
@@ -219,12 +220,12 @@ void GLView::Update()
 {
 	if (!m_bInit)
 		return;
-	GdkGLContext *glcontext = gtk_widget_get_gl_context (m_pWidget);
-	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);
-	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
+//	GdkGLContext *glcontext = gtk_widget_get_gl_context (m_pWidget);
+//	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);
+//	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
 		m_Doc->Draw (m_Euler);
-		gdk_gl_drawable_gl_end (gldrawable);
-    }
+//		gdk_gl_drawable_gl_end (gldrawable);
+//    }
 	Reshape (m_WindowWidth, m_WindowHeight);
 	gtk_widget_queue_draw (m_pWidget);
 }
@@ -236,9 +237,9 @@ void GLView::Reshape (int width, int height)
 	if (!m_bInit)
 		return;
 	float fAspect;
-	GdkGLContext *glcontext = gtk_widget_get_gl_context (m_pWidget);
-	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);
-	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
+//	GdkGLContext *glcontext = gtk_widget_get_gl_context (m_pWidget);
+//	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);
+//	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
 		if (height) {
 			fAspect = (GLfloat)width / (GLfloat) height;
 			if (fAspect == 0.0)
@@ -272,8 +273,8 @@ void GLView::Reshape (int width, int height)
 		glMatrixMode (GL_MODELVIEW);
 		glLoadIdentity ();
 		glTranslatef (0, 0, -m_Radius);
-		gdk_gl_drawable_gl_end (gldrawable);
-	}
+//		gdk_gl_drawable_gl_end (gldrawable);
+//	}
 }
 
 void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
@@ -324,6 +325,7 @@ void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *c
 
 GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 {
+#if 0
 	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
 		GdkGLConfigMode (GDK_GL_MODE_RGBA | GDK_GL_MODE_DEPTH));
 	GdkPixmap *pixmap = gdk_pixmap_new (NULL, width, height, 24);
@@ -477,6 +479,8 @@ osmesa:
 	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
 	const_cast <GLView *> (this)->Update ();
 	return pixbuf;
+#endif
+	return NULL;
 }
 
 }	//	namespace gcugtk

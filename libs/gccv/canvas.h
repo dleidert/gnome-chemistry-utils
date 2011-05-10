@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/canvas.h 
  *
- * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -146,6 +146,13 @@ be used, the event will have no associated gccv::ItemClient instance.
 @return the current gap for the canvas as a reference.
 */
 GCU_PROP (double, Gap)
+/*!\fn GetColor()
+@return the foreground color.
+*/
+GCU_RO_PROP (GOColor, Color)
+/*!\fn GetLastEventState()
+@return the GdkModifierType value for the last received event.
+*/
 /*!\fn GetBackgroundColor()
 @return the background color.
 */
@@ -153,7 +160,7 @@ GCU_RO_PROP (GOColor, BackgroundColor)
 /*!\fn GetLastEventState()
 @return the GdkModifierType value for the last received event.
 */
-		GCU_RO_PROP (unsigned, LastEventState)
+GCU_RO_PROP (unsigned, LastEventState)
 };
 
 }

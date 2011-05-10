@@ -104,7 +104,7 @@ void Brackets::AddItem ()
 	} else 
 		view->GetData ()->GetObjectsBounds (m_EmbeddedObjects, &rect);
 	gccv::Brackets *item = new gccv::Brackets (view->GetCanvas ()->GetRoot (), m_Type, m_Used, m_FontDesc.c_str (), rect.x0, rect.y0, rect.x1, rect.y1, this);
-	item->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
+	item->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
 	m_Item = item;
 }
 
@@ -186,7 +186,7 @@ void Brackets::SetSelected (int state)
 		color = GO_COLOR_BLACK;
 		break;
 	}
-	static_cast <gccv::Brackets *> (m_Item)->SetColor (color);
+	static_cast <gccv::Brackets *> (m_Item)->SetLineColor (color);
 }
 
 void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)

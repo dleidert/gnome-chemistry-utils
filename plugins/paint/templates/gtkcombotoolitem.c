@@ -21,11 +21,6 @@
  */
 
 #include "gtkcombotoolitem.h"
-#include <gtk/gtktoolitem.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkaction.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcellrenderertext.h>
 
 static void
 gtk_tool_combo_class_init (G_GNUC_UNUSED GtkToolItemClass *tool_item_class)

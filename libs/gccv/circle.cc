@@ -88,13 +88,13 @@ void Circle::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 	cairo_arc (cr, m_x, m_y, m_Radius, 0., 2 * M_PI);
 	if (color != 0) {
 		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
-		color = GetLineColor ();
+		color = GetEffectiveLineColor ();
 		if (color != 0)
 			cairo_fill_preserve (cr);
 		else
 			cairo_fill (cr);
 	} else
-		color = GetLineColor ();
+		color = GetEffectiveLineColor ();
 	if (color != 0) {
 		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 		cairo_stroke (cr);

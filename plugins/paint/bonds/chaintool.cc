@@ -461,44 +461,44 @@ bool gcpChainTool::OnKeyPress (GdkEvent* event)
 	if (event->type == GDK_KEY_PRESS) {
 		unsigned n;
 		switch (((GdkEventKey*) event)->keyval) {
-		case GDK_KP_0:
-		case GDK_0:
+		case GDK_KEY_KP_0:
+		case GDK_KEY_0:
 			gtk_toggle_button_set_active (m_AutoBtn, true);
 			return true;
-		case GDK_KP_1:
-		case GDK_1:
+		case GDK_KEY_KP_1:
+		case GDK_KEY_1:
 			n = 10;
 			break;
-		case GDK_KP_2:
-		case GDK_2:
+		case GDK_KEY_KP_2:
+		case GDK_KEY_2:
 			n = 2;
 			break;
-		case GDK_KP_3:
-		case GDK_3:
+		case GDK_KEY_KP_3:
+		case GDK_KEY_3:
 			n = 3;
 			break;
-		case GDK_KP_4:
-		case GDK_4:
+		case GDK_KEY_KP_4:
+		case GDK_KEY_4:
 			n = 4;
 			break;
-		case GDK_KP_5:
-		case GDK_5:
+		case GDK_KEY_KP_5:
+		case GDK_KEY_5:
 			n = 5;
 			break;
-		case GDK_KP_6:
-		case GDK_6:
+		case GDK_KEY_KP_6:
+		case GDK_KEY_6:
 			n = 6;
 			break;
-		case GDK_KP_7:
-		case GDK_7:
+		case GDK_KEY_KP_7:
+		case GDK_KEY_7:
 			n = 7;
 			break;
-		case GDK_KP_8:
-		case GDK_8:
+		case GDK_KEY_KP_8:
+		case GDK_KEY_8:
 			n = 8;
 			break;
-		case GDK_KP_9:
-		case GDK_9:
+		case GDK_KEY_KP_9:
+		case GDK_KEY_9:
 			n = 9;
 			break;
 		default:

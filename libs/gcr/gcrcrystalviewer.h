@@ -27,7 +27,7 @@ Declaration of the GcuCrystalViewer widget.
 #ifndef GCR_CRYSTAL_VIEWER_H
 #define GCR_CRYSTAL_VIEWER_H
 
-#include <gtk/gtkbin.h>
+#include <gtk/gtk.h>
 #include <libxml/tree.h>
 
 G_BEGIN_DECLS

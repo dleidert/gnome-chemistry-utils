@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/fill-item.cc
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,25 +24,33 @@
 
 #include "config.h"
 #include "line-item.h"
+#include "canvas.h"
 
 namespace gccv {
 
 LineItem::LineItem (Canvas *canvas):
 	Item (canvas),
 	m_LineWidth (1.),
-	m_LineColor (GO_COLOR_WHITE)
+	m_LineColor (0),
+	m_AutoColor (false)
 {
 }
 
 LineItem::LineItem (Group *parent, ItemClient *client):
 	Item (parent, client),
 	m_LineWidth (1.),
-	m_LineColor (GO_COLOR_WHITE)
+	m_LineColor (0),
+	m_AutoColor (false)
 {
 }
 
 LineItem::~LineItem ()
 {
+}
+
+GOColor LineItem::GetEffectiveLineColor () const
+{
+	return m_AutoColor? GetCanvas ()->GetColor (): m_LineColor;
 }
 
 }

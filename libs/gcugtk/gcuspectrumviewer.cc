@@ -25,7 +25,7 @@
 #include "spectrumdoc.h"
 #include "spectrumview.h"
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkbin.h>
+#include <gtk/gtk.h>
 
 struct _GcuSpectrumViewer
 {

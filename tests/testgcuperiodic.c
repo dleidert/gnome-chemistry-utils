@@ -80,8 +80,6 @@ int main (int argc, char *argv[])
 	g_signal_connect (G_OBJECT (window), "destroy",
 		 G_CALLBACK (gtk_main_quit),
 		 NULL);
-
-	g_object_set (G_OBJECT (window), "allow-shrink", FALSE, NULL);
 	
 	periodic = gcu_periodic_new ();
 	vbox = (GtkVBox*) gtk_vbox_new (FALSE, 0);

@@ -637,8 +637,8 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	m_MessageId = 0;
 	gtk_box_pack_start (GTK_BOX (vbox), m_Bar, false, false, 0);
 		
-	g_signal_connect(GTK_OBJECT(window), "key_press_event", (GCallback)on_key_press, this);
-	g_signal_connect(GTK_OBJECT(window), "key_release_event", (GCallback)on_key_release, this);
+	g_signal_connect (G_OBJECT(window), "key_press_event", (GCallback)on_key_press, this);
+	g_signal_connect (G_OBJECT(window), "key_release_event", (GCallback)on_key_release, this);
 
 	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/MainMenu/EditMenu/Copy"), false);
 	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/MainMenu/EditMenu/Cut"), false);

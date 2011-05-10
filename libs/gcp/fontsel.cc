@@ -2,7 +2,7 @@
  * GChemPaint library
  * fontsel.c 
  *
- * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,14 +22,7 @@
 
 #include "config.h"
 #include "fontsel.h"
-#include <gtk/gtkbin.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <cstdlib>
@@ -65,28 +58,6 @@ typedef struct {
 	/* signals */
 	void (*changed) (GcpFontSel *fs);
 } GcpFontSelClass;
-
-static void
-gcp_font_sel_size_request (GtkWidget      *widget,
-			GtkRequisition *requisition)
-{
-	GtkWidget *w = GTK_WIDGET (gtk_bin_get_child (GTK_BIN (widget)));
-	if (w)
-    	gtk_widget_size_request (w, requisition);
-	else {
-		requisition->width = 0;
-		requisition->height = 0;
-	}
-}
-
-static void
-gcp_font_sel_size_allocate (GtkWidget     *widget,
-			 GtkAllocation *allocation)
-{
-	GtkWidget *w = GTK_WIDGET (gtk_bin_get_child (GTK_BIN (widget)));
-	if (w)
-		gtk_widget_size_allocate (GTK_WIDGET (w), allocation);
-}
 
 enum {
 	FONT_SEL_PROP_0,
@@ -339,15 +310,12 @@ static void
 gcp_font_sel_class_init (GcpFontSelClass *klass)
 {
 	GObjectClass *object_class = (GObjectClass*) klass;
-	GtkWidgetClass *widget_class = (GtkWidgetClass *) klass;
 	font_sel_parent_class = (GObjectClass*) g_type_class_peek_parent (klass);
 
 	object_class->get_property = gcp_font_sel_get_property;
 	object_class->set_property = gcp_font_sel_set_property;
 	object_class->finalize = gcp_font_sel_finalize;
 
-	widget_class->size_request = gcp_font_sel_size_request;
-	widget_class->size_allocate = gcp_font_sel_size_allocate;
 	g_object_class_install_property (object_class, FONT_SEL_PROP_FAMILY,
 		g_param_spec_string ("family", _("Family"),
 			_("Font family"),

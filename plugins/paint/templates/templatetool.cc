@@ -225,9 +225,9 @@ void gcpTemplateTool::OnChanged (GtkComboBox *combo)
 				page = gtk_notebook_page_num (m_Book, m_Template->w);
 			}
 			// Why 4 and not 2 in following lines?
-			GtkStyle *style = gtk_widget_get_style (m_Template->w);
-			double w = (m_Width - 4 * style->xthickness) / (m_Template->rect.x1 - m_Template->rect.x0);
-			double h = (m_Height - 4 * style->ythickness) / (m_Template->rect.y1 - m_Template->rect.y0);
+//			GtkStyle *style = gtk_widget_get_style (m_Template->w);
+			double w = (m_Width /*- 4 * style->xthickness*/) / (m_Template->rect.x1 - m_Template->rect.x0);
+			double h = (m_Height/* - 4 * style->ythickness*/) / (m_Template->rect.y1 - m_Template->rect.y0);
 			if (w < 1. || h < 1.) {
 				m_Template->data->Zoom = MIN (w, h);
 			}
@@ -253,9 +253,9 @@ void gcpTemplateTool::OnPreviewSize (GtkAllocation *allocation)
 	m_Width = allocation->width;
 	m_Height = allocation->height;
 	if (m_Template) {
-		GtkStyle *style = gtk_widget_get_style (m_Template->w);
-		double w = (m_Width - 4 * style->xthickness) / (m_Template->rect.x1 - m_Template->rect.x0);
-		double h = (m_Height - 4 * style->ythickness) / (m_Template->rect.y1 - m_Template->rect.y0);
+//		GtkStyle *style = gtk_widget_get_style (m_Template->w);
+		double w = (m_Width /*- 4 * style->xthickness*/) / (m_Template->rect.x1 - m_Template->rect.x0);
+		double h = (m_Height /*- 4 * style->ythickness*/) / (m_Template->rect.y1 - m_Template->rect.y0);
 		m_Template->data->Zoom = (w < 1. || h < 1.)? MIN (w, h): 1.;
 		m_Template->doc->GetView ()->GetCanvas ()->SetZoom (m_Template->data->Zoom);
 	}

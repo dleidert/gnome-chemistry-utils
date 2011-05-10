@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-data-allocator.cc
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,8 +24,7 @@
 #include "gchemtable-data-allocator.h"
 #include "gchemtable-curve.h"
 #include "gchemtable-data.h"
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkentry.h>
+#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
