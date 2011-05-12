@@ -75,25 +75,29 @@ public:
 	static bool OnButtonPressed (Canvas *canvas, GdkEventButton *event);
 	static bool OnButtonReleased (Canvas *canvas, GdkEventButton *event);
 	static bool OnMotion (Canvas *canvas, GdkEventMotion *event);
-	static bool OnExpose (Canvas *canvas, GdkEventExpose *event);
+	static bool OnDraw (Canvas *canvas, cairo_t *cr);
 	static bool OnLeaveNotify (Canvas *canvas, GdkEventCrossing *event);
 };
 
 
-bool CanvasPrivate::OnExpose (Canvas *canvas, GdkEventExpose *event)
+bool CanvasPrivate::OnDraw (Canvas *canvas, cairo_t *cr)
 {
 	double x0, y0, x1, y1;
+	GdkEvent *ev = gtk_get_current_event ();
 	canvas->m_Root->GetBounds (x0, y0, x1, y1);
-	x0 *= canvas->m_Zoom;
-	x1 *= canvas->m_Zoom;
-	y0 *= canvas->m_Zoom;
-	y1 *= canvas->m_Zoom;
-	if (x0 <= event->area.x + event->area.width && x1 >= event->area.x && y0 <= event->area.y + event->area.height && y1 >= event->area.y) {
-		cairo_t *cr = gdk_cairo_create (gtk_widget_get_window (canvas->m_Widget));
-		cairo_scale (cr, canvas->m_Zoom, canvas->m_Zoom);
-		canvas->m_Root->Draw (cr, event->area.x / canvas->m_Zoom, event->area.y / canvas->m_Zoom, (event->area.x + event->area.width) / canvas->m_Zoom, (event->area.y + event->area.height) / canvas->m_Zoom, false);
-		cairo_destroy (cr);
-	}
+	cairo_save (cr);
+	cairo_scale (cr, canvas->m_Zoom, canvas->m_Zoom);
+	if (ev && ev->type == GDK_EXPOSE) {
+		GdkEventExpose *event = reinterpret_cast < GdkEventExpose * > (ev);
+		x0 *= canvas->m_Zoom;
+		x1 *= canvas->m_Zoom;
+		y0 *= canvas->m_Zoom;
+		y1 *= canvas->m_Zoom;
+		if (x0 <= event->area.x + event->area.width && x1 >= event->area.x && y0 <= event->area.y + event->area.height && y1 >= event->area.y)
+			canvas->m_Root->Draw (cr, event->area.x / canvas->m_Zoom, event->area.y / canvas->m_Zoom, (event->area.x + event->area.width) / canvas->m_Zoom, (event->area.y + event->area.height) / canvas->m_Zoom, false);
+	} else
+		canvas->m_Root->Draw (cr, x0, y0, x1, y1, true);
+	cairo_restore (cr);
 	return true;
 }
 
@@ -160,7 +164,7 @@ Canvas::Canvas (Client *client):
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "motion-notify-event", G_CALLBACK (CanvasPrivate::OnMotion), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "leave-notify-event", G_CALLBACK (CanvasPrivate::OnLeaveNotify), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "destroy", G_CALLBACK (on_destroy), this);
-	g_signal_connect_swapped (G_OBJECT (m_Widget), "expose-event", G_CALLBACK (CanvasPrivate::OnExpose), this);
+	g_signal_connect_swapped (G_OBJECT (m_Widget), "draw", G_CALLBACK (CanvasPrivate::OnDraw), this);
 }
 
 Canvas::~Canvas()

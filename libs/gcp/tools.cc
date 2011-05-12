@@ -58,12 +58,18 @@ Tools::Tools (Application *App):
 	g_signal_connect (G_OBJECT (dialog), "delete-event", G_CALLBACK (on_delete_event), NULL);
 	Application *pApp = dynamic_cast<Application*> (App);
 	m_UIManager = NULL;
-	m_ButtonsBox = GTK_BOX (GetWidget ("tools-buttons"));
+	m_ButtonsGrid = GTK_GRID (GetWidget ("tools-buttons"));
+	if (m_ButtonsGrid == NULL) {
+		// work around a gtk+ bug: #649972
+		m_ButtonsGrid = GTK_GRID (g_object_new (GTK_TYPE_GRID, "orientation", GTK_ORIENTATION_VERTICAL, NULL));
+		gtk_grid_attach (GTK_GRID (GetWidget ("tools-grid")), GTK_WIDGET (m_ButtonsGrid), 0, 0, 1, 1);
+		gtk_widget_show (GTK_WIDGET (m_ButtonsGrid));
+	}
 	m_Book = GTK_NOTEBOOK (GetWidget ("tools-book"));
-	GtkWidget *box = GetWidget ("element-box");
+	GtkWidget *grid = GetWidget ("element-grid");
 	GtkWidget *w = gcu_combo_periodic_new ();
 	m_Mendeleiev = reinterpret_cast <GcuComboPeriodic *> (w);
-	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+	gtk_container_add (GTK_CONTAINER (grid), w);
 	gcu_combo_periodic_set_element (GCU_COMBO_PERIODIC (w), pApp->GetCurZ ());
 	g_signal_connect_swapped (G_OBJECT (w), "changed", G_CALLBACK (element_changed_cb), this);
 	w = GetWidget ("help-btn");
@@ -103,7 +109,7 @@ void Tools::AddToolbar (string &name)
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);
 		gtk_container_add (GTK_CONTAINER (h), w);
-		gtk_box_pack_start (m_ButtonsBox, h, true, true, 0);
+		gtk_container_add (GTK_CONTAINER (m_ButtonsGrid), h);
 		gtk_widget_show_all (h);
 	}
 }

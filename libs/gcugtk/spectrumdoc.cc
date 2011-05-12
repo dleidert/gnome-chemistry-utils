@@ -720,6 +720,14 @@ parse_line:
 							// FIXME: throw an exception
 						} else
 							npoints = read;
+						if (!go_finite (minx))
+							go_range_min (x, read, &minx);
+						if (!go_finite (maxx))
+							go_range_max (x, read, &maxx);
+						if (!go_finite (miny))
+							go_range_min (y, read, &miny);
+						if (!go_finite (maxy))
+							go_range_max (y, read, &maxy);
 						goto parse_line;
 					}
 					cur = line;

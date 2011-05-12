@@ -1043,9 +1043,9 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 			gtk_icon_source_set_state_wildcarded (src, false);
 			gtk_icon_source_set_direction_wildcarded (src, true);
 
-#if 0
 			for (int c = 0; c < 5; c++) {
 				GdkPixbuf *icon = gdk_pixbuf_copy (pixbuf);
+#if 0
 				// set the pixbuf color to the corresponding style for the style
 				unsigned char red, blue, green;
 				red = m_Style->fg[c].red >> 8;
@@ -1067,13 +1067,13 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 						cur += 4;
 					}
 				}
+#endif
 				gtk_icon_source_set_pixbuf (src, icon);
 				gtk_icon_source_set_state (src, static_cast <GtkStateType> (c));
 				gtk_icon_set_add_source (set, src);	/* copies the src */
 				g_object_unref (icon);
 			}
-#endif
-
+			
 			gtk_icon_source_free (src);
 			gtk_icon_factory_add (IconFactory, icons->name, set);	/* keeps reference to set */
 			gtk_icon_set_unref (set);

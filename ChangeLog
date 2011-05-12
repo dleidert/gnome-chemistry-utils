@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-05-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: replace expose event by draw event.
+	* libs/gcp/application.cc: restore buttons bitmaps, needs work.
+	* libs/gcp/tools.cc: use GtkGrid instead of GtkBox.
+	* libs/gcp/tools.h: ditto.
+	* libs/gcugtk/spectrumdoc.cc: set min and max on loadinf XY..XY values.
+	* ui/paint/tools.ui: use GtkGrid instead of GtkBox.
+
 2011-05-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcugtk/gcuperiodic.c: make it work again.
 	* programs/3d/Makefile.am: make things link again.

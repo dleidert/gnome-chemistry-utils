@@ -114,7 +114,7 @@ Called by the framework when the Help button is clicked.
 
 private:
 	gcugtk::UIManager *m_UIManager;
-	GtkBox *m_ButtonsBox;
+	GtkGrid *m_ButtonsGrid;
 	std::map<Tool*, int> m_Pages;
 	GtkNotebook *m_Book;
 	Tool *m_Tool;
