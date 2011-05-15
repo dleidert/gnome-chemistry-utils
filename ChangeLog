@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2011-05-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: make m_Color a settable property.
+	* libs/gccv/canvas.h: ditto.
+	* libs/gccv/line.cc: use auto color when needed.
+	* libs/gccv/rectangle.cc: ditto.
+	* libs/gcp/application.cc: build icons from canvas when provided.
+	* libs/gcp/application.h: ditto.
+	* plugins/paint/arrows/plugin.cc: ditto.
+	* plugins/paint/bonds/plugin.cc: ditto.
+	* plugins/paint/cycles/plugin.cc: ditto.
+	* plugins/paint/selection/plugin.cc: ditto.
+	* plugins/paint/text/plugin.cc: ditto.
+
 2011-05-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: replace expose event by draw event.
 	* libs/gcp/application.cc: restore buttons bitmaps, needs work.

@@ -27,6 +27,9 @@
 #include <gcp/application.h>
 #include <gcp/brackets.h>
 #include <gcp/molecule.h>
+#include <gccv/canvas.h>
+#include <gccv/line.h>
+#include <gccv/rectangle.h>
 #include "selectiontool.h"
 #include "lassotool.h"
 #include "erasertool.h"
@@ -51,15 +54,15 @@ gcpSelectionPlugin::~gcpSelectionPlugin()
 }
 
 static gcp::IconDesc icon_descs[] = {
-	{"gcp_Selection", gcp_selection_24},
-	{"gcp_Eraser", gcp_eraser_24},
-	{"gcp_Horiz", gcp_horiz_24},
-	{"gcp_Lasso", gcp_lasso_24},
-	{"gcp_Vert", gcp_vert_24},
-	{"gcp_Rotate", gcp_rotate_24},
-	{"gcp_Merge", gcp_merge_24},
-	{"gcp_Brackets", gcp_brackets_24},
-	{NULL, NULL},
+	{"gcp_Selection", gcp_selection_24, NULL},
+	{"gcp_Eraser", gcp_eraser_24, NULL},
+	{"gcp_Horiz", gcp_horiz_24, NULL},
+	{"gcp_Lasso", gcp_lasso_24, NULL},
+	{"gcp_Vert", gcp_vert_24, NULL},
+	{"gcp_Rotate", gcp_rotate_24, NULL},
+	{"gcp_Merge", NULL, NULL},
+	{"gcp_Brackets", gcp_brackets_24, NULL},
+	{NULL, NULL, NULL}
 };
 
 static GtkRadioActionEntry entries[] = {
@@ -94,6 +97,24 @@ static const char *ui_description =
 void gcpSelectionPlugin::Populate (gcp::Application* App)
 {
 	GroupType = App->AddType ("group", CreateGroup);
+	// build canvases for tool buttons
+	gccv::Canvas *canvas = new gccv::Canvas (NULL);
+	gccv::Rectangle *rect = new gccv::Rectangle (canvas, 1., 1., 8., 7.);
+	rect->SetAutoColor (true);
+	rect->SetFillColor (0);
+	rect->SetLineWidth (2.);
+	rect = new gccv::Rectangle (canvas, 15., 1., 8., 7.);
+	rect->SetAutoColor (true);
+	rect->SetFillColor (0);
+	rect->SetLineWidth (2.);
+	rect = new gccv::Rectangle (canvas, 4., 16., 16., 7.);
+	rect->SetAutoColor (true);
+	rect->SetFillColor (0);
+	rect->SetLineWidth (2.);
+	gccv::Line *line = new gccv::Line (canvas, 12., 16., 12., 23.);
+	line->SetAutoColor (true);
+	line->SetLineWidth (2.);
+	icon_descs[6].canvas = canvas;
 	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
 	App->RegisterToolbar ("SelectToolbar", 0);
 	new gcpSelectionTool (App);

@@ -30,6 +30,8 @@
 #include "plugin.h"
 #include <gcp/application.h>
 #include <gcp/settings.h>
+#include <gccv/canvas.h>
+#include <gccv/line.h>
 #include <glib/gi18n-lib.h>
 
 gcpBondsPlugin plugin;
@@ -43,15 +45,15 @@ gcpBondsPlugin::~gcpBondsPlugin ()
 }
 
 static gcp::IconDesc icon_descs[] = {
-	{"gcp_Bond", gcp_bond_24},
-	{"gcp_Chain", gcp_chain_24},
-	{"gcp_UpBond", gcp_upbond_24},
-	{"gcp_DownBond", gcp_downbond_24},
-	{"gcp_iDownBond", gcp_idownbond_24},
-	{"gcp_XBond", gcp_xbond_24},
-	{"gcp_ForeBond", gcp_forebond_24},
-	{"gcp_DelocalizedBond", gcp_delocalizedbond_24},
-	{NULL, NULL},
+	{"gcp_Bond", NULL, NULL},
+	{"gcp_Chain", gcp_chain_24, NULL},
+	{"gcp_UpBond", gcp_upbond_24, NULL},
+	{"gcp_DownBond", gcp_downbond_24, NULL},
+	{"gcp_iDownBond", gcp_idownbond_24, NULL},
+	{"gcp_XBond", gcp_xbond_24, NULL},
+	{"gcp_ForeBond", gcp_forebond_24, NULL},
+	{"gcp_DelocalizedBond", gcp_delocalizedbond_24, NULL},
+	{NULL, NULL, NULL}
 };
 
 static GtkRadioActionEntry entries[] = {
@@ -93,6 +95,13 @@ static const char *ui_description =
 
 void gcpBondsPlugin::Populate (gcp::Application* App)
 {
+	/* Build a canvas for the bond tool */
+	gccv::Canvas *canvas = new gccv::Canvas (NULL);
+	gccv::Line *line = new gccv::Line (canvas, 3., 21., 21., 3.);
+	line->SetLineWidth (2.);
+	line->SetAutoColor (true);
+	icon_descs[0].canvas = canvas;
+	App->AddCanvas ("ui/BondsToolbar/Bond", canvas);
 	if (gcp::InvertWedgeHashes)
 		entries[3].stock_id = "gcp_iDownBond";
 	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);

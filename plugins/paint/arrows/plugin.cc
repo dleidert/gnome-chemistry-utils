@@ -59,13 +59,13 @@ gcpArrowsPlugin::~gcpArrowsPlugin ()
 }
 
 static gcp::IconDesc icon_descs[] = {
-	{"gcp_SimpleArrow", gcp_arrow1_24},
-	{"gcp_ReversibleArrow", gcp_arrow2_24},
-	{"gcp_RetrosynthesisArrow", gcp_retrosynth_24},
-	{"gcp_MesomeryArrow", gcp_mesomery_24},
-	{"gcp_CurvedArrow", gcp_curved_24},
-	{"gcp_Curved1Arrow", gcp_curved1_24},
-	{NULL, NULL},
+	{"gcp_SimpleArrow", gcp_arrow1_24, NULL},
+	{"gcp_ReversibleArrow", gcp_arrow2_24, NULL},
+	{"gcp_RetrosynthesisArrow", gcp_retrosynth_24, NULL},
+	{"gcp_MesomeryArrow", gcp_mesomery_24, NULL},
+	{"gcp_CurvedArrow", gcp_curved_24, NULL},
+	{"gcp_Curved1Arrow", gcp_curved1_24, NULL},
+	{NULL, NULL, NULL}
 };
 
 static GtkRadioActionEntry entries[] = {

@@ -40,14 +40,14 @@ gcpCyclesPlugin::~gcpCyclesPlugin ()
 }
 
 static gcp::IconDesc icon_descs[] = {
-	{"gcp_Cycle3", gcp_c3_24},
-	{"gcp_Cycle4", gcp_c4_24},
-	{"gcp_Cycle5", gcp_c5_24},
-	{"gcp_Cycle6", gcp_c6_24},
-	{"gcp_Cycle7", gcp_c7_24},
-	{"gcp_Cycle8", gcp_c8_24},
-	{"gcp_CycleN", gcp_cn_24},
-	{NULL, NULL},
+	{"gcp_Cycle3", gcp_c3_24, NULL},
+	{"gcp_Cycle4", gcp_c4_24, NULL},
+	{"gcp_Cycle5", gcp_c5_24, NULL},
+	{"gcp_Cycle6", gcp_c6_24, NULL},
+	{"gcp_Cycle7", gcp_c7_24, NULL},
+	{"gcp_Cycle8", gcp_c8_24, NULL},
+	{"gcp_CycleN", gcp_cn_24, NULL},
+	{NULL, NULL, NULL}
 };
 
 static GtkRadioActionEntry entries[] = {

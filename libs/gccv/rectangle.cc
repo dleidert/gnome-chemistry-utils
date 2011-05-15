@@ -127,7 +127,7 @@ double Rectangle::Distance (double x, double y, Item **item) const
 
 void Rectangle::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
-	GOColor fill_color = GetFillColor (), line_color = GetLineColor ();
+	GOColor fill_color = GetFillColor (), line_color = GetEffectiveLineColor ();
 	if (!fill_color && !line_color)
 		return;
 	cairo_set_line_width (cr, GetLineWidth ());

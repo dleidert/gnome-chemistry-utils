@@ -43,9 +43,9 @@ gcpTextPlugin::~gcpTextPlugin ()
 }
 
 static gcp::IconDesc icon_descs[] = {
-	{"gcp_Text", gcp_text_24},
-	{"gcp_Fragment", gcp_fragment_24},
-	{NULL, NULL},
+	{"gcp_Text", gcp_text_24, NULL},
+	{"gcp_Fragment", gcp_fragment_24, NULL},
+	{NULL, NULL, NULL}
 };
 
 static GtkRadioActionEntry entries[] = {

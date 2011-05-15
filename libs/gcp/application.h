@@ -33,6 +33,10 @@
 #include <map>
 #include <stdexcept>
 
+namespace gccv {
+	class Canvas;
+}
+
 namespace gcu {
 	class Dialog;
 	class Object;
@@ -58,9 +62,13 @@ The name of the icon.
 */
 	char const *name;
 /*!
-The icon as in line bytes.
+The icon as in line bytes or NULL (when using a canvas instead of a bitmap).
 */
 	unsigned char const *data_24;
+/*!
+	The 24*24 canvas used to display the icon.
+*/
+	gccv::Canvas *canvas;
 } IconDesc;
 
 class Target;
@@ -404,6 +412,7 @@ it is pure virtual.
 	GdkCursor *GetCursor (CursorId id)  {return m_Cursors[id];}
 
 	bool Have3DSupport () {return m_HaveGhemical | m_HaveGChem3D | m_HaveAvogadro;}
+	void AddCanvas (char const *path, gccv::Canvas *canvas) {m_ToolCanvases[path] = canvas;}
 
 protected:
 /*!
@@ -466,6 +475,7 @@ private:
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;
 	GdkCursor *m_Cursors[CursorMax];
+	std::map < std::string, gccv::Canvas * >m_ToolCanvases;
 
 #if 0
 /*!\fn GetStyle()

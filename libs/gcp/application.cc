@@ -58,6 +58,7 @@
 #include <gcu/cmd-context.h>
 #include <gcu/loader.h>
 #include <gcu/loader-error.h>
+#include <gccv/canvas.h>
 #include <glib/gi18n-lib.h>
 #include <fstream>
 #include <cstring>
@@ -509,6 +510,10 @@ Application::~Application ()
 	g_object_unref (IconFactory);
 	// unload plugins
 	Plugin::UnloadPlugins ();
+	std::map < std::string, gccv::Canvas * >::iterator k, kend = m_ToolCanvases.end ();
+	for (k = m_ToolCanvases.begin (); k != kend; k++)
+		delete (*k).second;
+	m_ToolCanvases.clear ();
 }
 
 void Application::ActivateTool (const string& toolname, bool activate)
@@ -1033,53 +1038,114 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 	if (ui_description)
 		UiDescs.push_back (ui_description);
 	if (icons) {
+		GtkCssProvider *provider = gtk_css_provider_get_default ();
+		GtkStyleContext *ctxt = gtk_style_context_new ();
+		GtkWidgetPath *path = gtk_widget_path_new ();
+		gtk_widget_path_append_type (path, GTK_TYPE_BUTTON);
+		gtk_style_context_set_path (ctxt, path);
+		gtk_widget_path_free (path);
+		gtk_style_context_add_provider (ctxt, GTK_STYLE_PROVIDER (provider), 1);
 		GtkIconSet *set;
 		GtkIconSource *src;
 		while (icons->name) {
-			GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline (-1, icons->data_24, false, NULL);
-			set = gtk_icon_set_new ();
-			src = gtk_icon_source_new ();
-			gtk_icon_source_set_size_wildcarded (src, true);
-			gtk_icon_source_set_state_wildcarded (src, false);
-			gtk_icon_source_set_direction_wildcarded (src, true);
+			GdkPixbuf *icon;
+			if (icons->data_24) {
+				GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline (-1, icons->data_24, false, NULL);
+				set = gtk_icon_set_new ();
+				src = gtk_icon_source_new ();
+				gtk_icon_source_set_size_wildcarded (src, true);
+				gtk_icon_source_set_state_wildcarded (src, false);
+				gtk_icon_source_set_direction_wildcarded (src, true);
 
-			for (int c = 0; c < 5; c++) {
-				GdkPixbuf *icon = gdk_pixbuf_copy (pixbuf);
+				for (int c = 0; c < 5; c++) {
+				icon = gdk_pixbuf_copy (pixbuf);
 #if 0
-				// set the pixbuf color to the corresponding style for the style
-				unsigned char red, blue, green;
-				red = m_Style->fg[c].red >> 8;
-				green = m_Style->fg[c].green >> 8;
-				blue = m_Style->fg[c].blue >> 8;
-				unsigned char *line, *cur;
-				line = gdk_pixbuf_get_pixels (icon);
-				int i, j, rows, cols, rowstride;
-				cols = gdk_pixbuf_get_width (icon);
-				rows = gdk_pixbuf_get_height (icon);
-				rowstride = gdk_pixbuf_get_rowstride (icon);
-				for (i = 0; i < rows; i++) {
-					cur = line;
-					line += rowstride;
-					for (j = 0; j < cols; j++) {
-						cur[0] = cur[0] ^ red;
-						cur[1] = cur[1] ^ green;
-						cur[2] = cur[2] ^ blue;
-						cur += 4;
+					// set the pixbuf color to the corresponding style for the style
+					unsigned char red, blue, green;
+					red = m_Style->fg[c].red >> 8;
+					green = m_Style->fg[c].green >> 8;
+					blue = m_Style->fg[c].blue >> 8;
+					unsigned char *line, *cur;
+					line = gdk_pixbuf_get_pixels (icon);
+					int i, j, rows, cols, rowstride;
+					cols = gdk_pixbuf_get_width (icon);
+					rows = gdk_pixbuf_get_height (icon);
+					rowstride = gdk_pixbuf_get_rowstride (icon);
+					for (i = 0; i < rows; i++) {
+						cur = line;
+						line += rowstride;
+						for (j = 0; j < cols; j++) {
+							cur[0] = cur[0] ^ red;
+							cur[1] = cur[1] ^ green;
+							cur[2] = cur[2] ^ blue;
+							cur += 4;
+						}
 					}
-				}
 #endif
-				gtk_icon_source_set_pixbuf (src, icon);
-				gtk_icon_source_set_state (src, static_cast <GtkStateType> (c));
-				gtk_icon_set_add_source (set, src);	/* copies the src */
-				g_object_unref (icon);
+					gtk_icon_source_set_pixbuf (src, icon);
+					gtk_icon_source_set_state (src, static_cast <GtkStateType> (c));
+					gtk_icon_set_add_source (set, src);	/* copies the src */
+					g_object_unref (icon);
+				}
+				gtk_icon_source_free (src);
+				gtk_icon_factory_add (IconFactory, icons->name, set);	/* keeps reference to set */
+				gtk_icon_set_unref (set);
+				g_object_unref (pixbuf);
+			} else if (icons->canvas) {
+				cairo_surface_t *surface;
+				cairo_t *cr;
+				set = gtk_icon_set_new ();
+				src = gtk_icon_source_new ();
+				gtk_icon_source_set_size_wildcarded (src, true);
+				gtk_icon_source_set_state_wildcarded (src, false);
+				gtk_icon_source_set_direction_wildcarded (src, true);
+				for (int c = 0; c < 7; c++) {
+					GtkStateFlags state;
+					switch (c) {
+					default:
+					case 0:
+						state = GTK_STATE_FLAG_NORMAL;
+						break;
+					case 1:
+						state = GTK_STATE_FLAG_ACTIVE;
+						break;
+					case 2:
+						state = GTK_STATE_FLAG_PRELIGHT;
+						break;
+					case 3:
+						state = GTK_STATE_FLAG_SELECTED;
+						break;
+					case 4:
+						state = GTK_STATE_FLAG_INSENSITIVE;
+						break;
+					case 5:
+						state = GTK_STATE_FLAG_INCONSISTENT;
+						break;
+					case 6:
+						state = GTK_STATE_FLAG_FOCUSED;
+						break;
+					}
+					GdkRGBA rgba;
+					gtk_style_context_get_color (ctxt, state, &rgba);
+					icon = gdk_pixbuf_new (GDK_COLORSPACE_RGB, true, 8, 24, 24);
+					surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 24, 24);
+					cr = cairo_create (surface);
+					gtk_widget_set_state_flags (icons->canvas->GetWidget (), static_cast < GtkStateFlags > (c? 1 << (c - 1): 0), true);
+					icons->canvas->SetColor (GO_COLOR_FROM_GDK_RGBA (rgba));
+					icons->canvas->Render (cr, false);
+					go_cairo_convert_data_to_pixbuf (gdk_pixbuf_get_pixels (icon), cairo_image_surface_get_data (surface), 24, 24, 96);
+					gtk_icon_source_set_pixbuf (src, icon);
+					gtk_icon_source_set_state (src, static_cast <GtkStateType> (c));
+					gtk_icon_set_add_source (set, src);	/* copies the src */
+					g_object_unref (icon);
+				}
+				gtk_icon_source_free (src);
+				gtk_icon_factory_add (IconFactory, icons->name, set);	/* keeps reference to set */
+				gtk_icon_set_unref (set);
 			}
-			
-			gtk_icon_source_free (src);
-			gtk_icon_factory_add (IconFactory, icons->name, set);	/* keeps reference to set */
-			gtk_icon_set_unref (set);
-			g_object_unref (pixbuf);
 			icons++;
 		}
+		g_object_unref (ctxt);
 	}
 }
 

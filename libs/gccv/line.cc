@@ -88,7 +88,7 @@ void Line::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 	cairo_move_to (cr, m_xstart, m_ystart);
 	cairo_line_to (cr, m_xend, m_yend);
-	GOColor color = GetLineColor ();
+	GOColor color = GetEffectiveLineColor ();
 	if (op == CAIRO_OPERATOR_CLEAR || op == CAIRO_OPERATOR_SOURCE) {
 		cairo_content_t content = cairo_surface_get_content (cairo_get_target (cr));
 		if (!(content & CAIRO_CONTENT_ALPHA))

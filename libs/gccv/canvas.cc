@@ -212,13 +212,6 @@ void Canvas::SetZoom (double zoom)
 void Canvas::Render (cairo_t* cr, bool is_vector)
 {
 	double x0, y0, x1, y1;
-	// set the defaut color according to the current state
-	GtkStateFlags state = gtk_widget_get_state_flags (m_Widget);
-	GtkStyleContext *ctxt = gtk_widget_get_style_context (m_Widget);
-	GdkRGBA rgba;
-	m_Color = GO_COLOR_FROM_GDK_RGBA (rgba);
-	gtk_style_context_get_color (ctxt, state, &rgba);
-	cairo_set_source_rgba (cr, rgba.red, rgba.green, rgba.blue, rgba.alpha);
 	m_Root->GetBounds (x0, y0, x1, y1);
 	m_Root->Draw (cr, x0, y0, x1, y1, is_vector);
 }

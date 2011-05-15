@@ -149,7 +149,7 @@ GCU_PROP (double, Gap)
 /*!\fn GetColor()
 @return the foreground color.
 */
-GCU_RO_PROP (GOColor, Color)
+GCU_PROP (GOColor, Color)
 /*!\fn GetLastEventState()
 @return the GdkModifierType value for the last received event.
 */
