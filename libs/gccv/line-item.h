@@ -59,6 +59,13 @@ The destructor.
 	virtual ~LineItem ();
 
 	GOColor GetEffectiveLineColor () const;
+	void ApplyLine (cairo_t *cr) const;
+	void SetDashes (double const *dashes, int num_dashes, double offset);
+
+private:
+	double *m_Dashes;
+	int m_DashesNb;
+	double m_DashOffset;
 
 /*!\fn SetLineWidth(double width)
 @param width the new line width.

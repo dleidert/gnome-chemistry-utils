@@ -114,6 +114,16 @@ void gcpSelectionPlugin::Populate (gcp::Application* App)
 	gccv::Line *line = new gccv::Line (canvas, 12., 16., 12., 23.);
 	line->SetAutoColor (true);
 	line->SetLineWidth (2.);
+	double const dash[] = {1.};
+	line->SetDashes (dash, 1, 0.);
+	line = new gccv::Line (canvas, 5., 8., 8., 16.);
+	line->SetAutoColor (true);
+	line->SetLineWidth (2.);
+	line->SetDashes (dash, 1, 0.);
+	line = new gccv::Line (canvas, 19., 8., 16., 16.);
+	line->SetAutoColor (true);
+	line->SetLineWidth (2.);
+	line->SetDashes (dash, 1, 0.);
 	icon_descs[6].canvas = canvas;
 	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
 	App->RegisterToolbar ("SelectToolbar", 0);

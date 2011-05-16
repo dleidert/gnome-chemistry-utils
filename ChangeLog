@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-05-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/line-item.cc: add support for dashes.
+	* libs/gccv/line-item.h: ditto.
+	* libs/gccv/line.cc: ditto.
+	* plugins/paint/selection/plugin.cc: generate the merge tool icon using
+	the canvas.
+
 2011-05-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: make m_Color a settable property.
 	* libs/gccv/canvas.h: ditto.

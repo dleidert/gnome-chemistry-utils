@@ -84,7 +84,7 @@ double Line::Distance (double x, double y, Item **item) const
 void Line::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	cairo_operator_t op = GetOperator ();
-	cairo_set_line_width (cr, GetLineWidth ());
+	ApplyLine (cr);
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 	cairo_move_to (cr, m_xstart, m_ystart);
 	cairo_line_to (cr, m_xend, m_yend);
@@ -96,6 +96,7 @@ void Line::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 	}
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	cairo_stroke (cr);
+	cairo_restore (cr);
 }
 
 void Line::UpdateBounds ()
