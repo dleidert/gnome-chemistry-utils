@@ -87,18 +87,6 @@ gcr_crystal_viewer_get_type (void)
 	return crystal_viewer_type;
 }
 
-void gcr_crystal_viewer_class_init (GcrCrystalViewerClass  *klass)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
-	
-	gobject_class->finalize = gcr_crystal_viewer_finalize;
-}
-
-void gcr_crystal_viewer_init (G_GNUC_UNUSED GcrCrystalViewer *viewer)
-{
-}
-
 GtkWidget* gcr_crystal_viewer_new (xmlNodePtr node)
 {
 	GcrCrystalViewer* viewer = (GcrCrystalViewer*) g_object_new (GCR_TYPE_CRYSTAL_VIEWER, NULL);
@@ -113,12 +101,63 @@ GtkWidget* gcr_crystal_viewer_new (xmlNodePtr node)
 	return GTK_WIDGET (viewer);
 }
 
+static void gcr_crystal_viewer_get_preferred_height (GtkWidget *w, gint *minimum_height, gint *natural_height)
+{
+	GtkWidget *child = gtk_bin_get_child (GTK_BIN (w));
+	gboolean visible = FALSE;
+	if (child)
+		g_object_get (G_OBJECT (child), "visible", &visible, NULL);
+	if (visible)
+		gtk_widget_get_preferred_height (child, minimum_height, natural_height);
+	else
+		*minimum_height = *natural_height = 0;
+}
+
+static void gcr_crystal_viewer_get_preferred_width (GtkWidget *w, gint *minimum_width, gint *natural_width)
+{
+	GtkWidget *child = gtk_bin_get_child (GTK_BIN (w));
+	gboolean visible = FALSE;
+	if (child)
+		g_object_get (G_OBJECT (child), "visible", &visible, NULL);
+	if (visible)
+		gtk_widget_get_preferred_width (child, minimum_width, natural_width);
+	else
+		*minimum_width = *natural_width = 0;
+}
+
+static void gcr_crystal_viewer_size_allocate (GtkWidget *w, GtkAllocation *alloc)
+{
+	GtkWidget *child = gtk_bin_get_child (GTK_BIN (w));
+	gboolean visible = FALSE;
+	if (child)
+		g_object_get (G_OBJECT (child), "visible", &visible, NULL);
+	if (visible)
+		gtk_widget_size_allocate (child, alloc);
+	(GTK_WIDGET_CLASS (parent_class))->size_allocate (w, alloc);
+}
+
 void gcr_crystal_viewer_finalize (GObject* object)
 {
-	((GObjectClass*) parent_class)->finalize (object);
 	GcrCrystalViewer* viewer = GCR_CRYSTAL_VIEWER (object);
 	delete viewer->pView;
 	delete viewer->pDoc;
+	((GObjectClass*) parent_class)->finalize (object);
+}
+
+void gcr_crystal_viewer_class_init (GcrCrystalViewerClass  *klass)
+{
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GtkWidgetClass *widget_class = reinterpret_cast < GtkWidgetClass * > (klass);
+	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
+	
+	gobject_class->finalize = gcr_crystal_viewer_finalize;
+	widget_class->get_preferred_height = gcr_crystal_viewer_get_preferred_height;
+	widget_class->get_preferred_width = gcr_crystal_viewer_get_preferred_width;
+	widget_class->size_allocate = gcr_crystal_viewer_size_allocate;
+}
+
+void gcr_crystal_viewer_init (G_GNUC_UNUSED GcrCrystalViewer *viewer)
+{
 }
 
 void gcr_crystal_viewer_set_data (GcrCrystalViewer * viewer, xmlNodePtr node)

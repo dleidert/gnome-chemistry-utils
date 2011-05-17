@@ -298,6 +298,41 @@ gcp_font_sel_set_property (GObject *obj, guint param_id,
 	select_best_font_face (fs);
 }
 
+static void gcp_font_sel_get_preferred_height (GtkWidget *w, gint *minimum_height, gint *natural_height)
+{
+	GtkWidget *child = gtk_bin_get_child (GTK_BIN (w));
+	gboolean visible = FALSE;
+	if (child)
+		g_object_get (G_OBJECT (child), "visible", &visible, NULL);
+	if (visible)
+		gtk_widget_get_preferred_height (child, minimum_height, natural_height);
+	else
+		*minimum_height = *natural_height = 0;
+}
+
+static void gcp_font_sel_get_preferred_width (GtkWidget *w, gint *minimum_width, gint *natural_width)
+{
+	GtkWidget *child = gtk_bin_get_child (GTK_BIN (w));
+	gboolean visible = FALSE;
+	if (child)
+		g_object_get (G_OBJECT (child), "visible", &visible, NULL);
+	if (visible)
+		gtk_widget_get_preferred_width (child, minimum_width, natural_width);
+	else
+		*minimum_width = *natural_width = 0;
+}
+
+static void gcp_font_sel_size_allocate (GtkWidget *w, GtkAllocation *alloc)
+{
+	GtkWidget *child = gtk_bin_get_child (GTK_BIN (w));
+	gboolean visible = FALSE;
+	if (child)
+		g_object_get (G_OBJECT (child), "visible", &visible, NULL);
+	if (visible)
+		gtk_widget_size_allocate (child, alloc);
+	(GTK_WIDGET_CLASS (font_sel_parent_class))->size_allocate (w, alloc);
+}
+
 static void
 gcp_font_sel_finalize (GObject *obj)
 {
@@ -310,6 +345,7 @@ static void
 gcp_font_sel_class_init (GcpFontSelClass *klass)
 {
 	GObjectClass *object_class = (GObjectClass*) klass;
+	GtkWidgetClass *widget_class = reinterpret_cast < GtkWidgetClass * > (klass);
 	font_sel_parent_class = (GObjectClass*) g_type_class_peek_parent (klass);
 
 	object_class->get_property = gcp_font_sel_get_property;
@@ -361,6 +397,9 @@ gcp_font_sel_class_init (GcpFontSelClass *klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+	widget_class->get_preferred_height = gcp_font_sel_get_preferred_height;
+	widget_class->get_preferred_width = gcp_font_sel_get_preferred_width;
+	widget_class->size_allocate = gcp_font_sel_size_allocate;
 }
 
 static void on_select_family (GtkTreeSelection *selection, GcpFontSel *fs)

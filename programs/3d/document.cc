@@ -29,7 +29,7 @@
 #include "window.h"
 #include <glib/gutils.h>
 
-gc3dDocument::gc3dDocument (gc3dApplication *App): Chem3dDoc (App, new gc3dView (this))
+gc3dDocument::gc3dDocument (gc3dApplication *App): gcugtk::Chem3dDoc (App, new gc3dView (this))
 {
 }
 

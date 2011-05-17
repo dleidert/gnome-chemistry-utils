@@ -56,7 +56,7 @@ class Matrix;
 /*!
 \class Chem3dDoc gcu/chem3ddoc.h
 
-Document class for a molecule. Embeds an OpenBabel::OBMol object.
+Document base class for a molecule.
 */
 class Chem3dDoc: public GLDocument
 {
@@ -116,6 +116,7 @@ Exports the embedded molecule as a vrml scene.
 Clears the document.
 */
 	void Clear ();
+	virtual GLView *CreateView ();
 
 private:
 	Molecule *m_Mol;

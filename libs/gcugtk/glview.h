@@ -85,6 +85,10 @@ Generates a pixbuf from the current view.
 */
 	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height) const;
 
+protected:
+	virtual bool GLBegin ();
+	virtual void GLEnd ();
+
 private:
 	void Reshape (int width, int height) ;
 

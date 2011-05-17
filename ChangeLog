@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2011-05-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fontsel.cc: fixed size issue.
+	* libs/gcr/gcrcrystalviewer.cc: ditto.
+	* libs/gcu/chem3ddoc.cc: add a CreateView() method.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/glview.h: add virtual GL related methoods.
+	* libs/gcugtk/Makefile.am: add new Chem3dDoc class.
+	* libs/gcugtk/chem3ddoc.cc: ditto.
+	* libs/gcugtk/chem3ddoc.h: ditto.
+	* libs/gcugtk/gcuchem3dviewer.cc: fixed size issue.
+	* libs/gcugtk/gcuspectrumviewer.cc: ditto.
+	* libs/gcugtk/glview.cc: implement virtual GL related methoods.
+	* libs/gcugtk/glview.h: ditto.
+	* programs/3d/document.cc: derive from gcugtk::Chem3dDoc.
+	* programs/3d/document.h: ditto.
+
 2011-05-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/line-item.cc: add support for dashes.
 	* libs/gccv/line-item.h: ditto.

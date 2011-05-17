@@ -23,7 +23,7 @@
 #include "config.h"
 #include "gcuchem3dviewer.h"
 #include "glview.h"
-#include <gcu/chem3ddoc.h>
+#include "chem3ddoc.h"
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
 #include <cstring>
@@ -35,7 +35,7 @@ struct _GcuChem3DViewer
 {
 	GtkBin bin;
 
-	Chem3dDoc *Doc;
+	gcugtk::Chem3dDoc *Doc;
 	GtkWidget *widget;
 };
 
@@ -124,6 +124,41 @@ static void on_size(GtkWidget *w, GtkAllocation *allocation, G_GNUC_UNUSED gpoin
 		gtk_widget_size_allocate (widget, allocation);
 }
 
+static void gcu_chem3d_viewer_get_preferred_height (GtkWidget *w, gint *minimum_height, gint *natural_height)
+{
+	GtkWidget *child = gtk_bin_get_child (GTK_BIN (w));
+	gboolean visible = FALSE;
+	if (child)
+		g_object_get (G_OBJECT (child), "visible", &visible, NULL);
+	if (visible)
+		gtk_widget_get_preferred_height (child, minimum_height, natural_height);
+	else
+		*minimum_height = *natural_height = 0;
+}
+
+static void gcu_chem3d_viewer_get_preferred_width (GtkWidget *w, gint *minimum_width, gint *natural_width)
+{
+	GtkWidget *child = gtk_bin_get_child (GTK_BIN (w));
+	gboolean visible = FALSE;
+	if (child)
+		g_object_get (G_OBJECT (child), "visible", &visible, NULL);
+	if (visible)
+		gtk_widget_get_preferred_width (child, minimum_width, natural_width);
+	else
+		*minimum_width = *natural_width = 0;
+}
+
+static void gcu_chem3d_viewer_size_allocate (GtkWidget *w, GtkAllocation *alloc)
+{
+	GtkWidget *child = gtk_bin_get_child (GTK_BIN (w));
+	gboolean visible = FALSE;
+	if (child)
+		g_object_get (G_OBJECT (child), "visible", &visible, NULL);
+	if (visible)
+		gtk_widget_size_allocate (child, alloc);
+	(GTK_WIDGET_CLASS (parent_class))->size_allocate (w, alloc);
+}
+
 static void gcu_chem3d_viewer_finalize (GObject *obj)
 {
 	GcuChem3DViewer *viewer = GCU_CHEM3D_VIEWER (obj);
@@ -137,6 +172,7 @@ static void gcu_chem3d_viewer_finalize (GObject *obj)
 void gcu_chem3d_viewer_class_init (GcuChem3DViewerClass  *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GtkWidgetClass *widget_class = reinterpret_cast < GtkWidgetClass * > (klass);
 	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
 	
 	gobject_class->set_property = gcu_chem3d_viewer_set_property;
@@ -160,12 +196,15 @@ void gcu_chem3d_viewer_class_init (GcuChem3DViewerClass  *klass)
 				      _("Color used to paint the background"),
                                       "black",
                                       (GParamFlags)(G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	widget_class->get_preferred_height = gcu_chem3d_viewer_get_preferred_height;
+	widget_class->get_preferred_width = gcu_chem3d_viewer_get_preferred_width;
+	widget_class->size_allocate = gcu_chem3d_viewer_size_allocate;
 }
 
 void gcu_chem3d_viewer_init (GcuChem3DViewer *viewer)
 {
 	g_return_if_fail (GCU_IS_CHEM3D_VIEWER (viewer));
-	viewer->Doc = new Chem3dDoc ();
+	viewer->Doc = new gcugtk::Chem3dDoc ();
 	viewer->widget = static_cast <gcugtk::GLView *> (viewer->Doc->GetView ())->GetWidget ();
 	gtk_widget_show (GTK_WIDGET (viewer->widget));
 	gtk_container_add (GTK_CONTAINER (viewer), viewer->widget);

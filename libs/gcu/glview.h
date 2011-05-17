@@ -109,6 +109,8 @@ std::
 Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 */
 	void Rotate (gdouble x, gdouble y);
+	virtual bool GLBegin () = 0;
+	virtual void GLEnd () = 0;
 
 protected:
 	Matrix m_Euler;

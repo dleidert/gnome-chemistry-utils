@@ -21,6 +21,7 @@ lib_LTLIBRARIES= libgcugtk-@GCU_API_VER@.la
 libgcugtk_@GCU_API_VER@_la_SOURCES = \
 		application.cc \
 		cmd-context-gtk.cc \
+		chem3ddoc.cc	\
 		dialog.cc	\
 		filechooser.cc	\
 		gcuchem3dviewer.cc \
@@ -39,6 +40,7 @@ libgcugtk_@GCU_API_VER@_la_SOURCES = \
 noinst_HEADERS = \
 		application.h \
 		cmd-context-gtk.h \
+		chem3ddoc.h	\
 		dialog.h	\
 		filechooser.h	\
 		gcuchem3dviewer.h \

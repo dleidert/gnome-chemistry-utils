@@ -26,13 +26,11 @@
 #define GC3D_DOCUMENT_H
 
 #include <gcu/macros.h>
-#include <gcu/chem3ddoc.h>
-
-using namespace gcu;
+#include <gcugtk/chem3ddoc.h>
 
 class gc3dApplication;
 
-class gc3dDocument: public Chem3dDoc
+class gc3dDocument: public gcugtk::Chem3dDoc
 {
 public:
 	gc3dDocument (gc3dApplication *App);

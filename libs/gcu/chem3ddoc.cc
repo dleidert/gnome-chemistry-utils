@@ -53,14 +53,14 @@ namespace gcu
 
 Chem3dDoc::Chem3dDoc (): GLDocument (Application::GetDefaultApplication ())
 {
-	m_View = new GLView (this);
+	m_View = CreateView ();
 	m_Display3D = BALL_AND_STICK;
 	m_Mol = NULL;
 }
 
 Chem3dDoc::Chem3dDoc (Application *App, GLView *View): GLDocument (App)
 {
-	m_View = (View)? View: new GLView (this);
+	m_View = (View)? View: CreateView ();
 	m_Display3D = BALL_AND_STICK;
 	m_Mol = NULL;
 }
@@ -510,6 +510,11 @@ void Chem3dDoc::Clear ()
 {
 	Object::Clear ();
 	m_Mol = NULL;
+}
+
+GLView *Chem3dDoc::CreateView ()
+{
+	return NULL;
 }
 
 }	//	namespace gcu
