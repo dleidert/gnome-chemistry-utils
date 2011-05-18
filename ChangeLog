@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-05-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gchemutils.schemas.in: removed offscreen option.
+	* libs/gcugtk/glview.cc: statrt working on GLX direct calls.
+	* libs/gcugtk/glview.h: ditto.
+	* schemas/org.gnome.gchemutils.gschema.xml.in.in: removed offscreen option.
+
 2011-05-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fontsel.cc: fixed size issue.
 	* libs/gcr/gcrcrystalviewer.cc: ditto.

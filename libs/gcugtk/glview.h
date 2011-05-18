@@ -56,12 +56,12 @@ The destructor of GLView.
 /*!
 @return the associated GtkWidget.
 */
-	GtkWidget *GetWidget () {return m_pWidget;}
+	GtkWidget *GetWidget () {return m_Widget;}
 
 /*!
 @return the top level GtkWindow containing the view.
 */
-	GtkWindow *GetGtkWindow () {return GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget));}
+	GtkWindow *GetGtkWindow () {return GTK_WINDOW (gtk_widget_get_toplevel (m_Widget));}
 /*!
 Update the contents of the associated widget. This method must be called
 each time the document or the view are modified.
@@ -96,13 +96,12 @@ protected:
 /*!
 The associated widget.
 */
-	GtkWidget *m_pWidget;
+	GtkWidget *m_Widget;
 
 private:
 	bool m_bInit;
-	static GOConfNode *m_ConfNode;
-	static guint m_NotificationId;
 	static int nbViews;
+	GdkWindow *m_Window;
 };
 
 }	//	namespace gcugtk

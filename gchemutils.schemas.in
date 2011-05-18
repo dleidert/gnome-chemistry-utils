@@ -1,17 +1,6 @@
 <gconfschemafile>
   <schemalist>
     <schema>
-      <key>/schemas/apps/gchemutils/gl/off-screen-rendering</key>
-      <applyto>/apps/gchemutils/gl/off-screen-rendering</applyto>
-      <owner>gchemutils</owner>
-      <type>bool</type>
-      <default>1</default>
-      <locale name="C">
-        <short>Off screen rendering</short>
-        <long>Whether to use off-screen rendering when printing or exporting as an image. Setting it to true might lead to a crash with some video cards drivers.</long>
-      </locale>
-    </schema>
-    <schema>
 	  <key>/schemas/apps/gchemutils/printsetup/preferred-unit</key>
 	  <applyto>/apps/gchemutils/printsetup/preferred-unit</applyto>
 	  <owner>gchemutils</owner>

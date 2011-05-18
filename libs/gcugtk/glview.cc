@@ -36,9 +36,6 @@
 namespace gcugtk {
 
 //static GdkGLConfig *glconfig = NULL;
-GOConfNode *GLView::m_ConfNode = NULL;
-guint GLView::m_NotificationId = 0;
-bool OffScreenRendering = false;
 int GLView::nbViews = 0;
 
 #define GCU_CONF_DIR_GL "gl"
@@ -84,7 +81,7 @@ bool GLViewPrivate::OnReshape (GLView* View, GdkEventConfigure *event)
 
 bool GLViewPrivate::OnDraw (GLView* View, G_GNUC_UNUSED cairo_t *cr) 
 {
-	/* Draw only last expose. */
+	// Draw only last expose.
 	GdkEventExpose *event = reinterpret_cast < GdkEventExpose * > (gtk_get_current_event ());
 	if (event && event->type == GDK_EXPOSE && event->count > 0)
 		return TRUE;
@@ -96,8 +93,9 @@ bool GLViewPrivate::OnDraw (GLView* View, G_GNUC_UNUSED cairo_t *cr)
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		View->m_Doc->Draw (View->m_Euler);
 		View->GLEnd ();
-		/* Swap backbuffer to front */
-//		gdk_gl_drawable_swap_buffers (gldrawable);
+		// Swap backbuffer to front
+		// FIXME: make this compatible with non X11 backends
+		glXSwapBuffers (GDK_WINDOW_XDISPLAY (View->m_Window), GDK_WINDOW_XID (View->m_Window));		
 	}
 	return true;
 }
@@ -121,7 +119,7 @@ bool GLViewPrivate::OnMotion (G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *e
 		View->Rotate (x - View->m_Lastx, y - View->m_Lasty);
 		View->m_Lastx = x;
 		View->m_Lasty = y;
-		gtk_widget_queue_draw_area(View->m_pWidget, 0, 0, View->m_WindowWidth, View->m_WindowHeight);
+		gtk_widget_queue_draw_area(View->m_Widget, 0, 0, View->m_WindowWidth, View->m_WindowHeight);
 	}
 	return true;
 }
@@ -137,18 +135,14 @@ bool GLViewPrivate::OnPressed (G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *
   return false;
 }
 
-static void on_config_changed (GOConfNode *node, gchar const *key, G_GNUC_UNUSED gpointer data)
-{
-	if (!strcmp (key, ROOTDIR"off-screen-rendering"))
-		OffScreenRendering = go_conf_get_bool (node, key);
-}
-
 GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (pDoc), Printable ()
 {
 	m_bInit = false;
 /* Create new OpenGL widget. */
+	static bool inited = false;
 //	if (glconfig == NULL)
-	{
+	if (!inited) {
+		inited = true;
 		/* Check if OpenGL is supported. */
 		if (!glXQueryExtension (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), NULL, NULL))
 			throw  std::runtime_error ("*** OpenGL is not supported.\n");
@@ -161,21 +155,20 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 //											GDK_GL_MODE_DOUBLE));
 //		if (glconfig == NULL)
 //			throw  std::runtime_error ("*** Cannot find the double-buffered visual.\n");
-		m_ConfNode = go_conf_get_node (gcugtk::Application::GetConfDir (), GCU_CONF_DIR_GL);
-		GCU_GCONF_GET_NO_CHECK ("off-screen-rendering", bool, OffScreenRendering, true)
-		m_NotificationId = go_conf_add_monitor (m_ConfNode, "off-screen-rendering", (GOConfMonitorFunc) on_config_changed, NULL);
 	}
 	/* create new OpenGL widget */
-	m_pWidget = GTK_WIDGET (gtk_drawing_area_new());
+	m_Widget = GTK_WIDGET (gtk_drawing_area_new ());
+	gtk_widget_set_double_buffered (m_Widget, false);
+	m_Window = gtk_widget_get_window (m_Widget);
 	
 	/* Set OpenGL-capability to the widget. */
-//	gtk_widget_set_gl_capability(m_pWidget,
+//	gtk_widget_set_gl_capability(m_Widget,
 //					glconfig,
 //					NULL,
 //					TRUE,
 //					GDK_GL_RGBA_TYPE);
 	
-	gtk_widget_set_events(GTK_WIDGET(m_pWidget),
+	gtk_widget_set_events (GTK_WIDGET (m_Widget),
 		GDK_EXPOSURE_MASK |
 		GDK_POINTER_MOTION_MASK |
 		GDK_POINTER_MOTION_HINT_MASK |
@@ -184,33 +177,29 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 	
 	// Connect signal handlers
 	// Do initialization when widget has been realized.
-	g_signal_connect_swapped (G_OBJECT (m_pWidget), "realize",
+	g_signal_connect_swapped (G_OBJECT (m_Widget), "realize",
 				G_CALLBACK (GLViewPrivate::OnInit), this);
 	// When window is resized viewport needs to be resized also.
-	g_signal_connect_swapped (G_OBJECT (m_pWidget), "configure_event",
+	g_signal_connect_swapped (G_OBJECT (m_Widget), "configure_event",
 				G_CALLBACK (GLViewPrivate::OnReshape), this);
 	// Redraw image when exposed. 
-	g_signal_connect_swapped (G_OBJECT (m_pWidget), "draw",
+	g_signal_connect_swapped (G_OBJECT (m_Widget), "draw",
 				G_CALLBACK (GLViewPrivate::OnDraw), this);
 	// When moving mouse 
-	g_signal_connect (G_OBJECT (m_pWidget), "motion_notify_event",
+	g_signal_connect (G_OBJECT (m_Widget), "motion_notify_event",
 				G_CALLBACK (GLViewPrivate::OnMotion), this);
 	// When a mouse button is pressed
-	g_signal_connect (G_OBJECT (m_pWidget), "button_press_event",
+	g_signal_connect (G_OBJECT (m_Widget), "button_press_event",
 				G_CALLBACK (GLViewPrivate::OnPressed), this);
 	
-	gtk_widget_show (GTK_WIDGET (m_pWidget));
+	gtk_widget_show (GTK_WIDGET (m_Widget));
 	nbViews++;
 }
 
 GLView::~GLView ()
 {
 	nbViews--;
-	if (!nbViews) {
-		go_conf_remove_monitor (m_NotificationId);
-		go_conf_free_node (m_ConfNode);
-		m_ConfNode = NULL;
-		m_NotificationId = 0;
+	if (!nbViews) { // FIXME: do we still need that?
 	}
 }
 
@@ -223,7 +212,7 @@ void GLView::Update()
 		GLEnd ();
     }
 	Reshape (m_WindowWidth, m_WindowHeight);
-	gtk_widget_queue_draw (m_pWidget);
+	gtk_widget_queue_draw (m_Widget);
 }
 
 void GLView::Reshape (int width, int height) 
@@ -395,7 +384,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 		double dxStep, dyStep;
 		unsigned char *tmp, *dest, *src, *dst;
 		unsigned LineWidth, s = sizeof(int);
-		gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget))); 
+		gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (m_Widget))); 
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
 		if (m_WindowWidth & (s - 1))
@@ -420,8 +409,8 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 		{
 			for (i = 0; i <= imax; i++)
 			{
-				GdkGLContext *glcontext = gtk_widget_get_gl_context (m_pWidget);
-				GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);
+				GdkGLContext *glcontext = gtk_widget_get_gl_context (m_Widget);
+				GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_Widget);
 				if (gdk_gl_drawable_gl_begin (gldrawable, glcontext))
 				{
 					glMatrixMode (GL_PROJECTION);

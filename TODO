@@ -37,7 +37,6 @@
 	* support 3d structures (0.14?).
 
 * Spectrum viewer:
-	* support FFT for FIDs.
 	* support inclusion of zoomed partials.
 	* import varian files (0.14?)
 

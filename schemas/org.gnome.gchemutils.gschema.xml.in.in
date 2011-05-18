@@ -1,14 +1,6 @@
 <schemalist>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils" path="/apps/gchemutils/">
-    <child name="gl" schema="org.gnome.gchemutils.gl" />
     <child name="printsetup" schema="org.gnome.gchemutils.printsetup" />
-  </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.gl" path="/apps/gchemutils/gl/">
-    <key name="off-screen-rendering" type="b">
-      <default>true</default>
-      <_summary>Off screen rendering</_summary>
-      <_description>Whether to use off-screen rendering when printing or exporting as an image. Setting it to true might lead to a crash with some video cards drivers.</_description>
-    </key>
   </schema>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.printsetup" path="/apps/gchemutils/printsetup/">
     <key name="preferred-unit" type="s">
