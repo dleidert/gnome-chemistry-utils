@@ -46,8 +46,6 @@ using namespace std;
 
 namespace gcu
 {
-GOConfNode *GLView::m_ConfNode = NULL;
-guint GLView::m_NotificationId = 0;
 int GLView::nbViews = 0;
 
 // Callbacks
@@ -83,12 +81,6 @@ static bool on_pressed(G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event, G
 	return View->OnPressed (event);
 }
 
-static void on_config_changed (GOConfNode *node, gchar const *key, G_GNUC_UNUSED gpointer data)
-{
-	if (!strcmp (key, ROOTDIR"off-screen-rendering"))
-		OffScreenRendering = go_conf_get_bool (node, key);
-}
-
 // GLView implementation
 #define GCU_CONF_DIR_GL "gl"
 
@@ -116,9 +108,6 @@ GLView::GLView (GLDocument* pDoc) throw (std::runtime_error): Printable ()
 											GDK_GL_MODE_DOUBLE));
 		if (glconfig == NULL)
 			throw  runtime_error ("*** Cannot find the double-buffered visual.\n");
-		m_ConfNode = go_conf_get_node (Application::GetConfDir (), GCU_CONF_DIR_GL);
-		GCU_GCONF_GET_NO_CHECK ("off-screen-rendering", bool, OffScreenRendering, true)
-		m_NotificationId = go_conf_add_monitor (m_ConfNode, "off-screen-rendering", (GOConfMonitorFunc) on_config_changed, NULL);
 	}
 	/* create new OpenGL widget */
 	m_pWidget = GTK_WIDGET(gtk_drawing_area_new());
@@ -161,10 +150,8 @@ GLView::~GLView ()
 {
 	nbViews--;
 	if (!nbViews) {
-		go_conf_remove_monitor (m_NotificationId);
-		go_conf_free_node (m_ConfNode);
-		m_ConfNode = NULL;
-		m_NotificationId = 0;
+		g_object_unref (glconfig);
+		glconfig = NULL;
 	}
 }
 
@@ -380,7 +367,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 		drawable = gdk_pixmap_get_gl_drawable (pixmap);
 		context = gdk_gl_context_new (drawable,
 						     NULL,
-						     TRUE,
+						     false,
 						     GDK_GL_RGBA_TYPE);
 	}
 	double aspect = (GLfloat) width / height;
@@ -396,7 +383,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 	}
 	GdkPixbuf *pixbuf = NULL;
 	gdk_error_trap_push ();
-	bool result = OffScreenRendering && gl_pixmap && gdk_gl_drawable_gl_begin (drawable, context);
+	bool result = gl_pixmap && gdk_gl_drawable_gl_begin (drawable, context);
 	gdk_flush ();
 	if (gdk_error_trap_pop ())
 		result = false;

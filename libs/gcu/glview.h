@@ -169,8 +169,6 @@ private:
 	int m_WindowHeight, m_WindowWidth;
 	double m_Height, m_Width, m_Near, m_Far;
 	double m_Lastx, m_Lasty;
-	static GOConfNode *m_ConfNode;
-	static guint m_NotificationId;
 	static int nbViews;
 
 // Properties

@@ -1,3 +1,7 @@
+Version 0.12.9
+	libgcu:
+		* Fixed OpenGL using offscreen rendering.
+
 Version 0.12.8
 	GChemPaint:
 		* Fixed build with gcc-4.6. [#32363]

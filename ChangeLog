@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-05-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gchemutils.schemas.in: removed the offscreen option.
+	* libs/gcu/glview.cc: fixed offscreen rendering.
+	* libs/gcu/glview.h: removed the offscreen option.
+
 2011-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.12.9).
 
