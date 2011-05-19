@@ -36,7 +36,7 @@
 
 using namespace std;
 
-gc3dApplication::gc3dApplication (Display3DMode display3d, char const *bg):
+gc3dApplication::gc3dApplication (gcu::Display3DMode display3d, char const *bg):
 	gcugtk::Application (_("GChem3D Viewer"), DATADIR, "gchem3d"),
 	m_Display3D (display3d)
 {
@@ -76,7 +76,7 @@ gc3dDocument *gc3dApplication::OnFileNew ()
 	gc3dDocument* Doc = new gc3dDocument (this);
 	Doc->SetTitle (_("GChem3D Viewer"));
 	Doc->SetDisplay3D (m_Display3D);
-	GLView *view = Doc->GetView ();
+	gcu::GLView *view = Doc->GetView ();
 	view->SetRed (m_Red);
 	view->SetGreen (m_Green);
 	view->SetBlue (m_Blue);
@@ -114,7 +114,7 @@ static cairo_status_t cairo_write_func (void *closure, const unsigned char *data
 	return result ? CAIRO_STATUS_SUCCESS : CAIRO_STATUS_WRITE_ERROR;
 }
 
-bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc)
+bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *Doc)
 {
 	gc3dDocument *pDoc = dynamic_cast <gc3dDocument *> (Doc);
 	if(bSave) {

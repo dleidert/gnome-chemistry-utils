@@ -28,6 +28,7 @@
 #include "printable.h"
 #include <gcu/glview.h>
 #include <gtk/gtk.h>
+#include <GL/glx.h>
 
 namespace gcugtk {
 
@@ -102,6 +103,8 @@ private:
 	bool m_bInit;
 	static int nbViews;
 	GdkWindow *m_Window;
+	GLXContext m_Context;
+	XVisualInfo *m_VisualInfo;
 };
 
 }	//	namespace gcugtk

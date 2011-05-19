@@ -27,8 +27,6 @@
 
 #include <gcugtk/dialog.h>
 
-using namespace gcu;
-
 class gcApplication;
 
 class gcPrefsDlg: public gcugtk::Dialog

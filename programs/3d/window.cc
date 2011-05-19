@@ -86,7 +86,7 @@ static void on_color_changed (GOActionComboColor *combo, gc3dWindow *window)
 
 static void on_display (GtkRadioAction *action, G_GNUC_UNUSED GtkRadioAction *current, G_GNUC_UNUSED gc3dWindow *window)
 {
-	window->GetDoc ()->SetDisplay3D (static_cast <Display3DMode> (gtk_radio_action_get_current_value (action)));
+	window->GetDoc ()->SetDisplay3D (static_cast <gcu::Display3DMode> (gtk_radio_action_get_current_value (action)));
 	window->GetView ()->Update ();
 }
 
@@ -192,16 +192,16 @@ static GtkActionEntry entries[] = {
 static GtkRadioActionEntry radios[] = {
 	{ "BallnStick", NULL, N_("Balls and sticks"), NULL,
 		N_("Display a balls and sticks model"),
-		BALL_AND_STICK },
+		gcu::BALL_AND_STICK },
 	{ "SpaceFill", "NULL", N_("Space filling"), NULL,
 		N_("Display a space filling model"),
-		SPACEFILL },
+		gcu::SPACEFILL },
 	{ "Cylinders", "NULL", N_("Cylinders"), NULL,
 		N_("Display a cylinders model"),
-		CYLINDERS },
+		gcu::CYLINDERS },
 	{ "Wireframe", "NULL", N_("Wireframe"), NULL,
 		N_("Display a wireframe model"),
-		WIREFRAME },
+		gcu::WIREFRAME },
 };
 
 static const char *ui_description =
@@ -294,16 +294,16 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	m_View->SetWindow (this);
 	gtk_container_add (GTK_CONTAINER (vbox), m_View->GetWidget ());
 	switch (Doc->GetDisplay3D ()) {
-	case BALL_AND_STICK:
+	case gcu::BALL_AND_STICK:
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (gtk_action_group_get_action (action_group, "BallnStick")), true);
 		break;
-	case SPACEFILL:
+	case gcu::SPACEFILL:
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (gtk_action_group_get_action (action_group, "SpaceFill")), true);
 		break;
-	case CYLINDERS:
+	case gcu::CYLINDERS:
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (gtk_action_group_get_action (action_group, "Cylinders")), true);
 		break;
-	case WIREFRAME:
+	case gcu::WIREFRAME:
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (gtk_action_group_get_action (action_group, "Wireframe")), true);
 		break;
 	}

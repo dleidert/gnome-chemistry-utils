@@ -78,7 +78,7 @@ gcDocument::~gcDocument ()
 {
 	g_free (m_filename);
 	Reinit ();
-	Dialog *dialog;
+	gcu::Dialog *dialog;
 	while (!m_Dialogs.empty ()) {
 		dialog = m_Dialogs.front ();
 		m_Dialogs.pop_front ();
@@ -562,7 +562,7 @@ void gcDocument::OnExportVRML (const string &FileName) const
 		file << "Background{skyColor " << x0 << " " << x1 << " " << x2 << "}" << endl;
 		file << "Viewpoint {fieldOfView " << m_pActiveView->GetFoV()/90*1.570796326794897 <<"\tposition 0 0 " << m_pActiveView->GetPos() / 100 << "}" << endl;
 		m_pActiveView->GetRotation(&x0, &x1, &x2);
-		Matrix m(x0/90*1.570796326794897, x1/90*1.570796326794897, x2/90*1.570796326794897, euler);
+		gcu::Matrix m(x0/90*1.570796326794897, x1/90*1.570796326794897, x2/90*1.570796326794897, gcu::euler);
 		file << "Transform {" << endl << "\tchildren [" << endl;
 	
 		std::map<std::string, sAtom>::iterator k;

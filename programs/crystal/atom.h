@@ -31,8 +31,6 @@
 #include <libxml/xmlmemory.h>
 #include <gcr/atom.h>
 
-using namespace gcu;
-
 class gcAtom: public gcr::Atom 
 {
 public:

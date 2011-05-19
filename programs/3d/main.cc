@@ -58,21 +58,21 @@ static char const *Display3DModeNames[] = {
 	"wireframe"
 };
 
-static Display3DMode display3d_mode_from_string (char const *mode)
+static gcu::Display3DMode display3d_mode_from_string (char const *mode)
 {
 	if (mode == NULL)
-		return BALL_AND_STICK;
+		return  gcu::BALL_AND_STICK;
 	// first ensure the string is in lower case
 	char lcmode[16];
-	int i, max = strlen (mode), res = WIREFRAME;
+	int i, max = strlen (mode), res = gcu::WIREFRAME;
 	if (max > 15)
-		return BALL_AND_STICK;
+		return  gcu::BALL_AND_STICK;
 	for (i = 0; i < max; i++)
 		lcmode[i] = tolower (mode[i]);
 	lcmode[i] = 0;
-	while (res >= BALL_AND_STICK && strcmp (lcmode, Display3DModeNames[res]))
+	while (res >=  gcu::BALL_AND_STICK && strcmp (lcmode, Display3DModeNames[res]))
 		res--;
-	return (Display3DMode) res;
+	return static_cast < gcu::Display3DMode > (res);
 }
 
 
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
-	Element::LoadBODR ();
+	gcu::Element::LoadBODR ();
 
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file]"));

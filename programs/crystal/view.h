@@ -36,8 +36,6 @@ class gcDocument;
 class gcApplication;
 class gcWindow;
 
-using namespace gcu;
-
 class gcView: public gcr::View
 {
 public:
@@ -57,7 +55,7 @@ public:
 private:
 
 	GtkMenuItem* m_pMenu;
-	std::list <Dialog *> m_Dialogs;
+	std::list <gcu::Dialog *> m_Dialogs;
 	gcWindow *m_Window;
 };
 

@@ -53,6 +53,20 @@ public:
 // Callbacks
 bool GLViewPrivate::OnInit (GLView* View) 
 {
+	// Initialize the GLX stuff
+	gtk_widget_set_double_buffered (View->m_Widget, false);
+	View->m_Window = gtk_widget_get_window (View->m_Widget);
+	int const attr_list[] = {
+		GLX_RGBA,
+		GLX_DOUBLEBUFFER,
+		GLX_RED_SIZE, 1,
+		GLX_GREEN_SIZE, 1,
+		GLX_BLUE_SIZE, 1,
+		GLX_DEPTH_SIZE, 1,
+		0
+	};
+	View->m_VisualInfo = glXChooseVisual (GDK_WINDOW_XDISPLAY (View->m_Window), gdk_screen_get_number (gdk_window_get_screen (View->m_Window)), const_cast < int * > (attr_list));
+	View->m_Context = glXCreateContext (GDK_WINDOW_XDISPLAY (View->m_Window), View->m_VisualInfo, NULL, true);
 	if (View->GLBegin ()) {
 	    glEnable (GL_LIGHTING);
 		glEnable (GL_LIGHT0);
@@ -95,7 +109,7 @@ bool GLViewPrivate::OnDraw (GLView* View, G_GNUC_UNUSED cairo_t *cr)
 		View->GLEnd ();
 		// Swap backbuffer to front
 		// FIXME: make this compatible with non X11 backends
-		glXSwapBuffers (GDK_WINDOW_XDISPLAY (View->m_Window), GDK_WINDOW_XID (View->m_Window));		
+		glXSwapBuffers (GDK_WINDOW_XDISPLAY (View->m_Window), GDK_WINDOW_XID (View->m_Window));	
 	}
 	return true;
 }
@@ -158,9 +172,6 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 	}
 	/* create new OpenGL widget */
 	m_Widget = GTK_WIDGET (gtk_drawing_area_new ());
-	gtk_widget_set_double_buffered (m_Widget, false);
-	m_Window = gtk_widget_get_window (m_Widget);
-	
 	/* Set OpenGL-capability to the widget. */
 //	gtk_widget_set_gl_capability(m_Widget,
 //					glconfig,
@@ -201,6 +212,8 @@ GLView::~GLView ()
 	nbViews--;
 	if (!nbViews) { // FIXME: do we still need that?
 	}
+	glXDestroyContext (GDK_WINDOW_XDISPLAY (m_Window), m_Context);
+	XFree (m_VisualInfo);
 }
 
 void GLView::Update()
@@ -468,11 +481,12 @@ osmesa:
 
 bool GLView::GLBegin ()
 {
-	return false;
+	return glXMakeCurrent (GDK_WINDOW_XDISPLAY (m_Window), GDK_WINDOW_XID (m_Window), m_Context);
 }
 
 void GLView::GLEnd ()
 {
+	// seems nothing is needed there
 }
 
 }	//	namespace gcugtk

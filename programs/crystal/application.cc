@@ -35,12 +35,11 @@
 #include <glib/gi18n.h>
 #include <cstring>
 
-using namespace gcu;
 using namespace std;
 
 static unsigned short nNewDocs = 1;
 
-static Object *CreateAtom ()
+static gcu::Object *CreateAtom ()
 {
 	return new gcAtom ();
 }
@@ -53,8 +52,8 @@ gcApplication::gcApplication(): gcr::Application ()
 	m_SupportedMimeTypes.push_back ("application/x-gcrystal");
 	m_WriteableMimeTypes.push_back ("application/x-gcrystal");
 	// browse available loaders
-	map<string, LoaderStruct>::iterator it;
-	bool found = Loader::GetFirstLoader (it);
+	map<string, gcu::LoaderStruct>::iterator it;
+	bool found = gcu::Loader::GetFirstLoader (it);
 	while (found) {
 		if ((*it).second.supportsCrystals) {
 			if ((*it).second.read)
@@ -63,10 +62,10 @@ gcApplication::gcApplication(): gcr::Application ()
 			if ((*it).second.write)
 				AddMimeType (m_WriteableMimeTypes, (*it).first);
 		}
-		found = Loader::GetNextLoader (it);
+		found = gcu::Loader::GetNextLoader (it);
 	}
 	if (!m_bInit) {
-		AddType ("atom", CreateAtom, AtomType);
+		AddType ("atom", CreateAtom, gcu::AtomType);
 		m_bInit = true;
 	}
 }
@@ -176,7 +175,7 @@ static cairo_status_t cairo_write_func (void *closure, const unsigned char *data
 	return result ? CAIRO_STATUS_SUCCESS : CAIRO_STATUS_WRITE_ERROR;
 }
 
-bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc)
+bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc)
 {
 	gcDocument *Doc = static_cast<gcDocument*> (pDoc);
 	int type = GCRYSTAL;
@@ -280,7 +279,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			}
 			case CIF:
 			case CML: {
-				Save (filename2, mime_type, Doc, ContentTypeCrystal);
+				Save (filename2, mime_type, Doc, gcu::ContentTypeCrystal);
 				GtkRecentData data;
 				data.display_name = (char*) Doc->GetTitle ();
 				data.description = NULL;
@@ -357,8 +356,8 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 					return true;
 			}
 		}
-		ContentType ctype = Load (filename, mime_type, Doc);
-		if (ctype == ContentTypeCrystal) {
+		gcu::ContentType ctype = Load (filename, mime_type, Doc);
+		if (ctype == gcu::ContentTypeCrystal) {
 			Doc->Loaded ();
 			Doc->SetReadOnly (true);
 			Doc->UpdateAllViews ();
@@ -374,7 +373,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			data.is_private =  FALSE;
 			gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
 			goto normal_exit;
-		} else if (ctype != ContentTypeUnknown) {
+		} else if (ctype != gcu::ContentTypeUnknown) {
 			// FIXME: open using the appropriate program.
 			return false;
 		}

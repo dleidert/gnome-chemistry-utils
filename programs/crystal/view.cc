@@ -64,7 +64,7 @@ gcView::gcView (gcView *pView):
 gcView::~gcView ()
 {
 	gtk_widget_destroy (GTK_WIDGET(m_pMenu));
-	Dialog *dialog;
+	gcu::Dialog *dialog;
 	while (!m_Dialogs.empty ()) {
 		dialog = m_Dialogs.front();
 		m_Dialogs.pop_front();

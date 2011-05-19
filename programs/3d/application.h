@@ -28,23 +28,21 @@
 #include <gcugtk/application.h>
 #include <gcu/chem3ddoc.h>
 
-using namespace gcu;
-
 class gc3dDocument;
 
 class gc3dApplication: public gcugtk::Application
 {
 public:
-	gc3dApplication (Display3DMode display3d = BALL_AND_STICK, char const *bg = "black");
+	gc3dApplication (gcu::Display3DMode display3d = gcu::BALL_AND_STICK, char const *bg = "black");
 	~gc3dApplication ();
 
 	gc3dDocument *OnFileNew ();
 	void OnFileOpen (gc3dDocument *Doc);
 	void OnSaveAsImage (gc3dDocument *Doc);
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
+	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 	void OnQuit ();
 
-GCU_RO_PROP (Display3DMode, Display3D)
+GCU_RO_PROP (gcu::Display3DMode, Display3D)
 GCU_RO_PROP (float, Red);
 GCU_RO_PROP (float, Green);
 GCU_RO_PROP (float, Blue);

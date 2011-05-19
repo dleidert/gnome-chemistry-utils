@@ -62,7 +62,7 @@ bool gcAtom::LoadOld (xmlNodePtr node, unsigned version)
 		if (!strcmp ((gchar*) child->name, "element")) {
 			txt = (char*) xmlNodeGetContent (child);
 			if (txt) {
-				m_Z = Element::Z (txt);
+				m_Z = gcu::Element::Z (txt);
 				xmlFree (txt);
 			}
 		} else if (!strcmp ((gchar*) child->name, "position")) {
