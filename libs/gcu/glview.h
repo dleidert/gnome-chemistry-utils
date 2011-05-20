@@ -91,7 +91,7 @@ Generates a pixbuf from the current view.
 
 @return the pixbuf containing the generated image
 */
-	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height) const;
+	virtual GdkPixbuf *BuildPixbuf (unsigned width, unsigned height) const;
 /*!
 @param cr a cairo_t.
 @param width the width used for rendering. 

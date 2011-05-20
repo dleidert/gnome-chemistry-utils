@@ -321,41 +321,34 @@ void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *c
 
 GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 {
-#if 0
-	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
-		GdkGLConfigMode (GDK_GL_MODE_RGBA | GDK_GL_MODE_DEPTH));
-	GdkPixmap *pixmap = gdk_pixmap_new (NULL, width, height, 24);
-	GdkGLPixmap *gl_pixmap = gdk_pixmap_set_gl_capability (pixmap,
-							       glconfig,
-							       NULL );
-	GdkGLDrawable *drawable = NULL;
-	GdkGLContext *context = NULL;
-	if (gl_pixmap != NULL) {
-		drawable = gdk_pixmap_get_gl_drawable (pixmap);
-		context = gdk_gl_context_new (drawable,
-						     NULL,
-						     TRUE,
-						     GDK_GL_RGBA_TYPE);
-	}
-	double aspect = (GLfloat) width / height;
-	double x = m_Doc->GetMaxDist (), w, h;
-	if (x == 0)
-		x = 1;
-	if (aspect > 1.0) {
-		h = x * (1 - tan (GetAngle () / 360 * M_PI));
-		w = h * aspect;
-	} else {
-		w = x * (1 - tan (GetAngle () / 360 * M_PI));
-		h = w / aspect;
-	}
 	GdkPixbuf *pixbuf = NULL;
-	gdk_error_trap_push ();
-	bool result = OffScreenRendering && gl_pixmap && gdk_gl_drawable_gl_begin (drawable, context);
-	gdk_flush ();
-	if (gdk_error_trap_pop ())
-		result = false;
-	
-	if (result) {
+	// Create the pixmap
+	Pixmap pixmap = XCreatePixmap (GDK_WINDOW_XDISPLAY (m_Window), GDK_WINDOW_XID (m_Window), width, height, 32);
+	int const attr_list[] = {
+		GLX_RGBA,
+		GLX_RED_SIZE, 1,
+		GLX_GREEN_SIZE, 1,
+		GLX_BLUE_SIZE, 1,
+		GLX_ALPHA_SIZE, 1,
+		GLX_DEPTH_SIZE, 1,
+		0
+	};
+	XVisualInfo *xvi = glXChooseVisual (GDK_WINDOW_XDISPLAY (m_Window), gdk_screen_get_number (gdk_window_get_screen (m_Window)), const_cast < int * > (attr_list));
+	GLXContext ctxt = glXCreateContext (GDK_WINDOW_XDISPLAY (m_Window), xvi, NULL, false);
+	GLXPixmap glxp = glXCreateGLXPixmap (GDK_WINDOW_XDISPLAY (m_Window), xvi, pixmap);
+	// draw
+	if (glXMakeCurrent (GDK_WINDOW_XDISPLAY (m_Window), glxp, ctxt)) {
+		double aspect = (GLfloat) width / height;
+		double x = m_Doc->GetMaxDist (), w, h;
+		if (x == 0)
+			x = 1;
+		if (aspect > 1.0) {
+			h = x * (1 - tan (GetAngle () / 360 * M_PI));
+			w = h * aspect;
+		} else {
+			w = x * (1 - tan (GetAngle () / 360 * M_PI));
+			h = w / aspect;
+		}
 	    glEnable (GL_LIGHTING);
 		glEnable (GL_LIGHT0);
 		glEnable (GL_DEPTH_TEST);
@@ -389,94 +382,21 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 		GetDoc ()->Draw(m_Euler);
 		glDisable (GL_BLEND);
 		glFlush ();
-		gdk_gl_drawable_gl_end (drawable);
-		pixbuf = gdk_pixbuf_get_from_drawable (NULL,
-			(GdkDrawable*) pixmap, NULL, 0, 0, 0, 0, -1, -1);
-	} else if (m_bInit) {
-		unsigned hstep, vstep;
-		double dxStep, dyStep;
-		unsigned char *tmp, *dest, *src, *dst;
-		unsigned LineWidth, s = sizeof(int);
-		gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (m_Widget))); 
-		while (gtk_events_pending ())
-			gtk_main_iteration ();
-		if (m_WindowWidth & (s - 1))
-			LineWidth = ((~(s - 1)) & (m_WindowWidth * 3)) + s;
-		else
-			LineWidth = m_WindowWidth * 3;
-		unsigned size = LineWidth * m_WindowHeight;
-		int i, j;
-		hstep = m_WindowWidth;
-		vstep = m_WindowHeight;
-		tmp = new unsigned char[size];
-		if (!tmp)
-			goto osmesa;
-		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, false, 8, (int) width, (int) height);
-		dest = gdk_pixbuf_get_pixels (pixbuf);
-		int n, m, imax, jmax, rowstride =  gdk_pixbuf_get_rowstride (pixbuf);
-		imax = width / hstep;
-		jmax = height / vstep;
-		dxStep = ((double) hstep) / width * 2; 
-		dyStep = ((double) vstep) / height * 2;
-		for (j = 0; j <= jmax; j++)
-		{
-			for (i = 0; i <= imax; i++)
-			{
-				GdkGLContext *glcontext = gtk_widget_get_gl_context (m_Widget);
-				GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_Widget);
-				if (gdk_gl_drawable_gl_begin (gldrawable, glcontext))
-				{
-					glMatrixMode (GL_PROJECTION);
-					glLoadIdentity ();
-					if (GetAngle () > 0.)
-						glFrustum (w * ( -1 + i * dxStep), w * ( -1 + (i + 1)* dxStep),
-								h * ( 1 - (j + 1)* dyStep), h * ( 1 - j* dyStep), m_Near , m_Far);
-					else
-						glOrtho (w * ( -1 + i * dxStep), w * ( -1 + (i + 1)* dxStep),
-								h * ( 1 - (j + 1)* dyStep), h * ( 1 - j* dyStep), m_Near , m_Far);
-					glMatrixMode(GL_MODELVIEW);
-					glLoadIdentity();
-					glTranslatef(0, 0, - m_Radius);
-					glClearColor (GetRed (), GetGreen (), GetBlue (), GetAlpha ());
-					glClearDepth (1.0);
-					glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-					m_Doc->Draw (m_Euler);
-					glFlush ();
-					gdk_gl_drawable_gl_end (gldrawable);
-					glPixelStorei (GL_PACK_ALIGNMENT, s);
-					glReadBuffer (GL_BACK_LEFT);
-					glReadPixels (0, 0, m_WindowWidth, m_WindowHeight, GL_RGB,
-										GL_UNSIGNED_BYTE, tmp);
-					// copy the data to the pixbuf.
-					// linesize
-					m = (i < imax)? hstep * 3: (width - imax * hstep) * 3;
-					src = tmp + (vstep - 1) * LineWidth;
-					dst = dest + j * vstep * rowstride + i * hstep * 3;
-					for (n = 0; n < (int) ((j < jmax)? vstep: height - jmax * vstep); n++) {
-						memcpy (dst, src, m);
-						src -= LineWidth;
-						dst += rowstride;
-					}
-				} else {
-					g_object_unref (pixbuf);
-					pixbuf = NULL;
-					goto osmesa;
-				}
-			}
-		}
-		delete [] tmp;
-	} else
-osmesa:
-		pixbuf = gcu::GLView::BuildPixbuf (width, height);
-	if (context)
-		gdk_gl_context_destroy (context);
-	if (gl_pixmap)
-		gdk_gl_pixmap_destroy (gl_pixmap);
-	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
-	const_cast <GLView *> (this)->Update ();
+	}
+	// get the pixels and copy to a GdkPixbuf
+	XImage *image = XGetImage (GDK_WINDOW_XDISPLAY (m_Window), pixmap, 0, 0, width, height, AllPlanes, ZPixmap);
+	int size = 4 * width * height;
+	guchar *data = reinterpret_cast < guchar * > (g_malloc (size));
+	memcpy (data, image->data, size);
+	// FIXME: we might have bit or byte order issues there
+	pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, true, 8, width, height, 4 * width, reinterpret_cast < GdkPixbufDestroyNotify > (g_free), NULL);
+	XDestroyImage (image);
+	// now free things
+	glXDestroyGLXPixmap (GDK_WINDOW_XDISPLAY (m_Window), glxp);
+	glXDestroyContext (GDK_WINDOW_XDISPLAY (m_Window), ctxt);
+	XFree (xvi);
+	XFreePixmap (GDK_WINDOW_XDISPLAY (m_Window), pixmap);
 	return pixbuf;
-#endif
-	return NULL;
 }
 
 bool GLView::GLBegin ()

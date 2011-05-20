@@ -126,7 +126,7 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 	}
 }
 
-GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
+GdkPixbuf *GLView::BuildPixbuf (G_GNUC_UNUSED unsigned width, G_GNUC_UNUSED unsigned height) const
 {
 	GdkPixbuf *pixbuf = NULL;
 	g_warning ("Off-screen rendering not supported in this context");
