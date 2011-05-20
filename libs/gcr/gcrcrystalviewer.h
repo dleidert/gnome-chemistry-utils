@@ -95,11 +95,12 @@ void	gcr_crystal_viewer_set_data	(GcrCrystalViewer * viewer, xmlNodePtr node);
 @param viewer a pointer to a GcrCrystalViewer widget.
 @param width the width of the new pixbuf.
 @param height the height of the new pixbuf.
+@param use_bg whether to use the window background or a transparent background.
 
 Renders the scene to a newly allocated pixbuf.
 \return the new GdkPixbuf*.
 */
-GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, guint width, guint height);
+GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, guint width, guint height, gboolean use_bg);
 
 /*!
 @param viewer a pointer to a GcrCrystalViewer widget.

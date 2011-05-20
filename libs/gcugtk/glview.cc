@@ -299,7 +299,7 @@ void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *c
 		break;
 	}
 	double scale = 300. / 72.;
-	GdkPixbuf *pixbuf = BuildPixbuf (w * scale, h * scale);
+	GdkPixbuf *pixbuf = BuildPixbuf (w * scale, h * scale, false);
 	GOImage *img = go_image_new_from_pixbuf (pixbuf);
 	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
 	cairo_matrix_t cr_matrix;
@@ -319,7 +319,7 @@ void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *c
 	g_object_unref (pixbuf);
 }
 
-GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
+GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) const
 {
 	GdkPixbuf *pixbuf = NULL;
 	// Create the pixmap
@@ -375,7 +375,10 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 	    glMatrixMode (GL_MODELVIEW);
 		glLoadIdentity ();
 		glTranslatef (0, 0, -m_Radius);
-		glClearColor (GetRed (), GetGreen (), GetBlue (), GetAlpha ());
+		if (use_bg)
+			glClearColor (GetRed (), GetGreen (), GetBlue (), GetAlpha ());
+		else
+			glClearColor (0., 0., 0., 0.);
 		glClearDepth (1.0);
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable (GL_BLEND);

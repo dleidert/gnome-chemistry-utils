@@ -326,7 +326,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				}
 				cairo_t *cr = cairo_create (surface);
 				cairo_surface_destroy (surface);
-				Doc->GetView ()->RenderToCairo (cr, GetImageWidth (), GetImageHeight ());
+				Doc->GetView ()->RenderToCairo (cr, GetImageWidth (), GetImageHeight (), true);
 				cairo_destroy (cr);
 				break;
 			}

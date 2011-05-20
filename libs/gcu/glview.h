@@ -78,28 +78,31 @@ Sets the orientation of the model, using the Euler's angles.
 @param options the pairs of keys/values to pass GdkPixbuf.
 @param width the width of the generated image.
 @param height the height of the generated image.
+@param use_bg whether to use the window background or a transparent background.
 
 Export the view contents as an image. The size of the new image is defined by the width
 and height parameters.
 */
-	void SaveAsImage (std::string const &filename, char const *type, std::map<std::string, std::string>& options, unsigned width, unsigned height) const;
+	void SaveAsImage (std::string const &filename, char const *type, std::map<std::string, std::string>& options, unsigned width, unsigned height, bool use_bg) const;
 /*!
 @param width the width of the generated image.
 @param height the height of the generated image.
+@param use_bg whether to use the window background or a transparent background.
 
 Generates a pixbuf from the current view.
 
 @return the pixbuf containing the generated image
 */
-	virtual GdkPixbuf *BuildPixbuf (unsigned width, unsigned height) const;
+	virtual GdkPixbuf *BuildPixbuf (unsigned width, unsigned height, bool use_bg) const;
 /*!
 @param cr a cairo_t.
 @param width the width used for rendering. 
 @param height the height used for rendering. 
+@param use_bg whether to use the window background or a transparent background.
 
 Outputs a bitmap to cairo. Used internally for printing and various image formats exports.
 */
-	void RenderToCairo (cairo_t *cr, unsigned width, unsigned height) const;
+	void RenderToCairo (cairo_t *cr, unsigned width, unsigned height, bool use_bg) const;
 
 protected:
 /*!

@@ -168,9 +168,9 @@ void gcr_crystal_viewer_set_data (GcrCrystalViewer * viewer, xmlNodePtr node)
 	viewer->pView->Update ();
 }
 
-GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, guint width, guint height)
+GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, guint width, guint height, gboolean use_bg)
 {
-	return viewer->pDoc->GetView ()->BuildPixbuf (width, height);
+	return viewer->pDoc->GetView ()->BuildPixbuf (width, height, use_bg);
 }
 
 static gcu::Application *App = NULL;

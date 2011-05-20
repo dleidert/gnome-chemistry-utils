@@ -79,12 +79,13 @@ Prints the current view at 300 dpi.
 /*!
 @param width the width of the generated image.
 @param height the height of the generated image.
+@param use_bg whether to use the window background or a transparent background.
 
 Generates a pixbuf from the current view.
 
 @return the pixbuf containing the generated image
 */
-	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height) const;
+	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height, bool use_bg) const;
 
 protected:
 	virtual bool GLBegin ();

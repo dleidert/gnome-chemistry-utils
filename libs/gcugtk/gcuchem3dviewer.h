@@ -132,11 +132,12 @@ void	gcu_chem3d_viewer_set_data	(GcuChem3DViewer * viewer, const gchar * data, c
 @param viewer a pointer to a GcuChem3DViewer widget.
 @param width the width of the new pixbuf.
 @param height the height of the new pixbuf.
+@param use_bg whether to use the window background or a transparent background.
 
 Renders the scene to a newly allocated pixbuf.
 \return the new GdkPixbuf*.
 */
-GdkPixbuf *gcu_chem3d_viewer_new_pixbuf (GcuChem3DViewer * viewer, guint width, guint height);
+GdkPixbuf *gcu_chem3d_viewer_new_pixbuf (GcuChem3DViewer * viewer, guint width, guint height, gboolean use_bg);
 
 G_END_DECLS
 

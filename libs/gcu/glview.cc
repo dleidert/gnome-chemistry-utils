@@ -94,12 +94,12 @@ static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gp
 	return true;
 }
 
-void GLView::SaveAsImage (string const &filename, char const *type, map<string, string>& options, unsigned width, unsigned height) const
+void GLView::SaveAsImage (string const &filename, char const *type, map<string, string>& options, unsigned width, unsigned height, bool use_bg) const
 {
 	if (width == 0 || height == 0)
 		return;
 
-	GdkPixbuf *pixbuf = BuildPixbuf (width, height);
+	GdkPixbuf *pixbuf = BuildPixbuf (width, height, use_bg);
 
 	if (pixbuf != NULL) {
 		char const **keys = g_new0 (char const*, options.size () + 1);
@@ -126,7 +126,7 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 	}
 }
 
-GdkPixbuf *GLView::BuildPixbuf (G_GNUC_UNUSED unsigned width, G_GNUC_UNUSED unsigned height) const
+GdkPixbuf *GLView::BuildPixbuf (G_GNUC_UNUSED unsigned width, G_GNUC_UNUSED unsigned height, G_GNUC_UNUSED bool use_bg) const
 {
 	GdkPixbuf *pixbuf = NULL;
 	g_warning ("Off-screen rendering not supported in this context");
@@ -134,10 +134,10 @@ GdkPixbuf *GLView::BuildPixbuf (G_GNUC_UNUSED unsigned width, G_GNUC_UNUSED unsi
 	return pixbuf;
 }
 
-void GLView::RenderToCairo (cairo_t *cr, unsigned width, unsigned height) const
+void GLView::RenderToCairo (cairo_t *cr, unsigned width, unsigned height, bool use_bg) const
 {
 	double scale = 300. / 72.;
-	GdkPixbuf *pixbuf = BuildPixbuf (width * scale, height * scale);
+	GdkPixbuf *pixbuf = BuildPixbuf (width * scale, height * scale, use_bg);
 	GOImage *img = go_image_new_from_pixbuf (pixbuf);
 	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
 	cairo_matrix_t cr_matrix;

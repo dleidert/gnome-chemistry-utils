@@ -133,7 +133,7 @@ bool GOGCrystalApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *dat
 void GOGCrystalApplication::Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height)
 {
 	gcr::Document *doc = static_cast <gcr::Document *> (gogcu->document);
-	doc->GetView ()->RenderToCairo (cr, width, height);
+	doc->GetView ()->RenderToCairo (cr, width, height, false);
 }
 
 void GOGCrystalApplication::UpdateBounds (GOGChemUtilsComponent *gogcu)
