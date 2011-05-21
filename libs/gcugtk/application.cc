@@ -107,7 +107,7 @@ GtkWidget *Application::GetImageResolutionWidget ()
 	w = builder->GetWidget ("transparent-btn");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GetTransparentBackground ());
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_transparency_changed), this);
-	w = builder->GetRefdWidget ("res-table");
+	w = builder->GetRefdWidget ("res-grid");
 	delete builder;
 	return w;
 }
@@ -121,7 +121,10 @@ GtkWidget *Application::GetImageSizeWidget ()
 	w = builder->GetWidget ("height");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), GetImageHeight ());
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_height_changed), this);
-	w = builder->GetRefdWidget ("size-table");
+	w = builder->GetWidget ("transparent-btn");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), GetTransparentBackground ());
+	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_transparency_changed), this);
+	w = builder->GetRefdWidget ("size-grid");
 	delete builder;
 	return w;
 }

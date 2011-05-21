@@ -106,10 +106,10 @@ bool GLViewPrivate::OnDraw (GLView* View, G_GNUC_UNUSED cairo_t *cr)
 		glClearColor (View->GetRed (), View->GetGreen (), View->GetBlue (), View->GetAlpha ());
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		View->m_Doc->Draw (View->m_Euler);
-		View->GLEnd ();
 		// Swap backbuffer to front
 		// FIXME: make this compatible with non X11 backends
 		glXSwapBuffers (GDK_WINDOW_XDISPLAY (View->m_Window), GDK_WINDOW_XID (View->m_Window));	
+		View->GLEnd ();
 	}
 	return true;
 }
@@ -393,6 +393,9 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) co
 	memcpy (data, image->data, size);
 	// FIXME: we might have bit or byte order issues there
 	pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, true, 8, width, height, 4 * width, reinterpret_cast < GdkPixbufDestroyNotify > (g_free), NULL);
+	// reset the current context
+	glXMakeCurrent (GDK_WINDOW_XDISPLAY (m_Window), None, NULL);
+	// now free things
 	XDestroyImage (image);
 	// now free things
 	glXDestroyGLXPixmap (GDK_WINDOW_XDISPLAY (m_Window), glxp);
@@ -409,7 +412,7 @@ bool GLView::GLBegin ()
 
 void GLView::GLEnd ()
 {
-	// seems nothing is needed there
+	glXMakeCurrent (GDK_WINDOW_XDISPLAY (m_Window), None, NULL);
 }
 
 }	//	namespace gcugtk

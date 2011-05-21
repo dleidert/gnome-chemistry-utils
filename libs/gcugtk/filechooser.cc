@@ -92,13 +92,9 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
 		if (extra_widget) {
-			if (GTK_IS_TABLE (extra_widget)) {
-				GtkTable *t = GTK_TABLE (extra_widget);
-				guint rows, cols;
-				g_object_get (G_OBJECT (t), "n-rows", &rows, "n-columns", &cols, NULL);
-				gtk_table_resize (t, rows + 1, cols);
+			if (GTK_IS_CONTAINER (extra_widget)) {
 				gtk_box_pack_start (GTK_BOX (box), gtk_label_new (""), TRUE, TRUE, 0);
-				gtk_table_attach (t, box, 0, cols, rows, rows + 1, GTK_FILL, static_cast<GtkAttachOptions> (0), 0, 0);
+				gtk_container_add (GTK_CONTAINER (extra_widget), box);
 			} else
 				g_warning ("not implemented, please file a bug report");
 		} else

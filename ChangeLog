@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2011-05-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcugtk/application.cc: add a transparency check button in image size dialog.
+	* libs/gcugtk/filechooser.cc: use GtkGrid as extra widget.
+	* libs/gcugtk/glview.cc: unset the GL context when done.
+	* programs/3d/application.cc: export images with transparent background when
+	requested.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* ui/libgcu/gcuperiodic.ui: request Gtk+-3.0.
+	* ui/libgcu/image-resolution.ui: use a GtkGrid.
+	* ui/libgcu/image-size.ui: add a transparency check button.
+	* ui/libgcu/print-setup.ui: update to Gtk+-3.0.
+
 2011-05-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogcrystalapp.cc: use a transparent background.
 	* libs/gcr/gcrcrystalviewer.cc: allow for a transparent background.

@@ -729,7 +729,7 @@ const char* gcDocument::GetProgramId () const
 
 void gcDocument::SaveAsImage (const string &filename, char const *type, map<string, string>& options)
 {
-	m_pActiveView->SaveAsImage (filename, type, options, GetApp ()->GetImageWidth (), GetApp ()->GetImageHeight (), true);
+	m_pActiveView->SaveAsImage (filename, type, options, GetApp ()->GetImageWidth (), GetApp ()->GetImageHeight (), !m_App->GetTransparentBackground ());
 }
 
 bool gcDocument::LoadNewView (xmlNodePtr node)

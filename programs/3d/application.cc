@@ -210,11 +210,11 @@ bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type
 				}
 				cr = cairo_create (surface);
 				cairo_surface_destroy (surface);
-				pDoc->GetView ()->RenderToCairo (cr, GetImageWidth (), GetImageHeight (), true);
+				pDoc->GetView ()->RenderToCairo (cr, GetImageWidth (), GetImageHeight (), !GetTransparentBackground ());
 				cairo_destroy (cr);
 			}
 			else
-				pDoc->GetView ()->SaveAsImage (filename2, pixbuf_type, options, GetImageWidth (), GetImageHeight (), true);
+				pDoc->GetView ()->SaveAsImage (filename2, pixbuf_type, options, GetImageWidth (), GetImageHeight (), !GetTransparentBackground ());
 		}
 	} else {
 		if (pDoc && !pDoc->IsEmpty ())
