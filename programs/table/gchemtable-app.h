@@ -48,12 +48,12 @@ public:
 	void SetColorScheme (char const *name);
 	void SetTemperature (double T);
  	void SetFamily (int family_N);
-	void GetStateColor (int Z, GdkColor *color);
-	void GetFamilyColor (int Z, GdkColor *color);
-	void GetAcidityColor (int Z, GdkColor *color);
-	void GetElectronegColor (int Z, GdkColor *color);
-	void GetRadiusColor (int Z, GdkColor *color);
-	void GetBlockColor (int Z, GdkColor *color);
+	void GetStateColor (int Z, GdkRGBA *rgba);
+	void GetFamilyColor (int Z, GdkRGBA *rgba);
+	void GetAcidityColor (int Z, GdkRGBA *rgba);
+	void GetElectronegColor (int Z, GdkRGBA *rgba);
+	void GetRadiusColor (int Z, GdkRGBA *rgba);
+	void GetBlockColor (int Z, GdkRGBA *rgba);
 	void OnNewChart (char const *name);
 	void OnSaveAsImage (GChemTableCurve *curve);
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc);

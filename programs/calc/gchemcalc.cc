@@ -719,7 +719,7 @@ int main (int argc, char *argv[])
 		 G_CALLBACK (gtk_main_quit),
 		 NULL);
 	
-	GtkWidget *vbox = builder->GetWidget ("vbox1");
+	GtkWidget *grid = builder->GetWidget ("calc-grid");
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
 	App->SetUIManager (ui_manager);
 	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
@@ -735,8 +735,7 @@ int main (int argc, char *argv[])
 		exit (EXIT_FAILURE);
 	}
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
-	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (vbox), bar, 0);
+	gtk_grid_attach (GTK_GRID (grid), bar, 0, 0, 2, 1);
 	App->markup = GTK_LABEL (builder->GetWidget ("markup"));
 	App->raw = GTK_LABEL (builder->GetWidget ("raw"));
 	App->weight = GTK_LABEL (builder->GetWidget ("weight"));
@@ -772,7 +771,8 @@ int main (int argc, char *argv[])
 	App->graph_widget = go_graph_widget_new (NULL);
 	g_signal_connect_swapped (App->graph_widget, "size-allocate", G_CALLBACK (GChemCalc::OnSize), App);
 	gtk_widget_show (App->graph_widget);
-	gtk_box_pack_end (GTK_BOX (App->pattern_page), App->graph_widget, TRUE, TRUE, 0);
+	gtk_grid_attach (GTK_GRID (App->pattern_page), App->graph_widget, 0, 1, 2, 1);
+	g_object_set (G_OBJECT (App->graph_widget), "hexpand", true, "vexpand", true, NULL);
 	App->graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (App->graph_widget));
 	App->chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (App->graph_widget));
 	App->plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
@@ -802,7 +802,7 @@ int main (int argc, char *argv[])
 		cb_entry_active (GTK_ENTRY (w), App->window);
 	}
 
-	w = builder->GetWidget ("notebook1");
+	w = builder->GetWidget ("calc-book");
 	g_signal_connect (w, "switch-page", G_CALLBACK (on_page), NULL);
 	on_page (NULL, NULL, 0); // force menus deactivation
 

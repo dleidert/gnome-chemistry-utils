@@ -244,9 +244,9 @@ static const char *ui_description =
 "  </menubar>"
 "</ui>";
 
-static void get_state_color (int Z, GdkColor *color, GChemTableApp *App)
+static void get_state_color (int Z, GdkRGBA *rgba, GChemTableApp *App)
 {
-	App->GetStateColor (Z, color);
+	App->GetStateColor (Z, rgba);
 }
 
 static void on_changed_temp (GtkRange *range, GChemTableApp *app)
@@ -259,29 +259,29 @@ static void on_changed_family (GtkComboBox *box,  GChemTableApp *app)
 	app->SetFamily (gtk_combo_box_get_active (box));
 }
 
-static void get_family_color (int Z, GdkColor *color, GChemTableApp *App)
+static void get_family_color (int Z, GdkRGBA *rgba, GChemTableApp *App)
 {
-	App->GetFamilyColor (Z, color);
+	App->GetFamilyColor (Z, rgba);
 }
 
-static void get_acidity_color (int Z, GdkColor *color, GChemTableApp *App)
+static void get_acidity_color (int Z, GdkRGBA *rgba, GChemTableApp *App)
 {
-	App->GetAcidityColor (Z, color);
+	App->GetAcidityColor (Z, rgba);
 }
 
-static void get_electroneg_color (int Z, GdkColor *color, GChemTableApp *App)
+static void get_electroneg_color (int Z, GdkRGBA *rgba, GChemTableApp *App)
 {
-	App->GetElectronegColor (Z, color);
+	App->GetElectronegColor (Z, rgba);
 }
 
-static void get_radius_color (int Z, GdkColor *color, GChemTableApp *App)
+static void get_radius_color (int Z, GdkRGBA *rgba, GChemTableApp *App)
 {
-	App->GetRadiusColor (Z, color);
+	App->GetRadiusColor (Z, rgba);
 }
 
-static void get_block_color (int Z, GdkColor *color, GChemTableApp *App)
+static void get_block_color (int Z, GdkRGBA *rgba, GChemTableApp *App)
 {
-	App->GetBlockColor (Z, color);
+	App->GetBlockColor (Z, rgba);
 }
 
 static void on_destroy (GChemTableApp *App)
@@ -292,7 +292,7 @@ static void on_destroy (GChemTableApp *App)
 
 GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 {
-	GtkVBox* vbox;
+	GtkWidget *grid;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (GTK_WINDOW (window), _("Periodic table of the elements"));
@@ -300,10 +300,9 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 	g_signal_connect_swapped (G_OBJECT (window), "delete-event",
 		 G_CALLBACK (on_destroy),
 		 this);
-
-	g_object_set (G_OBJECT(window), "allow-shrink", FALSE, NULL);
 	
-	vbox = (GtkVBox*)gtk_vbox_new(FALSE, 0);
+	grid = gtk_grid_new ();
+	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
 	// add menus
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
 	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
@@ -319,15 +318,17 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 		exit (EXIT_FAILURE);
 	}
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
-	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (grid), bar);
 	periodic = GCU_PERIODIC (gcu_periodic_new());
-	g_object_set(G_OBJECT(periodic),
-			"color-style", GCU_PERIODIC_COLOR_DEFAULT,
-			"can_unselect", true,
-			NULL);
+	g_object_set (G_OBJECT(periodic),
+				"margin", 6,
+				"color-style", GCU_PERIODIC_COLOR_DEFAULT,
+				"can_unselect", true,
+	            "expand", true,
+				NULL);
 	g_signal_connect(G_OBJECT(periodic), "element_changed", (GCallback)on_changed, this);
-	gtk_box_pack_end (GTK_BOX(vbox), GTK_WIDGET(GCU_PERIODIC(periodic)), true, true, 0);
-	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(vbox));
+	gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (periodic));
+	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (grid));
 	gtk_widget_show_all(window);
 	g_object_unref (ui_manager);
 	for (int i = 0; i < 118; i++)
@@ -464,16 +465,16 @@ void GChemTableApp::SetFamily (int family_N)
 	gcu_periodic_set_colors (periodic);
 }
 
-void GChemTableApp::GetStateColor (int Z, GdkColor *color)
+void GChemTableApp::GetStateColor (int Z, GdkRGBA *rgba)
 {
-	color->red= color->green = color->blue = 0;
+	rgba->red= rgba->green = rgba->blue = 0.;
 	Element *elt = Element::GetElement (Z);
 	Value const *value = elt->GetProperty ("meltingpoint");
 	if (!value)
 		return;
 	double t = value->GetAsDouble ();
 	if (t > temperature) {
-		color->blue = 0xffff;
+		rgba->blue = 1.;
 		return;
 	}
 	value = elt->GetProperty ("boilingpoint");
@@ -481,15 +482,15 @@ void GChemTableApp::GetStateColor (int Z, GdkColor *color)
 		return;
 	t = value->GetAsDouble ();
 	if (t > temperature) {
-		color->green = 0xffff;
+		rgba->green = 1.;
 		return;
 	}
-	color->red = 0xffff;
+	rgba->red = 1.;
 }
 
-void GChemTableApp::GetFamilyColor (int Z, GdkColor *color)
+void GChemTableApp::GetFamilyColor (int Z, GdkRGBA *rgba)
 {
-	color->red= color->green = color->blue = 0;
+	rgba->red= rgba->green = rgba->blue = 0;
         Element *elt = Element::GetElement (Z);
 	std::string &value = elt->GetStringProperty ("family");
 	if (!value.length())
@@ -509,68 +510,68 @@ void GChemTableApp::GetFamilyColor (int Z, GdkColor *color)
 	
 	if (value == "Alkali_Earth") {
 		if (family & 1)
-			color->blue = 0x8eff;
+			rgba->blue = 0.558;
 		return;
 	}
 
 	if (value == "Alkaline_Earth") {
 		if (family & 2)
-			color->blue = 0xffff;
+			rgba->blue = 1.;
 		return;
 	}
 
 	if (value == "Non-Metal") {
 		if (family & 0x20)
-			color->green = 0xffff;
+			rgba->green = 1.;
 		return;
 	}
 
 	if (value == "Metalloids") {
 		if (family & 8)
-			color->green = 0x8eff;
+			rgba->green = 0.558;
 		return;
 	}
 
 	if (value == "Transition") {
 		if (family & 0x80) {
-			color->red = 0xffff;
-			color->green = 0xffff;
+			rgba->red = 1.;
+			rgba->green = 1.;
 		}
 		return;
 	}
 
 	if (value == "Other_Metal") {
 		if (family & 0x100) {
-			color->red = 0xffff;
-			color->green = 0x8eff;
+			rgba->red = 1.;
+			rgba->green = 0.558;
 		}
 		return;
 	}
 
 	if (value == "Halogene") {
 		if (family & 4)
-			color->red = 0xffff;
+			rgba->red = 1.;
 		return;
 	}
 
 	if (value == "Noblegas") {
 		if (family & 0x10)
-			color->red = 0x8eff; 
+			rgba->red = 0.558; 
 		return;
 	}
 
 	if (value == "Rare_Earth") {
 		if (family & 0x40) {
-			color->red = 0xffff;
-			color->blue = 0xffff;
+			rgba->red = 1.;
+			rgba->blue = 1.;
 		}
 		return;
 	}
 }
 
-void GChemTableApp::GetAcidityColor (int Z, GdkColor *color)
+void GChemTableApp::GetAcidityColor (int Z, GdkRGBA *rgba)
 {
-	color->red= color->green = color->blue = 0;
+	rgba->red= rgba->green = rgba->blue = 0.;
 	Element *elt = Element::GetElement (Z);
 	int value = elt->GetIntegerProperty ("acidicbehaviour");
 	if (value == GCU_ERROR)
@@ -585,31 +586,31 @@ void GChemTableApp::GetAcidityColor (int Z, GdkColor *color)
 
 	switch (value) {
 	case 0:
-		color->red = 0xffff;
+		rgba->red = 1.;
 		return;
 
 	case 1:
-		color->blue = 0xffff;
+		rgba->blue = 1.;
 		return;
 
 	case 2:
-		color->green = 0xffff;
+		rgba->green = 1.;
 		return;
 
 	case 3:
-		color->red = 0xffff;
-		color->blue = 0xffff;
+		rgba->red = 1.;
+		rgba->blue =1.;
 		return;
 	}
 }
 
-void GChemTableApp::GetElectronegColor (int Z, GdkColor *color)
+void GChemTableApp::GetElectronegColor (int Z, GdkRGBA *rgba)
 {
 	double max=3.98;
 	double min=0.7;
 	double limit;
 
-	color->red= color->green = color->blue = 0;
+	rgba->red= rgba->green = rgba->blue = 0;
 	Element *elt = Element::GetElement (Z);
 	Value const *value = elt->GetProperty ("electronegativityPauling");
 	if (!value)
@@ -620,22 +621,22 @@ void GChemTableApp::GetElectronegColor (int Z, GdkColor *color)
 	limit = 0.5 * (max - min);
 
 	if (en < limit) {
-		color->red = 0xffff;
-		color->blue = static_cast<guint16> ((en - min) * 0xffff / (limit - min));
+		rgba->red = 1.;
+		rgba->blue = (en - min) / (limit - min);
 	} else {
-		color->blue = 0xffff;
-		color->red= static_cast<guint16> ((en - max) * 0xffff / (limit - max));
+		rgba->blue = 1.;
+		rgba->red= (en - max) / (limit - max);
 	}
 
 }
 
-void GChemTableApp::GetRadiusColor (int Z, GdkColor *color)
+void GChemTableApp::GetRadiusColor (int Z, GdkRGBA *rgba)
 {
 	double max=2.25;
 	double min=0.32;
 	double limit;
 
-	color->red = color->green = color->blue = 0;
+	rgba->red = rgba->green = rgba->blue = 0.;
 	Element *elt = Element::GetElement (Z);
 	Value const *value = elt->GetProperty ("radiusCovalent");
 	if (!value)
@@ -646,41 +647,41 @@ void GChemTableApp::GetRadiusColor (int Z, GdkColor *color)
 	limit = 0.5 * (max - min);
 
 	if (radius < limit) {
-		color->red = 0xffff;
-		color->blue = static_cast<guint16> ((radius - min) * 0xffff / (limit - min));
+		rgba->red = 1.;
+		rgba->blue = (radius - min) / (limit - min);
 	} else {
-		color->blue = 0xffff;
-		color->red= static_cast<guint16> ((radius - max) * 0xffff / (limit - max));
+		rgba->blue = 1.;
+		rgba->red= (radius - max) / (limit - max);
 	}
 
 }
 
-void GChemTableApp::GetBlockColor (int Z, GdkColor *color)
+void GChemTableApp::GetBlockColor (int Z, GdkRGBA *rgba)
 {
-	color->red= color->green = color->blue = 0;
+	rgba->red= rgba->green = rgba->blue = 0.;
         Element *elt = Element::GetElement (Z);
 	std::string &value = elt->GetStringProperty ("periodTableBlock");
 	if (!value.length())
 		return;
 
 	if (value == "s") {
-		color->blue = 0x8eff;
+		rgba->blue = 0.558;
 		return;
 	}
 
 	if (value == "p") {
-		color->red = 0x8eff;
+		rgba->red = 0.558;
 		return;
 	}
 
 	if (value == "d") {
-		color->green = 0x8eff;
+		rgba->green = 0.558;
 		return;
 	}
 
 	if (value == "f") {
-		color->blue = 0x8eff;
-		color->red = 0x8eff;
+		rgba->blue = 0.558;
+		rgba->red = 0.558;
 		return;
 	}
 }

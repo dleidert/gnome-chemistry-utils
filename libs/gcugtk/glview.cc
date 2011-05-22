@@ -388,10 +388,21 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) co
 	}
 	// get the pixels and copy to a GdkPixbuf
 	XImage *image = XGetImage (GDK_WINDOW_XDISPLAY (m_Window), pixmap, 0, 0, width, height, AllPlanes, ZPixmap);
-	int size = 4 * width * height;
-	guchar *data = reinterpret_cast < guchar * > (g_malloc (size));
-	memcpy (data, image->data, size);
-	// FIXME: we might have bit or byte order issues there
+	unsigned i = 4 * width * height, j;
+	guchar *data = reinterpret_cast < guchar * > (g_malloc (i)), *dst = data;
+	guchar *src_line = reinterpret_cast < guchar * > (image->data), *src;
+	// FIXME: we might have bit or byte order issues there, looks like the XImage is in BGRA format
+	for (j = 0; j < height; j++) {
+		src = src_line;
+		src_line += image->bytes_per_line;
+		for (i = 0; i < width; i++) {
+			dst[2] = *(src++);
+			dst[1] = *(src++);
+			dst[0] = *(src++);
+			dst[3] = *(src++);
+			dst += 4;
+		}
+	}
 	pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, true, 8, width, height, 4 * width, reinterpret_cast < GdkPixbufDestroyNotify > (g_free), NULL);
 	// reset the current context
 	glXMakeCurrent (GDK_WINDOW_XDISPLAY (m_Window), None, NULL);

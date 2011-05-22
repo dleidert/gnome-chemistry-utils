@@ -1,5 +1,5 @@
 SUBDIRS = po database ui pixmaps libs plugins programs mozilla-plugin \
-	openbabel osmesa gnumeric goffice templates themes samples tests \
+	openbabel gnumeric goffice templates themes samples tests \
 	dtds docs schemas
 
 EXTRA_DIST= \

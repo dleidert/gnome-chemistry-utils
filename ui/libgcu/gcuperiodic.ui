@@ -7,6 +7,7 @@
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
     <property name="row_homogeneous">True</property>
+    <property name="column_homogeneous">True</property>
     <child>
       <object class="GtkToggleButton" id="elt1">
         <property name="label">H</property>
@@ -1791,7 +1792,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="label2">
+      <object class="GtkLabel" id="lanthanides-lbl">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="xalign">0</property>
@@ -1807,7 +1808,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="label1">
+      <object class="GtkLabel" id="actinides-lbl">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="xalign">0</property>
@@ -1829,7 +1830,11 @@
         <property name="show_tabs">False</property>
         <property name="show_border">False</property>
         <child>
-          <placeholder/>
+          <object class="GtkLabel" id="placeholder">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="expand">true</property>
+          </object>
         </child>
       </object>
       <packing>
@@ -1838,15 +1843,6 @@
         <property name="width">10</property>
         <property name="height">3</property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
     </child>
   </object>
 </interface>

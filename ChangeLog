@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2011-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: don't build osmesa related code anymore.
+	* configure.ac: ditto.
+	* libs/gcugtk/glview.cc: fix byte order.
+	* programs/calc/gchemcalc.cc: cleaned code.
+	* programs/table/gchemtable-app.cc: fix color display in table.
+	* programs/table/gchemtable-app.h: ditto.
+	* ui/calc/gchemcalc.ui: ported to Gtk+-3.0.
+	* ui/libgcu/gcuperiodic.ui: make it homogeneous.
+
 2011-05-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcugtk/application.cc: add a transparency check button in image size dialog.
 	* libs/gcugtk/filechooser.cc: use GtkGrid as extra widget.
