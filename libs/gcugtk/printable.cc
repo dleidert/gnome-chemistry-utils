@@ -167,6 +167,8 @@ Printable::Printable ():
 	m_Scale = 1.;
 	m_HorizFit = m_VertFit = true;
 	m_HPages = m_VPages = 1;
+	m_HasBackground = false;
+	m_PrintBackground = false;
 }
 
 Printable::~Printable ()

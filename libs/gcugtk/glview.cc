@@ -35,9 +35,6 @@
 
 namespace gcugtk {
 
-//static GdkGLConfig *glconfig = NULL;
-int GLView::nbViews = 0;
-
 #define GCU_CONF_DIR_GL "gl"
 
 class GLViewPrivate
@@ -204,14 +201,11 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 				G_CALLBACK (GLViewPrivate::OnPressed), this);
 	
 	gtk_widget_show (GTK_WIDGET (m_Widget));
-	nbViews++;
+	SetHasBackground (true);
 }
 
 GLView::~GLView ()
 {
-	nbViews--;
-	if (!nbViews) { // FIXME: do we still need that?
-	}
 	glXDestroyContext (GDK_WINDOW_XDISPLAY (m_Window), m_Context);
 	XFree (m_VisualInfo);
 }
@@ -299,7 +293,7 @@ void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *c
 		break;
 	}
 	double scale = 300. / 72.;
-	GdkPixbuf *pixbuf = BuildPixbuf (w * scale, h * scale, false);
+	GdkPixbuf *pixbuf = BuildPixbuf (w * scale, h * scale, GetPrintBackground ());
 	GOImage *img = go_image_new_from_pixbuf (pixbuf);
 	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
 	cairo_matrix_t cr_matrix;

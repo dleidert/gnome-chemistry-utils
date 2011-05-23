@@ -31,6 +31,7 @@
 #include "chemistry.h"
 #include "isotope.h"
 #include "value.h"
+#include "macros.h"
 
 /*!\file */ 
 /*!\def GCU_ERROR
@@ -302,6 +303,7 @@ private:
 	std::map<std::string, std::string> sprops;
 	std::map<std::string, int> iprops;
 	std::string ElecConfig;
+GCU_RO_PROP (bool, Stability)
 };
 
 } // namespace gcu

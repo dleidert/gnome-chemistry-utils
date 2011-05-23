@@ -261,6 +261,18 @@ etimation is available.
 */
 GcuDimensionalValue const *gcu_element_get_electron_affinity (int Z, int N);
 /*!
+\param Z: the atomic number.
+
+\return the atomic weight as a string without units which needs to be freed with a g_free() call.
+*/
+char *gcu_element_get_weight_as_string (int Z);
+/*!
+\param Z: the atomic number.
+
+\return the electronic configuration as a pango markup.
+*/
+char const *gcu_element_get_electronic_configuration (int Z);
+ /*!
 \param Z: the atomic number of the element.
 
 \return a pointer to the array of pointers to GcuAtomicRadius structures for all known radii for the element.

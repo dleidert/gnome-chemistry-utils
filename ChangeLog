@@ -1,3 +1,22 @@
+2011-05-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* libs/gcu/chemistry.cc:
+	* libs/gcu/chemistry.h:
+	* libs/gcu/element.cc:
+	* libs/gcu/element.h:
+	* libs/gcugtk/gcuperiodic.c (gcu_periodic_add_color_scheme),
+	(gcu_periodic_set_tips):
+	* libs/gcugtk/gcuperiodic.h:
+	* libs/gcugtk/glview.cc:
+	* libs/gcugtk/glview.h:
+	* libs/gcugtk/print-setup-dlg.cc:
+	* libs/gcugtk/printable.cc:
+	* libs/gcugtk/printable.h:
+	* programs/table/gchemtable-app.cc:
+	* ui/libgcu/print-setup.ui:
+
 ##Text encoding: utf-8
 
 2011-05-22  Jean Bréfort  <jean.brefort@normalesup.org>

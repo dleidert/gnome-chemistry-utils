@@ -47,6 +47,12 @@ enum GcuPeriodicColorSchemes
   GCU_PERIODIC_COLOR_MAX,
 };
 
+enum GcuPeriodicTipSchemes
+{
+	GCU_PERIODIC_TIP_NAME,
+	GCU_PERIODIC_TIP_STANDARD
+};
+
 /*!\return the GType associated to GcuPeriodic */
 #define GCU_TYPE_PERIODIC		  (gcu_periodic_get_type ())
 /*!
@@ -168,7 +174,10 @@ int					gcu_periodic_add_color_scheme	(GcuPeriodic *periodic,
 Forces the update of the current color scheme. This is useful when the color scheme depends
 upon a parameter which has changed.
 */
-void				gcu_periodic_set_colors(GcuPeriodic *periodic);
+void				gcu_periodic_set_colors (GcuPeriodic *periodic);
+
+void				gcu_periodic_set_tips (GcuPeriodic *periodic, unsigned scheme);
+
 G_END_DECLS
 
 #endif //GCU_PERIODIC_H

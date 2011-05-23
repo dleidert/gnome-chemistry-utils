@@ -43,6 +43,7 @@ struct _GcuPeriodic
 	unsigned colorstyle;
 	GArray *colorschemes;
 	unsigned nbschemes;
+	unsigned tips;
 };
 
 struct _GcuPeriodicClass
@@ -397,4 +398,50 @@ int	gcu_periodic_add_color_scheme (GcuPeriodic *periodic,
 	s.data = user_data;
 	g_array_append_val (periodic->colorschemes, s);
 	return GCU_PERIODIC_COLOR_MAX + periodic->nbschemes++;
+}
+
+void gcu_periodic_set_tips (GcuPeriodic *periodic, unsigned scheme)
+{
+	if (scheme != periodic->tips) {
+		int i;
+		periodic->tips = scheme;
+		switch (scheme) {
+		default:
+		case GCU_PERIODIC_TIP_NAME:
+			for (i = 1; i <= 118; i++) {
+				if (periodic->buttons[i])
+					gtk_widget_set_tooltip_text (GTK_WIDGET (periodic->buttons[i]), gcu_element_get_name (i));
+			}
+			break;
+		case GCU_PERIODIC_TIP_STANDARD:
+			for (i = 1; i <= 118; i++) {
+				GtkWidget *win, *grid, *w;
+				char *markup, *str;
+				char const *conf;
+				if (!periodic->buttons[i])
+					continue;
+				win = gtk_window_new (GTK_WINDOW_POPUP);
+				gtk_widget_set_name (win, "gtk-tooltip");
+				grid = gtk_grid_new ();
+				gtk_container_add (GTK_CONTAINER (win), grid);
+				w = GTK_WIDGET (g_object_new (GTK_TYPE_LABEL, "xalign", 0., NULL));
+				markup = g_strdup_printf ("%u", i);
+				gtk_label_set_text (GTK_LABEL (w), markup);
+				g_free (markup);
+				gtk_grid_attach (GTK_GRID (grid), w, 0, 0, 1, 1);
+				str = gcu_element_get_weight_as_string (i);
+				conf = gcu_element_get_electronic_configuration (i);
+				w = GTK_WIDGET (g_object_new (GTK_TYPE_LABEL, "justify", GTK_JUSTIFY_CENTER, NULL));
+				markup = g_strdup_printf ("<span face=\"Sans\" size=\"xx-large\">%s</span>\n%s\n%s\n%s",
+				                          gcu_element_get_symbol (i), gcu_element_get_name (i), (conf)? conf: "", (str)? str: "");
+				g_free (str);
+				gtk_label_set_markup (GTK_LABEL (w), markup);
+				g_free (markup);
+				gtk_grid_attach (GTK_GRID (grid), w, 0, 1, 1, 1);
+				gtk_widget_show_all (grid);
+				gtk_widget_set_tooltip_window (GTK_WIDGET (periodic->buttons[i]), GTK_WINDOW (win));
+			}
+			break;
+		}
+	}
 }

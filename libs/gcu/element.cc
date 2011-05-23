@@ -212,7 +212,8 @@ void EltTable::AddElement(Element* Elt)
 
 Element::Element(int Z, const char* Symbol):
 	m_AtomicWeight (NULL),
-	m_MetallicCached (false)
+	m_MetallicCached (false),
+	m_Stability (false)
 {
 	m_Z = Z;
 	strncpy(m_Symbol, Symbol, 3);
@@ -711,6 +712,7 @@ void Element::LoadIsotopes ()
 					}
 					num = (char*) xmlGetProp (child, (xmlChar*) "abundance");
 					if (num) {
+						Elt->m_Stability = true;
 						ReadValue (num, Is->abundance);
 						xmlFree (num);
 						niso++;

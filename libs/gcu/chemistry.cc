@@ -126,7 +126,7 @@ char *gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
 		s << std::fixed << value->value << '(' << delta << ") " << value->unit;
 	} else {
 		s.precision (value->prec);
-		s << std::fixed << value->value << value->unit;
+		s << std::fixed << value->value << " " << value->unit;
 	}
 	str = strdup (s.str ().c_str ());
 	return str;
@@ -140,6 +140,23 @@ GcuDimensionalValue const *gcu_element_get_ionization_energy (int Z, int rank)
 GcuDimensionalValue const *gcu_element_get_electron_affinity (int Z, int rank)
 {
 	return Element::GetElement(Z)->GetElectronAffinity (rank);
+}
+
+char *gcu_element_get_weight_as_string (int Z)
+{
+	Element *elt = Element::GetElement (Z);
+	gcu::DimensionalValue const *value = (elt)? elt->GetWeight (): NULL;
+	if (value) {
+		GcuDimensionalValue val = value->GetValue ();
+		return elt->GetStability ()? gcu_value_get_string (reinterpret_cast < GcuValue * > (&val)): g_strdup_printf("(%g)", val.value);
+	} else
+		return NULL;
+}
+
+char const *gcu_element_get_electronic_configuration (int Z)
+{
+	Element *elt = Element::GetElement (Z);
+	return (elt)? elt->GetElectronicConfiguration ().c_str (): NULL;
 }
 
 } //extern "C"

@@ -335,6 +335,7 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 		Pages[i] = NULL;
 	
 	gcu::Element::LoadAllData ();
+	gcu_periodic_set_tips (periodic, GCU_PERIODIC_TIP_STANDARD);
 	colorschemes["none"] = GCU_PERIODIC_COLOR_NONE;
 	colorschemes["default"] = GCU_PERIODIC_COLOR_DEFAULT;
 

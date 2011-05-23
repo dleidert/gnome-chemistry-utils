@@ -102,7 +102,6 @@ The associated widget.
 
 private:
 	bool m_bInit;
-	static int nbViews;
 	GdkWindow *m_Window;
 	GLXContext m_Context;
 	XVisualInfo *m_VisualInfo;

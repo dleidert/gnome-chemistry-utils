@@ -249,6 +249,8 @@ Sets the full height in pages of the printing, when printing to several pages.
 spread as a reference.
 */
 GCU_PROP (int, VPages)
+GCU_PROP (bool, HasBackground)
+GCU_PROP (bool, PrintBackground)
 };
 
 /*!
