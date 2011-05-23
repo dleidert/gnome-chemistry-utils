@@ -1,23 +1,19 @@
-2011-05-23  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* libs/gcu/chemistry.cc:
-	* libs/gcu/chemistry.h:
-	* libs/gcu/element.cc:
-	* libs/gcu/element.h:
-	* libs/gcugtk/gcuperiodic.c (gcu_periodic_add_color_scheme),
-	(gcu_periodic_set_tips):
-	* libs/gcugtk/gcuperiodic.h:
-	* libs/gcugtk/glview.cc:
-	* libs/gcugtk/glview.h:
-	* libs/gcugtk/print-setup-dlg.cc:
-	* libs/gcugtk/printable.cc:
-	* libs/gcugtk/printable.h:
-	* programs/table/gchemtable-app.cc:
-	* ui/libgcu/print-setup.ui:
-
 ##Text encoding: utf-8
+
+2011-05-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/chemistry.cc: add new functions for weight and electronic configuration.
+	* libs/gcu/chemistry.h: ditto.
+	* libs/gcu/element.cc: add a Stability flag for Element.
+	* libs/gcu/element.h: ditto.
+	* libs/gcugtk/gcuperiodic.c: add new configurable tips for element buttons.
+	* libs/gcugtk/gcuperiodic.h: ditto.
+	* libs/gcugtk/glview.cc: fix color in pixbuf export.
+	* libs/gcugtk/glview.h: cleaned out deprectated static data.
+	* libs/gcugtk/print-setup-dlg.cc: updated for Gtk+-3.0.
+	* libs/gcugtk/printable.cc: ditto.
+	* libs/gcugtk/printable.h: ditto.
+	* programs/table/gchemtable-app.cc: set full tips on buttons.
+	* ui/libgcu/print-setup.ui: updated for Gtk+-3.0.
 
 2011-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: don't build osmesa related code anymore.
