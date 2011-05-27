@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2011-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/gchemtable-curve.cc: replace some boxes and tables with
+	grids.
+	* ui/table/acidity.ui: ditto.
+	* ui/table/block.ui: ditto.
+	* ui/table/curve.ui: ditto.
+	* ui/table/eltpage.ui: ditto.
+	* ui/table/family.ui: ditto.
+	* ui/table/state-thermometer.ui: ditto.
+
 2011-05-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/chemistry.cc: add new functions for weight and electronic configuration.
 	* libs/gcu/chemistry.h: ditto.

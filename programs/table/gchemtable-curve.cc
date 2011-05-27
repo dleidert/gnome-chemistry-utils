@@ -274,7 +274,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	gcugtk::Printable (),
 	m_Guru (NULL)
 {
-	m_GraphBox = GetWidget ("vbox1");
+	m_GraphBox = GetWidget ("curve-grid");
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
 	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
@@ -289,14 +289,15 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		exit (EXIT_FAILURE);
 	}
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
-	gtk_box_pack_start (GTK_BOX (m_GraphBox), bar, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (m_GraphBox), bar);
 	g_object_unref (ui_manager);
 	m_GraphWidget = go_graph_widget_new (NULL);
 	g_signal_connect_swapped (m_GraphWidget, "size-allocate", G_CALLBACK (GChemTableCurve::OnSize), this);
 	g_signal_connect_swapped (m_GraphWidget, "motion-notify-event", G_CALLBACK (GChemTableCurve::OnMotion), this);
 	gtk_widget_set_size_request (m_GraphWidget, 400, 250);
+	g_object_set (G_OBJECT (m_GraphWidget), "expand", true, NULL);
 	gtk_widget_show (m_GraphWidget);
-	gtk_box_pack_end (GTK_BOX (m_GraphBox), m_GraphWidget, TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (m_GraphBox), m_GraphWidget);
 	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_GraphWidget));
 	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_GraphWidget));
 	if (!name) {

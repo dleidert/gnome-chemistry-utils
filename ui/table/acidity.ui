@@ -1,56 +1,76 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <!-- interface-requires gtk+ 2.12 -->
-  <!-- interface-naming-policy toplevel-contextual -->
-  <object class="GtkTable" id="acidity-legend">
+  <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkGrid" id="acidity-legend">
     <property name="visible">True</property>
-    <property name="border_width">4</property>
-    <property name="n_rows">2</property>
-    <property name="n_columns">2</property>
-    <property name="column_spacing">5</property>
-    <property name="row_spacing">5</property>
+    <property name="can_focus">False</property>
+    <property name="border_width">12</property>
+    <property name="row_spacing">12</property>
+    <property name="column_spacing">6</property>
     <child>
-      <object class="GtkLabel" id="label4">
+      <object class="GtkLabel" id="label1">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">&lt;span background="magenta"&gt;&lt;b&gt;Amphoteric&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="can_focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+        <property name="label" translatable="yes">&lt;span background="red"&gt;&lt;b&gt;Acidic&lt;/b&gt;&lt;/span&gt;</property>
         <property name="use_markup">True</property>
+        <property name="justify">center</property>
       </object>
       <packing>
-        <property name="left_attach">1</property>
-        <property name="right_attach">2</property>
-        <property name="top_attach">1</property>
-        <property name="bottom_attach">2</property>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
     <child>
       <object class="GtkLabel" id="label3">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
         <property name="label" translatable="yes">&lt;span background="green"&gt;&lt;b&gt;Neutral&lt;/b&gt;&lt;/span&gt;</property>
         <property name="use_markup">True</property>
       </object>
       <packing>
+        <property name="left_attach">0</property>
         <property name="top_attach">1</property>
-        <property name="bottom_attach">2</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
     <child>
       <object class="GtkLabel" id="label2">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
         <property name="label" translatable="yes">&lt;span background="blue"&gt;&lt;b&gt;Basic&lt;/b&gt;&lt;/span&gt;</property>
         <property name="use_markup">True</property>
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="right_attach">2</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="label1">
+      <object class="GtkLabel" id="label4">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">&lt;span background="red"&gt;&lt;b&gt;Acidic&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="can_focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+        <property name="label" translatable="yes">&lt;span background="magenta"&gt;&lt;b&gt;Amphoteric&lt;/b&gt;&lt;/span&gt;</property>
         <property name="use_markup">True</property>
-        <property name="justify">center</property>
       </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
     </child>
   </object>
 </interface>
