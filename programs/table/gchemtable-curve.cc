@@ -539,7 +539,7 @@ void GChemTableCurve::SetGraph (GogGraph *graph)
 	gtk_widget_destroy (m_GraphWidget);
 	m_GraphWidget = go_graph_widget_new (graph);
 	gtk_widget_show (m_GraphWidget);
-	gtk_box_pack_end (GTK_BOX (m_GraphBox), m_GraphWidget, TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (m_GraphBox), m_GraphWidget);
 	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_GraphWidget));
 }
 

@@ -112,26 +112,19 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): gcugtk::Dialog (App, U
 	int n = 1;
 	GcuDimensionalValue const *value;
 	GtkWidget *val, *button;
-	GtkTable *table = GTK_TABLE (GetWidget ("ei-table"));
+	GtkGrid *grid = GTK_GRID (GetWidget ("ei-grid"));
 	while ((value = elt->GetIonizationEnergy (n))) {
 		if (n > 1) {
-			gtk_table_resize (table, 4, n);
 			buf = g_strdup_printf (_("%d:"), n);
 			w = gtk_label_new (buf);
-			gtk_misc_set_padding (GTK_MISC (w), 8, 0);
+			g_object_set (G_OBJECT (w), "xalign", 1., NULL);
  			g_free (buf);
-			gtk_table_attach (table, w, 0, 1, n - 1, n,
-				(GtkAttachOptions) (GTK_SHRINK | GTK_FILL),
-				(GtkAttachOptions) 0 , 0, 0);
+			gtk_grid_attach (grid, w, 0, n - 1, 1, 1);
 			val = gtk_label_new ("");
-			gtk_misc_set_alignment (GTK_MISC (val), 0., 0.);
-			gtk_table_attach (table, val, 1, 2, n - 1, n,
-				(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-				(GtkAttachOptions) 0 , 0, 0);
+			g_object_set (G_OBJECT (val), "xalign", 0., "hexpand", true, NULL);
+			gtk_grid_attach (grid, val, 1, n - 1, 1, 1);
 			button = gtk_button_new_with_label (_("Show curve"));
-			gtk_table_attach (table, button, 2, 3, n - 1, n,
-				(GtkAttachOptions) GTK_FILL,
-				(GtkAttachOptions) 0 , 0, 0);
+			gtk_grid_attach (grid, button, 2, n - 1, 1, 1);
 		} else {
 			val = GetWidget ("ei-value");
 			button = GetWidget ("ei-btn");
@@ -145,7 +138,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): gcugtk::Dialog (App, U
 // FIXME: clean this on exit
 		n++;
 	}
-	gtk_widget_show_all (GTK_WIDGET (table));
+	gtk_widget_show_all (GTK_WIDGET (grid));
 	if (n == 1) {
 		w = GetWidget ("ei-lbl");
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
@@ -154,21 +147,17 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): gcugtk::Dialog (App, U
 	}
 	// electronic affinities
 	n = 1;
-	table = GTK_TABLE (GetWidget ("ae-table"));
+	grid = GTK_GRID (GetWidget ("ae-grid"));
 	while ((value = elt->GetElectronAffinity (n))) {
 		if (n > 1) {
-			gtk_table_resize (table, 4, n);
 			buf = g_strdup_printf (_("%d:"), n);
 			w = gtk_label_new (buf);
-			gtk_misc_set_alignment (GTK_MISC (w), 0., 0.);
-			g_free (buf);
-			gtk_table_attach (table, w, 0, 1, n - 1, n,
-				(GtkAttachOptions) (GTK_SHRINK | GTK_FILL),
-				(GtkAttachOptions) 0 , 0, 0);
+			g_object_set (G_OBJECT (w), "xalign", 1., NULL);
+ 			g_free (buf);
+			gtk_grid_attach (grid, w, 0, n - 1, 1, 1);
 			val = gtk_label_new ("");
-			gtk_table_attach (table, val, 1, 2, n - 1, n,
-				(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-				(GtkAttachOptions) 0 , 0, 0);
+			g_object_set (G_OBJECT (val), "xalign", 0., "hexpand", true, NULL);
+			gtk_grid_attach (grid, val, 1, n - 1, 1, 1);
 			button = NULL; // not enough values to draw a curve.
 		} else {
 			val = GetWidget ("ae-value");
@@ -181,7 +170,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): gcugtk::Dialog (App, U
 		g_free (buf);
 		n++;
 	}
-	gtk_widget_show_all (GTK_WIDGET (table));
+	gtk_widget_show_all (GTK_WIDGET (grid));
 	if (n == 1) {
 		w = GetWidget ("ae-lbl");
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
@@ -259,8 +248,8 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): gcugtk::Dialog (App, U
 	if (radii_list.size () == 0) {
 		w = gtk_label_new (_("n.a."));
 		gtk_widget_show (w);
-		gtk_box_pack_start (GTK_BOX (GetWidget ("ionic-radii")),
-								w, FALSE, FALSE, 0);
+		gtk_grid_attach (GTK_GRID (GetWidget ("radii-grid")),
+								w, 2, 3, 1, 1);
 		gtk_widget_hide (GetWidget ("radii-scrolled"));
 	} else {
 		pclist = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);

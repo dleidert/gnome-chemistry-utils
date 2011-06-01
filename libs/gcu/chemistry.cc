@@ -93,7 +93,11 @@ void gcu_element_load_databases (char const *name, ...)
 char* gcu_value_get_string (GcuValue const *value)
 {
 	std::ostringstream s;
+	std::locale loc (setlocale (LC_NUMERIC, NULL));
+	s.imbue (loc);
 	char *str;
+	if (value->value < 0)
+		s << "−";
 	if (value->delta > 0) {
 		int delta = value->delta, prec = value->prec;
 		while (delta >= 100) {
@@ -102,10 +106,10 @@ char* gcu_value_get_string (GcuValue const *value)
 		}
 		// FIXME: what to do if we have a negative precision?
 		s.precision (prec);
-		s << std::fixed << value->value << '(' << delta << ')';
+		s << std::fixed <<  fabs (value->value) << '(' << delta << ')';
 	} else {
 		s.precision (value->prec);
-		s << std::fixed << value->value;
+		s << std::fixed << fabs (value->value);
 	}
 	str = strdup (s.str ().c_str ());
 	return str;
@@ -114,7 +118,11 @@ char* gcu_value_get_string (GcuValue const *value)
 char *gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
 {
 	std::ostringstream s;
+	std::locale loc (setlocale (LC_NUMERIC, NULL));
+	s.imbue (loc);
 	char *str;
+	if (value->value < 0)
+		s << "−";
 	if (value->delta > 0) {
 		int delta = value->delta, prec = value->prec;
 		while (delta >= 100) {
@@ -123,10 +131,10 @@ char *gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
 		}
 		// FIXME: what to do if we have a negative precision?
 		s.precision (prec);
-		s << std::fixed << value->value << '(' << delta << ") " << value->unit;
+		s << std::fixed << fabs (value->value) << '(' << delta << ") " << value->unit;
 	} else {
 		s.precision (value->prec);
-		s << std::fixed << value->value << " " << value->unit;
+		s << std::fixed <<  fabs (value->value) << " " << value->unit;
 	}
 	str = strdup (s.str ().c_str ());
 	return str;

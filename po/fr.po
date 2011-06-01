@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-12 10:10+0200\n"
-"PO-Revision-Date: 2011-05-27 16:41+0200\n"
+"PO-Revision-Date: 2011-06-01 15:40+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
@@ -4119,7 +4119,7 @@ msgstr "Électronégativité"
 
 #: ../programs/table/gchemtable-app.cc:175
 msgid "Create an electronegativity chart"
-msgstr "Crée un graphique des variations de l'électronégaivité de Pauling"
+msgstr "Crée un graphique des variations de l'électronégativité de Pauling"
 
 #: ../programs/table/gchemtable-app.cc:176
 msgid "Electon affinity"
@@ -4297,7 +4297,7 @@ msgstr "Voir l'aide pour la fenêtre graphique"
 #: ../programs/table/gchemtable-curve.cc:328
 #: ../programs/table/gchemtable-data.cc:528
 msgid "Pauling electronegativity"
-msgstr "Électronégaivité de Pauling"
+msgstr "Électronégativité de Pauling"
 
 #: ../programs/table/gchemtable-curve.cc:330
 #: ../programs/table/gchemtable-data.cc:532
@@ -5482,7 +5482,7 @@ msgstr "Métallique :"
 
 #: ../ui/table/eltpage.ui.h:14
 msgid "Pauling electronegativity:"
-msgstr "Électronégaivité de Pauling :"
+msgstr "Électronégativité de Pauling :"
 
 #: ../ui/table/eltpage.ui.h:15
 msgid "Radii"
