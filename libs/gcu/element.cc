@@ -623,7 +623,7 @@ void Element::LoadElectronicProps ()
 						Elt->m_ei[rank].unit = (*it).c_str ();
 						xmlFree (buf);
 					} else
-						Elt->m_ei[rank].unit = "MJ.mol<sup>-1</sup>";
+						Elt->m_ei[rank].unit = "MJ.mol<sup>−1</sup>";
 				} else if (!strcmp ((const char*) child->name, "ae")) {
 					unsigned rank;
 					buf = (char*) xmlGetProp (child, (xmlChar*) "rank");
@@ -658,7 +658,7 @@ void Element::LoadElectronicProps ()
 						Elt->m_ae[rank].unit = (*it).c_str ();
 						xmlFree (buf);
 					} else
-						Elt->m_ae[rank].unit = "kJ.mol<sup>-1</sup>";
+						Elt->m_ae[rank].unit = "kJ.mol<sup>−1</sup>";
 				} else {
 					g_error ("Invalid property node");
 				}

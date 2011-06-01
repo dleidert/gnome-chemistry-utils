@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-06-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/chemistry.cc: use minus instead of an hyphen when displayin numbers.
+	* libs/gcu/element.cc: ditto.
+
 2011-05-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gchemutils.schemas.in: removed the offscreen option.
 	* libs/gcu/glview.cc: fixed offscreen rendering.

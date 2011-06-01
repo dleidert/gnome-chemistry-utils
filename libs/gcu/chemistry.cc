@@ -26,6 +26,7 @@
 #include "chemistry.h"
 #include "element.h"
 #include <cstring>
+#include <cmath>
 
 extern "C"
 {
@@ -91,17 +92,18 @@ void gcu_element_load_databases (char const *name, ...)
 gchar* gcu_value_get_string (GcuValue const *value)
 {
 	gchar *format, *str;
+	char const *sign = value->value < 0? "−": "";
 	if (value->delta > 0) {
 		int delta = value->delta, prec = value->prec;
 		while (delta >= 100) {
 			delta /= 10;
 			prec--;
 		}
-		format = g_strdup_printf ("%%.%df(%%d)", prec);
-		str = g_strdup_printf (format, value->value, delta);
+		format = g_strdup_printf ("%%s%%.%df(%%d)", prec);
+		str = g_strdup_printf (format, sign, fabs (value->value), delta);
 	} else {
-		format = g_strdup_printf ("%%.%df", value->prec);
-		str = g_strdup_printf (format, value->value);
+		format = g_strdup_printf ("%%s%%.%df", value->prec);
+		str = g_strdup_printf (format, sign, fabs (value->value));
 	}
 	g_free (format);
 	return str;
@@ -110,6 +112,7 @@ gchar* gcu_value_get_string (GcuValue const *value)
 gchar* gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
 {
 	gchar *format, *str;
+	char const *sign = value->value < 0? "−": "";
 	if (value->delta > 0) {
 		int delta = value->delta, prec = value->prec;
 		while (delta >= 100) {
@@ -117,11 +120,11 @@ gchar* gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
 			prec--;
 		}
 		// FIXME: what to do if we have a negative precision?
-		format = (prec > 0)? g_strdup_printf ("%%.%df(%%d) %%s", prec): g_strdup ("%.0f %s");
-		str = g_strdup_printf (format, value->value, delta, value->unit);
+		format = (prec > 0)? g_strdup_printf ("%%s%%.%df(%%d) %%s", prec): g_strdup ("%.0f %s");
+		str = g_strdup_printf (format, sign, fabs (value->value), delta, value->unit);
 	} else {
-		format = g_strdup_printf ("%%.%df %%s", value->prec);
-		str = g_strdup_printf (format, value->value, value->unit);
+		format = g_strdup_printf ("%%s%%.%df %%s", value->prec);
+		str = g_strdup_printf (format, sign, fabs (value->value), value->unit);
 	}
 	g_free (format);
 	return str;
