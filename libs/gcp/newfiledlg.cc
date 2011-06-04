@@ -50,22 +50,15 @@ NewFileDlg::NewFileDlg (Application *App):
 {
 	list <string> names = TheThemeManager.GetThemesNames ();
 	list <string>::iterator i = names.begin (), end = names.end ();
-	GtkWidget *w = GetWidget ("themes-box");
-#if GTK_CHECK_VERSION (2, 24, 0)
+	GtkWidget *w = GetWidget ("themes-grid");
 	m_Box = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
-#else
-	m_Box = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-#endif
-	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (m_Box), true, true, 0);
+	g_object_set (G_OBJECT (m_Box), "hexpand", true, NULL);
+	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (m_Box));
 	Theme *theme;
 	m_Theme = TheThemeManager.GetTheme (*i);
 	m_Lines = names.size ();
 	for (; i != end; i++) {
-#if GTK_CHECK_VERSION (2, 24, 0)
 		gtk_combo_box_text_append_text (m_Box, (*i).c_str ());
-#else
-		gtk_combo_box_append_text (m_Box, (*i).c_str ());
-#endif
 		theme = TheThemeManager.GetTheme (*i);
 		if (theme)
 			theme->AddClient (this);

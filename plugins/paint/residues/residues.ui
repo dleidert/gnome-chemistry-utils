@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <!--Generated with glade3 3.4.5 on Fri Aug 29 08:03:05 2008 -->
 <interface>
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkListStore" id="model1">
     <columns>
       <column type="gchararray"/>

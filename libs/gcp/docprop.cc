@@ -147,26 +147,16 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 	if(chn)
 		gtk_text_buffer_set_text (Buffer, chn , -1);
 	g_signal_connect (G_OBJECT (Buffer), "changed", G_CALLBACK (on_comments_changed), this);
-	GtkWidget *w = GetWidget ("props-table");
-#if GTK_CHECK_VERSION (2, 24, 0)
+	GtkWidget *w = GetWidget ("props-grid");
 	m_Box = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
-#else
-	m_Box = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-#endif
-	gtk_table_attach (GTK_TABLE (w), GTK_WIDGET (m_Box), 1, 2, 8, 9,
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
+	gtk_grid_attach (GTK_GRID (w), GTK_WIDGET (m_Box), 1, 8, 1, 1);
 	list <string> names = TheThemeManager.GetThemesNames ();
 	list <string>::iterator i, end = names.end ();
 	Theme *theme;
 	m_Lines = names.size ();
 	int nb = 0, n;
 	for (i = names.begin (), n = 0; i != end; i++, n++) {
-#if GTK_CHECK_VERSION (2, 24, 0)
 		gtk_combo_box_text_append_text (m_Box, (*i).c_str ());
-#else
-		gtk_combo_box_append_text (m_Box, (*i).c_str ());
-#endif
 		theme = TheThemeManager.GetTheme (*i);
 		if (theme) {
 			theme->AddClient (this);

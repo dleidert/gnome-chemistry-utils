@@ -511,7 +511,7 @@ GtkWidget *gcpCurvedArrowTool::GetPropertyPage ()
 	g_signal_connect (G_OBJECT (b), "toggled", G_CALLBACK (on_end_toggled), this);
 	GtkWidget *w = builder->GetWidget ("default");
 	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_default), b);
-	GtkWidget *res = builder->GetRefdWidget ("curvedarrow-box");
+	GtkWidget *res = builder->GetRefdWidget ("curved-arrow-grid");
 	delete builder;
 	return res;
 }

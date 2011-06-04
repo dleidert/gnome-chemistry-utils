@@ -367,8 +367,9 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 {
 	bool show_all = m_ArrowType == gcp::ReversibleArrow || m_ArrowType == gcp::FullReversibleArrow;
 	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/arrowtool.ui", GETTEXT_PACKAGE);
+	GtkWidget *res = builder->GetRefdWidget ("arrow-grid");
 	if (show_all) {
-		GtkTable *table = GTK_TABLE (builder->GetWidget ("heads-table"));
+		GtkGrid *grid = GTK_GRID (res);
 		gccv::Canvas *canvas = new gccv::Canvas (NULL);
 		gcp::Theme *Theme = gcp::TheThemeManager.GetTheme ("Default");
 		double width = (Theme->GetArrowLength () * Theme->GetZoomFactor () + 2 * Theme->GetArrowPadding ()),
@@ -397,7 +398,7 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 		arrow->SetEndHead (gccv::ArrowHeadLeft);
 		arrow->SetAutoColor (true);
 		gtk_widget_show (canvas->GetWidget ());
-		gtk_table_attach (table, canvas->GetWidget (), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 10, 0);
+		gtk_grid_attach (grid, canvas->GetWidget (), 1, 2, 1, 1);
 		canvas = new gccv::Canvas (NULL);
 		arrow = new gccv::Arrow (canvas,
 								 (width - Theme->GetArrowLength () * Theme->GetZoomFactor ()) / 2.,
@@ -420,20 +421,20 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 		arrow->SetC (Theme->GetArrowHeadC ());
 		arrow->SetAutoColor (true);
 		gtk_widget_show (canvas->GetWidget ());
-		gtk_table_attach (table, canvas->GetWidget (), 1, 2, 1, 2, GTK_FILL, GTK_FILL, 10, 0);
+		gtk_grid_attach (grid, canvas->GetWidget (), 1, 3, 1, 1);
 		GtkWidget *b = builder->GetWidget ("full");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (b), m_ArrowType == gcp::FullReversibleArrow);
 		g_signal_connect (G_OBJECT (b), "toggled", G_CALLBACK (on_full_toggled), this);
 		GtkWidget *w = builder->GetWidget ("default");
 		g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_default), b);
 	} else {
-		gtk_widget_hide (builder->GetWidget ("heads-table"));
-		gtk_widget_hide (builder->GetWidget ("hseparator1"));
-		gtk_widget_hide (builder->GetWidget ("hbox2"));
+		gtk_widget_hide (builder->GetWidget ("half"));
+		gtk_widget_hide (builder->GetWidget ("full"));
+		gtk_widget_hide (builder->GetWidget ("arrow-sep"));
+		gtk_widget_hide (builder->GetWidget ("default"));
 	}
 	m_LengthBtn = GTK_SPIN_BUTTON (builder->GetWidget ("arrow-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
-	GtkWidget *res = builder->GetRefdWidget ("arrow-box");
 	delete builder;
 	return res;
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy project-wide -->
   <object class="GtkDialog" id="string-input">
     <property name="border_width">5</property>

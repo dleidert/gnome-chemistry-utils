@@ -87,6 +87,12 @@ bool CanvasPrivate::OnDraw (Canvas *canvas, cairo_t *cr)
 	canvas->m_Root->GetBounds (x0, y0, x1, y1);
 	cairo_save (cr);
 	cairo_scale (cr, canvas->m_Zoom, canvas->m_Zoom);
+	// get the default color
+	GtkStateFlags state = gtk_widget_get_state_flags (canvas->m_Widget);
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (canvas->m_Widget);
+	GdkRGBA rgba;
+	gtk_style_context_get_color (ctxt, state, &rgba);
+	canvas->m_Color = GO_COLOR_FROM_GDK_RGBA (rgba);
 	if (ev && ev->type == GDK_EXPOSE) {
 		GdkEventExpose *event = reinterpret_cast < GdkEventExpose * > (ev);
 		x0 *= canvas->m_Zoom;

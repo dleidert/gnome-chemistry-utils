@@ -31,15 +31,15 @@
 
 struct _GcrGrid
 {
-	GtkVBox base;
+	GtkGrid base;
 	unsigned cols, rows;
-	GocCanvas *headers, *contents;
+	GtkWidget *headers, *contents; /* are these needed */
 	GtkAdjustment *hadj, *vadj;
 };
 
 typedef struct
 {
-	GtkVBoxClass parent_class;
+	GtkGridClass parent_class;
 } GcrGridClass;
 
 
@@ -52,7 +52,7 @@ gcr_grid_init (G_GNUC_UNUSED GcrGrid *grid)
 {
 }
 
-GSF_CLASS (GcrGrid, gcr_grid, gcr_grid_class_init, gcr_grid_init, GTK_TYPE_VBOX)
+GSF_CLASS (GcrGrid, gcr_grid, gcr_grid_class_init, gcr_grid_init, GTK_TYPE_GRID)
 
 GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ...)
 {
