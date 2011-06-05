@@ -231,7 +231,7 @@ GtkWidget *gcpOrbitalTool::GetPropertyPage ()
 	m_Preview = new gccv::Canvas (NULL);
 	w = m_Preview->GetWidget ();
 	gtk_widget_show (w);
-	gtk_table_attach (GTK_TABLE (res), w, 1, 3, 3, 8, GTK_FILL, GTK_FILL, 10, 0);
+	gtk_grid_attach (GTK_GRID (res), w, 1, 3, 2, 5);
 	g_signal_connect_swapped (G_OBJECT (w), "size-allocate", G_CALLBACK (SizeAllocate), this);
 	delete builder;
 	return res;

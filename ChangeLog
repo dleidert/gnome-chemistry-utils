@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-06-05  Jean Bréfort  <jean@acer>
+	* plugins/paint/atoms/orbital-prop.ui: replace more boxes and tables.
+	* plugins/paint/atoms/orbital.ui: ditto.
+	* plugins/paint/atoms/orbitaltool.cc: ditto.
+	* plugins/paint/bonds/bond.ui: ditto.
+	* plugins/paint/bonds/chain.ui: ditto.
+
 2011-06-04  Jean Bréfort  <jean@acer>
 	* libs/gccv/canvas.cc: fixed default color.
 	* libs/gcp/docprop.cc: replace more boxes and tables.
