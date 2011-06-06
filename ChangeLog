@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2011-06-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add gsettings schemas.
+	* configure.ac: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in: ditto.
+	* schemas/Makefile.am: ditto.
+	* schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in: ditto.
+	* schemas/org.gnome.gchemutils.gschema.xml.in.in: ditto.
+	* schemas/org.gnome.gchemutils.paint.gschema.xml.in.in: ditto.
+
 2011-06-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/chemistry.cc: use minus instead of an hyphen when displayin numbers.
 	* libs/gcu/element.cc: ditto.

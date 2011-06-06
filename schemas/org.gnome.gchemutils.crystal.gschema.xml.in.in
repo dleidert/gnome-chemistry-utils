@@ -1,0 +1,51 @@
+<schemalist>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.crystal" path="/apps/gchemutils/crystal/">
+    <child name="printing" schema="org.gnome.gchemutils.crystal.printing" />
+    <child name="views" schema="org.gnome.gchemutils.crystal.views" />
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.crystal.printing" path="/apps/gchemutils/crystal/printing/">
+    <key name="resolution" type="i">
+      <default>300</default>
+      <_summary>Printing resolution</_summary>
+      <_description>Printing resolution if not automatically detected.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.crystal.views" path="/apps/gchemutils/crystal/views/">
+    <key name="fov" type="i">
+      <default>10</default>
+      <_summary>Default field of view</_summary>
+      <_description>Field of view used by default for the model display.</_description>
+    </key>
+    <key name="psi" type="d">
+      <default>70.</default>
+      <_summary>Default precession</_summary>
+      <_description>Default Euler's precession angle for model display. Acceptable values are -180. to + 180.</_description>
+    </key>
+    <key name="theta" type="d">
+      <default>10.</default>
+      <_summary>Default nutation</_summary>
+      <_description>Default Euler's nutation angle for model display. Acceptable values are 0. to + 180.</_description>
+    </key>
+    <key name="phi" type="d">
+      <default>-90.</default>
+      <_summary>Default spin</_summary>
+      <_description>Default Euler's spin angle for model display. Acceptable values are -180. to + 180.</_description>
+    </key>
+    <key name="red" type="d">
+      <default>1.</default>
+      <_summary>Background color red value</_summary>
+      <_description>Red value for the default background color. Acceptable values are 0. to 1.</_description>
+    </key>
+    <key name="green" type="d">
+      <default>1.</default>
+      <_summary>Background color green value</_summary>
+      <_description>Green value for the default background color. Acceptable values are 0. to 1.</_description>
+    </key>
+    <key name="blue" type="d">
+      <default>1.</default>
+      <_summary>Background color blue value</_summary>
+      <_description>Blue value for the default background color. Acceptable values are 0. to 1.</_description>
+    </key>
+  </schema>
+</schemalist>
+  

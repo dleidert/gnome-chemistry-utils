@@ -1,0 +1,14 @@
+<schemalist>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint.plugins.arrows" path="/apps/gchemutils/paint/plugins/arrows/">
+    <key name="full-arrows-heads" type="b">
+      <default>false</default>
+      <_summary>Use full arrows heads for reversible reactions</_summary>
+      <_description>If set to true, arrows for reversible reaction steps will use full arrows heads by default instead of half heads.</_description>
+    </key>
+    <key name="end-at-new-bond-center" type="b">
+      <default>false</default>
+      <_summary>End mechanism arrows at center of new bonds</_summary>
+      <_description>If true, a curved arrow corresponding to a new bond will end at center of the new bond, otherwise, the arrow will end at the other atom.</_description>
+    </key>
+  </schema>
+</schemalist>

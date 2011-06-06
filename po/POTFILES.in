@@ -76,6 +76,7 @@ plugins/paint/arrows/arrowtool.cc
 [type: gettext/glade]plugins/paint/arrows/arrowtool.ui
 [type: gettext/glade]plugins/paint/arrows/curvedarrowtool.ui
 plugins/paint/arrows/gchempaint-arrows.schemas.in
+plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in
 plugins/paint/arrows/plugin.cc
 plugins/paint/arrows/retrosynthesis.cc
 plugins/paint/arrows/retrosynthesisarrow.cc
@@ -144,6 +145,9 @@ programs/table/gchemtable-curve.cc
 programs/table/gchemtable-data-allocator.cc
 programs/table/gchemtable-data.cc
 programs/table/gchemtable.desktop.in
+schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in
+schemas/org.gnome.gchemutils.gschema.xml.in.in
+schemas/org.gnome.gchemutils.paint.gschema.xml.in.in
 templates/paint/haworth.xml.in
 templates/paint/templates.xml.in
 [type: gettext/glade]ui/calc/gchemcalc.ui

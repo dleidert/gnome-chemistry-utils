@@ -2,7 +2,7 @@ AC_PREREQ(2.64)
 
 AC_INIT([gnome-chemistry-utils], [0.12.9], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
 AC_CONFIG_SRCDIR([libs/gcu/gcuperiodic.c])
-AM_INIT_AUTOMAKE([1.11.1 dist-bzip2])
+AM_INIT_AUTOMAKE([1.11.1 tar-ustar no-dist-gzip dist-bzip2 dist-xz])
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
 AC_CONFIG_MACRO_DIR([m4])
@@ -168,6 +168,9 @@ fi
 AM_GCONF_SOURCE_2
 fi
 AM_CONDITIONAL([USE_GCONF], [test "x$use_gconf" = "xyes"] )
+
+dnl GSettings related stuff
+GLIB_GSETTINGS
 
 dnl retrieve BODR data directory
 bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`
@@ -379,6 +382,7 @@ plugins/loaders/cif/Makefile
 plugins/loaders/cml/Makefile
 plugins/paint/Makefile
 plugins/paint/arrows/Makefile
+plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in
 plugins/paint/atoms/Makefile
 plugins/paint/bonds/Makefile
 plugins/paint/cycles/Makefile
@@ -394,6 +398,10 @@ goffice/Makefile
 pixmaps/Makefile
 po/Makefile.in
 samples/Makefile
+schemas/Makefile
+schemas/org.gnome.gchemutils.gschema.xml.in
+schemas/org.gnome.gchemutils.crystal.gschema.xml.in
+schemas/org.gnome.gchemutils.paint.gschema.xml.in
 programs/Makefile
 programs/3d/Makefile
 programs/3d/gchem3d.desktop.in

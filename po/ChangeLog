@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-06-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: add gsettings schemas.
+	* POTFILES.skip: ditto.
+
 2011-06-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* fr.po: one more typo fixed.
 

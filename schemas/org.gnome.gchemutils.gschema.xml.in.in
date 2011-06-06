@@ -1,0 +1,52 @@
+<schemalist>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils" path="/apps/gchemutils/">
+    <child name="printsetup" schema="org.gnome.gchemutils.printsetup" />
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.printsetup" path="/apps/gchemutils/printsetup/">
+    <key name="preferred-unit" type="s">
+      <default>'mm'</default>
+      <_summary>Preferred Display Unit</_summary>
+      <_description>This string gives the default unit to be used in the page setup dialog.</_description>
+    </key>
+    <key name="margin-top" type="d">
+      <default>120</default>
+      <_summary>Default Top Margin</_summary>
+      <_description>This value gives the default number of points from the top of a page to the start of the body.</_description>
+    </key>
+    <key name="margin-bottom" type="d">
+      <default>120</default>
+      <_summary>Default Bottom Margin</_summary>
+      <_description>This value gives the default number of points from the bottom of a page to the end of the body.</_description>
+    </key>
+    <key name="footer-height" type="d">
+      <default>72</default>
+      <_summary>Footer height</_summary>
+      <_description>This value gives the default footer height number of points.</_description>
+    </key>
+    <key name="header-height" type="d">
+      <default>72</default>
+      <_summary>Default Top Outside Margin</_summary>
+      <_description>This value gives the default header height number of points.</_description>
+    </key>
+    <key name="margin-left" type="d">
+      <default>72</default>
+      <_summary>Default Left Margin</_summary>
+      <_description>This value gives the default number of points from the left of a page to the left of the body.</_description>
+    </key>
+    <key name="margin-right" type="d">
+      <default>72</default>
+      <_summary>Default Bottom Margin</_summary>
+      <_description>This value gives the default number of points from the right of a page to the right of the body.</_description>
+    </key>
+    <key name="paper" type="s">
+      <default>''</default>
+      <_summary>Paper</_summary>
+      <_description>This is the default paper specification like iso_a4 or na_letter, i.e. a PWG 5101.1-2002 paper name.</_description>
+    </key>
+    <key name="paper-orientation" type="i">
+      <default>0</default>
+      <_summary>Paper</_summary>
+      <_description>This is the default paper orientation.</_description>
+    </key>
+  </schema>
+</schemalist>

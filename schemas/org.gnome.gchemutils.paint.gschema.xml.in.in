@@ -1,0 +1,199 @@
+<schemalist>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint" path="/apps/gchemutils/paint/">
+	<child name="settings" schema="org.gnome.gchemutils.paint.settings" />
+	<child name="plugins" schema="org.gnome.gchemutils.paint.plugins" />
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint.settings" path="/apps/gchemutils/paint/settings/">
+    <key name="bond-length" type="d">
+      <default>140.</default>
+      <_summary>Default bond length</_summary>
+      <_description>Default bond length in picometers. Used in the default theme.</_description>
+    </key>
+    <key name="bond-angle" type="d">
+      <default>120.</default>
+      <_summary>Default angle between two bonds.</_summary>
+      <_description>Default angle between two consecutive bonds in a chain in degrees. Used in the default theme.</_description>
+    </key>
+    <key name="bond-dist" type="d">
+      <default>5.</default>
+      <_summary>Default distance between two lines in a multiple bond.</_summary>
+      <_description>Default distance between two lines in pixels (at 100% zoom) in a multiple bond. Used in the default theme.</_description>
+    </key>
+    <key name="bond-width" type="d">
+      <default>1.</default>
+      <_summary>Default bond line width.</_summary>
+      <_description>Default bond line width in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="arrow-length" type="d">
+      <default>200.</default>
+      <_summary>Default arrow length</_summary>
+      <_description>Default arrow length in picometers. Used in the default theme.</_description>
+    </key>
+    <key name="arrow-dist" type="d">
+      <default>5.</default>
+      <_summary>Default distance between two lines for double arrows.</_summary>
+      <_description>Default distance between two lines in pixels (at 100% zoom) for double arrows or for retrosynthesis arrows. Used in the default theme.</_description>
+    </key>
+    <key name="arrow-width" type="d">
+      <default>1.</default>
+      <_summary>Default arrow line width.</_summary>
+      <_description>Default arrow line width in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="arrow-heada" type="d">
+      <default>6.</default>
+      <_summary>Default distance from tip of arrowhead to center.</_summary>
+      <_description>Default distance from tip of arrowhead to center in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="arrow-headb" type="d">
+      <default>8.</default>
+      <_summary>Default distance from tip of arrowhead to trailing point, measured along shaft.</_summary>
+      <_description>Default distance from tip of arrowhead to trailing point, measured along shaft, in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="arrow-headc" type="d">
+      <default>4.</default>
+      <_summary>Default distance of arrowhead trailing points from outside edge of shaft.</_summary>
+      <_description>Default distance of arrowhead trailing points from outside edge of shaft in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="hash-width" type="d">
+      <default>1.</default>
+      <_summary>Default hash line width.</_summary>
+      <_description>Default line width in pixels for hash bonds (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="hash-dist" type="d">
+      <default>2.</default>
+      <_summary>Default hash lines distance.</_summary>
+      <_description>Default distance between two lines in pixels for hash bonds (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="stereo-width" type="d">
+      <default>5.</default>
+      <_summary>Default largest width for hash or wedge bonds.</_summary>
+      <_description>Default largest width for hash or wedge bonds (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="scale" type="d">
+      <default>4.</default>
+      <_summary>Scale (pm per pixel).</_summary>
+      <_description>Scale used to convert real distance to canvas distance expressed in pm per pixel (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="padding" type="d">
+      <default>2.</default>
+      <_summary>Default padding for texts.</_summary>
+      <_description>Padding used around text objects such as atoms, texts and other typographic signs in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="arrow-padding" type="d">
+      <default>16.</default>
+      <_summary>Default padding around arrows.</_summary>
+      <_description>Default padding between arrows and associated objects in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="arrow-object-padding" type="d">
+      <default>16.</default>
+      <_summary>Default padding between a reaction arrow and an attached object.</_summary>
+      <_description>Default padding between reaction arrows and attached objects in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="stoichiometry-padding" type="d">
+      <default>1.</default>
+      <_summary>Default extra padding after a stoichiometric coefficient.</_summary>
+      <_description>Default extra padding between a stoichiometric coefficient and its associated molecule in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="object-padding" type="d">
+      <default>16.</default>
+      <_summary>Default padding between aligned objects.</_summary>
+      <_description>Default padding in pixels added between consecutive objects during an alignment operation (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="sign-padding" type="d">
+      <default>8.</default>
+      <_summary>Default padding between a '+' sign in a reaction equation and reactants symbols.</_summary>
+      <_description>Default padding between a '+' sign in a reaction equation and reactants symbols in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="charge-sign-size" type="d">
+      <default>9.</default>
+      <_summary>Default charge sign size.</_summary>
+      <_description>Default size of the charge sign in pixels (at 100% zoom). Used in the default theme.</_description>
+    </key>
+    <key name="font-family" type="s">
+      <default>'Bitstream Vera Sans'</default>
+      <_summary>Chemical formula font family.</_summary>
+      <_description>Font family used for chemical formula such as atoms and fragments. Used in the default theme.</_description>
+    </key>
+    <key name="font-style" type="i">
+      <default>0</default>
+      <_summary>Chemical formula font style.</_summary>
+      <_description>Font style used for chemical formula such as atoms and fragments (0 = normal; 1 = oblique; 2 = italic). Used in the default theme.</_description>
+    </key>
+    <key name="font-weight" type="i">
+      <default>4</default>
+      <_summary>Chemical formula font weight.</_summary>
+      <_description>Font weight used for chemical formula such as atoms and fragments (2 = ultra-light; 3 = light; 4 = normal; 6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = heavy). Used in the default theme.</_description>
+    </key>
+    <key name="font-variant" type="i">
+      <default>0</default>
+      <_summary>Chemical formula font variant.</_summary>
+      <_description>Font variant used for chemical formula such as atoms and fragments (0 = normal; 1 = small caps). Used in the default theme.</_description>
+    </key>
+    <key name="font-stretch" type="i">
+      <default>4</default>
+      <_summary>Chemical formula font stretch.</_summary>
+      <_description>Font stretch used for chemical formula such as atoms and fragments (0 = ultra-condensed; 1 = extra-condensed; 2 = condensed; 3 = semi-condensed; 4 = normal; 5 = semi-expanded; 6 = expanded; 7 = extra-expanded; 8 = ultra-expanded). Used in the default theme.</_description>
+    </key>
+    <key name="font-size" type="d">
+      <default>12.</default>
+      <_summary>Chemical formula font size.</_summary>
+      <_description>Font size used for chemical formula such as atoms and fragments. Used in the default theme.</_description>
+    </key>
+    <key name="text-font-family" type="s">
+      <default>'Bitstream Vera Serif'</default>
+      <_summary>Default text font family.</_summary>
+      <_description>Default font family used for texts. Used in the default theme.</_description>
+    </key>
+    <key name="text-font-style" type="i">
+      <default>0</default>
+      <_summary>Default text font style.</_summary>
+      <_description>Default font style used for texts (0 = normal; 1 = oblique; 2 = italic). Used in the default theme.</_description>
+    </key>
+    <key name="text-font-weight" type="i">
+      <default>4</default>
+      <_summary>Default text font weight.</_summary>
+      <_description>Default font weight used for texts (2 = ultra-light; 3 = light; 4 = normal; 6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = heavy). Used in the default theme.</_description>
+    </key>
+    <key name="text-font-variant" type="i">
+      <default>0</default>
+      <_summary>Default text font variant.</_summary>
+      <_description>Default font variant used for texts (0 = normal; 1 = small caps). Used in the default theme.</_description>
+    </key>
+    <key name="text-font-stretch" type="i">
+      <default>4</default>
+      <_summary>Default text font stretch.</_summary>
+      <_description>Default font stretch used for texts (0 = ultra-condensed; 1 = extra-condensed; 2 = condensed; 3 = semi-condensed; 4 = normal; 5 = semi-expanded; 6 = expanded; 7 = extra-expanded; 8 = ultra-expanded). Used in the default theme.</_description>
+    </key>
+    <key name="text-font-size" type="d">
+      <default>12.</default>
+      <_summary>Default text font size.</_summary>
+      <_description>Font size used for texts. Used in the default theme.</_description>
+    </key>
+    <key name="compression" type="i">
+      <default>0</default>
+      <_summary>File compression factor.</_summary>
+      <_description>Compression factor when saving files. Acceptable values are 0 (no compression) to 9.</_description>
+    </key>
+    <key name="copy-as-text" type="b">
+      <default>false</default>
+      <_summary>Whether to export simple text when copying.</_summary>
+      <_description>If TRUE, STRING_UTF8 and STRING are added to the clipboard formats.</_description>
+    </key>
+    <key name="default-theme" type="s">
+      <default>'GChemPaint'</default>
+      <_summary>Default theme.</_summary>
+      <_description>Default theme used when creating a new file.</_description>
+    </key>
+    <key name="invert-wedge-hashes" type="b">
+      <default>false</default>
+      <_summary>Whether the hashed wedge bonds should be inverted.</_summary>
+      <_description>Hashed bonds are normally represented with the large side nearest, which is the opposite of what many people want. Setting this key to TRUE will change this behavior. Default is FALSE.</_description>
+    </key>
+    <key name="use-atom-colors" type="b">
+      <default>false</default>
+      <_summary>Whether to use colored atomic symbols.</_summary>
+      <_description>GChempaint displays black atomic symbols by default. When this key is set TRUE, atoms in new documents will be displayed using symbolic colors.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint.plugins" path="/apps/gchemutils/paint/plugins/"/>
+</schemalist>
