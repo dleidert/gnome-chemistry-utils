@@ -171,6 +171,7 @@ a given convention.
 
 	void ResetIndentifiers ();
 	std::string const &GetCML ();
+	void ClearCycles ();
 /*!
 @return the InChI.
 */

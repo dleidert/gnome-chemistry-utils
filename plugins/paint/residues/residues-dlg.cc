@@ -109,12 +109,8 @@ static int insert_symbol (GtkComboBox *box, char const *str)
 	GtkTreeIter iter;
 	int i = 1;
 	if (!gtk_tree_model_get_iter_from_string (model, &iter, "1")) {
-#if GTK_CHECK_VERSION (2, 24, 0)
 		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, str, -1);
-#else
-		gtk_combo_box_append_text (box, str);
-#endif
 		return i;
 	}
 	char* text;
@@ -123,22 +119,14 @@ static int insert_symbol (GtkComboBox *box, char const *str)
 		if (gtk_tree_model_iter_next (model, &iter))
 			gtk_tree_model_get (model, &iter, 0, &text, -1);
 		else {
-#if GTK_CHECK_VERSION (2, 24, 0)
 			gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 			gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, str, -1);
-#else
-			gtk_combo_box_append_text (box, str);
-#endif
 			return i + 1;
 		}
 		i++;
 	}
-#if GTK_CHECK_VERSION (2, 24, 0)
 		gtk_list_store_insert (GTK_LIST_STORE (model), &iter, i);
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, str, -1);
-#else
-	gtk_combo_box_insert_text (box, i, str);
-#endif
 	return i;
 }
 
@@ -146,9 +134,6 @@ static void delete_symbol (GtkComboBox *box, char const *str)
 {
 	GtkTreeModel *model = gtk_combo_box_get_model (box);
 	GtkTreeIter iter;
-#if !GTK_CHECK_VERSION (2, 24, 0)
-	int i = 1;
-#endif
 	if (!gtk_tree_model_get_iter_from_string (model, &iter, "1"))
 		return;
 	char* text;
@@ -158,15 +143,8 @@ static void delete_symbol (GtkComboBox *box, char const *str)
 			gtk_tree_model_get (model, &iter, 0, &text, -1);
 		else
 			return;
-#if !GTK_CHECK_VERSION (2, 24, 0)
-		i++;
-#endif
 	}
-#if GTK_CHECK_VERSION (2, 24, 0)
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-#else
-	gtk_combo_box_remove_text (box, i);
-#endif
 }
 
 gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
@@ -181,8 +159,9 @@ gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
 	gtk_scrolled_window_set_shadow_type (scroll, GTK_SHADOW_IN);
 	gtk_scrolled_window_add_with_viewport (scroll, w);
 	gtk_widget_set_size_request (GTK_WIDGET (scroll), 408, 308);
+	g_object_set (G_OBJECT (scroll), "expand", true, NULL);
 	gtk_widget_show (GTK_WIDGET (scroll));
-	gtk_box_pack_start (GTK_BOX (GetWidget ("formula-box")), GTK_WIDGET (scroll), true, true, 0);
+	gtk_grid_attach(GTK_GRID (GetWidget ("formula-grid")), GTK_WIDGET (scroll), 0, 0, 1, 1);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 	App->SetActiveDocument (m_Document);
 	gcp::Theme *theme = m_Document->GetTheme ();
@@ -202,17 +181,11 @@ gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
 	m_CurBox = GTK_COMBO_BOX (GetWidget ("cur-box"));
 	ResidueIterator i;
 	string const *s = Residue::GetFirstResidueSymbol (i);
-#if GTK_CHECK_VERSION (2, 24, 0)
 	GtkListStore *list = GTK_LIST_STORE (gtk_combo_box_get_model (m_CurBox));
 	GtkTreeIter iter;
-#endif
 	while (s) {
-#if GTK_CHECK_VERSION (2, 24, 0)
 		gtk_list_store_append (list, &iter);
 		gtk_list_store_set (list, &iter, 0, s->c_str (), -1);
-#else
-		gtk_combo_box_append_text (m_CurBox, s->c_str ());
-#endif
 		s = Residue::GetNextResidueSymbol (i);
 	}
 	gtk_combo_box_set_active (m_CurBox, 0);
@@ -430,7 +403,6 @@ bool gcpResiduesDlg::OnKeyRelease (GdkEventKey *event)
 
 void gcpResiduesDlg::OnCurChanged ()
 {
-#if GTK_CHECK_VERSION (2, 24, 0)
 	char *symbol;
 	GtkTreeIter iter;
 	GtkTreePath *path = gtk_tree_path_new_from_indices (gtk_combo_box_get_active (m_CurBox), -1);
@@ -438,9 +410,6 @@ void gcpResiduesDlg::OnCurChanged ()
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_path_free (path);
 	gtk_tree_model_get (model, &iter, 0, &symbol, -1);
-#else
-	char *symbol = gtk_combo_box_get_active_text (m_CurBox);
-#endif
 	if (!strcmp (symbol, _("New"))) {
 		m_Residue = NULL;
 		gtk_entry_set_text (m_NameEntry, "");
@@ -519,17 +488,12 @@ void gcpResiduesDlg::OnNewResidue (gcp::Residue *res)
 	if (res) {
 		map<string, bool> const &symbols = res->GetSymbols ();
 		map<string, bool>::const_iterator i = symbols.begin (), end = symbols.end ();
-#if GTK_CHECK_VERSION (2, 24, 0)
 		GtkListStore *list = GTK_LIST_STORE (gtk_combo_box_get_model (m_CurBox));
 		GtkTreeIter iter;
 		for (i = symbols.begin (); i != end; i++) {
 			gtk_list_store_append (list, &iter);
 			gtk_list_store_set (list, &iter, 0, (*i).first.c_str (), -1);
 		}
-#else
-		for (i = symbols.begin (); i != end; i++)
-			gtk_combo_box_append_text (m_CurBox, (*i).first.c_str ());
-#endif
 	} else if (m_Residue && !m_Residue->GetReadOnly ())
 		gtk_widget_set_sensitive (m_DeleteBtn, m_Residue->GetRefs () == 0);
 }

@@ -125,10 +125,13 @@ void Chain::FindCycles (Atom* pAtom)
 	map<gcu::Atom*, gcu::Bond*>::iterator i;
 	Bond* pBond = (Bond*) pAtom->GetFirstBond (i);
 	Atom* pAtom0;
+	Molecule *mol;
 	while (pBond != NULL) {
 		m_Bonds[pAtom].fwd = pBond;
 		pAtom0 = (Atom*) pBond->GetAtom (pAtom);
-		if (pBond->GetMolecule () != m_Molecule) {
+		if ((mol = static_cast < Molecule * > (pBond->GetMolecule ())) != m_Molecule) {
+			if (mol)
+				mol->ClearCycles ();
 			m_Molecule->AddChild (pBond);
 		}
 		if ((pAtom0)->GetMolecule () != m_Molecule) {

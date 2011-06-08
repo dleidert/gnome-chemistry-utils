@@ -76,7 +76,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	}
 	va_end (args);
 	grid->cols = titles.size ();
-	grid->headers = GOC_CANVAS (g_object_new (GOC_TYPE_CANVAS, NULL));
+	grid->headers = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	GtkBox *box = GTK_BOX (grid);
 	gtk_box_pack_start (box, GTK_WIDGET (grid->headers), FALSE, TRUE, 0);
 	grid->hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0, 0, 1, 1, 0, 1));

@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2011-06-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: make it compile again.
+	* libs/gcu/chain.cc: fixed an infinite loop condition.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/molecule.h: ditto.
+	* plugins/paint/cycles/cycle.ui: replace more boxes and tables.
+	* plugins/paint/cycles/cyclen.ui: ditto.
+	* plugins/paint/residues/pseudo-atom.cc: mark as new whan loaded.
+	* plugins/paint/residues/residues-dlg.cc: replace more boxes and tables.
+	* plugins/paint/residues/residues.ui: ditto.
+
 2011-06-05  Jean Bréfort  <jean@acer>
 	* plugins/paint/atoms/orbital-prop.ui: replace more boxes and tables.
 	* plugins/paint/atoms/orbital.ui: ditto.

@@ -148,6 +148,7 @@ bool gcpPseudoAtom::Load (xmlNodePtr node)
 	}
 	if (!ReadPosition (node, NULL, &m_x, &m_y, &m_z))
 		return false;
+	GetDocument ()->ObjectLoaded (this);
 	return true;
 }
 

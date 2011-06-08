@@ -130,9 +130,8 @@ void Molecule::UpdateCycles (Bond* pBond)	//FIXME: function not totally implemen
 	delete pChain;
 }
 
-void Molecule::UpdateCycles ()
+void Molecule::ClearCycles ()
 {
-	Lock (true);
 	std::list<Bond*>::iterator n, end = m_Bonds.end ();
 	for (n = m_Bonds.begin (); n != end; n++)
 		(*n)->RemoveAllCycles ();
@@ -140,6 +139,12 @@ void Molecule::UpdateCycles ()
 		delete m_Cycles.front ();
 		m_Cycles.pop_front ();
 	}
+}
+
+void Molecule::UpdateCycles ()
+{
+	Lock (true);
+	ClearCycles ();
 	if (!m_Atoms.empty()) {
 		std::list<Atom*>::iterator i = m_Atoms.begin (), end = m_Atoms.end ();
 		i++;

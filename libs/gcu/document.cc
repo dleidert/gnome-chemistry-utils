@@ -145,7 +145,7 @@ bool Document::Loaded () throw (LoaderError)
 					(*j).owner->OnLoaded ();
 				count++;
 			}
-				j++;
+			j++;
 		}
 	}
 	m_PendingTable.clear ();
