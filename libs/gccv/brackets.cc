@@ -127,7 +127,7 @@ Brackets::Brackets (Canvas *canvas, BracketsTypes type, BracketsUses used, char 
 	m_y0 = y0;
 	m_x1 = x1;
 	m_y1 = y1;
-	SetType (type);
+	m_Type = type;
 	m_Used = used;
 	BoundsChanged ();
 	Invalidate ();
@@ -141,7 +141,7 @@ Brackets::Brackets (Group *parent, BracketsTypes type, BracketsUses used, char c
 	m_y0 = y0;
 	m_x1 = x1;
 	m_y1 = y1;
-	SetType (type);
+	m_Type = type;
 	m_Used = used;
 	BoundsChanged ();
 	Invalidate ();

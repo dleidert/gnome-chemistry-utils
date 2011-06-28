@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2011-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/brackets.cc: fixed a pixman warning.
+	* plugins/paint/residues/residues.ui: replace more boxes and tables.
+	* plugins/paint/selection/brackets.ui: ditto.
+	* plugins/paint/selection/bracketstool.cc: ditto.
+	* plugins/paint/selection/group.ui: ditto.
+	* plugins/paint/templates/new-template.ui: ditto.
+	* plugins/paint/templates/templates.ui: ditto.
+	* plugins/paint/templates/templatetool.cc: ditto.
+	* plugins/paint/text/fontsel.ui: ditto.
+
 2011-06-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: make it compile again.
 	* libs/gcu/chain.cc: fixed an infinite loop condition.

@@ -1,98 +1,89 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="3.0"/>
-  <!-- interface-naming-policy project-wide -->
-  <object class="GtkListStore" id="type-list">
-    <columns>
-      <!-- column-name text -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">()</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">[]</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">{}</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="used-list">
-    <columns>
-      <!-- column-name text -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Opening</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Closing</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Both</col>
-      </row>
-    </data>
-  </object>
+  <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkNotebook" id="brackets">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
-    <property name="tab_vborder">5</property>
     <child>
-      <object class="GtkTable" id="brackets-tbl">
+      <object class="GtkGrid" id="brackets-grid">
         <property name="visible">True</property>
-        <property name="n_rows">2</property>
-        <property name="n_columns">2</property>
-        <property name="column_spacing">10</property>
-        <property name="row_spacing">6</property>
+        <property name="can_focus">False</property>
+        <property name="border_width">12</property>
+        <property name="row_spacing">12</property>
+        <property name="column_spacing">6</property>
         <child>
           <object class="GtkLabel" id="type-lbl">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="label" translatable="yes">Brackets type:</property>
           </object>
           <packing>
-            <property name="x_options"></property>
-            <property name="y_options"></property>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel" id="used-lbl">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="label" translatable="yes">Used brakets:</property>
           </object>
           <packing>
+            <property name="left_attach">0</property>
             <property name="top_attach">1</property>
-            <property name="bottom_attach">2</property>
-            <property name="x_options"></property>
-            <property name="y_options"></property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
-          <object class="GtkComboBox" id="type-box">
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <object class="GtkComboBoxText" id="type-box">
             <property name="visible">True</property>
-            <property name="model">type-list</property>
+            <property name="can_focus">False</property>
+            <items>
+              <item translatable="yes">()</item>
+              <item translatable="yes">[]</item>
+              <item translatable="yes">{}</item>
+            </items>
           </object>
           <packing>
             <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
-            <property name="x_options">GTK_FILL</property>
-            <property name="y_options"></property>
+            <property name="top_attach">0</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
-          <object class="GtkComboBox" id="used-box">
+          <object class="GtkComboBoxText" id="used-box">
             <property name="visible">True</property>
-            <property name="model">used-list</property>
+            <property name="can_focus">False</property>
+            <items>
+              <item translatable="yes">Opening</item>
+              <item translatable="yes">Closing</item>
+              <item translatable="yes">Both</item>
+            </items>
           </object>
           <packing>
             <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
             <property name="top_attach">1</property>
-            <property name="bottom_attach">2</property>
-            <property name="x_options">GTK_FILL</property>
-            <property name="y_options"></property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
       </object>
@@ -100,6 +91,7 @@
     <child type="tab">
       <object class="GtkLabel" id="brackets-lbl">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">Brackets</property>
       </object>
       <packing>
@@ -107,9 +99,36 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="font-box">
+      <object class="GtkGrid" id="font-grid">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
+        <property name="border_width">12</property>
+        <property name="row_spacing">12</property>
+        <property name="column_spacing">6</property>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
         <child>
           <placeholder/>
         </child>
@@ -121,6 +140,7 @@
     <child type="tab">
       <object class="GtkLabel" id="font-lbl">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">Font</property>
       </object>
       <packing>

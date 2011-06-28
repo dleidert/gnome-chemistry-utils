@@ -1,56 +1,140 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="3.0"/>
-  <!-- interface-naming-policy toplevel-contextual -->
-  <object class="GtkVBox" id="templates">
+  <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkGrid" id="templates">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
+    <property name="can_focus">False</property>
+    <property name="row_spacing">12</property>
+    <property name="column_spacing">6</property>
     <child>
-      <object class="GtkHBox" id="hbox1">
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkGrid" id="templates-grid">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="row_spacing">12</property>
+        <property name="column_spacing">6</property>
         <child>
-          <object class="GtkLabel" id="label1">
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="templates-combo">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">0</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="templatyes-lbl">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="xpad">5</property>
             <property name="label" translatable="yes">_Templates</property>
             <property name="use_underline">True</property>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkComboBox" id="templates-combo">
-            <property name="visible">True</property>
-          </object>
-          <packing>
-            <property name="position">1</property>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
       </object>
       <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">0</property>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">2</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="add">
+        <property name="label">gtk-add</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="use_action_appearance">False</property>
+        <property name="use_stock">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">2</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="delete">
+        <property name="label">gtk-remove</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="use_action_appearance">False</property>
+        <property name="use_stock">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">2</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
     <child>
       <object class="GtkNotebook" id="book">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
         <property name="show_tabs">False</property>
         <property name="show_border">False</property>
         <child>
           <object class="GtkLabel" id="label3">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="label" translatable="yes">No selected template</property>
           </object>
         </child>
         <child type="tab">
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="yalign">0</property>
             <property name="label" translatable="yes">category</property>
@@ -61,41 +145,10 @@
         </child>
       </object>
       <packing>
-        <property name="position">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkHBox" id="hbox2">
-        <property name="visible">True</property>
-        <child>
-          <object class="GtkButton" id="add">
-            <property name="label">gtk-add</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="use_stock">True</property>
-          </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="delete">
-            <property name="label">gtk-remove</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="use_stock">True</property>
-          </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">2</property>
+        <property name="left_attach">0</property>
+        <property name="top_attach">1</property>
+        <property name="width">3</property>
+        <property name="height">1</property>
       </packing>
     </child>
   </object>

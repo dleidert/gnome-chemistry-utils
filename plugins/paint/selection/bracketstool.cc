@@ -183,9 +183,9 @@ GtkWidget *gcpBracketsTool::GetPropertyPage ()
 		box = builder->GetComboBox ("used-box");
 		gtk_combo_box_set_active (box, m_Used - 1);
 		g_signal_connect (box, "changed", G_CALLBACK (gcpBracketsTool::OnUsedChanged), this);
-		GtkBox *fbox = GTK_BOX (builder->GetWidget ("font-box"));
-		GtkWidget *widget = GTK_WIDGET (g_object_new (GCP_TYPE_FONT_SEL, "allow-slanted", false, "label", "{[()]}", NULL));
-		gtk_box_pack_start (fbox, widget, false, true, 0);
+		GtkWidget *fgrid = builder->GetWidget ("font-grid");
+		GtkWidget *widget = GTK_WIDGET (g_object_new (GCP_TYPE_FONT_SEL, "allow-slanted", false, "label", "{[()]}", "expand", true, NULL));
+		gtk_container_add (GTK_CONTAINER (fgrid), widget);
 		gtk_widget_show_all (widget);
 		m_FontSel = reinterpret_cast <GcpFontSel *> (widget);
 		g_signal_connect (m_FontSel, "changed", G_CALLBACK (gcpBracketsTool::OnFontChanged), this);

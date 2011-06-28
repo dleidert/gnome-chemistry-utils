@@ -296,7 +296,7 @@ void gcpTemplateTool::OnConfigChanged ()
 }
 
 gcpNewTemplateToolDlg::gcpNewTemplateToolDlg (gcp::Application* App):
-	gcugtk::Dialog(App, UIDIR"/new-template.ui", "new_template", GETTEXT_PACKAGE, App)
+	gcugtk::Dialog(App, UIDIR"/new-template.ui", "new-template", GETTEXT_PACKAGE, App)
 {
 	m_node = NULL;
 	if (!xml) {
@@ -323,9 +323,10 @@ gcpNewTemplateToolDlg::gcpNewTemplateToolDlg (gcp::Application* App):
 	gtk_combo_box_set_model (GTK_COMBO_BOX (w), GTK_TREE_MODEL (model));
 	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (w), NAME_COLUMN);
 	g_object_unref (model);
-	gtk_table_attach_defaults (GTK_TABLE (GetWidget ("table1")), w, 1, 2, 1, 2);
+	gtk_grid_attach (GTK_GRID (GetWidget ("new-template-grid")), w, 1, 2, 1, 1);
 	gtk_widget_show (w);
 	category_entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (w)));
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 gcpNewTemplateToolDlg::~gcpNewTemplateToolDlg ()

@@ -1,216 +1,104 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="3.0"/>
-  <!-- interface-naming-policy toplevel-contextual -->
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="lower">-100</property>
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkListStore" id="model1">
-    <columns>
-      <!-- column-name gchararray -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">None</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Single</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Double</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Low</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkVBox" id="fontsel">
+  <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkGrid" id="fontsel">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
+    <property name="can_focus">False</property>
+    <property name="border_width">12</property>
+    <property name="row_spacing">12</property>
+    <property name="column_spacing">6</property>
     <child>
-      <object class="GtkTable" id="table1">
+      <object class="GtkScrolledWindow" id="family-scrolled">
         <property name="visible">True</property>
-        <property name="border_width">6</property>
-        <property name="n_rows">3</property>
-        <property name="n_columns">3</property>
-        <property name="column_spacing">12</property>
+        <property name="can_focus">True</property>
+        <property name="shadow_type">in</property>
         <child>
-          <object class="GtkLabel" id="label1">
-            <property name="visible">True</property>
-            <property name="xalign">0</property>
-            <property name="yalign">0</property>
-            <property name="label" translatable="yes">_Family:</property>
-            <property name="use_underline">True</property>
-            <property name="mnemonic_widget">family</property>
-          </object>
-          <packing>
-            <property name="x_options">GTK_FILL</property>
-            <property name="y_options"></property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label2">
-            <property name="visible">True</property>
-            <property name="xalign">0</property>
-            <property name="yalign">0</property>
-            <property name="label" translatable="yes">_Style:</property>
-            <property name="use_underline">True</property>
-            <property name="mnemonic_widget">style</property>
-          </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
-            <property name="x_options">GTK_FILL</property>
-            <property name="y_options"></property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkScrolledWindow" id="scrolledwindow2">
+          <object class="GtkTreeView" id="family">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">never</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkTreeView" id="style">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="headers_visible">False</property>
-              </object>
+            <property name="headers_visible">False</property>
+            <child internal-child="selection">
+              <object class="GtkTreeSelection" id="treeview-selection"/>
             </child>
           </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
-            <property name="top_attach">1</property>
-            <property name="bottom_attach">3</property>
-            <property name="x_options">GTK_FILL</property>
-            <property name="y_options">GTK_FILL</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkScrolledWindow" id="scrolledwindow1">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkTreeView" id="family">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="headers_visible">False</property>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="top_attach">1</property>
-            <property name="bottom_attach">3</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label3">
-            <property name="visible">True</property>
-            <property name="xalign">0</property>
-            <property name="yalign">0</property>
-            <property name="label" translatable="yes">Si_ze:</property>
-            <property name="use_underline">True</property>
-            <property name="mnemonic_widget">size-entry</property>
-          </object>
-          <packing>
-            <property name="left_attach">2</property>
-            <property name="right_attach">3</property>
-            <property name="x_options">GTK_SHRINK | GTK_FILL</property>
-            <property name="y_options"></property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="size-entry">
-            <property name="width_request">20</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="invisible_char">&#x2022;</property>
-            <property name="width_chars">4</property>
-          </object>
-          <packing>
-            <property name="left_attach">2</property>
-            <property name="right_attach">3</property>
-            <property name="top_attach">1</property>
-            <property name="bottom_attach">2</property>
-            <property name="x_options">GTK_SHRINK | GTK_FILL</property>
-            <property name="y_options"></property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkScrolledWindow" id="scrolledwindow3">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">never</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkTreeView" id="size-list">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="headers_visible">False</property>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="left_attach">2</property>
-            <property name="right_attach">3</property>
-            <property name="top_attach">2</property>
-            <property name="bottom_attach">3</property>
-            <property name="x_options"></property>
-          </packing>
         </child>
       </object>
       <packing>
-        <property name="position">0</property>
+        <property name="left_attach">0</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">2</property>
       </packing>
     </child>
     <child>
-      <object class="GtkHBox" id="hbox1">
+      <object class="GtkLabel" id="family-lbl">
         <property name="visible">True</property>
-        <property name="border_width">6</property>
-        <property name="spacing">12</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="yalign">0</property>
+        <property name="label" translatable="yes">_Family:</property>
+        <property name="use_underline">True</property>
+        <property name="mnemonic_widget">family</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkGrid" id="details">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="row_spacing">12</property>
+        <property name="column_spacing">6</property>
         <child>
           <object class="GtkLabel" id="label5">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">_Underline:</property>
             <property name="use_underline">True</property>
-            <property name="mnemonic_widget">underline</property>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
-          <object class="GtkComboBox" id="underline">
+          <object class="GtkComboBoxText" id="comboboxtext1">
             <property name="visible">True</property>
-            <property name="model">model1</property>
-            <child>
-              <object class="GtkCellRendererText" id="renderer1"/>
-              <attributes>
-                <attribute name="text">0</attribute>
-              </attributes>
-            </child>
+            <property name="can_focus">False</property>
+            <items>
+              <item translatable="yes">None</item>
+              <item translatable="yes">Single</item>
+              <item translatable="yes">Double</item>
+              <item translatable="yes">Low</item>
+            </items>
           </object>
           <packing>
-            <property name="position">1</property>
+            <property name="left_attach">1</property>
+            <property name="top_attach">0</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label4">
+          <object class="GtkLabel" id="color-lbl">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
-            <property name="yalign">0</property>
+            <property name="label" translatable="yes">_Color:</property>
+            <property name="use_underline">True</property>
           </object>
           <packing>
-            <property name="position">2</property>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -219,69 +107,159 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
+            <property name="use_action_appearance">False</property>
             <property name="use_underline">True</property>
+            <property name="xalign">0</property>
             <property name="draw_indicator">True</property>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">3</property>
+            <property name="left_attach">2</property>
+            <property name="top_attach">0</property>
+            <property name="width">2</property>
+            <property name="height">1</property>
           </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkTable" id="table2">
-        <property name="visible">True</property>
-        <property name="border_width">6</property>
-        <property name="n_columns">4</property>
-        <property name="column_spacing">12</property>
-        <child>
-          <object class="GtkSpinButton" id="rise">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="invisible_char">&#x2022;</property>
-            <property name="adjustment">adjustment1</property>
-          </object>
-          <packing>
-            <property name="left_attach">3</property>
-            <property name="right_attach">4</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="color-lbl">
-            <property name="visible">True</property>
-            <property name="xalign">0</property>
-            <property name="label" translatable="yes">_Color:</property>
-            <property name="use_underline">True</property>
-          </object>
         </child>
         <child>
           <object class="GtkLabel" id="position-lbl">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="label" translatable="yes">_Position:</property>
             <property name="use_underline">True</property>
             <property name="mnemonic_widget">rise</property>
           </object>
           <packing>
             <property name="left_attach">2</property>
-            <property name="right_attach">3</property>
+            <property name="top_attach">1</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkSpinButton" id="rise">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="invisible_char">•</property>
+            <property name="invisible_char_set">True</property>
+            <property name="adjustment">pos-adj</property>
+          </object>
+          <packing>
+            <property name="left_attach">3</property>
+            <property name="top_attach">1</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
         </child>
       </object>
       <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">2</property>
+        <property name="left_attach">0</property>
+        <property name="top_attach">3</property>
+        <property name="width">3</property>
+        <property name="height">1</property>
       </packing>
     </child>
+    <child>
+      <object class="GtkLabel" id="style-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="yalign">0</property>
+        <property name="label" translatable="yes">_Style:</property>
+        <property name="use_underline">True</property>
+        <property name="mnemonic_widget">style</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="size-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="yalign">0</property>
+        <property name="label" translatable="yes">Si_ze:</property>
+        <property name="use_underline">True</property>
+        <property name="mnemonic_widget">size-entry</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkScrolledWindow" id="style-scroll">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="hscrollbar_policy">never</property>
+        <property name="shadow_type">in</property>
+        <child>
+          <object class="GtkTreeView" id="style">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="headers_visible">False</property>
+            <child internal-child="selection">
+              <object class="GtkTreeSelection" id="treeview-selection1"/>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkScrolledWindow" id="size-scrolled">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="hscrollbar_policy">never</property>
+        <property name="shadow_type">in</property>
+        <child>
+          <object class="GtkTreeView" id="size-list">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="headers_visible">False</property>
+            <child internal-child="selection">
+              <object class="GtkTreeSelection" id="treeview-selection2"/>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">2</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="size-entry">
+        <property name="width_request">20</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">•</property>
+        <property name="width_chars">4</property>
+        <property name="invisible_char_set">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="pos-adj">
+    <property name="lower">-100</property>
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
 </interface>
