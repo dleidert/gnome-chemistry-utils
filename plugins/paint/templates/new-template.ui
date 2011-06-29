@@ -80,30 +80,12 @@
             <property name="row_spacing">12</property>
             <property name="column_spacing">6</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkScrolledWindow" id="scrolledcanvas">
                 <property name="height_request">220</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
-                <child>
-                  <placeholder/>
-                </child>
               </object>
               <packing>
                 <property name="left_attach">0</property>

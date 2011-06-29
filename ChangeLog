@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2011-06-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/residues/residues.ui: cleaning in plugins completed.
+	* plugins/paint/selection/brackets.ui: ditto.
+	* plugins/paint/selection/lassotool.cc: ditto.
+	* plugins/paint/selection/selectiontool.cc: ditto.
+	* plugins/paint/templates/new-template.ui: ditto.
+	* plugins/paint/templates/templates.ui: ditto.
+	* plugins/paint/text/fontsel.ui: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+
 2011-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/brackets.cc: fixed a pixman warning.
 	* plugins/paint/residues/residues.ui: replace more boxes and tables.

@@ -69,7 +69,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkComboBoxText" id="comboboxtext1">
+          <object class="GtkComboBoxText" id="underline">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <items>

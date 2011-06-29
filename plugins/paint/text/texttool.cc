@@ -939,7 +939,8 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 	go_color_selector_set_allow_alpha (m_ColorSelector, false);
 	m_ForeSignal = g_signal_connect (G_OBJECT (m_ColorSelector), "activate", G_CALLBACK (on_fore_color_changed), this);
 	gtk_widget_show (GTK_WIDGET (m_ColorSelector));
-	gtk_table_attach (GTK_TABLE (builder->GetWidget ("table2")), GTK_WIDGET (m_ColorSelector), 1, 2, 0, 1, (GtkAttachOptions) 0, (GtkAttachOptions) 0, 0, 0);
+	g_object_set (G_OBJECT (m_ColorSelector), "halign", GTK_ALIGN_START, NULL);
+	gtk_grid_attach (GTK_GRID (builder->GetWidget ("details")), GTK_WIDGET (m_ColorSelector), 1, 1, 1, 1);
 	GtkWidget *res = builder->GetRefdWidget ("fontsel");
 	delete builder;
 	return res;

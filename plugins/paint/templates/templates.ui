@@ -7,47 +7,11 @@
     <property name="row_spacing">12</property>
     <property name="column_spacing">6</property>
     <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
       <object class="GtkGrid" id="templates-grid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="row_spacing">12</property>
         <property name="column_spacing">6</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
         <child>
           <object class="GtkComboBox" id="templates-combo">
             <property name="visible">True</property>

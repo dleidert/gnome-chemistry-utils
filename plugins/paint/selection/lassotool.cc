@@ -408,11 +408,12 @@ static const char *ui_description =
 
 GtkWidget *gcpLassoTool::GetPropertyPage ()
 {
-	GtkWidget *box, *w;
+	GtkWidget *grid, *w;
 	GtkActionGroup *action_group;
 	GError *error;
 
-	box = gtk_vbox_new (FALSE, 0);
+	grid = gtk_grid_new ();
+	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, "border-width", 6, NULL);
 	action_group = gtk_action_group_new ("LassoToolActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), m_pApp);
@@ -423,7 +424,7 @@ GtkWidget *gcpLassoTool::GetPropertyPage ()
 	  {
 		g_message ("building property page failed: %s", error->message);
 		g_error_free (error);
-		gtk_widget_destroy (box);
+		gtk_widget_destroy (grid);
 		g_object_unref (m_UIManager);
 		m_UIManager = NULL;
 		return NULL;;
@@ -432,9 +433,9 @@ GtkWidget *gcpLassoTool::GetPropertyPage ()
 	w = gtk_ui_manager_get_widget (m_UIManager, "/Lasso");
 	gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);
-	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-	gtk_widget_show_all (box);
-	return box;
+	gtk_container_add (GTK_CONTAINER (grid), w);
+	gtk_widget_show_all (grid);
+	return grid;
 }
 
 char const *gcpLassoTool::GetHelpTag ()
