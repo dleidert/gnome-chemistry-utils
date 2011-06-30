@@ -98,12 +98,10 @@ static int get_fontweight (PangoWeight val)
 		case PANGO_WEIGHT_BOLD: return 7;
 		case PANGO_WEIGHT_ULTRABOLD: return 8;
 		case PANGO_WEIGHT_HEAVY: return 9;
-#if PANGO_VERSION_MAJOR > 1 || PANGO_VERSION_MINOR >= 24
 		case PANGO_WEIGHT_THIN: return 1;
 		case PANGO_WEIGHT_BOOK: return 38;
 		case PANGO_WEIGHT_MEDIUM: return 5;
 		case PANGO_WEIGHT_ULTRAHEAVY: return 10;
-#endif
 		default: return 4;
 	}
 }
@@ -293,17 +291,10 @@ static bool on_delete_event (GtkWidget* widget, G_GNUC_UNUSED GdkEvent *event, P
 	return res;
 }
 
-#if GTK_CHECK_VERSION (2, 24, 0)
 static void on_default_theme_changed (GtkComboBoxText *box, PrefsDlg* dlg)
 {
 	PrefsDlgPrivate::SetDefaultTheme (dlg, gtk_combo_box_text_get_active_text (box));
 }
-#else
-static void on_default_theme_changed (GtkComboBox *box, PrefsDlg* dlg)
-{
-	PrefsDlgPrivate::SetDefaultTheme (dlg, gtk_combo_box_get_active_text (box));
-}
-#endif
 
 PrefsDlg::PrefsDlg (Application *pApp):
 	gcugtk::Dialog (pApp, UIDIR"/preferences.ui", "preferences", GETTEXT_PACKAGE, pApp),
@@ -340,13 +331,15 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	g_signal_connect (G_OBJECT (m_HashDistBtn), "value-changed", G_CALLBACK (on_hash_dist_changed), this);
 	// add font selector
 	m_FontSel = GCP_FONT_SEL (g_object_new (GCP_TYPE_FONT_SEL, NULL));
-	w = GetWidget ("atom-font-box");
-	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (m_FontSel), true, true, 0);
+	w = GetWidget ("atom-font-grid");
+	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (m_FontSel));
+	g_object_set (m_FontSel, "expand", true, NULL);
 	m_FontChanged = g_signal_connect (G_OBJECT (m_FontSel), "changed", G_CALLBACK (on_font_changed), this);
 	// add text font selector
 	m_TextFontSel = GCP_FONT_SEL (g_object_new (GCP_TYPE_FONT_SEL, NULL));
-	w = GetWidget ("text-box");
-	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (m_TextFontSel), true, true, 0);
+	w = GetWidget ("text-grid");
+	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (m_TextFontSel));
+	g_object_set (m_TextFontSel, "expand", true, NULL);
 	m_TextFontChanged = g_signal_connect (G_OBJECT (m_TextFontSel), "changed", G_CALLBACK (on_text_font_changed), this);
 	// arrow spin buttons
 	m_ArrowLengthBtn = GTK_SPIN_BUTTON (GetWidget ("arrow-length-btn"));
@@ -397,22 +390,12 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	if (default_name == "Default")
 			default_name = _("Default");
 	Theme *theme, *default_theme = TheThemeManager.GetDefaultTheme ();
-#if GTK_CHECK_VERSION (2, 24, 0)
 	m_DefaultThemeBox = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
-#else
-	m_DefaultThemeBox = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-#endif
-	gtk_table_attach (GTK_TABLE (GetWidget ("table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 3, 4,
-													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
+	gtk_grid_attach (GTK_GRID (GetWidget ("prefs-grid")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 2, 1);
 	int n = 0;
 	for (i = theme_names.begin (); i != iend; i++) {
 		theme = TheThemeManager.GetTheme (*i);
-#if GTK_CHECK_VERSION (2, 24, 0)
 		gtk_combo_box_text_append_text (m_DefaultThemeBox, (*i).c_str ());
-#else
-		gtk_combo_box_append_text (m_DefaultThemeBox, (*i).c_str ());
-#endif
 		if (theme == default_theme)
 			gtk_combo_box_set_active (GTK_COMBO_BOX (m_DefaultThemeBox), n);
 		n++;
