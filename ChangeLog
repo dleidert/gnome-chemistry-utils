@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-07-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fontsel.cc: replace more boxes and tables.
+	* libs/gcp/tools.cc: fixed toolbars margins.
+	* plugins/paint/text/fontsel.ui: minor tweaks.
+	* ui/paint/tools.ui: fixed margins.
+
 2011-06-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/preferences.cc: replace boxes and tables.
 	* libs/gcp/preferences.h: ditto.

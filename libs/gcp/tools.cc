@@ -59,12 +59,6 @@ Tools::Tools (Application *App):
 	Application *pApp = dynamic_cast<Application*> (App);
 	m_UIManager = NULL;
 	m_ButtonsGrid = GTK_GRID (GetWidget ("tools-buttons"));
-	if (m_ButtonsGrid == NULL) {
-		// work around a gtk+ bug: #649972
-		m_ButtonsGrid = GTK_GRID (g_object_new (GTK_TYPE_GRID, "orientation", GTK_ORIENTATION_VERTICAL, NULL));
-		gtk_grid_attach (GTK_GRID (GetWidget ("tools-grid")), GTK_WIDGET (m_ButtonsGrid), 0, 0, 1, 1);
-		gtk_widget_show (GTK_WIDGET (m_ButtonsGrid));
-	}
 	m_Book = GTK_NOTEBOOK (GetWidget ("tools-book"));
 	GtkWidget *grid = GetWidget ("element-grid");
 	GtkWidget *w = gcu_combo_periodic_new ();
@@ -105,6 +99,7 @@ void Tools::AddToolbar (string &name)
 	if (m_UIManager) {
 		GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), name.c_str ()),
 			*h = gtk_handle_box_new ();
+		g_object_set (G_OBJECT (h), "hexpand", true, NULL);
 		gtk_container_foreach (GTK_CONTAINER (w), (GtkCallback) register_item_cb, this);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);

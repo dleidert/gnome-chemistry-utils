@@ -510,18 +510,16 @@ gcp_font_sel_init (GcpFontSel *fs)
 {
 	int i, nb;
 	PangoFontFamily **families;
-	GtkWidget *sc, *w = gtk_table_new (3, 4, FALSE);
-	g_object_set (G_OBJECT (w), "border-width", 6, NULL);
+	GtkWidget *sc, *w = gtk_grid_new ();
+	g_object_set (G_OBJECT (w), "border-width", 6, "expand", true, NULL);
 	fs->Families = map<string, PangoFontFamily*>();
 	fs->Faces = map<string, PangoFontFace*>();
-	GtkTable *table = GTK_TABLE (w);
-	gtk_table_set_col_spacings (table, 12);
+	GtkGrid *grid = GTK_GRID (w);
+	gtk_grid_set_row_spacing (grid, 12);
 	gtk_container_add (GTK_CONTAINER (fs), GTK_WIDGET (w));
 	w = gtk_label_new ("");
 	fs->Label = GTK_LABEL (w);
-	gtk_table_attach (table, w, 0, 3, 3, 4,
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 6);
+	gtk_grid_attach (grid, w, 0, 3, 3, 1);
 	// Initialize faces list
 	fs->FaceList = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (fs->FaceList), 0, GTK_SORT_ASCENDING);
@@ -530,9 +528,8 @@ gcp_font_sel_init (GcpFontSel *fs)
 	sc = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sc), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sc), GTK_WIDGET (fs->FacesTree));
-	gtk_table_attach (table, sc, 1, 2, 1, 3,
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
+	g_object_set (sc, "expand", true, NULL);
+	gtk_grid_attach (grid, sc, 1, 1, 1, 2);
 	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
 	GtkTreeViewColumn *column = gtk_tree_view_column_new_with_attributes (NULL, renderer, "text", 0, NULL);
 	gtk_tree_view_append_column (fs->FacesTree, column);
@@ -560,17 +557,14 @@ gcp_font_sel_init (GcpFontSel *fs)
 	sc = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sc), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sc), w);
-	gtk_table_attach (table, sc, 2, 3, 2, 3,
-			(GtkAttachOptions) (GTK_FILL),
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
+	gtk_grid_attach (grid, sc, 2, 2, 1, 1);
 	w = gtk_entry_new ();
+	gtk_entry_set_width_chars (GTK_ENTRY (w), 4);
 	fs->m_SizeEntry = GTK_ENTRY (w);
 	g_signal_connect (w, "activate", G_CALLBACK (on_size_activate), fs);
 	g_signal_connect_after (w, "focus_out_event", G_CALLBACK (on_size_focus_out), fs);
 	gcp_font_sel_set_size_full (fs, true);
-	gtk_table_attach (table, w, 2, 3, 1, 2,
-			(GtkAttachOptions) (0),
-			(GtkAttachOptions) 0, 0, 0);
+	gtk_grid_attach (grid, w, 2, 1, 1, 1);
 	PangoContext *pc = gtk_widget_get_pango_context (w);
 	PangoLayout *pl = pango_layout_new (pc);
 	pango_layout_set_text (pl, "0000000", -1);
@@ -615,11 +609,10 @@ gcp_font_sel_init (GcpFontSel *fs)
 	gtk_tree_selection_set_mode (fs->FamilySel, GTK_SELECTION_BROWSE);
 	fs->FamilySignal = g_signal_connect (G_OBJECT (fs->FamilySel), "changed", G_CALLBACK (on_select_family), fs);
 	sc = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (sc, "expand", true, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sc), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sc), GTK_WIDGET (fs->FamilyTree));
-	gtk_table_attach (table, sc, 0, 1, 1, 3,
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
+	gtk_grid_attach (grid, sc, 0, 1, 1, 2);
 	g_free (families);
 	fs->AllowSlanted = true;
 }
