@@ -540,7 +540,7 @@ static const char *ui_description =
 Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) throw (std::runtime_error):
 	Target (App)
 {
-	GtkWidget *vbox;
+	GtkWidget *grid;
 	GtkWidget *bar;
 	GtkWindow *window;
 	GtkActionGroup *action_group;
@@ -553,8 +553,9 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	g_object_set_data (G_OBJECT (window), "gcp-role", (void*) 1);
 	g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (on_destroy), this);
 	g_signal_connect (G_OBJECT (window), "delete-event", G_CALLBACK (on_delete_event), this);
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (window), vbox);
+	grid = gtk_grid_new ();
+	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
+	gtk_container_add (GTK_CONTAINER (window), grid);
 	action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), this);
@@ -616,9 +617,9 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	gtk_menu_shell_insert (GTK_MENU_SHELL (gtk_widget_get_parent (menu)), item, 3);
 
 	bar = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/MainMenu");
-	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
+	gtk_container_add (GTK_CONTAINER (grid), bar);
 	bar = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/MainToolbar");
-	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
+	gtk_container_add (GTK_CONTAINER (grid), bar);
 	m_Document = new Document (App, true, this);
 	if (Theme)
 		m_Document->SetTheme (TheThemeManager.GetTheme (Theme));
@@ -630,12 +631,12 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	gtk_scrolled_window_add_with_viewport (scroll, w);
 	gtk_widget_set_size_request (GTK_WIDGET (scroll), 408, 308);
 	gtk_widget_show (GTK_WIDGET (scroll));
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (scroll), true, true, 0);
+	gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (scroll));
 	m_Bar = gtk_statusbar_new ();
 	m_statusId = gtk_statusbar_get_context_id (GTK_STATUSBAR (m_Bar), "status");
 	gtk_statusbar_push (GTK_STATUSBAR (m_Bar), m_statusId, _("Ready"));
 	m_MessageId = 0;
-	gtk_box_pack_start (GTK_BOX (vbox), m_Bar, false, false, 0);
+	gtk_container_add (GTK_CONTAINER (grid), m_Bar);
 		
 	g_signal_connect (G_OBJECT(window), "key_press_event", (GCallback)on_key_press, this);
 	g_signal_connect (G_OBJECT(window), "key_release_event", (GCallback)on_key_release, this);

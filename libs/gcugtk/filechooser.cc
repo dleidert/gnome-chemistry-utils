@@ -52,54 +52,37 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 	list<string>::iterator i, iend = mime_types.end ();
 	for (i = mime_types.begin (); i != iend; i++)
 		gtk_file_filter_add_mime_type (filter, (*i).c_str ());
-#if GTK_CHECK_VERSION (2, 24, 0)
 	GtkComboBoxText *format_combo = NULL;
-#else
-	GtkComboBox *format_combo = NULL;
-#endif
 	if (!Save)
 		gtk_file_chooser_set_select_multiple (chooser, true);
 	if (mime_types.size () > 1) {
-		GtkWidget *box = gtk_hbox_new (FALSE, 2);
+		GtkWidget *grid = gtk_grid_new ();
+		gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
 		GtkWidget *label = gtk_label_new_with_mnemonic (_("File _type:"));
-#if GTK_CHECK_VERSION (2, 24, 0)
 		format_combo = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
 		gtk_combo_box_text_append_text (format_combo, _("Automatic"));
-#else
-		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-		gtk_combo_box_append_text (format_combo, _("Automatic"));
-#endif
 		for (i = mime_types.begin (); i != iend; i++) {
 			char *type = go_mime_type_get_description ((*i).c_str ());
 			if (type) {
-#if GTK_CHECK_VERSION (2, 24, 0)
 				gtk_combo_box_text_append_text (format_combo, type);
-#else
-				gtk_combo_box_append_text (format_combo, type);
-#endif
 				g_free (type);
 			} else
-#if GTK_CHECK_VERSION (2, 24, 0)
 				gtk_combo_box_text_append_text (format_combo, (*i).c_str ());
-#else
-				gtk_combo_box_append_text (format_combo, (*i).c_str ());
-#endif
 		}
 		gtk_combo_box_set_active (GTK_COMBO_BOX (format_combo), 0);
 
-		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (format_combo), FALSE, TRUE, 12);
+		gtk_container_add (GTK_CONTAINER (grid), label);
+		gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (format_combo));
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
 		if (extra_widget) {
-			if (GTK_IS_CONTAINER (extra_widget)) {
-				gtk_box_pack_start (GTK_BOX (box), gtk_label_new (""), TRUE, TRUE, 0);
-				gtk_container_add (GTK_CONTAINER (extra_widget), box);
-			} else
+			if (GTK_IS_CONTAINER (extra_widget))
+				gtk_container_add (GTK_CONTAINER (extra_widget), grid);
+			else
 				g_warning ("not implemented, please file a bug report");
 		} else
-			gtk_file_chooser_set_extra_widget (dialog, box);
-		gtk_widget_show_all (box);
+			gtk_file_chooser_set_extra_widget (dialog, grid);
+		gtk_widget_show_all (grid);
 	}
 	gtk_file_chooser_set_filter (chooser, filter);
 	// Now add network directories

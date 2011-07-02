@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-07-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/window.cc: use GtkGrid.
+	* libs/gcugtk/filechooser.cc: ditto.
+	* ui/libgcu/image-resolution.ui: added missing label.
+
 2011-07-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fontsel.cc: replace more boxes and tables.
 	* libs/gcp/tools.cc: fixed toolbars margins.
