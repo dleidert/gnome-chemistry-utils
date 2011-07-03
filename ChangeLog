@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-07-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/chem3ddoc.cc: use the file name as title if the molecule has
+	no known name.
+	* programs/3d/window.cc: use GtkGrid
+
 2011-07-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/window.cc: use GtkGrid.
 	* libs/gcugtk/filechooser.cc: ditto.

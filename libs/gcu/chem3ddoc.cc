@@ -150,6 +150,11 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 		char const *title = m_Mol->GetName ();
 		if (title)
 			SetTitle (title);
+		else {
+			char *fn = g_file_get_basename (file);
+			SetTitle (fn);
+			g_free (fn);
+		}
 		m_View->Update ();
 	} else if (type != ContentTypeUnknown) {
 		Clear ();

@@ -241,7 +241,7 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 {
 	m_App = App;
 	m_Doc = Doc;
-	GtkWidget *vbox, *bar;
+	GtkWidget *grid, *bar;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	GtkAccelGroup *accel_group;
@@ -252,8 +252,9 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	gtk_window_set_icon_name (m_Window, App->GetIconName ().c_str ());
 	g_signal_connect (G_OBJECT (m_Window), "delete-event", G_CALLBACK (on_delete_event), this);
 
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (m_Window), vbox);
+	grid = gtk_grid_new ();
+	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
+	gtk_container_add (GTK_CONTAINER (m_Window), grid);
 	ui_manager = gtk_ui_manager_new ();
 	action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
@@ -288,11 +289,12 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	gtk_widget_show_all (item);
 	gtk_menu_shell_insert (GTK_MENU_SHELL (gtk_widget_get_parent (menu)), item, 2);
 	bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
-	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (grid), bar);
 	g_object_unref (ui_manager);
 	m_View = dynamic_cast<gc3dView *> (m_Doc->GetView ());
 	m_View->SetWindow (this);
-	gtk_container_add (GTK_CONTAINER (vbox), m_View->GetWidget ());
+	g_object_set (G_OBJECT (m_View->GetWidget ()), "expand", true, NULL);
+	gtk_container_add (GTK_CONTAINER (grid), m_View->GetWidget ());
 	switch (Doc->GetDisplay3D ()) {
 	case gcu::BALL_AND_STICK:
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (gtk_action_group_get_action (action_group, "BallnStick")), true);
