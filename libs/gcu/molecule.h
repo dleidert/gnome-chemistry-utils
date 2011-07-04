@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * libs/gcu/molecule.h 
+ * libs/gcu/molecule.h
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -108,7 +108,7 @@ framework between the atoms.
 */
 	virtual unsigned GetAtomsNumber () const {return m_Atoms.size ();}
 /*!
-@param Doc a document. 
+@param Doc a document.
 @param formula a formula
 @param add_pseudo tells if a pseudo atom (with Z = 0) has to be added (used when
 building a gcu::Residue instance).
@@ -124,25 +124,25 @@ Clears cycles and chains and call gcu::Object::Clear().
 */
 	void Clear ();
 /*!
-@param i an uninitialized iterator. 
+@param i an uninitialized iterator.
 
 @return the first atom of the molecule.
 */
 	Atom const *GetFirstAtom (std::list<Atom*>::const_iterator &i) const;
 /*!
-@param i an iterator initialized by a call to GetFirstAtom(). 
+@param i an iterator initialized by a call to GetFirstAtom().
 
 @return the next atom of the molecule or NULL if all atoms have been previously returned.
 */
 	Atom const *GetNextAtom (std::list<Atom*>::const_iterator &i) const;
 /*!
-@param i an uninitialized iterator. 
+@param i an uninitialized iterator.
 
 @return the first bond of the molecule.
 */
 	Bond const *GetFirstBond (std::list<Bond*>::const_iterator &i) const;
 /*!
-@param i an iterator initialized by a call to GetFirstBond(). 
+@param i an iterator initialized by a call to GetFirstBond().
 
 @return the next bond of the molecule or NULL if all bonds have been previously returned.
 */

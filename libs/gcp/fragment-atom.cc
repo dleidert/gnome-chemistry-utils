@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * fragment-atom.cc 
+ * fragment-atom.cc
  *
  * Copyright (C) 2003-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -111,7 +111,7 @@ xmlNodePtr FragmentAtom::Save (xmlDocPtr xml) const
 
 	strncpy (buf, GetSymbol (), sizeof (buf));
 	xmlNodeSetContent (node, (xmlChar*) buf);
-	
+
 	SaveChildren (xml, node);
 	if (m_Charge) {
 		snprintf (buf, sizeof (buf), "%d", m_Charge);
@@ -161,7 +161,7 @@ xmlNodePtr FragmentAtom::Save (xmlDocPtr xml) const
 				xmlNewProp (node, (xmlChar*) "charge-dist", (xmlChar*) buf);
 				g_free (buf);
 			}
-		}		
+		}
 	}
 	return node;
 }
@@ -254,12 +254,12 @@ int FragmentAtom::GetAvailablePosition (double& x, double& y)
 {
 	return m_Fragment->GetAvailablePosition (x, y);
 }
-	
+
 bool FragmentAtom::GetPosition (double angle, double& x, double& y)
 {
 	return m_Fragment->GetPosition (angle, x, y);
 }
-	
+
 bool FragmentAtom::AcceptCharge (int charge)
 {
 	return (charge >= -1 && charge <= 1);
@@ -302,7 +302,7 @@ void FragmentAtom::DoBuildSymbolGeometry (View *pView)
 	map<gcu::Atom*, gcu::Bond*>::iterator i;
 	Bond *bond = (Bond*) GetFirstBond (i);
 	if (bond)
-		bond->SetDirty ();	
+		bond->SetDirty ();
 }
 
 }	//	namespace gcp

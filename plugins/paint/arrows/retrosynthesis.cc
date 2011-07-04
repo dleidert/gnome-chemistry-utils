@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint arrows plugin
  * retrosynthesis.cc
  *
  * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -60,7 +60,7 @@ gcpRetrosynthesis::~gcpRetrosynthesis ()
 			arrow->SetParent (GetParent ());
 			if (pOp)
 				pOp->AddObject (arrow, 1);
-			
+
 		} else
 			delete pObj;
 	}
@@ -268,7 +268,7 @@ int gcpRetrosynthesis::Validate (bool split)
 {
 	map<string, Object*>::iterator i;
 	Object *pObj = GetFirstChild (i);
-	while (pObj && (pObj->GetType () != RetrosynthesisStepType || 
+	while (pObj && (pObj->GetType () != RetrosynthesisStepType ||
 		(reinterpret_cast<gcpRetrosynthesisStep *> (pObj))->GetArrow ()))
 		pObj = GetNextChild (i);
 	if (pObj == NULL)
@@ -282,12 +282,12 @@ int gcpRetrosynthesis::Validate (bool split)
 		if (!split)
 			return 2;
 		pObj = GetFirstChild (i);
-		while (pObj && (pObj->GetType () != RetrosynthesisStepType || 
+		while (pObj && (pObj->GetType () != RetrosynthesisStepType ||
 			(reinterpret_cast<gcpRetrosynthesisStep *> (pObj))->GetArrow () ||
 			pObj == Target))
 			pObj = GetNextChild (i);
 		if (reinterpret_cast<gcpRetrosynthesisStep *> (pObj)->Validate ()) {
-			gcpRetrosynthesis *rs = new gcpRetrosynthesis (GetParent (), 
+			gcpRetrosynthesis *rs = new gcpRetrosynthesis (GetParent (),
 								reinterpret_cast<gcpRetrosynthesisStep *> (pObj));
 			gcp::Document *pDoc = reinterpret_cast<gcp::Document*> (GetDocument ());
 			gcp::Operation *pOp = pDoc->GetCurrentOperation ();

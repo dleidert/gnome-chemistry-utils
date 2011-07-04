@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gcr/line.h 
+ * gcr/line.h
  *
  * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -38,7 +38,7 @@ The type of a Line instance. Possible values are:
 - medians: the lines joining the centers of opposite faces of a cell.
 - normal: a line with defined ends, repeated in each displayes cell.
 - unique: a line with defined ends, not repeated.
-*/	
+*/
 enum LineType
 {
 	edges = 0,
@@ -242,7 +242,7 @@ This helper method is called when searching for the size of the crystal. When so
 the procedure cn take into account lines cleaved to get the same position in the view for the cleaved crystal
 than for the whole crystal. If bFixed is true, all lines are taken into account.
 
-@return the largest distance of the line to the center of the view or 0 if bFixed is false and the line cleaved. 
+@return the largest distance of the line to the center of the view or 0 if bFixed is false and the line cleaved.
 */
 	double Distance (double x, double y, double z, bool bFixed);
 /*!
@@ -272,7 +272,7 @@ Saves the line.
 Loads a line from the XML document.
 */
 	virtual bool Load (xmlNodePtr node);
-	
+
 protected :
 /*!
 The blue component of the color of the cylinder representing the line.

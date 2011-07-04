@@ -1,11 +1,11 @@
-/* 
+/*
  * GChemPaint library
  * window.h
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -174,14 +174,14 @@ Sets the window title.
 @param activate whether to activate or deactivate.
 
 Activates or deactivates the menu item corresponding to \a path according
-to the value of \a activate. 
+to the value of \a activate.
 
 To deactivate the "Paste" menu item, use:
 \code
 ActivateActionWidget ("/MainMenu/EditMenu/Paste", false);
 \endcode
 */
-	void ActivateActionWidget (char const *path, bool activate); 
+	void ActivateActionWidget (char const *path, bool activate);
 /*!
 If the document has been modified since last saving, pops-up a dialog box to
 ask the user if he wants to save the document, to drop the changes or to abort

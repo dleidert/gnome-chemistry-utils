@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
- * gcr/gcrcrystalviewer.cc 
+ * gcr/gcrcrystalviewer.cc
  *
  * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -64,7 +64,7 @@ GType
 gcr_crystal_viewer_get_type (void)
 {
 	static GType crystal_viewer_type = 0;
-  
+
 	if (!crystal_viewer_type)
 	{
 		static const GTypeInfo crystal_viewer_info =
@@ -83,7 +83,7 @@ gcr_crystal_viewer_get_type (void)
 
 		crystal_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GcrCrystalViewer", &crystal_viewer_info, (GTypeFlags)0);
 	}
-  
+
 	return crystal_viewer_type;
 }
 
@@ -149,7 +149,7 @@ void gcr_crystal_viewer_class_init (GcrCrystalViewerClass  *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkWidgetClass *widget_class = reinterpret_cast < GtkWidgetClass * > (klass);
 	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
-	
+
 	gobject_class->finalize = gcr_crystal_viewer_finalize;
 	widget_class->get_preferred_height = gcr_crystal_viewer_get_preferred_height;
 	widget_class->get_preferred_width = gcr_crystal_viewer_get_preferred_width;

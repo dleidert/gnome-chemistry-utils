@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gcugtk/ui-builder.h 
+ * gcugtk/ui-builder.h
  *
  * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -66,12 +66,6 @@ The destructor.
 @return the found widget if any with an incremented references count.
 */
 	GtkWidget *GetRefdWidget (char const *wname);
-/*!
-@param cbname a combo box name.
-
-@return the found combo box if any.
-*/
-	GtkComboBox *GetComboBox (char const *cbname);
 
 /*!\fn GetBuilder()
 @return the embedded GtkBuilder

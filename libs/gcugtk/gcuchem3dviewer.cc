@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
- * gcuchem3dviewer.c 
+ * gcuchem3dviewer.c
  *
  * Copyright (C) 2003-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -84,7 +84,7 @@ GType
 gcu_chem3d_viewer_get_type (void)
 {
 	static GType chem3d_viewer_type = 0;
-  
+
 	if (!chem3d_viewer_type)
 	{
 		static const GTypeInfo chem3d_viewer_info =
@@ -103,7 +103,7 @@ gcu_chem3d_viewer_get_type (void)
 
 		chem3d_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GcuChem3DViewer", &chem3d_viewer_info, (GTypeFlags)0);
 	}
-  
+
 	return chem3d_viewer_type;
 }
 
@@ -174,11 +174,11 @@ void gcu_chem3d_viewer_class_init (GcuChem3DViewerClass  *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkWidgetClass *widget_class = reinterpret_cast < GtkWidgetClass * > (klass);
 	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
-	
+
 	gobject_class->set_property = gcu_chem3d_viewer_set_property;
 	gobject_class->get_property = gcu_chem3d_viewer_get_property;
 	gobject_class->finalize = gcu_chem3d_viewer_finalize;
-	
+
 	g_object_class_install_property (
 		gobject_class,
 		PROP_DISPLAY3D,

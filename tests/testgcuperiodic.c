@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
- * tests/testgcuperiodic.c 
+ * tests/testgcuperiodic.c
  *
  * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -72,15 +72,15 @@ int main (int argc, char *argv[])
 	GtkLabel* label;
 	GtkRadioButton *btn;
 	GSList* btn_group;
-	
+
 	gtk_init (&argc, &argv);
-	
+
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (GTK_WINDOW (window), "GcuPeriodic test");
 	g_signal_connect (G_OBJECT (window), "destroy",
 		 G_CALLBACK (gtk_main_quit),
 		 NULL);
-	
+
 	periodic = gcu_periodic_new ();
 	vbox = (GtkVBox*) gtk_vbox_new (FALSE, 0);
 	hbox = (GtkHBox*) gtk_hbox_new (FALSE, 0);
@@ -104,6 +104,6 @@ int main (int argc, char *argv[])
 	gtk_widget_show_all (window);
 
 	gtk_main ();
-	
+
 	return 0;
 }

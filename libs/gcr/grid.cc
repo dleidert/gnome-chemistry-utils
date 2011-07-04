@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Crystal
- * grid.cc 
+ * grid.cc
  *
  * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -72,7 +72,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 		if (g_utf8_validate (col_title, -1, NULL)) {
 			titles.push_back (col_title);
 			types.push_back (col_type);
-		} 
+		}
 	}
 	va_end (args);
 	grid->cols = titles.size ();
@@ -84,7 +84,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	GtkWidget *scrolled = gtk_scrolled_window_new (grid->hadj, grid->vadj);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	gtk_box_pack_start (box, scrolled, FALSE, TRUE, 0);
-	
+
 /*	GtkTable *table = GTK_TABLE (grid);
 	gtk_table_resize (table, 2, grid->cols);
 	for (unsigned i = 0; i < grid->cols; i++) {

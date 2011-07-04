@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * programs/3d/main.cc 
+ * programs/3d/main.cc
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -43,7 +43,7 @@ void cb_print_version (G_GNUC_UNUSED const gchar *option_name, G_GNUC_UNUSED con
 static char *bgcolor = NULL;
 static char *display3d = NULL;
 
-static GOptionEntry options[] = 
+static GOptionEntry options[] =
 {
 	{ "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, N_("Prints GChem3d Viewer version"), NULL },
 	{ "bgcolor", 'b', 0, G_OPTION_ARG_STRING, &bgcolor, N_("Background color: white, black or #rrggbb (default is black)"), NULL },
@@ -138,6 +138,6 @@ int main(int argc, char *argv[])
 	gtk_main();
 
 	delete App;
-	
+
 	return(0);
 }

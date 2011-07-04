@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * zoomdlg.cc 
+ * zoomdlg.cc
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -33,12 +33,12 @@
 using namespace gcu;
 
 namespace gcp {
-	
+
 static void on_focus_in (ZoomDlg *dlg)
 {
 	dlg->OnFocusIn ();
 }
-	
+
 static void on_zoom_changed (GtkSpinButton *btn, gcp::Document *pDoc)
 {
 	View *pView = pDoc->GetView ();
@@ -58,7 +58,7 @@ ZoomDlg::ZoomDlg (gcp::Document *pDoc):
 ZoomDlg::~ZoomDlg ()
 {
 }
-	
+
 void ZoomDlg::OnFocusIn ()
 {
 	if (!m_Doc)

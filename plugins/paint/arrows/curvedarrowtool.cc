@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint arrows plugin
- * curvedarrowtool.cc 
+ * curvedarrowtool.cc
  *
  * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -206,7 +206,7 @@ void gcpCurvedArrowTool::OnDrag ()
 					m_CPx1 = m_x1 + m_x - m_x0;
 					m_CPy1 = m_y1 + m_y - m_y0;
 				}
-				arrow->SetControlPoints (m_CPx0, m_CPy0, m_CPx1, m_CPy1, m_CPx2, m_CPy2, m_CPx3, m_CPy3);				
+				arrow->SetControlPoints (m_CPx0, m_CPy0, m_CPx1, m_CPy1, m_CPx2, m_CPy2, m_CPx3, m_CPy3);
 			}
 		return;
 	}
@@ -578,7 +578,7 @@ bool gcpCurvedArrowTool::AllowAsTarget (gcp::Atom *atom)
 		if (obj1 != obj2 && obj1->GetParent () != obj2->GetParent () && obj1->GetParent () != obj2 && obj1 != obj2->GetParent ())
 			return false;
 	}
-	return atom->AcceptNewBonds () || atom->GetBondsNumber (); 
+	return atom->AcceptNewBonds () || atom->GetBondsNumber ();
 }
 
 bool gcpCurvedArrowTool::AllowAsSource (gcp::Bond *bond)
@@ -1085,7 +1085,7 @@ void gcpCurvedArrowTool::ElectronToAdjBond ()
 			} else {
 				x0 -= y * 2.;
 				y0 += x * 2.;
-		
+
 			}
 		}
 		x3 -= 2. * dx;

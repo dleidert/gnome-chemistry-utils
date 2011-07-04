@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gcugtk/filechooser.h 
+ * gcugtk/filechooser.h
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -60,7 +60,7 @@ Application::FileProcess if needed. The dialog is modal (nothing else can be don
 it is opened).
 */
 	FileChooser (Application *App, bool Save, std::list<std::string> mime_types, gcu::Document *pDoc = NULL, char const *title = NULL, GtkWidget *extra_widget = NULL);
-	
+
 private:
 	GtkFileChooser* dialog;
 	bool m_bSave;

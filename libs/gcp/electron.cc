@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
  * electron.cc
  *
  * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -122,8 +122,8 @@ void Electron::SetPosition (unsigned char Pos, double angle, double distance)
 void Electron::SetSelected (int state)
 {
 	GOColor color;
-	
-	switch (state) {	
+
+	switch (state) {
 	case SelStateUnselected:
 		color = GO_COLOR_BLACK;
 		break;
@@ -156,7 +156,7 @@ void Electron::SetSelected (int state)
 			static_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);
 	}
 }
-	
+
 xmlNodePtr Electron::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) ((m_IsPair)? "electron-pair": "electron"), NULL);
@@ -205,7 +205,7 @@ xmlNodePtr Electron::Save (xmlDocPtr xml) const
 	}
 	return node;
 }
-	
+
 bool Electron::Load (xmlNodePtr node)
 {
 	if (!Object::Load (node))

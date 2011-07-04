@@ -1,11 +1,11 @@
-/* 
+/*
  * GChemPaint library
- * fontsel.h 
+ * fontsel.h
  *
  * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -37,7 +37,7 @@ typedef struct _GcpFontSel GcpFontSel;
 #define GCP_TYPE_FONT_SEL     (gcp_font_sel_get_type ())
 /*!
 Casts \a obj to a GcpFontSel * pointer.
-@return a pointer to the GcpFontSel * or NULL if \a obj does not point to 
+@return a pointer to the GcpFontSel * or NULL if \a obj does not point to
 a GcpFontSel widget.
 */
 #define GCP_FONT_SEL(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GCP_TYPE_FONT_SEL, GcpFontSel))
@@ -69,7 +69,7 @@ This signal is raised when any property changes in the widget.
 There are six properties:
 - "family": char* (Read / Write).
 	<br>The font family. Default is "Bitstream Vera Sans".
-	
+
 - "style": PangoStyle (Read / Write).
 	<br>The font style. Default is PANGO_STYLE_NORMAL.
 

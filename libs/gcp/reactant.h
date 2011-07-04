@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * reactant.h 
+ * reactant.h
  *
  * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -88,7 +88,7 @@ Sets the stoichiometry coefficient for the reactant.
 */
 	void SetStoichiometry (unsigned coef) {m_Stoich = coef;}
 /*!
-Used to retrieve the y coordinate for alignment. 
+Used to retrieve the y coordinate for alignment.
 @return y coordinate used for reactant alignment.
 */
 	virtual double GetYAlign ();

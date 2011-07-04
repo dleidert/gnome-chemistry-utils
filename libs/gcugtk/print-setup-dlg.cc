@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemistry Utils
  * print-setup-dlg.cc
  *
  * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -76,7 +76,7 @@ static gint unit_sort_func (GtkTreeModel *model,
 
 	gtk_tree_model_get (model, a, 0, &str_a, -1);
 	gtk_tree_model_get (model, b, 0, &str_b, -1);
-	
+
 	result = g_utf8_collate (str_a, str_b);
 
 	g_free (str_a);
@@ -148,7 +148,7 @@ static void on_v_fit (GtkToggleButton *btn, PrintSetupDlg *dlg)
 {
 	dlg->OnVFit (gtk_toggle_button_get_active (btn));
 }
-	
+
 static void on_h_pages_changed (GtkSpinButton *btn, PrintSetupDlg *dlg)
 {
 	dlg->OnHPages (gtk_spin_button_get_value_as_int (btn));
@@ -210,7 +210,7 @@ PrintSetupDlg::PrintSetupDlg (Application* App, Printable *printable):
 	m_UnitId = g_signal_connect_swapped (m_UnitBox, "changed", G_CALLBACK (on_unit_changed), this);
 	GtkCellRenderer *text_renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(m_UnitBox), text_renderer, TRUE);
-	gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT(m_UnitBox), text_renderer, "text", 0);  
+	gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT(m_UnitBox), text_renderer, "text", 0);
 	gtk_grid_attach (GTK_GRID (GetWidget ("paper-selector-grid")), GTK_WIDGET (m_UnitBox), 3, 8, 1, 1);
 	m_MarginTopBtn = GTK_SPIN_BUTTON (GetWidget ("top-margin-btn"));
 	m_MarginTopId = g_signal_connect ((GObject*) m_MarginTopBtn, "value-changed", G_CALLBACK (on_top_margin_changed), this);
@@ -352,7 +352,7 @@ void PrintSetupDlg::UpdatePageSetup (GtkPageSetup *page_setup)
 		TOGGLE_BUTTON (RLandscape)
 	}
 	g_signal_handler_block (G_OBJECT (m_UnitBox), m_UnitId);
-	gtk_tree_model_foreach (GTK_TREE_MODEL (m_UnitList), (GtkTreeModelForeachFunc) select_unit, this);	
+	gtk_tree_model_foreach (GTK_TREE_MODEL (m_UnitList), (GtkTreeModelForeachFunc) select_unit, this);
 	g_signal_handler_unblock (G_OBJECT (m_UnitBox), m_UnitId);
 	SET_SPIN_BUTTON_VALUE (MarginTop, gtk_page_setup_get_top_margin (m_Printable->GetPageSetup (), m_Printable->GetUnit ()));
 	SET_SPIN_BUTTON_VALUE (MarginBottom, gtk_page_setup_get_bottom_margin (m_Printable->GetPageSetup (), m_Printable->GetUnit ()));

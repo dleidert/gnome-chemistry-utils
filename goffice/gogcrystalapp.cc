@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemistry Utils GOffice component
  * gogcrystal.cc
  *
  * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -99,7 +99,7 @@ bool GOGCrystalApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *dat
 		* clearfunc = NULL;
 		return true;
 	}
-	
+
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale(LC_NUMERIC, "C");
 	old_time_locale = g_strdup (setlocale (LC_TIME, NULL));

@@ -1,13 +1,13 @@
 // -*- C -*-
 
-/* 
+/*
  * Gnome Chemisty Utils
- * gcuperiodic.h 
+ * gcuperiodic.h
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -57,7 +57,7 @@ enum GcuPeriodicTipSchemes
 #define GCU_TYPE_PERIODIC		  (gcu_periodic_get_type ())
 /*!
 Casts \a obj to a GcuPeriodic * pointer.
-\return a pointer to the GcuPeriodic * or NULL if \a obj does not point to 
+\return a pointer to the GcuPeriodic * or NULL if \a obj does not point to
 a GcuPeriodic widget.
 */
 #define GCU_PERIODIC(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GCU_TYPE_PERIODIC, GcuPeriodic))
@@ -106,7 +106,7 @@ There are two properties:
 - "can_unselect": gboolean (Read / Write).
 	<br>When this property is set to TRUE, you can unselect the selected element by clicking on the active button, otherwise an element will always be selected.
 	Default value is FALSE.
-	
+
 - "color-style": GcuPeriodicColorStyle (Read / Write).
 	<br>This property is used to set the coloring scheme used for the buttons when displaying the periodic table.
 	There are two predefined values:

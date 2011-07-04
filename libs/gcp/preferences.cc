@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * preferences.cc 
+ * preferences.cc
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -76,7 +76,7 @@ void PrefsDlgPrivate::OnUseAtomColors (GtkToggleButton *btn, Application *app)
 	GOConfNode *node = go_conf_get_node (app->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 	go_conf_set_bool (node, "use-atom-colors", gtk_toggle_button_get_active (btn));
 	go_conf_free_node (node);
-}	
+}
 
 static int get_fontstyle (PangoStyle val)
 {
@@ -445,7 +445,7 @@ PrefsDlg::PrefsDlg (Application *pApp):
 		gtk_tree_selection_select_path (m_ThemesSelection, m_Path);
 		gtk_tree_view_scroll_to_cell (m_ThemesView, m_Path, column, FALSE, 0., 0.);
 	}
-	
+
 	// add event handler to new theme button
 	g_signal_connect_swapped (G_OBJECT (GetWidget ("new-theme")), "clicked", G_CALLBACK (on_new_theme), this);
 	gtk_widget_show_all (GTK_WIDGET (dialog));

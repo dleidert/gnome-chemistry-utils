@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint text plugin
- * fragmenttool.cc 
+ * fragmenttool.cc
  *
  * Copyright (C) 2003-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -367,7 +367,7 @@ void gcpFragmentTool::OnGetData (GtkClipboard *clipboard, GtkSelectionData *sele
 	if (gcp::ClipboardData) {
 		xmlFree (gcp::ClipboardData);
 		gcp::ClipboardData = NULL;
-	} 
+	}
 	gcp::ClipboardDataType = info;
 	gint size;
 	if (info) {

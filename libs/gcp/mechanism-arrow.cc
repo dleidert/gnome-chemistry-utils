@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * mechanism-arrow.cc 
+ * mechanism-arrow.cc
  *
  * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -21,7 +21,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
- 
+
 #include "config.h"
 #include "mechanism-arrow.h"
 #include "mechanism-step.h"
@@ -43,7 +43,7 @@
 #include <cstring>
 
 namespace gcp {
-	
+
 gcu::TypeId MechanismArrowType;
 
 MechanismArrow::MechanismArrow ():
@@ -446,7 +446,7 @@ void MechanismArrow::SetSelected (int state)
 	GOColor color;
 	if (state != SelStateSelected)
 		static_cast <gccv::BezierArrow *> (m_Item)->SetShowControls (false);
-	switch (state) {	
+	switch (state) {
 	case SelStateUnselected:
 		color = Color;
 		break;

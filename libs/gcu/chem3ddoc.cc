@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * gcu/chem3ddoc.cc
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -255,7 +255,7 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 	}
 
 	file << "#VRML V2.0 utf8" << endl;
-	
+
 	x0 = y0 = z0 = 0.0;
 	std::list <Atom *>::const_iterator i;
 	Atom const *atom = m_Mol->GetFirstAtom (i);

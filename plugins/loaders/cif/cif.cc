@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * CIF files loader plugin
- * cif.cc 
+ * cif.cc
  *
  * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -189,7 +189,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				next = cur;
 				while (*next && *next != ' ')
 					next++;
-					
+
 				*next = 0;
 				key = cur;
 				cur = next + 1;
@@ -503,7 +503,7 @@ typedef struct
 {
 	string symbol;
 	string label;
-	string XFract, YFract, ZFract; 
+	string XFract, YFract, ZFract;
 } AtomInstance;
 
 bool CIFLoader::Write  (G_GNUC_UNUSED Object const *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
@@ -635,7 +635,7 @@ bool CIFLoader::Write  (G_GNUC_UNUSED Object const *obj, GsfOutput *out, G_GNUC_
 				+ (*n).ZFract + "\n";
 			gsf_output_write (out, prop.length (), reinterpret_cast <guint8 const *> (prop.c_str ()));
 		}
-		
+
 		return true;
 	}
 	return false;

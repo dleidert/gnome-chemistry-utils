@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint selection plugin
  * selectiontool.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -248,7 +248,7 @@ void gcpSelectionTool::Activate ()
 
 bool gcpSelectionTool::Deactivate ()
 {
-	std::map <gcp::WidgetData *, guint>::iterator i; 
+	std::map <gcp::WidgetData *, guint>::iterator i;
 	while (!SelectedWidgets.empty ())
 	{
 		i = SelectedWidgets.begin ();

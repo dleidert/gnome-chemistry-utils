@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * libs/gcu/chain.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -229,7 +229,7 @@ unsigned Chain::GetUnsaturations ()
 		n += 1;
 	return n;
 }
-	
+
 unsigned Chain::GetHeteroatoms ()
 {
 	unsigned n = 0;
@@ -354,7 +354,7 @@ unsigned Chain::BuildLength (unsigned *cycle_size, unsigned *cycle_pos)
 							cycle = bond->GetNextCycle (c, NULL);
 						}
 					}
-					continue;	
+					continue;
 				}
 				// if we are there, we have normal chain that we explore
 				unsigned cycle_pos = 0, cycle_size = 0, length;

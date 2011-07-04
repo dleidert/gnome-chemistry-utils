@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * mechanism-step.cc 
+ * mechanism-step.cc
  *
  * Copyright (C) 2009-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -33,7 +33,7 @@
 #include <glib/gi18n.h>
 
 namespace gcp {
-	
+
 gcu::TypeId MechanismStepType;
 extern gcu::SignalId OnChangedSignal;
 
@@ -100,7 +100,7 @@ bool MechanismStep::OnSignal (gcu::SignalId Signal, G_GNUC_UNUSED gcu::Object *C
 					parent->AddChild (obj);
 					if (!group && op)
 						op->AddObject (obj, 1);
-						
+
 				}
 			delete this;
 			parent->EmitSignal (OnChangedSignal);

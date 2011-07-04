@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * molecule.cc 
+ * molecule.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -112,7 +112,7 @@ void MoleculePrivate::ExportToGhemical (Molecule *mol)
 	uri += tmpname;
 	mol->GetDocument ()->GetApp ()->ConvertFromCML (cml, uri, "gpr");
 	g_free (cml);
-	char *command_line = g_strconcat ("ghemical -f ", tmpname, NULL);	
+	char *command_line = g_strconcat ("ghemical -f ", tmpname, NULL);
 	g_free (tmpname);
 	g_spawn_command_line_async (command_line, NULL);
 	g_free (command_line);
@@ -128,7 +128,7 @@ void MoleculePrivate::ExportTo3D (Molecule *mol)
 	write (f, cml, strlen (cml));
 	close (f);
 	g_free (cml);
-	char *command_line = g_strconcat ("gchem3d-"GCU_API_VER" ", tmpname, NULL);	
+	char *command_line = g_strconcat ("gchem3d-"GCU_API_VER" ", tmpname, NULL);
 	g_free (tmpname);
 	g_spawn_command_line_async (command_line, NULL);
 	g_free (command_line);
@@ -144,7 +144,7 @@ void MoleculePrivate::ExportToAvogadro (Molecule *mol)
 	write (f, cml, strlen (cml));
 	close (f);
 	g_free (cml);
-	char *command_line = g_strconcat ("avogadro ", tmpname, NULL);	
+	char *command_line = g_strconcat ("avogadro ", tmpname, NULL);
 	g_free (tmpname);
 	g_spawn_command_line_async (command_line, NULL);
 	g_free (command_line);
@@ -302,7 +302,7 @@ void Molecule::AddFragment (Fragment* pFragment)
 	m_Fragments.remove (pFragment); // just in case
 	m_Fragments.push_back (pFragment);
 	Object::AddChild (pFragment);
-} 
+}
 
 void Molecule::AddBond (gcu::Bond* pBond)
 {
@@ -348,9 +348,9 @@ bool Molecule::Merge (Molecule* pMolecule, bool RemoveDuplicates)
 		bool DoMerge;
 		int n;
 		map<Atom*, MergedAtom*> AtomMap;
-		map<Atom*, MergedAtom*>::iterator j, endj; 
+		map<Atom*, MergedAtom*>::iterator j, endj;
 		map<Bond*, Bond*> BondMap;
-		map<Bond*, Bond*>::iterator b, endb; 
+		map<Bond*, Bond*>::iterator b, endb;
 		for (; i != end; i++) {
 			(*i)->GetCoords (&x, &y);
 			pAtom = (Atom*) pMolecule->GetAtomAt (x, y);
@@ -419,7 +419,7 @@ bool Molecule::Merge (Molecule* pMolecule, bool RemoveDuplicates)
 			for (j = AtomMap.begin (); j != endj; j++) {
 				(*j).first->GetCoords (&x0, &y0);
 				(*j).second->pAtom->GetCoords (&x1, &y1);
-				(*j).first->Move ((x1 - x0) / 2.,(y1 - y0) / 2.); 
+				(*j).first->Move ((x1 - x0) / 2.,(y1 - y0) / 2.);
 			}
 			View *pView = ((Document*) GetDocument ())->GetView ();
 
@@ -443,7 +443,7 @@ bool Molecule::Merge (Molecule* pMolecule, bool RemoveDuplicates)
 			}
 
 			// Treat shared atoms and delete from pMolecule
-			map< gcu::Atom *, gcu::Bond * >::iterator ai;  	 
+			map< gcu::Atom *, gcu::Bond * >::iterator ai;
 			endj = AtomMap.end ();
 			for (j = AtomMap.begin (); j != endj; j++) {
 				b0 = (Bond*) (*j).second->pAtom->GetFirstBond (ai);
@@ -455,7 +455,7 @@ bool Molecule::Merge (Molecule* pMolecule, bool RemoveDuplicates)
 				pMolecule->Remove ((*j).second->pAtom);
 				pView->Remove ((*j).second->pAtom);
 				delete (*j).second->pAtom;
-			}			
+			}
 
 			// Try to restore max bond order for shared bonds and destroy old bonds
 			endb = BondMap.end ();
@@ -644,7 +644,7 @@ Object* Molecule::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 			break;
 	return pObj;
 }
-	
+
 double Molecule::GetYAlign ()
 {
 	if (m_Alignment)
@@ -708,7 +708,7 @@ bool Molecule::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, d
 				gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Molecule'><menu action='open3d'><menuitem action='avogadro'/></menu></menu></popup></ui>", -1, NULL);
 			}
 		}
-		// add databases submenu		
+		// add databases submenu
 		if (MoleculePrivate::Databases.empty ()) {
 			// load them using gsf xml support
 			// first $DATADIR/gchemutils/API_VER/databases.xml

@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * CDXML files loader plugin
- * cdx.cc 
+ * cdx.cc
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -230,7 +230,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				doc->SetProperty (GCU_PROP_DOC_CREATION_TIME, buf);
 				break;
 			}
-			case kCDXProp_ModificationDate:{ 
+			case kCDXProp_ModificationDate:{
 				if (size != 14 || !ReadDate (in)) {
 					result = ContentTypeUnknown;
 					break;
@@ -322,7 +322,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 /******************************************************************************
  *	Write callbacks															  *
  ******************************************************************************/
- 
+
 bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj, G_GNUC_UNUSED GOIOContext *s)
 {
 	gint16 n = kCDXObj_Node;
@@ -343,7 +343,7 @@ bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj,
 		WRITEINT32 (out, y_);
 		WRITEINT32 (out, x_);
 	}
-	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);	
+	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);
 	prop = obj->GetProperty (GCU_PROP_ATOM_Z);
 	if (prop != "6") {
 		n = kCDXProp_Node_Element;
@@ -361,23 +361,23 @@ bool CDXLoader::WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj,
 	gint16 n = kCDXObj_Bond;
 	WRITEINT16 (out, n);
 	loader->WriteId (obj, out);
-	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);	
+	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);
 	string prop = obj->GetProperty (GCU_PROP_BOND_BEGIN);
 	AddInt32Property (out, kCDXProp_Bond_Begin, loader->m_SavedIds[prop]);
 	prop = obj->GetProperty (GCU_PROP_BOND_END);
 	AddInt32Property (out, kCDXProp_Bond_End, loader->m_SavedIds[prop]);
 	prop = obj->GetProperty (GCU_PROP_BOND_ORDER);
 	if (prop == "3")
-		AddInt16Property (out, kCDXProp_Bond_Order, 4);	
+		AddInt16Property (out, kCDXProp_Bond_Order, 4);
 	else if (prop == "2")
-		AddInt16Property (out, kCDXProp_Bond_Order, 2);	
+		AddInt16Property (out, kCDXProp_Bond_Order, 2);
 	prop = obj->GetProperty (GCU_PROP_BOND_TYPE);
 	if (prop == "wedge")
-		AddInt16Property (out, kCDXProp_Bond_Display, 6);	
+		AddInt16Property (out, kCDXProp_Bond_Display, 6);
 	else if (prop == "hash")
-		AddInt16Property (out, kCDXProp_Bond_Display, 3);	
+		AddInt16Property (out, kCDXProp_Bond_Display, 3);
 	else if (prop == "squiggle")
-		AddInt16Property (out, kCDXProp_Bond_Display, 8);	
+		AddInt16Property (out, kCDXProp_Bond_Display, 8);
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of bond
 	return true;
 }
@@ -838,7 +838,7 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 										switch (valence) {
 										case 2: {
 											/* remove the first atom and replace it by a pseudo-atom, then add the residue
-											this helps with things begining with an oxygen or a sulfur, but might be 
+											this helps with things begining with an oxygen or a sulfur, but might be
 											not enough n other cases */
 											double x, y;
 											a2->GetCoords (&x, &y);
@@ -1318,13 +1318,13 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 	if (TextAlign == 0xfe)
 		TextAlign = m_TextAlign;
 	switch (TextAlign) {
-	case 0xff: 
+	case 0xff:
 		Text->SetProperty (GCU_PROP_TEXT_ALIGNMENT, "right");
 		break;
-	case 0: 
+	case 0:
 		Text->SetProperty (GCU_PROP_TEXT_ALIGNMENT, "left");
 		break;
-	case 1: 
+	case 1:
 		Text->SetProperty (GCU_PROP_TEXT_ALIGNMENT, "center");
 		break;
 	default:
@@ -1334,16 +1334,16 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 	if (TextJustify == 0xfe)
 		TextJustify = m_TextJustify;
 	switch (TextJustify) {
-	case 0xff: 
+	case 0xff:
 		Text->SetProperty (GCU_PROP_TEXT_JUSTIFICATION, "right");
 		break;
-	case 0: 
+	case 0:
 		Text->SetProperty (GCU_PROP_TEXT_JUSTIFICATION, "left");
 		break;
-	case 1: 
+	case 1:
 		Text->SetProperty (GCU_PROP_TEXT_JUSTIFICATION, "center");
 		break;
-	case 2: 
+	case 2:
 		Text->SetProperty (GCU_PROP_TEXT_JUSTIFICATION, "justify");
 		break;
 	default:
@@ -1476,7 +1476,7 @@ guint16 CDXLoader::ReadSize  (GsfInput *in)
 			bufsize <<= 1;
 		while ((unsigned) size + 1 > bufsize);
 		delete [] buf;
-		buf = new char [bufsize];	
+		buf = new char [bufsize];
 	}
 	return size;
 }

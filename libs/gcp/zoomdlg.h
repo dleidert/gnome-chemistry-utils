@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
  * zoomdlg.h
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -49,13 +49,13 @@ Constructs a dialog to change the zoom level for \a pDoc.
 The destructor.
 */
 	virtual ~ZoomDlg ();
-	
+
 /*!
 Called by the framework when the dialog gets the focus and update the zoom level
 which might have changed.
 */
 	void OnFocusIn ();
-	
+
 private:
 	GtkSpinButton *btn;
 	gcp::Document *m_Doc;

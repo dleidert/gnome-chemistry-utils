@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * programs/gchemtable-curve.cc 
+ * programs/gchemtable-curve.cc
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -71,13 +71,13 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 	case 0: {
 			GsfXMLOut *xout;
 			char *old_num_locale, *old_monetary_locale;
-		
+
 			old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
 			go_setlocale (LC_NUMERIC, "C");
 			old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
 			go_setlocale (LC_MONETARY, "C");
 			go_locale_untranslated_booleans ();
-		
+
 			GogObject *graph_;
 			graph_ = gog_object_dup (GOG_OBJECT (graph),
 				NULL, gog_dataset_dup_to_simple);
@@ -85,7 +85,7 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 			gog_object_write_xml_sax (GOG_OBJECT (graph_), xout, NULL);
 			g_object_unref (xout);
 			g_object_unref (graph_);
-		
+
 			/* go_setlocale restores bools to locale translation */
 			go_setlocale (LC_MONETARY, old_monetary_locale);
 			g_free (old_monetary_locale);
@@ -107,7 +107,7 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 		true;
 	if (res) {
 		osize = gsf_output_size (output);
-				
+
 		buffer = (guchar*) g_malloc (osize);
 		memcpy (buffer, gsf_output_memory_get_bytes (omem), osize);
 		gsf_output_close (output);
@@ -338,7 +338,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gtk_window_set_title (dialog, _("Electron affinity"));
 	} else if (!strncmp (name, "ei-", 3)) {
 		unsigned rank = strtol (name + 3, NULL, 10);
-		char *rk, *buf;		
+		char *rk, *buf;
 		switch (rank) {
 		case 1:
 			ydata = gct_data_vector_get_from_name (_("First ionization energy"));

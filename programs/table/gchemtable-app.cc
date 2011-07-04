@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * programs/gchemtable-app.cc 
+ * programs/gchemtable-app.cc
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -300,7 +300,7 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 	g_signal_connect_swapped (G_OBJECT (window), "delete-event",
 		 G_CALLBACK (on_destroy),
 		 this);
-	
+
 	grid = gtk_grid_new ();
 	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
 	// add menus
@@ -333,7 +333,7 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 	g_object_unref (ui_manager);
 	for (int i = 0; i < 118; i++)
 		Pages[i] = NULL;
-	
+
 	gcu::Element::LoadAllData ();
 	gcu_periodic_set_tips (periodic, GCU_PERIODIC_TIP_STANDARD);
 	colorschemes["none"] = GCU_PERIODIC_COLOR_NONE;
@@ -350,7 +350,7 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 
 	builder = new gcugtk::UIBuilder (UIDIR"/family.ui", GETTEXT_PACKAGE);
 	GtkWidget *familywidget = builder->GetRefdWidget ("family-legend");
-	colorschemes["family"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_family_color, familywidget, this);	
+	colorschemes["family"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_family_color, familywidget, this);
 	gtk_widget_show_all (familywidget);
 	familywidget = builder->GetWidget ("family-box");
 	gtk_combo_box_set_active (GTK_COMBO_BOX(familywidget), 0);
@@ -508,7 +508,7 @@ void GChemTableApp::GetFamilyColor (int Z, GdkRGBA *rgba)
 	Noblegas
 	Rare_Earth
 */
-	
+
 	if (value == "Alkali_Earth") {
 		if (family & 1)
 			rgba->blue = 0.558;
@@ -557,7 +557,7 @@ void GChemTableApp::GetFamilyColor (int Z, GdkRGBA *rgba)
 
 	if (value == "Noblegas") {
 		if (family & 0x10)
-			rgba->red = 0.558; 
+			rgba->red = 0.558;
 		return;
 	}
 

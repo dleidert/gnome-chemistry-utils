@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * programs/spectra/window.cc
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -259,8 +259,9 @@ gsvWindow::gsvWindow (gsvApplication *App, gsvDocument *Doc)
 	gtk_window_set_icon_name (m_Window, App->GetIconName ().c_str ());
 	g_signal_connect (G_OBJECT (m_Window), "delete-event", G_CALLBACK (on_delete_event), this);
 
-	GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (m_Window), vbox);
+	GtkWidget *grid = gtk_grid_new ();
+	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
+	gtk_container_add (GTK_CONTAINER (m_Window), grid);
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
 	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
@@ -289,13 +290,14 @@ gsvWindow::gsvWindow (gsvApplication *App, gsvDocument *Doc)
 	gtk_widget_show_all (item);
 	gtk_menu_shell_insert (GTK_MENU_SHELL (gtk_widget_get_parent (menu)), item, 2);
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
-	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (grid), bar);
 	m_View = dynamic_cast<gsvView *> (m_Doc->GetView ());
 	m_View->SetWindow (this);
-	gtk_box_pack_start (GTK_BOX (vbox), m_View->GetOptionBox (), FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (grid), m_View->GetOptionBox ());
 	w = m_View->GetWidget ();
+	g_object_set (G_OBJECT (w), "margin", 6, "expand", true, NULL);
 	g_signal_connect (G_OBJECT (w), "motion-notify-event", G_CALLBACK (on_motion), NULL);
-	gtk_container_add (GTK_CONTAINER (vbox), w);
+	gtk_container_add (GTK_CONTAINER (grid), w);
 	gtk_widget_show_all (GTK_WIDGET (m_Window));
 	g_object_unref (ui_manager);
 	// Initialize print settings
@@ -345,17 +347,17 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 	case 0: {
 			GsfXMLOut *xout;
 			char *old_num_locale, *old_monetary_locale;
-		
+
 			old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
 			go_setlocale (LC_NUMERIC, "C");
 			old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
 			go_setlocale (LC_MONETARY, "C");
 			go_locale_untranslated_booleans ();
-		
+
 			xout = gsf_xml_out_new (output);
 			gog_object_write_xml_sax (GOG_OBJECT (graph), xout, NULL);
 			g_object_unref (xout);
-		
+
 			/* go_setlocale restores bools to locale translation */
 			go_setlocale (LC_MONETARY, old_monetary_locale);
 			g_free (old_monetary_locale);
@@ -377,7 +379,7 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 		true;
 	if (res) {
 		osize = gsf_output_size (output);
-				
+
 		buffer = (guchar*) g_malloc (osize);
 		memcpy (buffer, gsf_output_memory_get_bytes (omem), osize);
 		gsf_output_close (output);

@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint libray
- * newfiledlg.cc 
+ * newfiledlg.cc
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -32,17 +32,10 @@ using namespace std;
 
 namespace gcp {
 
-#if GTK_CHECK_VERSION (2, 24, 0)
 static void on_theme_changed (GtkComboBoxText *box, NewFileDlg *dlg)
 {
 	dlg->SetTheme (TheThemeManager.GetTheme (gtk_combo_box_text_get_active_text (box)));
 }
-#else
-static void on_theme_changed (GtkComboBox *box, NewFileDlg *dlg)
-{
-	dlg->SetTheme (TheThemeManager.GetTheme (gtk_combo_box_get_active_text (box)));
-}
-#endif
 
 NewFileDlg::NewFileDlg (Application *App):
 	gcugtk::Dialog (App, UIDIR"/newfiledlg.ui", "newfile", GETTEXT_PACKAGE, App),
@@ -82,11 +75,7 @@ NewFileDlg::~NewFileDlg ()
 
 bool NewFileDlg::Apply ()
 {
-#if GTK_CHECK_VERSION (2, 24, 0)
 	dynamic_cast <Application*> (m_App)->OnFileNew (gtk_combo_box_text_get_active_text (m_Box));
-#else
-	dynamic_cast <Application*> (m_App)->OnFileNew (gtk_combo_box_get_active_text (m_Box));
-#endif
 	return true;
 }
 
@@ -97,17 +86,9 @@ void NewFileDlg::OnThemeNamesChanged ()
 	int n, nb = gtk_combo_box_get_active (GTK_COMBO_BOX (m_Box));
 	g_signal_handler_block (m_Box, m_ChangedSignal);
 	while (m_Lines--)
-#if GTK_CHECK_VERSION (2, 24, 0)
 		gtk_combo_box_text_remove (m_Box, 0);
-#else
-		gtk_combo_box_remove_text (m_Box, 0);
-#endif
 	for (i = names.begin (), n = 0; i != end; i++, n++) {
-#if GTK_CHECK_VERSION (2, 24, 0)
 		gtk_combo_box_text_append_text (m_Box, (*i).c_str ());
-#else
-		gtk_combo_box_append_text (m_Box, (*i).c_str ());
-#endif
 		if (m_Theme == TheThemeManager.GetTheme (*i))
 			nb = n;
 	}

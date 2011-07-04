@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gcu/document.h 
+ * gcu/document.h
  *
  * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -46,7 +46,7 @@ typedef enum {
 	ActionException,
 	ActionDelete,
 	ActionIgnore
-} Action;		
+} Action;
 
 class PendingTarget
 {
@@ -187,7 +187,7 @@ private:
 
 /*!
 @param id: the original id
-@param Cache: 
+@param Cache:
 
 When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
 maintains a table to update links using Ids as identifiers. If Cache is set to true GetId adds a new entry in

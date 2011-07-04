@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
  * gcuspectrumviewer.cc
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -129,7 +129,7 @@ gcu_spectrum_viewer_class_init (G_GNUC_UNUSED GcuSpectrumViewerClass *klass)
 {
 	GtkWidgetClass *widget_class = reinterpret_cast < GtkWidgetClass * > (klass);
 	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
-	
+
 	widget_class->get_preferred_height = gcu_spectrum_viewer_get_preferred_height;
 	widget_class->get_preferred_width = gcu_spectrum_viewer_get_preferred_width;
 	widget_class->size_allocate = gcu_spectrum_viewer_size_allocate;

@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gcu/glview.h 
+ * gcu/glview.h
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -96,8 +96,8 @@ Generates a pixbuf from the current view.
 	virtual GdkPixbuf *BuildPixbuf (unsigned width, unsigned height, bool use_bg) const;
 /*!
 @param cr a cairo_t.
-@param width the width used for rendering. 
-@param height the height used for rendering. 
+@param width the width used for rendering.
+@param height the height used for rendering.
 @param use_bg whether to use the window background or a transparent background.
 
 Outputs a bitmap to cairo. Used internally for printing and various image formats exports.

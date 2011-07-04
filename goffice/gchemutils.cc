@@ -1,11 +1,11 @@
-/* 
+/*
  * GChemUtils GOffice component
  * gchemutils.cc
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -68,7 +68,7 @@ go_gchemutils_component_set_data (GOComponent *component)
 	gogcu->document = gogcu->application->ImportDocument (component->mime_type, component->data, component->length);
 	gogcu->application->UpdateBounds (gogcu);
 }
-	
+
 static void
 go_gchemutils_component_render (GOComponent *component, cairo_t *cr,
 						  double width, double height)

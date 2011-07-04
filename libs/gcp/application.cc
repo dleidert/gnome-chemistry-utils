@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * application.cc 
+ * application.cc
  *
  * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -151,7 +151,7 @@ static void load_globs ()
       const char *end_ptr;
       char *dir;
       int len;
- 
+
       end_ptr = ptr;
       while (*end_ptr != ':' && *end_ptr != '\000')
 	end_ptr ++;
@@ -333,7 +333,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		/* Initialize plugins manager */
 		gcu::Loader::Init (this);
 /*		OBConversion Conv;
-		m_Have_InChI = Conv.FindFormat ("inchi") != NULL || 
+		m_Have_InChI = Conv.FindFormat ("inchi") != NULL ||
 			(g_spawn_command_line_sync ("which main_inchi", &result, &errors, NULL, NULL)
 			&& result && strlen (result));
 		if (result)
@@ -413,7 +413,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		// load plugins
 		Plugin::LoadPlugins ();
 		m_bInit = true;
-		g_idle_add (reinterpret_cast <GSourceFunc> (ApplicationPrivate::Init), this); 
+		g_idle_add (reinterpret_cast <GSourceFunc> (ApplicationPrivate::Init), this);
 	}
 	RadioActions = NULL;
 	m_entries = 0;
@@ -460,7 +460,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 				TestSupportedType (line);
 		}
 	}
-	
+
 	// make themes permanent with this as a dummy client
 	list <string> Names = TheThemeManager.GetThemesNames ();
 	list <string>::iterator j, jend = Names.end ();
@@ -530,7 +530,7 @@ void Application::ActivateTool (const string& toolname, bool activate)
 					gtk_toggle_tool_button_set_active (button, true);
 				Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
 				if (ToolsBox)
-					ToolsBox->OnSelectTool (m_pActiveTool);		
+					ToolsBox->OnSelectTool (m_pActiveTool);
 			}
 		} else {
 			if (m_pActiveTool == m_Tools[toolname])
@@ -837,7 +837,7 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 			throw 1;
 		}
 		xmlKeepBlanksDefault (1); // to be sure we don't loose significant spaces.
-		if (!(xml = xmlReadIO ((xmlInputReadCallback) cb_vfs_to_xml, 
+		if (!(xml = xmlReadIO ((xmlInputReadCallback) cb_vfs_to_xml,
 				 (xmlInputCloseCallback) g_input_stream_close, input, filename.c_str (), NULL, 0))) {
 			g_object_unref (file);
 			throw 1;
@@ -941,7 +941,7 @@ void Application::Zoom (double zoom)
 	else {
 		Dialog *pDialog = GetDialog ("Zoom");
 		if (pDialog)
-			pDialog->Present (); 
+			pDialog->Present ();
 		else
 			new ZoomDlg (m_pActiveDoc);
 	}
@@ -973,7 +973,7 @@ void Application::OnToolChanged (GtkAction *current)
 	m_pActiveTool = m_Tools[gtk_action_get_name (current)];
 	Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
 	if (ToolsBox)
-		ToolsBox->OnSelectTool (m_pActiveTool);		
+		ToolsBox->OnSelectTool (m_pActiveTool);
 	if (m_pActiveTool)
 		m_pActiveTool->Activate(true);
 }
@@ -1005,8 +1005,8 @@ void Application::BuildTools () throw (std::runtime_error)
 	m_pActiveTool = m_Tools["Select"];
 	if (m_pActiveTool)
 		m_pActiveTool->Activate(true);
-	ToolsBox->OnSelectTool (m_pActiveTool);	
-	ToolsBox->OnElementChanged (m_CurZ);	
+	ToolsBox->OnSelectTool (m_pActiveTool);
+	ToolsBox->OnElementChanged (m_CurZ);
 }
 
 void Application::ShowTools (bool visible)

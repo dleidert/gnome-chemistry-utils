@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * CDXML files loader plugin
- * cdxml.cc 
+ * cdxml.cc
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -327,7 +327,7 @@ cdxml_string_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (state->attributes & 0x40)
 			state->markup += "<sup>";
 	}
-		
+
 	// TODO: parse attributes
 }
 
@@ -457,7 +457,7 @@ fragment_done (G_GNUC_UNUSED GsfXMLIn *xin, CDXMLReadState *state)
 						switch (valence) {
 						case 2: {
 							/* remove the first atom and replace it by a pseudo-atom, then add the residue
-							this helps with things begining with an oxygen or a sulfur, but might be 
+							this helps with things begining with an oxygen or a sulfur, but might be
 							not enough n other cases */
 							double x, y;
 							a2->GetCoords (&x, &y);
@@ -814,7 +814,7 @@ bool CDXMLLoader::WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 	AddIntProperty (node, "id", loader->m_MaxId++);
 	string prop = obj->GetProperty (GCU_PROP_POS2D);
 	AddStringProperty (node, "p", prop);
-	AddIntProperty (node, "Z", loader->m_Z++);	
+	AddIntProperty (node, "Z", loader->m_Z++);
 	prop = obj->GetProperty (GCU_PROP_ATOM_Z);
 	if (prop != "6")
 		AddStringProperty (node, "Element", prop);
@@ -827,7 +827,7 @@ bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 	xmlAddChild (parent, node);
 	loader->m_SavedIds[obj->GetId ()] = loader->m_MaxId;
 	AddIntProperty (node, "id", loader->m_MaxId++);
-	AddIntProperty (node, "Z", loader->m_Z++);	
+	AddIntProperty (node, "Z", loader->m_Z++);
 	string prop = obj->GetProperty (GCU_PROP_BOND_BEGIN);
 	AddIntProperty (node, "B", loader->m_SavedIds[prop]);
 	prop = obj->GetProperty (GCU_PROP_BOND_END);

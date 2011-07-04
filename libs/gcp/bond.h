@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * bond.h 
+ * bond.h
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -170,7 +170,7 @@ Loads properties specific to GChemPaint bonds.
 @param z the z component of the transation vector.
 
 Used to move a bond. Just tells the bond it has been moved and that it's
-coordinates need to be reevaluated from the new atomic positions. 
+coordinates need to be reevaluated from the new atomic positions.
 */
 	void Move (double x, double y, double z = 0);
 /*!

@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gccv/text.cc 
+ * gccv/text.cc
  *
  * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -235,16 +235,16 @@ void TextLine::DrawDecorations (cairo_t *cr, bool is_vector)
 			y -= width;
 			cairo_move_to (cr, xstart, y);
 			cairo_line_to (cr, xend, y);
-			break;	
+			break;
 		case TextDecorationLow:
 			y += width;
 			cairo_move_to (cr, xstart, y);
 			cairo_line_to (cr, xend, y);
-			break;	
+			break;
 		case TextDecorationMedium:
 			cairo_move_to (cr, xstart, y);
 			cairo_line_to (cr, xend, y);
-			break;	
+			break;
 		case TextDecorationDouble:
 			y += width;
 			cairo_move_to (cr, xstart, y);
@@ -252,9 +252,9 @@ void TextLine::DrawDecorations (cairo_t *cr, bool is_vector)
 			y -= 2 * width;
 			cairo_move_to (cr, xstart, y);
 			cairo_line_to (cr, xend, y);
-			break;	
+			break;
 		default:
-			break;	
+			break;
 		}
 		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 		cairo_set_line_width (cr, width);
@@ -868,7 +868,7 @@ void Text::ApplyTagsToSelection (TextTagList const *l)
 	// store tags to potentially insert into a vector
 	std::vector <TextTag *> new_tags (TextTag::MaxTag);
 	// fist set all vectors to NULL
-	for (int n = 0; n < MaxTag; n++) 
+	for (int n = 0; n < MaxTag; n++)
 		new_tags[n] = NULL;
 	// set the tags, unuseful ones will be reset to NULL later
 	for (j = l->begin (); j != jend; j++)
@@ -902,7 +902,7 @@ void Text::ApplyTagsToSelection (TextTagList const *l)
 		}
 	}
 	// Add new tags
-	for (int n = 0; n < TextTag::MaxTag; n++) 
+	for (int n = 0; n < TextTag::MaxTag; n++)
 		if (new_tags[n]) {
 			TextTag *tag = new_tags[n]->Duplicate ();
 			tag->SetStartIndex (start);
@@ -912,7 +912,7 @@ void Text::ApplyTagsToSelection (TextTagList const *l)
 			else
 				m_Tags.push_back (tag);
 		}
-	
+
 	// Add extra tags
 	iend = extra_tags.end ();
 	for (i = extra_tags.begin (); i != iend; i++)
@@ -940,7 +940,7 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 	if (length > 0) {
 		m_Text.erase (pos, length);
 		std::vector <TextTag *> borders (TextTag::MaxTag);
-		for (int n = 0; n < TextTag::MaxTag; n++) 
+		for (int n = 0; n < TextTag::MaxTag; n++)
 			borders[n] = NULL;
 		//TODO: update runs
 		for (i = m_Tags.begin (); i != iend; i++) {
@@ -1061,7 +1061,7 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 		else
 			m_Tags.push_back (*i);
 	new_tags.clear (); // avoid destroying the tags
-	
+
 	iend = extra_tags.end ();
 	for (i = extra_tags.begin (); i != iend; i++) {
 		TextTag *tag = (*i)->Duplicate ();

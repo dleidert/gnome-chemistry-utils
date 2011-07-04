@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * mechanism-arrow.h 
+ * mechanism-arrow.h
  *
  * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -111,7 +111,7 @@ might end either at the target atom or at the centeer of the created bond.
 	// virtual gcu::Object methods
 /*!
 	@param xml the xmlDoc used to save the document.
-	
+
 	Used to save the mechanism arrow to the xmlDoc.
 	@return the xmlNode containing the serialized arrow.
 */

@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * application.h 
+ * application.h
  *
  * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -128,13 +128,13 @@ To activate the selection tool:
 @param activate whether to activate or deactivate.
 
 Activates or deactivates the menu item corresponding to \a path according
-to the value of \a activate. 
+to the value of \a activate.
 
 To deactivate the "Paste" menu item, use:
 \code
 		 ActivateWindowsActionWidget ("/MainMenu/EditMenu/Paste", false);
 \endcode
-			 
+
 Calls gcp::Window::ActivateActionWidget.
 */
 	void ActivateWindowsActionWidget (const char *path, bool activate);

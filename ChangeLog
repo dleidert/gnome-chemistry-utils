@@ -1,9 +1,23 @@
 ##Text encoding: utf-8
 
+2011-07-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/docprop.cc: cleaned out deprecated gtk code.
+	* libs/gcp/newfiledlg.cc: ditto.
+	* libs/gcp/reaction-prop-dlg.cc: ditto.
+	* libs/gcugtk/spectrumdoc.cc: use GtkGrid.
+	* libs/gcugtk/spectrumview.cc: ditto.
+	* libs/gcugtk/ui-builder.cc: removed GetCombo().
+	* libs/gcugtk/ui-builder.h: ditto.
+	* plugins/paint/selection/bracketstool.cc: ditto.
+	* programs/crystal/window.cc: use GtkGrid.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-data-allocator.cc: use a GtkComboText.
+	* ui/paint/arrow-object.ui: ditto.
+
 2011-07-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/chem3ddoc.cc: use the file name as title if the molecule has
 	no known name.
-	* programs/3d/window.cc: use GtkGrid
+	* programs/3d/window.cc: use GtkGrid.
 
 2011-07-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/window.cc: use GtkGrid.

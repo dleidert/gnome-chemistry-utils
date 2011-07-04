@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * chemistry/xml-utils.cc 
+ * chemistry/xml-utils.cc
  *
  * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -71,7 +71,7 @@ bool ReadPosition (xmlNodePtr node, const char* id, double* x, double* y, double
 		xmlFree (buf);
 	} else
 		return false;
-	if (z) 
+	if (z)
 	{
 		buf = reinterpret_cast <char *> (xmlGetProp (child, (xmlChar*) "z"));
 		if (buf) {
@@ -283,7 +283,7 @@ bool WriteRadius (xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
 	return true;
 }
 
-// we must have static strings 
+// we must have static strings
 static set <string> ScaleNames;
 
 char const *GetStaticScale (char *buf)
@@ -321,7 +321,7 @@ bool ReadFloat (xmlNodePtr node, char const *name, double &value, double default
 		return false;
 	}
 	xmlFree (buf);
-	return true;                           
+	return true;
 }
 
 void WriteInt (xmlNodePtr node, char const *name, int value)
@@ -346,7 +346,7 @@ bool ReadInt (xmlNodePtr node, char const *name, int &value, int default_value)
 		return false;
 	}
 	xmlFree (buf);
-	return true;                           
+	return true;
 }
 
 void WriteDate (xmlNodePtr node, char const *name, GDate const *date)

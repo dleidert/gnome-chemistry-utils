@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gccv/text-tag.h 
+ * gccv/text-tag.h
  *
  * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -240,7 +240,7 @@ GCU_PROT_PROP (bool, Stacked)
 true if the TextTag begins a new text line.
 */
 /*!\fn GetNewLine()
-@return true if the TextTag begins a new text line. 
+@return true if the TextTag begins a new text line.
 */
 GCU_PROT_PROP (bool, NewLine)
 };
@@ -287,7 +287,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the FamilyTextTag with the same font family name. 
+Creates a copy of the FamilyTextTag with the same font family name.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -336,7 +336,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the SizeTextTag with the same font size. 
+Creates a copy of the SizeTextTag with the same font size.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -386,7 +386,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the StyleTextTag with the same font style. 
+Creates a copy of the StyleTextTag with the same font style.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -436,7 +436,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the WeightTextTag with the same font weight. 
+Creates a copy of the WeightTextTag with the same font weight.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -486,7 +486,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the VariantTextTag with the same font variant. 
+Creates a copy of the VariantTextTag with the same font variant.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -536,7 +536,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the StretchTextTag with the same font stretch. 
+Creates a copy of the StretchTextTag with the same font stretch.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -588,7 +588,7 @@ as \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the UnderlineTextTag with the same underline mode. 
+Creates a copy of the UnderlineTextTag with the same underline mode.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -641,7 +641,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the OverlineTextTag with the same overline mode. 
+Creates a copy of the OverlineTextTag with the same overline mode.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -694,7 +694,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the StrikethroughTextTag with the same strikethrough mode. 
+Creates a copy of the StrikethroughTextTag with the same strikethrough mode.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -745,7 +745,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the ForegroundTextTag with the same text color. 
+Creates a copy of the ForegroundTextTag with the same text color.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -794,7 +794,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the BackgroundTextTag with the same background color. 
+Creates a copy of the BackgroundTextTag with the same background color.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -844,7 +844,7 @@ than \a this.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the RiseTextTag with the same vertical offset above the base line. 
+Creates a copy of the RiseTextTag with the same vertical offset above the base line.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -901,7 +901,7 @@ than \a this.
 	bool operator== (TextTag const& tag) const;
 /*!
 Creates a copy of the PositionTextTag with the same position, size, stacked and
-Tag attributes. 
+Tag attributes.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;
@@ -945,7 +945,7 @@ Constructs a new NewLineTextTag.
 The destructor.
 */
 	virtual ~NewLineTextTag ();
-	
+
 /*!
 @param l a PangoAttrList.
 @param start the start index of the relevant text.
@@ -962,7 +962,7 @@ Equality operator.
 */
 	bool operator== (TextTag const& tag) const;
 /*!
-Creates a copy of the NewLineTextTag. 
+Creates a copy of the NewLineTextTag.
 @return the new TextTag.
 */
 	TextTag *Duplicate () const;

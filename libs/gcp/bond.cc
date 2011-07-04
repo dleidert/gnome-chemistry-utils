@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * bond.cc 
+ * bond.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -226,7 +226,7 @@ general:
 								a = tan ((bond->GetAngle2DRad (static_cast <Atom*> (m_End)) - a0) / 2);
 								if (sign * a < sign * tanb)
 									tanb = a;
-								
+
 							}
 							bond = static_cast <Bond*> (m_End->GetNextBond (it));
 						}
@@ -254,7 +254,7 @@ general:
 									a = tan ((bond->GetAngle2DRad (static_cast <Atom*> (m_Begin)) - a2) / 2);
 									if (sign * a < sign * tanb)
 										tanb = a;
-									
+
 								}
 								bond = static_cast <Bond*> (m_Begin->GetNextBond (it));
 							}
@@ -280,7 +280,7 @@ general:
 									tana = a;
 								if (a < tanb)
 									tanb = a;
-								
+
 							}
 							bond = static_cast <Bond*> (m_Begin->GetNextBond (it));
 						}
@@ -294,7 +294,7 @@ general:
 									tanc = a;
 								if (a < tand)
 									tand = a;
-								
+
 							}
 							bond = static_cast <Bond*> (m_End->GetNextBond (it));
 						}
@@ -525,7 +525,7 @@ void Bond::SetSelected (int state)
 	if (!m_order || !m_Item)
 		return;
 	GOColor color;
-	switch (state) {	
+	switch (state) {
 	case SelStateUnselected:
 		color = Color;
 		break;
@@ -686,7 +686,7 @@ void Bond::UpdateItem ()
 	}
 	AddItem ();
 }
-	
+
 double Bond::GetYAlign ()
 {
 	double x1, y1, x2, y2;

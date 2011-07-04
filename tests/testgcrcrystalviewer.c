@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
- * tests/testgcucrystalviewer.c 
+ * tests/testgcucrystalviewer.c
  *
  * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -47,7 +47,7 @@ int main (int argc, char *argv[])
 	const char* filename;
 	xmlDocPtr xml;
 	gtk_init (&argc, &argv);
-	
+
 	gcu_element_load_databases ("radii", NULL);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -61,12 +61,12 @@ int main (int argc, char *argv[])
 	else
 		filename = SRCDIR"/nickel.gcrystal";
 	xml = xmlParseFile (filename);
-	
+
 	viewer = gcr_crystal_viewer_new (xml->children);
 	gtk_container_add (GTK_CONTAINER (window), viewer);
 	gtk_widget_show_all (window);
 
 	gtk_main ();
-	
+
 	return 0;
 }

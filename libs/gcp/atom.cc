@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
  * atom.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -454,7 +454,7 @@ gccv::Anchor Atom::GetChargePosition (unsigned char& Pos, double Angle, double& 
 				}
 				angle = *n;
 			}
-		} 
+		}
 	} else if (Pos) {
 		if (!(Pos & m_AvailPos) && (Pos != m_ChargePos))
 			return gccv::AnchorCenter;
@@ -531,7 +531,7 @@ gccv::Anchor Atom::GetChargePosition (unsigned char& Pos, double Angle, double& 
 				y = m_y - m_width / 2. * t;
 				return gccv::AnchorWest;
 			}
-		}			
+		}
 	}
 	return gccv::AnchorCenter; // should not occur
 }
@@ -618,8 +618,8 @@ bool Atom::LoadNode (xmlNodePtr)
 void Atom::SetSelected (int state)
 {
 	GOColor textcolor, othercolor, chargecolor;
-	
-	switch (state) {	
+
+	switch (state) {
 	default:
 	case SelStateUnselected: {
 		textcolor = 0;
@@ -700,7 +700,7 @@ void Atom::AddToMolecule (Molecule* Mol)
 {
 	Mol->AddAtom (this);
 }
-	
+
 double Atom::GetYAlign ()
 {
 	return m_y;
@@ -722,7 +722,7 @@ bool Atom::HasImplicitElectronPairs ()
 		return (m_nlp > nexplp);
 	}
 	unsigned nel = 0;
-	while (electron) { 
+	while (electron) {
 		electron = dynamic_cast <Electron *> (obj);
 		if (electron) {
 			if (electron->IsPair ())
@@ -742,7 +742,7 @@ bool Atom::MayHaveImplicitUnpairedElectrons ()
 	map<string, Object*>::iterator i;
 	Electron* electron = (Electron*) GetFirstChild (i);
 	unsigned nel = 0;
-	while (electron) { 
+	while (electron) {
 		if (electron->IsPair ())
 			nel += 2;
 		else
@@ -788,7 +788,7 @@ bool Atom::GetRelativePosition (double angle, double& x, double& y)
 		} else {
 			x = m_width / 2.;
 			y = -m_width / 2. * t;
-		}			
+		}
 		return true;
 	}
 	return false;
@@ -829,7 +829,7 @@ void Atom::NotifyPositionOccupation (unsigned char pos, bool occupied)
 	else
 		m_OccupiedPos &= ~pos;
 }
-	
+
 xmlNodePtr Atom::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = gcu::Atom::Save (xml);
@@ -907,7 +907,7 @@ xmlNodePtr Atom::Save (xmlDocPtr xml) const
 					reinterpret_cast <xmlChar const*> ("no"));
 	return node;
 }
-	
+
 bool Atom::Load (xmlNodePtr node)
 {
 	if (!gcu::Atom::Load (node))
@@ -1011,12 +1011,12 @@ bool Atom::Load (xmlNodePtr node)
 	}
 	return true;
 }
-	
+
 bool Atom::AcceptCharge (int charge) {
 	unsigned nb = GetTotalBondsNumber (), ne = 0;
 	map<string, Object*>::iterator i;
 	Electron* electron = (Electron*) GetFirstChild (i);
-	while (electron){ 
+	while (electron){
 		if (electron->IsPair ())
 			ne += 2;
 		else
@@ -1129,7 +1129,7 @@ static void do_display_symbol (GtkToggleAction *action, Atom *pAtom)
 		view->Update (bond);
 		bond = static_cast <Bond *> (pAtom->GetNextBond (i));
 	}
-	
+
 }
 
 static void do_choose_H_pos (Atom* Atom)
@@ -1148,7 +1148,7 @@ static void do_show_charge (GtkToggleAction *action, Atom *atom)
 	Doc->FinishOperation ();
 	View *view = Doc->GetView ();
 	view->Update (atom);
-	
+
 }
 
 static void do_select_child (Object *obj)
@@ -1342,7 +1342,7 @@ void Atom::AddItem ()
 		int n = GetAttachedHydrogens ();
 		gccv::Rect ink, logical;
 		text->GetBounds (&ink, &logical);
-		BuildSymbolGeometry (text->GetWidth (), ink.y1 - ink.y0, /*text->GetAscent () - view->GetCHeight ()*/ - ink.y0);		
+		BuildSymbolGeometry (text->GetWidth (), ink.y1 - ink.y0, /*text->GetAscent () - view->GetCHeight ()*/ - ink.y0);
 		m_width = (ink.x1 - ink.x0 + 2 * theme->GetPadding ()) / theme->GetZoomFactor ();
 		m_height = (ink.y1 - ink.y0 + 2 * theme->GetPadding ()) / theme->GetZoomFactor ();
 		if (n > 0) {
@@ -1455,7 +1455,7 @@ bool Atom::HasAvailableElectrons (bool paired)
 	if (paired) {
 		if (m_nlp)
 			return true;
-		while (obj) { 
+		while (obj) {
 			if (electron && electron->IsPair ())
 				return true;
 			obj = GetNextChild (i);
@@ -1557,7 +1557,7 @@ bool Atom::UpdateStereoBonds ()
 		// now sort the atoms with the stereobonds preferably first.
 		send = sorted.end ();
 		for (s = sorted.begin (); s != send; s++) {
-			if (length[*s] > length[i] || 
+			if (length[*s] > length[i] ||
 			    (length[*s] == length[i] && (cycle_pos[*s] > cycle_pos[i] ||
 			    (cycle_pos[*s] == cycle_pos[i] && (cycle_size[*s] < cycle_size[i] ||
 			    (cycle_size[*s] == cycle_size[i] && (m_Bonded[*s]->GetZ () > m_Bonded[i]->GetZ () || m_Bonded[*s]->GetZ () == 6)))))))

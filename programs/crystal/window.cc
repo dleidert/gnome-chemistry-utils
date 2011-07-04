@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Crystal
- * window.cc 
+ * window.cc
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -123,7 +123,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gcWindow* W
 	char const *authors[] = {"Jean Bréfort", NULL};
 //	char * documentors[] = {NULL};
 	char const *artists[] = {"Nestor Diaz", NULL};
-	char license[] = "This program is free software; you can redistribute it and/or\n" 
+	char license[] = "This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
  		"published by the Free Software Foundation; either version 2 of the\n"
 		"License, or (at your option) any later version.\n\n"
@@ -147,7 +147,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gcWindow* W
 					"copyright", _("Copyright © 1999-2010 by Jean Bréfort"),
 					"license", license,
 					"logo", logo,
-					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
+					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ?
 											translator_credits : NULL,
 					"version", VERSION,
 					"website", "http://gchemutils.nongnu.org",
@@ -387,7 +387,7 @@ static const char *ui_description =
 
 gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 {
-	GtkWidget *vbox;
+	GtkWidget *grid;
 	GtkWidget *bar;
 	GtkActionGroup *action_group;
 	GtkAccelGroup *accel_group;
@@ -401,8 +401,9 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 	gtk_window_set_default_size (m_Window, 300, 380);
 	g_signal_connect (G_OBJECT (m_Window), "delete-event", G_CALLBACK (on_delete_event), this);
 	g_signal_connect (G_OBJECT (m_Window), "focus_in_event", G_CALLBACK (on_focus_in), this);
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (m_Window), vbox);
+	grid = gtk_grid_new ();
+	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
+	gtk_container_add (GTK_CONTAINER (m_Window), grid);
 	action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), this);
@@ -416,7 +417,7 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 
 	accel_group = gtk_ui_manager_get_accel_group (m_UIManager);
 	gtk_window_add_accel_group (GTK_WINDOW (m_Window), accel_group);
-	
+
 	error = NULL;
 	if (!gtk_ui_manager_add_ui_from_string (m_UIManager, ui_description, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
@@ -442,9 +443,9 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 	gtk_menu_shell_insert (GTK_MENU_SHELL (gtk_widget_get_parent (menu)), item, 3);
 
 	bar = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu");
-	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
+	gtk_container_add (GTK_CONTAINER (grid), bar);
 	bar = gtk_ui_manager_get_widget (m_UIManager, "/MainToolbar");
-	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
+	gtk_container_add (GTK_CONTAINER (grid), bar);
 	m_View = dynamic_cast<gcView *> (m_Doc->GetView ());
 	if (m_View->GetWindow () != NULL) {
 		m_View = dynamic_cast<gcView *> (m_Doc->CreateNewView ());
@@ -452,14 +453,15 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 		m_Doc->AddView (m_View);
 	} else
 		m_View->SetWindow (this);
-	gtk_box_pack_start (GTK_BOX (vbox), m_View->GetWidget (), true, true, 0);
+	g_object_set (G_OBJECT (m_View->GetWidget ()), "margin-left", 6, "margin-right", 6, "expand", true, NULL);
+	gtk_container_add (GTK_CONTAINER (grid), m_View->GetWidget ());
 	m_Bar = gtk_statusbar_new ();
 	m_statusId = gtk_statusbar_get_context_id (GTK_STATUSBAR (m_Bar), "status");
 	gtk_statusbar_push (GTK_STATUSBAR (m_Bar), m_statusId, _("Ready"));
 	m_MessageId = 0;
 	ClearStatus ();
-	gtk_box_pack_start (GTK_BOX (vbox), m_Bar, false, false, 0);
-	
+	gtk_container_add (GTK_CONTAINER (grid), m_Bar);
+
 	gtk_widget_show_all (GTK_WIDGET (m_Window));
 }
 

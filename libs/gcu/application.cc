@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gcu/application.cc 
+ * gcu/application.cc
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -149,7 +149,7 @@ bool Application::HasHelp ()
 	GFile *file = g_file_new_for_uri (HelpFilename.c_str ());
 	bool exists = g_file_query_exists (file, NULL);
 	g_object_unref (file);
-	return exists;	
+	return exists;
 }
 
 void Application::SetCurDir (char const* dir)
@@ -280,7 +280,7 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Object c
 		g_object_unref (io);
 		if (cml)
 			ConvertFromCML (reinterpret_cast < char const * > (cml), uri, mime_type, options);
-		g_object_unref (output);		
+		g_object_unref (output);
 		return true;
 	}
 	GFile *file = g_file_new_for_uri (uri.c_str ());
@@ -577,7 +577,7 @@ int Application::OpenBabelSocket ()
 @param uri the uri of the document to convert.
 @param mime_type the mime type of the document.
 @param options options to pass to OpenBabel.
- 
+
 This method converts the source to CML.
 @return the converted text as a newly allocate string or NULL.
 */
@@ -688,7 +688,7 @@ char* Application::ConvertToCML (GsfInput *input, const char *mime_type, const c
 	if (sock <= 0)
 		return NULL;
 	size_t n = gsf_input_size (input);
-	char const *outbuf = reinterpret_cast <char const *> (gsf_input_read (input, n, NULL)); 
+	char const *outbuf = reinterpret_cast <char const *> (gsf_input_read (input, n, NULL));
 	std::string buf = "-i ";
 	buf += MimeToBabelType (mime_type);
 	buf += " -o cml";

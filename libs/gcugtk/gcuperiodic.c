@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
- * gcuperiodic.c 
+ * gcuperiodic.c
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -33,7 +33,7 @@
 struct _GcuPeriodic
 {
 	GtkBin bin;
-	
+
 	GtkGrid *grid;
 	GtkToggleButton* buttons[119];
 	GtkLabel* labels[119];
@@ -134,7 +134,7 @@ gcu_periodic_set_property (GObject              *object,
 		unsigned style = g_value_get_uint (value);
 		if (style < GCU_PERIODIC_COLOR_MAX + periodic->nbschemes) {
 			periodic->colorstyle = style;
-			int page = (style >= GCU_PERIODIC_COLOR_MAX)? 
+			int page = (style >= GCU_PERIODIC_COLOR_MAX)?
 				g_array_index (periodic->colorschemes, struct ColorScheme, style - GCU_PERIODIC_COLOR_MAX).page: 0;
 			gtk_notebook_set_current_page (periodic->book, page);
 			gcu_periodic_set_colors (periodic);
@@ -227,7 +227,7 @@ static void gcu_periodic_class_init (GcuPeriodicClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
-	
+
 	gobject_class->set_property = gcu_periodic_set_property;
 	gobject_class->get_property = gcu_periodic_get_property;
 	klass->element_changed_event = NULL;
@@ -308,7 +308,7 @@ void gcu_periodic_set_element (GcuPeriodic* periodic, guint element)
 {
 	g_return_if_fail(GCU_IS_PERIODIC(periodic));
 	if (periodic->can_unselect && periodic->buttons[0]) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(periodic->buttons[0]), FALSE);
-	if (element) 
+	if (element)
 	{
 		gtk_toggle_button_set_active(periodic->buttons[element], TRUE);
 		periodic->buttons[0] = periodic->buttons[element];

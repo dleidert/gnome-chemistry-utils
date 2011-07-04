@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Crystal
- * atomsdlg.cc 
+ * atomsdlg.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -277,7 +277,7 @@ bool AtomsDlg::Apply ()
 		Atoms->pop_front ();
 	}
 	//Add new atoms from array
-	
+
 	struct AtomStruct* s;
 	Atom* pAtom;
 	for (unsigned i = 0; i  < m_Atoms->len; i++) {
@@ -420,7 +420,7 @@ void AtomsDlg::AtomSelect(GtkTreeSelection *Selection)
 		gtk_spin_button_set_value (ScaleBtn, g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).EffectiveRadiusRatio * 100.);
 		GcuAtomicRadius  r= g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Radius;
 		gtk_spin_button_set_value (ChargeBtn, r.charge);
-		gtk_combo_box_set_active (RadiusTypeMenu, (r.type == GCU_RADIUS_UNKNOWN)? 0: r.type - 1);		
+		gtk_combo_box_set_active (RadiusTypeMenu, (r.type == GCU_RADIUS_UNKNOWN)? 0: r.type - 1);
 		if (r.scale && !strcmp (r.scale, "custom")) {
 			m_Radius = r;
 			char buf[20];

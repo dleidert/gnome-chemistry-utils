@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * fragment.cc 
+ * fragment.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -522,7 +522,7 @@ void Fragment::UpdateItem ()
 void Fragment::SetSelected (int state)
 {
 	GOColor color, othercolor = 0;
-	switch (state) {	
+	switch (state) {
 	case SelStateUnselected:
 		color = GO_COLOR_BLACK;
 		break;
@@ -599,7 +599,7 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 	for (j = tags->begin (); j != jend; j++) {
 		if (end <= (*j)->GetStartIndex () || start >= (*j)->GetEndIndex ())
 			continue;
-		if (start < (*j)->GetStartIndex ()) 
+		if (start < (*j)->GetStartIndex ())
 			xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + start), (*j)->GetStartIndex () - start);
 		gccv::Tag tag = (*j)->GetTag ();
 		if (tag == gccv::Position) {
@@ -865,7 +865,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 				}
 				if ((*i)->GetTag () == StoichiometryTag) {
 					tag =*i;
-					Stoich = true; 
+					Stoich = true;
 					break;
 				}
 			}}
@@ -1177,7 +1177,7 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 		m_x += m_lbearing / pTheme->GetZoomFactor ();
 		m_Atom->SetCoords(m_x, m_y);
 	}
-	
+
 	return m_Atom;
 }
 
@@ -1394,7 +1394,7 @@ void Fragment::Transform2D (Matrix2D& m, double x, double y)
 	m_y += y;
 	m_Atom->SetCoords (m_x, m_y);
 }
-	
+
 double Fragment::GetYAlign ()
 {
 	return m_y;

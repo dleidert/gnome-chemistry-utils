@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemistry Utils
  * printable.h
  *
  * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -200,7 +200,7 @@ void Printable::Print (bool preview)
 
 	g_signal_connect (print, "begin_print", G_CALLBACK (begin_print), this);
 	g_signal_connect (print, "draw_page", G_CALLBACK (draw_page), this);
-	
+
 	res = gtk_print_operation_run (print,
 								   (preview)? GTK_PRINT_OPERATION_ACTION_PREVIEW:
 								   			GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,

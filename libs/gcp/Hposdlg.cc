@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * Hposdlg.cc 
+ * Hposdlg.cc
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -52,7 +52,7 @@ HPosDlg::HPosDlg (Document *pDoc, Atom *pAtom):
 HPosDlg::~HPosDlg ()
 {
 }
-	
+
 void HPosDlg::OnPosChanged ()
 {
 	Document *Doc = m_View->GetDoc ();

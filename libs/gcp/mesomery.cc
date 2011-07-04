@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * mesomery.cc 
+ * mesomery.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -64,7 +64,7 @@ Mesomery::~Mesomery ()
 			arrow->SetParent (GetParent ());
 			if (pOp)
 				pOp->AddObject (arrow, 1);
-			
+
 		} else
 			delete pObj;
 	}
@@ -289,7 +289,7 @@ bool Mesomery::Validate (bool split)
 		while (pObj && (pObj->GetType () != MesomerType))
 			pObj = GetNextChild (i);
 		if (reinterpret_cast<Mesomer *> (pObj)->Validate ()) {
-			Mesomery *ms = new Mesomery (GetParent (), 
+			Mesomery *ms = new Mesomery (GetParent (),
 								reinterpret_cast<Mesomer *> (pObj));
 			Document *pDoc = reinterpret_cast<Document*> (GetDocument ());
 			Operation *pOp = pDoc->GetCurrentOperation ();
@@ -744,7 +744,7 @@ void Mesomery::Align ()
 	pView->Update (this);
 }
 
-/* Transform2D is just here to inhibit rotation of retrosynthesis while we do not have 
+/* Transform2D is just here to inhibit rotation of retrosynthesis while we do not have
 real 2D alignment (only vertical at the moment */
 void Mesomery::Transform2D (G_GNUC_UNUSED Matrix2D& m, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
@@ -811,7 +811,7 @@ double Mesomery::GetYAlign ()
 	while (pObj) {
 		if (pObj->GetType () == MesomerType)
 			if ((new_y = pObj->GetYAlign ()) < y)
-				y = new_y;			
+				y = new_y;
 		pObj = GetNextChild (i);
 	}
 	return y;

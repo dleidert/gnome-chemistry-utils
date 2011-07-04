@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Crystal
  * view-settings.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -52,7 +52,7 @@ gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): gcugtk::Dialog (static_cas
 	snprintf (m_buf, sizeof (m_buf) - 1, "%g", x2);
 	gtk_entry_set_text (Phi, m_buf);
 	gtk_spin_button_set_value (FoV, (int) (m_pView->GetFoV ()));
-	
+
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
@@ -76,5 +76,5 @@ bool gcViewSettingsDlg::Apply()
 	m_pView->SetBackgroundColor (color.red / 65535., color.green / 65535., color.blue / 65535., gtk_color_button_get_alpha (Background) / 65535.);
 	m_pView->Update ();
 	dynamic_cast <gcDocument *> (m_pView->GetDoc ())->SetDirty (true);
-	return true;	
+	return true;
 }

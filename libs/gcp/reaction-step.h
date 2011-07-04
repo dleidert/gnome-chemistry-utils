@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * reaction-step.h 
+ * reaction-step.h
  *
  * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -82,7 +82,7 @@ Used to load a reaction step in memory.
 */
 	bool Load (xmlNodePtr node);
 /*!
-Used to retrieve the y coordinate for alignment. 
+Used to retrieve the y coordinate for alignment.
 @return y coordinate used for the reaction step alignment.
 */
 	double GetYAlign ();

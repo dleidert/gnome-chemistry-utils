@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint arrows plugin
- * retrosynthesisstep.h 
+ * retrosynthesisstep.h
  *
  * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -44,7 +44,7 @@ class gcpRetrosynthesisStep: public Object
 public:
 	gcpRetrosynthesisStep ();
 	virtual ~gcpRetrosynthesisStep ();
-	
+
 	gcpRetrosynthesisStep (gcpRetrosynthesis *synthesis, gcp::Molecule *molecule) throw (std::invalid_argument);
 	virtual double GetYAlign ();
 	virtual bool Load(xmlNodePtr);

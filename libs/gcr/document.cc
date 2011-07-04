@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemisty Utils
- * gcr/document.cc 
+ * gcr/document.cc
  *
  * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -50,7 +50,7 @@
 using namespace std;
 
 namespace gcr {
-	
+
 gchar const *LatticeName[] = {
 	"simple cubic",
 	"body-centered cubic",
@@ -325,7 +325,7 @@ void Document::Update()
 			break;
 		}
 	}
-	
+
 	////////////////////////////////////////////////////////////
 	//Establish list of lines
 	LineList::iterator j, jend = LineDef.end();
@@ -437,7 +437,7 @@ void Document::Update()
 
 		ScalarProducts.clear() ;
 	}
-	
+
 	//Transform coordinates to Cartesians and find center of visible view
 	gdouble x, y, z, d,
 		xmin = G_MAXDOUBLE, ymin = G_MAXDOUBLE, zmin = G_MAXDOUBLE,
@@ -542,7 +542,7 @@ void Document::Duplicate (Line& line)
 		LineX.Move (1,0,0) ;
 	}
 }
-	
+
 void Document::Draw (gcu::Matrix const &m) const
 {
 	gcu::Vector v, v1;
@@ -612,7 +612,7 @@ xmlDocPtr Document::BuildXMLTree () const
 
 	xml = xmlNewDoc((xmlChar*)"1.0");
 	if (xml == NULL) {throw(1);}
-	
+
 	xmlDocSetRootElement (xml,  xmlNewDocNode(xml, NULL, (xmlChar*)"crystal", NULL));
 	ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gcrystal", (xmlChar*) "gcry");
 	xmlSetNs (xml->children, ns);
@@ -621,7 +621,7 @@ xmlDocPtr Document::BuildXMLTree () const
 	{
 		node = xmlNewDocNode(xml, NULL, (xmlChar*)"generator", (xmlChar*)GetProgramId());
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
-		
+
 		node = xmlNewDocNode(xml, NULL, (xmlChar*)"lattice", (xmlChar*)LatticeName[m_lattice]);
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		if (m_SpaceGroup) {
@@ -661,42 +661,42 @@ xmlDocPtr Document::BuildXMLTree () const
 		gcu::WriteFloat (node, "alpha", m_alpha);
 		gcu::WriteFloat (node, "beta", m_beta);
 		gcu::WriteFloat (node, "gamma", m_gamma);
-	
+
 		node = xmlNewDocNode(xml, NULL, (xmlChar*)"size", NULL);
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		gcu::WritePosition(xml, node, "start", m_xmin, m_ymin, m_zmin);
 		gcu::WritePosition(xml, node, "end", m_xmax, m_ymax, m_zmax);
 		if (m_FixedSize)
 			xmlNewProp (node, (xmlChar *) "fixed", (xmlChar *) "true");
-		
+
 		AtomList::const_iterator i;
 		for (i = AtomDef.begin(); i != AtomDef.end(); i++)
 		{
 			node = (*i)->Save(xml);
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
-	
+
 		LineList::const_iterator j;
 		for (j = LineDef.begin(); j != LineDef.end(); j++)
 		{
 			node = (*j)->Save(xml);
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
-	
+
 		CleavageList::const_iterator k;
 		for (k = Cleavages.begin(); k != Cleavages.end(); k++)
 		{
 			node = (*k)->Save(xml);
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
-		
+
 		list<View*>::const_iterator view;
 		for (view = m_Views.begin(); view != m_Views.end(); view++)
 		{
 			node = (*view)->Save(xml);
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
-	
+
 		return xml;
 	}
 	catch (int num)

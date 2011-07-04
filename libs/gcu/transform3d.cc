@@ -1,19 +1,19 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * Transform3d.h - Handle 3D transformations in space groups.
- *  
+ *
  * Copyright (C) 2007-2009 by Jean Bréfort
- * 
+ *
  * This file was originally part of the Open Babel project.
  * For more information, see <http://openbabel.sourceforge.net/>
- *  
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- 
+
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -78,7 +78,7 @@ Transform3d Transform3d::operator* (Transform3d const &t) const
 	return Transform3d (*static_cast <Matrix const *> (this) * *static_cast <Matrix const *> (&t), *this * *static_cast <Vector const *> (&t));
 }
 
-/*! 
+/*!
 */
 string Transform3d::DescribeAsString() const
 {

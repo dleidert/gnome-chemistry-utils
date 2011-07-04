@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * programs/gchemtable-elt.cc 
+ * programs/gchemtable-elt.cc
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -235,7 +235,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): gcugtk::Dialog (App, U
 		if (((*radii)->type == GCU_IONIC) && !strcmp ((*radii)->scale, "Shannon")) {
 			j = radii_list.begin ();
 			jend = radii_list.end ();
-			while ((j != jend) && (((*j)->charge < (*radii)->charge) || 
+			while ((j != jend) && (((*j)->charge < (*radii)->charge) ||
 				(((*j)->charge == (*radii)->charge) && ((*j)->cn < (*radii)->cn)) ||
 				(((*j)->cn == (*radii)->cn) && ((*j)->spin < (*radii)->spin))))
 				j++;

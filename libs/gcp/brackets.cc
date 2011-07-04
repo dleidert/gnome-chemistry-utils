@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
  * brackets.cc
  *
  * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -101,7 +101,7 @@ void Brackets::AddItem ()
 					continue;
 			view->GetData ()->GetObjectBounds (child, rect);
 		}
-	} else 
+	} else
 		view->GetData ()->GetObjectsBounds (m_EmbeddedObjects, &rect);
 	gccv::Brackets *item = new gccv::Brackets (view->GetCanvas ()->GetRoot (), m_Type, m_Used, m_FontDesc.c_str (), rect.x0, rect.y0, rect.x1, rect.y1, this);
 	item->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
@@ -169,7 +169,7 @@ xmlNodePtr Brackets::Save (xmlDocPtr xml) const
 void Brackets::SetSelected (int state)
 {
 	GOColor color;
-	switch (state) {	
+	switch (state) {
 	case SelStateUnselected:
 		color = GO_COLOR_BLACK;
 		break;

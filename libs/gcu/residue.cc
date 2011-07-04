@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * residue.cc 
+ * residue.cc
  *
  * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -135,13 +135,13 @@ void Residue::Load (xmlNodePtr node, Application *app)
 	static char *lang = getenv ("LANG");
 	if (m_Name)
 		return;
-	char *buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("generic"))); 
+	char *buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("generic")));
 	if (buf) {
 		if (!strcmp (buf, "true"))
 			m_Generic = true;
 		xmlFree (buf);
 	}
-	buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("raw"))); 
+	buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("raw")));
 	if (buf) {
 		int i = 0, j = 1, n, z = strlen (buf);
 		char *end;

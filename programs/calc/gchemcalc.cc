@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * programs/calc/gchemcalc.cc 
+ * programs/calc/gchemcalc.cc
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -230,7 +230,7 @@ bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool
 			gog_graph_set_size (gr, GetImageWidth (), GetImageHeight ());
 			gog_graph_export_image (gr, format, output, -1., -1.);
 			g_object_unref (gr);
-			
+
 		}
 		g_object_unref (file);
 	}
@@ -331,7 +331,7 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		DimensionalValue weight = App->formula.GetMolecularWeight (artificial);
 		char *weightstr = (artificial)?
 			g_strdup_printf ("(%.0f g.mol<sup>-1</sup>)",weight.GetAsDouble ()):
-			g_strdup (weight.GetAsString ());			
+			g_strdup (weight.GetAsString ());
 		gtk_label_set_markup (App->weight, weightstr);
 		g_free (weightstr);
 		// Composition
@@ -484,17 +484,17 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 	case 0: {
 			GsfXMLOut *xout;
 			char *old_num_locale, *old_monetary_locale;
-		
+
 			old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
 			go_setlocale (LC_NUMERIC, "C");
 			old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
 			go_setlocale (LC_MONETARY, "C");
 			go_locale_untranslated_booleans ();
-		
+
 			xout = gsf_xml_out_new (output);
 			gog_object_write_xml_sax (GOG_OBJECT (graph), xout, NULL);
 			g_object_unref (xout);
-		
+
 			/* go_setlocale restores bools to locale translation */
 			go_setlocale (LC_MONETARY, old_monetary_locale);
 			g_free (old_monetary_locale);
@@ -516,7 +516,7 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 		true;
 	if (res) {
 		osize = gsf_output_size (output);
-				
+
 		buffer = (guchar*) g_malloc (osize);
 		memcpy (buffer, gsf_output_memory_get_bytes (omem), osize);
 		gsf_output_close (output);
@@ -674,7 +674,7 @@ gboolean cb_print_version (G_GNUC_UNUSED const gchar *option_name, G_GNUC_UNUSED
 	return TRUE;
 }
 
-static GOptionEntry options[] = 
+static GOptionEntry options[] =
 {
   { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints GChemCalc version", NULL },
    { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
@@ -708,7 +708,7 @@ int main (int argc, char *argv[])
 	}
 
 	App = new GChemCalc ();
-	
+
 	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 
@@ -718,7 +718,7 @@ int main (int argc, char *argv[])
 	g_signal_connect (G_OBJECT (App->window), "destroy",
 		 G_CALLBACK (gtk_main_quit),
 		 NULL);
-	
+
 	GtkWidget *grid = builder->GetWidget ("calc-grid");
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
 	App->SetUIManager (ui_manager);
@@ -763,7 +763,7 @@ int main (int argc, char *argv[])
 	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 150);
 	gtk_tree_view_append_column (tree, column);
-	
+
 	// Add isotopic pattern chart
 	App->mono = GTK_LABEL (builder->GetWidget ("mono"));
 	App->monomass = GTK_LABEL (builder->GetWidget ("monomass"));

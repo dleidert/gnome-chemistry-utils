@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint residues plugin
- * plugin.cc 
+ * plugin.cc
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -62,7 +62,7 @@ static void on_new_residue (gcp::Residue *res)
 	plugin.OnNewResidue (res);
 }
 
-static GOptionEntry options[] = 
+static GOptionEntry options[] =
 {
   {"edit-residue", 'e', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) on_edit_residues, "Open residues dialog", NULL},
   {NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
@@ -136,9 +136,9 @@ void gcpResiduesPlugin::Populate (gcp::Application *App)
 void gcpResiduesPlugin::OpenDialog ()
 {
 	Dialog *dlg = m_App->GetDialog ("residues");
-	if (dlg) 
+	if (dlg)
 		dlg->Present ();
-	else 
+	else
 		new gcpResiduesDlg (m_App);
 }
 

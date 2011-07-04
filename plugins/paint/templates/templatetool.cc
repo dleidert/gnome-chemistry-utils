@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint templates plugin
- * templatetool.cc 
+ * templatetool.cc
  *
  * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -48,7 +48,7 @@ public:
 
 	virtual bool Apply ();
 	void SetTemplate (xmlNodePtr node);
-	
+
 private:
 	gcpTemplate *temp;
 	gcp::Document *pDoc;
@@ -92,7 +92,7 @@ bool gcpTemplateTool::OnClicked ()
 	m_pObject = *m_pData->SelectedObjects.begin ();
 	if (m_Template->bond_length != 0.) { // if not, there is no bond...
 		double r = pDoc->GetBondLength () / m_Template->bond_length;
-		if (fabs (r - 1.) > .0001) { 
+		if (fabs (r - 1.) > .0001) {
 			Matrix2D m (r, 0., 0., r);
 			// FIXME: this would not work for reactions
 			m_pObject->Transform2D (m, 0., 0.);
@@ -125,7 +125,7 @@ void gcpTemplateTool::OnRelease ()
 	double dx = m_x - m_x0, dy = m_y - m_y0;
 	m_pData->MoveSelectedItems (-dx, -dy);
 	m_pData->MoveSelection(dx, dy);
-	pDoc->PopOperation (); 
+	pDoc->PopOperation ();
 	m_pData->UnselectAll ();
 	gcp::Operation* pOp = pDoc->GetNewOperation (gcp::GCP_ADD_OPERATION);
 	pOp->AddObject (m_pObject);
@@ -181,7 +181,7 @@ GtkWidget *gcpTemplateTool::GetPropertyPage ()
 	g_signal_connect (w, "clicked", G_CALLBACK (on_add_template), this);
 	m_Book = GTK_NOTEBOOK (builder->GetWidget ("book"));
 	g_signal_connect (m_Book, "size-allocate", G_CALLBACK (on_size), this);
-	
+
 	GtkWidget *res = builder->GetRefdWidget ("templates");
 	delete builder;
 	return res;
@@ -244,7 +244,7 @@ void gcpTemplateTool::OnChanged (GtkComboBox *combo)
 			gtk_widget_set_sensitive (m_DeleteBtn, false);
 		}
 		g_free (path_string);
-		gtk_tree_path_free (path);		
+		gtk_tree_path_free (path);
 	}
 }
 
@@ -349,7 +349,7 @@ bool gcpNewTemplateToolDlg::Apply ()
 			msg = _("Please give a name.");
 		else
 			msg = _("Please choose a category.");
-		GtkWidget* message = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
+		GtkWidget* message = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
 															msg);
 		g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
 		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
@@ -428,7 +428,7 @@ void gcpNewTemplateToolDlg::SetTemplate (xmlNodePtr node)
 	char *buf = (char*) xmlGetProp (node, (const xmlChar*) "bond-length");
 	double r = 140. / strtod (buf, NULL);
 	xmlFree (buf);
-	if (fabs (r - 1.) > .0001) { 
+	if (fabs (r - 1.) > .0001) {
 		Matrix2D m (r, 0., 0., r);
 		// FIXME: this would not work for reactions
 		pDoc->Transform2D (m, 0., 0.);

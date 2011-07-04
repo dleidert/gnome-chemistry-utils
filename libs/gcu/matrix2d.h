@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * matrix2d.h 
+ * matrix2d.h
  *
  * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -21,7 +21,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
- 
+
 #ifndef GCU_MATRIX2D_H
 #define GCU_MATRIX2D_H
 /*!\file*/
@@ -32,7 +32,7 @@ namespace gcu
 /*!\class Matrix2D gcu/matrix2d.h
 This class provides some operations related to transformations in a plane. The matrices are 2x2.
 */
-class Matrix2D  
+class Matrix2D
 {
 public:
 
@@ -81,7 +81,7 @@ Initially, dx and dy are the components of the vector to transform (multiply) by
 after execution of this method, dx, dy and dz are the components of the transformed vector. So initial values are lost.
 */
 	void Transform(double &dx, double &dy);
-	
+
 private :
 	double x[2][2];
 };

@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * reaction-step.cc 
+ * reaction-step.cc
  *
  * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -111,7 +111,7 @@ ReactionStep::~ReactionStep ()
 	Lock ();
 	CleanChildren ();
 }
-	
+
 xmlNodePtr ReactionStep::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node;
@@ -132,7 +132,7 @@ xmlNodePtr ReactionStep::Save (xmlDocPtr xml) const
 	}
 	return node;
 }
-	
+
 bool ReactionStep::Load (xmlNodePtr node)
 {
 	if (!Object::Load (node))
@@ -375,7 +375,7 @@ void ReactionStep::CleanChildren ()
 					step->AddChild (obj);
 					obj = parent->GetFirstChild (it);
 				}
-				
+
 			} else
 				step->AddChild (molecule);
 		}

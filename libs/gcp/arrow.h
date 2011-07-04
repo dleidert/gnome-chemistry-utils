@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * arrow.h 
+ * arrow.h
  *
  * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -128,7 +128,7 @@ Used to move and/or transform an arrow.
 */
 	void Transform2D (gcu::Matrix2D& m, double x, double y);
 /*!
-Used to retrieve the y coordinate for alignment. 
+Used to retrieve the y coordinate for alignment.
 @return y coordinate used for arrows alignment.
 */
 	double GetYAlign ();

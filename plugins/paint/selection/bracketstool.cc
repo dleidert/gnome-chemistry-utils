@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint selection plugin
  * bracketstool.cc
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -124,7 +124,7 @@ void gcpBracketsTool::OnDrag ()
 							}
 							break;
 						}
-						}		
+						}
 					}
 				}
 			}
@@ -177,10 +177,10 @@ GtkWidget *gcpBracketsTool::GetPropertyPage ()
 	gcugtk::UIBuilder *builder= NULL;
 	try {
 		builder = new gcugtk::UIBuilder (UIDIR"/brackets.ui", GETTEXT_PACKAGE);
-		GtkComboBox *box = builder->GetComboBox ("type-box");
+		GtkComboBox *box = GTK_COMBO_BOX (builder->GetWidget ("type-box"));
 		gtk_combo_box_set_active (box, m_Type);
 		g_signal_connect (box, "changed", G_CALLBACK (gcpBracketsTool::OnTypeChanged), this);
-		box = builder->GetComboBox ("used-box");
+		box = GTK_COMBO_BOX (builder->GetWidget ("used-box"));
 		gtk_combo_box_set_active (box, m_Used - 1);
 		g_signal_connect (box, "changed", G_CALLBACK (gcpBracketsTool::OnUsedChanged), this);
 		GtkWidget *fgrid = builder->GetWidget ("font-grid");
@@ -270,7 +270,7 @@ bool gcpBracketsTool::Evaluate ()
 			gcu::Object *child;
 			for (child = obj->GetFirstChild (j); child; child = obj->GetNextChild (j)) {
 				gcp::Brackets *br = dynamic_cast < gcp::Brackets * > (child);
-				if (br && br->GetEmbeddedObjects ().size () == 1 && *br->GetEmbeddedObjects ().begin () == obj) 
+				if (br && br->GetEmbeddedObjects ().size () == 1 && *br->GetEmbeddedObjects ().begin () == obj)
 					return false;
 			}
 			// Evaluate bounds

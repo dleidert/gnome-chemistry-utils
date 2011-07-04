@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
  * theme.cc
  *
  * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -553,7 +553,7 @@ void ThemeManager::ChangeThemeName (Theme *theme, char const *name)
 	m_Themes[name] = theme;
 	m_Names.push_back (name);
 }
- 
+
 void ThemeManager::SetDefaultTheme (char const *name)
 {
 	Theme *theme = m_Themes[name];

@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * CML files loader plugin
- * cml.cc 
+ * cml.cc
  *
  * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -244,7 +244,7 @@ cml_simple_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 	state->cur.pop ();
 }
-	
+
 static void
 cml_scalar_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
@@ -310,7 +310,7 @@ cml_mol_name_start (GsfXMLIn *xin, xmlChar const **attrs)
 			attrs++;
 		attrs++;
 	}
-	
+
 }
 
 static void
@@ -368,7 +368,7 @@ cml_atom_parity_start (GsfXMLIn *xin, xmlChar const **attrs)
 				attrs++;
 			attrs++;
 		}
-	
+
 }
 
 static void
@@ -426,7 +426,7 @@ cml_bond_stereo (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Crystal code
-	
+
 static void
 cml_crystal_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
@@ -448,7 +448,7 @@ cml_crystal_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	delete group;
 	state->data = NULL;
 };
-	
+
 static void
 cml_symmetry_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
@@ -475,7 +475,7 @@ cml_transform_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Molecule code
-	
+
 static void
 cml_mol_start (GsfXMLIn *xin, xmlChar const **attrs)
 {

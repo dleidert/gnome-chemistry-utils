@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * gcu/dialog-owner.cc
  *
  * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -46,7 +46,7 @@ Dialog *DialogOwner::GetDialog (string name)
 	return (i != Dialogs.end ())? (*i).second: NULL;
 }
 
-bool DialogOwner::AddDialog (string name, Dialog *dialog) 
+bool DialogOwner::AddDialog (string name, Dialog *dialog)
 {
 	if (Dialogs[name]) {
 		Dialogs[name]->Present ();

@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * gccv/text-tag.cc
  *
  * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -21,14 +21,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
- 
+
 #include "config.h"
 #include "text-tag.h"
 #include <list>
 #include <map>
 
 namespace gccv {
-	
+
 ////////////////////////////////////////////////////////////////////////////////
 // Base tag class
 
@@ -619,7 +619,7 @@ NewLineTextTag::NewLineTextTag ():
 NewLineTextTag::~NewLineTextTag ()
 {
 }
-	
+
 void NewLineTextTag::Filter (G_GNUC_UNUSED PangoAttrList *l, G_GNUC_UNUSED unsigned start, G_GNUC_UNUSED unsigned end)
 {
 	// Nothing to do

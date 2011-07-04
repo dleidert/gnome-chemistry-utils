@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * bond.h 
+ * bond.h
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -59,7 +59,7 @@ and adds itself to the two atoms calling Atom::AddBond.
 The destructor of Bond.
 */
 	virtual ~Bond ();
-	
+
 /*!
 @param which the index of the Atom instance to be returned.
 

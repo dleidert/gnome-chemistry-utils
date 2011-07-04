@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Crystal
- * main.cc 
+ * main.cc
  *
  * Copyright (C) 2000-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -70,7 +70,7 @@ static void cb_print_version (G_GNUC_UNUSED const gchar *option_name, G_GNUC_UNU
 	exit (0);
 }
 
-static GOptionEntry entries[] = 
+static GOptionEntry entries[] =
 {
   { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints Gnome Crystal version", NULL },
    { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 		argc --;
 		argv ++;
 	}
-	
+
 //Configuration loading
 	node = go_conf_get_node (Application::GetConfDir (), "crystal");
 	GCU_GCONF_GET ("printing/resolution", int, PrintResolution, 300)

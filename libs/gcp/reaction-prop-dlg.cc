@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * reaction-prop-dlg.cc 
+ * reaction-prop-dlg.cc
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -43,21 +43,12 @@ ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):
 	m_Arrow (arrow),
 	m_Prop (prop)
 {
-	GtkComboBox *box = GetComboBox ("role-combo");
+	GtkComboBoxText *box = GTK_COMBO_BOX_TEXT (GetWidget ("role-combo"));
 	int max = (prop->GetObject ()->GetType () == MoleculeType)?
 				REACTION_PROP_MAX_MOL: REACTION_PROP_MAX;
-#if GTK_CHECK_VERSION (2, 24, 0)
-	GtkListStore *list = GTK_LIST_STORE (gtk_combo_box_get_model (box));
-	GtkTreeIter iter;
-	for (int i = REACTION_PROP_UNKNOWN; i < max; i++) {
-		gtk_list_store_append (list, &iter);
-		gtk_list_store_set (list, &iter, 0, ReactionPropRoles[i], -1);
-	}
-#else
 	for (int i = REACTION_PROP_UNKNOWN; i < max; i++)
-		gtk_combo_box_append_text (box, ReactionPropRoles[i]);
-#endif
-	gtk_combo_box_set_active (box, prop->GetRole ());
+		gtk_combo_box_text_append_text (box, ReactionPropRoles[i]);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (box), prop->GetRole ());
 	g_signal_connect (G_OBJECT (box), "changed", G_CALLBACK (on_role_changed), prop);
 	gtk_widget_show (GTK_WIDGET (dialog));
 }

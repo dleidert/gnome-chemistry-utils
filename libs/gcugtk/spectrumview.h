@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
  * spectrumview.h
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -131,7 +131,7 @@ Called by the framework if the range has changed for the y-axis.
 Creates a new GogSeries for the chart.
 */
 	GogSeries *NewSeries (bool new_plot);
-			
+
 /*!
 @param filename the name of the file.
 @param mime_type the requested mime type.

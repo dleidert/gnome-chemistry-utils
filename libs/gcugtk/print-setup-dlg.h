@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemistry Utils
  * print-setup-dlg.h
  *
  * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -88,7 +88,7 @@ private:
 	GtkSpinButton *m_HPagesBtn, *m_VPagesBtn, *m_ScaleBtn;
 	GtkLabel *m_ScaleLbl, *m_FitHLbl, *m_FitVLbl;
 };
-	
+
 }	//	namespace gcugtk
 
 #endif	//	GCU_GTK_PRINT_SETUP_DLG_H

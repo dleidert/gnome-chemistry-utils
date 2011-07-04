@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * about.cc 
+ * about.cc
  *
  * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -33,7 +33,7 @@ void on_about (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED void* data)
 	char const *authors[] = {"Jean Bréfort", NULL};
 	char const *artists[] = {"Nestor Diaz", NULL};
 //	char * documentors[] = {NULL};
-	char license[] = "This program is free software; you can redistribute it and/or\n" 
+	char license[] = "This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
  		"published by the Free Software Foundation; either version 2 of the\n"
 		"License, or (at your option) any later version.\n\n"
@@ -57,7 +57,7 @@ void on_about (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED void* data)
 					"license", license,
 					"logo", pixbuf,
 					"icon-name", "gchempaint",
-					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
+					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ?
 											translator_credits : NULL,
 					"version", VERSION,
 					"website", "http://gchemutils.nongnu.org",

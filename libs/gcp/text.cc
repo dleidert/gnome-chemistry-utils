@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * text.cc 
+ * text.cc
  *
  * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -454,7 +454,7 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 		char *buf = g_strdup_printf ("%g", m_Interline);
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("interline"), reinterpret_cast <xmlChar *> (buf));
 		g_free (buf);
-		
+
 	}
 	unsigned i = 0;
 	SaveStruct *head = NULL, *cur;
@@ -909,7 +909,7 @@ bool Text::OnChanged (bool save)
 void Text::SetSelected (int state)
 {
 	GOColor color;
-	switch (state) {	
+	switch (state) {
 	case SelStateUnselected:
 		color = 0;
 		break;
@@ -937,7 +937,7 @@ void Text::Transform2D (Matrix2D& m, double x, double y)
 	m_x -= m_length / 2 - x;
 	m_y -= m_height / 2 - m_ascent - y;
 }
-	
+
 double Text::GetYAlign ()
 {
 	return m_y;

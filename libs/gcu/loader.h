@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * gcu/loader.h
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -113,7 +113,7 @@ attributes are:
  "wr" are valid.
  - scope: 2 and 3 mean 2D and 3D structures, repectively, c means crystal
  structure, and s, spectra . Any combination might be used.
- 
+
 Other fields are standard in the goffice world. The plugin is loaded
 only when needed.
 

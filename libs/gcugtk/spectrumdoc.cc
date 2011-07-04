@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
  * spectrumdoc.cc
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -142,7 +142,7 @@ void SpectrumDocument::Load (char const *uri, char const *mime_type)
 	}
 	delete [] buf;
 	g_object_unref (file);
-	
+
 }
 
 struct data_type_struct {
@@ -199,7 +199,7 @@ static void parse_data_type (char const *type, struct data_type_struct &s)
 	while (*type == ' ')
 		type++;
 	s.one_per_line = !(*type == '.');
-	s.n = variables.length (); 
+	s.n = variables.length ();
 	if (s.n > 0)
 		s.variables = g_strdup (variables.c_str ());
 }
@@ -580,13 +580,13 @@ static int ReadField (char const *s, char *key, char *buf)
 			strncpy (buf, data, MIN (eq - data, VALUE_LENGTH));
 			buf[MIN (eq - data, VALUE_LENGTH - 1)] = 0;
 		}
-		else 
+		else
 			strncpy (buf, data, VALUE_LENGTH);
 		// strip trailing white spaces:
 		i = strlen (buf);
 		while (buf[i] <= ' ' || buf[i] == '"')
 			buf[i--] = 0;
-		
+
 		// Now, get the key value
 		i = JCAMP_TITLE;
 		while (i < JCAMP_MAX_VALID && strcmp (key, Keys[i]))
@@ -1151,7 +1151,7 @@ parse_line:
 						variables[second].Values = new double[variables[second].NbValues];
 						yfactor = variables[second].Factor;
 						firsty = variables[second].First;
-						ReadDataTable (s, variables[first].Values, variables[second].Values);						
+						ReadDataTable (s, variables[first].Values, variables[second].Values);
 					}
 				}
 			} //what should be done for PROFILE, PEAKS and COUTOUR?
@@ -1583,7 +1583,7 @@ void SpectrumDocument::OnXUnitChanged (int i)
 				v.Format = variables[X].Format;
 				v.NbValues = variables[X].NbValues;
 					v.First = conv (variables[X].First, f, o);
-					v.Last = conv (variables[X].Last, f, o); 
+					v.Last = conv (variables[X].Last, f, o);
 					v.Min = conv (variables[X].Min, f, o);
 					v.Max = conv (variables[X].Max, f, o);
 					v.Factor = 1.;
@@ -1601,7 +1601,7 @@ void SpectrumDocument::OnXUnitChanged (int i)
 				v.Format = GCU_SPECTRUM_FORMAT_MAX;
 				v.NbValues = npoints;
 					v.First = conv (firstx, f, o);
-					v.Last = conv (lastx, f, o); 
+					v.Last = conv (lastx, f, o);
 					v.Min = conv (minx, f, o);
 					v.Max = conv (maxx, f, o);
 					v.Factor = 1.;
@@ -1873,7 +1873,7 @@ void SpectrumDocument::OnShowIntegral ()
 			g_free (reg.se);
 			g_free (reg.t);
 			g_free (reg.xbar);
-			v.Last = v.Max = v.Values[v.NbValues - 1]; 
+			v.Last = v.Max = v.Values[v.NbValues - 1];
 			v.Min = 0.;
 			v.Series = m_View->NewSeries (true);
 			GOData *godata;
@@ -2193,29 +2193,24 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	gtk_container_remove (container, GTK_WIDGET (ptr->data));
 	g_list_free (l);
 	// now add the widgets appropriate for an NMR spectrum
-	GtkWidget *box = gtk_hbox_new (false, 5), *w;
+	GtkWidget *grid = gtk_grid_new (), *w;
+	gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
 	if (go_finite (freq)) {
 		w = gtk_label_new (_("X unit:"));
-		gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-#if GTK_CHECK_VERSION (2, 24, 0)
+		gtk_container_add (GTK_CONTAINER (grid), w);
 		w = gtk_combo_box_text_new ();
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Chemical shift (ppm)"));
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Frequency (Hz)"));
-#else
-		w = gtk_combo_box_new_text ();
-		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Chemical shift (ppm)"));
-		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Frequency (Hz)"));
-#endif
 		SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
 		gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
 		g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
-		gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+		gtk_container_add (GTK_CONTAINER (grid), w);
 	}
 	w = gtk_button_new_with_label (_("Show integral"));
 	g_signal_connect (w, "clicked", G_CALLBACK (on_show_integral), this);
-	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-	gtk_widget_show_all (box);
-	gtk_box_pack_start (GTK_BOX (container), box, false, false, 0);
+	gtk_container_add (GTK_CONTAINER (grid), w);
+	gtk_widget_show_all (grid);
+	gtk_container_add (container, grid);
 }
 
 void SpectrumDocument::OnXAxisInvert (bool inverted)
@@ -2295,29 +2290,24 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			}
 		}
 		// add some widgets to the option box
-		GtkWidget *box = gtk_hbox_new (false, 5), *w;
+		GtkWidget *grid = gtk_grid_new (), *w;
+		gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
 		if (go_finite (freq)) {
 			w = gtk_label_new (_("X unit:"));
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-#if GTK_CHECK_VERSION (2, 24, 0)
+			gtk_container_add (GTK_CONTAINER (grid), w);
 			w = gtk_combo_box_text_new ();
 			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Chemical shift (ppm)"));
 			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Frequency (Hz)"));
-#else
-			w = gtk_combo_box_new_text ();
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Chemical shift (ppm)"));
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Frequency (Hz)"));
-#endif
 			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
 			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			gtk_container_add (GTK_CONTAINER (grid), w);
 		}
 		w = gtk_button_new_with_label (_("Show integral"));
 		g_signal_connect (w, "clicked", G_CALLBACK (on_show_integral), this);
-		gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-		gtk_widget_show_all (box);
-		gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
+		gtk_container_add (GTK_CONTAINER (grid), w);
+		gtk_widget_show_all (grid);
+		gtk_container_add (GTK_CONTAINER (m_View->GetOptionBox ()), grid);
 		hide_y_axis = true;
 		break;
 	}
@@ -2333,14 +2323,15 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			lastx = x[npoints - 1];
 		}
 		if (R >= 0 && I >= 0) {
-			GtkWidget *box = gtk_hbox_new (false, 5);
+			GtkWidget *grid = gtk_grid_new ();
+			gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
 			GtkWidget *w = gtk_button_new_with_label (_("Transform to spectrum"));
 			g_signal_connect (w, "clicked", G_CALLBACK (on_transform_fid), this);
 			if (!go_finite (offset))
 				gtk_widget_set_sensitive (w, false);
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-			gtk_widget_show_all (box);
-			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
+			gtk_container_add (GTK_CONTAINER (grid), w);
+			gtk_widget_show_all (grid);
+			gtk_container_add (GTK_CONTAINER (m_View->GetOptionBox ()), grid);
 		}
 		hide_y_axis = true;
 		break;
@@ -2358,50 +2349,36 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			if (unit == GCU_SPECTRUM_UNIT_MAX)
 				unit = GCU_SPECTRUM_UNIT_NANOMETERS;
 			// add some widgets to the option box
-			GtkWidget *box = gtk_hbox_new (false, 5), *w;
+			GtkWidget *grid = gtk_grid_new (), *w;
+			gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
 			w = gtk_label_new (_("X unit:"));
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-#if GTK_CHECK_VERSION (2, 24, 0)
+			gtk_container_add (GTK_CONTAINER (grid), w);
 			w = gtk_combo_box_text_new ();
 			if  (unit == GCU_SPECTRUM_UNIT_NANOMETERS)
 				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Wave length (nm)"));
 			else
 				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Wave length (µm)"));
 			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Wave number (1/cm)"));
-#else
-			w = gtk_combo_box_new_text ();
-			if  (unit == GCU_SPECTRUM_UNIT_NANOMETERS)
-				gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave length (nm)"));
-			else
-				gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave length (µm)"));
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave number (1/cm)"));
-#endif
 			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_CM_1)? 1: 0));
 			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			gtk_container_add (GTK_CONTAINER (grid), w);
 			m_XAxisInvertBtn = gtk_check_button_new_with_label (_("Invert X Axis"));
 			m_XAxisInvertSgn = g_signal_connect (m_XAxisInvertBtn, "toggled", G_CALLBACK (on_xaxis_invert), this);
-			gtk_box_pack_start (GTK_BOX (box), m_XAxisInvertBtn, false, false, 0);
-			w = gtk_vseparator_new ();
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 12);
+			gtk_container_add (GTK_CONTAINER (grid), w);
+			w = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+			gtk_container_add (GTK_CONTAINER (grid), w);
 			w = gtk_label_new (_("Y unit:"));
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-#if GTK_CHECK_VERSION (2, 24, 0)
+			gtk_container_add (GTK_CONTAINER (grid), w);
 			w = gtk_combo_box_text_new ();
 			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Absorbance"));
 			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Transmittance"));
-#else
-			w = gtk_combo_box_new_text ();
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Absorbance"));
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Transmittance"));
-#endif
 			unit = (Y >= 0)? variables[Y].Unit: m_YUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_ABSORBANCE)? 0: 1));
 			g_signal_connect (w, "changed", G_CALLBACK (on_yunit_changed), this);
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-			gtk_widget_show_all (box);
-			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
+			gtk_container_add (GTK_CONTAINER (grid), w);
+			gtk_widget_show_all (grid);
+			gtk_container_add (GTK_CONTAINER (m_View->GetOptionBox ()), grid);
 		}
 		break;
 //	case GCU_SPECTRUM_NMR_PEAK_TABLE:

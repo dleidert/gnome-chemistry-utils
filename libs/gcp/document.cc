@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * document.cc 
+ * document.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -576,7 +576,7 @@ bool Document::Load (xmlNodePtr root)
 	m_pView->EnsureSize ();
 	return true;
 }
-	
+
 void Document::ParseXMLTree (xmlDocPtr xml)
 {
 	Load (xml->children);
@@ -589,10 +589,10 @@ xmlDocPtr Document::BuildXMLTree () const
 	xmlNsPtr ns;
 
 	xml = xmlNewDoc ((xmlChar*) "1.0");
-//FIXME: do something if an error occurs 
+//FIXME: do something if an error occurs
 	if (xml == NULL)
 		throw (int) 0;
-	
+
 	xmlDocSetRootElement (xml,  xmlNewDocNode (xml, NULL, (xmlChar*) "chemistry", NULL));
 	ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "gcp");
 	xmlSetNs (xml->children, ns);
@@ -668,7 +668,7 @@ void Document::Update ()
 		delete *i;
 	m_DirtyObjects.clear ();
 }
-	
+
 void Document::RemoveAtom (Atom* pAtom)
 {
 	std::map<gcu::Atom*, gcu::Bond*>::iterator i;
@@ -776,7 +776,7 @@ void Document::RemoveBond (Bond* pBond)
 	m_DirtyObjects.erase (pBond);
 	delete pBond;
 }
-	
+
 void Document::Remove (Object* pObject)
 {
 	switch(pObject->GetType ())
@@ -818,7 +818,7 @@ void Document::Remove (Object* pObject)
 			break;
 	}
 }
-	
+
 void Document::Remove (const char* Id)
 {
 	Object* pObj = GetDescendant (Id);
@@ -856,7 +856,7 @@ void Document::SetComment (const gchar* comment)
 	g_free (m_comment);
 	m_comment = (comment && *comment)? g_strdup (comment): NULL;
 }
-	
+
 void Document::AddObject (Object* pObject)
 {
 	if (!pObject->GetParent ())
@@ -946,11 +946,11 @@ void Document::FinishOperation ()
 }
 
 void Document::AbortOperation()
-{ 
+{
 	if (m_pCurOp)
 		delete m_pCurOp;
 	m_pCurOp = NULL;
-} 
+}
 
 void Document::PopOperation ()
 {
@@ -1264,7 +1264,7 @@ bool Document::SetProperty (unsigned property, char const *value)
 		double length = strtod (value, &end);
 		if (*end != 0)
 			return false;
-		gcu::Document::SetScale (m_Theme->GetBondLength () / length); 
+		gcu::Document::SetScale (m_Theme->GetBondLength () / length);
 		break;
 	}
 	}

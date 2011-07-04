@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemistry Utils
- * object.cc 
+ * object.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -268,7 +268,7 @@ Object const *Object::GetFirstChild (map<string, Object*>::const_iterator& i) co
 		return NULL;
 	return (*i).second;
 }
-	
+
 Object *Object::GetNextChild (map<string, Object*>::iterator& i)
 {
 	i++;
@@ -276,7 +276,7 @@ Object *Object::GetNextChild (map<string, Object*>::iterator& i)
 		return NULL;
 	return (*i).second;
 }
-	
+
 Object const *Object::GetNextChild (map<string, Object*>::const_iterator& i) const
 {
 	i++;
@@ -292,7 +292,7 @@ xmlNodePtr Object::Save (xmlDocPtr xml) const
 	if (!node)
 		return NULL;
 	SaveId (node);
-	
+
 	if (!SaveChildren (xml, node)) {
 		xmlFreeNode (node);
 		return NULL;
@@ -431,7 +431,7 @@ void Object::ShowPropertiesDialog ()
 		dlg = BuildPropertiesDialog ();
 	if (dlg)
 		dlg->Present ();
-	
+
 }
 
 Object* Object::GetAtomAt (G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED double z)

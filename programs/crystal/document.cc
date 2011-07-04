@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Crystal
- * document.cc 
+ * document.cc
  *
  * Copyright (C) 2000-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -166,14 +166,14 @@ void gcDocument::SetTitle(const gchar* title)
 {
 	m_Title = title;
 	g_free(m_Label);
-	m_Label = g_strdup(title);	
+	m_Label = g_strdup(title);
 }
 
 void gcDocument::SetTitle (std::string& title)
 {
 	m_Title = title;
 	g_free (m_Label);
-	m_Label = g_strdup (title.c_str ());	
+	m_Label = g_strdup (title.c_str ());
 }
 
 static int cb_xml_to_vfs (GOutputStream *output, const char* buf, int nb)
@@ -231,7 +231,7 @@ void gcDocument::Save() const
 		}
 		xmlIndentTreeOutput = true;
 		xmlKeepBlanksDefault (0);
-	
+
 		xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
 		GFile *file = g_file_new_for_uri (m_filename);
 		GError *error = NULL;
@@ -521,7 +521,7 @@ void gcDocument::OnExportVRML (const string &FileName) const
 		std::map<std::string, sLine>LinesMap;
 
 		file << "#VRML V2.0 utf8" << endl;
-		
+
 		//Create prototypes for atoms
 		gcr::AtomList::const_iterator i;
 		for (i = Atoms.begin(); i != Atoms.end(); i++)
@@ -538,7 +538,7 @@ void gcDocument::OnExportVRML (const string &FileName) const
 			}
 			AtomsMap[tmp].l.push_back(*i);
 		}
-	
+
 		//Create prototypes for bonds
 		gcr::LineList::const_iterator j;
 		n = 0;
@@ -556,7 +556,7 @@ void gcDocument::OnExportVRML (const string &FileName) const
 			}
 			LinesMap[tmp].l.push_back(*j);
 		}
-		
+
 		//world begin
 		m_pActiveView->GetBackgroundColor(&x0, &x1, &x2, &x3);
 		file << "Background{skyColor " << x0 << " " << x1 << " " << x2 << "}" << endl;
@@ -564,7 +564,7 @@ void gcDocument::OnExportVRML (const string &FileName) const
 		m_pActiveView->GetRotation(&x0, &x1, &x2);
 		gcu::Matrix m(x0/90*1.570796326794897, x1/90*1.570796326794897, x2/90*1.570796326794897, gcu::euler);
 		file << "Transform {" << endl << "\tchildren [" << endl;
-	
+
 		std::map<std::string, sAtom>::iterator k;
 		for (k = AtomsMap.begin(); k != AtomsMap.end(); k++)
 		{
@@ -583,7 +583,7 @@ void gcDocument::OnExportVRML (const string &FileName) const
 			(*k).second.l.clear();
 		}
 		AtomsMap.clear();
-		
+
 		std::map<std::string, sLine>::iterator l;
 		n = 0;
 		for (l = LinesMap.begin(); l != LinesMap.end(); l++)
@@ -614,7 +614,7 @@ void gcDocument::OnExportVRML (const string &FileName) const
 			(*l).second.l.clear();
 		}
 		LinesMap.clear();
-		
+
 		//end of the world
 		file << "\t]" << endl << "}" << endl;
 

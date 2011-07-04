@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint text plugin
- * texttool.cc 
+ * texttool.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -236,7 +236,7 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 				}
 				return true;
 			case GDK_KEY_W:
-				if (m_Active) 
+				if (m_Active)
 					m_Active->SetInterline (m_Active->GetInterline () + 1., true);
 				return true;
 			default:
@@ -625,7 +625,7 @@ void gcpTextTool::OnGetData (GtkClipboard *clipboard, GtkSelectionData *selectio
 	if (info) {
 		if (gcp::ClipboardTextData) {
 			g_free (gcp::ClipboardTextData);
-		} 
+		}
 		gcp::Text *text = new gcp::Text ();
 		text->Load (pDoc->children->children);
 		gcp::ClipboardTextData = g_strdup (text->GetBuffer ().c_str ());
@@ -1068,7 +1068,7 @@ void gcpTextTool::SetSizeFull (bool update_list, bool apply)
 		bool found = false;
 		GtkTreeSelection *selection = gtk_tree_view_get_selection (m_SizesTree);
 		g_signal_handler_block (selection, m_SizeSignal);
-		
+
 		gtk_tree_model_get_iter_first (GTK_TREE_MODEL (m_SizeList), &iter);
 		for (unsigned i = 0; i < G_N_ELEMENTS (font_sizes) && !found; i++) {
 			if (font_sizes[i] * PANGO_SCALE == m_Size) {
@@ -1080,7 +1080,7 @@ void gcpTextTool::SetSizeFull (bool update_list, bool apply)
 
 			gtk_tree_model_iter_next (GTK_TREE_MODEL (m_SizeList), &iter);
 		}
-		
+
 		if (!found)
 			gtk_tree_selection_unselect_all (selection);
 		g_signal_handler_unblock (selection, m_SizeSignal);

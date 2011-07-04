@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
  * widgetdata.h
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -119,13 +119,13 @@ Maps the document objects to the canvas items which represent them.
 The set of selected objects.
 */
 	std::set < gcu::Object * >SelectedObjects;
-	
+
 /*!
 @param obj an object.
 @return true if the object is selected, false otherwise.
 */
 	bool IsSelected (gcu::Object const *obj) const;
-	
+
 /*!
 @param obj an object.
 @return true if all the object children are selected, false otherwise or if @obj
@@ -133,7 +133,7 @@ has no children.
 */
 	bool ChildrenSelected (gcu::Object const *obj) const;
 
-	
+
 /*!
 @param obj an object.
 @return the topmost ancestor whose all children are selected, NULL if
@@ -235,7 +235,7 @@ Gets the object bounds in canvas coordinates.
 	void GetObjectsBounds (std::set <gcu::Object const *> const &objects, gccv::Rect *rect) const;
 	void GetObjectsBounds (std::set <gcu::Object *> const &objects, gccv::Rect *rect) const;
 	void GetObjectBounds (gcu::Object const* obj, gccv::Rect &rect) const;
-	 
+
 /*!
 Replace the selected objects by their parents if all parents children are
 selected.

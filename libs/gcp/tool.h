@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * tool.h 
+ * tool.h
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -51,7 +51,7 @@ class WidgetData;
 class Operation;
 
 /*!\class Tool
-Base clas for GChemPaint tools.	
+Base clas for GChemPaint tools.
 */
 class Tool
 {
@@ -67,7 +67,7 @@ Constructs a new tool.
 The destructor.
 */
 	virtual ~Tool ();
-	
+
 /*!
 @param pView the view instance owning the event.
 @param pObject the Object on which the click occured.
@@ -142,7 +142,7 @@ It calls OnRightButtonClicked(gcu::UIManager*).
 
 When \a bState is true, the tool is activated, otherwise it is deactivated.
 Activate() or Deactivate() is called for this instance.
-@return true on success, and false otherwise. Activation always succeeds. 
+@return true on success, and false otherwise. Activation always succeeds.
 */
 	bool Activate (bool bState);
 /*!

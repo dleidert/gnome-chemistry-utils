@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
- * gcuchem3dviewer.h 
+ * gcuchem3dviewer.h
  *
  * Copyright (C) 2003-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -42,7 +42,7 @@ GType gcu_display3d_get_type (void);
 #define GCU_TYPE_CHEM3D_VIEWER		  (gcu_chem3d_viewer_get_type ())
 /*!
 Casts \a obj to a GcuChem3DViewer * pointer.
-\return a pointer to the GcuChem3DViewer * or NULL if \a obj does not point to 
+\return a pointer to the GcuChem3DViewer * or NULL if \a obj does not point to
 a GcuChem3DViewer widget.
 */
 #define GCU_CHEM3D_VIEWER(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GCU_TYPE_CHEM3D_VIEWER, GcuChem3DViewer))
@@ -79,7 +79,7 @@ There are two properties:
 	 - SPACEFILL: use space filling representation; atoms are represented by spheres with a radius equal
 	 their van der Waals radius; bonds are not displayed. String version is "spacefill".
 	.
-	
+
 - "bgcolor": gchar* (Read / Write).
 	<br>The background color for the display, for example "black" or "#ffffe6". Only "black",
 	"white" and "#rrggbb" are accepted in this version of the Gnome Chemistry Utils.

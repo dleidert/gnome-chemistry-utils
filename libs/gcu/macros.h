@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemisty Utils
- * macros.h 
+ * macros.h
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -27,7 +27,7 @@
 
 #include <goffice/goffice.h>
 
-/*!\file */ 
+/*!\file */
 /*!\def GCU_PROP()
 Defines a private member with appropriate get/set methods.
 GCU_PROP((Type,Foo) expands to one private member:

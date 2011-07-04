@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gcr/atom.h 
+ * gcr/atom.h
  *
  * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -156,7 +156,7 @@ This helper method is called when searching for the size of the crystal. When so
 the procedure cn take into account atoms cleaved to get the same position in the view for the cleaved crystal
 than for the whole crystal. If bFixed is true, all atoms are taken into account.
 
-@return the distance of the atom to the center of the view or 0 if bFixed is false and the atom cleaved. 
+@return the distance of the atom to the center of the view or 0 if bFixed is false and the atom cleaved.
 */
 	double Distance (double x, double y, double z, bool bFixed);
 /*!

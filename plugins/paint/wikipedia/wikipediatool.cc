@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint Wikipedia plugin
- * wikipediatool.cc 
+ * wikipediatool.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -88,7 +88,7 @@ bool WikipediaApp::FileProcess (char const *filename, G_GNUC_UNUSED char const *
 {
 	gcp::Document *Doc = static_cast<gcp::Document *> (pDoc);
 	if (!filename || !strlen( filename) || filename[strlen( filename) - 1] == '/') {
-		GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
+		GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
 															_("Please enter a file name,\nnot a directory"));
 		gtk_dialog_run (GTK_DIALOG (message));
 		gtk_widget_destroy (message);
@@ -203,7 +203,7 @@ bool gcpWikipediaTool::OnClicked ()
 	pDoc->SetTheme (pTheme);
 	xmlDocPtr xml = xmlNewDoc ((xmlChar*) "1.0");
 	if (!xml)
-		return false; // should not happen, but we need something better 
+		return false; // should not happen, but we need something better
 	xmlDocSetRootElement (xml, xmlNewDocNode (xml, NULL, (xmlChar*) "chemistry", NULL));
 	xmlNsPtr ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "gcp");
 	xmlSetNs (xml->children, ns);

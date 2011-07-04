@@ -1,11 +1,11 @@
-/* 
+/*
  * GChemPaint selection plugin
  * group.cc
  *
  * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -132,7 +132,7 @@ void gcpGroup::Align ()
 	child = GetFirstChild (i);
 	while (obj->GetType () == gcp::BracketsType)
 		obj = GetNextChild (i);
-	if ((m_AlignType == GCP_ALIGN_TOP) 
+	if ((m_AlignType == GCP_ALIGN_TOP)
 		|| (m_AlignType == GCP_ALIGN_LEFT))
 		t = DBL_MAX;
 	while (obj) {
@@ -179,14 +179,14 @@ void gcpGroup::Align ()
 		}
 		obj = GetNextChild (i);
 	}
-	if ((m_AlignType == GCP_ALIGN_NORMAL) 
+	if ((m_AlignType == GCP_ALIGN_NORMAL)
 		|| (m_AlignType == GCP_ALIGN_MID_HEIGHT)
 		|| (m_AlignType == GCP_ALIGN_CENTER))
 		t /= nb;
 	obj = GetFirstChild (i);
 	while (obj) {
 		if (obj->GetType () != gcp::BracketsType) {
-			if ((m_AlignType == GCP_ALIGN_LEFT) 
+			if ((m_AlignType == GCP_ALIGN_LEFT)
 				|| (m_AlignType == GCP_ALIGN_CENTER)
 				|| (m_AlignType == GCP_ALIGN_RIGHT))
 				obj->Move (t - Children[obj], 0);
@@ -218,7 +218,7 @@ void gcpGroup::Space ()
 	gcp::Theme *pTheme = pDoc->GetTheme ();
 	gcp::WidgetData *Data = (gcp::WidgetData*) g_object_get_data (G_OBJECT (View->GetWidget ()), "data");
 	while (obj) {
-		if (obj->GetType () != gcp::BracketsType) {		
+		if (obj->GetType () != gcp::BracketsType) {
 			Data->GetObjectBounds (obj, &rect);
 			rects[obj] = rect;
 			x = (m_AlignType <= GCP_ALIGN_BOTTOM)? rect.x0: rect.y0;

@@ -1,10 +1,10 @@
-/* 
+/*
  * Gnome Chemisty Utils
  * spectrumdoc.h
  *1109 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -233,15 +233,15 @@ First vaue in the series.
 */
 	double First;
 /*!
-Last value in the series 
+Last value in the series
 */
 	double Last;
 /*!
-Smallest value in  the series. 
+Smallest value in  the series.
 */
 	double Min;
 /*!
-Largest value in the series. 
+Largest value in the series.
 */
 	double Max;
 /*!

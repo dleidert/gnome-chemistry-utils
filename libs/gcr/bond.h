@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gcr/bond.h 
+ * gcr/bond.h
  *
  * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -35,7 +35,7 @@ namespace gcr
 /*!\class Bond gcr/bond.h
 This class will be used to represent bonds inside crystals. It is not implemented yet.
 */
-class Bond: public gcu::Bond 
+class Bond: public gcu::Bond
 {
 public:
 	Bond ();
@@ -75,7 +75,7 @@ public :
 	void GetRotation (double& x, double& y, double& z, double& th);
 	virtual xmlNodePtr Save (xmlDocPtr xml);
 	virtual bool Load (xmlNodePtr node);
-	
+
 private :
 	float m_fBlue, m_fRed, m_fGreen, m_fAlpha;
 	double m_dx, m_dy, m_dz, m_dx2, m_dy2, m_dz2, m_dr, m_dl;

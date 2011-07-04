@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * formula.cc 
+ * formula.cc
  *
  * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -60,7 +60,7 @@ parse_error::what(int &start, int &length) const throw()
 	length = m_length;
 	return m_msg.c_str();
 }
-	
+
 FormulaElt::FormulaElt ()
 {
 	stoich = 1;
@@ -218,7 +218,7 @@ FormulaResidue::FormulaResidue (Residue const *res, char const *symbol, int Z): 
 	Symbol = symbol;
 	m_Z = Z;
 }
-	
+
 FormulaResidue::~FormulaResidue ()
 {
 }
@@ -347,8 +347,8 @@ bool Formula::AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous,
 			}
 			return false;
 		} else {
-			sy[0] = sz[0];	
-			sy[1] = sz[1];	
+			sy[0] = sz[0];
+			sy[1] = sz[1];
 			if (*sz == 'U') {
 				// No 2 chars symbols begining with U exist, so try 3 chars symbols
 				if (!(m_ParseMode & GCU_FORMULA_PARSE_NO_CASE))
@@ -378,7 +378,7 @@ bool Formula::AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous,
 				delete result.back ();
 				result.pop_back ();
 			}
-			sy[1] = 0;	
+			sy[1] = 0;
 			i = Element::Z (sy);
 			if (i > 0) {
 				FormulaAtom *fa = new FormulaAtom (i);
@@ -557,7 +557,7 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 	if (ambiguous) {
 		switch (m_ParseMode & 7) {
 		case GCU_FORMULA_PARSE_GUESS: {
-			// if it fails, nothing is replaced 
+			// if it fails, nothing is replaced
 			if (!TryReplace (result, result.begin ()))
 				g_warning ("ambiguous formula");
 			break;

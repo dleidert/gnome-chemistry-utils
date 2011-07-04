@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint atoms plugin
- * elementtool.cc 
+ * elementtool.cc
  *
  * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -53,7 +53,7 @@ bool gcpElementTool::OnClicked ()
 	int CurZ = m_pApp->GetCurZ ();
 	if (m_pObject) {
 		if (m_pObject->GetType () != AtomType)
-			return false; 
+			return false;
 		if 	(((gcp::Atom*) m_pObject)->GetTotalBondsNumber () > (int) Element::GetMaxBonds (CurZ))
 			return false;
 		((gcp::Atom*) m_pObject)->GetCoords (&m_x0, &m_y0);
@@ -133,8 +133,8 @@ void gcpElementTool::OnRelease ()
 					pBond->SetDirty ();
 					m_pView->Update (pBond);
 					pBond = (gcp::Bond*) pAtom->GetNextBond (i);
-				}	
-			}	
+				}
+			}
 			pOp->AddObject (pObj, 1);
 		} else {
 			gcp::Atom* pAtom = new gcp::Atom (CurZ, m_x0 / m_dZoomFactor, m_y0 / m_dZoomFactor, 0);

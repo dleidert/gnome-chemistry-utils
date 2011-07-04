@@ -1,11 +1,11 @@
-/* 
+/*
  * GChemPaint library
- * fontsel.c 
+ * fontsel.c
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -194,7 +194,7 @@ static void gcp_font_sel_set_size_full (GcpFontSel *fs, bool update_list)
 		GtkTreeIter iter;
 		bool found = false;
 		g_signal_handler_block (fs->SizeSel, fs->SizeSignal);
-		
+
 		gtk_tree_model_get_iter_first (GTK_TREE_MODEL (fs->SizeList), &iter);
 		for (unsigned i = 0; i < G_N_ELEMENTS (font_sizes) && !found; i++) {
 			if (font_sizes[i] * PANGO_SCALE == fs->Size) {
@@ -206,7 +206,7 @@ static void gcp_font_sel_set_size_full (GcpFontSel *fs, bool update_list)
 
 			gtk_tree_model_iter_next (GTK_TREE_MODEL (fs->SizeList), &iter);
 		}
-		
+
 		if (!found)
 			gtk_tree_selection_unselect_all (fs->SizeSel);
 		g_signal_handler_unblock (fs->SizeSel, fs->SizeSignal);
@@ -230,7 +230,7 @@ gcp_font_sel_set_property (GObject *obj, guint param_id,
 		gtk_tree_model_get_iter_first (GTK_TREE_MODEL (fs->FamilyList), &iter);
 		do {
 			gtk_tree_model_get (GTK_TREE_MODEL (fs->FamilyList), &iter, 0, &buf, -1);
-			if (!strcmp (fs->FamilyName, buf)) {				
+			if (!strcmp (fs->FamilyName, buf)) {
 				GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (fs->FamilyList), &iter);
 				gtk_tree_view_set_cursor (fs->FamilyTree, path, NULL, FALSE);
 				gtk_tree_view_scroll_to_cell (fs->FamilyTree, path, NULL, FALSE, 0., 0.);

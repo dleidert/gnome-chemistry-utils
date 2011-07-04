@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint bonds plugin
  * chaintool.cc
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -58,7 +58,7 @@ gcpChainTool::~gcpChainTool()
 {
 	delete [] m_Points;
 }
-	
+
 bool gcpChainTool::OnClicked()
 {
 	if (Element::GetMaxBonds (m_pApp->GetCurZ()) < 2)
@@ -190,7 +190,7 @@ void gcpChainTool::OnDrag ()
 			m_BondLength = pDoc->GetBondLength () * x2 / x1;
 		} else {
 			m_dAngle = atan2 (-m_y, m_x) / M_PI * 180.;
-			m_BondLength = x2 / (m_CurPoints - 1) / sin (pDoc->GetBondAngle () / 360. * M_PI) / m_dZoomFactor; 
+			m_BondLength = x2 / (m_CurPoints - 1) / sin (pDoc->GetBondAngle () / 360. * M_PI) / m_dZoomFactor;
 		}
 	} else if (!m_AutoDir) {
 		m_x-= m_x0;
@@ -216,7 +216,7 @@ void gcpChainTool::OnDrag ()
 		dAngle = atan2 (-m_y, m_x) - m_dAngle * M_PI / 180.;
 		x2 = sqrt ((m_x * m_x + m_y * m_y) * cos (dAngle));
 		if (m_nState & GDK_SHIFT_MASK)
-			m_BondLength = x2 / (m_CurPoints - 1) / sin (pDoc->GetBondAngle () / 360. * M_PI) / m_dZoomFactor; 
+			m_BondLength = x2 / (m_CurPoints - 1) / sin (pDoc->GetBondAngle () / 360. * M_PI) / m_dZoomFactor;
 		else if (m_Length < 2) {
 			nb = 1 + (unsigned) rint (x2 / m_dMeanLength);
 			if (nb < 3)
@@ -397,7 +397,7 @@ void gcpChainTool::FindAtoms ()
 				90. - m_pView->GetDoc ()->GetBondAngle () / 2.:
 				m_pView->GetDoc ()->GetBondAngle () / 2. - 90))
 			* M_PI / 180.;
-		x1 += m_BondLength * m_dZoomFactor * cos (a); 
+		x1 += m_BondLength * m_dZoomFactor * cos (a);
 		y1 -= m_BondLength * m_dZoomFactor * sin (a);
 		m_Atoms[nb] = NULL;
 		if (gcp::MergeAtoms) {

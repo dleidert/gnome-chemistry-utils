@@ -1,19 +1,19 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * spacegroup.cc - Handle Crystallographic Space Groups.
- *  
+ *
  * Copyright (C) 2007-2009 by Jean Bréfort
- * 
+ *
  * This file was originally part of the Open Babel project.
  * For more information, see <http://openbabel.sourceforge.net/>
- *  
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- 
+
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -151,7 +151,7 @@ SpaceGroup::~SpaceGroup ()
 		delete *i;
 }
 
-/*! 
+/*!
 */
 void SpaceGroup::AddTransform(const string &s)
 {
@@ -257,7 +257,7 @@ void SpaceGroup::AddTransform(const string &s)
 	m_Transforms.push_back (new Transform3d (m, v));
 }
 
-/*! 
+/*!
 */
 list<Vector> SpaceGroup::Transform (const Vector &v) const
 {
@@ -294,7 +294,7 @@ list<Vector> SpaceGroup::Transform (const Vector &v) const
 	return res;
 }
 
-/*! 
+/*!
 */
 Transform3d const * SpaceGroup::GetFirstTransform (list <Transform3d*>::const_iterator &i) const
 {
@@ -302,7 +302,7 @@ Transform3d const * SpaceGroup::GetFirstTransform (list <Transform3d*>::const_it
 	return (i == m_Transforms.end())? reinterpret_cast <Transform3d *> (NULL): *i;
 }
 
-/*! 
+/*!
 */
 Transform3d const * SpaceGroup::GetNextTransform (list <Transform3d*>::const_iterator &i) const
 {
@@ -310,7 +310,7 @@ Transform3d const * SpaceGroup::GetNextTransform (list <Transform3d*>::const_ite
 	return (i == m_Transforms.end ())? reinterpret_cast <Transform3d *> (NULL): *i;
 }
 
-/*! 
+/*!
 */
 SpaceGroup const *SpaceGroup::GetSpaceGroup (char const *name)
 {
@@ -321,7 +321,7 @@ SpaceGroup const *SpaceGroup::GetSpaceGroup (char const *name)
 	return (_SpaceGroups.sgbn.find (name)!= _SpaceGroups.sgbn.end ())? _SpaceGroups.sgbn[name]: NULL;
 }
 
-/*! 
+/*!
 */
 SpaceGroup const *SpaceGroup::GetSpaceGroup (string const &name)
 {
@@ -330,7 +330,7 @@ SpaceGroup const *SpaceGroup::GetSpaceGroup (string const &name)
 	return (_SpaceGroups.sgbn.find (name) != _SpaceGroups.sgbn.end ())? _SpaceGroups.sgbn[name]: NULL;
 }
 
-/*! 
+/*!
 */
 SpaceGroup const *SpaceGroup::GetSpaceGroup (unsigned id)
 {
@@ -339,7 +339,7 @@ SpaceGroup const *SpaceGroup::GetSpaceGroup (unsigned id)
 	return (id > 0 && id <= 230)? _SpaceGroups.sgbi[id - 1].front (): NULL;
 }
 
-/*! 
+/*!
 */
 void SpaceGroup::RegisterSpaceGroup (int nb, ...)
 {
@@ -363,7 +363,7 @@ void SpaceGroup::RegisterSpaceGroup (int nb, ...)
 	va_end (args);
 }
 
-/*! 
+/*!
 */
 bool SpaceGroup::operator== (SpaceGroup const &sg) const
 {
@@ -385,7 +385,7 @@ bool SpaceGroup::operator== (SpaceGroup const &sg) const
 	return true;
 }
 
-/*! 
+/*!
 */
 bool SpaceGroup::IsValid () const
 {
@@ -423,7 +423,7 @@ bool SpaceGroup::IsValid () const
 	return true;
 }
 
-/*! 
+/*!
 */
 SpaceGroup const *SpaceGroup::Find (SpaceGroup* group)
 {
@@ -468,7 +468,7 @@ SpaceGroup const *SpaceGroup::Find (SpaceGroup* group)
 		}
 	} else if (group->m_Id > 0 && group->m_Id <= 230) {
 find_by_id:
-		if (group->m_Transforms.size ()) { 
+		if (group->m_Transforms.size ()) {
 			list <SpaceGroup const *>::const_iterator i, end = _SpaceGroups.sgbi[group->m_Id - 1].end ();
 			for (i = _SpaceGroups.sgbi[group->m_Id - 1].begin (); i!= end; i++)
 				if ((**i) == *group)

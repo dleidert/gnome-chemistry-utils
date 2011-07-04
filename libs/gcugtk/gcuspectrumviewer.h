@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
  * gcuspectrumviewer.h
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -35,7 +35,7 @@ Declaration of the GcuSpectrumViewer widget.
 #define GCU_TYPE_SPECTRUM_VIEWER		  (gcu_spectrum_viewer_get_type ())
 /*!
 Casts \a obj to a GcuSpectrumViewer * pointer.
-\return a pointer to the GcuSpectrumViewer * or NULL if \a obj does not point to 
+\return a pointer to the GcuSpectrumViewer * or NULL if \a obj does not point to
 a GcuSpectrumViewer widget.
 */
 #define GCU_SPECTRUM_VIEWER(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GCU_TYPE_SPECTRUM_VIEWER, GcuSpectrumViewer))

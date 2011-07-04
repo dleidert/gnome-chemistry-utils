@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint cycles plugin
- * cycletool.cc 
+ * cycletool.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -229,7 +229,7 @@ bool gcpCycleTool::OnClicked ()
 					while ((pBond = (gcp::Bond*) pAtom->GetNextBond (j))) {
 						k = 0;
 						a0 = pBond->GetAngle2DRad (pAtom);
-						while ((a0 > orientations[k]) && (k < orientations.size ())) 
+						while ((a0 > orientations[k]) && (k < orientations.size ()))
 							k++;
 						orientations.insert (orientations.begin () + k, a0);
 					}
@@ -269,7 +269,7 @@ bool gcpCycleTool::OnClicked ()
 		m_Points[i].x = x1 += m_dLength * cos (m_dAngle - m_dDev * (i - 1));
 		m_Points[i].y = y1 -= m_dLength * sin (m_dAngle - m_dDev * (i - 1));
 	}
-	
+
 	m_bAllowed = CheckIfAllowed ();
 	Draw ();
 	return true;

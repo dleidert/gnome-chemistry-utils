@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Crystal
- * linesdlg.cc 
+ * linesdlg.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -31,7 +31,7 @@
 using namespace std;
 
 namespace gcr {
-	
+
 enum
 {
 	COLUMN_X1,
@@ -264,7 +264,7 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 					  3, s.x2,
 					  4, s.y2,
 					  5, s.z2,
-					  6, !s.duplicated, 
+					  6, !s.duplicated,
 					  -1);
 			break;
 		}
@@ -339,7 +339,7 @@ bool LinesDlg::Apply ()
 		}
 	}
 	//Add new lines from array
-	
+
 	struct LineStruct* s;
 	for (unsigned i = 0; i  < m_Lines->len; i++) {
 		s = &g_array_index (m_Lines, struct LineStruct, i);
@@ -353,7 +353,7 @@ bool LinesDlg::Apply ()
 void LinesDlg::LineAdd ()
 {
 	GtkTreeIter iter;
-	
+
 	struct LineStruct s;
 	s.x1 = s.y1 =s.z1 = s.x2 = s.y2 =s.z2 = 0.0;
 	GdkColor color;

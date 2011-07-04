@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gccv/leaf.h 
+ * gccv/leaf.h
  *
  * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -139,7 +139,7 @@ GCCV_ITEM_POS_PROP (double, Radius)
 @param rotation the new orientation in radians.
 
 Sets the orientation relative to the up vertical direction, using the
-trigonometric convention. 
+trigonometric convention.
 */
 /*!\fn GetRotation()
 @return the current Leaf orientation.

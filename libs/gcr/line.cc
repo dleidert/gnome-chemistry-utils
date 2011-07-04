@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gcr/line.cc 
+ * gcr/line.cc
  *
  * Copyright (C) 2002-20108 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -36,7 +36,7 @@
 #define square(x)	((x)*(x))
 
 namespace gcr {
-	
+
 char const *LineTypeName[] = {
 	"edges",
 	"diagonals",
@@ -166,14 +166,14 @@ void Line::SetRadius (double r)
 bool Line::operator== (Line& clLine)
 {
 	if (m_nType <= 2)
-		return m_nType == clLine.m_nType ; 
+		return m_nType == clLine.m_nType ;
 	return (m_dx == clLine.m_dx) &&
 			(m_dy == clLine.m_dy) &&
 			(m_dz == clLine.m_dz) &&
 			(m_dx2 == clLine.m_dx2) &&
 			(m_dy2 == clLine.m_dy2) &&
 			(m_dz2 == clLine.m_dz2) &&
-			(m_nType == clLine.m_nType) ; 
+			(m_nType == clLine.m_nType) ;
 }
 
 void Line::Move (double x, double y, double z)
@@ -271,7 +271,7 @@ xmlNodePtr Line::Save (xmlDocPtr xml) const
 		return NULL;
 
 	xmlSetProp (parent, (xmlChar*) "type", (xmlChar*) LineTypeName[m_nType]);
-	
+
 	g_snprintf (buf, sizeof (buf) - 1, "%g", m_dr);
 	child = xmlNewDocNode (xml, NULL, (xmlChar*) "radius", (xmlChar*) buf);
 	if (child)
@@ -280,14 +280,14 @@ xmlNodePtr Line::Save (xmlDocPtr xml) const
 		xmlFreeNode (parent);
 		return NULL;
 	}
-	
+
 	if (((m_nType > 2) && (((!gcu::WritePosition (xml, parent, "start", m_dx, m_dy, m_dz))) ||
-		(!gcu::WritePosition (xml, parent, "end", m_dx2, m_dy2, m_dz2)))) || 
+		(!gcu::WritePosition (xml, parent, "end", m_dx2, m_dy2, m_dz2)))) ||
 		(!gcu::WriteColor (xml, parent, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha))) {
 			xmlFreeNode (parent);
 			return NULL;
 		}
-	
+
 	return parent;
 }
 

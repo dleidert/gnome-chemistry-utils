@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * docprop.cc 
+ * docprop.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -49,15 +49,9 @@ void DocPropPrivate::OnColors (GtkToggleButton *btn, Document *doc)
 	doc->SetDirty ();
 }
 
-#if GTK_CHECK_VERSION (2, 24, 0)
 static void on_theme_changed (GtkComboBoxText *box, DocPropDlg *dlg)
 {
 	dlg->OnThemeChanged (TheThemeManager.GetTheme (gtk_combo_box_text_get_active_text (box)));
-#else
-static void on_theme_changed (GtkComboBox *box, DocPropDlg *dlg)
-{
-	dlg->OnThemeChanged (TheThemeManager.GetTheme (gtk_combo_box_get_active_text (box)));
-#endif
 }
 
 static void on_title_changed (GtkEntry *entry, DocPropDlg *dlg)
@@ -171,7 +165,7 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (DocPropPrivate::OnColors), pDoc);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
-	
+
 DocPropDlg::~DocPropDlg ()
 {
 	list <string> names = TheThemeManager.GetThemesNames ();
@@ -191,17 +185,9 @@ void DocPropDlg::OnThemeNamesChanged ()
 	int n, nb = gtk_combo_box_get_active (GTK_COMBO_BOX (m_Box));
 	g_signal_handler_block (m_Box, m_ChangedSignal);
 	while (m_Lines--)
-#if GTK_CHECK_VERSION (2, 24, 0)
 		gtk_combo_box_text_remove (m_Box, 0);
-#else
-		gtk_combo_box_remove_text (m_Box, 0);
-#endif
 	for (i = names.begin (), n = 0; i != end; i++, n++) {
-#if GTK_CHECK_VERSION (2, 24, 0)
 		gtk_combo_box_text_append_text (m_Box, (*i).c_str ());
-#else
-		gtk_combo_box_append_text (m_Box, (*i).c_str ());
-#endif
 		if (m_pDoc->GetTheme () == TheThemeManager.GetTheme (*i))
 			nb = n;
 	}

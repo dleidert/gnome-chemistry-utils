@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemistry Utils
  * cmd-context.cc
  *
  * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -29,7 +29,7 @@ namespace gcu {
 
 #define GCU_TYPE_CMD_CONTEXT		(gcu_cmd_context_get_type ())
 GType		gcu_cmd_context_get_type   (void);
-	
+
 CmdContext::CmdContext (Application *App)
 {
 	m_App = App;

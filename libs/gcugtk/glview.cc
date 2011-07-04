@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gcugtk/glview.cc 
+ * gcugtk/glview.cc
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -48,7 +48,7 @@ public:
 };
 
 // Callbacks
-bool GLViewPrivate::OnInit (GLView* View) 
+bool GLViewPrivate::OnInit (GLView* View)
 {
 	// Initialize the GLX stuff
 	gtk_widget_set_double_buffered (View->m_Widget, false);
@@ -84,13 +84,13 @@ bool GLViewPrivate::OnInit (GLView* View)
 	return true;
 }
 
-bool GLViewPrivate::OnReshape (GLView* View, GdkEventConfigure *event) 
+bool GLViewPrivate::OnReshape (GLView* View, GdkEventConfigure *event)
 {
 	View->Reshape (event->width, event->height);
 	return true;
 }
 
-bool GLViewPrivate::OnDraw (GLView* View, G_GNUC_UNUSED cairo_t *cr) 
+bool GLViewPrivate::OnDraw (GLView* View, G_GNUC_UNUSED cairo_t *cr)
 {
 	// Draw only last expose.
 	GdkEventExpose *event = reinterpret_cast < GdkEventExpose * > (gtk_get_current_event ());
@@ -105,17 +105,17 @@ bool GLViewPrivate::OnDraw (GLView* View, G_GNUC_UNUSED cairo_t *cr)
 		View->m_Doc->Draw (View->m_Euler);
 		// Swap backbuffer to front
 		// FIXME: make this compatible with non X11 backends
-		glXSwapBuffers (GDK_WINDOW_XDISPLAY (View->m_Window), GDK_WINDOW_XID (View->m_Window));	
+		glXSwapBuffers (GDK_WINDOW_XDISPLAY (View->m_Window), GDK_WINDOW_XID (View->m_Window));
 		View->GLEnd ();
 	}
 	return true;
 }
 
-bool GLViewPrivate::OnMotion (G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *event, GLView* View) 
+bool GLViewPrivate::OnMotion (G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *event, GLView* View)
 {
 	gint x, y;
 	GdkModifierType state;
-	
+
 	if (event->is_hint)
 		gdk_window_get_pointer (event->window, &x, &y, &state);
 	else {
@@ -135,7 +135,7 @@ bool GLViewPrivate::OnMotion (G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *e
 	return true;
 }
 
-bool GLViewPrivate::OnPressed (G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event, GLView* View) 
+bool GLViewPrivate::OnPressed (G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event, GLView* View)
 {
   if (event->button == 1) {
     // beginning of drag, reset mouse position
@@ -157,9 +157,9 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 		/* Check if OpenGL is supported. */
 		if (!glXQueryExtension (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), NULL, NULL))
 			throw  std::runtime_error ("*** OpenGL is not supported.\n");
-	
+
 		/* Configure OpenGL-capable visual. */
-	
+
 		/* Try double-buffered visual */
 //		glconfig = gdk_gl_config_new_by_mode (GdkGLConfigMode (GDK_GL_MODE_RGB |
 //											GDK_GL_MODE_DEPTH |
@@ -175,14 +175,14 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 //					NULL,
 //					TRUE,
 //					GDK_GL_RGBA_TYPE);
-	
+
 	gtk_widget_set_events (GTK_WIDGET (m_Widget),
 		GDK_EXPOSURE_MASK |
 		GDK_POINTER_MOTION_MASK |
 		GDK_POINTER_MOTION_HINT_MASK |
 		GDK_BUTTON_PRESS_MASK |
 	    GDK_BUTTON_RELEASE_MASK);
-	
+
 	// Connect signal handlers
 	// Do initialization when widget has been realized.
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "realize",
@@ -190,16 +190,16 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 	// When window is resized viewport needs to be resized also.
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "configure_event",
 				G_CALLBACK (GLViewPrivate::OnReshape), this);
-	// Redraw image when exposed. 
+	// Redraw image when exposed.
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "draw",
 				G_CALLBACK (GLViewPrivate::OnDraw), this);
-	// When moving mouse 
+	// When moving mouse
 	g_signal_connect (G_OBJECT (m_Widget), "motion_notify_event",
 				G_CALLBACK (GLViewPrivate::OnMotion), this);
 	// When a mouse button is pressed
 	g_signal_connect (G_OBJECT (m_Widget), "button_press_event",
 				G_CALLBACK (GLViewPrivate::OnPressed), this);
-	
+
 	gtk_widget_show (GTK_WIDGET (m_Widget));
 	SetHasBackground (true);
 }
@@ -222,7 +222,7 @@ void GLView::Update()
 	gtk_widget_queue_draw (m_Widget);
 }
 
-void GLView::Reshape (int width, int height) 
+void GLView::Reshape (int width, int height)
 {
 	m_WindowWidth = width;
 	m_WindowHeight = height;

@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
- * gcucomboperiodic.h 
+ * gcucomboperiodic.h
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -31,7 +31,7 @@ G_BEGIN_DECLS
 #define GCU_TYPE_COMBO_PERIODIC	(gcu_combo_periodic_get_type ())
 /*!
 Casts \a obj to a GcuComboPeriodic * pointer.
-\return a pointer to the GcuComboPeriodic * or NULL if \a obj does not point to 
+\return a pointer to the GcuComboPeriodic * or NULL if \a obj does not point to
 a GcuComboPeriodic widget.
 */
 #define GCU_COMBO_PERIODIC(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GCU_TYPE_COMBO_PERIODIC, GcuComboPeriodic))

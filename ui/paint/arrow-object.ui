@@ -84,12 +84,9 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBox" id="role-combo">
+              <object class="GtkComboBoxText" id="role-combo">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="hexpand">True</property>
-                <property name="model">role-list</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -111,11 +108,5 @@
       <action-widget response="0">help</action-widget>
       <action-widget response="0">cancel</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkListStore" id="role-list">
-    <columns>
-      <!-- column-name text -->
-      <column type="gchararray"/>
-    </columns>
   </object>
 </interface>

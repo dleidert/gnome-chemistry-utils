@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * gcugtk/application.h
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -74,7 +74,7 @@ public:
 /*!
 @param name the name of the application.
 @param datadir where data for the application are stored.
-@param help_name the name to use for the help file (with .xml extension). 
+@param help_name the name to use for the help file (with .xml extension).
 If NULL, the name parameter is used.
 @param icon_name the name to use for the default icon of all windows. If NULL,
 the help_name or name parameters will be used.

@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Crystal
- * cleavagesdlg.cc 
+ * cleavagesdlg.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -176,7 +176,7 @@ bool CleavagesDlg::Apply()
 		Cleavages->pop_front();
 	}
 	//Add new Cleavages from array
-	
+
 	gcr::Cleavage* c;
 	struct CleavageStruct* s;
 	for (unsigned i = 0; i  < m_Cleavages->len; i++)
@@ -199,7 +199,7 @@ bool CleavagesDlg::Apply()
 void CleavagesDlg::CleavageAdd()
 {
 	GtkTreeIter iter;
-	
+
 	struct CleavageStruct s;
 	s.l = s.h = s.k = 1;
 	s.planes = 1;

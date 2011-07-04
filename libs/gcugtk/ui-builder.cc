@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * gcugtk/ui-builder.cc
  *
  * Copyright (C) 2009-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -62,31 +62,6 @@ GtkWidget *UIBuilder::GetRefdWidget (char const *wname)
 		return GTK_WIDGET (obj);
 	} else
 		return NULL;
-}
-
-GtkComboBox *UIBuilder::GetComboBox (char const *cbname)
-{
-	GtkComboBox *box;
-	GList *cells;
-	box = GTK_COMBO_BOX (gtk_builder_get_object (m_Builder, cbname));
-	/* search for the model and create one if none exists */
-	g_return_val_if_fail (box != NULL, NULL);
-	if (gtk_combo_box_get_model (box) == NULL) {
-		GtkListStore *store = gtk_list_store_new (1, G_TYPE_STRING);
-		gtk_combo_box_set_model (box, GTK_TREE_MODEL (store));
-		g_object_unref (store);
-	}
-	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (box));
-	if (g_list_length (cells) == 0) {
-		/* populate the cell layout */
-		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
-		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (box), cell, TRUE);
-		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (box), cell,
-						"text", 0, NULL);
-	}
-	g_list_free (cells);
-	return box;
-//	return go_gtk_builder_combo_box_init_text (m_Builder, cbname);
 }
 
 }   //  namespace gcu

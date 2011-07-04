@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * mesomery-arrow.h 
+ * mesomery-arrow.h
  *
  * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -49,7 +49,7 @@ added to its children list.
 The destructor.
 */
 	virtual ~MesomeryArrow ();
-	
+
 /*!
 @param xml the xmlDoc used to save the document.
 

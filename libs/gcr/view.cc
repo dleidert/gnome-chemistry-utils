@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
- * gcr/view.cc 
+ * gcr/view.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -66,7 +66,7 @@ bool View::Load (xmlNodePtr node)
 				return false;
 			txt = (char*) xmlGetProp (child, (xmlChar*) "phi");
 			if (txt) {
-				sscanf(txt, "%lg", &z); 
+				sscanf(txt, "%lg", &z);
 				xmlFree (txt);
 			}	else
 				return false;
@@ -96,7 +96,7 @@ xmlNodePtr View::Save (xmlDocPtr xml) const
 	parent = xmlNewDocNode (xml, NULL, (xmlChar*) "view", NULL);
 	if (!parent)
 		return NULL;
-	
+
 	child = xmlNewDocNode (xml, NULL, (xmlChar*) "orientation", NULL);
 	if (child)
 		xmlAddChild (parent, child);
@@ -110,7 +110,7 @@ xmlNodePtr View::Save (xmlDocPtr xml) const
 	xmlNewProp (child, (xmlChar*) "theta", (xmlChar*) buf);
 	snprintf (buf, sizeof (buf), "%g", GetPhi ());
 	xmlNewProp (child, (xmlChar*) "phi", (xmlChar*) buf);
-	
+
 	g_snprintf (buf, sizeof (buf) - 1, "%g", GetAngle ());
 	child = xmlNewDocNode (xml, NULL, (xmlChar*) "fov", (xmlChar*) buf);
 	if (child)
@@ -119,12 +119,12 @@ xmlNodePtr View::Save (xmlDocPtr xml) const
 		xmlFreeNode (parent);
 		return NULL;
 	}
-	
+
 	if (!gcu::WriteColor (xml, parent, "background", GetRed (), GetGreen (), GetBlue (), GetAlpha ())) {
 		xmlFreeNode(parent);
 		return NULL;
 	}
-	
+
 	return parent;
 }
 

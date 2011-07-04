@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Crystal
- * view.h 
+ * view.h
  *
  * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -42,7 +42,7 @@ public:
 	gcView (gcDocument *pDoc);
 	gcView (gcView *pView);
 	~gcView ();
-	
+
 	void SetBackgroundColor (float red, float green, float blue, float alpha);
 	void GetBackgroundColor (double *red, double *green, double *blue, double *alpha);
 	gdouble& GetFoV () {return GetRefAngle ();}
@@ -51,7 +51,7 @@ public:
 	bool LoadOld (xmlNodePtr node);
 	gcWindow *GetWindow () {return m_Window;}
 	void SetWindow (gcWindow *window) {m_Window = window;}
-	
+
 private:
 
 	GtkMenuItem* m_pMenu;

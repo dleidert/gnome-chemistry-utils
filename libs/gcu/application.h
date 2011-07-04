@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * gcu/application.h
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -62,7 +62,7 @@ public:
 /*!
 @param name the name of the application.
 @param datadir where data for the application are stored.
-@param help_name the name to use for the help file (with .xml extension). 
+@param help_name the name to use for the help file (with .xml extension).
 If NULL, the name parameter is used.
 @param icon_name the name to use for the default icon of all windows. If NULL,
 the help_name or name parameters will be used.
@@ -109,7 +109,7 @@ helpfilename\#myapp-mytag.
 Called by the FileChooser when a file name has been selected. This method does
 nothing in the parent class and must be implemented in children classes
 if they use the FileChooser.
-	
+
 @return true if no error occured.
 */
 	virtual bool FileProcess (G_GNUC_UNUSED const gchar* filename, G_GNUC_UNUSED const gchar* mime_type, G_GNUC_UNUSED bool bSave, G_GNUC_UNUSED GtkWindow *window, G_GNUC_UNUSED Document *pDoc = NULL)
@@ -191,7 +191,7 @@ instance.
 @return the found \a ContentType ot ContentTypeUnknown if an error occured.
 */
 	ContentType Load (std::string const &uri, const char *mime_type, Document* Doc, const char *options = NULL);
-	             
+
 /*!
 @param input a GsfInput.
 @param mime_type the mime type of the document.
@@ -202,7 +202,7 @@ instance.
 @return the found \a ContentType ot ContentTypeUnknown if an error occured.
 */
 	ContentType Load (GsfInput *input, const char *mime_type, Document* Doc, const char *options = NULL);
-	            
+
 /*!
 @param uri the uri to which the document should be saved.
 @param mime_type the mime type of the document.
@@ -214,7 +214,7 @@ instance.
 @return true if no error occurred.
 */
 	bool Save (std::string const &uri, const char *mime_type, Object const *Obj, ContentType type, const char *options = NULL);
-	            
+
 /*!
 @param output a GsfOutput.
 @param mime_type the mime type of the document.
@@ -359,7 +359,7 @@ it should not be necessary to call it directly.
 adds a callback for modifying the contextual menu of objects of type Id.
 */
 	void AddMenuCallback (TypeId Id, BuildMenuCb cb);
-	            
+
 /*!
 @param TypeName the name of a class
 
@@ -375,7 +375,7 @@ adds a callback for modifying the contextual menu of objects of type Id.
 @param input a source GsfInput.
 @param mime_type the mime type of the document.
 @param options options to pass to OpenBabel.
- 
+
 This method converts the source to CML.
 @return the converted text as a newly allocate string or NULL.
 */
@@ -387,7 +387,7 @@ This method converts the source to CML.
 @param uri the uri of the document to which the document will be saved.
 @param mime_type the mime type of the document.
 @param options options to pass to OpenBabel.
- 
+
 This method converts CML to a target.
 */
 	void ConvertFromCML (const char *cml, std::string const &uri, const char *mime_type, const char *options = NULL);
@@ -397,7 +397,7 @@ This method converts CML to a target.
 @param output a target GsfOutput.
 @param mime_type the mime type of the document.
 @param options options to pass to OpenBabel.
- 
+
 This method converts CML to a target.
 */
 	void ConvertFromCML (const char *cml, GsfOutput *output, const char *mime_type, const char *options = NULL);

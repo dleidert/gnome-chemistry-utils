@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * object.h 
+ * object.h
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -67,7 +67,7 @@ Possible values are:
 	.
 Some types are not used in  the Gnome Chemistry Utils, but only in GChemPaint
 and might disappear from this list in future versions and replaced by dynamically created types.
-*/	
+*/
 enum GcuTypeId
 {
 	NoType,
@@ -167,7 +167,7 @@ Used to create an object of type Id. Should only be called from the constructor 
 The standard destructor of Object instances. Automatically called when the object is destroyed.
 */
 	virtual ~Object ();
-	
+
 /*!
 @return the type of the object. If the type is at least equal to OtherType, it is a dynamically created type returned by
 the Object::AddType method.
@@ -175,7 +175,7 @@ the Object::AddType method.
 	TypeId GetType () const {return m_Type;}
 /*!
 	@param Id the id of the Object instance.
-	
+
 	Every object must have an Id, since searches in the document tree uses it.
 */
 	void SetId (gchar const *Id);
@@ -185,7 +185,7 @@ the Object::AddType method.
 	char const *GetId () const {return m_Id;}
 /*!
 	@param object the Object instance to add as a child.
-	
+
 	Each Object instance maintains a list of its children. If object has already a parent, it will be removed from its
 	parent children list. The new parent Object must have a Document ancestor to ensure that Ids are unique.
 */
@@ -193,36 +193,36 @@ the Object::AddType method.
 /*!
 	Used to get the Molecule in the Object instances ancestors.  Overloaded methods should call the
 	base class Object::AddChild.
-	
+
 	@return the first Object of type MoleculeType encountered when exploring
 	the Objects tree or NULL if none is found.
 */
 	Object* GetMolecule () const;
 /*!
-	Used to get the Reaction in the Object instances ancestors. 
-	
+	Used to get the Reaction in the Object instances ancestors.
+
 	@return the first Object of type ReactionType encountered when exploring
 	the Objects tree or NULL if none is found.
 */
 	Object* GetReaction () const;
 /*!
 	Used to get the highest ancestor just before the document
-	in the Object instances ancestors. 
-	
+	in the Object instances ancestors.
+
 	@return the last Object encountered before the document when exploring
 	the Objects tree or NULL if the object's parent is the document itself.
 */
 	Object* GetGroup () const;
 /*!
-	Used to get the Document in the Object instances ancestors. 
-	
+	Used to get the Document in the Object instances ancestors.
+
 	@return the first Object of type DocumentType encountered when exploring
 	the Objects tree (only one should be found) or NULL if none is found.
 */
 	Document* GetDocument () const;
 /*!
-	Used to get the Application owning the Object. 
-	
+	Used to get the Application owning the Object.
+
 	@return the Application owning the Object or NULL.
 */
 	Application* GetApplication () const;
@@ -231,7 +231,7 @@ the Object::AddType method.
 
 	Used to get the first ancestor of type Id in the Object instances ancestors.
 	GetDocument, GetMolecule and GetReaction are special cases of this method.
-	
+
 	@return the first Object of type Id encountered when exploring
 	the Objects tree (only one should be found) or NULL if none is found.
 */
@@ -262,7 +262,7 @@ Use this method to iterate through the list of the Object children.
 /*!
 @param Id the Id of the descendant searched.
 
-This method searches the Object in its children and if not found calls the GetDescendant method for its children. 
+This method searches the Object in its children and if not found calls the GetDescendant method for its children.
 @return the Object instance of type Id if found in the decendants or NULL if not found.
 */
 	Object* GetDescendant (const char* Id) const;
@@ -272,16 +272,16 @@ This method searches the Object in its children and if not found calls the GetDe
 	Object* GetParent () const {return m_Parent;};
 /*!
 @param Parent the new parent of the Object or NULL.
-	
+
 	When Parent is not NULL, this is equivalent to \code Parent->AddChild(this);\endcode
 	Otherwise, it removes the Object from the Document tree.
 */
 	void SetParent (Object* Parent);
 /*!
 	@param xml the xmlDoc used to save the document.
-	
+
 	Used to save the Object to the xmlDoc. Each serializable Object should implement this virtual method.
-	@return the xmlNode containing the serialized object. The name of the node should be the name of the 
+	@return the xmlNode containing the serialized object. The name of the node should be the name of the
 	corresponding type used as first parameter to the Object::AddType method. The
 	default method just saves the id and children.
 */
@@ -295,7 +295,7 @@ Example: \code
 	std::string str = (const char*)node->name;
 	Object* pObject = Object::CreateObject(str, this);
 	if (pObject) {
-		if (!pObject->Load(node)) delete Object; 
+		if (!pObject->Load(node)) delete Object;
 	} else
 		cerr << "Warning: unknown object: " << str << endl;
 \endcode
@@ -524,7 +524,7 @@ Fills types with all valid ancestor types for the object as defined by rules cre
 @param value the property value as a string
 
 Used when loading to set properties to various objects. If the method returns false,
-the property should be set again later. This might happen if an atom does not exists when one 
+the property should be set again later. This might happen if an atom does not exists when one
 of its bonds is loaded. All classes supporting the mechanism must overload this method.
 @return true if the property could be set, or if the property is not relevant, false otherwise.
 */
@@ -542,7 +542,7 @@ supporting the mechanism must overload this method.
 This method should be called when an object has been fully loaded. The default method doesn't do anything.
 */
 	virtual void OnLoaded ();
-	
+
 /*!
 @param dirty should be true if the object needs some update, false otherwise. For a document,
 it  means that the document has been changed.

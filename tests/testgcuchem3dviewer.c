@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
- * tests/testgcuchem3dviewer.c 
+ * tests/testgcuchem3dviewer.c
  *
  * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -46,7 +46,7 @@ int main (int argc, char *argv[])
 	GtkWidget *viewer;
 	gchar* uri;
 	gtk_init (&argc, &argv);
-	
+
 	gcu_element_load_databases ("radii", NULL);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -59,12 +59,12 @@ int main (int argc, char *argv[])
 		uri = argv[1];
 	else
 		uri = "file://"SRCDIR"/methane.xyz";
-	
+
 	viewer = gcu_chem3d_viewer_new (uri);
 	gtk_container_add (GTK_CONTAINER (window), viewer);
 	gtk_widget_show_all (window);
 
 	gtk_main ();
-	
+
 	return 0;
 }

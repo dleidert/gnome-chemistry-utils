@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * formula.h 
+ * formula.h
  *
  * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -68,21 +68,21 @@ public:
 /*! Takes a character string describing the error and two integers
 * indicating where the error occured.
 */
-    explicit 
+    explicit
     parse_error (const std::string&  __arg, int start, int length);
 
-    virtual 
+    virtual
     ~parse_error () throw ();
 
 /*! Returns a C-style character string describing the general cause of
  *  the current error (the same string passed to the constructor).
 */
-    virtual const char* 
+    virtual const char*
     what () const throw ();
 /*! Returns a C-style character string describing the general cause of
  *  the current error (the same string passed to the constructor).
 */
-    const char* 
+    const char*
     what (int& start, int& length) const throw ();
 
 /*! Adds an offset to the start of the error. This is used by the Formula
@@ -347,7 +347,7 @@ private:
 	void Parse (std::string &formula, std::list<FormulaElt *>&result) throw (parse_error);
 	bool AnalString (char *sz, std::list<FormulaElt *> &result, bool &ambiguous, int offset);
 	bool TryReplace (std::list<FormulaElt *> &result, std::list<FormulaElt *>::iterator it);
-		
+
 private:
 	std::string Entry, Markup, RawMarkup;
 	std::map<int,int> Raw;
@@ -370,7 +370,7 @@ Sets the way ambiguous symbols are interpreted.
 */
 GCU_PROP (FormulaParseMode, ParseMode);
 };
-	
+
 }
 
 #endif // GCU_FORMULA_H

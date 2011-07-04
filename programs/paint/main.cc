@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint
- * main.cc 
+ * main.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -35,7 +35,7 @@ extern "C" {
 
 // FIXME "the following lines should be removed for stable releases"
 #undef PACKAGE
-#define PACKAGE "gchempaint-unstable" 
+#define PACKAGE "gchempaint-unstable"
 
 void cb_print_version (G_GNUC_UNUSED char const *option_name, G_GNUC_UNUSED char const *value, G_GNUC_UNUSED gpointer data, G_GNUC_UNUSED GError **error)
 {
@@ -50,7 +50,7 @@ static gcpStandaloneApp* App = NULL;
 /* code copied from AbiWord
  * Copyright (C) 1998-2000 AbiSource, Inc.
  * Copyright (C) 2009 Hubert Figuiere
- */ 
+ */
 void signalWrapper(int sig_num)
 {
 	/* make sure we have application, in case we have been called after
@@ -61,7 +61,7 @@ void signalWrapper(int sig_num)
 }
 // end of copied code
 
-static GOptionEntry entries[] = 
+static GOptionEntry entries[] =
 {
   { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "Prints GChemPaint version", NULL },
   { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
@@ -117,14 +117,14 @@ int main(int argc, char *argv[])
 		g_free (uri);
 		argv++;
 	}
-	
+
 	if (App->GetDocsNumber () == 0)
 		App->OnFileNew ();
 
 /* code copied from AbiWord
  * Copyright (C) 1998-2000 AbiSource, Inc.
  * Copyright (C) 2009 Hubert Figuiere
- */ 
+ */
 	// Setup signal handlers, primarily for segfault
 	// If we segfaulted before here, we *really* blew it
 	struct sigaction sa;
@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 	// end of copied code
 
 	gtk_main ();
-	delete App;		
+	delete App;
 
 	return 0;
 }

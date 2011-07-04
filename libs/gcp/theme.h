@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
  * theme.h
  *
  * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -166,7 +166,7 @@ GCU_RO_PROP (double, HashDist)
 */
 GCU_RO_PROP (double, StereoBondWidth)
 /*!\fn GetZoomFactor()
-@return the theme default scale used to convert real distance to canvas distance expressed in pixel per pm (at 100% zoom). 
+@return the theme default scale used to convert real distance to canvas distance expressed in pixel per pm (at 100% zoom).
 */
 GCU_RO_PROP (double, ZoomFactor)
 /*!\fn GetPadding()
@@ -292,13 +292,13 @@ The destructor.
 /*!
 @param name the name of the requested theme.
 
-@return the theme corresponding to \a name if any, or NULL. 
+@return the theme corresponding to \a name if any, or NULL.
 */
 	Theme *GetTheme (char const *name);
 /*!
 @param name the name of the requested theme.
 
-@return the theme corresponding to \a name if any, or NULL. 
+@return the theme corresponding to \a name if any, or NULL.
 */
 	Theme *GetTheme (std::string &name);
 /*!

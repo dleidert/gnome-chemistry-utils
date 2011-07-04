@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
  * view.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -216,7 +216,7 @@ void View::UpdateFont ()
 	m_HWidth = (double (rect.width) / 2.0 + rect.x) / PANGO_SCALE;
 	g_object_unref (G_OBJECT (pl));
 }
-	
+
 void View::Remove (Object* pObject)
 {
 	if (!m_pWidget)
@@ -411,7 +411,7 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 	m_pDoc->PopOperation ();
 	Operation* pOp = m_pDoc->GetNewOperation (GCP_ADD_OPERATION);
 	std::set < Object * >::iterator i, end = m_pData->SelectedObjects.end();
-	for (i = m_pData->SelectedObjects.begin(); i != end; i++) 
+	for (i = m_pData->SelectedObjects.begin(); i != end; i++)
 		pOp->AddObject (*i);
 	m_pDoc->FinishOperation ();
 }
@@ -1019,7 +1019,7 @@ bool View::OnButtonReleased (G_GNUC_UNUSED gccv::ItemClient *client, unsigned bu
 bool View::OnDrag (G_GNUC_UNUSED gccv::ItemClient *client, double x, double y, unsigned state)
 {
 	Application *App = m_pDoc->GetApplication ();
-	Tool* pActiveTool = App? App->GetActiveTool (): NULL;	
+	Tool* pActiveTool = App? App->GetActiveTool (): NULL;
 	if (m_pDoc->GetEditable () && pActiveTool && m_Dragging)
 		pActiveTool->OnDrag (x, y, state);
 	return true;
@@ -1037,7 +1037,7 @@ bool View::OnMotion (gccv::ItemClient *client, double x, double y, unsigned stat
 	} else
 		m_CurAtom = NULL;
 	Application *App = m_pDoc->GetApplication ();
-	Tool* pActiveTool = App? App->GetActiveTool (): NULL;	
+	Tool* pActiveTool = App? App->GetActiveTool (): NULL;
 	if (m_pDoc->GetEditable () && pActiveTool)
 		pActiveTool->OnMotion (this, ((m_CurAtom)? m_CurAtom: m_CurObject), x, y, state);
 	return true;
@@ -1046,7 +1046,7 @@ bool View::OnMotion (gccv::ItemClient *client, double x, double y, unsigned stat
 bool View::OnLeaveNotify (unsigned state)
 {
 	Application *App = m_pDoc->GetApplication ();
-	Tool* pActiveTool = App? App->GetActiveTool (): NULL;	
+	Tool* pActiveTool = App? App->GetActiveTool (): NULL;
 	if (m_pDoc->GetEditable () && pActiveTool)
 		pActiveTool->OnLeaveNotify (this, state);
 	return true;
@@ -1056,7 +1056,7 @@ void View::SetSelectionState (Object *object, int state)
 {
 	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (object);
 	if (client)
-		client->SetSelected (state);	
+		client->SetSelected (state);
 	map<string, Object*>::iterator i;
 	Object *child = object->GetFirstChild (i);
 	while (child) {

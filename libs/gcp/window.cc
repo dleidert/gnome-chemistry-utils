@@ -1,11 +1,11 @@
-/* 
+/*
  * GChemPaint library
  * window.cc
  *
  * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -77,7 +77,7 @@ bool StringInput::Apply ()
 {
 	GtkEntry *entry = GTK_ENTRY (gtk_builder_get_object (GetBuilder (), "result"));
 	if (entry)
-		m_CB (m_Target, gtk_entry_get_text (entry)); 
+		m_CB (m_Target, gtk_entry_get_text (entry));
 	return true;
 }
 
@@ -536,7 +536,7 @@ static const char *ui_description =
 "	 <placeholder name='tools1'/>"
 "  </toolbar>"
 "</ui>";
-	
+
 Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) throw (std::runtime_error):
 	Target (App)
 {
@@ -568,7 +568,7 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 		NULL);
 	gtk_ui_manager_insert_action_group (m_UIManager->GetUIManager (), action_group, 0);
 	g_object_unref (action_group);
-	
+
 	error = NULL;
 	if (!gtk_ui_manager_add_ui_from_string (m_UIManager->GetUIManager (), ui_description, -1, &error)) {
 		std::string what = std::string ("building menus failed: ") + error->message;
@@ -637,7 +637,7 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	gtk_statusbar_push (GTK_STATUSBAR (m_Bar), m_statusId, _("Ready"));
 	m_MessageId = 0;
 	gtk_container_add (GTK_CONTAINER (grid), m_Bar);
-		
+
 	g_signal_connect (G_OBJECT(window), "key_press_event", (GCallback)on_key_press, this);
 	g_signal_connect (G_OBJECT(window), "key_release_event", (GCallback)on_key_release, this);
 
@@ -740,7 +740,7 @@ void Window::Zoom (double zoom)
 	else {
 		Dialog *pDialog = m_Document->GetDialog ("Zoom");
 		if (pDialog)
-			pDialog->Present (); 
+			pDialog->Present ();
 		else
 			new ZoomDlg (m_Document);
 	}

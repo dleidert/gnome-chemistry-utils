@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
  * atom.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -188,7 +188,7 @@ xmlNodePtr Atom::Save (xmlDocPtr xml) const
 		strncpy(buf, GetSymbol(), sizeof(buf));
 		xmlNewProp(parent, (xmlChar*) "element", (xmlChar*) buf);
 	}
-	
+
 	if (m_Charge) {
 		snprintf (buf, sizeof (buf), "%d", m_Charge);
 		xmlNewProp (parent, (xmlChar*) "charge", (xmlChar*) buf);
@@ -223,7 +223,7 @@ bool Atom::Load (xmlNodePtr node)
 		xmlFree (tmp);
 	} else
 		m_Charge = 0;
-	if (!ReadPosition (node, NULL, &m_x, &m_y, &m_z) || (!LoadNode (node))) 
+	if (!ReadPosition (node, NULL, &m_x, &m_y, &m_z) || (!LoadNode (node)))
 		return false;
 	GetDocument ()->ObjectLoaded (this);
 	return true;
@@ -354,7 +354,7 @@ bool Atom::Match (Atom *atom, AtomMatchState &state)
 		for (j = atom->m_Bonds.begin (); j != jend; j++) {
 			if (state.mol2.find ((*j).first) != state.mol2.end ())
 				continue;
-			if ((*i).first->Match ((*j).first, state)) 
+			if ((*i).first->Match ((*j).first, state))
 				break;
 		}
 		if (j == jend)

@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * element.h 
+ * element.h
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -33,7 +33,7 @@
 #include "value.h"
 #include "macros.h"
 
-/*!\file */ 
+/*!\file */
 /*!\def GCU_ERROR
 Defines a standard error value.
 */
@@ -104,7 +104,7 @@ public:
 	static Element* GetElement (const char* symbol);
 	/*!
 	@param radius: a pointer to a GcuAtomicRadius structure.
-	
+
 	Before calling this function, most fields in the GcuAtomicRadius structure must be filled:
 	- Z: the atomic number, mandatory
 	- type: the type of the radius searched
@@ -112,23 +112,23 @@ public:
 	- cn: the coordination number or -1 if not significant
 	- spin: the spin state or GCU_N_A_SPIN if not significant
 	- scale: the name of the scale (e.g. "Pauling") or NULL
-	
+
 	The programs searches a value corresponding to the fields having a non default value. If one is found
 	the other fields are given the corresponding values f the first match before returning.
-	
+
 	@return true if a radius has been found and false if not.
 	*/
 	static bool GetRadius (GcuAtomicRadius* radius);
 	/*!
 	@param en: a pointer to a GcuElectronegativity structure.
-	
+
 	Before calling this function, the following fields in the GcuElectronegativity structure must be filled:
 	- Z: the atomic number, mandatory
 	- type: the gcu_radius_type, mandatory
 	- charge: the charge of the atom, mandatory; must be 0 for non ionic radii
 	and non null for ionic radii.
 	- scale: the name of the scale (e.g. "Pauling") or NULL
-	
+
 	The programs searches an electronegativity value for the element in the scale if given. If one is found
 	the value and the scale (if NULL on calling)  are given the corresponding values of the first match before returning.
 
@@ -137,7 +137,7 @@ public:
 	static bool GetElectronegativity (GcuElectronegativity* en);
 	/*!
 	@param Z: the atomic number of a chemical element.
-	
+
 	The value returned by this method might be too low in some cases and is only indicative. Instances of the Atom class
 	accept any number of bonds. This behavior might change in future versions.
 	@return the maximum number of bonds an atom of the element can be involved in.

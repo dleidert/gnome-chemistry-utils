@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Crystal
- * document.h 
+ * document.h
  *
  * Copyright (C) 2000-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -48,7 +48,7 @@ class gcDocument: public gcr::Document
 public:
 	gcDocument (gcApplication *App);
 	~gcDocument ();
-	
+
 	//Interface
 public:
 	void Define (unsigned nPage = 0);
@@ -91,11 +91,11 @@ public:
 	GDate *GetCreationDate () {return &m_CreationDate;}
 	GDate *GetRevisionDate () {return &m_RevisionDate;}
 	bool SetProperty (unsigned property, char const *value);
-	std::string GetProperty (unsigned property) const; 
+	std::string GetProperty (unsigned property) const;
 
 private:
 	void Error(int num) const;
-	
+
 	//Implementation
 private:
 	gchar *m_filename;

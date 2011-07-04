@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemistry Utils
  * printable.h
  *
  * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -98,7 +98,7 @@ Derived classes able to print several pages must overload this method.
 	virtual int GetPagesNumber () {return 1;}
 
 /*!
-@param preview whether preview or real printing is requested. 
+@param preview whether preview or real printing is requested.
 
 Prints the documennt. It initializes printing, and then calls DoPrint.
 */

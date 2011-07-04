@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * docprop.cc 
+ * docprop.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -120,7 +120,7 @@ gcDocPropDlg::gcDocPropDlg (gcDocument* pDoc):
 	g_signal_connect (G_OBJECT (Buffer), "changed", G_CALLBACK (on_comments_changed), this);
 	gtk_widget_show_all(GTK_WIDGET (dialog));
 }
-	
+
 gcDocPropDlg::~gcDocPropDlg ()
 {
 }

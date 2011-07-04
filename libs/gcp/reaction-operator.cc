@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * reaction-operator.cc 
+ * reaction-operator.cc
  *
  * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -75,7 +75,7 @@ void ReactionOperator::AddItem ()
 void ReactionOperator::SetSelected (int state)
 {
 	GOColor color;
-	switch (state) {	
+	switch (state) {
 	case SelStateUnselected:
 		color = Color;
 		break;
@@ -117,7 +117,7 @@ bool ReactionOperator::GetCoords (double* x, double* y, double *z) const
 		*z = 0.;
 	return true;
 }
-	
+
 double ReactionOperator::GetYAlign ()
 {
 	return m_y;

@@ -6,8 +6,8 @@
  *
  * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -222,7 +222,7 @@ void gcpResiduesDlg::Add ()
 		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Please, provide only one molecule.")));
 		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
 		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-			gtk_widget_destroy (GTK_WIDGET (box));	
+			gtk_widget_destroy (GTK_WIDGET (box));
 		return;
 	}
 	if (!user_residues) {
@@ -238,12 +238,12 @@ void gcpResiduesDlg::Add ()
 		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Please, provide a name for the residue")));
 		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
 		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-			gtk_widget_destroy (GTK_WIDGET (box));	
+			gtk_widget_destroy (GTK_WIDGET (box));
 		return;
 	}
 	gcp::Residue const *r = static_cast<gcp::Residue const *> (gcp::Residue::GetResiduebyName (name));
 	if (r && r != m_Residue) {
-		
+
 	}
 	char const *symbols = gtk_entry_get_text (m_SymbolEntry);
 	std::istringstream s(symbols);
@@ -256,13 +256,13 @@ void gcpResiduesDlg::Add ()
 		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Symbols with more than eight characters are not allowed.")));
 		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
 		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-			gtk_widget_destroy (GTK_WIDGET (box));	
+			gtk_widget_destroy (GTK_WIDGET (box));
 		return;
 		} else if (!strcmp (buf, _("New"))) {
 			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("\"New\" is not a valid symbol")));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
 			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-				gtk_widget_destroy (GTK_WIDGET (box));	
+				gtk_widget_destroy (GTK_WIDGET (box));
 			return;
 		} else
 			sl.push_back (buf);
@@ -271,7 +271,7 @@ void gcpResiduesDlg::Add ()
 		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Please provide at least one symbol")));
 		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
 		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-			gtk_widget_destroy (GTK_WIDGET (box));	
+			gtk_widget_destroy (GTK_WIDGET (box));
 		return;
 	}
 	std::list<string>::reverse_iterator i, iend = sl.rend ();
@@ -293,7 +293,7 @@ void gcpResiduesDlg::Add ()
 		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Empty formula, this should never happen.\nPlease file a bug report")));
 		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
 		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-			gtk_widget_destroy (GTK_WIDGET (box));	
+			gtk_widget_destroy (GTK_WIDGET (box));
 		return;
 	}
 	// If we are there, everything is OK.
@@ -447,11 +447,11 @@ void gcpResiduesDlg::OnCurChanged ()
 		sy = (*i).first;
 	for (i++; i != end; i++)
 		sy += string(";") + (*i).first;
-	gtk_entry_set_text (m_SymbolEntry, sy.c_str ());	
+	gtk_entry_set_text (m_SymbolEntry, sy.c_str ());
 	m_Document->Clear ();
 	m_Document->LoadObjects (m_Residue->GetMolNode ());
 	double r =  m_Document->GetTheme ()->GetBondLength () / m_Document->GetMedianBondLength ();
-	if (fabs (r - 1.) > .0001) { 
+	if (fabs (r - 1.) > .0001) {
 		Matrix2D m (r, 0., 0., r);
 		m_Document->Transform2D (m, 0., 0.);
 		m_Document->GetView ()->Update (m_Document);

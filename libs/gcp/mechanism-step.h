@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
- * mechanism-step.h 
+ * mechanism-step.h
  *
  * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -61,7 +61,7 @@ values returned by the molecules.
 
 This function is called by the framework one of the molecules or arrows has
 changed. Might destroy the MechanismStep if there is not anymore an arrow.
-	 
+
 @return true to propagate the signal to the parent.
 */
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);

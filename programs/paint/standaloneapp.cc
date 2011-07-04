@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint
  * standaloneapp.cc
  *
  * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -68,7 +68,7 @@ void gcpStandaloneApp::CatchSignals (G_GNUC_UNUSED int sig_num)
 {
 	static int s_signal_count = 0;
 
-	// Reset the signal handler 
+	// Reset the signal handler
 	// (not that it matters - this is mostly for race conditions)
 	signal ( SIGSEGV, signalWrapper);
 

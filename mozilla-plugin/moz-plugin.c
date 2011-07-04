@@ -1,11 +1,11 @@
-/* 
+/*
  * Gnome Chemisty Utils
- * moz-plugin.c 
+ * moz-plugin.c
  *
  * Copyright (C) 2002-2005 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -36,16 +36,16 @@ static int pid = 0;
 static int to_pipe = 0;
 
 typedef struct {
-	
+
 	char *url;	/* The URL that this instance displays */
-	
+
 	char *mime_type;	/* The mime type that this instance displays */
-	
+
 	int width, height;	/* The size of the display area */
-	
+
 	unsigned long moz_xid;	/* The XID of the window mozilla has for us */
-	
-/*	int argc;	
+
+/*	int argc;
 	char **args;
 	pthread_t thread;*/
 	NPP instance;
@@ -65,10 +65,10 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 	ChemPlugin *plugin;
 	char buf [32];
 	int i;
-  
+
 	if (instance == NULL)
 		return NPERR_INVALID_INSTANCE_ERROR;
-	
+
 	instance->pdata = mozilla_funcs.memalloc (sizeof (ChemPlugin));
 	plugin = (ChemPlugin *) instance->pdata;
 
@@ -83,11 +83,11 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 		char *argv[2];
 		argv[0] = LIBEXECDIR"/chem-viewer";
 		argv[1] = NULL;
-		
+
 		if (pipe (p) < 0) {
 			perror ("pipe creation");
 			return NPERR_INVALID_INSTANCE_ERROR;
-		}	
+		}
 		if ((pid = fork()) < 0) {
 			perror ("fork");
 			return NPERR_INVALID_INSTANCE_ERROR;
@@ -135,7 +135,7 @@ static NPError ChemDestroy (NPP instance, G_GNUC_UNUSED NPSavedData **save)
 
 	if (instance == NULL)
 		return NPERR_INVALID_INSTANCE_ERROR;
-	
+
 	plugin = (ChemPlugin *) instance->pdata;
 	if (plugin == NULL)
 		return NPERR_NO_ERROR;
@@ -177,7 +177,7 @@ static NPError ChemNewStream (NPP instance, G_GNUC_UNUSED NPMIMEType type, G_GNU
 
 	plugin = (ChemPlugin *) instance->pdata;
 	if (plugin == NULL)
-		return NPERR_INVALID_INSTANCE_ERROR;	
+		return NPERR_INVALID_INSTANCE_ERROR;
 
 	if (plugin->m_Stream || !plugin->m_ExpectingStream)
 		return mozilla_funcs.destroystream (instance, stream, NPRES_DONE);
@@ -251,7 +251,7 @@ char *NP_GetMIMEDescription (void)
 NPError NP_Initialize(NPNetscapeFuncs *mozFuncs, NPPluginFuncs *pluginFuncs) {
 	if (mozFuncs == NULL || pluginFuncs == NULL)
 		return NPERR_INVALID_FUNCTABLE_ERROR;
-	
+
 	if ((mozFuncs->version >> 8) > NP_VERSION_MAJOR)
 		return NPERR_INCOMPATIBLE_VERSION_ERROR;
 	if (mozFuncs->size < sizeof (NPNetscapeFuncs))

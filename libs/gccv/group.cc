@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * gccv/group.cc 
+ * gccv/group.cc
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -120,7 +120,7 @@ bool Group::Draw (cairo_t *cr, double x0, double y0, double x1, double y1, bool 
 	if (m_Children.empty ())
 		return true;
 	cairo_save (cr);
-	cairo_translate (cr, m_x, m_y);	
+	cairo_translate (cr, m_x, m_y);
 	x0 -= m_x;
 	y0 -= m_y;
 	x1 -= m_x;

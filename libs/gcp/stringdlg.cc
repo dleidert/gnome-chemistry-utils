@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * GChemPaint library
  * stringdlg.cc
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -79,7 +79,7 @@ StringDlg::StringDlg (Document *pDoc, string const &data, enum data_type type):
 	gtk_text_buffer_set_text (Buffer, data.c_str () , -1);
 	GtkWidget *w = GetWidget ("copy");
 	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_copy), this);
-	gtk_window_set_transient_for (dialog, pDoc->GetWindow ()->GetWindow ()); 
+	gtk_window_set_transient_for (dialog, pDoc->GetWindow ()->GetWindow ());
 }
 
 StringDlg::~StringDlg ()
@@ -111,7 +111,7 @@ bool StringDlg::Apply ()
 	while (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_ACCEPT) {
 		filename = gtk_file_chooser_get_uri (chooser);
 		if (!filename || !strlen (filename) || filename[strlen (filename) - 1] == '/') {
-			GtkWidget* message = gtk_message_dialog_new (dialog, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
+			GtkWidget* message = gtk_message_dialog_new (dialog, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
 																_("Please enter a file name,\nnot a directory"));
 			gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
 			gtk_dialog_run (GTK_DIALOG (message));

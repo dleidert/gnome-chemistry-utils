@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemisty Utils
- * gcr/cleavage.h 
+ * gcr/cleavage.h
  *
  * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -84,7 +84,7 @@ The destructor of Cleavage.
 	bool operator== (Cleavage& ccCleavage) ;
 /*!
 	@param xml: the xmlDoc used to save the document.
-	
+
 	Used to save the cleavage to the xmlDoc. Each serializable Object should implement this virtual method.
 	@return the xmlNode containing the serialized cleavage.
 */
@@ -96,7 +96,7 @@ Used to load an Cleavage instance in memory. The Cleavage must already exist.
 @return true on succes, false otherwise.
 */
 	bool Load (xmlNodePtr node);
-	
+
 protected:
 /*!
 Miller's h index.
@@ -120,7 +120,7 @@ Number of planes cleaved.
 a list of pointers to Cleavage instances derived from std::list.
 */
 typedef std::list<Cleavage*> CleavageList;
-	
+
 } //namespace gcr
 
 #endif	//	GCR_CLEAVAGE_H

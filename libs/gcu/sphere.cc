@@ -7,9 +7,9 @@
   This file is part of the Avogadro molecular editor project.
   For more information, see <http://avogadro.sourceforge.net/>
 
-  Avogadro is free software; you can redistribute it and/or modify 
-  it under the terms of the GNU General Public License as published by 
-  the Free Software Foundation; either version 2 of the License, or 
+  Avogadro is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
 
   Avogadro is distributed in the hope that it will be useful,
@@ -158,7 +158,7 @@ void Sphere::initialize ()
 	for (int strip = 1; strip < 5; strip++)
 		for (int row = 0; row <= 3 * d->detail; row++)
 			computeVertex (strip, 0, row);
-		  
+
 
 	for( int row = 0; row <= 2 * d->detail; row++ )
 		computeVertex (0, 0, row);

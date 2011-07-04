@@ -1,13 +1,13 @@
 // -*- C++ -*-
 
-/* 
+/*
  * Gnome Chemistry Utils
- * vector.h 
+ * vector.h
  *
  * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -21,7 +21,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
- 
+
 #ifndef GCU_VECTOR_H
 #define GCU_VECTOR_H
 
@@ -166,7 +166,7 @@ GCU_PROP (double, Z)
 @param f a multiplication factor
 @param v the vector to multiply
 
-@return the product of f and v. 
+@return the product of f and v.
 */
 Vector operator* (double f, Vector const& v);
 
@@ -266,7 +266,7 @@ Sets the third coordinate of the vector.
 @param f a multiplication factor
 @param v the vector to multiply
 
-@return the product of f and v. 
+@return the product of f and v.
 */
 Vector3f operator* (float f, Vector3f const& v);
 
