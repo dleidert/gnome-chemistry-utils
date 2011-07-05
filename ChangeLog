@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-07-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcugtk/gcuperiodic.c: make sure that wanted colors are always used.
+	* ui/libgcu/gcuperiodic.ui: minor fixes.
+
 2011-07-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/docprop.cc: cleaned out deprecated gtk code.
 	* libs/gcp/newfiledlg.cc: ditto.
