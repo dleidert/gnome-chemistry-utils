@@ -27,7 +27,7 @@
 #include "document.h"
 #include "application.h"
 
-gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): gcugtk::Dialog (static_cast < gcugtk::Application * > (pView->GetDoc ()->GetApp ()), UIDIR"/view-settings.ui", "view_settings", GETTEXT_PACKAGE, pView)
+gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): gcugtk::Dialog (static_cast < gcugtk::Application * > (pView->GetDoc ()->GetApp ()), UIDIR"/view-settings.ui", "view-settings", GETTEXT_PACKAGE, pView)
 {
 	m_pView = pView;
 	FoV = GTK_SPIN_BUTTON (GetWidget ("fov"));

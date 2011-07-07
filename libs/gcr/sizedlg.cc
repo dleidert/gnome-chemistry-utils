@@ -52,6 +52,7 @@ SizeDlg::SizeDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"
 	gtk_entry_set_text(MinZ, m_buf);
 	snprintf(m_buf, sizeof(m_buf), "%g", zmax);
 	gtk_entry_set_text(MaxZ, m_buf);
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 SizeDlg::~SizeDlg()

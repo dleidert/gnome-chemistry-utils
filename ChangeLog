@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-07-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/sizedlg.cc: redesigned dialog boxes.
+	* programs/crystal/view-settings.cc: ditto.
+	* ui/crystal/prefs.ui: ditto.
+	* ui/crystal/size.ui: ditto.
+	* ui/crystal/view-settings.ui: ditto.
+
 2011-07-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcugtk/gcuperiodic.c: make sure that wanted colors are always used.
 	* ui/libgcu/gcuperiodic.ui: minor fixes.
