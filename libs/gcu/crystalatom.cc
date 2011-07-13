@@ -235,13 +235,13 @@ bool CrystalAtom::SetProperty (unsigned property, char const *value)
 	case GCU_PROP_Z:
 		break;
 	case GCU_PROP_XFRACT:
-		m_x = strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_x = strtod (value, NULL);
 		break;
 	case GCU_PROP_YFRACT:
-		m_y = strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_y = strtod (value, NULL);
 		break;
 	case GCU_PROP_ZFRACT:
-		m_z = strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_z = strtod (value, NULL);
 		break;
 	default:
 		return Atom::SetProperty (property, value);

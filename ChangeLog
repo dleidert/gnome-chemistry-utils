@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystalatom.cc: don't scale fractional coordinates.
+	* libs/gcu/crystaldoc.cc: fixed cell parameters loading from CIF.
+	* plugins/loaders/cif/cif.cc: ditto.
+
 2011-06-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add gsettings schemas.
 	* configure.ac: ditto.
