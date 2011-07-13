@@ -72,7 +72,7 @@ CIFLoader::CIFLoader ()
 	KnownProps["_cell_length_a"] = GCU_PROP_CELL_A;
 	KnownProps["_cell_length_b"] = GCU_PROP_CELL_B;
 	KnownProps["_cell_length_c"] = GCU_PROP_CELL_C;
-	KnownProps["_cell_angle_apha"] = GCU_PROP_CELL_ALPHA;
+	KnownProps["_cell_angle_alpha"] = GCU_PROP_CELL_ALPHA;
 	KnownProps["_cell_angle_beta"] = GCU_PROP_CELL_BETA;
 	KnownProps["_cell_angle_gamma"] = GCU_PROP_CELL_GAMMA;
 

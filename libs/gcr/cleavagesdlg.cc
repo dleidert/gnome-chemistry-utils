@@ -71,7 +71,7 @@ static void on_edited(GtkCellRendererText *cell, const gchar *path_string, const
 	pBox->OnEdited(cell, path_string, new_text);
 }
 
-CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk::Dialog (App, UIDIR"/cleavages.ui", "cleavages", GETTEXT_PACKAGE,reinterpret_cast < gcu::DialogOwner * > (pDoc))
+CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk::Dialog (App, UIDIR"/cleavages.ui", "cleavages", GETTEXT_PACKAGE, static_cast < gcu::DialogOwner * > (pDoc))
 {
 	m_pDoc = pDoc;
 	GtkWidget* button = GetWidget ("add");
@@ -83,9 +83,9 @@ CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk:
 	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (on_delete_all), this);
 	FixedBtn = GTK_TOGGLE_BUTTON (GetWidget ("fixed"));
 	m_Grid = gcr_grid_new ("h", G_TYPE_INT, "k", G_TYPE_INT, "l", G_TYPE_INT, _("Planes cleaved"), G_TYPE_BOOLEAN, NULL);
-	gtk_widget_show_all (m_Grid);
-	GtkWidget *align = GetWidget ("cleavages-align");
-	gtk_container_add (GTK_CONTAINER (align), m_Grid);
+	g_object_set (G_OBJECT (m_Grid), "expand", true, NULL);
+	GtkWidget *align = GetWidget ("cleavages-grid");
+	gtk_grid_attach (GTK_GRID (align), m_Grid, 0, 0, 3, 1);
 #if 0
 	GtkTreeView* tree = GTK_TREE_VIEW (GetWidget ("cleavageslist"));
 	Selection = gtk_tree_view_get_selection (tree);
@@ -158,6 +158,7 @@ CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk:
 //	g_signal_connect (G_OBJECT (Selection), "changed", G_CALLBACK (on_select), this);
 	if (!m_Cleavages->len)
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 CleavagesDlg::~CleavagesDlg()

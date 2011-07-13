@@ -31,7 +31,7 @@
 
 struct _GcrGrid
 {
-	GtkGrid base;
+	GtkLayout base;
 	unsigned cols, rows;
 	GtkWidget *headers, *contents; /* are these needed */
 	GtkAdjustment *hadj, *vadj;
@@ -39,7 +39,7 @@ struct _GcrGrid
 
 typedef struct
 {
-	GtkGridClass parent_class;
+	GtkLayoutClass parent_class;
 } GcrGridClass;
 
 
@@ -52,7 +52,7 @@ gcr_grid_init (G_GNUC_UNUSED GcrGrid *grid)
 {
 }
 
-GSF_CLASS (GcrGrid, gcr_grid, gcr_grid_class_init, gcr_grid_init, GTK_TYPE_GRID)
+GSF_CLASS (GcrGrid, gcr_grid, gcr_grid_class_init, gcr_grid_init, GTK_TYPE_LAYOUT)
 
 GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ...)
 {
@@ -75,7 +75,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 		}
 	}
 	va_end (args);
-	grid->cols = titles.size ();
+/*	grid->cols = titles.size ();
 	grid->headers = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	GtkBox *box = GTK_BOX (grid);
 	gtk_box_pack_start (box, GTK_WIDGET (grid->headers), FALSE, TRUE, 0);
@@ -85,7 +85,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	gtk_box_pack_start (box, scrolled, FALSE, TRUE, 0);
 
-/*	GtkTable *table = GTK_TABLE (grid);
+	GtkTable *table = GTK_TABLE (grid);
 	gtk_table_resize (table, 2, grid->cols);
 	for (unsigned i = 0; i < grid->cols; i++) {
 		col_title = titles.front ();

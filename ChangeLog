@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atom.cc: don't scale fractional coordinates.
+	* libs/gcr/cleavagesdlg.cc: fixed cast to DialogOwner.
+	* libs/gcr/document.cc: fixed cell paramters from CIF files.
+	* libs/gcr/grid.cc: fixed criticals.
+	* plugins/loaders/cif/cif.cc: fixed alpha angle loading.
+	* ui/crystal/cleavages.ui: redesigned.
+
 2011-07-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/sizedlg.cc: redesigned dialog boxes.
 	* programs/crystal/view-settings.cc: ditto.

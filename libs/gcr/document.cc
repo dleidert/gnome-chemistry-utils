@@ -803,22 +803,22 @@ bool Document::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {
 	case GCU_PROP_CELL_A:
-		m_a = strtod (value, NULL) * GetScale ();
+		m_a = g_ascii_strtod (value, NULL) * GetScale ();
 		break;
 	case GCU_PROP_CELL_B:
-		m_b = strtod (value, NULL) * GetScale ();
+		m_b = g_ascii_strtod (value, NULL) * GetScale ();
 		break;
 	case GCU_PROP_CELL_C:
-		m_c = strtod (value, NULL) * GetScale ();
+		m_c = g_ascii_strtod (value, NULL) * GetScale ();
 		break;
 	case GCU_PROP_CELL_ALPHA:
-		m_alpha = strtod (value, NULL);
+		m_alpha = g_ascii_strtod (value, NULL);
 		break;
 	case GCU_PROP_CELL_BETA:
-		m_beta = strtod (value, NULL);
+		m_beta = g_ascii_strtod (value, NULL);
 		break;
 	case GCU_PROP_CELL_GAMMA:
-		m_gamma = strtod (value, NULL);
+		m_gamma = g_ascii_strtod (value, NULL);
 		break;
 	case GCU_PROP_CHEMICAL_NAME_COMMON:
 		m_NameCommon = value;
