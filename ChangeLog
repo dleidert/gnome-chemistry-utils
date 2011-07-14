@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-07-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: display column headers.
+	* ui/crystal/cleavages.ui: restore title.
+	* ui/crystal/docprop.ui: redesigned.
+
 2011-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atom.cc: don't scale fractional coordinates.
 	* libs/gcr/cleavagesdlg.cc: fixed cast to DialogOwner.

@@ -26,6 +26,7 @@
 #include "grid.h"
 #include <goffice/goffice.h>
 #include <list>
+#include <string>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -33,18 +34,65 @@ struct _GcrGrid
 {
 	GtkLayout base;
 	unsigned cols, rows;
+	int header_height, row_height, width, *col_widths;
 	GtkWidget *headers, *contents; /* are these needed */
 	GtkAdjustment *hadj, *vadj;
+	std::string *titles;
 };
+
+static GtkWidgetClass *parent_class;
 
 typedef struct
 {
 	GtkLayoutClass parent_class;
 } GcrGridClass;
 
-
-static void gcr_grid_class_init (G_GNUC_UNUSED GcrGridClass *klass)
+static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 {
+	GcrGrid *grid = reinterpret_cast < GcrGrid * > (w);
+	GtkStyleContext *ctxt = gtk_widget_get_style_context (w);
+	gtk_style_context_save (ctxt);
+	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
+	int pos = 0, y = (grid->header_height - grid->row_height) / 2, width;
+	PangoLayout *l = gtk_widget_create_pango_layout (w, "");
+	for (unsigned i = 0; i < grid->cols; i++) {
+		gtk_render_background (ctxt, cr, pos, 0, grid->col_widths[i], grid->header_height);
+		gtk_render_frame (ctxt, cr, pos, 0, grid->col_widths[i], grid->header_height);
+		pango_layout_set_markup (l, grid->titles[i].c_str (), -1);
+		pango_layout_get_pixel_size (l, &width, NULL);
+		cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2, y);
+		pango_cairo_show_layout (cr, l);
+		pos += grid->col_widths[i];
+	}
+	gtk_style_context_restore (ctxt);
+	return true;
+}
+
+static void gcr_grid_get_preferred_height (GtkWidget *w, int *min, int *preferred)
+{
+	*min = *preferred = reinterpret_cast < GcrGrid * > (w)->row_height * 5 + reinterpret_cast < GcrGrid * > (w)->header_height;
+}
+
+static void gcr_grid_get_preferred_width (GtkWidget *w, int *min, int *preferred)
+{
+	*min = *preferred = reinterpret_cast < GcrGrid * > (w)->width;
+}
+
+static void gcr_grid_finalize (GObject *obj)
+{
+	GcrGrid *grid = reinterpret_cast < GcrGrid * > (obj);
+	delete [] grid->col_widths;
+	delete [] grid->titles;
+	reinterpret_cast < GObjectClass * > (parent_class)->finalize (obj);
+}
+
+static void gcr_grid_class_init (GtkWidgetClass *klass)
+{
+	parent_class = reinterpret_cast < GtkWidgetClass * > (g_type_class_peek_parent (klass));
+	klass->draw = gcr_grid_draw;
+	reinterpret_cast < GObjectClass * > (klass)->finalize = gcr_grid_finalize;
+	klass->get_preferred_height = gcr_grid_get_preferred_height;
+	klass->get_preferred_width = gcr_grid_get_preferred_width;
 }
 
 static void
@@ -58,12 +106,22 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 {
 	g_return_val_if_fail (col_title && g_utf8_validate (col_title, -1, NULL), NULL);
 	GcrGrid *grid = GCR_GRID (g_object_new (GCR_TYPE_GRID, NULL));
-	std::list <char const *> titles;
-	std::list <GType> types;
+	std::list < char const * > titles;
+	std::list < GType > types;
 	titles.push_front (col_title);
 	types.push_front (col_type);
 	va_list args;
 	va_start (args, col_type);
+	int int_size, double_size, col_size, title_size;
+	PangoLayout *layout = gtk_widget_create_pango_layout (reinterpret_cast <GtkWidget *> (grid), "000000");
+	pango_layout_get_pixel_size (layout, &int_size, &grid->row_height);
+	pango_layout_set_text (layout, "0.00000000", -1);
+	pango_layout_get_pixel_size (layout, &double_size, NULL);
+	grid->row_height += 1; // add room for cell borders
+	grid->width = 0; // FIXME: evalutate the real size from columns
+	GtkWidget *w = gtk_button_new_with_label ("0");
+	gtk_widget_get_preferred_height (w, &grid->header_height, NULL);
+	g_object_ref_sink (w);
 	while (1) {
 		col_title = va_arg (args, char const *);
 		if (!col_title)
@@ -75,6 +133,34 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 		}
 	}
 	va_end (args);
+	grid->cols = titles.size ();
+	grid->col_widths = new int[grid->cols];
+	grid->titles = new std::string[grid->cols];
+	unsigned i;
+	std::list <char const *>::iterator title = titles.begin ();
+	std::list <GType>::iterator type = types.begin ();
+	for (i = 0; i < grid->cols; i++, title++, type++) {
+		switch (*type) {
+		case G_TYPE_INT:
+			col_size = int_size;
+			break;
+		case G_TYPE_DOUBLE:
+			col_size = double_size;
+			break;
+		default:
+			col_size = 0;
+			break;
+		}
+		// now evaluate the size of the title
+		pango_layout_set_markup (layout, *title, -1);
+		pango_layout_get_pixel_size (layout, &title_size, NULL);
+		if (col_size < title_size)
+			col_size = title_size;
+		col_size += 6;	// add some padding
+		grid->col_widths[i] = col_size;
+		grid->width += col_size;
+		grid->titles[i] = *title;
+	}
 /*	grid->cols = titles.size ();
 	grid->headers = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	GtkBox *box = GTK_BOX (grid);
@@ -93,5 +179,8 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 		GtkWidget *label = gtk_label_new (col_title);
 		gtk_table_attach (table, label, i, i + 1, 0, 1, GTK_EXPAND, static_cast <GtkAttachOptions> (0), 0, 0);
 	}*/
+	g_object_unref (layout);
+	GdkRGBA rgba = {1.0, 1.0, 1.0, 1.0};
+	gtk_widget_override_background_color (reinterpret_cast <GtkWidget *> (grid), GTK_STATE_FLAG_NORMAL, &rgba);
 	return reinterpret_cast <GtkWidget *> (grid);
 }

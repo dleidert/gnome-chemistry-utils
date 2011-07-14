@@ -2,6 +2,7 @@
 <interface>
   <!-- interface-requires gtk+ 2.12 -->
   <object class="GtkDialog" id="cleavages">
+    <property name="title" translatable="yes">Cleavages</property>
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="type_hint">dialog</property>
