@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "grid.h"
+#include <gcugtk/marshalers.h>
 #include <goffice/goffice.h>
 #include <list>
 #include <string>
@@ -42,9 +43,21 @@ struct _GcrGrid
 
 static GtkWidgetClass *parent_class;
 
+enum {
+  VALUE_CHANGED,
+  ROW_ADDED,
+  ROW_DELETED,
+  LAST_SIGNAL
+};
+
+static gulong gcr_grid_signals [LAST_SIGNAL] = { 0, };
+
 typedef struct
 {
 	GtkLayoutClass parent_class;
+	void (*value_changed_event) (GcrGrid *grid, unsigned row, unsigned column, gpointer data);
+	void (*row_added_event) (GcrGrid *grid, unsigned row, gpointer data);
+	void (*row_deleted_event) (GcrGrid *grid, unsigned row, gpointer data);
 } GcrGridClass;
 
 static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
@@ -93,6 +106,33 @@ static void gcr_grid_class_init (GtkWidgetClass *klass)
 	reinterpret_cast < GObjectClass * > (klass)->finalize = gcr_grid_finalize;
 	klass->get_preferred_height = gcr_grid_get_preferred_height;
 	klass->get_preferred_width = gcr_grid_get_preferred_width;
+	gcr_grid_signals[VALUE_CHANGED] = g_signal_new ("value-changed",
+	                                                G_TYPE_FROM_CLASS(klass),
+				                                    G_SIGNAL_RUN_LAST,
+				                                    G_STRUCT_OFFSET(GcrGridClass, value_changed_event),
+				                                    NULL, NULL,
+				                                    gcu__VOID__UINT_UINT,
+				                                    G_TYPE_NONE, 2,
+				                                    G_TYPE_UINT, G_TYPE_UINT
+				                                    );
+	gcr_grid_signals[ROW_ADDED] = g_signal_new ("row-added",
+	                                            G_TYPE_FROM_CLASS(klass),
+				                                G_SIGNAL_RUN_LAST,
+				                                G_STRUCT_OFFSET(GcrGridClass, row_added_event),
+				                                NULL, NULL,
+				                                g_cclosure_marshal_VOID__UINT,
+				                                G_TYPE_NONE, 1,
+				                                G_TYPE_UINT, G_TYPE_UINT
+				                                );
+	gcr_grid_signals[ROW_DELETED] = g_signal_new ("row-changed",
+	                                              G_TYPE_FROM_CLASS(klass),
+				                                  G_SIGNAL_RUN_LAST,
+				                                  G_STRUCT_OFFSET(GcrGridClass, row_deleted_event),
+				                                  NULL, NULL,
+				                                  g_cclosure_marshal_VOID__UINT,
+				                                  G_TYPE_NONE, 2,
+				                                  G_TYPE_UINT, G_TYPE_UINT
+				                                  );
 }
 
 static void
@@ -183,4 +223,35 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	GdkRGBA rgba = {1.0, 1.0, 1.0, 1.0};
 	gtk_widget_override_background_color (reinterpret_cast <GtkWidget *> (grid), GTK_STATE_FLAG_NORMAL, &rgba);
 	return reinterpret_cast <GtkWidget *> (grid);
+}
+
+int gcr_grid_get_int (GcrGrid *grid, unsigned row, unsigned column)
+{
+	return 0;
+}
+
+double gcr_grid_get_double (GcrGrid *grid, unsigned row, unsigned column)
+{
+	return go_nan;
+}
+
+bool gcr_grid_get_boolean (GcrGrid *grid, unsigned row, unsigned column)
+{
+	return false;
+}
+
+void gcr_grid_set_int (GcrGrid *grid, unsigned row, unsigned column, int value)
+{
+}
+
+void gcr_grid_set_double (GcrGrid *grid, unsigned row, unsigned column, double value)
+{
+}
+
+void gcr_grid_set_boolean (GcrGrid *grid, unsigned row, unsigned column, bool value)
+{
+}
+
+unsigned gcr_grid_append_row (GcrGrid *grid,...)
+{
 }

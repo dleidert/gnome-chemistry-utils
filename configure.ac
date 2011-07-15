@@ -34,6 +34,9 @@ GNOME_COMPILE_WARNINGS([maximum])
 GNOME_CXX_WARNINGS([yes])
 GNOME_MAINTAINER_MODE_DEFINES
 
+AC_ARG_VAR(GLIB_GENMARSHAL, [The glib-genmarshal executable.])
+AC_CHECK_PROG(GLIB_GENMARSHAL, glib-genmarshal, glib-genmarshal)
+
 GCU_VERSION_INFO=`echo $GCU_VERSION | awk -F . '{ print $1+$2":"$3":"$2 }'`
 AC_SUBST([GCU_VERSION_INFO])
 

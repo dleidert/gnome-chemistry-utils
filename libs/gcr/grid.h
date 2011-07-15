@@ -40,6 +40,13 @@ typedef struct _GcrGrid GcrGrid;
 GType      gcr_grid_get_type (void);
 
 GtkWidget *gcr_grid_new (char const *col_title, GType col_type,...);
+int gcr_grid_get_int (GcrGrid *grid, unsigned row, unsigned column);
+double gcr_grid_get_double (GcrGrid *grid, unsigned row, unsigned column);
+bool gcr_grid_get_boolean (GcrGrid *grid, unsigned row, unsigned column);
+void gcr_grid_set_int (GcrGrid *grid, unsigned row, unsigned column, int value);
+void gcr_grid_set_double (GcrGrid *grid, unsigned row, unsigned column, double value);
+void gcr_grid_set_boolean (GcrGrid *grid, unsigned row, unsigned column, bool value);
+unsigned gcr_grid_append_row (GcrGrid *grid,...);
 
 G_END_DECLS
 

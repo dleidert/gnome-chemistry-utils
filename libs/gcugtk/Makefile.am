@@ -20,6 +20,8 @@ DEFS += -DDATADIR=\"$(datadir)\" \
 lib_LTLIBRARIES= libgcugtk-@GCU_API_VER@.la
 
 libgcugtk_@GCU_API_VER@_la_SOURCES = \
+		marshalers.list	\
+		\
 		application.cc \
 		cmd-context-gtk.cc \
 		chem3ddoc.cc	\
@@ -56,3 +58,24 @@ noinst_HEADERS = \
 		spectrumview.h \
 		ui-builder.h \
 		ui-manager.h
+
+CLEANFILES =			\
+	marshalers.h		\
+	marshalers.c
+
+# A hint is needed to build the header first:
+BUILT_SOURCES = marshalers.h
+
+# Another hint, see gnome bugs #172211 and #172212:
+non-intermediate: marshalers.c
+
+GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gcu_
+
+.list.h:
+	$(GENMARSHAL_COMMAND) --header $< >$@
+
+.list.c:
+	(echo '/* This file has been automatically generated.  Do not edit. */' && \
+	echo '#include <config.h>' && \
+	echo '#include "$*.h"' && \
+	$(GENMARSHAL_COMMAND) --body $< ) >$@

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-07-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add signals to GcrGrid.
+	* libs/gcr/grid.cc: ditto.
+	* libs/gcr/grid.h: ditto.
+	* libs/gcugtk/Makefile.am: ditto.
+	* libs/gcugtk/marshalers.list: ditto.
+
 2011-07-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: display column headers.
 	* ui/crystal/cleavages.ui: restore title.
