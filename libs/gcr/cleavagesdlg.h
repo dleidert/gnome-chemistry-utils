@@ -27,6 +27,7 @@
 
 #include <gcugtk/dialog.h>
 #include "grid.h"
+#include <vector>
 
 namespace gcu {
 class Application;
@@ -36,11 +37,11 @@ namespace gcr {
 
 class Document;
 class Application;
-
-struct CleavageStruct;
+class Cleavage;
 
 class CleavagesDlg: public gcugtk::Dialog
 {
+friend class CleavagesDlgPrivate;
 public:
 	CleavagesDlg (gcr::Application *App, gcr::Document* pDoc);
 	virtual ~CleavagesDlg ();
@@ -58,7 +59,7 @@ private:
 	GtkListStore *CleavageList;
 	GtkToggleButton *FixedBtn;
 	GtkTreeSelection *Selection;
-	GArray *m_Cleavages;
+	std::vector < Cleavage * > m_Cleavages;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
 	GtkWidget *m_Grid;
 };

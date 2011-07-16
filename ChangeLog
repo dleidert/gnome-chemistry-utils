@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-07-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/cleavagesdlg.cc: display existing cleavages.
+	* libs/gcr/cleavagesdlg.h: ditto.
+	* libs/gcr/grid.cc: ditto.
+
 2011-07-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add signals to GcrGrid.
 	* libs/gcr/grid.cc: ditto.
