@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2011-07-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: use next gnumeric API (tentative).
+	* libs/gcr/cleavagesdlg.cc: redesigned.
+	* libs/gcr/grid.cc: add row headers and a vertical scrollbar.
+	* programs/crystal/docprop.cc: fixed window title when document title
+	is empty.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* ui/crystal/cleavages.ui: redesigned.
+
 2011-07-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/cleavagesdlg.cc: display existing cleavages.
 	* libs/gcr/cleavagesdlg.h: ditto.

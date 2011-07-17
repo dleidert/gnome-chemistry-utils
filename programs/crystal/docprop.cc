@@ -34,12 +34,14 @@ using namespace std;
 
 static void on_title_changed (GtkEntry *entry, gcDocPropDlg *dlg)
 {
-	dlg->OnTitleChanged (gtk_entry_get_text (entry));
+	char const *txt = gtk_entry_get_text (entry);
+	dlg->OnTitleChanged ((txt && *txt)? txt: NULL);
 }
 
 static bool on_title_focused_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, gcDocPropDlg *dlg)
 {
-	dlg->OnTitleChanged (gtk_entry_get_text (entry));
+	char const *txt = gtk_entry_get_text (entry);
+	dlg->OnTitleChanged ((txt && *txt)? txt: NULL);
 	return false;
 }
 

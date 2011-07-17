@@ -37,8 +37,9 @@ struct _GcrGrid
 	GtkLayout base;
 	unsigned cols, rows, allocated_rows;
 	int col, row;
-	int header_height, row_height, width, *col_widths;
-	GtkAdjustment *hadj, *vadj;
+	int header_width, row_height, width, *col_widths, line_offset, scroll_width;
+	GtkAdjustment *vadj;
+	GtkWidget *scroll;
 	std::string *titles;
 	GType *types;
 	std::vector < std::string * > row_data; // storing as string since this is what is displayed
@@ -68,44 +69,83 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 	GcrGrid *grid = reinterpret_cast < GcrGrid * > (w);
 	GtkStyleContext *ctxt = gtk_widget_get_style_context (w);
 	unsigned i, j;
+	GtkAllocation alloc;
+	gtk_widget_get_allocation (w, &alloc);
 	gtk_style_context_save (ctxt);
 	gtk_style_context_add_class (ctxt, GTK_STYLE_CLASS_BUTTON);
-	int pos = 0, y = (grid->header_height - grid->row_height) / 2, width;
+	int pos = grid->header_width, y = grid->line_offset, width;
 	PangoLayout *l = gtk_widget_create_pango_layout (w, "");
+	cairo_save (cr);
+	cairo_set_source_rgb (cr, 0.7, 0.7, 0.7);
+	cairo_rectangle (cr, 0, 0, grid->width, grid->row_height + 1);
+	cairo_fill (cr);
+	cairo_restore (cr);
+	gtk_render_background (ctxt, cr, 0, 0, grid->header_width + 1, grid->row_height + 1);
+	gtk_render_frame (ctxt, cr, 0, 0, grid->header_width + 1, grid->row_height + 1);
 	for (i = 0; i < grid->cols; i++) {
-		gtk_style_context_set_state (ctxt, (i == grid->col)? GTK_STATE_FLAG_ACTIVE: GTK_STATE_FLAG_NORMAL);
-		gtk_render_background (ctxt, cr, pos, 0, grid->col_widths[i], grid->header_height);
-		gtk_render_frame (ctxt, cr, pos, 0, grid->col_widths[i], grid->header_height);
+		gtk_style_context_set_state (ctxt, (static_cast < int > (i) == grid->col)? GTK_STATE_FLAG_ACTIVE: GTK_STATE_FLAG_NORMAL);
+		gtk_render_background (ctxt, cr, pos, 0, grid->col_widths[i] + 1, grid->row_height + 1);
+		gtk_render_frame (ctxt, cr, pos, 0, grid->col_widths[i] + 1, grid->row_height + 1);
 		pango_layout_set_markup (l, grid->titles[i].c_str (), -1);
 		pango_layout_get_pixel_size (l, &width, NULL);
 		cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2, y);
 		pango_cairo_show_layout (cr, l);
 		pos += grid->col_widths[i];
 	}
-	y = grid->header_height;
+	gtk_render_background (ctxt, cr, pos, 0, grid->scroll_width + 1, grid->row_height + 1);
+	gtk_render_frame (ctxt, cr, pos, 0, grid->scroll_width + 1, grid->row_height + 1);
+	y = grid->row_height;
 	cairo_set_line_width (cr, 1.);
+	// draw row headers
 	for (j = 0; j < grid->rows; j++) {
-		pos = 0;
+		cairo_save (cr);
+		cairo_set_source_rgb (cr, 0.7, 0.7, 0.7);
+		cairo_rectangle (cr, 0, y, grid->header_width + 1, grid->row_height + 1);
+		cairo_fill (cr);
+		cairo_restore (cr);
+		char *buf = g_strdup_printf("%d", j + 1);
+		gtk_style_context_set_state (ctxt, (static_cast < int > (j) == grid->row)? GTK_STATE_FLAG_ACTIVE: GTK_STATE_FLAG_NORMAL);
+		gtk_render_background (ctxt, cr, 0, y, grid->header_width + 1, grid->row_height + 1);
+		gtk_render_frame (ctxt, cr, 0, y, grid->header_width + 1, grid->row_height + 1);
+		pango_layout_set_text (l, buf, -1);
+		pango_layout_get_pixel_size (l, &width, NULL);
+		cairo_move_to (cr, (grid->header_width - width) / 2, y + grid->line_offset);
+		pango_cairo_show_layout (cr, l);
+		g_free (buf);
+		y += grid->row_height;
+	}
+	y = grid->row_height;
+	cairo_save (cr);
+	cairo_rectangle (cr, grid->header_width, y, alloc.width - grid->header_width, alloc.height - y);
+	cairo_clip (cr);
+	cairo_set_line_width (cr, 1.);
+	// draw cells
+	for (j = 0; j < grid->rows; j++) {
+		pos = grid->header_width;
 		for (i = 0; i < grid->cols; i++) {
 			cairo_save (cr);
 			cairo_set_source_rgb (cr, 0.7, 0.7, 0.7);
-			cairo_rectangle (cr, pos - .5, y - .5, grid->col_widths[i], grid->row_height);
+			cairo_rectangle (cr, pos + .5, y + .5, grid->col_widths[i], grid->row_height);
 			cairo_stroke (cr);
 			cairo_restore (cr);
-			cairo_move_to (cr, pos, y);
+			// FIXME: manage booleans, not only strings
+			pango_layout_set_text (l, grid->row_data[j][i].c_str(), -1);
+			pango_layout_get_pixel_size (l, &width, NULL);
+			cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2, y + grid->line_offset);
 			pango_layout_set_markup (l, grid->row_data[j][i].c_str(), -1);
 			pango_cairo_show_layout (cr, l);
 			pos += grid->col_widths[i];
 		}
 		y += grid->row_height;
 	}
+	cairo_restore (cr);
 	gtk_style_context_restore (ctxt);
-	return true;
+	return parent_class->draw (w, cr);
 }
 
 static void gcr_grid_get_preferred_height (GtkWidget *w, int *min, int *preferred)
 {
-	*min = *preferred = reinterpret_cast < GcrGrid * > (w)->row_height * 5 + reinterpret_cast < GcrGrid * > (w)->header_height;
+	*min = *preferred = reinterpret_cast < GcrGrid * > (w)->row_height * 6 + 1;
 }
 
 static void gcr_grid_get_preferred_width (GtkWidget *w, int *min, int *preferred)
@@ -178,15 +218,16 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	types.push_front (col_type);
 	va_list args;
 	va_start (args, col_type);
-	int int_size, double_size, col_size, title_size;
+	int int_size, double_size, col_size, title_size, height;
 	PangoLayout *layout = gtk_widget_create_pango_layout (reinterpret_cast <GtkWidget *> (grid), "000000");
-	pango_layout_get_pixel_size (layout, &int_size, &grid->row_height);
+	pango_layout_get_pixel_size (layout, &int_size, &height);
 	pango_layout_set_text (layout, "0.00000000", -1);
 	pango_layout_get_pixel_size (layout, &double_size, NULL);
-	grid->row_height += 1; // add room for cell borders
 	grid->width = 0; // FIXME: evalutate the real size from columns
-	GtkWidget *w = gtk_button_new_with_label ("0");
-	gtk_widget_get_preferred_height (w, &grid->header_height, NULL);
+	GtkWidget *w = gtk_button_new_with_label ("00");
+	gtk_widget_get_preferred_height (w, &grid->row_height, NULL);
+	grid->line_offset = (grid->row_height - height) / 2;
+	gtk_widget_get_preferred_width (w, &grid->header_width, NULL);
 	g_object_ref_sink (w);
 	while (1) {
 		col_title = va_arg (args, char const *);
@@ -206,6 +247,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	unsigned i;
 	std::list <char const *>::iterator title = titles.begin ();
 	std::list <GType>::iterator type = types.begin ();
+	grid->width = grid->header_width;
 	for (i = 0; i < grid->cols; i++, title++, type++) {
 		switch (*type) {
 		case G_TYPE_INT:
@@ -232,6 +274,13 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	g_object_unref (layout);
 	GdkRGBA rgba = {1.0, 1.0, 1.0, 1.0};
 	gtk_widget_override_background_color (reinterpret_cast <GtkWidget *> (grid), GTK_STATE_FLAG_NORMAL, &rgba);
+	// add a vertical scrollbar
+	grid->vadj = gtk_adjustment_new (0, 0, 0, 1, 0, 10);
+	grid->scroll = gtk_scrollbar_new (GTK_ORIENTATION_VERTICAL, grid->vadj);
+	g_object_set (G_OBJECT (grid->scroll), "height-request", grid->row_height * 5 + 1, NULL); //default size
+	gtk_layout_put (GTK_LAYOUT (grid), grid->scroll, grid->width + 1, grid->row_height + 1);
+	gtk_widget_get_preferred_width (grid->scroll, &grid->scroll_width, NULL);
+	grid->width += grid->scroll_width + 1;
 	return reinterpret_cast <GtkWidget *> (grid);
 }
 

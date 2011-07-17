@@ -72,6 +72,7 @@ gcDocument::gcDocument (gcApplication *pApp): gcr::Document (pApp)
 	m_Author = m_Mail = m_Label = m_Comment = NULL;
 	g_date_set_time_t (&m_CreationDate, time (NULL));
 	g_date_clear (&m_RevisionDate, 1);
+	m_DefaultLabel = _("Gnome Crystal");
 }
 
 gcDocument::~gcDocument ()
@@ -154,26 +155,29 @@ void gcDocument::SetFileName (const string &filename)
 	int j = filename.length () - 1;
 	while ((i < j) && (m_filename[j] != '.'))
 		j--;
+	char *buf = (strcmp (m_filename + j, ".gcrystal"))? g_strdup (m_filename + i): g_strndup (m_filename + i, j - i);
+	char *unescaped = g_uri_unescape_string (buf, NULL);
+	g_free (buf);
+	m_DefaultLabel = unescaped;
 	if (m_Title.length () == 0) {
 		g_free (m_Label);
-		char *buf = (strcmp (m_filename + j, ".gcrystal"))? g_strdup (m_filename + i): g_strndup (m_filename + i, j - i);
-		m_Label = g_uri_unescape_string (buf, NULL);
-		g_free (buf);
-	}
+		m_Label = unescaped;
+	} else
+		g_free (unescaped);
 }
 
 void gcDocument::SetTitle(const gchar* title)
 {
-	m_Title = title;
-	g_free(m_Label);
-	m_Label = g_strdup(title);
+	m_Title = title? title: "";
+	g_free (m_Label);
+	m_Label = title? g_strdup (title): NULL;
 }
 
 void gcDocument::SetTitle (std::string& title)
 {
 	m_Title = title;
 	g_free (m_Label);
-	m_Label = g_strdup (title.c_str ());
+	m_Label = title.length ()? g_strdup (title.c_str ()): NULL;
 }
 
 static int cb_xml_to_vfs (GOutputStream *output, const char* buf, int nb)
@@ -756,7 +760,7 @@ void gcDocument::RenameViews ()
 			gtk_window_set_title (w, t);
 			g_free (t);
 		} else
-			gtk_window_set_title (w, m_Label);
+			gtk_window_set_title (w, GetLabel ());
 		window->ActivateActionWidget ("ui/MainMenu/FileMenu/Save", !m_ReadOnly);
 		window->ActivateActionWidget ("ui/MainToolbar/Save", !m_ReadOnly);
 	}

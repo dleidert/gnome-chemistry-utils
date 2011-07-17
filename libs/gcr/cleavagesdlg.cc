@@ -114,7 +114,7 @@ CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk:
 	m_Grid = gcr_grid_new ("h", G_TYPE_INT, "k", G_TYPE_INT, "l", G_TYPE_INT, _("Planes cleaved"), G_TYPE_INT, NULL);
 	g_object_set (G_OBJECT (m_Grid), "vexpand", true, NULL);
 	GtkWidget *align = GetWidget ("cleavages-grid");
-	gtk_grid_attach (GTK_GRID (align), m_Grid, 0, 0, 3, 1);
+	gtk_grid_attach (GTK_GRID (align), m_Grid, 0, 0, 1, 4);
 	gcr::CleavageList* Cleavages = m_pDoc->GetCleavageList ();
 	m_Cleavages.resize ((Cleavages->size () / 5 + 1) * 5);
 	for (list < gcr::Cleavage * >::iterator i = Cleavages->begin (); i != Cleavages->end (); i++)

@@ -4,7 +4,7 @@
  * Gnome Crystal
  * document.h
  *
- * Copyright (C) 2000-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -92,6 +92,7 @@ public:
 	GDate *GetRevisionDate () {return &m_RevisionDate;}
 	bool SetProperty (unsigned property, char const *value);
 	std::string GetProperty (unsigned property) const;
+	char const *GetLabel () {return m_Label? m_Label: m_DefaultLabel.c_str ();}
 
 private:
 	void Error(int num) const;
@@ -104,9 +105,10 @@ private:
 	std::list <gcu::Dialog *> m_Dialogs;
 	gcView *m_pActiveView;
 	GDate m_CreationDate, m_RevisionDate;
+	std::string m_DefaultLabel;
+	char *m_Label;
 
 GCU_PROP (bool, ReadOnly)
-GCU_RO_PROP (char *, Label)
 GCU_RO_PROP (char *, Author)
 GCU_RO_PROP (char *, Mail)
 GCU_RO_PROP (char *, Comment)
