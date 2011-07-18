@@ -37,6 +37,8 @@ struct _GcrGrid
 	GtkLayout base;
 	unsigned cols, rows, allocated_rows;
 	int col, row;
+	int first_visible;
+	unsigned nb_visible;
 	int header_width, row_height, width, *col_widths, line_offset, scroll_width;
 	GtkAdjustment *vadj;
 	GtkWidget *scroll;
@@ -92,21 +94,24 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 		pango_cairo_show_layout (cr, l);
 		pos += grid->col_widths[i];
 	}
+	gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
 	gtk_render_background (ctxt, cr, pos, 0, grid->scroll_width + 1, grid->row_height + 1);
 	gtk_render_frame (ctxt, cr, pos, 0, grid->scroll_width + 1, grid->row_height + 1);
 	y = grid->row_height;
 	cairo_set_line_width (cr, 1.);
 	// draw row headers
-	for (j = 0; j < grid->rows; j++) {
+	int row = grid->first_visible;
+	unsigned max = (grid->nb_visible >= grid->rows - grid->first_visible)? grid->rows - grid->first_visible: grid->nb_visible + 1; 
+	for (j = 0; j < max; j++) {
 		cairo_save (cr);
 		cairo_set_source_rgb (cr, 0.7, 0.7, 0.7);
 		cairo_rectangle (cr, 0, y, grid->header_width + 1, grid->row_height + 1);
 		cairo_fill (cr);
 		cairo_restore (cr);
-		char *buf = g_strdup_printf("%d", j + 1);
-		gtk_style_context_set_state (ctxt, (static_cast < int > (j) == grid->row)? GTK_STATE_FLAG_ACTIVE: GTK_STATE_FLAG_NORMAL);
+		gtk_style_context_set_state (ctxt, (row == grid->row)? GTK_STATE_FLAG_ACTIVE: GTK_STATE_FLAG_NORMAL);
 		gtk_render_background (ctxt, cr, 0, y, grid->header_width + 1, grid->row_height + 1);
 		gtk_render_frame (ctxt, cr, 0, y, grid->header_width + 1, grid->row_height + 1);
+		char *buf = g_strdup_printf("%d", ++row);
 		pango_layout_set_text (l, buf, -1);
 		pango_layout_get_pixel_size (l, &width, NULL);
 		cairo_move_to (cr, (grid->header_width - width) / 2, y + grid->line_offset);
@@ -120,7 +125,8 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 	cairo_clip (cr);
 	cairo_set_line_width (cr, 1.);
 	// draw cells
-	for (j = 0; j < grid->rows; j++) {
+	row = grid->first_visible;
+	for (j = 0; j < max; j++) {
 		pos = grid->header_width;
 		for (i = 0; i < grid->cols; i++) {
 			cairo_save (cr);
@@ -129,13 +135,14 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 			cairo_stroke (cr);
 			cairo_restore (cr);
 			// FIXME: manage booleans, not only strings
-			pango_layout_set_text (l, grid->row_data[j][i].c_str(), -1);
+			pango_layout_set_text (l, grid->row_data[row][i].c_str(), -1);
 			pango_layout_get_pixel_size (l, &width, NULL);
 			cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2, y + grid->line_offset);
-			pango_layout_set_markup (l, grid->row_data[j][i].c_str(), -1);
+			pango_layout_set_markup (l, grid->row_data[row][i].c_str(), -1);
 			pango_cairo_show_layout (cr, l);
 			pos += grid->col_widths[i];
 		}
+		row++;
 		y += grid->row_height;
 	}
 	cairo_restore (cr);
@@ -164,10 +171,52 @@ static void gcr_grid_finalize (GObject *obj)
 	reinterpret_cast < GObjectClass * > (parent_class)->finalize (obj);
 }
 
+static void gcr_grid_size_allocate (GtkWidget *w, GtkAllocation *alloc)
+{
+	GcrGrid *grid = GCR_GRID (w);
+	g_object_set (G_OBJECT (grid->scroll), "height-request", alloc->height - grid->row_height, NULL); //default size
+	grid->nb_visible = alloc->height / grid->row_height - 1; // -1 to avoid counting the header
+	gtk_adjustment_set_page_size (grid->vadj, static_cast < double > (grid->nb_visible) / grid->rows);
+	gtk_adjustment_set_upper (grid->vadj, (grid->nb_visible < grid->rows)? grid->rows - grid->nb_visible: .1);
+	if (grid->rows < grid->nb_visible + grid->first_visible) {
+		grid->first_visible = (grid->nb_visible < grid->rows)? grid->rows - grid->nb_visible: 0;
+		gtk_adjustment_set_value (grid->vadj, grid->first_visible);
+	}
+	parent_class->size_allocate (w, alloc);
+}
+
+static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *event)
+{
+	GcrGrid *grid = GCR_GRID (widget);
+	int x = (event->y > grid->row_height)? grid->first_visible + event->y / grid->row_height: - 1, i;
+	grid->row = (x < 0 || x >= static_cast < int > (grid->rows))? -1: x;
+	if (grid->row < 0) {
+		grid->col = -1;
+		gtk_widget_queue_draw (widget);
+		return true;
+	}
+	grid->col = -1;
+	x = grid->header_width;
+	if (event->x >= x)
+		for (i = 0; i < static_cast < int > (grid->cols); i++) {
+			x += grid->col_widths[i];
+			if (event->x < x) {
+				grid->col = i;
+				break;
+			}
+		}
+	if (grid->col < 0)
+		grid->row = -1;
+	gtk_widget_queue_draw (widget);
+	return true;
+}
+
 static void gcr_grid_class_init (GtkWidgetClass *klass)
 {
 	parent_class = reinterpret_cast < GtkWidgetClass * > (g_type_class_peek_parent (klass));
 	klass->draw = gcr_grid_draw;
+	klass->size_allocate = gcr_grid_size_allocate;
+	klass->button_press_event = gcr_grid_button_press_event;
 	reinterpret_cast < GObjectClass * > (klass)->finalize = gcr_grid_finalize;
 	klass->get_preferred_height = gcr_grid_get_preferred_height;
 	klass->get_preferred_width = gcr_grid_get_preferred_width;
@@ -208,10 +257,27 @@ gcr_grid_init (G_GNUC_UNUSED GcrGrid *grid)
 
 GSF_CLASS (GcrGrid, gcr_grid, gcr_grid_class_init, gcr_grid_init, GTK_TYPE_LAYOUT)
 
+// signal callbacks
+
+void gcr_grid_adjustment_changed (GtkAdjustment *adj, GcrGrid *grid)
+{
+	grid->first_visible = ceil (gtk_adjustment_get_value (adj));
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
+}
+
+// implementation
+
 GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ...)
 {
 	g_return_val_if_fail (col_title && g_utf8_validate (col_title, -1, NULL), NULL);
 	GcrGrid *grid = GCR_GRID (g_object_new (GCR_TYPE_GRID, NULL));
+	gtk_widget_add_events (GTK_WIDGET (grid),
+						   GDK_POINTER_MOTION_MASK |
+						   GDK_BUTTON_MOTION_MASK |
+						   GDK_BUTTON_PRESS_MASK |
+						   GDK_BUTTON_RELEASE_MASK |
+    					   GDK_LEAVE_NOTIFY_MASK
+						   );
 	std::list < char const * > titles;
 	std::list < GType > types;
 	titles.push_front (col_title);
@@ -275,12 +341,14 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	GdkRGBA rgba = {1.0, 1.0, 1.0, 1.0};
 	gtk_widget_override_background_color (reinterpret_cast <GtkWidget *> (grid), GTK_STATE_FLAG_NORMAL, &rgba);
 	// add a vertical scrollbar
-	grid->vadj = gtk_adjustment_new (0, 0, 0, 1, 0, 10);
+	grid->vadj = gtk_adjustment_new (0, 0, 1, 1, 10, 0);
 	grid->scroll = gtk_scrollbar_new (GTK_ORIENTATION_VERTICAL, grid->vadj);
 	g_object_set (G_OBJECT (grid->scroll), "height-request", grid->row_height * 5 + 1, NULL); //default size
 	gtk_layout_put (GTK_LAYOUT (grid), grid->scroll, grid->width + 1, grid->row_height + 1);
 	gtk_widget_get_preferred_width (grid->scroll, &grid->scroll_width, NULL);
 	grid->width += grid->scroll_width + 1;
+	// add signals
+	g_signal_connect (grid->vadj, "value-changed", G_CALLBACK (gcr_grid_adjustment_changed), grid);
 	return reinterpret_cast <GtkWidget *> (grid);
 }
 

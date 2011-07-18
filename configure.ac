@@ -294,7 +294,7 @@ if test "x$libspreadsheet" = x; then
   libspreadsheet=libspreadsheet-2.0
 fi
 
-PKG_CHECK_MODULES(gnumeric, [$libspreadsheet >= 1.9.10], [build_gnumeric_plugin=yes],
+PKG_CHECK_MODULES(gnumeric, [$libspreadsheet >= 1.11.0], [build_gnumeric_plugin=yes],
 		[build_gnumeric_plugin=no])
 dnl --without is not handled
 

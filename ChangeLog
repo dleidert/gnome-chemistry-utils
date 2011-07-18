@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-07-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: update libspreadsheet required version.
+	* libs/gcr/grid.cc: implement scrolling.
+
 2011-07-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: use next gnumeric API (tentative).
 	* libs/gcr/cleavagesdlg.cc: redesigned.
