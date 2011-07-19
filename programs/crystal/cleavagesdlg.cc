@@ -4,7 +4,7 @@
  * Gnome Crystal
  * cleavagesdlg.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -79,6 +79,7 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 	DeleteAllBtn = GetWidget ("delete_all");
 	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (on_delete_all), this);
 	FixedBtn = GTK_TOGGLE_BUTTON (GetWidget ("fixed"));
+	gtk_toggle_button_set_active (FixedBtn, m_pDoc->GetFixedSize ());
 	GtkTreeView* tree = GTK_TREE_VIEW (GetWidget ("cleavageslist"));
 	Selection = gtk_tree_view_get_selection (tree);
 	CleavageList = gtk_list_store_new (5, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_UINT, G_TYPE_BOOLEAN);

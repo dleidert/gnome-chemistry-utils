@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/cleavagesdlg.cc: initialize the fixed size check button.
+
 2011-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystalatom.cc: don't scale fractional coordinates.
 	* libs/gcu/crystaldoc.cc: fixed cell parameters loading from CIF.
