@@ -4,7 +4,7 @@
  * Gnome Crystal
  * grid.cc
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -39,7 +39,7 @@ struct _GcrGrid
 	int col, row;
 	int first_visible;
 	unsigned nb_visible;
-	int header_width, row_height, width, *col_widths, line_offset, scroll_width;
+	int header_width, row_height, width, *col_widths, line_offset, scroll_width, *min_widths, cols_min_width;
 	GtkAdjustment *vadj;
 	GtkWidget *scroll;
 	std::string *titles;
@@ -50,10 +50,11 @@ struct _GcrGrid
 static GtkWidgetClass *parent_class;
 
 enum {
-  VALUE_CHANGED,
-  ROW_ADDED,
-  ROW_DELETED,
-  LAST_SIGNAL
+	VALUE_CHANGED,
+	ROW_ADDED,
+	ROW_DELETED,
+	ROW_SELECTED,
+	LAST_SIGNAL
 };
 
 static gulong gcr_grid_signals [LAST_SIGNAL] = { 0, };
@@ -63,6 +64,7 @@ typedef struct
 	GtkLayoutClass parent_class;
 	void (*value_changed_event) (GcrGrid *grid, unsigned row, unsigned column, gpointer data);
 	void (*row_added_event) (GcrGrid *grid, unsigned row, gpointer data);
+	void (*row_selected_event) (GcrGrid *grid, unsigned row, gpointer data);
 	void (*row_deleted_event) (GcrGrid *grid, unsigned row, gpointer data);
 } GcrGridClass;
 
@@ -95,13 +97,13 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 		pos += grid->col_widths[i];
 	}
 	gtk_style_context_set_state (ctxt, GTK_STATE_FLAG_NORMAL);
-	gtk_render_background (ctxt, cr, pos, 0, grid->scroll_width + 1, grid->row_height + 1);
-	gtk_render_frame (ctxt, cr, pos, 0, grid->scroll_width + 1, grid->row_height + 1);
+	gtk_render_background (ctxt, cr, pos, 0, grid->scroll_width, grid->row_height + 1);
+	gtk_render_frame (ctxt, cr, pos, 0, grid->scroll_width, grid->row_height + 1);
 	y = grid->row_height;
 	cairo_set_line_width (cr, 1.);
 	// draw row headers
 	int row = grid->first_visible;
-	unsigned max = (grid->nb_visible >= grid->rows - grid->first_visible)? grid->rows - grid->first_visible: grid->nb_visible + 1; 
+	unsigned max = (grid->nb_visible >= grid->rows - grid->first_visible)? grid->rows - grid->first_visible: grid->nb_visible + 1;
 	for (j = 0; j < max; j++) {
 		cairo_save (cr);
 		cairo_set_source_rgb (cr, 0.7, 0.7, 0.7);
@@ -174,13 +176,27 @@ static void gcr_grid_finalize (GObject *obj)
 static void gcr_grid_size_allocate (GtkWidget *w, GtkAllocation *alloc)
 {
 	GcrGrid *grid = GCR_GRID (w);
-	g_object_set (G_OBJECT (grid->scroll), "height-request", alloc->height - grid->row_height, NULL); //default size
+	gtk_layout_move (GTK_LAYOUT (grid), grid->scroll, alloc->width - grid->scroll_width, grid->row_height + 1);
+	g_object_set (G_OBJECT (grid->scroll), "height-request", alloc->height - grid->row_height - 1, NULL); //default size
 	grid->nb_visible = alloc->height / grid->row_height - 1; // -1 to avoid counting the header
-	gtk_adjustment_set_page_size (grid->vadj, static_cast < double > (grid->nb_visible) / grid->rows);
-	gtk_adjustment_set_upper (grid->vadj, (grid->nb_visible < grid->rows)? grid->rows - grid->nb_visible: .1);
-	if (grid->rows < grid->nb_visible + grid->first_visible) {
-		grid->first_visible = (grid->nb_visible < grid->rows)? grid->rows - grid->nb_visible: 0;
-		gtk_adjustment_set_value (grid->vadj, grid->first_visible);
+	if (grid->rows) {
+		gtk_adjustment_set_page_size (grid->vadj, static_cast < double > (grid->nb_visible) / grid->rows);
+		gtk_adjustment_set_upper (grid->vadj, (grid->nb_visible < grid->rows)? grid->rows - grid->nb_visible: .1);
+		if (grid->rows < grid->nb_visible + grid->first_visible) {
+			grid->first_visible = (grid->nb_visible < grid->rows)? grid->rows - grid->nb_visible: 0;
+			gtk_adjustment_set_value (grid->vadj, grid->first_visible);
+		}
+	} else
+		gtk_adjustment_set_page_size (grid->vadj, 1.);
+	// adjust column widths
+	double ratio = static_cast < double > (alloc->width - grid->header_width - grid->scroll_width) / grid->cols_min_width;
+	if (ratio < 0.)
+		ratio = 1.;
+	double last_pos = 0., pos = 0.;
+	for (unsigned i = 0; i < grid->cols; i++) {
+		pos += grid->min_widths[i];
+		grid->col_widths[i] = pos * ratio - last_pos;
+		last_pos += grid->col_widths[i];
 	}
 	parent_class->size_allocate (w, alloc);
 }
@@ -188,25 +204,26 @@ static void gcr_grid_size_allocate (GtkWidget *w, GtkAllocation *alloc)
 static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *event)
 {
 	GcrGrid *grid = GCR_GRID (widget);
-	int x = (event->y > grid->row_height)? grid->first_visible + event->y / grid->row_height: - 1, i;
-	grid->row = (x < 0 || x >= static_cast < int > (grid->rows))? -1: x;
-	if (grid->row < 0) {
+	int x = grid->first_visible + event->y / grid->row_height - 1, i, old_row = grid->row;;
+	grid->row = (x < 0 || x > static_cast < int > (grid->rows))? -1: x;
+	if (grid->row < 0)
 		grid->col = -1;
-		gtk_widget_queue_draw (widget);
-		return true;
-	}
-	grid->col = -1;
-	x = grid->header_width;
-	if (event->x >= x)
-		for (i = 0; i < static_cast < int > (grid->cols); i++) {
-			x += grid->col_widths[i];
-			if (event->x < x) {
-				grid->col = i;
-				break;
+	else {
+		grid->col = -1;
+		x = grid->header_width;
+		if (event->x >= x)
+			for (i = 0; i < static_cast < int > (grid->cols); i++) {
+				x += grid->col_widths[i];
+				if (event->x < x) {
+					grid->col = i;
+					break;
+				}
 			}
-		}
-	if (grid->col < 0)
-		grid->row = -1;
+		if (grid->col < 0)
+			grid->row = -1;
+	}
+	if (old_row != grid->row)
+		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, grid->row);
 	gtk_widget_queue_draw (widget);
 	return true;
 }
@@ -236,17 +253,26 @@ static void gcr_grid_class_init (GtkWidgetClass *klass)
 				                                NULL, NULL,
 				                                g_cclosure_marshal_VOID__UINT,
 				                                G_TYPE_NONE, 1,
-				                                G_TYPE_UINT, G_TYPE_UINT
+				                                G_TYPE_UINT
 				                                );
-	gcr_grid_signals[ROW_DELETED] = g_signal_new ("row-changed",
+	gcr_grid_signals[ROW_DELETED] = g_signal_new ("row-deleted",
 	                                              G_TYPE_FROM_CLASS(klass),
 				                                  G_SIGNAL_RUN_LAST,
 				                                  G_STRUCT_OFFSET(GcrGridClass, row_deleted_event),
 				                                  NULL, NULL,
 				                                  g_cclosure_marshal_VOID__UINT,
-				                                  G_TYPE_NONE, 2,
-				                                  G_TYPE_UINT, G_TYPE_UINT
+				                                  G_TYPE_NONE, 1,
+				                                  G_TYPE_UINT
 				                                  );
+	gcr_grid_signals[ROW_SELECTED] = g_signal_new ("row-selected",
+	                                            G_TYPE_FROM_CLASS(klass),
+				                                G_SIGNAL_RUN_LAST,
+				                                G_STRUCT_OFFSET(GcrGridClass, row_selected_event),
+				                                NULL, NULL,
+				                                g_cclosure_marshal_VOID__INT,
+				                                G_TYPE_NONE, 1,
+				                                G_TYPE_INT
+				                                );
 }
 
 static void
@@ -308,12 +334,14 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	va_end (args);
 	grid->cols = titles.size ();
 	grid->col_widths = new int[grid->cols];
+	grid->min_widths = new int[grid->cols];
 	grid->titles = new std::string[grid->cols];
 	grid->types = new GType[grid->cols];
 	unsigned i;
 	std::list <char const *>::iterator title = titles.begin ();
 	std::list <GType>::iterator type = types.begin ();
 	grid->width = grid->header_width;
+	grid->cols_min_width = 0;
 	for (i = 0; i < grid->cols; i++, title++, type++) {
 		switch (*type) {
 		case G_TYPE_INT:
@@ -332,18 +360,19 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 		if (col_size < title_size)
 			col_size = title_size;
 		col_size += 6;	// add some padding
-		grid->col_widths[i] = col_size;
-		grid->width += col_size;
+		grid->min_widths[i] = col_size;
+		grid->cols_min_width += col_size;
 		grid->titles[i] = *title;
 		grid->types[i] = *type;
 	}
+	grid->width += grid->cols_min_width;
 	g_object_unref (layout);
 	GdkRGBA rgba = {1.0, 1.0, 1.0, 1.0};
 	gtk_widget_override_background_color (reinterpret_cast <GtkWidget *> (grid), GTK_STATE_FLAG_NORMAL, &rgba);
 	// add a vertical scrollbar
 	grid->vadj = gtk_adjustment_new (0, 0, 1, 1, 10, 0);
 	grid->scroll = gtk_scrollbar_new (GTK_ORIENTATION_VERTICAL, grid->vadj);
-	g_object_set (G_OBJECT (grid->scroll), "height-request", grid->row_height * 5 + 1, NULL); //default size
+	g_object_set (G_OBJECT (grid->scroll), "height-request", grid->row_height * 5, NULL); //default size
 	gtk_layout_put (GTK_LAYOUT (grid), grid->scroll, grid->width + 1, grid->row_height + 1);
 	gtk_widget_get_preferred_width (grid->scroll, &grid->scroll_width, NULL);
 	grid->width += grid->scroll_width + 1;
@@ -355,34 +384,44 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 int gcr_grid_get_int (GcrGrid *grid, unsigned row, unsigned column)
 {
 	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols, 0);
-	return 0;
+	return atoi (grid->row_data[row][column].c_str ());
 }
 
 double gcr_grid_get_double (GcrGrid *grid, unsigned row, unsigned column)
 {
 	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols, go_nan);
-	return go_nan;
+	return atof (grid->row_data[row][column].c_str ());
 }
 
 bool gcr_grid_get_boolean (GcrGrid *grid, unsigned row, unsigned column)
 {
 	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols, false);
-	return false;
+	return grid->row_data[row][column] == "t";
 }
 
 void gcr_grid_set_int (GcrGrid *grid, unsigned row, unsigned column, int value)
 {
 	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols);
+	char *buf = g_strdup_printf ("%d", value);
+	grid->row_data[row][column] = buf;
+	g_free (buf);
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
 }
 
 void gcr_grid_set_double (GcrGrid *grid, unsigned row, unsigned column, double value)
 {
 	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols);
+	char *buf = g_strdup_printf ("%g", value);
+	grid->row_data[row][column] = buf;
+	g_free (buf);
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
 }
 
 void gcr_grid_set_boolean (GcrGrid *grid, unsigned row, unsigned column, bool value)
 {
 	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols);
+	grid->row_data[row][column] = value? "t": "f";
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
 }
 
 unsigned gcr_grid_append_row (GcrGrid *grid,...)
@@ -416,5 +455,39 @@ unsigned gcr_grid_append_row (GcrGrid *grid,...)
 		}
 	}
 	va_end (args);
+	gtk_adjustment_set_page_size (grid->vadj, static_cast < double > (grid->nb_visible) / grid->rows);
+	gtk_adjustment_set_upper (grid->vadj, (grid->nb_visible < grid->rows)? grid->rows - grid->nb_visible: .1);
+	if (grid->rows < grid->nb_visible + grid->first_visible) {
+		grid->first_visible = (grid->nb_visible < grid->rows)? grid->rows - grid->nb_visible: 0;
+		gtk_adjustment_set_value (grid->vadj, grid->first_visible);
+	}
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
 	return row;
+}
+
+void gcr_grid_delete_row (GcrGrid *grid, unsigned row)
+{
+	g_return_if_fail (GCR_IS_GRID (grid) && grid->rows > row);
+	delete [] grid->row_data[row];
+	for (row++ ; row < grid->rows; row++)
+		grid->row_data[row - 1] = grid->row_data[row];
+	grid->rows--;
+	if (grid->row == static_cast < int > (grid->rows)) {
+		grid->row = -1;
+		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
+	}
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
+}
+
+void gcr_grid_delete_all (GcrGrid *grid)
+{
+	g_return_if_fail (GCR_IS_GRID (grid));
+	for (unsigned i = 0; i < grid->rows; i++)
+		delete [] grid->row_data[i];
+	grid->rows = 0;
+	if (grid->row >= 0) {;
+		grid->row = -1;
+		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
+	}
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
 }

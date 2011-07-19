@@ -112,7 +112,7 @@ crystal->ParseXMLTree (doc->children);
 This method must be called when a new document is loaded or when the definition of the crystal is changed. It recalculates
 everything and updates all the views.
 */
-	void Update ();
+	virtual void Update ();
 /*!
 @return a pointer to the first View of the document. The view will be created if it does not already exist.
 */

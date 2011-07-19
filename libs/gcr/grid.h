@@ -2,7 +2,7 @@
  * Gnome Crystal
  * grid.h
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -47,6 +47,8 @@ void gcr_grid_set_int (GcrGrid *grid, unsigned row, unsigned column, int value);
 void gcr_grid_set_double (GcrGrid *grid, unsigned row, unsigned column, double value);
 void gcr_grid_set_boolean (GcrGrid *grid, unsigned row, unsigned column, bool value);
 unsigned gcr_grid_append_row (GcrGrid *grid,...);
+void gcr_grid_delete_row (GcrGrid *grid, unsigned row);
+void gcr_grid_delete_all (GcrGrid *grid);
 
 G_END_DECLS
 

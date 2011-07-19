@@ -46,9 +46,6 @@ public:
 	CleavagesDlg (gcr::Application *App, gcr::Document* pDoc);
 	virtual ~CleavagesDlg ();
 
-	void CleavageAdd ();
-	void CleavageDelete ();
-	void CleavageDeleteAll ();
 	void CleavageSelect (GtkTreeSelection *Selection);
 	void OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
 	bool Apply ();
@@ -62,6 +59,7 @@ private:
 	std::vector < Cleavage * > m_Cleavages;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
 	GtkWidget *m_Grid;
+	int m_CurRow;
 };
 
 }	//	namespace gcr

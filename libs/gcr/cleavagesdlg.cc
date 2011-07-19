@@ -43,24 +43,51 @@ enum
 
 class CleavagesDlgPrivate {
 public:
-	void OnAdd (CleavagesDlg *pBox);
-	void OnDelete (CleavagesDlg *pBox);
-	void OnDeleteAll (CleavagesDlg *pBox);
-	void RowAdded (CleavagesDlg *pBox, unsigned row);
-	void RowDeleted (CleavagesDlg *pBox, unsigned row);
-	void ValueChanged (CleavagesDlg *pBox, unsigned row, unsigned column);
+	static void AddRow (CleavagesDlg *pBox);
+	static void DeleteRow (CleavagesDlg *pBox);
+	static void DeleteAll (CleavagesDlg *pBox);
+	static void RowAdded (CleavagesDlg *pBox, unsigned row);
+	static void RowDeleted (CleavagesDlg *pBox, unsigned row);
+	static void ValueChanged (CleavagesDlg *pBox, unsigned row, unsigned column);
+	static void RowSelected (CleavagesDlg *pBox, int row);
+	static void FixedSizeChanged (CleavagesDlg *pBox, GtkToggleButton *btn);
 };
 
-void CleavagesDlgPrivate::OnAdd (G_GNUC_UNUSED CleavagesDlg *pBox)
+void CleavagesDlgPrivate::AddRow (G_GNUC_UNUSED CleavagesDlg *pBox)
 {
+	Cleavage *c = new Cleavage ();
+	c->h () = 1;
+	c->k () = 1;
+	c->l () = 1;
+	c->Planes() = 1;
+	unsigned new_row = gcr_grid_append_row (GCR_GRID (pBox->m_Grid), 1, 1, 1, 1),max_row = pBox->m_Cleavages.capacity ();
+	if (new_row >= max_row)
+		pBox->m_Cleavages.resize (max_row + 5);
+	pBox->m_Cleavages[new_row] = c;
+	pBox->m_pDoc->GetCleavageList ()->push_back (c);
+	pBox->m_pDoc->Update ();
+	pBox->m_pDoc->SetDirty (true);
 }
 
-void CleavagesDlgPrivate::OnDelete (G_GNUC_UNUSED CleavagesDlg *pBox)
+void CleavagesDlgPrivate::DeleteRow (G_GNUC_UNUSED CleavagesDlg *pBox)
 {
+	pBox->m_pDoc->GetCleavageList ()->remove (pBox->m_Cleavages[pBox->m_CurRow]);
+	delete pBox->m_Cleavages[pBox->m_CurRow];
+	pBox->m_Cleavages.erase (pBox->m_Cleavages.begin () + pBox->m_CurRow);
+	gcr_grid_delete_row (GCR_GRID (pBox->m_Grid), pBox->m_CurRow);
+	pBox->m_pDoc->Update ();
+	pBox->m_pDoc->SetDirty (true);
 }
 
-void CleavagesDlgPrivate::OnDeleteAll (G_GNUC_UNUSED CleavagesDlg *pBox)
+void CleavagesDlgPrivate::DeleteAll (G_GNUC_UNUSED CleavagesDlg *pBox)
 {
+	gcr_grid_delete_all (GCR_GRID (pBox->m_Grid));
+	for (unsigned i = 0; i < pBox->m_Cleavages.size (); i++)
+		delete pBox->m_Cleavages[i];
+	pBox->m_Cleavages.clear ();
+	pBox->m_pDoc->GetCleavageList ()->clear ();
+	pBox->m_pDoc->Update ();
+	pBox->m_pDoc->SetDirty (true);
 }
 
 void CleavagesDlgPrivate::RowAdded (G_GNUC_UNUSED CleavagesDlg *pBox, G_GNUC_UNUSED unsigned new_row)
@@ -75,51 +102,41 @@ void CleavagesDlgPrivate::ValueChanged (G_GNUC_UNUSED CleavagesDlg *pBox, G_GNUC
 {
 }
 
-static void on_add(G_GNUC_UNUSED GtkWidget *widget, CleavagesDlg *pBox)
+void CleavagesDlgPrivate::RowSelected (CleavagesDlg *pBox, int row)
 {
-	pBox->CleavageAdd();
+	pBox->m_CurRow = row;
+	gtk_widget_set_sensitive (pBox->DeleteBtn, row >= 0);
 }
 
-static void on_delete(G_GNUC_UNUSED GtkWidget *widget, CleavagesDlg *pBox)
+void CleavagesDlgPrivate::FixedSizeChanged (CleavagesDlg *pBox, GtkToggleButton *btn)
 {
-	pBox->CleavageDelete();
-}
-
-static void on_delete_all(G_GNUC_UNUSED GtkWidget *widget, CleavagesDlg *pBox)
-{
-	pBox->CleavageDeleteAll();
-}
-
-static void on_select(GtkTreeSelection *Selection, CleavagesDlg *pBox)
-{
-	pBox->CleavageSelect(Selection);
-}
-
-static void on_edited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text, CleavagesDlg *pBox)
-{
-	pBox->OnEdited(cell, path_string, new_text);
+	pBox->m_pDoc->SetFixedSize (gtk_toggle_button_get_active (btn));
+	pBox->m_pDoc->Update ();
+	pBox->m_pDoc->SetDirty (true);
 }
 
 CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk::Dialog (App, UIDIR"/cleavages.ui", "cleavages", GETTEXT_PACKAGE, static_cast < gcu::DialogOwner * > (pDoc))
 {
 	m_pDoc = pDoc;
 	GtkWidget* button = GetWidget ("add");
-	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_add), this);
+	g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (CleavagesDlgPrivate::AddRow), this);
 	DeleteBtn = GetWidget ("delete");
 	gtk_widget_set_sensitive(DeleteBtn,0);
-	g_signal_connect (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (on_delete), this);
+	g_signal_connect_swapped (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (CleavagesDlgPrivate::DeleteRow), this);
 	DeleteAllBtn = GetWidget ("delete_all");
-	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (on_delete_all), this);
+	g_signal_connect_swapped (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (CleavagesDlgPrivate::DeleteAll), this);
 	FixedBtn = GTK_TOGGLE_BUTTON (GetWidget ("fixed"));
+	gtk_toggle_button_set_active (FixedBtn, m_pDoc->GetFixedSize ());
+	g_signal_connect_swapped (G_OBJECT (FixedBtn), "toggled", G_CALLBACK (CleavagesDlgPrivate::FixedSizeChanged), this);
 	m_Grid = gcr_grid_new ("h", G_TYPE_INT, "k", G_TYPE_INT, "l", G_TYPE_INT, _("Planes cleaved"), G_TYPE_INT, NULL);
-	g_object_set (G_OBJECT (m_Grid), "vexpand", true, NULL);
+	g_object_set (G_OBJECT (m_Grid), "expand", true, NULL);
 	GtkWidget *align = GetWidget ("cleavages-grid");
 	gtk_grid_attach (GTK_GRID (align), m_Grid, 0, 0, 1, 4);
 	gcr::CleavageList* Cleavages = m_pDoc->GetCleavageList ();
 	m_Cleavages.resize ((Cleavages->size () / 5 + 1) * 5);
 	for (list < gcr::Cleavage * >::iterator i = Cleavages->begin (); i != Cleavages->end (); i++)
 		m_Cleavages[gcr_grid_append_row (GCR_GRID (m_Grid), (*i)->h (), (*i)->k (), (*i)->l (), (*i)->Planes ())] = *i;
-//	g_signal_connect (G_OBJECT (Selection), "changed", G_CALLBACK (on_select), this);
+	g_signal_connect_swapped (G_OBJECT (m_Grid), "row-selected", G_CALLBACK (CleavagesDlgPrivate::RowSelected), this);
 	if (!m_Cleavages.size ())
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
@@ -159,75 +176,6 @@ bool CleavagesDlg::Apply()
 	m_pDoc->SetDirty (true);
 #endif
 	return true;
-}
-
-void CleavagesDlg::CleavageAdd()
-{
-#if 0
-	GtkTreeIter iter;
-
-	struct CleavageStruct s;
-	s.l = s.h = s.k = 1;
-	s.planes = 1;
-	g_array_append_vals(m_Cleavages, &s, 1);
-	gtk_list_store_append (CleavageList, &iter);
-	gtk_list_store_set (CleavageList, &iter,
-		      0, 1,
-		      1, 1,
-		      2, 1,
-		      3, 1,
-		      -1);
-	gtk_widget_set_sensitive(DeleteAllBtn, true);
-	gtk_tree_selection_select_iter(Selection, &iter);
-#endif
-}
-
-void CleavagesDlg::CleavageDelete()
-{
-#if 0
-	GtkTreeModel* model = GTK_TREE_MODEL(CleavageList);
-	GtkTreeIter iter;
-
-	if(gtk_tree_selection_get_selected(Selection, &model, &iter))
-	{
-		gint i;
-		GtkTreePath *path;
-
-		path = gtk_tree_model_get_path (model, &iter);
-		i = gtk_tree_path_get_indices (path)[0];
-		gtk_list_store_remove(GTK_LIST_STORE(model), &iter);
-
-		g_array_remove_index(m_Cleavages, i);
-
-		gtk_tree_path_free(path);
-    }
-	if (!m_Cleavages->len)gtk_widget_set_sensitive(DeleteAllBtn, false);
-#endif
-}
-
-void CleavagesDlg::CleavageDeleteAll()
-{
-#if 0
-	g_array_free(m_Cleavages, false);
-	m_Cleavages = g_array_sized_new (FALSE, FALSE, sizeof (struct CleavageStruct), 1);
-	gtk_list_store_clear(CleavageList);
-	gtk_widget_set_sensitive(DeleteAllBtn, false);
-#endif
-}
-
-void CleavagesDlg::CleavageSelect(GtkTreeSelection *Selection)
-{
-#if 0
-	GtkTreeModel* model = GTK_TREE_MODEL (CleavageList);
-	GtkTreeIter iter;
-	if (gtk_tree_selection_get_selected (Selection, &model, &iter)) {
-		gtk_widget_set_sensitive (DeleteBtn, true);
-	} else {
-		gtk_widget_set_sensitive (DeleteBtn, false);
-		if (!m_Cleavages->len)
-			gtk_widget_set_sensitive (DeleteAllBtn, false);
-	}
-#endif
 }
 
 void CleavagesDlg::OnEdited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text)

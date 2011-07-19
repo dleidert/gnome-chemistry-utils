@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/cleavagesdlg.cc: make this dialog instant apply.
+	* libs/gcr/cleavagesdlg.h: ditto.
+	* libs/gcr/document.h: set the Update() method virtual.
+	* libs/gcr/grid.cc: implement row deletion and horizontal expansion.
+	* libs/gcr/grid.h: ditto.
+	* ui/crystal/cleavages.ui: removed obsolete buttons.
+
 2011-07-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: update libspreadsheet required version.
 	* libs/gcr/grid.cc: implement scrolling.
