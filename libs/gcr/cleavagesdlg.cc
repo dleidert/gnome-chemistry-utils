@@ -46,8 +46,6 @@ public:
 	static void AddRow (CleavagesDlg *pBox);
 	static void DeleteRow (CleavagesDlg *pBox);
 	static void DeleteAll (CleavagesDlg *pBox);
-	static void RowAdded (CleavagesDlg *pBox, unsigned row);
-	static void RowDeleted (CleavagesDlg *pBox, unsigned row);
 	static void ValueChanged (CleavagesDlg *pBox, unsigned row, unsigned column);
 	static void RowSelected (CleavagesDlg *pBox, int row);
 	static void FixedSizeChanged (CleavagesDlg *pBox, GtkToggleButton *btn);
@@ -90,14 +88,6 @@ void CleavagesDlgPrivate::DeleteAll (G_GNUC_UNUSED CleavagesDlg *pBox)
 	pBox->m_pDoc->SetDirty (true);
 }
 
-void CleavagesDlgPrivate::RowAdded (G_GNUC_UNUSED CleavagesDlg *pBox, G_GNUC_UNUSED unsigned new_row)
-{
-}
-
-void CleavagesDlgPrivate::RowDeleted (G_GNUC_UNUSED CleavagesDlg *pBox, G_GNUC_UNUSED unsigned row)
-{
-}
-
 void CleavagesDlgPrivate::ValueChanged (G_GNUC_UNUSED CleavagesDlg *pBox, G_GNUC_UNUSED unsigned row, G_GNUC_UNUSED unsigned column)
 {
 }
@@ -125,9 +115,9 @@ CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk:
 	g_signal_connect_swapped (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (CleavagesDlgPrivate::DeleteRow), this);
 	DeleteAllBtn = GetWidget ("delete_all");
 	g_signal_connect_swapped (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (CleavagesDlgPrivate::DeleteAll), this);
-	FixedBtn = GTK_TOGGLE_BUTTON (GetWidget ("fixed"));
-	gtk_toggle_button_set_active (FixedBtn, m_pDoc->GetFixedSize ());
-	g_signal_connect_swapped (G_OBJECT (FixedBtn), "toggled", G_CALLBACK (CleavagesDlgPrivate::FixedSizeChanged), this);
+	button = GetWidget ("fixed");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), m_pDoc->GetFixedSize ());
+	g_signal_connect_swapped (G_OBJECT (button), "toggled", G_CALLBACK (CleavagesDlgPrivate::FixedSizeChanged), this);
 	m_Grid = gcr_grid_new ("h", G_TYPE_INT, "k", G_TYPE_INT, "l", G_TYPE_INT, _("Planes cleaved"), G_TYPE_INT, NULL);
 	g_object_set (G_OBJECT (m_Grid), "expand", true, NULL);
 	GtkWidget *align = GetWidget ("cleavages-grid");
@@ -146,41 +136,9 @@ CleavagesDlg::~CleavagesDlg()
 {
 }
 
-bool CleavagesDlg::Apply()
-{
 #if 0
-	gcr::CleavageList* Cleavages = m_pDoc->GetCleavageList();
-	//First, delete old Cleavages
-	while (!Cleavages->empty())
-	{
-		delete Cleavages->front();
-		Cleavages->pop_front();
-	}
-	//Add new Cleavages from array
-
-	gcr::Cleavage* c;
-	struct CleavageStruct* s;
-	for (unsigned i = 0; i  < m_Cleavages->len; i++)
-	{
-		s = &g_array_index(m_Cleavages, struct CleavageStruct, i);
-		if (!s->planes || ((!s->h) && (!s->k) && (!s->l))) continue;
-		c = new gcr::Cleavage();
-		c->h() = s->h;
-		c->k() = s->k;
-		c->l() = s->l;
-		c->Planes() = s->planes;
-		Cleavages->push_back(c);
-	}
-	m_pDoc->SetFixedSize (gtk_toggle_button_get_active (FixedBtn));
-	m_pDoc->Update ();
-	m_pDoc->SetDirty (true);
-#endif
-	return true;
-}
-
 void CleavagesDlg::OnEdited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text)
 {
-#if 0
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;
 
@@ -205,8 +163,8 @@ void CleavagesDlg::OnEdited(GtkCellRendererText *cell, const gchar *path_string,
 			break;
 	}
 	gtk_tree_path_free (path);
-#endif
 }
+#endif
 
 }	//	namespace gcr
 

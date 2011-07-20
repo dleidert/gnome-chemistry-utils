@@ -46,16 +46,8 @@ public:
 	CleavagesDlg (gcr::Application *App, gcr::Document* pDoc);
 	virtual ~CleavagesDlg ();
 
-	void CleavageSelect (GtkTreeSelection *Selection);
-	void OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
-	bool Apply ();
-
 private:
-	char m_buf[64];
 	Document *m_pDoc;
-	GtkListStore *CleavageList;
-	GtkToggleButton *FixedBtn;
-	GtkTreeSelection *Selection;
 	std::vector < Cleavage * > m_Cleavages;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
 	GtkWidget *m_Grid;

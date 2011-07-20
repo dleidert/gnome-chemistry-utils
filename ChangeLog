@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-07-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/cleavagesdlg.cc: removed obsolete code.
+	* libs/gcr/cleavagesdlg.h: ditto.
+	* libs/gcr/grid.cc: display a cursor.
+
 2011-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/cleavagesdlg.cc: make this dialog instant apply.
 	* libs/gcr/cleavagesdlg.h: ditto.
