@@ -51,6 +51,7 @@ struct _GcrGrid
 	std::vector < std::string * > row_data; // storing as string since this is what is displayed
 	bool cursor_visible;
 	unsigned long cursor_signal;
+	std::string *orig_string;
 };
 
 static GtkWidgetClass *parent_class;
@@ -71,6 +72,18 @@ typedef struct
 	void (*row_selected_event) (GcrGrid *grid, unsigned row, gpointer data);
 	void (*row_deleted_event) (GcrGrid *grid, unsigned row, gpointer data);
 } GcrGridClass;
+
+// static functions
+
+static bool gcr_grid_validate_change (GcrGrid *grid)
+{
+	std::string new_string = grid->row_data[grid->row][grid->col];
+	if (new_string == *grid->orig_string)
+		return true;
+	return false;
+}
+
+// overriden methods
 
 static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 {
@@ -245,53 +258,61 @@ static gint on_blink (gpointer data)
 static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *event)
 {
 	GcrGrid *grid = GCR_GRID (widget);
-	int x = grid->first_visible + event->y / grid->row_height - 1, i, old_row = grid->row;;
-	grid->row = (x < 0 || x > static_cast < int > (grid->rows))? -1: x;
-	if (grid->row < 0)
-		grid->col = -1;
+	int x = grid->first_visible + event->y / grid->row_height - 1, i, new_row, new_col;
+	new_row = (x < 0 || x > static_cast < int > (grid->rows))? -1: x;
+	if (new_row < 0)
+		new_col = -1;
 	else {
-		grid->col = -1;
+		new_col = -1;
 		x = grid->header_width;
 		if (event->x >= x)
 			for (i = 0; i < static_cast < int > (grid->cols); i++) {
 				x += grid->col_widths[i];
 				if (event->x < x) {
-					grid->col = i;
+					new_col = i;
 					break;
 				}
 			}
-		if (grid->col < 0)
-			grid->row = -1;
+		if (new_col < 0)
+			new_row = -1;
 	}
-	if (old_row != grid->row)
-		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, grid->row);
-	// evaluate the cursor position if any
-	if (grid->col >= 0) {
-		switch (grid->types[grid->col]) {
-		case G_TYPE_INT:
-		case G_TYPE_DOUBLE: {
-			x -=  grid->col_widths[grid->col];
-			PangoLayout *l = gtk_widget_create_pango_layout (widget, grid->row_data[grid->row][grid->col].c_str());
-			int xpos, startx;
-			pango_layout_get_pixel_size (l, &xpos, NULL);
-			startx = x + (grid->col_widths[grid->col] - xpos) / 2;
-			xpos = event->x - startx;
-			int index, trailing;
-			pango_layout_xy_to_index (l, xpos * PANGO_SCALE, 0, &index, &trailing);
-			grid->cursor_index = index + trailing;
-			break;
-		}
-		case G_TYPE_BOOLEAN:
+	if (grid->col != new_col || grid->row != new_row) {
+		if (grid->row >= 0 && !gcr_grid_validate_change (grid))
+			return true;
+		if (new_row != grid->row)
+			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
+		grid->col = new_col;
+		grid->row = new_row;
+		// evaluate the cursor position if any
+		if (grid->col >= 0) {
+			switch (grid->types[grid->col]) {
+			case G_TYPE_INT:
+			case G_TYPE_DOUBLE: {
+				x -=  grid->col_widths[grid->col];
+				PangoLayout *l = gtk_widget_create_pango_layout (widget, grid->row_data[grid->row][grid->col].c_str());
+				int xpos, startx;
+				pango_layout_get_pixel_size (l, &xpos, NULL);
+				startx = x + (grid->col_widths[grid->col] - xpos) / 2;
+				xpos = event->x - startx;
+				int index, trailing;
+				pango_layout_xy_to_index (l, xpos * PANGO_SCALE, 0, &index, &trailing);
+				grid->cursor_index = index + trailing;
+				break;
+			}
+			case G_TYPE_BOOLEAN:
+				grid->cursor_index = -1;
+				// nothing to do, just wait and see if the mouse button is released inside the cell
+				break;
+			default:
+				grid->cursor_index = -1;
+				g_critical ("Unsupported type.");
+				break;
+			}
+			*grid->orig_string = grid->row_data[grid->row][grid->col];
+			gtk_widget_grab_focus (widget);
+		} else
 			grid->cursor_index = -1;
-			// nothing to do, just wait and see if the mouse button is released inside the cell
-			break;
-		default:
-			grid->cursor_index = -1;
-			g_critical ("Unsupported type.");
-			break;
-		}
-	} else
-		grid->cursor_index = -1;
+	}
 	if (grid->cursor_index >= 0 && grid->cursor_signal == 0) {
 		grid->cursor_signal = g_timeout_add (CURSOR_ON_TIME, on_blink, grid);
 		grid->cursor_visible = true;
@@ -303,12 +324,52 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 	return true;
 }
 
+static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
+{
+	GcrGrid *grid = GCR_GRID (widget);
+	switch (event->keyval) {
+	case GDK_KEY_Shift_L:
+	case GDK_KEY_Shift_Lock:
+	case GDK_KEY_Shift_R:
+		return true;
+	case GDK_KEY_Tab:
+	case GDK_KEY_ISO_Left_Tab:
+		if (!gcr_grid_validate_change (grid))
+			return true;
+		if (event->state & GDK_CONTROL_MASK)
+			return false; // give up the grab
+		if (event->state & GDK_SHIFT_MASK) {
+			if (grid->col > 0)
+				grid->col--;
+			else if (grid->row > 0) {
+				grid->row--;
+				grid->col = grid->cols - 1;
+			}
+		} else if (grid->col < static_cast < int > (grid->cols) - 1)
+			grid->col++;
+		else if (grid->row < static_cast < int > (grid->rows) - 1) {
+			grid->row++;
+			grid->col = 0;
+		} else
+			return true;
+		// FIXME: select the whole cell
+		grid->cursor_index = 0;
+		*grid->orig_string = grid->row_data[grid->row][grid->col];
+		break;
+	default:
+		return true;
+	}
+	gtk_widget_queue_draw (widget);
+	return true;
+}
+
 static void gcr_grid_class_init (GtkWidgetClass *klass)
 {
 	parent_class = reinterpret_cast < GtkWidgetClass * > (g_type_class_peek_parent (klass));
 	klass->draw = gcr_grid_draw;
 	klass->size_allocate = gcr_grid_size_allocate;
 	klass->button_press_event = gcr_grid_button_press_event;
+	klass->key_press_event = gcr_grid_key_press_event;
 	reinterpret_cast < GObjectClass * > (klass)->finalize = gcr_grid_finalize;
 	klass->get_preferred_height = gcr_grid_get_preferred_height;
 	klass->get_preferred_width = gcr_grid_get_preferred_width;
@@ -358,6 +419,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 						   GDK_BUTTON_MOTION_MASK |
 						   GDK_BUTTON_PRESS_MASK |
 						   GDK_BUTTON_RELEASE_MASK |
+	                       GDK_KEY_PRESS_MASK |
     					   GDK_LEAVE_NOTIFY_MASK
 						   );
 	std::list < char const * > titles;
@@ -432,8 +494,10 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	gtk_layout_put (GTK_LAYOUT (grid), grid->scroll, grid->width + 1, grid->row_height + 1);
 	gtk_widget_get_preferred_width (grid->scroll, &grid->scroll_width, NULL);
 	grid->width += grid->scroll_width + 1;
+	gtk_widget_set_can_focus(reinterpret_cast <GtkWidget *> (grid), true);
 	// add signals
 	g_signal_connect (grid->vadj, "value-changed", G_CALLBACK (gcr_grid_adjustment_changed), grid);
+	grid->orig_string = new std::string ();
 	return reinterpret_cast <GtkWidget *> (grid);
 }
 

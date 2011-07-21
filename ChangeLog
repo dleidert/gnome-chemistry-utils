@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-07-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: start interacting with the keyboard.
+
 2011-07-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/cleavagesdlg.cc: removed obsolete code.
 	* libs/gcr/cleavagesdlg.h: ditto.
