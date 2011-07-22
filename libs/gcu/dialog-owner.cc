@@ -40,9 +40,9 @@ DialogOwner::~DialogOwner ()
 	ClearDialogs ();
 }
 
-Dialog *DialogOwner::GetDialog (string name)
+Dialog *DialogOwner::GetDialog (string name) const
 {
-	map <string, Dialog *>::iterator i = Dialogs.find (name);
+	map <string, Dialog *>::const_iterator i = Dialogs.find (name);
 	return (i != Dialogs.end ())? (*i).second: NULL;
 }
 

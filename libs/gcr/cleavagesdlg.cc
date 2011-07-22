@@ -90,6 +90,22 @@ void CleavagesDlgPrivate::DeleteAll (G_GNUC_UNUSED CleavagesDlg *pBox)
 
 void CleavagesDlgPrivate::ValueChanged (G_GNUC_UNUSED CleavagesDlg *pBox, G_GNUC_UNUSED unsigned row, G_GNUC_UNUSED unsigned column)
 {
+	switch (column) {
+	case COLUMN_H: // h changed
+		pBox->m_Cleavages[row]->h () = gcr_grid_get_int (GCR_GRID (pBox->m_Grid), row, column);
+		break;
+	case COLUMN_K: // k changed
+		pBox->m_Cleavages[row]->k () = gcr_grid_get_int (GCR_GRID (pBox->m_Grid), row, column);
+		break;
+	case COLUMN_L: // l changed
+		pBox->m_Cleavages[row]->l () = gcr_grid_get_int (GCR_GRID (pBox->m_Grid), row, column);
+		break;
+	case COLUMN_PLANES: // planes number changed
+		pBox->m_Cleavages[row]->Planes () = gcr_grid_get_int (GCR_GRID (pBox->m_Grid), row, column);
+		break;
+	}
+	pBox->m_pDoc->Update ();
+	pBox->m_pDoc->SetDirty (true);
 }
 
 void CleavagesDlgPrivate::RowSelected (CleavagesDlg *pBox, int row)
@@ -108,6 +124,7 @@ void CleavagesDlgPrivate::FixedSizeChanged (CleavagesDlg *pBox, GtkToggleButton 
 CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk::Dialog (App, UIDIR"/cleavages.ui", "cleavages", GETTEXT_PACKAGE, static_cast < gcu::DialogOwner * > (pDoc))
 {
 	m_pDoc = pDoc;
+	m_Closing = false;
 	GtkWidget* button = GetWidget ("add");
 	g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (CleavagesDlgPrivate::AddRow), this);
 	DeleteBtn = GetWidget ("delete");
@@ -136,35 +153,18 @@ CleavagesDlg::~CleavagesDlg()
 {
 }
 
-#if 0
-void CleavagesDlg::OnEdited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text)
+void CleavagesDlg::Closed ()
 {
-	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
-	GtkTreeIter iter;
-
-	gtk_tree_model_get_iter (GTK_TREE_MODEL(CleavageList), &iter, path);
-
-	long i = gtk_tree_path_get_indices (path)[0], j  = (long) g_object_get_data (G_OBJECT (cell), "column");
-	int x = atol(new_text);
-	gtk_list_store_set(CleavageList, &iter, j, x, -1);
-	switch (j)
-	{
-		case COLUMN_H:
-			g_array_index(m_Cleavages, struct CleavageStruct, i).h = x;
-			break;
-		case COLUMN_K:
-			g_array_index(m_Cleavages, struct CleavageStruct, i).k = x;
-			break;
-		case COLUMN_L:
-			g_array_index(m_Cleavages, struct CleavageStruct, i).l = x;
-			break;
-		case COLUMN_PLANES:
-			g_array_index(m_Cleavages, struct CleavageStruct, i).planes = x;
-			break;
-	}
-	gtk_tree_path_free (path);
+	// check if the cleavages list is coherent
+	m_Closing = true;
+	m_pDoc->CheckCleavages ();
 }
-#endif
+
+void CleavagesDlg::ReloadData ()
+{
+	if (m_Closing)
+		return;
+}
 
 }	//	namespace gcr
 

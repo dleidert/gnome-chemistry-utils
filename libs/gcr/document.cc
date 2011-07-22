@@ -610,6 +610,9 @@ xmlDocPtr Document::BuildXMLTree () const
 	xmlNodePtr node;
 	xmlNsPtr ns;
 
+	// first check if dialogs are open and data coherent
+	if (GetDialog ("cleavages"))
+		const_cast <Document * > (this)->CheckCleavages ();
 	xml = xmlNewDoc((xmlChar*)"1.0");
 	if (xml == NULL) {throw(1);}
 
@@ -1153,6 +1156,10 @@ void Document::SetCell (Lattice lattice, double a, double b, double c, double al
 	m_alpha = alpha;
 	m_beta = beta;
 	m_gamma = gamma;
+}
+
+void Document::CheckCleavages ()
+{
 }
 
 }	//	namespace gcr

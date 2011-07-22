@@ -114,6 +114,10 @@ If the Application does not provide help support, the Help button will be hidden
 should not be closed.
 */
 	virtual bool Apply ();
+/*!
+	Called when the dialog closes. Default does nothing.
+*/
+	virtual void Closed ();
 
 /*!
 /return the top level window of the dialog box.

@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2011-07-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/cleavagesdlg.cc: implement cleavage change.
+	* libs/gcr/cleavagesdlg.h: ditto.
+	* libs/gcr/document.cc: add a new method to check cleavages list coherence.
+	* libs/gcr/document.h: ditto.
+	* libs/gcr/grid.cc: more keyboard interaction.
+	* libs/gcu/chem3ddoc.cc: fixed model position.
+	* libs/gcu/dialog-owner.cc: make GetDialog() const.
+	* libs/gcu/dialog-owner.h: ditto.
+	* libs/gcugtk/dialog.cc: add a Closed() virtual method.
+	* libs/gcugtk/dialog.h: ditto.
+
 2011-07-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: start interacting with the keyboard.
 

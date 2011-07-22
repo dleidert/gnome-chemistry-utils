@@ -29,6 +29,7 @@
 #include <list>
 #include <string>
 #include <vector>
+#include <cstring>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -43,7 +44,7 @@ struct _GcrGrid
 	int first_visible;
 	unsigned nb_visible;
 	int header_width, row_height, width, *col_widths, line_offset, scroll_width, *min_widths, cols_min_width;
-	int cursor_index;
+	int cursor_index, sel_start;
 	GtkAdjustment *vadj;
 	GtkWidget *scroll;
 	std::string *titles;
@@ -327,6 +328,10 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 {
 	GcrGrid *grid = GCR_GRID (widget);
+	if (grid->row < 0)
+		return false;
+	int new_row = grid->row, new_col = grid->col, new_index = grid->cursor_index;
+	char new_char = 0;
 	switch (event->keyval) {
 	case GDK_KEY_Shift_L:
 	case GDK_KEY_Shift_Lock:
@@ -339,26 +344,105 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		if (event->state & GDK_CONTROL_MASK)
 			return false; // give up the grab
 		if (event->state & GDK_SHIFT_MASK) {
-			if (grid->col > 0)
-				grid->col--;
-			else if (grid->row > 0) {
-				grid->row--;
-				grid->col = grid->cols - 1;
+			if (new_col > 0)
+				new_col--;
+			else if (new_row > 0) {
+				new_row--;
+				new_col = grid->cols - 1;
 			}
 		} else if (grid->col < static_cast < int > (grid->cols) - 1)
-			grid->col++;
+			new_col++;
 		else if (grid->row < static_cast < int > (grid->rows) - 1) {
-			grid->row++;
-			grid->col = 0;
+			new_row++;
+			new_col = 0;
 		} else
 			return true;
 		// FIXME: select the whole cell
-		grid->cursor_index = 0;
-		*grid->orig_string = grid->row_data[grid->row][grid->col];
+		new_index = 0;
+		break;
+	case GDK_KEY_Left:
+		if (grid->cursor_index > 0)
+			new_index = g_utf8_prev_char (grid->row_data[new_row][new_col].c_str () + grid->cursor_index) - grid->row_data[new_row][new_col].c_str ();
+		else {
+			if (new_col > 0)
+				new_col--;
+			else if (new_row > 0) {
+				new_row--;
+				new_col = grid->cols - 1;
+			}
+			new_index = grid->row_data[new_row][new_col].length ();
+		}
+		break;
+	case GDK_KEY_Right:
+		if (grid->cursor_index < static_cast < int > (grid->row_data[new_row][new_col].length ()))
+			new_index = g_utf8_next_char (grid->row_data[new_row][new_col].c_str () + grid->cursor_index) - grid->row_data[new_row][new_col].c_str ();
+		else {
+			if (new_col < static_cast < int > (grid->cols) - 1)
+				new_col++;
+			else if (grid->row < static_cast < int > (grid->rows) - 1) {
+				new_row++;
+				new_col = 0;
+			} else
+				return true;
+			new_index = 0;
+		}
+		break;
+	case GDK_KEY_KP_Subtract:
+	case GDK_KEY_minus:
+		break;
+	case GDK_KEY_0:
+	case GDK_KEY_1:
+	case GDK_KEY_2:
+	case GDK_KEY_3:
+	case GDK_KEY_4:
+	case GDK_KEY_5:
+	case GDK_KEY_6:
+	case GDK_KEY_7:
+	case GDK_KEY_8:
+	case GDK_KEY_9:
+		new_char = '0' + event->keyval - GDK_KEY_0;
+		break;
+	case GDK_KEY_KP_0:
+	case GDK_KEY_KP_1:
+	case GDK_KEY_KP_2:
+	case GDK_KEY_KP_3:
+	case GDK_KEY_KP_4:
+	case GDK_KEY_KP_5:
+	case GDK_KEY_KP_6:
+	case GDK_KEY_KP_7:
+	case GDK_KEY_KP_8:
+	case GDK_KEY_KP_9:
+		new_char = '0' + event->keyval - GDK_KEY_KP_0;
+		break;
+	case GDK_KEY_period:
+		break;
+	case GDK_KEY_comma:
+		break;
+	case GDK_KEY_KP_Decimal:
+		break;
+	case GDK_KEY_space:
 		break;
 	default:
 		return true;
 	}
+	if (new_char > 0) {
+		// insert the new char
+		if (grid->cursor_index == 0 && !strncmp (grid->row_data[new_row][new_col].c_str (), "−", strlen ("−")))
+		    return true;	// do not insert a figure before the minus sign
+		grid->row_data[new_row][new_col].insert (new_index, 1, new_char);
+		new_index++;
+	}
+	if (new_row != grid->row || new_col != grid->col) {
+		if (grid->row >= 0 && !gcr_grid_validate_change (grid))
+			return true;
+		if (new_row != grid->row)
+			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
+		grid->row = new_row;
+		grid->col = new_col;
+		*grid->orig_string = grid->row_data[new_row][new_col];
+		// ensure that the selection is visible
+	}
+	grid->cursor_index = new_index;
 	gtk_widget_queue_draw (widget);
 	return true;
 }

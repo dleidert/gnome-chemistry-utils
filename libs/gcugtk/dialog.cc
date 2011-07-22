@@ -62,6 +62,7 @@ static void on_cancel (G_GNUC_UNUSED GtkWidget *widget, Dialog* pBox)
 
 static bool on_destroy (G_GNUC_UNUSED GtkWidget *widget, Dialog* pBox)
 {
+	pBox->Closed ();
 	delete pBox;
 	return true;
 }
@@ -210,6 +211,10 @@ void Dialog::Destroy()
 bool Dialog::Apply ()
 {
 	return true;
+}
+
+void Dialog::Closed()
+{
 }
 
 }

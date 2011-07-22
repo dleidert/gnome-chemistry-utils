@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/dialog-owner.h
  *
- * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -57,7 +57,7 @@ The destructor.
 
 @return the Dialog instance associated with name or NULL if there is none.
 */
-	Dialog *GetDialog (std::string name);
+	Dialog *GetDialog (std::string name) const;
 
 /*!
 	Destroys all dialogs associated with this instance.

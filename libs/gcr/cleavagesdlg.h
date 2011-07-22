@@ -46,12 +46,16 @@ public:
 	CleavagesDlg (gcr::Application *App, gcr::Document* pDoc);
 	virtual ~CleavagesDlg ();
 
+	void Closed ();
+	void ReloadData ();
+
 private:
 	Document *m_pDoc;
 	std::vector < Cleavage * > m_Cleavages;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
 	GtkWidget *m_Grid;
 	int m_CurRow;
+	bool m_Closing;
 };
 
 }	//	namespace gcr
