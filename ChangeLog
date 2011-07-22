@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-07-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/chem3ddoc.cc: fixed model position.
+
 2011-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/cleavagesdlg.cc: initialize the fixed size check button.
 
