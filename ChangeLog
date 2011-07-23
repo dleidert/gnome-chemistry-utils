@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-07-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/cleavagesdlg.cc: really implement cleavage change.
+	* libs/gcr/grid.cc: make it start being really usable.
+
 2011-07-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/cleavagesdlg.cc: implement cleavage change.
 	* libs/gcr/cleavagesdlg.h: ditto.

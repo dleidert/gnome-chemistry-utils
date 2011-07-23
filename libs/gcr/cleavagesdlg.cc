@@ -88,7 +88,7 @@ void CleavagesDlgPrivate::DeleteAll (G_GNUC_UNUSED CleavagesDlg *pBox)
 	pBox->m_pDoc->SetDirty (true);
 }
 
-void CleavagesDlgPrivate::ValueChanged (G_GNUC_UNUSED CleavagesDlg *pBox, G_GNUC_UNUSED unsigned row, G_GNUC_UNUSED unsigned column)
+void CleavagesDlgPrivate::ValueChanged (CleavagesDlg *pBox, G_GNUC_UNUSED unsigned row, G_GNUC_UNUSED unsigned column)
 {
 	switch (column) {
 	case COLUMN_H: // h changed
@@ -144,6 +144,7 @@ CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk:
 	for (list < gcr::Cleavage * >::iterator i = Cleavages->begin (); i != Cleavages->end (); i++)
 		m_Cleavages[gcr_grid_append_row (GCR_GRID (m_Grid), (*i)->h (), (*i)->k (), (*i)->l (), (*i)->Planes ())] = *i;
 	g_signal_connect_swapped (G_OBJECT (m_Grid), "row-selected", G_CALLBACK (CleavagesDlgPrivate::RowSelected), this);
+	g_signal_connect_swapped (G_OBJECT (m_Grid), "value-changed", G_CALLBACK (CleavagesDlgPrivate::ValueChanged), this);
 	if (!m_Cleavages.size ())
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
 	gtk_widget_show_all (GTK_WIDGET (dialog));

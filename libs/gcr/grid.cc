@@ -81,6 +81,44 @@ static bool gcr_grid_validate_change (GcrGrid *grid)
 	std::string new_string = grid->row_data[grid->row][grid->col];
 	if (new_string == *grid->orig_string)
 		return true;
+	switch (grid->types[grid->col]) {
+	case G_TYPE_INT: {
+		long orig, next;
+		bool neg = !grid->orig_string->compare (0, strlen ("−"), "−");
+		char const *str = grid->orig_string->c_str ();
+		char *buf;
+		if (neg)
+			str += strlen ("−");
+		orig = strtol (str, NULL, 10);
+		if (neg)
+			orig = -orig;
+		neg = !new_string.compare (0, strlen ("−"), "−");
+		str = new_string.c_str ();
+		if (neg)
+			str += strlen ("−");
+		next = strtol (str, &buf, 10);
+		if (buf && *buf)
+			goto error_handler;
+		buf = (next < 0)? g_strdup_printf ("−%ld", -next): g_strdup_printf ("%ld", next);
+		grid->row_data[grid->row][grid->col] = buf;
+		grid->sel_start = grid->cursor_index = strlen (buf);
+		g_free (buf);
+		if (orig != next)
+			g_signal_emit (grid, gcr_grid_signals[VALUE_CHANGED], 0, grid->row, grid->col);
+		return true;
+	}
+	case G_TYPE_DOUBLE:
+		break;
+	case G_TYPE_BOOLEAN:
+		break;
+	default:
+		break;
+	}
+	return false;
+error_handler:
+	// FIXME: display an error message
+	grid->sel_start = 0;
+	grid->cursor_index = new_string.length ();
 	return false;
 }
 
@@ -168,16 +206,39 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 			// FIXME: manage booleans, not only strings
 			pango_layout_set_text (l, grid->row_data[row][i].c_str(), -1);
 			pango_layout_get_pixel_size (l, &width, NULL);
-			cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2, y + grid->line_offset);
 			pango_layout_set_markup (l, grid->row_data[row][i].c_str(), -1);
-			pango_cairo_show_layout (cr, l);
-			if (grid->cursor_visible && static_cast < int > (j) == grid->row && static_cast < int > (i) == grid->col) {
-				PangoRectangle rect;
-				pango_layout_get_cursor_pos (l, grid->cursor_index, &rect, NULL);
-				cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2 + rect.x / PANGO_SCALE + .5, y + grid->line_offset + rect.y / PANGO_SCALE);
-				cairo_rel_line_to (cr, 0, rect.height / PANGO_SCALE);
-				cairo_stroke (cr);
+			if (static_cast < int > (j) == grid->row && static_cast < int > (i) == grid->col) {
+				if (grid->cursor_index != grid->sel_start) {
+					PangoAttrList *al = pango_attr_list_new ();
+					int start, end;
+					if (grid->cursor_index < grid->sel_start) {
+						start = grid->cursor_index;
+						end = grid->sel_start;
+					} else {
+						end = grid->cursor_index;
+						start = grid->sel_start;
+					}
+					PangoAttribute *attr = pango_attr_foreground_new (0xffff, 0xffff, 0xffff);
+					attr->start_index = start;
+					attr->end_index =end;
+					pango_attr_list_insert (al, attr);
+					attr = pango_attr_background_new (0, 0, 0);
+					attr->start_index = start;
+					attr->end_index =end;
+					pango_attr_list_insert (al, attr);
+					pango_layout_set_attributes (l, al);
+					pango_attr_list_unref (al);
+				}
+				if (grid->cursor_visible) {
+					PangoRectangle rect;
+					pango_layout_get_cursor_pos (l, grid->cursor_index, &rect, NULL);
+					cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2 + rect.x / PANGO_SCALE + .5, y + grid->line_offset + rect.y / PANGO_SCALE);
+					cairo_rel_line_to (cr, 0, rect.height / PANGO_SCALE);
+					cairo_stroke (cr);
+				}
 			}
+			cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2, y + grid->line_offset);
+			pango_cairo_show_layout (cr, l);
 			pos += grid->col_widths[i];
 		}
 		row++;
@@ -297,7 +358,7 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 				xpos = event->x - startx;
 				int index, trailing;
 				pango_layout_xy_to_index (l, xpos * PANGO_SCALE, 0, &index, &trailing);
-				grid->cursor_index = index + trailing;
+				grid->sel_start = grid->cursor_index = index + trailing;
 				break;
 			}
 			case G_TYPE_BOOLEAN:
@@ -333,10 +394,6 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	int new_row = grid->row, new_col = grid->col, new_index = grid->cursor_index;
 	char new_char = 0;
 	switch (event->keyval) {
-	case GDK_KEY_Shift_L:
-	case GDK_KEY_Shift_Lock:
-	case GDK_KEY_Shift_R:
-		return true;
 	case GDK_KEY_Tab:
 	case GDK_KEY_ISO_Left_Tab:
 		if (!gcr_grid_validate_change (grid))
@@ -357,10 +414,11 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 			new_col = 0;
 		} else
 			return true;
-		// FIXME: select the whole cell
-		new_index = 0;
+		new_index = grid->row_data[new_row][new_col].length ();
+		grid->sel_start = 0;
 		break;
 	case GDK_KEY_Left:
+	case GDK_KEY_KP_Left:
 		if (grid->cursor_index > 0)
 			new_index = g_utf8_prev_char (grid->row_data[new_row][new_col].c_str () + grid->cursor_index) - grid->row_data[new_row][new_col].c_str ();
 		else {
@@ -374,6 +432,7 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		}
 		break;
 	case GDK_KEY_Right:
+	case GDK_KEY_KP_Right:
 		if (grid->cursor_index < static_cast < int > (grid->row_data[new_row][new_col].length ()))
 			new_index = g_utf8_next_char (grid->row_data[new_row][new_col].c_str () + grid->cursor_index) - grid->row_data[new_row][new_col].c_str ();
 		else {
@@ -386,6 +445,18 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 				return true;
 			new_index = 0;
 		}
+		break;
+	case GDK_KEY_Up:
+	case GDK_KEY_KP_Up:
+		break;
+	case GDK_KEY_Down:
+	case GDK_KEY_KP_Down:
+		break;
+	case GDK_KEY_Page_Up:
+	case GDK_KEY_KP_Page_Up:
+		break;
+	case GDK_KEY_Page_Down:
+	case GDK_KEY_KP_Page_Down:
 		break;
 	case GDK_KEY_KP_Subtract:
 	case GDK_KEY_minus:
@@ -414,6 +485,28 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	case GDK_KEY_KP_9:
 		new_char = '0' + event->keyval - GDK_KEY_KP_0;
 		break;
+	case GDK_KEY_Home:
+	case GDK_KEY_KP_Home:
+	case GDK_KEY_KP_Begin:
+		if (new_index <= 0)
+			return true;
+		new_index = 0;
+		break;
+	case GDK_KEY_End:
+	case GDK_KEY_KP_End:
+		if (new_index == static_cast < int > (grid->row_data[new_row][new_col].length ()))
+			return true;
+		new_index = grid->row_data[new_row][new_col].length ();
+		break;
+	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter:
+		gcr_grid_validate_change (grid);
+		break;
+	case GDK_KEY_Delete:
+	case GDK_KEY_KP_Delete:
+		break;
+	case GDK_KEY_BackSpace:
+		break;
 	case GDK_KEY_period:
 		break;
 	case GDK_KEY_comma:
@@ -426,11 +519,23 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		return true;
 	}
 	if (new_char > 0) {
+		// first delete the selected chars if any
+		if (new_index != grid->sel_start) {
+			int length;
+			if (new_index < grid->sel_start)
+				length = grid->sel_start - new_index;
+			else {
+				length = new_index - grid->sel_start;
+				new_index = grid->sel_start;
+			}
+			grid->row_data[new_row][new_col].erase (new_index, length);
+		}
 		// insert the new char
 		if (grid->cursor_index == 0 && !strncmp (grid->row_data[new_row][new_col].c_str (), "−", strlen ("−")))
 		    return true;	// do not insert a figure before the minus sign
 		grid->row_data[new_row][new_col].insert (new_index, 1, new_char);
 		new_index++;
+		grid->sel_start = new_index;
 	}
 	if (new_row != grid->row || new_col != grid->col) {
 		if (grid->row >= 0 && !gcr_grid_validate_change (grid))
@@ -441,6 +546,10 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		grid->col = new_col;
 		*grid->orig_string = grid->row_data[new_row][new_col];
 		// ensure that the selection is visible
+		if (new_row < grid->first_visible)
+			grid->first_visible = new_row;
+		else if (new_row >= grid->first_visible + static_cast < int > (grid->nb_visible))
+			grid->first_visible = new_row + 1 - grid->nb_visible;
 	}
 	grid->cursor_index = new_index;
 	gtk_widget_queue_draw (widget);
