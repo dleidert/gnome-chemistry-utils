@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2011-07-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/cleavage.cc: make cleaved planes number unsigned.
+	* libs/gcr/cleavage.h: ditto.
+	* libs/gcr/cleavagesdlg.cc: add checks for cleavages validity.
+	* libs/gcr/document.cc: ditto.
+	* libs/gcr/grid.cc: implement unsigned int support, double click and
+	validity checks.
+	* libs/gcr/grid.h: ditto.
+
 2011-07-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/cleavagesdlg.cc: really implement cleavage change.
 	* libs/gcr/grid.cc: make it start being really usable.

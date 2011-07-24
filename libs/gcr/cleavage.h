@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * gcr/cleavage.h
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -58,7 +58,7 @@ The destructor of Cleavage.
 /*!
 @return the number of planes cleaved.
 */
-	int& Planes () {return m_nPlanes ;}
+	unsigned &Planes () {return m_nPlanes ;}
 /*!
 @return the Miller's h index of the cleavage plane.
 */
@@ -113,7 +113,7 @@ Miller's l index.
 /*!
 Number of planes cleaved.
 */
-	int m_nPlanes ;
+	unsigned m_nPlanes ;
 };
 
 /*!

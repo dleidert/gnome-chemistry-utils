@@ -101,7 +101,7 @@ void CleavagesDlgPrivate::ValueChanged (CleavagesDlg *pBox, G_GNUC_UNUSED unsign
 		pBox->m_Cleavages[row]->l () = gcr_grid_get_int (GCR_GRID (pBox->m_Grid), row, column);
 		break;
 	case COLUMN_PLANES: // planes number changed
-		pBox->m_Cleavages[row]->Planes () = gcr_grid_get_int (GCR_GRID (pBox->m_Grid), row, column);
+		pBox->m_Cleavages[row]->Planes () = gcr_grid_get_uint (GCR_GRID (pBox->m_Grid), row, column);
 		break;
 	}
 	pBox->m_pDoc->Update ();
@@ -135,7 +135,7 @@ CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk:
 	button = GetWidget ("fixed");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), m_pDoc->GetFixedSize ());
 	g_signal_connect_swapped (G_OBJECT (button), "toggled", G_CALLBACK (CleavagesDlgPrivate::FixedSizeChanged), this);
-	m_Grid = gcr_grid_new ("h", G_TYPE_INT, "k", G_TYPE_INT, "l", G_TYPE_INT, _("Planes cleaved"), G_TYPE_INT, NULL);
+	m_Grid = gcr_grid_new ("h", G_TYPE_INT, "k", G_TYPE_INT, "l", G_TYPE_INT, _("Planes cleaved"), G_TYPE_UINT, NULL);
 	g_object_set (G_OBJECT (m_Grid), "expand", true, NULL);
 	GtkWidget *align = GetWidget ("cleavages-grid");
 	gtk_grid_attach (GTK_GRID (align), m_Grid, 0, 0, 1, 4);
@@ -165,6 +165,13 @@ void CleavagesDlg::ReloadData ()
 {
 	if (m_Closing)
 		return;
+	gcr_grid_delete_all (GCR_GRID (m_Grid));
+	m_Cleavages.clear ();
+	gcr::CleavageList* Cleavages = m_pDoc->GetCleavageList ();
+	for (list < gcr::Cleavage * >::iterator i = Cleavages->begin (); i != Cleavages->end (); i++)
+		m_Cleavages[gcr_grid_append_row (GCR_GRID (m_Grid), (*i)->h (), (*i)->k (), (*i)->l (), (*i)->Planes ())] = *i;
+	if (!m_Cleavages.size ())
+		gtk_widget_set_sensitive (DeleteAllBtn, false);
 }
 
 }	//	namespace gcr

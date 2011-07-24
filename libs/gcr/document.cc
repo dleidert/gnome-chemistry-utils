@@ -405,6 +405,9 @@ void Document::Update()
 		std::vector<double>::iterator m;
 		unsigned n;
 
+		// we might have invalid cleavages, so we need to skip them
+		if ((*k)->Planes () == 0 || ((*k)->h () == 0 && (*k)->k () == 0 && (*k)->l () == 0))
+			continue;	// invalid cleavage
 		//scalar products calculus and storing
 		for (i = Atoms.begin(); i != Atoms.end(); i++)
 		{
@@ -1158,8 +1161,65 @@ void Document::SetCell (Lattice lattice, double a, double b, double c, double al
 	m_gamma = gamma;
 }
 
+static int gcd_euler (int n1, int n2)
+{
+	int buf;
+	if (n1 < n2) {
+		buf = n1;
+		n1 = n2;
+		n2 = buf;
+	}
+	while (1) {
+		if (n2 == 0)
+			return n1;
+		buf = n1 % n2;
+		n1 = n2;
+		n2 = buf;
+	}
+}
+
 void Document::CheckCleavages ()
 {
+	std::set < Cleavage * > garbage;
+	CleavageList::iterator i, j, end = Cleavages.end ();
+	int gcd;
+	for (i = Cleavages.begin (); i != end; i++) {
+		if ((*i)->Planes () == 0) {
+			garbage.insert (*i);
+			continue;
+		}
+		// now divide h, k, and l by their gcd, using Euclid's algorithm
+		// since we probably don't need better there
+		gcd = abs ((*i)->h ());
+		if (!gcd) {
+			gcd = abs ((*i)->k ());
+			if (!gcd) {
+				gcd = abs ((*i)->l ());
+				if (!gcd) {
+					garbage.insert (*i);
+					continue;
+				}
+			}
+		} else
+			gcd = gcd_euler (gcd, abs ((*i)->k ()));
+		gcd = gcd_euler (gcd, abs ((*i)->l ()));
+		(*i)->h () /= gcd;
+		(*i)->k () /= gcd;
+		(*i)->l () /= gcd;
+		// now we look for equivalent cleavages in the list beginning
+		for (j = Cleavages.begin (); j != i; j++)
+			if (*i == *j) {
+				if ((*j)->Planes () > (*i)->Planes ()) // use the largest planes number
+					(*i)->Planes () = (*j)->Planes ();
+				garbage.insert (*j);
+				break;
+			}
+	}
+	std::set < Cleavage * >::iterator k,kend = garbage.end ();
+	for (k = garbage.begin (); k != kend; k++) {
+		Cleavages.remove (*k);
+		delete *k;
+	}
 }
 
 }	//	namespace gcr

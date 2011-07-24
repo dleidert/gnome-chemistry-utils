@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * gcr/cleavage.cc
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -75,7 +75,7 @@ xmlNodePtr Cleavage::Save(xmlDocPtr xml) const
 	snprintf(buf, sizeof(buf), "%d", m_nl);
 	xmlSetProp(node, (xmlChar*)"l", (xmlChar*)buf);
 
-	snprintf(buf, sizeof(buf), "%d", m_nPlanes);
+	snprintf(buf, sizeof(buf), "%u", m_nPlanes);
 	xmlSetProp(node, (xmlChar*)"planes", (xmlChar*)buf);
 
 	return node;
@@ -113,7 +113,7 @@ bool Cleavage::Load (xmlNodePtr node)
 		return false;
 	txt = (char*) xmlGetProp (node, (xmlChar*) "planes");
 	if (txt) {
-		if (sscanf(txt, "%d", &m_nPlanes)!= 1) {
+		if (sscanf(txt, "%u", &m_nPlanes)!= 1) {
 			xmlFree (txt);
 			return false;
 		}

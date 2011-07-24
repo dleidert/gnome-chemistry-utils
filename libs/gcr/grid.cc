@@ -26,6 +26,7 @@
 #include "grid.h"
 #include <gcugtk/marshalers.h>
 #include <goffice/goffice.h>
+#include <glib/gi18n-lib.h>
 #include <list>
 #include <string>
 #include <vector>
@@ -97,9 +98,26 @@ static bool gcr_grid_validate_change (GcrGrid *grid)
 		if (neg)
 			str += strlen ("−");
 		next = strtol (str, &buf, 10);
+		if (neg)
+			next = -next;
 		if (buf && *buf)
 			goto error_handler;
 		buf = (next < 0)? g_strdup_printf ("−%ld", -next): g_strdup_printf ("%ld", next);
+		grid->row_data[grid->row][grid->col] = buf;
+		grid->sel_start = grid->cursor_index = strlen (buf);
+		g_free (buf);
+		if (orig != next)
+			g_signal_emit (grid, gcr_grid_signals[VALUE_CHANGED], 0, grid->row, grid->col);
+		return true;
+	}
+	case G_TYPE_UINT: {
+		unsigned long orig, next;
+		char *buf;
+		orig = strtoul (grid->orig_string->c_str (), NULL, 10);
+		next = strtoul (new_string.c_str (), &buf, 10);
+		if (buf && *buf)
+			goto error_handler;
+		buf = g_strdup_printf ("%lu", next);
 		grid->row_data[grid->row][grid->col] = buf;
 		grid->sel_start = grid->cursor_index = strlen (buf);
 		g_free (buf);
@@ -116,7 +134,13 @@ static bool gcr_grid_validate_change (GcrGrid *grid)
 	}
 	return false;
 error_handler:
-	// FIXME: display an error message
+	// directly using gtk to display an error message since we dont't know about Application there
+	GtkWidget *widget = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (grid))),
+	                                            GTK_DIALOG_MODAL,
+	                                            GTK_MESSAGE_ERROR,
+	                                            GTK_BUTTONS_CLOSE,
+	                                            _("Invalid data"));
+	gtk_dialog_run (GTK_DIALOG (widget));
 	grid->sel_start = 0;
 	grid->cursor_index = new_string.length ();
 	return false;
@@ -345,11 +369,14 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
 		grid->col = new_col;
 		grid->row = new_row;
-		// evaluate the cursor position if any
-		if (grid->col >= 0) {
-			switch (grid->types[grid->col]) {
-			case G_TYPE_INT:
-			case G_TYPE_DOUBLE: {
+	}
+	// evaluate the cursor position if any
+	if (grid->col >= 0) {
+		switch (grid->types[grid->col]) {
+		case G_TYPE_INT:
+		case G_TYPE_UINT:
+		case G_TYPE_DOUBLE:
+			if (event->type == GDK_BUTTON_PRESS) {
 				x -=  grid->col_widths[grid->col];
 				PangoLayout *l = gtk_widget_create_pango_layout (widget, grid->row_data[grid->row][grid->col].c_str());
 				int xpos, startx;
@@ -359,22 +386,24 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 				int index, trailing;
 				pango_layout_xy_to_index (l, xpos * PANGO_SCALE, 0, &index, &trailing);
 				grid->sel_start = grid->cursor_index = index + trailing;
-				break;
+			} else if (event->type == GDK_2BUTTON_PRESS) {
+				grid->sel_start = 0;
+				grid->cursor_index = grid->row_data[grid->row][grid->col].length ();
 			}
-			case G_TYPE_BOOLEAN:
-				grid->cursor_index = -1;
-				// nothing to do, just wait and see if the mouse button is released inside the cell
-				break;
-			default:
-				grid->cursor_index = -1;
-				g_critical ("Unsupported type.");
-				break;
-			}
-			*grid->orig_string = grid->row_data[grid->row][grid->col];
-			gtk_widget_grab_focus (widget);
-		} else
+			break;
+		case G_TYPE_BOOLEAN:
 			grid->cursor_index = -1;
-	}
+			// nothing to do, just wait and see if the mouse button is released inside the cell
+			break;
+		default:
+			grid->cursor_index = -1;
+			g_critical ("Unsupported type.");
+			break;
+		}
+		*grid->orig_string = grid->row_data[grid->row][grid->col];
+		gtk_widget_grab_focus (widget);
+	} else
+		grid->cursor_index = -1;
 	if (grid->cursor_index >= 0 && grid->cursor_signal == 0) {
 		grid->cursor_signal = g_timeout_add (CURSOR_ON_TIME, on_blink, grid);
 		grid->cursor_visible = true;
@@ -419,9 +448,11 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		break;
 	case GDK_KEY_Left:
 	case GDK_KEY_KP_Left:
-		if (grid->cursor_index > 0)
+		if (new_index > 0) {
 			new_index = g_utf8_prev_char (grid->row_data[new_row][new_col].c_str () + grid->cursor_index) - grid->row_data[new_row][new_col].c_str ();
-		else {
+			if ((event->state & GDK_SHIFT_MASK) == 0)
+				grid->sel_start = new_index;
+		} else {
 			if (new_col > 0)
 				new_col--;
 			else if (new_row > 0) {
@@ -433,9 +464,11 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		break;
 	case GDK_KEY_Right:
 	case GDK_KEY_KP_Right:
-		if (grid->cursor_index < static_cast < int > (grid->row_data[new_row][new_col].length ()))
+		if (grid->cursor_index < static_cast < int > (grid->row_data[new_row][new_col].length ())) {
 			new_index = g_utf8_next_char (grid->row_data[new_row][new_col].c_str () + grid->cursor_index) - grid->row_data[new_row][new_col].c_str ();
-		else {
+			if ((event->state & GDK_SHIFT_MASK) == 0)
+				grid->sel_start = new_index;
+		} else {
 			if (new_col < static_cast < int > (grid->cols) - 1)
 				new_col++;
 			else if (grid->row < static_cast < int > (grid->rows) - 1) {
@@ -460,6 +493,12 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		break;
 	case GDK_KEY_KP_Subtract:
 	case GDK_KEY_minus:
+		if (grid->types[new_col] == G_TYPE_INT || grid->types[new_col] == G_TYPE_DOUBLE) {
+			if ((new_index > 0 && grid->sel_start > 0) || !grid->row_data[new_row][new_col].compare (0, strlen ("−"), "−"))
+				return true;
+			grid->row_data[new_row][new_col].insert (0, "−");
+			grid->sel_start = new_index = strlen ("−");
+		}
 		break;
 	case GDK_KEY_0:
 	case GDK_KEY_1:
@@ -519,6 +558,9 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		return true;
 	}
 	if (new_char > 0) {
+		// don't add aanything before the minus sign
+		if (new_index == 0 && grid->sel_start == 0 && !grid->row_data[new_row][new_col].compare (0, strlen ("−"), "−"))
+			return true;
 		// first delete the selected chars if any
 		if (new_index != grid->sel_start) {
 			int length;
@@ -656,6 +698,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	for (i = 0; i < grid->cols; i++, title++, type++) {
 		switch (*type) {
 		case G_TYPE_INT:
+		case G_TYPE_UINT:
 			col_size = int_size;
 			break;
 		case G_TYPE_DOUBLE:
@@ -696,25 +739,35 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 
 int gcr_grid_get_int (GcrGrid *grid, unsigned row, unsigned column)
 {
-	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols, 0);
-	return atoi (grid->row_data[row][column].c_str ());
+	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_INT, 0);
+	return grid->row_data[row][column].compare (0, strlen ("−"), "−")?
+		atoi (grid->row_data[row][column].c_str ()):
+		-atoi (grid->row_data[row][column].c_str () + strlen ("−"));
+}
+
+unsigned gcr_grid_get_uint (GcrGrid *grid, unsigned row, unsigned column)
+{
+	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_UINT, 0);
+	return strtoul (grid->row_data[row][column].c_str (), NULL, 10);
 }
 
 double gcr_grid_get_double (GcrGrid *grid, unsigned row, unsigned column)
 {
-	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols, go_nan);
-	return atof (grid->row_data[row][column].c_str ());
+	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_DOUBLE, go_nan);
+	return grid->row_data[row][column].compare (0, strlen ("−"), "−")?
+		atof (grid->row_data[row][column].c_str ()):
+		-atof (grid->row_data[row][column].c_str ());
 }
 
 bool gcr_grid_get_boolean (GcrGrid *grid, unsigned row, unsigned column)
 {
-	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols, false);
+	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_BOOLEAN, false);
 	return grid->row_data[row][column] == "t";
 }
 
 void gcr_grid_set_int (GcrGrid *grid, unsigned row, unsigned column, int value)
 {
-	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols);
+	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_INT);
 	char *buf;
 	if (value >= 0)
 		buf = g_strdup_printf ("%d", value);
@@ -725,9 +778,18 @@ void gcr_grid_set_int (GcrGrid *grid, unsigned row, unsigned column, int value)
 	gtk_widget_queue_draw (GTK_WIDGET (grid));
 }
 
+void gcr_grid_set_uint (GcrGrid *grid, unsigned row, unsigned column, unsigned value)
+{
+	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_UINT);
+	char *buf = g_strdup_printf ("%u", value);
+	grid->row_data[row][column] = buf;
+	g_free (buf);
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
+}
+
 void gcr_grid_set_double (GcrGrid *grid, unsigned row, unsigned column, double value)
 {
-	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols);
+	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_DOUBLE);
 	char *buf = g_strdup_printf ("%g", value);
 	grid->row_data[row][column] = buf;
 	g_free (buf);
@@ -736,7 +798,7 @@ void gcr_grid_set_double (GcrGrid *grid, unsigned row, unsigned column, double v
 
 void gcr_grid_set_boolean (GcrGrid *grid, unsigned row, unsigned column, bool value)
 {
-	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols);
+	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_BOOLEAN);
 	grid->row_data[row][column] = value? "t": "f";
 	gtk_widget_queue_draw (GTK_WIDGET (grid));
 }
@@ -763,6 +825,11 @@ unsigned gcr_grid_append_row (GcrGrid *grid,...)
 			g_free (buf);
 			break;
 		}
+		case G_TYPE_UINT:
+			buf = g_strdup_printf ("%u", va_arg (args, unsigned));
+			grid->row_data[row][col] = buf;
+			g_free (buf);
+			break;
 		case G_TYPE_DOUBLE:
 			buf = g_strdup_printf ("%f", va_arg (args, double));
 			grid->row_data[row][col] = buf;
@@ -807,7 +874,7 @@ void gcr_grid_delete_all (GcrGrid *grid)
 	for (unsigned i = 0; i < grid->rows; i++)
 		delete [] grid->row_data[i];
 	grid->rows = 0;
-	if (grid->row >= 0) {;
+	if (grid->row >= 0) {
 		grid->row = -1;
 		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
 	}
