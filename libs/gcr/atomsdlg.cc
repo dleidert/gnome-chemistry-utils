@@ -54,6 +54,17 @@ struct AtomStruct {
 	double Blue, Red, Green, Alpha;
 };
 
+class AtomsDlgPrivate
+{
+public:
+	static void ElementChanged (AtomsDlg *pBox, unsigned Z);
+};
+
+void AtomsDlgPrivate::ElementChanged (AtomsDlg *pBox, unsigned Z)
+{
+	// FIXME: reimplement
+}
+
 static void on_add (G_GNUC_UNUSED GtkWidget *widget, AtomsDlg *pBox)
 {
 	pBox->AtomAdd ();
@@ -109,10 +120,10 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	m_pDoc = pDoc;
 	GtkWidget *frame = GetWidget ("mendeleiev");
 	periodic = (GcuPeriodic*) gcu_periodic_new ();
-	g_signal_connect (G_OBJECT (periodic), "element_changed", G_CALLBACK (on_element), this);
+	g_signal_connect_swapped (G_OBJECT (periodic), "element_changed", G_CALLBACK (AtomsDlgPrivate::ElementChanged), this);
 	g_object_set (G_OBJECT (periodic), "can_unselect", TRUE, "color-style", GCU_PERIODIC_COLOR_DEFAULT, NULL);
 	gtk_container_add (GTK_CONTAINER (frame), (GtkWidget *) periodic);
-	gtk_widget_show_all (frame);
+#if 0
 	GtkWidget *button = GetWidget ("add");
 	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_add), this);
 	DeleteBtn = GetWidget ("delete");
@@ -215,6 +226,8 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	m_Radius.value.value = 0.;
 	m_Radius.scale = "custom";
 	PopulateRadiiMenu ();
+#endif
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 AtomsDlg::~AtomsDlg ()

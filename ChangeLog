@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-07-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: start redesign work.
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/grid.cc: enhance navigation, and add some support for strings.
+	* libs/gcr/grid.h: ditto.
+	* ui/crystal/atoms.ui: start redesign work.
+
 2011-07-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/cleavage.cc: make cleaved planes number unsigned.
 	* libs/gcr/cleavage.h: ditto.

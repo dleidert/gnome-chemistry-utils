@@ -51,6 +51,7 @@ void gcr_grid_set_boolean (GcrGrid *grid, unsigned row, unsigned column, bool va
 unsigned gcr_grid_append_row (GcrGrid *grid,...);
 void gcr_grid_delete_row (GcrGrid *grid, unsigned row);
 void gcr_grid_delete_all (GcrGrid *grid);
+void gcr_grid_customize_column (GcrGrid *grid, unsigned column, unsigned chars, bool editable);
 
 G_END_DECLS
 

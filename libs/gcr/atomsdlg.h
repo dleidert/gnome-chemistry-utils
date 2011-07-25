@@ -39,6 +39,7 @@ struct AtomsStruct;
 
 class AtomsDlg: public gcugtk::Dialog
 {
+friend class AtomsDlgPrivate;
 public:
 	AtomsDlg (Application *App, Document* pDoc);
 	virtual ~AtomsDlg ();

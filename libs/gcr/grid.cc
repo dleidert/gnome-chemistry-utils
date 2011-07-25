@@ -231,7 +231,7 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 			pango_layout_set_text (l, grid->row_data[row][i].c_str(), -1);
 			pango_layout_get_pixel_size (l, &width, NULL);
 			pango_layout_set_markup (l, grid->row_data[row][i].c_str(), -1);
-			if (static_cast < int > (j) == grid->row && static_cast < int > (i) == grid->col) {
+			if (static_cast < int > (row) == grid->row && static_cast < int > (i) == grid->col) {
 				if (grid->cursor_index != grid->sel_start) {
 					PangoAttrList *al = pango_attr_list_new ();
 					int start, end;
@@ -464,7 +464,7 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		break;
 	case GDK_KEY_Right:
 	case GDK_KEY_KP_Right:
-		if (grid->cursor_index < static_cast < int > (grid->row_data[new_row][new_col].length ())) {
+		if (new_index >= 0 && grid->cursor_index < static_cast < int > (grid->row_data[new_row][new_col].length ())) {
 			new_index = g_utf8_next_char (grid->row_data[new_row][new_col].c_str () + grid->cursor_index) - grid->row_data[new_row][new_col].c_str ();
 			if ((event->state & GDK_SHIFT_MASK) == 0)
 				grid->sel_start = new_index;
@@ -481,15 +481,27 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		break;
 	case GDK_KEY_Up:
 	case GDK_KEY_KP_Up:
+		if (grid->row > 0)
+			new_row--;
 		break;
 	case GDK_KEY_Down:
 	case GDK_KEY_KP_Down:
+		if (grid->row < static_cast < int > (grid->rows) - 1)
+			new_row++;
 		break;
 	case GDK_KEY_Page_Up:
 	case GDK_KEY_KP_Page_Up:
+		if (grid->row >= static_cast < int > (grid->nb_visible))
+			new_row -= grid->nb_visible;
+		else
+			new_row = 0;
 		break;
 	case GDK_KEY_Page_Down:
 	case GDK_KEY_KP_Page_Down:
+		if (grid->rows > grid->nb_visible && grid->row < static_cast < int > (grid->rows - grid->nb_visible) - 1)
+			new_row += grid->nb_visible;
+		else
+			new_row = grid->rows - 1;
 		break;
 	case GDK_KEY_KP_Subtract:
 	case GDK_KEY_minus:
@@ -510,6 +522,8 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	case GDK_KEY_7:
 	case GDK_KEY_8:
 	case GDK_KEY_9:
+		if (new_index < 0)
+			return true;
 		new_char = '0' + event->keyval - GDK_KEY_0;
 		break;
 	case GDK_KEY_KP_0:
@@ -522,23 +536,47 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	case GDK_KEY_KP_7:
 	case GDK_KEY_KP_8:
 	case GDK_KEY_KP_9:
+		if (new_index < 0)
+			return true;
 		new_char = '0' + event->keyval - GDK_KEY_KP_0;
 		break;
 	case GDK_KEY_Home:
 	case GDK_KEY_KP_Home:
 	case GDK_KEY_KP_Begin:
+		if (event->state & GDK_CONTROL_MASK) {
+			new_col = 0;
+			if (event->state & GDK_SHIFT_MASK)
+				new_row = 0;
+			grid->sel_start = 0;
+			new_index = grid->row_data[new_row][0].length ();
+			break;
+		}
 		if (new_index <= 0)
 			return true;
 		new_index = 0;
+		if ((event->state & GDK_SHIFT_MASK) == 0)
+			grid->sel_start = 0;
 		break;
 	case GDK_KEY_End:
 	case GDK_KEY_KP_End:
+		if (event->state & GDK_CONTROL_MASK) {
+			new_col = grid->cols - 1;
+			if (event->state & GDK_SHIFT_MASK)
+				new_row = grid->rows - 1;
+			grid->sel_start = 0;
+			new_index = grid->row_data[new_row][new_col].length ();
+			break;
+		}
 		if (new_index == static_cast < int > (grid->row_data[new_row][new_col].length ()))
 			return true;
 		new_index = grid->row_data[new_row][new_col].length ();
+		if ((event->state & GDK_SHIFT_MASK) == 0)
+			grid->sel_start = new_index;
 		break;
 	case GDK_KEY_Return:
 	case GDK_KEY_KP_Enter:
+		if (new_index <= 0)
+			return true;
 		gcr_grid_validate_change (grid);
 		break;
 	case GDK_KEY_Delete:
@@ -553,6 +591,10 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	case GDK_KEY_KP_Decimal:
 		break;
 	case GDK_KEY_space:
+		if (grid->types[new_col] != G_TYPE_BOOLEAN)
+			return true;
+		grid->row_data[new_row][new_col] = (grid->row_data[new_row][new_col] == "t")? "f": "t";
+		g_signal_emit (grid, gcr_grid_signals[VALUE_CHANGED], 0, new_row, new_col);
 		break;
 	default:
 		return true;
@@ -587,12 +629,15 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		grid->row = new_row;
 		grid->col = new_col;
 		*grid->orig_string = grid->row_data[new_row][new_col];
-		// ensure that the selection is visible
-		if (new_row < grid->first_visible)
-			grid->first_visible = new_row;
-		else if (new_row >= grid->first_visible + static_cast < int > (grid->nb_visible))
-			grid->first_visible = new_row + 1 - grid->nb_visible;
+		int l = grid->orig_string->length ();
+		if (new_index > l)
+			new_index = grid->sel_start = l;
 	}
+	// ensure that the selection is visible
+	if (new_row < grid->first_visible)
+		grid->first_visible = new_row;
+	else if (new_row >= grid->first_visible + static_cast < int > (grid->nb_visible))
+		grid->first_visible = new_row + 1 - grid->nb_visible;
 	grid->cursor_index = new_index;
 	gtk_widget_queue_draw (widget);
 	return true;
@@ -699,6 +744,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 		switch (*type) {
 		case G_TYPE_INT:
 		case G_TYPE_UINT:
+		case G_TYPE_STRING:
 			col_size = int_size;
 			break;
 		case G_TYPE_DOUBLE:
@@ -835,6 +881,9 @@ unsigned gcr_grid_append_row (GcrGrid *grid,...)
 			grid->row_data[row][col] = buf;
 			g_free (buf);
 			break;
+		case G_TYPE_STRING:
+			grid->row_data[row][col] = va_arg (args, char const*);
+			break;
 		case G_TYPE_BOOLEAN:
 			grid->row_data[row][col] = (va_arg (args, double))? "t": "f";
 			break;
@@ -879,4 +928,8 @@ void gcr_grid_delete_all (GcrGrid *grid)
 		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
 	}
 	gtk_widget_queue_draw (GTK_WIDGET (grid));
+}
+
+void gcr_grid_customize_column (GcrGrid *grid, unsigned column, unsigned chars, bool editable)
+{
 }
