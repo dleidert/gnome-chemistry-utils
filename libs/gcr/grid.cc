@@ -50,6 +50,7 @@ struct _GcrGrid
 	GtkWidget *scroll;
 	std::string *titles;
 	GType *types;
+	bool *editable;
 	std::vector < std::string * > row_data; // storing as string since this is what is displayed
 	bool cursor_visible;
 	unsigned long cursor_signal;
@@ -297,6 +298,7 @@ static void gcr_grid_finalize (GObject *obj)
 	delete [] grid->col_widths;
 	delete [] grid->titles;
 	delete [] grid->types;
+	delete [] grid->editable;
 	for (unsigned i = 0 ; i < grid->rows; i++)
 		delete [] grid->row_data[i];
 	reinterpret_cast < GObjectClass * > (parent_class)->finalize (obj);
@@ -343,6 +345,8 @@ static gint on_blink (gpointer data)
 
 static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *event)
 {
+	if (event->button != 1)
+		return false;	// FIXME: at least middle buttons should be accepted to paste data
 	GcrGrid *grid = GCR_GRID (widget);
 	int x = grid->first_visible + event->y / grid->row_height - 1, i, new_row, new_col;
 	new_row = (x < 0 || x > static_cast < int > (grid->rows))? -1: x;
@@ -365,6 +369,8 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 	if (grid->col != new_col || grid->row != new_row) {
 		if (grid->row >= 0 && !gcr_grid_validate_change (grid))
 			return true;
+		if (new_col < 0 || !grid->editable[new_col])
+			new_row = new_col = -1;
 		if (new_row != grid->row)
 			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
 		grid->col = new_col;
@@ -413,6 +419,11 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 	}
 	gtk_widget_queue_draw (widget);
 	return true;
+}
+
+static gboolean gcr_grid_scroll_event (GtkWidget *widget, GdkEventScroll *event)
+{
+	return gtk_widget_event (GCR_GRID (widget)->scroll, reinterpret_cast < GdkEvent * > (event));
 }
 
 static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
@@ -626,12 +637,17 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 			return true;
 		if (new_row != grid->row)
 			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
-		grid->row = new_row;
-		grid->col = new_col;
-		*grid->orig_string = grid->row_data[new_row][new_col];
-		int l = grid->orig_string->length ();
-		if (new_index > l)
-			new_index = grid->sel_start = l;
+		if (grid->editable[new_col]) {
+			grid->row = new_row;
+			grid->col = new_col;
+			*grid->orig_string = grid->row_data[new_row][new_col];
+			int l = grid->orig_string->length ();
+			if (new_index > l)
+				new_index = grid->sel_start = l;
+		} else {
+			grid->row = grid->col = new_index = -1;
+			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
+		}
 	}
 	// ensure that the selection is visible
 	if (new_row < grid->first_visible)
@@ -649,6 +665,7 @@ static void gcr_grid_class_init (GtkWidgetClass *klass)
 	klass->draw = gcr_grid_draw;
 	klass->size_allocate = gcr_grid_size_allocate;
 	klass->button_press_event = gcr_grid_button_press_event;
+	klass->scroll_event = gcr_grid_scroll_event;
 	klass->key_press_event = gcr_grid_key_press_event;
 	reinterpret_cast < GObjectClass * > (klass)->finalize = gcr_grid_finalize;
 	klass->get_preferred_height = gcr_grid_get_preferred_height;
@@ -735,6 +752,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	grid->min_widths = new int[grid->cols];
 	grid->titles = new std::string[grid->cols];
 	grid->types = new GType[grid->cols];
+	grid->editable = new bool[grid->cols];
 	unsigned i;
 	std::list <char const *>::iterator title = titles.begin ();
 	std::list <GType>::iterator type = types.begin ();
@@ -764,6 +782,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 		grid->cols_min_width += col_size;
 		grid->titles[i] = *title;
 		grid->types[i] = *type;
+		grid->editable[i] = true;
 	}
 	grid->width += grid->cols_min_width;
 	g_object_unref (layout);
@@ -932,4 +951,21 @@ void gcr_grid_delete_all (GcrGrid *grid)
 
 void gcr_grid_customize_column (GcrGrid *grid, unsigned column, unsigned chars, bool editable)
 {
+	g_return_if_fail (GCR_IS_GRID (grid) && column < grid->cols);
+	grid->editable[column] = editable;
+	PangoLayout *l = gtk_widget_create_pango_layout (reinterpret_cast <GtkWidget *> (grid), grid->titles[column].c_str ());
+	int width, title_width;
+	pango_layout_get_pixel_size (l, &title_width, NULL);
+	std::string s (chars, 'W');
+	pango_layout_set_text (l, s.c_str (), -1);
+	pango_layout_get_pixel_size (l, &width, NULL);
+	if (width < title_width)
+		width = title_width;
+	if (width != grid->min_widths[column]) {
+		grid->cols_min_width -= grid->min_widths[column];
+		grid->min_widths[column] = width;
+		grid->cols_min_width += width;
+		grid->width = grid->header_width + grid->cols_min_width + grid->scroll_width;
+		gtk_widget_queue_resize (GTK_WIDGET (grid));
+	}
 }

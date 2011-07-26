@@ -138,10 +138,11 @@ CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk:
 	m_Grid = gcr_grid_new ("h", G_TYPE_INT, "k", G_TYPE_INT, "l", G_TYPE_INT, _("Planes cleaved"), G_TYPE_UINT, NULL);
 	g_object_set (G_OBJECT (m_Grid), "expand", true, NULL);
 	GtkWidget *align = GetWidget ("cleavages-grid");
-	gtk_grid_attach (GTK_GRID (align), m_Grid, 0, 0, 1, 4);
+	gtk_grid_attach (GTK_GRID (align), m_Grid, 0, 1, 1, 4);
 	gcr::CleavageList* Cleavages = m_pDoc->GetCleavageList ();
 	m_Cleavages.resize ((Cleavages->size () / 5 + 1) * 5);
-	for (list < gcr::Cleavage * >::iterator i = Cleavages->begin (); i != Cleavages->end (); i++)
+	list < gcr::Cleavage * >::iterator i, end = Cleavages->end ();
+	for (i = Cleavages->begin (); i != end; i++)
 		m_Cleavages[gcr_grid_append_row (GCR_GRID (m_Grid), (*i)->h (), (*i)->k (), (*i)->l (), (*i)->Planes ())] = *i;
 	g_signal_connect_swapped (G_OBJECT (m_Grid), "row-selected", G_CALLBACK (CleavagesDlgPrivate::RowSelected), this);
 	g_signal_connect_swapped (G_OBJECT (m_Grid), "value-changed", G_CALLBACK (CleavagesDlgPrivate::ValueChanged), this);

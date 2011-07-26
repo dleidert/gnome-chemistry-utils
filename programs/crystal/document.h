@@ -51,7 +51,6 @@ public:
 
 	//Interface
 public:
-	void Define (unsigned nPage = 0);
 	void Update ();
 	void UpdateAllViews ();
 	void SetWidget (GtkWidget* widget) {m_widget = widget;}
@@ -62,9 +61,6 @@ public:
 	char const *GetTitle () {return m_Title.c_str ();}
 	void Save () const;
 	bool Load (const std::string &filename);
-#ifdef HAVE_OPENBABEL_2_2
-	bool Import (const std::string &filename, const std::string& mime_type);
-#endif
 	void ParseXMLTree(xmlNode* xml);
 	void OnNewDocument();
 	void OnExportVRML (const std::string &FileName) const;

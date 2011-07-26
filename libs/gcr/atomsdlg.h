@@ -27,6 +27,7 @@
 
 #include <gcugtk/dialog.h>
 #include <gcugtk/gcuperiodic.h>
+#include "grid.h"
 #include <vector>
 
 using namespace std;
@@ -51,14 +52,15 @@ public:
 	void AtomSelect (GtkTreeSelection *Selection);
 	void OnElement (guint Z);
 	void OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
-	void SetCustomColor (bool custom);
 	void SetRadiusType (int type);
 	void SetRadiusIndex (int index);
-	void SetCharge (int charge);
+
+private:
 	void PopulateRadiiMenu ();
 
 private:
 	Document *m_pDoc;
+	GcrGrid *m_Grid;
 	GtkListStore *AtomList;
 	GtkTreeSelection *Selection;
 	GcuPeriodic* periodic;
@@ -66,11 +68,11 @@ private:
 	GtkColorButton *AtomColor;
 	GtkEntry *AtomR;
 	unsigned short m_nElt;
-	GArray *m_Atoms;
+	std::vector < Atom * > m_Atoms;
 	gint m_AtomSelected;
 	GtkTreeIter m_Iter;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
-	GtkComboBox *RadiusTypeMenu, *RadiusMenu, *ApplyBtn;
+	GtkComboBoxText *RadiusTypeMenu, *RadiusMenu, *ApplyBtn;
 	GtkSpinButton *ChargeBtn, *ScaleBtn;
 	const GcuAtomicRadius **m_Radii;
 	GcuAtomicRadius m_Radius;

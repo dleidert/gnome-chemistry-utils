@@ -31,11 +31,6 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
-#include <gcr/celldlg.h>
-#include <gcr/atomsdlg.h>
-#include <gcr/linesdlg.h>
-#include <gcr/sizedlg.h>
-#include <gcr/cleavagesdlg.h>
 #include "globals.h"
 #include <gcugtk/filechooser.h>
 #include <gcu/objprops.h>
@@ -84,27 +79,6 @@ gcDocument::~gcDocument ()
 		dialog = m_Dialogs.front ();
 		m_Dialogs.pop_front ();
 		dialog->Destroy ();
-	}
-}
-
-void gcDocument::Define (unsigned nPage)
-{
-	switch (nPage) {
-	case 0:
-		new gcr::CellDlg (dynamic_cast <gcApplication *> (m_App), this);
-		break;
-	case 1:
-		new gcr::AtomsDlg (dynamic_cast <gcApplication *> (m_App), this);
-		break;
-	case 2:
-		new gcr::LinesDlg (dynamic_cast <gcApplication *> (m_App), this);
-		break;
-	case 3:
-		new gcr::SizeDlg (dynamic_cast <gcApplication *> (m_App), this);
-		break;
-	case 4:
-		new gcr::CleavagesDlg (dynamic_cast < gcApplication * > (m_App), this);
-		break;
 	}
 }
 

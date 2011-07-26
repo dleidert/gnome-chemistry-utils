@@ -207,6 +207,7 @@ Reinitialize a Document instance. Used when loading a file in an already existin
 	void GetSize (double* xmin, double* xmax, double* ymin, double* ymax, double* zmin, double* zmax);
 	void SetSize (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax);
 	void CheckCleavages ();
+	void Define (unsigned nPage = 0);
 
 protected:
 /*!

@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2011-07-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: add a GrcGrid for the atom list.
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/cleavagesdlg.cc: restore missing label.
+	* libs/gcr/document.cc: move Define() method from programs/crystal and fixed
+	crash when a dialog is called twice.
+	* libs/gcr/document.h: ditto.
+	* libs/gcr/grid.cc: add protected columns and mouse wheel scrolling support.
+	* programs/crystal/document.cc: move Define() method to parent class.
+	* programs/crystal/document.h: ditto.
+	* ui/crystal/atoms.ui: redesigned.
+	* ui/crystal/cleavages.ui: restore missing label.
+
 2011-07-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: start redesign work.
 	* libs/gcr/atomsdlg.h: ditto.
