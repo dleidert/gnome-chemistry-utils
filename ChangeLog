@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-07-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/document.cc: don't allow more than one dialog of each
+	type for a document. Fix a crasher.
+
 2011-07-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/chem3ddoc.cc: fixed model position.
 

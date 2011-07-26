@@ -88,21 +88,42 @@ gcDocument::~gcDocument()
 
 void gcDocument::Define (unsigned nPage)
 {
+	gcu::Dialog *dialog;
 	switch(nPage) {
 	case 0:
-		new gcCellDlg (dynamic_cast <gcApplication *> (m_App), this);
+		dialog = GetDialog ("cell");
+		if (dialog)
+			dialog->Present ();
+		else
+			new gcCellDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 1:
-		new gcAtomsDlg (dynamic_cast <gcApplication *> (m_App), this);
+		dialog = GetDialog ("atoms");
+		if (dialog)
+			dialog->Present ();
+		else
+			new gcAtomsDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 2:
-		new gcLinesDlg (dynamic_cast <gcApplication *> (m_App), this);
+		dialog = GetDialog ("lines");
+		if (dialog)
+			dialog->Present ();
+		else
+			new gcLinesDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 3:
-		new gcSizeDlg (dynamic_cast <gcApplication *> (m_App), this);
+		dialog = GetDialog ("size");
+		if (dialog)
+			dialog->Present ();
+		else
+			new gcSizeDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 4:
-		new gcCleavagesDlg (dynamic_cast <gcApplication *> (m_App), this);
+		dialog = GetDialog ("cleavages");
+		if (dialog)
+			dialog->Present ();
+		else
+			new gcCleavagesDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	}
 }
