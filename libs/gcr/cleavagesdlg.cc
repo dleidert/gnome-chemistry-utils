@@ -65,6 +65,7 @@ void CleavagesDlgPrivate::AddRow (G_GNUC_UNUSED CleavagesDlg *pBox)
 	pBox->m_pDoc->GetCleavageList ()->push_back (c);
 	pBox->m_pDoc->Update ();
 	pBox->m_pDoc->SetDirty (true);
+	gtk_widget_set_sensitive (pBox->DeleteAllBtn, true);
 }
 
 void CleavagesDlgPrivate::DeleteRow (G_GNUC_UNUSED CleavagesDlg *pBox)
@@ -86,6 +87,7 @@ void CleavagesDlgPrivate::DeleteAll (G_GNUC_UNUSED CleavagesDlg *pBox)
 	pBox->m_pDoc->GetCleavageList ()->clear ();
 	pBox->m_pDoc->Update ();
 	pBox->m_pDoc->SetDirty (true);
+	gtk_widget_set_sensitive (pBox->DeleteAllBtn, false);
 }
 
 void CleavagesDlgPrivate::ValueChanged (CleavagesDlg *pBox, G_GNUC_UNUSED unsigned row, G_GNUC_UNUSED unsigned column)

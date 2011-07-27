@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-07-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: redesign progress.
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/cleavagesdlg.cc: fixed "Delete All" buttn sensitivity.
+
 2011-07-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: add a GrcGrid for the atom list.
 	* libs/gcr/atomsdlg.h: ditto.

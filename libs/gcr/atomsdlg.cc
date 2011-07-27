@@ -65,10 +65,30 @@ public:
 	static void ElementChanged (AtomsDlg *pBox, unsigned Z);
 	static void ColorToggled (GtkToggleButton *btn, AtomsDlg *pBox);
 	static void ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox);
+	static void RadiusTypeChanged (GtkComboBox *menu, AtomsDlg *pBox);
+	static void RadiusIndexChanged(GtkComboBox *menu, AtomsDlg *pBox);
 };
 
 void AtomsDlgPrivate::AddRow (AtomsDlg *pBox)
 {
+	Atom *new_atom;
+	if (pBox->m_AtomSelected >= 0)
+		new_atom = new Atom (*pBox->m_Atoms[pBox->m_AtomSelected]);
+	else {
+		new_atom = new Atom (pBox->m_nElt, 0., 0., 0.);
+		// FIXME: set current color and radius?
+	}
+	unsigned new_row = gcr_grid_append_row (pBox->m_Grid,
+	                                        (new_atom->GetZ ())? Element::Symbol (new_atom->GetZ ()): _("Unknown"),
+	                                        new_atom->x (), new_atom->y (), new_atom->z ()),
+			 max_row = pBox->m_Atoms.capacity ();
+	if (new_row >= max_row)
+		pBox->m_Atoms.resize (max_row + 10);
+	pBox->m_Atoms[new_row] = new_atom;
+	pBox->m_pDoc->GetAtomList ()->push_back (new_atom);
+	pBox->m_pDoc->Update ();
+	pBox->m_pDoc->SetDirty (true);
+	gtk_widget_set_sensitive (pBox->DeleteAllBtn, true);
 }
 
 void AtomsDlgPrivate::DeleteRow (AtomsDlg *pBox)
@@ -77,6 +97,14 @@ void AtomsDlgPrivate::DeleteRow (AtomsDlg *pBox)
 
 void AtomsDlgPrivate::DeleteAll (AtomsDlg *pBox)
 {
+	gcr_grid_delete_all (pBox->m_Grid);
+	for (unsigned i = 0; i < pBox->m_Atoms.size (); i++)
+		delete pBox->m_Atoms[i];
+	pBox->m_Atoms.clear ();
+	pBox->m_pDoc->GetAtomList ()->clear ();
+	pBox->m_pDoc->Update ();
+	pBox->m_pDoc->SetDirty (true);
+	gtk_widget_set_sensitive (pBox->DeleteAllBtn, false);
 }
 
 void AtomsDlgPrivate::ValueChanged (AtomsDlg *pBox, unsigned row, unsigned column)
@@ -118,20 +146,79 @@ void AtomsDlgPrivate::ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox)
 	pBox->PopulateRadiiMenu ();
 }
 
-#if 0
-static void on_add (G_GNUC_UNUSED GtkWidget *widget, AtomsDlg *pBox)
+void AtomsDlgPrivate::RadiusTypeChanged (GtkComboBox *menu, AtomsDlg *pBox)
 {
-	pBox->AtomAdd ();
+	int type = gtk_combo_box_get_active (menu);
+	if (type)
+		type++; //skip GCU_ATOMIC
+	if (type == pBox->m_RadiusType)
+		return;
+	int charges[17];
+	memset (charges, 0, 17 * sizeof (int));
+	pBox->m_RadiusType = type;
+	if  ((type == GCU_IONIC) && pBox->m_Radii) {
+		if (pBox->m_Charge)
+			return;
+		const GcuAtomicRadius **radius = pBox->m_Radii;
+		while (*radius)
+		{
+			if ((*radius)->type != GCU_IONIC) {
+				radius++;
+				continue;
+			}
+			if (((*radius)->charge < -8) || ((*radius)->charge > 8)) {
+				radius ++;
+				continue;
+			}
+			charges[(*radius)->charge + 8]++;
+			radius++;
+		}
+		int max = 0;
+		pBox->m_Charge = 8;
+		for (int i = 0; i < 17; i++) {
+			if (charges[i] > max) {
+				pBox->m_Charge = i - 8;
+				max = charges[i];
+			} else if (charges[i] == max) {
+				/*FIXME: This is the most problematic case. The policy here is
+				to take the smallest charge and if the two charges have the same absolute
+				value, take the negative one. We might have something better in gchemutils.*/
+				if ((abs (i - 8) < abs (pBox->m_Charge)) || i < 8) {
+					pBox->m_Charge = i - 8;
+					max = charges[i];
+				}
+			}
+		}
+	} else
+		pBox->m_Charge = 0;
+	gtk_spin_button_set_value (pBox->ChargeBtn, pBox->m_Charge);
+	pBox->PopulateRadiiMenu ();
 }
+
+void AtomsDlgPrivate::RadiusIndexChanged(GtkComboBox *menu, AtomsDlg *pBox)
+{
+//	pBox->SetRadiusIndex (gtk_combo_box_get_active (menu));
+	int i = pBox->m_RadiiIndex[gtk_combo_box_get_active (menu)];
+	gtk_widget_set_sensitive (GTK_WIDGET (pBox->AtomR), i < 0);
+	if (i >= 0) {
+		pBox->m_Radius = *(pBox->m_Radii[i]);
+		char buf[20];
+		g_snprintf (buf, sizeof (buf), "%g", pBox->m_Radius.value.value);
+		gtk_entry_set_text (pBox->AtomR, buf);
+	} else {
+		pBox->m_Radius.scale = "custom";
+		pBox->m_Radius.spin = GCU_N_A_SPIN;
+		pBox->m_Radius.charge = pBox->m_Charge;
+		pBox->m_Radius.cn = -1;
+		pBox->m_Radius.type = static_cast < gcu_radius_type > (pBox->m_RadiusType);
+	}
+}
+
+#if 0
 
 static void on_delete (G_GNUC_UNUSED GtkWidget *widget, AtomsDlg *pBox)
 {
 	pBox->AtomDelete ();
-}
-
-static void on_delete_all (G_GNUC_UNUSED GtkWidget *widget, AtomsDlg *pBox)
-{
-	pBox->AtomDeleteAll ();
 }
 
 static void on_select (GtkTreeSelection *Selection, AtomsDlg *pBox)
@@ -148,16 +235,6 @@ static void on_edited (GtkCellRendererText *cell, const gchar *path_string, cons
 {
 	pBox->OnEdited (cell, path_string, new_text);
 }
-
-static void on_radius_type_changed (GtkComboBox *menu, AtomsDlg *pBox)
-{
-	pBox->SetRadiusType (gtk_combo_box_get_active (menu));
-}
-
-static void on_radius_index_changed(GtkComboBox *menu, AtomsDlg *pBox)
-{
-	pBox->SetRadiusIndex (gtk_combo_box_get_active (menu));
-}
 #endif
 
 AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
@@ -172,9 +249,9 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (AtomsDlgPrivate::AddRow), this);
 	DeleteBtn = GetWidget ("delete");
 	gtk_widget_set_sensitive (DeleteBtn, false);
-	g_signal_connect (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (AtomsDlgPrivate::DeleteRow), this);
+	g_signal_connect_swapped (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (AtomsDlgPrivate::DeleteRow), this);
 	DeleteAllBtn = GetWidget ("delete_all");
-	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (AtomsDlgPrivate::DeleteAll), this);
+	g_signal_connect_swapped (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (AtomsDlgPrivate::DeleteAll), this);
 	m_Grid = GCR_GRID (gcr_grid_new (_("Atom"), G_TYPE_STRING, _("x"), G_TYPE_DOUBLE, _("y"), G_TYPE_DOUBLE, _("z"), G_TYPE_DOUBLE, NULL));
 	g_object_set (G_OBJECT (m_Grid), "expand", true, NULL);
 	gcr_grid_customize_column (m_Grid, COLUMN_ELT, strlen ("Unknown"), false);
@@ -198,15 +275,13 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	g_signal_connect (G_OBJECT (ChargeBtn), "value-changed", G_CALLBACK (AtomsDlgPrivate::ChargeChanged), this);
 	RadiusTypeMenu = GTK_COMBO_BOX_TEXT (GetWidget ("radius-type"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (RadiusTypeMenu), 0);
-#if 0
-	g_signal_connect (G_OBJECT (RadiusTypeMenu), "changed", G_CALLBACK (on_radius_type_changed), this);
-	RadiusMenu = GTK_COMBO_BOX (GetWidget ("radius-menu"));
-	m_RadiiSignalID = g_signal_connect (G_OBJECT (RadiusMenu), "changed", G_CALLBACK (on_radius_index_changed), this);
+	g_signal_connect (G_OBJECT (RadiusTypeMenu), "changed", G_CALLBACK (AtomsDlgPrivate::RadiusTypeChanged), this);
+	RadiusMenu = GTK_COMBO_BOX_TEXT (GetWidget ("radius-menu"));
+	m_RadiiSignalID = g_signal_connect (G_OBJECT (RadiusMenu), "changed", G_CALLBACK (AtomsDlgPrivate::RadiusIndexChanged), this);
 	AtomR = GTK_ENTRY (GetWidget ("atomr"));
-	g_signal_connect (G_OBJECT (Selection), "changed", G_CALLBACK (on_select), this);
 	ScaleBtn = GTK_SPIN_BUTTON (GetWidget ("scale-btn"));
-	ApplyBtn = GTK_COMBO_BOX (GetWidget ("apply-to-box"));
-	gtk_combo_box_set_active (ApplyBtn, 1);
+	ApplyBtn = GTK_COMBO_BOX_TEXT (GetWidget ("apply-to-box"));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (ApplyBtn), 1);
 	m_RadiusType = m_Charge = 0;
 	m_Radii = NULL;
 	m_Radius.type = GCU_RADIUS_UNKNOWN;
@@ -215,7 +290,6 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	m_Radius.value.value = 0.;
 	m_Radius.scale = "custom";
 	PopulateRadiiMenu ();
-#endif
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
@@ -296,36 +370,6 @@ bool AtomsDlg::Apply ()
 	return true;
 }
 
-void AtomsDlg::AtomAdd ()
-{
-#if 0
-	GtkTreeIter iter;
-	GdkColor color;
-	struct AtomStruct s;
-	s.Elt = m_nElt;
-	s.x = s.y =s.z = 0.0;
-	gtk_color_button_get_color (AtomColor, &color);
-	s.Red = color.red / 65535.;
-	s.Green = color.green / 65535.;
-	s.Blue = color.blue / 65535.;
-	s.Alpha = gtk_color_button_get_alpha (AtomColor) / 65535.;
-	s.CustomColor = gtk_toggle_button_get_active (CustomColor);
-	GetNumber (AtomR, &m_Radius.value.value);
-	s.Radius = m_Radius;
-	s.EffectiveRadiusRatio = gtk_spin_button_get_value (ScaleBtn);
-	g_array_append_vals (m_Atoms, &s, 1);
-	gtk_list_store_append (AtomList, &iter);
-	gtk_list_store_set (AtomList, &iter,
-		      0, (m_nElt)? Element::Symbol (m_nElt): _("Unknown"),
-		      1, 0.0,
-		      2, 0.0,
-		      3, 0.0,
-		      -1);
-	gtk_widget_set_sensitive (DeleteAllBtn, true);
-	gtk_tree_selection_select_iter (Selection, &iter);
-#endif
-}
-
 void AtomsDlg::AtomDelete ()
 {
 #if 0
@@ -345,16 +389,6 @@ void AtomsDlg::AtomDelete ()
     }
 	if (!m_Atoms->len)
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
-#endif
-}
-
-void AtomsDlg::AtomDeleteAll ()
-{
-#if 0
-	g_array_free (m_Atoms, false);
-	m_Atoms = g_array_sized_new (FALSE, FALSE, sizeof (struct AtomStruct), 1);
-	gtk_list_store_clear (AtomList);
-	gtk_widget_set_sensitive (DeleteAllBtn, false);
 #endif
 }
 
@@ -519,93 +553,13 @@ void AtomsDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, co
 #endif
 }
 
-void AtomsDlg::SetRadiusType (int type)
-{
-#if 0
-	if (type)
-		type++; //jump GCU_ATOMIC
-	if (type == m_RadiusType)
-		return;
-	int charges[17];
-	memset (charges, 0, 17 * sizeof (int));
-	m_RadiusType = type;
-	if  ((type == GCU_IONIC) && m_Radii) {
-		if (m_Charge)
-			return;
-		const GcuAtomicRadius **radius = m_Radii;
-		while (*radius)
-		{
-			if ((*radius)->type != GCU_IONIC) {
-				radius++;
-				continue;
-			}
-			if (((*radius)->charge < -8) || ((*radius)->charge > 8)) {
-				radius ++;
-				continue;
-			}
-			charges[(*radius)->charge + 8]++;
-			radius++;
-		}
-		int max = 0;
-		m_Charge = 8;
-		for (int i = 0; i < 17; i++) {
-			if (charges[i] > max) {
-				m_Charge = i - 8;
-				max = charges[i];
-			} else if (charges[i] == max) {
-				/*FIXME: This is the most problematic case. The policy here is
-				to take the smallest charge and if the two charges have the same absolute
-				value, take the negative one. We might have something better in gchemutils.*/
-				if ((abs(i - 8) < abs(m_Charge)) || i < 8) {
-					m_Charge = i - 8;
-					max = charges[i];
-				}
-			}
-		}
-	} else
-		m_Charge = 0;
-	gtk_spin_button_set_value (ChargeBtn, m_Charge);
-	PopulateRadiiMenu ();
-#endif
-}
-
-void AtomsDlg::SetRadiusIndex(int index)
-{
-#if 0
-	int i = m_RadiiIndex[index];
-	gtk_widget_set_sensitive(GTK_WIDGET(AtomR), i < 0);
-	if (i >= 0)
-	{
-		m_Radius = *(m_Radii[i]);
-		char buf[20];
-		g_snprintf (buf, sizeof (buf), "%g", m_Radius.value.value);
-		gtk_entry_set_text(AtomR, buf);
-	}
-	else
-	{
-		m_Radius.scale = "custom";
-		m_Radius.spin = GCU_N_A_SPIN;
-		m_Radius.charge = m_Charge;
-		m_Radius.cn = -1;
-		m_Radius.type = (gcu_radius_type)m_RadiusType;
-	}
-#endif
-}
-
 void AtomsDlg::PopulateRadiiMenu ()
 {
-#if 0
 	const GcuAtomicRadius **radius = m_Radii;
 	int i = m_RadiiIndex.size () - 2;
 	g_signal_handler_block (RadiusMenu, m_RadiiSignalID);
-#if GTK_CHECK_VERSION (2, 24, 0)
-	GtkListStore *list = GTK_LIST_STORE (gtk_combo_box_get_model (RadiusMenu));
-	GtkTreeIter iter;
-	gtk_list_store_clear (list);
-#else
 	for (int j = 0; j <= i; j++)
-		gtk_combo_box_remove_text (RadiusMenu, 1);
-#endif
+		gtk_combo_box_text_remove (RadiusMenu, 1);
 	m_RadiiIndex.clear ();
 	string str;
 	m_RadiiIndex.push_back (-1);
@@ -629,18 +583,12 @@ void AtomsDlg::PopulateRadiiMenu ()
 				str += string(" (") + string(((*radius)->spin == GCU_LOW_SPIN)? _("low spin"): _("high spin")) + string(")");
 			if (!str.length())
 				str = _("Database");
-#if GTK_CHECK_VERSION (2, 24, 0)
-			gtk_list_store_append (list, &iter);
-			gtk_list_store_set (list, &iter, 0, str.c_str (), -1);
-#else
-			gtk_combo_box_append_text (RadiusMenu, str.c_str ());
-#endif
+			gtk_combo_box_text_append_text (RadiusMenu, str.c_str ());
 			m_RadiiIndex.push_back(i++);
 			radius++;
 		}
 	g_signal_handler_unblock (RadiusMenu, m_RadiiSignalID);
-	gtk_combo_box_set_active (RadiusMenu, 0);
-#endif
+	gtk_combo_box_set_active (GTK_COMBO_BOX (RadiusMenu), 0);
 }
 
 }	//	namespace gcr

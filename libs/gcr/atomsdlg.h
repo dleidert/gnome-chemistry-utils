@@ -46,13 +46,10 @@ public:
 	virtual ~AtomsDlg ();
 
 	virtual bool Apply ();
-	void AtomAdd ();
 	void AtomDelete ();
-	void AtomDeleteAll ();
 	void AtomSelect (GtkTreeSelection *Selection);
 	void OnElement (guint Z);
 	void OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
-	void SetRadiusType (int type);
 	void SetRadiusIndex (int index);
 
 private:
@@ -69,14 +66,14 @@ private:
 	GtkEntry *AtomR;
 	unsigned short m_nElt;
 	std::vector < Atom * > m_Atoms;
-	gint m_AtomSelected;
+	int m_AtomSelected;
 	GtkTreeIter m_Iter;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
 	GtkComboBoxText *RadiusTypeMenu, *RadiusMenu, *ApplyBtn;
 	GtkSpinButton *ChargeBtn, *ScaleBtn;
 	const GcuAtomicRadius **m_Radii;
 	GcuAtomicRadius m_Radius;
-	gint m_RadiusType, m_Charge;
+	int m_RadiusType, m_Charge;
 	vector<int> m_RadiiIndex;
 	unsigned long m_RadiiSignalID;
 };
