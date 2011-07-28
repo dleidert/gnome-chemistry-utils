@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkAdjustment" id="temp-adj">
+    <property name="upper">6010</property>
+    <property name="value">298</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkGrid" id="state-thermometer">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -22,7 +28,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkHScale" id="temperature">
+      <object class="GtkScale" id="temperature">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="adjustment">temp-adj</property>
@@ -79,11 +85,5 @@
         <property name="height">1</property>
       </packing>
     </child>
-  </object>
-  <object class="GtkAdjustment" id="temp-adj">
-    <property name="upper">6010</property>
-    <property name="value">298</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
   </object>
 </interface>

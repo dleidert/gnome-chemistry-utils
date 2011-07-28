@@ -45,13 +45,6 @@ public:
 	AtomsDlg (Application *App, Document* pDoc);
 	virtual ~AtomsDlg ();
 
-	virtual bool Apply ();
-	void AtomDelete ();
-	void AtomSelect (GtkTreeSelection *Selection);
-	void OnElement (guint Z);
-	void OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
-	void SetRadiusIndex (int index);
-
 private:
 	void PopulateRadiiMenu ();
 

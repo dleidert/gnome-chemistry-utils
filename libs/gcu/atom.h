@@ -146,14 +146,17 @@ Removes a Bond.
 @return the x coordinate of this Atom.
 */
 	double x () const {return m_x;}
+	double &x () {return m_x;}
 /*!
 @return the y coordinate of this Atom.
 */
 	double y () const {return m_y;}
+	double &y () {return m_y;}
 /*!
 @return the z coordinate of this Atom.
 */
 	double z () const {return m_z;}
+	double &z () {return m_z;}
 /*!
 @return a Vector with the three Atom space coordinates.
 */

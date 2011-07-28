@@ -824,6 +824,12 @@ double gcr_grid_get_double (GcrGrid *grid, unsigned row, unsigned column)
 		-atof (grid->row_data[row][column].c_str ());
 }
 
+char const *gcr_grid_get_string (GcrGrid *grid, unsigned row, unsigned column)
+{
+	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_STRING, false);
+	return grid->row_data[row][column].c_str ();
+}
+
 bool gcr_grid_get_boolean (GcrGrid *grid, unsigned row, unsigned column)
 {
 	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_BOOLEAN, false);
@@ -858,6 +864,13 @@ void gcr_grid_set_double (GcrGrid *grid, unsigned row, unsigned column, double v
 	char *buf = g_strdup_printf ("%g", value);
 	grid->row_data[row][column] = buf;
 	g_free (buf);
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
+}
+
+void gcr_grid_set_string (GcrGrid *grid, unsigned row, unsigned column, char const *value)
+{
+	g_return_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_STRING);
+	grid->row_data[row][column] = value;
 	gtk_widget_queue_draw (GTK_WIDGET (grid));
 }
 

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-07-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: update element and coordinates.
+	* libs/gcr/atomsdlg.h: cleaned out all deprecated methods.
+	* libs/gcr/grid.cc: implement get/set_string.
+	* libs/gcr/grid.h: ditto.
+	* libs/gcu/atom.h: add new coordinates accessors.
+	* ui/table/state-thermometer.ui: fixed the adjustment.
+
 2011-07-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: redesign progress.
 	* libs/gcr/atomsdlg.h: ditto.
