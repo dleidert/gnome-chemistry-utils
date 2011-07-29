@@ -67,6 +67,7 @@ public:
 	static void ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox);
 	static void RadiusTypeChanged (GtkComboBox *menu, AtomsDlg *pBox);
 	static void RadiusIndexChanged(GtkComboBox *menu, AtomsDlg *pBox);
+	static bool RadiusEdited (AtomsDlg *pBox);
 };
 
 void AtomsDlgPrivate::AddRow (AtomsDlg *pBox)
@@ -161,7 +162,7 @@ void AtomsDlgPrivate::ElementChanged (AtomsDlg *pBox, unsigned Z)
 	}
 	if (pBox->m_AtomSelected >= 0) {
 		pBox->m_Atoms[pBox->m_AtomSelected]->SetZ (Z);
-		gcr_grid_set_string (pBox->m_Grid, pBox->m_AtomSelected, 0, Element::GetElement (Z)->GetSymbol ());
+		gcr_grid_set_string (pBox->m_Grid, pBox->m_AtomSelected, 0, Z > 0? Element::GetElement (Z)->GetSymbol (): _("Unknown"));
 		// FIXME: set the radius and color if needed
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
@@ -241,7 +242,7 @@ void AtomsDlgPrivate::RadiusTypeChanged (GtkComboBox *menu, AtomsDlg *pBox)
 	pBox->PopulateRadiiMenu ();
 }
 
-void AtomsDlgPrivate::RadiusIndexChanged(GtkComboBox *menu, AtomsDlg *pBox)
+void AtomsDlgPrivate::RadiusIndexChanged (GtkComboBox *menu, AtomsDlg *pBox)
 {
 //	pBox->SetRadiusIndex (gtk_combo_box_get_active (menu));
 	int i = pBox->m_RadiiIndex[gtk_combo_box_get_active (menu)];
@@ -258,6 +259,17 @@ void AtomsDlgPrivate::RadiusIndexChanged(GtkComboBox *menu, AtomsDlg *pBox)
 		pBox->m_Radius.cn = -1;
 		pBox->m_Radius.type = static_cast < gcu_radius_type > (pBox->m_RadiusType);
 	}
+}
+
+bool AtomsDlgPrivate::RadiusEdited (AtomsDlg *pBox)
+{
+	if (pBox->m_Radius.type != GCU_RADIUS_UNKNOWN)
+		return true; // don't care
+	g_signal_handler_block (pBox->AtomR, pBox->m_EntryFocusOutSignalID);
+	if (pBox->GetNumber (pBox->AtomR, &(pBox->m_Radius.value.value), gcugtk::Min, 0) && pBox->m_AtomSelected >=0) {
+	}
+	g_signal_handler_unblock (pBox->AtomR, pBox->m_EntryFocusOutSignalID);
+	return true;
 }
 
 AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
@@ -302,6 +314,8 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	RadiusMenu = GTK_COMBO_BOX_TEXT (GetWidget ("radius-menu"));
 	m_RadiiSignalID = g_signal_connect (G_OBJECT (RadiusMenu), "changed", G_CALLBACK (AtomsDlgPrivate::RadiusIndexChanged), this);
 	AtomR = GTK_ENTRY (GetWidget ("atomr"));
+	g_signal_connect_swapped (G_OBJECT (AtomR), "activate", G_CALLBACK (AtomsDlgPrivate::RadiusEdited), this);
+	m_EntryFocusOutSignalID = g_signal_connect_swapped (G_OBJECT (AtomR), "focus-out-event", G_CALLBACK (AtomsDlgPrivate::RadiusEdited), this);
 	ScaleBtn = GTK_SPIN_BUTTON (GetWidget ("scale-btn"));
 	ApplyBtn = GTK_COMBO_BOX_TEXT (GetWidget ("apply-to-box"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (ApplyBtn), 1);

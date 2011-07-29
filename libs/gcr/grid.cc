@@ -80,6 +80,8 @@ typedef struct
 
 static bool gcr_grid_validate_change (GcrGrid *grid)
 {
+	if (grid->row < 0 || grid->col < 0)
+		return true;
 	std::string new_string = grid->row_data[grid->row][grid->col];
 	if (new_string == *grid->orig_string)
 		return true;
@@ -126,8 +128,33 @@ static bool gcr_grid_validate_change (GcrGrid *grid)
 			g_signal_emit (grid, gcr_grid_signals[VALUE_CHANGED], 0, grid->row, grid->col);
 		return true;
 	}
-	case G_TYPE_DOUBLE:
-		break;
+	case G_TYPE_DOUBLE: {
+		double orig, next;
+		bool neg = !grid->orig_string->compare (0, strlen ("−"), "−");
+		char const *str = grid->orig_string->c_str ();
+		char *buf;
+		if (neg)
+			str += strlen ("−");
+		orig = strtod (str, NULL);
+		if (neg)
+			orig = -orig;
+		neg = !new_string.compare (0, strlen ("−"), "−");
+		str = new_string.c_str ();
+		if (neg)
+			str += strlen ("−");
+		next = strtod (str, &buf);
+		if (neg)
+			next = -next;
+		if (buf && *buf)
+			goto error_handler;
+		buf = (next < 0)? g_strdup_printf ("−%f", -next): g_strdup_printf ("%f", next);
+		grid->row_data[grid->row][grid->col] = buf;
+		grid->sel_start = grid->cursor_index = strlen (buf);
+		g_free (buf);
+		if (orig != next)
+			g_signal_emit (grid, gcr_grid_signals[VALUE_CHANGED], 0, grid->row, grid->col);
+		return true;
+	}
 	case G_TYPE_BOOLEAN:
 		break;
 	default:
@@ -290,6 +317,20 @@ static void gcr_grid_unrealize (GtkWidget *w)
 	if (grid->cursor_signal > 0)
 		g_source_remove (grid->cursor_signal);
 	parent_class->unrealize (w);
+}
+
+static gboolean gcr_grid_focus_out_event (GtkWidget *widget, G_GNUC_UNUSED GdkEventFocus *event)
+{
+	GcrGrid *grid = GCR_GRID (widget);
+	if (!gcr_grid_validate_change (grid))
+		gtk_widget_grab_focus (widget);
+	else {
+		g_source_remove (grid->cursor_signal);
+		grid->cursor_signal = 0;
+		grid->col = -1;
+		gtk_widget_queue_draw (widget);
+	}
+	return true;
 }
 
 static void gcr_grid_finalize (GObject *obj)
@@ -596,11 +637,45 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	case GDK_KEY_BackSpace:
 		break;
 	case GDK_KEY_period:
+		if (grid->types[new_col] != G_TYPE_DOUBLE ||
+		    strcmp (go_locale_get_decimal ()->str, ".") ||
+		    strchr (grid->row_data[new_row][new_col].c_str (), '.') != NULL)
+			return true;
+		new_char = '.';
 		break;
 	case GDK_KEY_comma:
+		if (grid->types[new_col] != G_TYPE_DOUBLE ||
+		    strcmp (go_locale_get_decimal ()->str, ",") ||
+		    strchr (grid->row_data[new_row][new_col].c_str (), ',') != NULL)
+			return true;
+		new_char = ',';
 		break;
-	case GDK_KEY_KP_Decimal:
+	case GDK_KEY_KP_Decimal: {
+		if (grid->types[new_col] != G_TYPE_DOUBLE ||
+		    strstr (grid->row_data[new_row][new_col].c_str (), go_locale_get_decimal ()->str) != NULL)
+			return true;
+		// don't add aanything before the minus sign
+		if (new_index == 0 && grid->sel_start == 0 && !grid->row_data[new_row][new_col].compare (0, strlen ("−"), "−"))
+			return true;
+		// first delete the selected chars if any
+		if (new_index != grid->sel_start) {
+			int length;
+			if (new_index < grid->sel_start)
+				length = grid->sel_start - new_index;
+			else {
+				length = new_index - grid->sel_start;
+				new_index = grid->sel_start;
+			}
+			grid->row_data[new_row][new_col].erase (new_index, length);
+		}
+		if (grid->cursor_index == 0 && !strncmp (grid->row_data[new_row][new_col].c_str (), "−", strlen ("−")))
+		    return true;	// do not insert a figure before the minus sign
+		// insert the new char(s)
+		grid->row_data[new_row][new_col].insert (new_index, go_locale_get_decimal ()->str);
+		new_index += go_locale_get_decimal ()->len;
+		grid->sel_start = new_index;
 		break;
+	}
 	case GDK_KEY_space:
 		if (grid->types[new_col] != G_TYPE_BOOLEAN)
 			return true;
@@ -667,6 +742,7 @@ static void gcr_grid_class_init (GtkWidgetClass *klass)
 	klass->button_press_event = gcr_grid_button_press_event;
 	klass->scroll_event = gcr_grid_scroll_event;
 	klass->key_press_event = gcr_grid_key_press_event;
+	klass->focus_out_event = gcr_grid_focus_out_event;
 	reinterpret_cast < GObjectClass * > (klass)->finalize = gcr_grid_finalize;
 	klass->get_preferred_height = gcr_grid_get_preferred_height;
 	klass->get_preferred_width = gcr_grid_get_preferred_width;

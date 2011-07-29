@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-07-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: somework on radii.
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/grid.cc: support double numbers edition.
+	* libs/gcugtk/message.cc: fixed a crasher.
+
 2011-07-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: update element and coordinates.
 	* libs/gcr/atomsdlg.h: cleaned out all deprecated methods.

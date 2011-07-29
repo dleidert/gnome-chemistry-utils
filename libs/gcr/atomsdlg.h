@@ -68,7 +68,7 @@ private:
 	GcuAtomicRadius m_Radius;
 	int m_RadiusType, m_Charge;
 	vector<int> m_RadiiIndex;
-	unsigned long m_RadiiSignalID;
+	unsigned long m_RadiiSignalID, m_EntryFocusOutSignalID;
 };
 
 }	//	namespace gcr

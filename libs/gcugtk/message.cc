@@ -82,7 +82,6 @@ Message::~Message ()
 int Message::Run ()
 {
 	gint res = gtk_dialog_run (m_Window);
-	delete this;
 	return res;
 }
 
