@@ -234,7 +234,7 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 	cairo_rectangle (cr, grid->header_width, y, alloc.width - grid->header_width, alloc.height - y);
 	cairo_clip (cr);
 	// show a rectangle around current selection
-	if (grid->row >= 0) {
+	if (grid->row >= 0 && grid->col >= 0) {
 		pos = grid->header_width;
 		for (i = 0; static_cast < int > (i) < grid->col; i++)
 			pos += grid->col_widths[i];
@@ -404,14 +404,12 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 					break;
 				}
 			}
-		if (new_col < 0)
-			new_row = -1;
 	}
 	if (grid->col != new_col || grid->row != new_row) {
 		if (grid->row >= 0 && !gcr_grid_validate_change (grid))
 			return true;
-		if (new_col < 0 || !grid->editable[new_col])
-			new_row = new_col = -1;
+		if (!grid->editable[new_col])
+			new_col = -1;
 		if (new_row != grid->row)
 			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
 		grid->col = new_col;

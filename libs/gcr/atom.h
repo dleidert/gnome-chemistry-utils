@@ -104,6 +104,7 @@ Used to retrieve the color used in the representation of the atom. Mainly useful
 colors.
 */
 	void GetColor (double *red, double *green, double *blue, double *alpha);
+	void GetColor (GdkRGBA &rgba);
 /*!
 @param r: the new value of the atomic radius.
 

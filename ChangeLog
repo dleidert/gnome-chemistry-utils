@@ -1,7 +1,14 @@
 ##Text encoding: utf-8
 
+2011-08-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atom.cc: add new GetColor(GdkRBGA&) method.
+	* libs/gcr/atom.h: ditto.
+	* libs/gcr/atomsdlg.cc: work on atom color and radius. 
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/grid.cc: don't diplay the cursor when column < 0.
+
 2011-07-29  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gcr/atomsdlg.cc: somework on radii.
+	* libs/gcr/atomsdlg.cc: some work on radii.
 	* libs/gcr/atomsdlg.h: ditto.
 	* libs/gcr/grid.cc: support double numbers edition.
 	* libs/gcugtk/message.cc: fixed a crasher.

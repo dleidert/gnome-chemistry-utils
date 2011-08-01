@@ -133,6 +133,14 @@ void Atom::GetColor (double *red, double *green, double *blue, double *alpha)
 	*alpha = m_fAlpha ;
 }
 
+void Atom::GetColor (GdkRGBA &rgba)
+{
+	rgba.red = m_fRed ;
+	rgba.green = m_fGreen ;
+	rgba.blue = m_fBlue ;
+	rgba.alpha = m_fAlpha ;
+}
+
 void Atom::SetSize (double r)
 {
 	m_Radius.Z = (unsigned char) GetZ();

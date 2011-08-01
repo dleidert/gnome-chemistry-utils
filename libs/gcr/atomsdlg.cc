@@ -63,6 +63,7 @@ public:
 	static void ValueChanged (AtomsDlg *pBox, unsigned row, unsigned column);
 	static void RowSelected (AtomsDlg *pBox, int row);
 	static void ElementChanged (AtomsDlg *pBox, unsigned Z);
+	static void ColorSet (GtkColorButton *btn, AtomsDlg *pBox);
 	static void ColorToggled (GtkToggleButton *btn, AtomsDlg *pBox);
 	static void ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox);
 	static void RadiusTypeChanged (GtkComboBox *menu, AtomsDlg *pBox);
@@ -77,7 +78,10 @@ void AtomsDlgPrivate::AddRow (AtomsDlg *pBox)
 		new_atom = new Atom (*pBox->m_Atoms[pBox->m_AtomSelected]);
 	else {
 		new_atom = new Atom (pBox->m_nElt, 0., 0., 0.);
-		// FIXME: set current color and radius?
+		new_atom->SetRadius (pBox->m_Radius);
+		GdkRGBA rgba;
+		gtk_color_button_get_rgba (pBox->AtomColor, &rgba);
+		new_atom->SetColor (rgba.red, rgba.green, rgba.blue, rgba.alpha);
 	}
 	unsigned new_row = gcr_grid_append_row (pBox->m_Grid,
 	                                        (new_atom->GetZ ())? Element::Symbol (new_atom->GetZ ()): _("Unknown"),
@@ -137,10 +141,34 @@ void AtomsDlgPrivate::RowSelected (AtomsDlg *pBox, int row)
 {
 	pBox->m_AtomSelected = row;
 	gtk_widget_set_sensitive (pBox->DeleteBtn, row >= 0);
+	if (row >= 0) {
+		pBox->m_nElt = pBox->m_Atoms[row]->GetZ ();
+		// update the color
+		g_signal_handler_block (pBox->AtomColor, pBox->m_ColorSignalID);
+		GdkRGBA rgba, color;
+		pBox->m_Atoms[row]->GetColor (rgba);
+		gtk_color_button_set_rgba (pBox->AtomColor, &rgba);
+		g_signal_handler_unblock (pBox->AtomColor, pBox->m_ColorSignalID);
+		if (pBox->m_nElt) {
+			double *Colors = Element::GetElement (pBox->m_nElt)->GetDefaultColor ();
+			color.red = Colors[0];
+			color.green = Colors[1];
+			color.blue = Colors[2];
+			color.alpha = 1.;
+			gtk_toggle_button_set_active (pBox->CustomColor,
+			                              color.red != rgba.red ||
+				                          color.green != rgba.green ||
+				                          color.blue != rgba.blue ||
+				                          color.alpha != rgba.alpha);
+		} else
+			gtk_toggle_button_set_active (pBox->CustomColor, true);
+		// FIXME: manage radii
+	}
 }
 
 void AtomsDlgPrivate::ElementChanged (AtomsDlg *pBox, unsigned Z)
 {
+	GdkRGBA color;
 	if ((pBox->m_nElt = Z)) {
 		pBox->m_Radii = Element::GetElement (Z)->GetRadii ();
 		if ((pBox->m_RadiusType == GCU_IONIC) && (pBox->m_Charge == 0)) {
@@ -150,7 +178,6 @@ void AtomsDlgPrivate::ElementChanged (AtomsDlg *pBox, unsigned Z)
 			pBox->PopulateRadiiMenu ();
 		gtk_toggle_button_set_active (pBox->CustomColor, false);
 		double *Colors = Element::GetElement (Z)->GetDefaultColor ();
-		GdkRGBA color;
 		color.red = Colors[0];
 		color.green = Colors[1];
 		color.blue = Colors[2];
@@ -159,11 +186,24 @@ void AtomsDlgPrivate::ElementChanged (AtomsDlg *pBox, unsigned Z)
 	} else {
 		pBox->m_Radii = NULL;
 		gtk_toggle_button_set_active (pBox->CustomColor, true);
+		gtk_color_button_get_rgba (pBox->AtomColor, &color);
 	}
 	if (pBox->m_AtomSelected >= 0) {
 		pBox->m_Atoms[pBox->m_AtomSelected]->SetZ (Z);
 		gcr_grid_set_string (pBox->m_Grid, pBox->m_AtomSelected, 0, Z > 0? Element::GetElement (Z)->GetSymbol (): _("Unknown"));
-		// FIXME: set the radius and color if needed
+		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
+		pBox->m_Atoms[pBox->m_AtomSelected]->SetColor (color.red, color.green, color.blue, color.alpha);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
+}
+
+void AtomsDlgPrivate::ColorSet (GtkColorButton *btn, AtomsDlg *pBox)
+{
+	if (pBox->m_AtomSelected >= 0) {
+		GdkRGBA rgba;
+		gtk_color_button_get_rgba (btn, &rgba);
+		pBox->m_Atoms[pBox->m_AtomSelected]->SetColor (rgba.red, rgba.green, rgba.blue, rgba.alpha);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
 	}
@@ -191,6 +231,11 @@ void AtomsDlgPrivate::ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox)
 	if (index >= 0)
 		gtk_combo_box_set_active (GTK_COMBO_BOX (pBox->RadiusTypeMenu), index);
 	pBox->PopulateRadiiMenu ();
+	if (pBox->m_AtomSelected >= 0) {
+		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
 }
 
 void AtomsDlgPrivate::RadiusTypeChanged (GtkComboBox *menu, AtomsDlg *pBox)
@@ -240,6 +285,11 @@ void AtomsDlgPrivate::RadiusTypeChanged (GtkComboBox *menu, AtomsDlg *pBox)
 		pBox->m_Charge = 0;
 	gtk_spin_button_set_value (pBox->ChargeBtn, pBox->m_Charge);
 	pBox->PopulateRadiiMenu ();
+	if (pBox->m_AtomSelected >= 0) {
+		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
 }
 
 void AtomsDlgPrivate::RadiusIndexChanged (GtkComboBox *menu, AtomsDlg *pBox)
@@ -259,17 +309,25 @@ void AtomsDlgPrivate::RadiusIndexChanged (GtkComboBox *menu, AtomsDlg *pBox)
 		pBox->m_Radius.cn = -1;
 		pBox->m_Radius.type = static_cast < gcu_radius_type > (pBox->m_RadiusType);
 	}
+	if (pBox->m_AtomSelected >= 0) {
+		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
 }
 
 bool AtomsDlgPrivate::RadiusEdited (AtomsDlg *pBox)
 {
 	if (pBox->m_Radius.type != GCU_RADIUS_UNKNOWN)
-		return true; // don't care
+		return false; // don't care
 	g_signal_handler_block (pBox->AtomR, pBox->m_EntryFocusOutSignalID);
-	if (pBox->GetNumber (pBox->AtomR, &(pBox->m_Radius.value.value), gcugtk::Min, 0) && pBox->m_AtomSelected >=0) {
+	if (pBox->GetNumber (pBox->AtomR, &(pBox->m_Radius.value.value), gcugtk::Min, 0) && pBox->m_AtomSelected >= 0) {
+		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
 	}
 	g_signal_handler_unblock (pBox->AtomR, pBox->m_EntryFocusOutSignalID);
-	return true;
+	return false;
 }
 
 AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
@@ -303,6 +361,7 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	if (Atoms->empty ())
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
 	AtomColor = GTK_COLOR_BUTTON (GetWidget ("color"));
+	m_ColorSignalID = g_signal_connect (G_OBJECT (AtomColor), "color-set", G_CALLBACK (AtomsDlgPrivate::ColorSet), this);
 	CustomColor = GTK_TOGGLE_BUTTON (GetWidget ("custom_color"));
 	gtk_toggle_button_set_active (CustomColor, true);
 	g_signal_connect (G_OBJECT (CustomColor), "toggled", G_CALLBACK (AtomsDlgPrivate::ColorToggled), this);
