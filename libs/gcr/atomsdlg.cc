@@ -78,6 +78,7 @@ void AtomsDlgPrivate::AddRow (AtomsDlg *pBox)
 		new_atom = new Atom (*pBox->m_Atoms[pBox->m_AtomSelected]);
 	else {
 		new_atom = new Atom (pBox->m_nElt, 0., 0., 0.);
+		// FIXME: keep the radius value, but the scale should be overriden
 		new_atom->SetRadius (pBox->m_Radius);
 		GdkRGBA rgba;
 		gtk_color_button_get_rgba (pBox->AtomColor, &rgba);
@@ -156,10 +157,10 @@ void AtomsDlgPrivate::RowSelected (AtomsDlg *pBox, int row)
 			color.blue = Colors[2];
 			color.alpha = 1.;
 			gtk_toggle_button_set_active (pBox->CustomColor,
-			                              color.red != rgba.red ||
-				                          color.green != rgba.green ||
-				                          color.blue != rgba.blue ||
-				                          color.alpha != rgba.alpha);
+			                              static_cast < float > (color.red) != static_cast < float > (rgba.red) ||
+				                          static_cast < float > (color.green) != static_cast < float > (rgba.green) ||
+				                          static_cast < float > (color.blue) != static_cast < float > (rgba.blue) ||
+				                          static_cast < float > (color.alpha) != static_cast < float > (rgba.alpha));
 		} else
 			gtk_toggle_button_set_active (pBox->CustomColor, true);
 		// FIXME: manage radii
@@ -231,6 +232,7 @@ void AtomsDlgPrivate::ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox)
 	if (index >= 0)
 		gtk_combo_box_set_active (GTK_COMBO_BOX (pBox->RadiusTypeMenu), index);
 	pBox->PopulateRadiiMenu ();
+	// FIXME: we might have to apply to all atoms of the current element
 	if (pBox->m_AtomSelected >= 0) {
 		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
 		pBox->m_pDoc->Update ();

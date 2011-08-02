@@ -124,7 +124,7 @@ AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
 
 libgoffice=
 dnl Only 0.9.0, or later will work
-for ver in 1.0 ; do
+for ver in 0.10 ; do
   if test "x$libgoffice" = x; then
     if pkg-config --exists libgoffice-$ver; then
       libgoffice=libgoffice-$ver
@@ -133,7 +133,7 @@ for ver in 1.0 ; do
 done
 if test "x$libgoffice" = x; then
   # Not important.  Things will fail below.
-  libgoffice=libgoffice-1.0
+  libgoffice=libgoffice-0.10
 fi
 
 PKG_CHECK_MODULES(shared_mime_info, [shared-mime-info >= 0.12])
@@ -282,7 +282,7 @@ AC_SUBST([mozlibdir])
 ##################################################
 
 libspreadsheet=
-for ver in 2.0 ; do
+for ver in 1.12 ; do
   if test "x$libspreadsheet" = x; then
     if pkg-config --exists libspreadsheet-$ver; then
       libspreadsheet=libspreadsheet-$ver
@@ -291,7 +291,7 @@ for ver in 2.0 ; do
 done
 if test "x$libspreadsheet" = x; then
   # Not important.  Things will fail below.
-  libspreadsheet=libspreadsheet-2.0
+  libspreadsheet=libspreadsheet-1.12
 fi
 
 PKG_CHECK_MODULES(gnumeric, [$libspreadsheet >= 1.11.0], [build_gnumeric_plugin=yes],

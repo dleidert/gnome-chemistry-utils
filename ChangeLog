@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-08-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed goffice and gnumeric API versions.
+	* libs/gcr/atomsdlg.cc: make color changes really work.
+	* libs/gcr/grid.cc: improve navigation, and implement delete ans backspace.
+
 2011-08-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atom.cc: add new GetColor(GdkRBGA&) method.
 	* libs/gcr/atom.h: ditto.

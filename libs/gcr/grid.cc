@@ -55,6 +55,7 @@ struct _GcrGrid
 	bool cursor_visible;
 	unsigned long cursor_signal;
 	std::string *orig_string;
+	int can_edit;
 };
 
 static GtkWidgetClass *parent_class;
@@ -390,7 +391,7 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 		return false;	// FIXME: at least middle buttons should be accepted to paste data
 	GcrGrid *grid = GCR_GRID (widget);
 	int x = grid->first_visible + event->y / grid->row_height - 1, i, new_row, new_col;
-	new_row = (x < 0 || x > static_cast < int > (grid->rows))? -1: x;
+	new_row = (x < 0 || x >= static_cast < int > (grid->rows))? -1: x;
 	if (new_row < 0)
 		new_col = -1;
 	else {
@@ -475,24 +476,35 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	switch (event->keyval) {
 	case GDK_KEY_Tab:
 	case GDK_KEY_ISO_Left_Tab:
-		if (!gcr_grid_validate_change (grid))
-			return true;
 		if (event->state & GDK_CONTROL_MASK)
 			return false; // give up the grab
-		if (event->state & GDK_SHIFT_MASK) {
-			if (new_col > 0)
-				new_col--;
-			else if (new_row > 0) {
-				new_row--;
-				new_col = grid->cols - 1;
-			}
-		} else if (grid->col < static_cast < int > (grid->cols) - 1)
-			new_col++;
-		else if (grid->row < static_cast < int > (grid->rows) - 1) {
-			new_row++;
-			new_col = 0;
-		} else
+		if (grid->col > 0 && !gcr_grid_validate_change (grid))
 			return true;
+		if (grid->can_edit == 0 && (new_row + 1 < static_cast < int > (grid->rows))) {
+			new_row++;
+			break;
+		}
+		if (event->state & GDK_SHIFT_MASK) {
+			do {
+				if (new_col > 0)
+					new_col--;
+				else if (new_row > 0) {
+					new_row--;
+					new_col = grid->cols - 1;
+				} else
+					return true;
+			} while (!grid->editable[new_col]);
+		} else {
+			do {
+				if (new_col < static_cast < int > (grid->cols) - 1)
+					new_col++;
+				else if (new_row < static_cast < int > (grid->rows) - 1) {
+					new_row++;
+					new_col = 0;
+				} else
+					return true;
+			} while (!grid->editable[new_col]);
+		}
 		new_index = grid->row_data[new_row][new_col].length ();
 		grid->sel_start = 0;
 		break;
@@ -503,12 +515,15 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 			if ((event->state & GDK_SHIFT_MASK) == 0)
 				grid->sel_start = new_index;
 		} else {
-			if (new_col > 0)
-				new_col--;
-			else if (new_row > 0) {
-				new_row--;
-				new_col = grid->cols - 1;
-			}
+			do {
+				if (new_col > 0)
+					new_col--;
+				else if (new_row > 0) {
+					new_row--;
+					new_col = grid->cols - 1;
+				} else
+					return true;
+			} while (!grid->editable[new_col]);
 			new_index = grid->row_data[new_row][new_col].length ();
 		}
 		break;
@@ -519,13 +534,15 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 			if ((event->state & GDK_SHIFT_MASK) == 0)
 				grid->sel_start = new_index;
 		} else {
-			if (new_col < static_cast < int > (grid->cols) - 1)
-				new_col++;
-			else if (grid->row < static_cast < int > (grid->rows) - 1) {
-				new_row++;
-				new_col = 0;
-			} else
-				return true;
+			do {
+				if (new_col < static_cast < int > (grid->cols) - 1)
+					new_col++;
+				else if (grid->row < static_cast < int > (grid->rows) - 1) {
+					new_row++;
+					new_col = 0;
+				} else
+					return true;
+			} while (!grid->editable[new_col]);
 			new_index = 0;
 		}
 		break;
@@ -628,11 +645,37 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		if (new_index <= 0)
 			return true;
 		gcr_grid_validate_change (grid);
-		break;
+		return true;
 	case GDK_KEY_Delete:
 	case GDK_KEY_KP_Delete:
+		if (grid->sel_start == grid->cursor_index) {
+			if (grid->sel_start == static_cast < int > (grid->row_data[new_row][new_col].length ()))
+				return true;
+			char const *start =  grid->row_data[new_row][new_col].c_str () + grid->sel_start, *end;
+			end = g_utf8_next_char (start);
+			grid->cursor_index = grid->sel_start + (end - start);
+		} else if (grid->sel_start > grid->cursor_index) {
+			int buf = grid->sel_start;
+			grid->sel_start = grid->cursor_index;
+			grid->cursor_index = buf;
+		}
+		grid->row_data[new_row][new_col].erase (grid->sel_start, grid->cursor_index - grid->sel_start);
+		new_index = grid->sel_start;
 		break;
 	case GDK_KEY_BackSpace:
+		if (grid->sel_start == grid->cursor_index) {
+			if (grid->sel_start == 0)
+				return true;
+			char const *start =  grid->row_data[new_row][new_col].c_str () + grid->sel_start, *end;
+			end = g_utf8_prev_char (start);
+			grid->sel_start = grid->cursor_index - (start - end);
+		} else if (grid->sel_start > grid->cursor_index) {
+			int buf = grid->sel_start;
+			grid->sel_start = grid->cursor_index;
+			grid->cursor_index = buf;
+		}
+		grid->row_data[new_row][new_col].erase (grid->sel_start, grid->cursor_index - grid->sel_start);
+		new_index = grid->sel_start;
 		break;
 	case GDK_KEY_period:
 		if (grid->types[new_col] != G_TYPE_DOUBLE ||
@@ -858,6 +901,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 		grid->types[i] = *type;
 		grid->editable[i] = true;
 	}
+	grid->can_edit = grid->cols;
 	grid->width += grid->cols_min_width;
 	g_object_unref (layout);
 	GdkRGBA rgba = {1.0, 1.0, 1.0, 1.0};
@@ -1039,7 +1083,11 @@ void gcr_grid_delete_all (GcrGrid *grid)
 void gcr_grid_customize_column (GcrGrid *grid, unsigned column, unsigned chars, bool editable)
 {
 	g_return_if_fail (GCR_IS_GRID (grid) && column < grid->cols);
+	if (grid->editable[column])
+		grid->can_edit--;
 	grid->editable[column] = editable;
+	if (editable)
+		grid->can_edit++;
 	PangoLayout *l = gtk_widget_create_pango_layout (reinterpret_cast <GtkWidget *> (grid), grid->titles[column].c_str ());
 	int width, title_width;
 	pango_layout_get_pixel_size (l, &title_width, NULL);
