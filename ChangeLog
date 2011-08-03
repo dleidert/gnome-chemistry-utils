@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-08-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: take radius sclaing into account.
+	* libs/gcr/atomsdlg.h: ditto.
+
 2011-08-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: fixed goffice and gnumeric API versions.
 	* libs/gcr/atomsdlg.cc: make color changes really work.

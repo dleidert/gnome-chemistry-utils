@@ -69,6 +69,7 @@ public:
 	static void RadiusTypeChanged (GtkComboBox *menu, AtomsDlg *pBox);
 	static void RadiusIndexChanged(GtkComboBox *menu, AtomsDlg *pBox);
 	static bool RadiusEdited (AtomsDlg *pBox);
+	static void RadiusScaleChanged (GtkSpinButton *btn, AtomsDlg *pBox);
 };
 
 void AtomsDlgPrivate::AddRow (AtomsDlg *pBox)
@@ -80,6 +81,7 @@ void AtomsDlgPrivate::AddRow (AtomsDlg *pBox)
 		new_atom = new Atom (pBox->m_nElt, 0., 0., 0.);
 		// FIXME: keep the radius value, but the scale should be overriden
 		new_atom->SetRadius (pBox->m_Radius);
+		new_atom->SetEffectiveRadiusRatio (gtk_spin_button_get_value (pBox->ScaleBtn));
 		GdkRGBA rgba;
 		gtk_color_button_get_rgba (pBox->AtomColor, &rgba);
 		new_atom->SetColor (rgba.red, rgba.green, rgba.blue, rgba.alpha);
@@ -163,6 +165,13 @@ void AtomsDlgPrivate::RowSelected (AtomsDlg *pBox, int row)
 				                          static_cast < float > (color.alpha) != static_cast < float > (rgba.alpha));
 		} else
 			gtk_toggle_button_set_active (pBox->CustomColor, true);
+		pBox->m_Radius = pBox->m_Atoms[row]->GetRadius ();
+		// set the charge
+		g_signal_handler_block (pBox->ChargeBtn, pBox->m_ChargeSignalID);
+		gtk_spin_button_set_value (pBox->ChargeBtn, pBox->m_Radius.charge);
+		g_signal_handler_unblock (pBox->ChargeBtn, pBox->m_ChargeSignalID);
+		// last, radii
+		pBox->PopulateRadiiMenu ();
 		// FIXME: manage radii
 	}
 }
@@ -234,6 +243,7 @@ void AtomsDlgPrivate::ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox)
 	pBox->PopulateRadiiMenu ();
 	// FIXME: we might have to apply to all atoms of the current element
 	if (pBox->m_AtomSelected >= 0) {
+		pBox->m_Atoms[pBox->m_AtomSelected]->SetCharge (charge);
 		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
@@ -332,6 +342,12 @@ bool AtomsDlgPrivate::RadiusEdited (AtomsDlg *pBox)
 	return false;
 }
 
+void AtomsDlgPrivate::RadiusScaleChanged (GtkSpinButton *btn, AtomsDlg *pBox)
+{
+	if (pBox->m_AtomSelected >= 0)
+		pBox->m_Atoms[pBox->m_AtomSelected]->SetEffectiveRadiusRatio (gtk_spin_button_get_value (btn));
+}
+
 AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
@@ -368,16 +384,17 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	gtk_toggle_button_set_active (CustomColor, true);
 	g_signal_connect (G_OBJECT (CustomColor), "toggled", G_CALLBACK (AtomsDlgPrivate::ColorToggled), this);
 	ChargeBtn = GTK_SPIN_BUTTON (GetWidget ("charge"));
-	g_signal_connect (G_OBJECT (ChargeBtn), "value-changed", G_CALLBACK (AtomsDlgPrivate::ChargeChanged), this);
+	m_ChargeSignalID = g_signal_connect (G_OBJECT (ChargeBtn), "value-changed", G_CALLBACK (AtomsDlgPrivate::ChargeChanged), this);
 	RadiusTypeMenu = GTK_COMBO_BOX_TEXT (GetWidget ("radius-type"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (RadiusTypeMenu), 0);
-	g_signal_connect (G_OBJECT (RadiusTypeMenu), "changed", G_CALLBACK (AtomsDlgPrivate::RadiusTypeChanged), this);
+	m_RadiusTypeSignalID = g_signal_connect (G_OBJECT (RadiusTypeMenu), "changed", G_CALLBACK (AtomsDlgPrivate::RadiusTypeChanged), this);
 	RadiusMenu = GTK_COMBO_BOX_TEXT (GetWidget ("radius-menu"));
 	m_RadiiSignalID = g_signal_connect (G_OBJECT (RadiusMenu), "changed", G_CALLBACK (AtomsDlgPrivate::RadiusIndexChanged), this);
 	AtomR = GTK_ENTRY (GetWidget ("atomr"));
 	g_signal_connect_swapped (G_OBJECT (AtomR), "activate", G_CALLBACK (AtomsDlgPrivate::RadiusEdited), this);
 	m_EntryFocusOutSignalID = g_signal_connect_swapped (G_OBJECT (AtomR), "focus-out-event", G_CALLBACK (AtomsDlgPrivate::RadiusEdited), this);
 	ScaleBtn = GTK_SPIN_BUTTON (GetWidget ("scale-btn"));
+	m_ScaleSignalID = g_signal_connect (G_OBJECT (ScaleBtn), "value-changed", G_CALLBACK (AtomsDlgPrivate::RadiusScaleChanged), this);
 	ApplyBtn = GTK_COMBO_BOX_TEXT (GetWidget ("apply-to-box"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (ApplyBtn), 1);
 	m_RadiusType = m_Charge = 0;
