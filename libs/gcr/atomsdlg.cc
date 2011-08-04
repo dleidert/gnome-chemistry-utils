@@ -81,7 +81,7 @@ void AtomsDlgPrivate::AddRow (AtomsDlg *pBox)
 		new_atom = new Atom (pBox->m_nElt, 0., 0., 0.);
 		// FIXME: keep the radius value, but the scale should be overriden
 		new_atom->SetRadius (pBox->m_Radius);
-		new_atom->SetEffectiveRadiusRatio (gtk_spin_button_get_value (pBox->ScaleBtn));
+		new_atom->SetEffectiveRadiusRatio (gtk_spin_button_get_value (pBox->ScaleBtn) / 100.);
 		GdkRGBA rgba;
 		gtk_color_button_get_rgba (pBox->AtomColor, &rgba);
 		new_atom->SetColor (rgba.red, rgba.green, rgba.blue, rgba.alpha);
@@ -163,16 +163,29 @@ void AtomsDlgPrivate::RowSelected (AtomsDlg *pBox, int row)
 				                          static_cast < float > (color.green) != static_cast < float > (rgba.green) ||
 				                          static_cast < float > (color.blue) != static_cast < float > (rgba.blue) ||
 				                          static_cast < float > (color.alpha) != static_cast < float > (rgba.alpha));
-		} else
+			pBox->m_Radii = Element::GetElement (pBox->m_nElt)->GetRadii ();
+		} else {
 			gtk_toggle_button_set_active (pBox->CustomColor, true);
+			pBox->m_Radii = NULL;
+		}
 		pBox->m_Radius = pBox->m_Atoms[row]->GetRadius ();
+		pBox->m_RadiusType = pBox->m_Radius.type;
 		// set the charge
 		g_signal_handler_block (pBox->ChargeBtn, pBox->m_ChargeSignalID);
-		gtk_spin_button_set_value (pBox->ChargeBtn, pBox->m_Radius.charge);
+		gtk_spin_button_set_value (pBox->ChargeBtn, (pBox->m_Charge = pBox->m_Radius.charge));
 		g_signal_handler_unblock (pBox->ChargeBtn, pBox->m_ChargeSignalID);
 		// last, radii
+		g_signal_handler_block (pBox->ScaleBtn, pBox->m_ScaleSignalID);
+		gtk_spin_button_set_value (pBox->ScaleBtn, pBox->m_Atoms[row]->GetEffectiveRadiusRatio () * 100.);
+		g_signal_handler_unblock (pBox->ScaleBtn, pBox->m_ScaleSignalID);
+		g_signal_handler_block (pBox->RadiusTypeMenu, pBox->m_RadiusTypeSignalID);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (pBox->RadiusTypeMenu), (pBox->m_Radius.type == GCU_RADIUS_UNKNOWN)? 0: pBox->m_Radius.type - 1);
+		g_signal_handler_unblock (pBox->RadiusTypeMenu, pBox->m_RadiusTypeSignalID);
 		pBox->PopulateRadiiMenu ();
-		// FIXME: manage radii
+		char *buf;
+		buf = gcu_value_get_string (reinterpret_cast < GcuValue * > (&pBox->m_Radius.value));
+		gtk_entry_set_text (pBox->AtomR, buf);
+		g_free (buf);
 	}
 }
 
@@ -344,8 +357,11 @@ bool AtomsDlgPrivate::RadiusEdited (AtomsDlg *pBox)
 
 void AtomsDlgPrivate::RadiusScaleChanged (GtkSpinButton *btn, AtomsDlg *pBox)
 {
-	if (pBox->m_AtomSelected >= 0)
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetEffectiveRadiusRatio (gtk_spin_button_get_value (btn));
+	if (pBox->m_AtomSelected >= 0) {
+		pBox->m_Atoms[pBox->m_AtomSelected]->SetEffectiveRadiusRatio (gtk_spin_button_get_value (btn) / 100.);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
 }
 
 AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
@@ -613,7 +629,7 @@ void AtomsDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, co
 void AtomsDlg::PopulateRadiiMenu ()
 {
 	const GcuAtomicRadius **radius = m_Radii;
-	int i = m_RadiiIndex.size () - 2;
+	int i = m_RadiiIndex.size () - 2, j = 1, selected = 0;
 	g_signal_handler_block (RadiusMenu, m_RadiiSignalID);
 	for (int j = 0; j <= i; j++)
 		gtk_combo_box_text_remove (RadiusMenu, 1);
@@ -641,11 +657,16 @@ void AtomsDlg::PopulateRadiiMenu ()
 			if (!str.length())
 				str = _("Database");
 			gtk_combo_box_text_append_text (RadiusMenu, str.c_str ());
+			if (m_Radius.cn == (*radius)->cn && m_Radius.spin == (*radius)->spin
+			    && ((!m_Radius.scale && !(*radius)->scale) ||
+				(m_Radius.scale && (*radius)->scale && !strcmp (m_Radius.scale, (*radius)->scale))))
+				selected = j;
 			m_RadiiIndex.push_back(i++);
+			j++;
 			radius++;
 		}
+	gtk_combo_box_set_active (GTK_COMBO_BOX (RadiusMenu), selected);
 	g_signal_handler_unblock (RadiusMenu, m_RadiiSignalID);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (RadiusMenu), 0);
 }
 
 }	//	namespace gcr

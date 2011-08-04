@@ -1,7 +1,10 @@
 ##Text encoding: utf-8
 
+2011-08-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: manage radius.
+
 2011-08-03  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gcr/atomsdlg.cc: take radius sclaing into account.
+	* libs/gcr/atomsdlg.cc: take radius scaling into account.
 	* libs/gcr/atomsdlg.h: ditto.
 
 2011-08-02  Jean Bréfort  <jean.brefort@normalesup.org>
