@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-08-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: check atom list and remove duplicates.
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/document.cc: ditto.
+	* libs/gcr/document.h: ditto.
+	* libs/gcr/linesdlg.cc: start work on the lines dialog.
+	* libs/gcr/linesdlg.h: ditto.
+
 2011-08-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: manage radius.
 
@@ -36,7 +44,7 @@
 2011-07-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: redesign progress.
 	* libs/gcr/atomsdlg.h: ditto.
-	* libs/gcr/cleavagesdlg.cc: fixed "Delete All" buttn sensitivity.
+	* libs/gcr/cleavagesdlg.cc: fixed "Delete All" button sensitivity.
 
 2011-07-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: add a GrcGrid for the atom list.

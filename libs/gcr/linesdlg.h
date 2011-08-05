@@ -26,17 +26,23 @@
 #define GCR_LINESDLG_H
 
 #include <gcugtk/dialog.h>
+#include "grid.h"
+#include <vector>
 
 namespace gcr {
 
 class Document;
 class Application;
+class Line;
 
 class LinesDlg: public gcugtk::Dialog
 {
 public:
 	LinesDlg (Application *App, Document* pDoc);
 	virtual ~LinesDlg ();
+
+	void Closed ();
+	void ReloadData ();
 
 	virtual bool Apply ();
 	void LineAdd ();
@@ -56,9 +62,11 @@ private:
 	GtkEntry *LineR, *EdgesR, *MediansR, *DiagsR;
 	GtkCheckButton *Edges, *Medians, *Diags;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
-	GArray *m_Lines;
 	gint m_LineSelected;
 	GtkTreeIter m_Iter;
+	GcrGrid *m_Grid;
+	std::vector < Line * > m_Lines;
+	bool m_Closing;
 };
 
 }	//	namespace gcr

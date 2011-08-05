@@ -43,6 +43,7 @@ enum
 	COLUMN_SINGLE
 };
 
+#if 0
 struct LineStruct {
 	double r, x1, y1, z1, x2, y2, z2;
 	double Blue, Red, Green, Alpha;
@@ -93,10 +94,13 @@ static void on_medians_toggled (G_GNUC_UNUSED GtkToggleButton* btn, LinesDlg *pB
 {
 	pBox->OnToggledSpecial (gcr::medians);
 }
+#endif
 
 LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/lines.ui", "lines", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
+	m_Closing = false;
+#if 0
 	GtkWidget* button = GetWidget ("add");
 	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_add), this);
 	DeleteBtn = GetWidget ("delete");
@@ -270,19 +274,20 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 		}
 	}
 	g_signal_connect (G_OBJECT (Selection), "changed", G_CALLBACK (on_select), this);
-	if (!m_Lines->len)
+#endif
+	if (!m_Lines.size ())
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
 }
 
 LinesDlg::~LinesDlg ()
 {
-	if (m_Lines)
-		g_array_free (m_Lines, false);
+/*	if (m_Lines)
+		g_array_free (m_Lines, false);*/
 }
 
 bool LinesDlg::Apply ()
 {
-	GdkColor color;
+/*	GdkColor color;
 	if (m_LineSelected >= 0) {
 		gtk_color_button_get_color (LineColor, &color);
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Red = color.red / 65535.;
@@ -346,13 +351,13 @@ bool LinesDlg::Apply ()
 		Lines->push_back (new gcr::Line((s->duplicated)? gcr::normal: gcr::unique, s->x1, s->y1, s->z1, s->x2, s->y2, s->z2, s->r, (float)s->Red, (float)s->Green, (float)s->Blue, (float)s->Alpha));
 	}
 	m_pDoc->Update ();
-	m_pDoc->SetDirty (true);
+	m_pDoc->SetDirty (true);*/
 	return true;
 }
 
 void LinesDlg::LineAdd ()
 {
-	GtkTreeIter iter;
+	/*GtkTreeIter iter;
 
 	struct LineStruct s;
 	s.x1 = s.y1 =s.z1 = s.x2 = s.y2 =s.z2 = 0.0;
@@ -375,12 +380,12 @@ void LinesDlg::LineAdd ()
 		      6, false,
 		      -1);
 	gtk_widget_set_sensitive (DeleteAllBtn, true);
-	gtk_tree_selection_select_iter (Selection, &iter);
+	gtk_tree_selection_select_iter (Selection, &iter);*/
 }
 
 void LinesDlg::LineDelete ()
 {
-	GtkTreeModel* model = GTK_TREE_MODEL (LineList);
+/*	GtkTreeModel* model = GTK_TREE_MODEL (LineList);
 
 	if (gtk_tree_selection_get_selected (Selection, &model, &m_Iter)) {
 		gint i;
@@ -395,20 +400,20 @@ void LinesDlg::LineDelete ()
 		gtk_tree_path_free (path);
     }
 	if (!m_Lines->len)
-		gtk_widget_set_sensitive (DeleteAllBtn, false);
+		gtk_widget_set_sensitive (DeleteAllBtn, false);*/
 }
 
 void LinesDlg::LineDeleteAll ()
 {
-	g_array_free (m_Lines, false);
+/*	g_array_free (m_Lines, false);
 	m_Lines = g_array_sized_new (FALSE, FALSE, sizeof (struct LineStruct), 1);
 	gtk_list_store_clear (LineList);
-	gtk_widget_set_sensitive (DeleteAllBtn, false);
+	gtk_widget_set_sensitive (DeleteAllBtn, false);*/
 }
 
 void LinesDlg::LineSelect (GtkTreeSelection *Selection)
 {
-	GdkColor color;
+/*	GdkColor color;
 	if (m_LineSelected >= 0) {
 		gtk_color_button_get_color (LineColor, &color);
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Red = color.red / 65535.;
@@ -438,12 +443,12 @@ void LinesDlg::LineSelect (GtkTreeSelection *Selection)
 		gtk_widget_set_sensitive (DeleteBtn, false);
 		if (!m_Lines->len) gtk_widget_set_sensitive (DeleteAllBtn, false);
 		m_LineSelected = -1;
-	}
+	}*/
 }
 
 void LinesDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text)
 {
-	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+/*	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;
 
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (LineList), &iter, path);
@@ -471,12 +476,12 @@ void LinesDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, co
 		g_array_index (m_Lines, struct LineStruct, m_LineSelected).z2 = x;
 		break;
 	}
-	gtk_tree_path_free (path);
+	gtk_tree_path_free (path);*/
 }
 
 void LinesDlg::OnToggled (G_GNUC_UNUSED GtkCellRendererToggle *cell, const gchar *path_string)
 {
-	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+/*	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;
 
 	gtk_tree_model_get_iter (GTK_TREE_MODEL(LineList), &iter, path);
@@ -485,12 +490,12 @@ void LinesDlg::OnToggled (G_GNUC_UNUSED GtkCellRendererToggle *cell, const gchar
 	single ^= 1;
 	gtk_list_store_set (LineList, &iter, COLUMN_SINGLE, single, -1);
 	g_array_index (m_Lines, struct LineStruct, gtk_tree_path_get_indices (path)[0]).duplicated = !single;
-	gtk_tree_path_free (path);
+	gtk_tree_path_free (path);*/
 }
 
 void LinesDlg::OnToggledSpecial (int Type)
 {
-	switch (Type) {
+/*	switch (Type) {
 	case gcr::edges:
 		gtk_widget_set_sensitive (GTK_WIDGET (EdgesColor), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Edges)));
 		gtk_widget_set_sensitive (GTK_WIDGET (EdgesR), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Edges)));
@@ -503,7 +508,27 @@ void LinesDlg::OnToggledSpecial (int Type)
 		gtk_widget_set_sensitive (GTK_WIDGET (MediansColor), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Medians)));
 		gtk_widget_set_sensitive (GTK_WIDGET (MediansR), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Medians)));
 		break;
-	}
+	}*/
+}
+
+void LinesDlg::Closed ()
+{
+	// check if the cleavages list is coherent
+	m_Closing = true;
+	m_pDoc->CheckLines ();
+}
+
+void LinesDlg::ReloadData ()
+{
+	if (m_Closing)
+		return;
+	gcr_grid_delete_all (GCR_GRID (m_Grid));
+	m_Lines.clear ();
+	gcr::LineList* Lines = m_pDoc->GetLineList ();
+	for (list < Line * >::iterator i = Lines->begin (); i != Lines->end (); i++)
+		m_Lines[gcr_grid_append_row (GCR_GRID (m_Grid)/*FIXME*/)] = *i;
+	if (!m_Lines.size ())
+		gtk_widget_set_sensitive (DeleteAllBtn, false);
 }
 
 }	//	namespace gcr

@@ -620,8 +620,19 @@ xmlDocPtr Document::BuildXMLTree () const
 	xmlNsPtr ns;
 
 	// first check if dialogs are open and data coherent
-	if (GetDialog ("cleavages"))
+	gcu::Dialog *dlg;
+	if ((dlg = GetDialog ("atoms"))) {
+		const_cast <Document * > (this)->CheckAtoms ();
+		static_cast < AtomsDlg * > (dlg)->ReloadData ();
+	}
+	if ((dlg = GetDialog ("cleavages"))) {
 		const_cast <Document * > (this)->CheckCleavages ();
+		static_cast < CleavagesDlg * > (dlg)->ReloadData ();
+	}
+	if ((dlg = GetDialog ("lines"))) {
+		const_cast <Document * > (this)->CheckLines ();
+		static_cast < LinesDlg * > (dlg)->ReloadData ();
+	}
 	xml = xmlNewDoc((xmlChar*)"1.0");
 	if (xml == NULL) {throw(1);}
 
@@ -1224,6 +1235,42 @@ void Document::CheckCleavages ()
 	std::set < Cleavage * >::iterator k,kend = garbage.end ();
 	for (k = garbage.begin (); k != kend; k++) {
 		Cleavages.remove (*k);
+		delete *k;
+	}
+}
+
+void Document::CheckAtoms ()
+{
+	std::set < Atom * > garbage;
+	AtomList::iterator i, j, end = AtomDef.end ();
+	for (i = AtomDef.begin (); i != end; i++) {
+		for (j = AtomDef.begin (); j != i; j++)
+			if (*i == *j) {
+				garbage.insert (*j);
+				break;
+			}
+	}
+	std::set < Atom * >::iterator k,kend = garbage.end ();
+	for (k = garbage.begin (); k != kend; k++) {
+		AtomDef.remove (*k);
+		delete *k;
+	}
+}
+
+void Document::CheckLines ()
+{
+	std::set < Line * > garbage;
+	LineList::iterator i, j, end = LineDef.end ();
+	for (i = LineDef.begin (); i != end; i++) {
+		for (j = LineDef.begin (); j != i; j++)
+			if (*i == *j) {
+				garbage.insert (*j);
+				break;
+			}
+	}
+	std::set < Line * >::iterator k,kend = garbage.end ();
+	for (k = garbage.begin (); k != kend; k++) {
+		LineDef.remove (*k);
 		delete *k;
 	}
 }

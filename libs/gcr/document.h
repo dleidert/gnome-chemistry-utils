@@ -206,7 +206,9 @@ Reinitialize a Document instance. Used when loading a file in an already existin
 	void SetCell (Lattice lattice, double a, double b, double c, double alpha, double beta, double gamma);
 	void GetSize (double* xmin, double* xmax, double* ymin, double* ymax, double* zmin, double* zmax);
 	void SetSize (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax);
+	void CheckAtoms ();
 	void CheckCleavages ();
+	void CheckLines ();
 	void Define (unsigned nPage = 0);
 
 protected:

@@ -36,8 +36,6 @@ namespace gcr {
 class Document;
 class Application;
 
-struct AtomsStruct;
-
 class AtomsDlg: public gcugtk::Dialog
 {
 friend class AtomsDlgPrivate;
@@ -45,14 +43,15 @@ public:
 	AtomsDlg (Application *App, Document* pDoc);
 	virtual ~AtomsDlg ();
 
+	void Closed ();
+	void ReloadData ();
+
 private:
 	void PopulateRadiiMenu ();
 
 private:
 	Document *m_pDoc;
 	GcrGrid *m_Grid;
-	GtkListStore *AtomList;
-	GtkTreeSelection *Selection;
 	GcuPeriodic* periodic;
 	GtkToggleButton* CustomColor;
 	GtkColorButton *AtomColor;
@@ -60,7 +59,6 @@ private:
 	unsigned short m_nElt;
 	std::vector < Atom * > m_Atoms;
 	int m_AtomSelected;
-	GtkTreeIter m_Iter;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
 	GtkComboBoxText *RadiusTypeMenu, *RadiusMenu, *ApplyBtn;
 	GtkSpinButton *ChargeBtn, *ScaleBtn;
@@ -70,6 +68,7 @@ private:
 	vector<int> m_RadiiIndex;
 	unsigned long m_RadiiSignalID, m_EntryFocusOutSignalID, m_ColorSignalID,
 				  m_RadiusTypeSignalID, m_ChargeSignalID, m_ScaleSignalID;
+	bool m_Closing;
 };
 
 }	//	namespace gcr
