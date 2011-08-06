@@ -43,6 +43,43 @@ enum
 	COLUMN_SINGLE
 };
 
+class LinesDlgPrivate {
+public:
+	static void AddRow (LinesDlg *pBox);
+	static void DeleteRow (LinesDlg *pBox);
+	static void DeleteAll (LinesDlg *pBox);
+	static void ValueChanged (LinesDlg *pBox, unsigned row, unsigned column);
+	static void RowSelected (LinesDlg *pBox, int row);
+};
+
+void LinesDlgPrivate::AddRow (LinesDlg *pBox)
+{
+}
+
+void LinesDlgPrivate::DeleteRow (LinesDlg *pBox)
+{
+}
+
+void LinesDlgPrivate::DeleteAll (LinesDlg *pBox)
+{
+	gcr_grid_delete_all (pBox->m_Grid);
+	for (unsigned i = 0; i < pBox->m_Lines.size (); i++)
+		delete pBox->m_Lines[i];
+	pBox->m_Lines.clear ();
+	pBox->m_pDoc->GetLineList ()->clear ();
+	pBox->m_pDoc->Update ();
+	pBox->m_pDoc->SetDirty (true);
+	gtk_widget_set_sensitive (pBox->DeleteAllBtn, false);
+}
+
+void LinesDlgPrivate::ValueChanged (LinesDlg *pBox, unsigned row, unsigned column)
+{
+}
+
+void LinesDlgPrivate::RowSelected (LinesDlg *pBox, int row)
+{
+}
+
 #if 0
 struct LineStruct {
 	double r, x1, y1, z1, x2, y2, z2;
@@ -100,14 +137,22 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 {
 	m_pDoc = pDoc;
 	m_Closing = false;
-#if 0
 	GtkWidget* button = GetWidget ("add");
-	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_add), this);
+	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (LinesDlgPrivate::AddRow), this);
 	DeleteBtn = GetWidget ("delete");
 	gtk_widget_set_sensitive (DeleteBtn,0);
-	g_signal_connect (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (on_delete), this);
-	DeleteAllBtn = GetWidget ("delete_all");
-	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (on_delete_all), this);
+	g_signal_connect (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (LinesDlgPrivate::DeleteRow), this);
+	DeleteAllBtn = GetWidget ("delete-all");
+	g_signal_connect_swapped (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (LinesDlgPrivate::DeleteAll), this);
+	m_Grid = GCR_GRID (gcr_grid_new (_("x1"), G_TYPE_DOUBLE, _("y1"), G_TYPE_DOUBLE, _("z1"), G_TYPE_DOUBLE,
+	                                 _("x2"), G_TYPE_DOUBLE, _("y2"), G_TYPE_DOUBLE, _("z2"), G_TYPE_DOUBLE,
+	                                 _("Single"), G_TYPE_BOOLEAN, NULL));
+	g_object_set (G_OBJECT (m_Grid), "expand", true, NULL);
+	gtk_grid_attach (GTK_GRID (GetWidget ("other-grid")), GTK_WIDGET (m_Grid), 0, 1, 4, 5);
+	g_signal_connect_swapped (G_OBJECT (m_Grid), "row-selected", G_CALLBACK (LinesDlgPrivate::RowSelected), this);
+	g_signal_connect_swapped (G_OBJECT (m_Grid), "value-changed", G_CALLBACK (LinesDlgPrivate::ValueChanged), this);
+	m_LineSelected = -1;
+#if 0
 	LineList = gtk_list_store_new (7, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 	GtkTreeView* tree = GTK_TREE_VIEW (GetWidget ("lineslist"));
 	Selection = gtk_tree_view_get_selection (tree);
@@ -277,6 +322,7 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 #endif
 	if (!m_Lines.size ())
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 LinesDlg::~LinesDlg ()

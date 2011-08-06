@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-08-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: take target button selection into account when
+	radius scale changes.
+	* libs/gcr/linesdlg.cc: new display, doesn't work yet.
+	* libs/gcr/linesdlg.h: ditto.
+	* ui/crystal/lines.ui: ditto.
+
 2011-08-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: check atom list and remove duplicates.
 	* libs/gcr/atomsdlg.h: ditto.

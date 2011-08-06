@@ -113,7 +113,7 @@ void AtomsDlgPrivate::DeleteRow (AtomsDlg *pBox)
 void AtomsDlgPrivate::DeleteAll (AtomsDlg *pBox)
 {
 	gcr_grid_delete_all (pBox->m_Grid);
-	for (unsigned i = 0; i < pBox->m_Atoms.size (); i++)
+	for (unsigned i = 0; i < pBox->m_pDoc->GetAtomList ()->size (); i++)
 		delete pBox->m_Atoms[i];
 	pBox->m_Atoms.clear ();
 	pBox->m_pDoc->GetAtomList ()->clear ();
@@ -357,11 +357,28 @@ bool AtomsDlgPrivate::RadiusEdited (AtomsDlg *pBox)
 
 void AtomsDlgPrivate::RadiusScaleChanged (GtkSpinButton *btn, AtomsDlg *pBox)
 {
-	if (pBox->m_AtomSelected >= 0) {
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetEffectiveRadiusRatio (gtk_spin_button_get_value (btn) / 100.);
-		pBox->m_pDoc->Update ();
-		pBox->m_pDoc->SetDirty (true);
+	double ratio = gtk_spin_button_get_value (btn) / 100.;
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (pBox->ApplyBtn))) {
+	case 0: {
+		// element
+		for (unsigned i = 0; i < pBox->m_pDoc->GetAtomList ()->size (); i++)
+			if (pBox->m_Atoms[i]->GetZ () == pBox->m_nElt)
+				pBox->m_Atoms[i]->SetEffectiveRadiusRatio (ratio);
+		break;
 	}
+	case 1: // selected atom
+		if (pBox->m_AtomSelected >= 0)
+			pBox->m_Atoms[pBox->m_AtomSelected]->SetEffectiveRadiusRatio (ratio);
+		break;
+	case 2: // all atoms
+		for (unsigned i = 0; i < pBox->m_pDoc->GetAtomList ()->size (); i++)
+			pBox->m_Atoms[i]->SetEffectiveRadiusRatio (ratio);
+		break;
+	default: // should not happen
+		return;
+	}
+	pBox->m_pDoc->Update ();
+	pBox->m_pDoc->SetDirty (true);
 }
 
 AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)

@@ -37,6 +37,7 @@ class Line;
 
 class LinesDlg: public gcugtk::Dialog
 {
+friend class LinesDlgPrivate;
 public:
 	LinesDlg (Application *App, Document* pDoc);
 	virtual ~LinesDlg ();
@@ -54,16 +55,12 @@ public:
 	void OnToggledSpecial (int Type);
 
 private:
-	char m_buf[64];
 	Document *m_pDoc;
-	GtkListStore *LineList;
-	GtkTreeSelection *Selection;
 	GtkColorButton *LineColor, *EdgesColor, *MediansColor, *DiagsColor;
 	GtkEntry *LineR, *EdgesR, *MediansR, *DiagsR;
 	GtkCheckButton *Edges, *Medians, *Diags;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
 	gint m_LineSelected;
-	GtkTreeIter m_Iter;
 	GcrGrid *m_Grid;
 	std::vector < Line * > m_Lines;
 	bool m_Closing;
