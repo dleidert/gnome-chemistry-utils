@@ -58,11 +58,12 @@ private:
 	Document *m_pDoc;
 	GtkColorButton *LineColor, *EdgesColor, *MediansColor, *DiagsColor;
 	GtkEntry *LineR, *EdgesR, *MediansR, *DiagsR;
-	GtkCheckButton *Edges, *Medians, *Diags;
+	GtkCheckButton *EdgesBtn, *MediansBtn, *DiagsBtn;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
 	gint m_LineSelected;
 	GcrGrid *m_Grid;
 	std::vector < Line * > m_Lines;
+	Line *Edges, *Diagonals, *Medians;
 	bool m_Closing;
 };
 

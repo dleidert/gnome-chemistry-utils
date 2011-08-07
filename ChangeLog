@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: removed old obsolete code.
+	* libs/gcr/line.cc: add new GetColor(GdkRGBA&) method.
+	* libs/gcr/line.h: ditto.
+	* libs/gcr/linesdlg.cc: populate the dialog with existing lines.
+	* libs/gcr/linesdlg.h: ditto.
+
 2011-08-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: take target button selection into account when
 	radius scale changes.

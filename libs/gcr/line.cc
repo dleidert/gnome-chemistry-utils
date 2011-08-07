@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcr/line.cc
  *
- * Copyright (C) 2002-20108 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -156,6 +156,14 @@ void Line::GetColor (double *red, double *green, double *blue, double *alpha)
 	*green = m_fGreen ;
 	*blue = m_fBlue ;
 	*alpha = m_fAlpha ;
+}
+
+void Line::GetColor (GdkRGBA &rgba)
+{
+	rgba.red = m_fRed ;
+	rgba.green = m_fGreen ;
+	rgba.blue = m_fBlue ;
+	rgba.alpha = m_fAlpha ;
 }
 
 void Line::SetRadius (double r)

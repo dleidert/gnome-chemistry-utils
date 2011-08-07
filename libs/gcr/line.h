@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcr/line.h
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -25,6 +25,7 @@
 #ifndef GCR_LINE_H
 #define GCR_LINE_H
 
+#include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <list>
 
@@ -180,6 +181,7 @@ Changes the color used to display the line.
 Gets the components of the color used to display the line.
 */
 	void GetColor (double *red, double *green, double *blue, double *alpha);
+	void GetColor (GdkRGBA &rgba);
 /*!
 @param r: the new radius of the cylinder representing the line.
 

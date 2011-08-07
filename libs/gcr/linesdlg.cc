@@ -50,6 +50,9 @@ public:
 	static void DeleteAll (LinesDlg *pBox);
 	static void ValueChanged (LinesDlg *pBox, unsigned row, unsigned column);
 	static void RowSelected (LinesDlg *pBox, int row);
+	static void EdgesToggled (GtkSpinButton *btn, LinesDlg *pBox);
+	static void DiagonalsToggled (GtkSpinButton *btn, LinesDlg *pBox);
+	static void MediansToggled (GtkSpinButton *btn, LinesDlg *pBox);
 };
 
 void LinesDlgPrivate::AddRow (LinesDlg *pBox)
@@ -77,6 +80,18 @@ void LinesDlgPrivate::ValueChanged (LinesDlg *pBox, unsigned row, unsigned colum
 }
 
 void LinesDlgPrivate::RowSelected (LinesDlg *pBox, int row)
+{
+}
+
+void LinesDlgPrivate::EdgesToggled (GtkSpinButton *btn, LinesDlg *pBox)
+{
+}
+
+void LinesDlgPrivate::DiagonalsToggled (GtkSpinButton *btn, LinesDlg *pBox)
+{
+}
+
+void LinesDlgPrivate::MediansToggled (GtkSpinButton *btn, LinesDlg *pBox)
 {
 }
 
@@ -151,177 +166,78 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	gtk_grid_attach (GTK_GRID (GetWidget ("other-grid")), GTK_WIDGET (m_Grid), 0, 1, 4, 5);
 	g_signal_connect_swapped (G_OBJECT (m_Grid), "row-selected", G_CALLBACK (LinesDlgPrivate::RowSelected), this);
 	g_signal_connect_swapped (G_OBJECT (m_Grid), "value-changed", G_CALLBACK (LinesDlgPrivate::ValueChanged), this);
-	m_LineSelected = -1;
-#if 0
-	LineList = gtk_list_store_new (7, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
-	GtkTreeView* tree = GTK_TREE_VIEW (GetWidget ("lineslist"));
-	Selection = gtk_tree_view_get_selection (tree);
-	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (LineList));
-	GtkCellRenderer *renderer;
-	GtkTreeViewColumn *column;
-	/* column for x1 */
-	renderer = gtk_cell_renderer_text_new ();
-	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	g_object_set (G_OBJECT (renderer), "editable", true, NULL);
-	g_object_set_data (G_OBJECT (renderer), "column", (gint *) COLUMN_X1);
-	column = gtk_tree_view_column_new_with_attributes (_("x1"), renderer, "text", COLUMN_X1, NULL);
-	/* set this column to a fixed sizing (of 50 pixels) */
-	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
-	gtk_tree_view_append_column (tree, column);
-	/* column for y1 */
-	renderer = gtk_cell_renderer_text_new ();
-	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	g_object_set (G_OBJECT (renderer), "editable", true, NULL);
-	g_object_set_data (G_OBJECT (renderer), "column", (gint *) COLUMN_Y1);
-	column = gtk_tree_view_column_new_with_attributes (_("y1"), renderer, "text", COLUMN_Y1, NULL);
-	/* set this column to a fixed sizing (of 50 pixels) */
-	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
-	gtk_tree_view_append_column (tree, column);
-	/* column for z1 */
-	renderer = gtk_cell_renderer_text_new ();
-	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	g_object_set (G_OBJECT (renderer), "editable", true, NULL);
-	g_object_set_data (G_OBJECT (renderer), "column", (gint *) COLUMN_Z1);
-	column = gtk_tree_view_column_new_with_attributes (_("z1"), renderer, "text", COLUMN_Z1, NULL);
-	/* set this column to a fixed sizing (of 50 pixels) */
-	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
-	gtk_tree_view_append_column (tree, column);
-	/* column for x2 */
-	renderer = gtk_cell_renderer_text_new ();
-	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	g_object_set(G_OBJECT(renderer), "editable", true, NULL);
-	g_object_set_data(G_OBJECT (renderer), "column", (gint *)COLUMN_X2);
-	column = gtk_tree_view_column_new_with_attributes (_("x2"), renderer, "text", COLUMN_X2, NULL);
-	/* set this column to a fixed sizing (of 50 pixels) */
-	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
-	gtk_tree_view_append_column (tree, column);
-	/* column for y2 */
-	renderer = gtk_cell_renderer_text_new ();
-	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	g_object_set (G_OBJECT (renderer), "editable", true, NULL);
-	g_object_set_data (G_OBJECT (renderer), "column", (gint *) COLUMN_Y2);
-	column = gtk_tree_view_column_new_with_attributes (_("y2"), renderer, "text", COLUMN_Y2, NULL);
-	/* set this column to a fixed sizing (of 50 pixels) */
-	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
-	gtk_tree_view_append_column (tree, column);
-	/* column for z2 */
-	renderer = gtk_cell_renderer_text_new ();
-	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	g_object_set (G_OBJECT (renderer), "editable", true, NULL);
-	g_object_set_data (G_OBJECT (renderer), "column", (gint *) COLUMN_Z2);
-	column = gtk_tree_view_column_new_with_attributes (_("z2"), renderer, "text", COLUMN_Z2, NULL);
-	/* set this column to a fixed sizing (of 50 pixels) */
-	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
-	gtk_tree_view_append_column (tree, column);
-	/* column for single */
-	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer), "toggled", G_CALLBACK (on_toggled), this);
-	g_object_set_data (G_OBJECT (renderer), "column", (gint *) COLUMN_SINGLE);
-	column = gtk_tree_view_column_new_with_attributes (_("Single"), renderer, "active", COLUMN_SINGLE, NULL);
-	/* set this column to a fixed sizing (of 50 pixels) */
-	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN(column), 50);
-	gtk_tree_view_append_column (tree, column);
-	m_Lines = g_array_sized_new (FALSE, FALSE, sizeof (struct LineStruct), 1);
-	LineColor = GTK_COLOR_BUTTON (GetWidget ("color"));
-	LineR = GTK_ENTRY (GetWidget ("radius"));
-	Edges = GTK_CHECK_BUTTON (GetWidget ("edges"));
-	g_signal_connect (G_OBJECT (Edges), "toggled", G_CALLBACK (on_edges_toggled), this);
+	EdgesBtn = GTK_CHECK_BUTTON (GetWidget ("edges"));
 	EdgesColor = GTK_COLOR_BUTTON (GetWidget ("edges-color"));
 	gtk_widget_set_sensitive (GTK_WIDGET (EdgesColor), false);
-	EdgesR = GTK_ENTRY (GetWidget ("edges_radius"));
+	EdgesR = GTK_ENTRY (GetWidget ("edges-radius"));
 	gtk_widget_set_sensitive (GTK_WIDGET (EdgesR), false);
-	Medians = GTK_CHECK_BUTTON (GetWidget ("medians"));
-	g_signal_connect (G_OBJECT (Medians), "toggled", G_CALLBACK (on_medians_toggled), this);
+	MediansBtn = GTK_CHECK_BUTTON (GetWidget ("medians"));
 	MediansColor = GTK_COLOR_BUTTON (GetWidget ("med-color"));
 	gtk_widget_set_sensitive (GTK_WIDGET (MediansColor), false);
-	MediansR = GTK_ENTRY (GetWidget ("med_radius"));
+	MediansR = GTK_ENTRY (GetWidget ("med-radius"));
 	gtk_widget_set_sensitive (GTK_WIDGET (MediansR), false);
-	Diags = GTK_CHECK_BUTTON (GetWidget ("diagonals"));
-	g_signal_connect (G_OBJECT (Diags), "toggled", G_CALLBACK (on_diags_toggled), this);
+	DiagsBtn = GTK_CHECK_BUTTON (GetWidget ("diagonals"));
 	DiagsColor = GTK_COLOR_BUTTON (GetWidget ("diag-color"));
 	gtk_widget_set_sensitive (GTK_WIDGET (DiagsColor), false);
-	DiagsR = GTK_ENTRY (GetWidget ("diag_radius"));
+	DiagsR = GTK_ENTRY (GetWidget ("diag-radius"));
 	gtk_widget_set_sensitive (GTK_WIDGET (DiagsR), false);
 	m_LineSelected = -1;
+	Edges = Diagonals = Medians;
 	gcr::LineList* Lines = m_pDoc->GetLineList ();
-	gcr::Line* pLine;
-	struct LineStruct s;
-	GtkTreeIter iter;
-	char *tmp;
-	GdkColor color;
-	for (list<gcr::Line*>::iterator i = Lines->begin(); i != Lines->end(); i++) {
-		pLine = *i;
-		s.duplicated = false;
-		s.r = pLine->GetRadius ();
-		pLine->GetColor (&s.Red, &s.Green, &s.Blue, &s.Alpha);
-		color.red = (guint16) (s.Red * 65535.);
-		color.green = (guint16) (s.Green * 65535.);
-		color.blue = (guint16) (s.Blue * 65535.);
-		switch (pLine->Type()) {
-		case gcr::edges:
+	m_Lines.resize ((Lines->size () / 10 + 1) * 10);
+	list < gcr::Line * >::iterator i, end = Lines->end ();
+	GdkRGBA rgba;
+	char *buf;
+	for (i = Lines->begin (); i != end; i++) {
+		switch ((*i)->Type()) {
+		case edges:
 			gtk_widget_set_sensitive (GTK_WIDGET (EdgesColor), true);
 			gtk_widget_set_sensitive (GTK_WIDGET (EdgesR), true);
-			tmp = g_strdup_printf ("%g", s.r);
-			gtk_entry_set_text (EdgesR, tmp);
-			gtk_color_button_set_color (EdgesColor, &color);
-			gtk_color_button_set_alpha (EdgesColor, (guint16) (s.Alpha * 65535.));
-			g_free (tmp);
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(Edges), true);
+			buf = g_strdup_printf ("%g", (*i)->GetRadius ());
+			gtk_entry_set_text (EdgesR, buf);
+			g_free (buf);
+			(*i)->GetColor (rgba);
+			gtk_color_button_set_rgba (EdgesColor, &rgba);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (EdgesBtn), true);
+			Edges = *i;
 			break;
-		case gcr::diagonals:
+		case diagonals:
 			gtk_widget_set_sensitive (GTK_WIDGET (DiagsColor), true);
 			gtk_widget_set_sensitive (GTK_WIDGET (DiagsR), true);
-			tmp = g_strdup_printf ("%g", s.r);
-			gtk_entry_set_text (DiagsR, tmp);
-			gtk_color_button_set_color (DiagsColor, &color);
-			gtk_color_button_set_alpha (DiagsColor, (guint16) (s.Alpha * 65535.));
-			g_free (tmp);
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (Diags), true);
+			buf = g_strdup_printf ("%g", (*i)->GetRadius ());
+			gtk_entry_set_text (DiagsR, buf);
+			g_free (buf);
+			(*i)->GetColor (rgba);
+			gtk_color_button_set_rgba (DiagsColor, &rgba);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (DiagsBtn), true);
+			Diagonals = *i;
 			break;
-		case gcr::medians:
+		case medians:
 			gtk_widget_set_sensitive (GTK_WIDGET (MediansColor), true);
 			gtk_widget_set_sensitive (GTK_WIDGET (MediansR), true);
-			tmp = g_strdup_printf ("%g", s.r);
-			gtk_entry_set_text (MediansR, tmp);
-			gtk_color_button_set_color (MediansColor, &color);
-			gtk_color_button_set_alpha (MediansColor, (guint16) (s.Alpha * 65535.));
-			g_free (tmp);
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(Medians), true);
+			buf = g_strdup_printf ("%g", (*i)->GetRadius ());
+			gtk_entry_set_text (MediansR, buf);
+			g_free (buf);
+			(*i)->GetColor (rgba);
+			gtk_color_button_set_rgba (MediansColor, &rgba);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (MediansBtn), true);
+			Medians = *i;
 			break;
-		case gcr::normal:
-			s.duplicated = true;
-		case gcr::unique:
-			s.x1 = pLine->X1();
-			s.y1 = pLine->Y1();
-			s.z1 = pLine->Z1();
-			s.x2 = pLine->X2();
-			s.y2 = pLine->Y2();
-			s.z2 = pLine->Z2();
-			g_array_append_vals(m_Lines, &s, 1);
-			gtk_list_store_append (LineList, &iter);
-			gtk_list_store_set (LineList, &iter,
-					  0, s.x1,
-					  1, s.y1,
-					  2, s.z1,
-					  3, s.x2,
-					  4, s.y2,
-					  5, s.z2,
-					  6, !s.duplicated,
-					  -1);
+		case normal:
+			m_Lines[gcr_grid_append_row (m_Grid, (*i)->X1 (), (*i)->Y1 (), (*i)->Z1 (),
+				                         (*i)->X2 (), (*i)->Y2 (), (*i)->Z2 (), false)] = *i;
+			break;
+		case unique:
+			m_Lines[gcr_grid_append_row (m_Grid, (*i)->X1 (), (*i)->Y1 (), (*i)->Z1 (),
+				                         (*i)->X2 (), (*i)->Y2 (), (*i)->Z2 (), true)] = *i;
 			break;
 		}
 	}
-	g_signal_connect (G_OBJECT (Selection), "changed", G_CALLBACK (on_select), this);
-#endif
 	if (!m_Lines.size ())
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
+	g_signal_connect (G_OBJECT (EdgesBtn), "toggled", G_CALLBACK (LinesDlgPrivate::EdgesToggled), this);
+	g_signal_connect (G_OBJECT (MediansBtn), "toggled", G_CALLBACK (LinesDlgPrivate::MediansToggled), this);
+	g_signal_connect (G_OBJECT (DiagsBtn), "toggled", G_CALLBACK (LinesDlgPrivate::DiagonalsToggled), this);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
