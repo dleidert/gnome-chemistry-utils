@@ -59,6 +59,7 @@ struct _GcrGrid
 };
 
 static GtkWidgetClass *parent_class;
+static GdkPixbuf *checked = NULL, *unchecked = NULL;
 
 enum {
 	VALUE_CHANGED,
@@ -256,44 +257,57 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 			cairo_set_source_rgb (cr, 0.7, 0.7, 0.7);
 			cairo_stroke (cr);
 			cairo_restore (cr);
+			if (grid->types[i] == G_TYPE_BOOLEAN) {
+				GdkPixbuf *pixbuf = (grid->row_data[row][i] == "t")? checked: unchecked;
+				cairo_save (cr);
+				cairo_translate (cr, pos + .5 * (grid->col_widths[i] - grid->row_height), y);
+				cairo_rectangle (cr, 2., 2.,
+				                 grid->row_height - 4, grid->row_height - 4);
+				gdk_cairo_set_source_pixbuf (cr, pixbuf, 0., 0.);
+				cairo_fill (cr);
+				cairo_restore (cr);
+				
 			// FIXME: manage booleans, not only strings
-			pango_layout_set_text (l, grid->row_data[row][i].c_str(), -1);
-			pango_layout_get_pixel_size (l, &width, NULL);
-			pango_layout_set_markup (l, grid->row_data[row][i].c_str(), -1);
-			if (static_cast < int > (row) == grid->row && static_cast < int > (i) == grid->col) {
-				if (grid->cursor_index != grid->sel_start) {
-					PangoAttrList *al = pango_attr_list_new ();
-					int start, end;
-					if (grid->cursor_index < grid->sel_start) {
-						start = grid->cursor_index;
-						end = grid->sel_start;
-					} else {
-						end = grid->cursor_index;
-						start = grid->sel_start;
+			} else {
+				pango_layout_set_text (l, grid->row_data[row][i].c_str(), -1);
+				pango_layout_get_pixel_size (l, &width, NULL);
+				pango_layout_set_markup (l, grid->row_data[row][i].c_str(), -1);
+				if (static_cast < int > (row) == grid->row && static_cast < int > (i) == grid->col) {
+					if (grid->cursor_index != grid->sel_start) {
+						PangoAttrList *al = pango_attr_list_new ();
+						int start, end;
+						if (grid->cursor_index < grid->sel_start) {
+							start = grid->cursor_index;
+							end = grid->sel_start;
+						} else {
+							end = grid->cursor_index;
+							start = grid->sel_start;
+						}
+						PangoAttribute *attr = pango_attr_foreground_new (0xffff, 0xffff, 0xffff);
+						attr->start_index = start;
+						attr->end_index =end;
+						pango_attr_list_insert (al, attr);
+						attr = pango_attr_background_new (0, 0, 0);
+						attr->start_index = start;
+						attr->end_index =end;
+						pango_attr_list_insert (al, attr);
+						pango_layout_set_attributes (l, al);
+						pango_attr_list_unref (al);
 					}
-					PangoAttribute *attr = pango_attr_foreground_new (0xffff, 0xffff, 0xffff);
-					attr->start_index = start;
-					attr->end_index =end;
-					pango_attr_list_insert (al, attr);
-					attr = pango_attr_background_new (0, 0, 0);
-					attr->start_index = start;
-					attr->end_index =end;
-					pango_attr_list_insert (al, attr);
-					pango_layout_set_attributes (l, al);
-					pango_attr_list_unref (al);
+					if (grid->cursor_visible) {
+						PangoRectangle rect;
+						pango_layout_get_cursor_pos (l, grid->cursor_index, &rect, NULL);
+						cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2 + rect.x / PANGO_SCALE + .5, y + grid->line_offset + rect.y / PANGO_SCALE);
+						cairo_rel_line_to (cr, 0, rect.height / PANGO_SCALE);
+						cairo_stroke (cr);
+					}
 				}
-				if (grid->cursor_visible) {
-					PangoRectangle rect;
-					pango_layout_get_cursor_pos (l, grid->cursor_index, &rect, NULL);
-					cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2 + rect.x / PANGO_SCALE + .5, y + grid->line_offset + rect.y / PANGO_SCALE);
-					cairo_rel_line_to (cr, 0, rect.height / PANGO_SCALE);
-					cairo_stroke (cr);
-				}
+				cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2, y + grid->line_offset);
+				pango_cairo_show_layout (cr, l);
 			}
-			cairo_move_to (cr, pos + (grid->col_widths[i] - width) / 2, y + grid->line_offset);
-			pango_cairo_show_layout (cr, l);
 			pos += grid->col_widths[i];
 		}
+			
 		row++;
 		y += grid->row_height;
 	}
@@ -326,7 +340,8 @@ static gboolean gcr_grid_focus_out_event (GtkWidget *widget, G_GNUC_UNUSED GdkEv
 	if (!gcr_grid_validate_change (grid))
 		gtk_widget_grab_focus (widget);
 	else {
-		g_source_remove (grid->cursor_signal);
+		if (grid->cursor_signal)
+			g_source_remove (grid->cursor_signal);
 		grid->cursor_signal = 0;
 		grid->col = -1;
 		gtk_widget_queue_draw (widget);
@@ -440,6 +455,10 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 		case G_TYPE_BOOLEAN:
 			grid->cursor_index = -1;
 			// nothing to do, just wait and see if the mouse button is released inside the cell
+			// for now toggle the button if the click occurs near enough
+			x = event->x - x + grid->col_widths[new_col] / 2.;
+			if (fabs (x) < grid->row_height / 2)
+				grid->row_data[grid->row][grid->col] = (grid->row_data[grid->row][grid->col] == "t")? "f": "t";
 			break;
 		default:
 			grid->cursor_index = -1;
@@ -884,6 +903,28 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 			break;
 		case G_TYPE_DOUBLE:
 			col_size = double_size;
+			break;
+		case G_TYPE_BOOLEAN:
+			if (!checked) {
+				GtkWidget *ofw = gtk_offscreen_window_new ();
+				GtkWidget *layout = gtk_layout_new (NULL, NULL);
+				GtkWidget *widget = gtk_check_button_new ();
+				GdkRGBA rgba = {1., 1., 1., 1.};
+				gtk_widget_override_background_color (layout, GTK_STATE_FLAG_NORMAL, &rgba);
+				gtk_widget_set_size_request (layout, grid->row_height - 1, grid->row_height - 1);
+				gtk_container_add (GTK_CONTAINER (ofw), layout);
+				gtk_layout_put (GTK_LAYOUT (layout), widget, 0, 0);
+				gtk_widget_show_all (ofw);
+				while (gtk_events_pending ())
+					gtk_main_iteration ();
+				unchecked = gtk_offscreen_window_get_pixbuf (GTK_OFFSCREEN_WINDOW (ofw));
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), true);
+				while (gtk_events_pending ())
+					gtk_main_iteration ();
+				checked = gtk_offscreen_window_get_pixbuf (GTK_OFFSCREEN_WINDOW (ofw));
+				gtk_widget_destroy (ofw);
+			}
+			col_size = grid->row_height;
 			break;
 		default:
 			col_size = 0;
