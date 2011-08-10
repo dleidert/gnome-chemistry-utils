@@ -144,26 +144,34 @@ void Line::SetPosition (double x, double y, double z, double x1, double y1, doub
 
 void Line::SetColor (float red, float green, float blue, float alpha)
 {
-	m_fRed = red ;
-	m_fGreen = green ;
-	m_fBlue = blue ;
-	m_fAlpha = alpha ;
+	m_fRed = red;
+	m_fGreen = green;
+	m_fBlue = blue;
+	m_fAlpha = alpha;
+}
+
+void Line::SetColor (GdkRGBA rgba)
+{
+	m_fRed = rgba.red;
+	m_fGreen = rgba.green;
+	m_fBlue = rgba.blue;
+	m_fAlpha = rgba.alpha;
 }
 
 void Line::GetColor (double *red, double *green, double *blue, double *alpha)
 {
-	*red = m_fRed ;
-	*green = m_fGreen ;
-	*blue = m_fBlue ;
-	*alpha = m_fAlpha ;
+	*red = m_fRed;
+	*green = m_fGreen;
+	*blue = m_fBlue;
+	*alpha = m_fAlpha;
 }
 
 void Line::GetColor (GdkRGBA &rgba)
 {
-	rgba.red = m_fRed ;
-	rgba.green = m_fGreen ;
-	rgba.blue = m_fBlue ;
-	rgba.alpha = m_fAlpha ;
+	rgba.red = m_fRed;
+	rgba.green = m_fGreen;
+	rgba.blue = m_fBlue;
+	rgba.alpha = m_fAlpha;
 }
 
 void Line::SetRadius (double r)

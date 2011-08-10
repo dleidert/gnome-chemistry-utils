@@ -172,6 +172,7 @@ Moves a line to a new position.
 Changes the color used to display the line.
 */
 	void SetColor (float red, float green, float blue, float alpha);
+	void SetColor (GdkRGBA rgba);
 /*!
 @param red: a pointer to the location to which the red component of the color of the line will be copied.
 @param green: a pointer to the location to which the green component of the new color of the line will be copied.

@@ -65,6 +65,8 @@ private:
 	std::vector < Line * > m_Lines;
 	Line *Edges, *Diagonals, *Medians;
 	bool m_Closing;
+	unsigned long m_EdgesFocusOutSignalID, m_DiagsFocusOutSignalID,
+		m_MediansFocusOutSignalID;
 };
 
 }	//	namespace gcr

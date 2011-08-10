@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-08-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/line.cc: add new SetColor(GdkRGBA) method.
+	* libs/gcr/line.h: ditto.
+	* libs/gcr/linesdlg.cc: manage edges, diagonals and medians.
+	* libs/gcr/linesdlg.h: ditto.
+
 2011-08-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: display a check box in boolean cells.
 
