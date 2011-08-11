@@ -45,15 +45,6 @@ public:
 	void Closed ();
 	void ReloadData ();
 
-	virtual bool Apply ();
-	void LineAdd ();
-	void LineDelete ();
-	void LineDeleteAll ();
-	void LineSelect (GtkTreeSelection *Selection);
-	void OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
-	void OnToggled (GtkCellRendererToggle *cell, const gchar *path_string);
-	void OnToggledSpecial (int Type);
-
 private:
 	Document *m_pDoc;
 	GtkColorButton *LineColor, *EdgesColor, *MediansColor, *DiagsColor;
@@ -66,7 +57,7 @@ private:
 	Line *Edges, *Diagonals, *Medians;
 	bool m_Closing;
 	unsigned long m_EdgesFocusOutSignalID, m_DiagsFocusOutSignalID,
-		m_MediansFocusOutSignalID;
+		m_MediansFocusOutSignalID, m_LineFocusOutSignalID, m_ColorChangedID;
 };
 
 }	//	namespace gcr

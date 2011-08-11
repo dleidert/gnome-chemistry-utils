@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: really support booleans.
+	* libs/gcr/line.h: make members more accessible.
+	* libs/gcr/linesdlg.cc: make it work.
+	* libs/gcr/linesdlg.h: ditto.
+
 2011-08-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/line.cc: add new SetColor(GdkRGBA) method.
 	* libs/gcr/line.h: ditto.

@@ -405,6 +405,7 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 	if (event->button != 1)
 		return false;	// FIXME: at least middle buttons should be accepted to paste data
 	GcrGrid *grid = GCR_GRID (widget);
+	int value_changed = -1;
 	int x = grid->first_visible + event->y / grid->row_height - 1, i, new_row, new_col;
 	new_row = (x < 0 || x >= static_cast < int > (grid->rows))? -1: x;
 	if (new_row < 0)
@@ -457,8 +458,10 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 			// nothing to do, just wait and see if the mouse button is released inside the cell
 			// for now toggle the button if the click occurs near enough
 			x = event->x - x + grid->col_widths[new_col] / 2.;
-			if (fabs (x) < grid->row_height / 2)
+			if (fabs (x) < grid->row_height / 2) {
 				grid->row_data[grid->row][grid->col] = (grid->row_data[grid->row][grid->col] == "t")? "f": "t";
+				value_changed = new_col;
+			}
 			break;
 		default:
 			grid->cursor_index = -1;
@@ -476,6 +479,8 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 		g_source_remove (grid->cursor_signal);
 		grid->cursor_signal = 0;
 	}
+	if (value_changed >= 0) // a boolean changed
+		g_signal_emit (grid, gcr_grid_signals[VALUE_CHANGED], 0, new_row, new_col);
 	gtk_widget_queue_draw (widget);
 	return true;
 }
@@ -1076,7 +1081,7 @@ unsigned gcr_grid_append_row (GcrGrid *grid,...)
 			grid->row_data[row][col] = va_arg (args, char const*);
 			break;
 		case G_TYPE_BOOLEAN:
-			grid->row_data[row][col] = (va_arg (args, double))? "t": "f";
+			grid->row_data[row][col] = (va_arg (args, gboolean))? "t": "f";
 			break;
 		default:
 			// do nothing, unsupported type

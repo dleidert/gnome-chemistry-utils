@@ -99,27 +99,27 @@ Copies a line.
 /*!
 @return the x coordinate of the first end of the line.
 */
-	double X1 (void) {return m_dx;}
+	double &X1 (void) {return m_dx;}
 /*!
 @return the y coordinate of the first end of the line.
 */
-	double Y1 (void) {return m_dy;}
+	double &Y1 (void) {return m_dy;}
 /*!
 @return the z coordinate of the first end of the line.
 */
-	double Z1 (void) {return m_dz;}
+	double &Z1 (void) {return m_dz;}
 /*!
 @return the x coordinate of the second end of the line.
 */
-	double X2 (void) {return m_dx2;}
+	double &X2 (void) {return m_dx2;}
 /*!
 @return the y coordinate of the second end of the line.
 */
-	double Y2 (void) {return m_dy2;}
+	double &Y2 (void) {return m_dy2;}
 /*!
 @return the z coordinate of the second end of the line.
 */
-	double Z2 (void) {return m_dz2;}
+	double &Z2 (void) {return m_dz2;}
 /*!
 @return the greatest x coordinate of the line.
 */
@@ -151,7 +151,7 @@ Copies a line.
 /*!
 @return the type of the line (see LineType).
 */
-	LineType Type () {return m_nType;}
+	LineType &Type () {return m_nType;}
 /*!
 @param x: the new x coordinate of the first end of the new line.
 @param y: the new y coordinate of the first end of the new line.
