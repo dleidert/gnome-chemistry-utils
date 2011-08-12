@@ -266,8 +266,6 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 				gdk_cairo_set_source_pixbuf (cr, pixbuf, 0., 0.);
 				cairo_fill (cr);
 				cairo_restore (cr);
-				
-			// FIXME: manage booleans, not only strings
 			} else {
 				pango_layout_set_text (l, grid->row_data[row][i].c_str(), -1);
 				pango_layout_get_pixel_size (l, &width, NULL);
@@ -307,7 +305,7 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 			}
 			pos += grid->col_widths[i];
 		}
-			
+
 		row++;
 		y += grid->row_height;
 	}
@@ -871,7 +869,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	pango_layout_get_pixel_size (layout, &int_size, &height);
 	pango_layout_set_text (layout, "0.00000000", -1);
 	pango_layout_get_pixel_size (layout, &double_size, NULL);
-	grid->width = 0; // FIXME: evalutate the real size from columns
+	grid->width = 0;
 	GtkWidget *w = gtk_button_new_with_label ("00");
 	gtk_widget_get_preferred_height (w, &grid->row_height, NULL);
 	grid->line_offset = (grid->row_height - height) / 2;

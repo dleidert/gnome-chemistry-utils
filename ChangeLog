@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: cleaned.
+	* libs/gcr/sizedlg.cc: make size dialog instant apply.
+	* libs/gcr/sizedlg.h: ditto.
+	* ui/crystal/size.ui: ditto.
+
 2011-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: really support booleans.
 	* libs/gcr/line.h: make members more accessible.

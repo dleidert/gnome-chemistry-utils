@@ -29,6 +29,101 @@
 
 namespace gcr {
 
+class SizeDlgPrivate
+{
+public:
+	static bool MinXEdited (SizeDlg *pBox);
+	static bool MaxXEdited (SizeDlg *pBox);
+	static bool MinYEdited (SizeDlg *pBox);
+	static bool MaxYEdited (SizeDlg *pBox);
+	static bool MinZEdited (SizeDlg *pBox);
+	static bool MaxZEdited (SizeDlg *pBox);
+};
+
+bool SizeDlgPrivate::MinXEdited (SizeDlg *pBox)
+{
+	g_signal_handler_block (pBox->MinX, pBox->m_MinXFocusOutSignalID);
+	double xmin, xmax, ymin, ymax, zmin, zmax, value;
+	pBox->m_pDoc->GetSize (&xmin, &xmax, &ymin, &ymax, &zmin, &zmax);
+	if (pBox->GetNumber (pBox->MinX, &value, gcugtk::Max, 0, xmax) && xmin != value) {
+		pBox->m_pDoc->SetSize (value, xmax, ymin, ymax, zmin, zmax);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
+	g_signal_handler_unblock (pBox->MinX, pBox->m_MinXFocusOutSignalID);
+	return false;
+}
+
+bool SizeDlgPrivate::MaxXEdited (SizeDlg *pBox)
+{
+	g_signal_handler_block (pBox->MaxX, pBox->m_MaxXFocusOutSignalID);
+	double xmin, xmax, ymin, ymax, zmin, zmax, value;
+	pBox->m_pDoc->GetSize (&xmin, &xmax, &ymin, &ymax, &zmin, &zmax);
+	if (pBox->GetNumber (pBox->MaxX, &value, gcugtk::Min, xmin) && xmin != value) {
+		pBox->m_pDoc->SetSize (xmin, value, ymin, ymax, zmin, zmax);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
+	g_signal_handler_unblock (pBox->MaxX, pBox->m_MaxXFocusOutSignalID);
+	return false;
+}
+
+bool SizeDlgPrivate::MinYEdited (SizeDlg *pBox)
+{
+	g_signal_handler_block (pBox->MinY, pBox->m_MinYFocusOutSignalID);
+	double xmin, xmax, ymin, ymax, zmin, zmax, value;
+	pBox->m_pDoc->GetSize (&xmin, &xmax, &ymin, &ymax, &zmin, &zmax);
+	if (pBox->GetNumber (pBox->MinY, &value, gcugtk::Max, 0, ymax) && ymin != value) {
+		pBox->m_pDoc->SetSize (xmin, xmax, value, ymax, zmin, zmax);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
+	g_signal_handler_unblock (pBox->MinY, pBox->m_MinYFocusOutSignalID);
+	return false;
+}
+
+bool SizeDlgPrivate::MaxYEdited (SizeDlg *pBox)
+{
+	g_signal_handler_block (pBox->MaxY, pBox->m_MaxYFocusOutSignalID);
+	double xmin, xmax, ymin, ymax, zmin, zmax, value;
+	pBox->m_pDoc->GetSize (&xmin, &xmax, &ymin, &ymax, &zmin, &zmax);
+	if (pBox->GetNumber (pBox->MaxY, &value, gcugtk::Min, ymin) && ymax != value) {
+		pBox->m_pDoc->SetSize (xmin, xmax, ymin, value, zmin, zmax);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
+	g_signal_handler_unblock (pBox->MaxY, pBox->m_MaxYFocusOutSignalID);
+	return false;
+}
+
+bool SizeDlgPrivate::MinZEdited (SizeDlg *pBox)
+{
+	g_signal_handler_block (pBox->MinZ, pBox->m_MinZFocusOutSignalID);
+	double xmin, xmax, ymin, ymax, zmin, zmax, value;
+	pBox->m_pDoc->GetSize (&xmin, &xmax, &ymin, &ymax, &zmin, &zmax);
+	if (pBox->GetNumber (pBox->MinZ, &value, gcugtk::Max, 0, zmax) && zmin != value) {
+		pBox->m_pDoc->SetSize (xmin, xmax, ymin, ymax, value, zmax);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
+	g_signal_handler_unblock (pBox->MinZ, pBox->m_MinZFocusOutSignalID);
+	return false;
+}
+
+bool SizeDlgPrivate::MaxZEdited (SizeDlg *pBox)
+{
+	g_signal_handler_block (pBox->MaxZ, pBox->m_MaxZFocusOutSignalID);
+	double xmin, xmax, ymin, ymax, zmin, zmax, value;
+	pBox->m_pDoc->GetSize (&xmin, &xmax, &ymin, &ymax, &zmin, &zmax);
+	if (pBox->GetNumber (pBox->MaxZ, &value, gcugtk::Min, zmin) && zmax != value) {
+		pBox->m_pDoc->SetSize (xmin, xmax, ymin, ymax, zmin, value);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
+	}
+	g_signal_handler_unblock (pBox->MaxZ, pBox->m_MaxZFocusOutSignalID);
+	return false;
+}
+
 SizeDlg::SizeDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/size.ui", "size", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
@@ -53,42 +148,22 @@ SizeDlg::SizeDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"
 	snprintf(m_buf, sizeof(m_buf), "%g", zmax);
 	gtk_entry_set_text(MaxZ, m_buf);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
+	g_signal_connect_swapped (G_OBJECT (MinX), "activate", G_CALLBACK (SizeDlgPrivate::MinXEdited), this);
+	m_MinXFocusOutSignalID = g_signal_connect_swapped (G_OBJECT (MinX), "focus-out-event", G_CALLBACK (SizeDlgPrivate::MinXEdited), this);
+	g_signal_connect_swapped (G_OBJECT (MaxX), "activate", G_CALLBACK (SizeDlgPrivate::MaxXEdited), this);
+	m_MaxXFocusOutSignalID = g_signal_connect_swapped (G_OBJECT (MaxX), "focus-out-event", G_CALLBACK (SizeDlgPrivate::MaxXEdited), this);
+	g_signal_connect_swapped (G_OBJECT (MinY), "activate", G_CALLBACK (SizeDlgPrivate::MinYEdited), this);
+	m_MinYFocusOutSignalID = g_signal_connect_swapped (G_OBJECT (MinY), "focus-out-event", G_CALLBACK (SizeDlgPrivate::MinYEdited), this);
+	g_signal_connect_swapped (G_OBJECT (MaxY), "activate", G_CALLBACK (SizeDlgPrivate::MaxYEdited), this);
+	m_MaxYFocusOutSignalID = g_signal_connect_swapped (G_OBJECT (MaxY), "focus-out-event", G_CALLBACK (SizeDlgPrivate::MaxYEdited), this);
+	g_signal_connect_swapped (G_OBJECT (MinZ), "activate", G_CALLBACK (SizeDlgPrivate::MinZEdited), this);
+	m_MinZFocusOutSignalID = g_signal_connect_swapped (G_OBJECT (MinZ), "focus-out-event", G_CALLBACK (SizeDlgPrivate::MinZEdited), this);
+	g_signal_connect_swapped (G_OBJECT (MaxZ), "activate", G_CALLBACK (SizeDlgPrivate::MaxZEdited), this);
+	m_MaxZFocusOutSignalID = g_signal_connect_swapped (G_OBJECT (MaxZ), "focus-out-event", G_CALLBACK (SizeDlgPrivate::MaxZEdited), this);
 }
 
 SizeDlg::~SizeDlg()
 {
-}
-
-bool SizeDlg::Apply ()
-{
-	double xmin, xmax, ymin, ymax, zmin, zmax, x;
-	if ((!GetNumber (MinX, &xmin)) ||
-		(!GetNumber (MaxX, &xmax)) ||
-		(!GetNumber (MinY, &ymin)) ||
-		(!GetNumber (MaxY, &ymax)) ||
-		(!GetNumber (MinZ, &zmin)) ||
-		(!GetNumber (MaxZ, &zmax))) {
-		return false;
-	}
-	if (xmin > xmax) {
-		x = xmin;
-		xmin = xmax;
-		xmax = x;
-	}
-	if (ymin > ymax) {
-		x = ymin;
-		ymin = ymax;
-		ymax = x;
-	}
-	if (zmin > zmax) {
-		x = zmin;
-		zmin = zmax;
-		zmax = x;
-	}
-	m_pDoc->SetSize (xmin, xmax, ymin, ymax, zmin, zmax);
-	m_pDoc->Update ();
-	m_pDoc->SetDirty (true);
-	return true;
 }
 
 }	//	namespace gcr

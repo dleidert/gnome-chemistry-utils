@@ -34,16 +34,17 @@ class Application;
 
 class SizeDlg: public gcugtk::Dialog
 {
+friend class SizeDlgPrivate;
 public:
 	SizeDlg (Application *App, Document* pDoc);
 	virtual ~SizeDlg ();
-
-	virtual bool Apply ();
 
 private:
 	char m_buf[64];
 	Document *m_pDoc;
 	GtkEntry *MaxX, *MinX, *MaxY, *MinY, *MaxZ, *MinZ;
+	unsigned long m_MinXFocusOutSignalID, m_MaxXFocusOutSignalID, m_MinYFocusOutSignalID,
+				   m_MaxYFocusOutSignalID, m_MinZFocusOutSignalID, m_MaxZFocusOutSignalID;
 };
 
 }	//	namespace gcr
