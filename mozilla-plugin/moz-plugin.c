@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * moz-plugin.c 
  *
- * Copyright (C) 2002-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -65,7 +65,7 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 	ChemPlugin *plugin;
 	char buf [32];
 	int i;
-  
+
 	if (instance == NULL)
 		return NPERR_INVALID_INSTANCE_ERROR;
 	
@@ -216,6 +216,33 @@ static void ChemStreamAsFile (NPP instance, G_GNUC_UNUSED NPStream *stream, cons
 	write (to_pipe, "\n", 1);
 }
 
+static NPError ChemGetValue (NPP instance, NPPVariable variable, void *value)
+{
+	if (instance == NULL)
+		return NPERR_INVALID_INSTANCE_ERROR;
+
+	/* See NPPVariable in npapi.h */
+	switch (variable) {
+	case NPPVpluginNameString:
+		* ((char const **) value) = "Gnome Chemistry Utils "VERSION".";
+		break;
+	case NPPVpluginDescriptionString:
+		*((char const **) value) =  "Gnome Chemistry Utils "VERSION". Chemical structures display.";
+		break;
+	case NPPVpluginNeedsXEmbed:
+		*((NPBool *) value) = TRUE;
+		break;
+	case NPPVpluginScriptableNPObject:
+        value = NULL;
+		break;
+	default:
+		return NPERR_INVALID_PARAM;
+		break;
+	}
+
+	return NPERR_NO_ERROR;
+}
+
 NPError NP_GetValue (G_GNUC_UNUSED void *future, NPPVariable variable, void *value)
 {
 	switch (variable) {
@@ -269,26 +296,30 @@ NPError NP_Initialize(NPNetscapeFuncs *mozFuncs, NPPluginFuncs *pluginFuncs) {
 	pluginFuncs->newstream  = (NPP_NewStreamProcPtr) ChemNewStream;
 	pluginFuncs->destroystream  = (NPP_DestroyStreamProcPtr) ChemDestroyStream;
 	pluginFuncs->asfile     = (NPP_StreamAsFileProcPtr) ChemStreamAsFile;
+	pluginFuncs->writeready = NULL;
+	pluginFuncs->write      = NULL;
+	pluginFuncs->print      = (NPP_PrintProcPtr) ChemPrint;
+	pluginFuncs->urlnotify  = NULL;
+	pluginFuncs->event      = NULL;
+	pluginFuncs->getvalue	= (NPP_GetValueProcPtr) ChemGetValue;
+	pluginFuncs->setvalue	= NULL;//(NPP_SetValueProcPtr) ChemSetValue;
 #else
+
 	pluginFuncs->newp       = NewNPP_NewProc (ChemNew);
 	pluginFuncs->destroy    = NewNPP_DestroyProc (ChemDestroy);
 	pluginFuncs->setwindow  = NewNPP_SetWindowProc (ChemSetWindow);
 	pluginFuncs->newstream  = NewNPP_NewStreamProc (ChemNewStream);
 	pluginFuncs->destroystream  = NewNPP_DestroyStreamProc (ChemDestroyStream);
 	pluginFuncs->asfile     = NewNPP_StreamAsFileProc (ChemStreamAsFile);
-#endif
 	pluginFuncs->writeready = NULL;
 	pluginFuncs->write      = NULL;
-#ifdef HAVE_NPFUNCTIONS_H
-	pluginFuncs->print      = (NPP_PrintProcPtr) ChemPrint;
-#else
-	pluginFuncs->print      = NewNPP_PrintProc (ChemPrint);
-#endif
+	pluginFuncs->print      = NewNPP_PrintProc (ChemPrint);#endif
 	pluginFuncs->urlnotify  = NULL;
 	pluginFuncs->event      = NULL;
-#ifdef OJI
-	pluginFuncs->javaClass  = NULL;
+	pluginFuncs->getvalue	= NewNPP_GetValueProc (ChemGetValue);
+	pluginFuncs->setvalue	= NULL;//NewNPP_SetValueProc (ChemSetValue);
 #endif
+	pluginFuncs->javaClass  = NULL;
 
 	return NPERR_NO_ERROR;
 }

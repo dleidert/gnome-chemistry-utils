@@ -1,6 +1,13 @@
 Version 0.12.9
+	GCrystal:
+		* don't allow more than one dialog of each type at once (avoids
+		crashing).
 	libgcu:
 		* Fixed OpenGL using offscreen rendering.
+	Mozilla plugin:
+		* Works with most recent firefox.
+	Other:
+		* New GSettings schemas to support gsettings enabled goffice.
 
 Version 0.12.8
 	GChemPaint:
