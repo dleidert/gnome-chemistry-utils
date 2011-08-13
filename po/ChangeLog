@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: added libs/gcr/grid.cc.
+
 2011-07-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* fr.po: one more typo fixed.
 

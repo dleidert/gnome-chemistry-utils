@@ -44,6 +44,7 @@ libs/gcr/atomsdlg.cc
 libs/gcr/celldlg.cc
 libs/gcr/cleavagesdlg.cc
 libs/gcr/document.cc
+libs/gcr/grid.cc
 libs/gcr/linesdlg.cc
 libs/gcr/view.cc
 libs/gcu/application.cc
