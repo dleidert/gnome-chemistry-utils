@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: fixed decimal separator handling.
+	* mozilla-plugin/moz-plugin.c: make it work with latest firefox.
+
 2011-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: cleaned.
 	* libs/gcr/sizedlg.cc: make size dialog instant apply.
@@ -359,8 +363,8 @@
 
 2011-05-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/glview.cc: reimplement offscreen rendering.
-	* libs/gcu/glview.h:
-	* libs/gcugtk/glview.cc:
+	* libs/gcu/glview.h: ditto.
+	* libs/gcugtk/glview.cc: ditto.
 
 2011-05-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcugtk/Makefile.am: add -lX11 to LIBADD.

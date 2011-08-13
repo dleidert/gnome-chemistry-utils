@@ -1,3 +1,12 @@
+Version 0.13.4
+	All:
+		* Ported to Gtk+-3.0.
+	GCrystal:
+		* Use the new GcrGrid item in atoms, lines and cleavges dialogs.
+		* Make these and size dialogs instant apply.
+	GChemTable:
+		* Use a more complete tip window for elements.
+
 Version 0.13.3
 	GChemPaint:
 		* Fixed build with gcc-4.6. [#32363]

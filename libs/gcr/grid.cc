@@ -699,25 +699,60 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		grid->row_data[new_row][new_col].erase (grid->sel_start, grid->cursor_index - grid->sel_start);
 		new_index = grid->sel_start;
 		break;
-	case GDK_KEY_period:
+	case GDK_KEY_period: {
+		int pos, start, end;
+		char const *sep;
+		if (new_index < grid->sel_start) {
+			start = new_index;
+			end = grid->sel_start;
+		} else {
+			start = grid->sel_start;
+			end = new_index;
+		}
 		if (grid->types[new_col] != G_TYPE_DOUBLE ||
 		    strcmp (go_locale_get_decimal ()->str, ".") ||
-		    strchr (grid->row_data[new_row][new_col].c_str (), '.') != NULL)
+		    ((sep = strchr (grid->row_data[new_row][new_col].c_str (), '.')) != NULL &&
+		    (pos = sep - grid->row_data[new_row][new_col].c_str (),
+		     pos < start || pos > end)))
 			return true;
 		new_char = '.';
 		break;
-	case GDK_KEY_comma:
+	}
+	case GDK_KEY_comma: {
+		int pos, start, end;
+		char const *sep;
+		if (new_index < grid->sel_start) {
+			start = new_index;
+			end = grid->sel_start;
+		} else {
+			start = grid->sel_start;
+			end = new_index;
+		}
 		if (grid->types[new_col] != G_TYPE_DOUBLE ||
 		    strcmp (go_locale_get_decimal ()->str, ",") ||
-		    strchr (grid->row_data[new_row][new_col].c_str (), ',') != NULL)
+		    ((sep = strchr (grid->row_data[new_row][new_col].c_str (), ',')) != NULL &&
+		    (pos = sep - grid->row_data[new_row][new_col].c_str (),
+		     pos < start || pos > end)))
 			return true;
 		new_char = ',';
 		break;
+	}
 	case GDK_KEY_KP_Decimal: {
+		int pos, start, end;
+		char const *sep;
+		if (new_index < grid->sel_start) {
+			start = new_index;
+			end = grid->sel_start;
+		} else {
+			start = grid->sel_start;
+			end = new_index;
+		}
 		if (grid->types[new_col] != G_TYPE_DOUBLE ||
-		    strstr (grid->row_data[new_row][new_col].c_str (), go_locale_get_decimal ()->str) != NULL)
+		    ((sep = strstr (grid->row_data[new_row][new_col].c_str (), go_locale_get_decimal ()->str)) != NULL &&
+		    (pos = sep - grid->row_data[new_row][new_col].c_str (),
+		     pos < start || pos > end)))
 			return true;
-		// don't add aanything before the minus sign
+		// don't add anything before the minus sign
 		if (new_index == 0 && grid->sel_start == 0 && !grid->row_data[new_row][new_col].compare (0, strlen ("−"), "−"))
 			return true;
 		// first delete the selected chars if any
