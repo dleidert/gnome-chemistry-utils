@@ -1,8 +1,13 @@
 ##Text encoding: utf-8
 
 2011-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: no more tar.gz package.
 	* libs/gcr/grid.cc: fixed decimal separator handling.
+	* libs/gcr/Makefile.am: fixed include path for generated header.
+	* libs/gcu/loader.cc: don't crash when using default application.
+	* mozilla-plugin/chem-viewer.cc: make it build.
 	* mozilla-plugin/moz-plugin.c: make it work with latest firefox.
+	* plugins/paint/atoms/plugin.cc: add missing fields.
 
 2011-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: cleaned.

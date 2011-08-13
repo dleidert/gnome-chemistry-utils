@@ -50,13 +50,13 @@ gcpAtomsPlugin::~gcpAtomsPlugin()
 }
 
 static gcp::IconDesc icon_descs[] = {
-	{"gcp_Element", gcp_element_24},
-	{"gcp_ChargePlus", gcp_chargep_24},
-	{"gcp_ChargeMinus", gcp_chargem_24},
-	{"gcp_ElectronPair", gcp_elecpair_24},
-	{"gcp_UnpairedElectron", gcp_unpairedelec_24},
-	{"gcp_Orbit", gcp_orbit_24},
-	{NULL, NULL},
+	{"gcp_Element", gcp_element_24, NULL},
+	{"gcp_ChargePlus", gcp_chargep_24, NULL},
+	{"gcp_ChargeMinus", gcp_chargem_24, NULL},
+	{"gcp_ElectronPair", gcp_elecpair_24, NULL},
+	{"gcp_UnpairedElectron", gcp_unpairedelec_24, NULL},
+	{"gcp_Orbit", gcp_orbit_24, NULL},
+	{NULL, NULL, NULL},
 };
 
 static GtkRadioActionEntry entries[] = {

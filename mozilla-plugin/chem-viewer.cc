@@ -36,8 +36,8 @@
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-loader-module.h>
 #include <gdk/gdkx.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkplug.h>
+#include <gtk/gtk.h>
+#include <gtk/gtkx.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -84,7 +84,6 @@ private:
 	XID Xid;
 	string Filename, MimeType;
 	GtkWidget *Plug, *Viewer;
-	GdkWindow *Parent;
 	gcp::Document *Doc;
 	map<string, string> Params;
 	MozPaintApp *gcpApp;
@@ -107,26 +106,17 @@ ChemComp::~ChemComp ()
 {
 	gtk_widget_unrealize (Plug);
 	gtk_widget_destroy (Plug);
-	g_object_unref (Parent);
 }
 
 void ChemComp::SetWindow (XID xid)
 {
-	int width, height;
 	if (Viewer)
 		return;
-	if (Xid == xid) {
-		//just resize and redraw
-		gdk_window_get_geometry (Parent, NULL, NULL, &width, &height, NULL);
-		gtk_window_resize (GTK_WINDOW (Plug), width, height);
-	} else {
+	if (Xid != xid) {
 		if (Plug) // does this happen ?
 			return;
 		Xid = xid;
 		Plug = gtk_plug_new (xid);
-		Parent = gdk_window_foreign_new (xid);
-		gdk_window_get_geometry (Parent, NULL, NULL, &width, &height, NULL);
-		gtk_window_set_default_size (GTK_WINDOW (Plug), width, height);
 		gtk_widget_realize (Plug);
 		GdkWindow *window = gtk_widget_get_window (Plug);
 		XReparentWindow (GDK_WINDOW_XDISPLAY (window),
