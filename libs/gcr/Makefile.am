@@ -44,7 +44,7 @@ libgcrystal_@GCU_API_VER@_la_LIBADD = \
 		-lGL
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		$(goffice_CFLAGS) \
+		-I$(top_builddir)/libs $(goffice_CFLAGS) \
 		$(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/crystal\"
