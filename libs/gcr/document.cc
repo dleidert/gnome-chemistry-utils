@@ -79,6 +79,7 @@ Document::Document (gcu::Application *App): gcu::GLDocument (App),
 {
 	m_xmin = m_ymin = m_zmin = 0;
 	m_xmax = m_ymax = m_zmax = 1;
+	Init ();
 }
 
 
@@ -146,11 +147,6 @@ void Document::Init()
 	m_xmax = m_ymax = m_zmax = 1;
 	m_FixedSize = false;
 	m_MaxDist = 0;
-	if (m_Views.size() == 0)
-	{
-		View* pView = CreateNewView();
-		m_Views.push_back(pView);
-	}
 }
 
 void Document::ParseXMLTree (xmlNode* xml)
@@ -245,40 +241,37 @@ void Document::ParseXMLTree (xmlNode* xml)
 	Update ();
 }
 
-bool Document::LoadNewView(G_GNUC_UNUSED xmlNodePtr node)
+bool Document::LoadNewView (G_GNUC_UNUSED xmlNodePtr node)
 {
 	return true;
 }
 
-View *Document::GetView()
+View *Document::GetView ()
 {
-	if (m_Views.size() == 0)
-	{
-		View* pView = CreateNewView();
-		m_Views.push_back(pView);
+	if (m_Views.size() == 0) {
+		View* pView = CreateNewView ();
+		m_Views.push_back (pView);
 	}
-	return m_Views.front();
+ 	return m_Views.front ();
 }
 
-void Document::Update()
+void Document::Update ()
 {
-	m_Empty = (AtomDef.empty() && LineDef.empty()) ? true : false;
+	m_Empty = (AtomDef.empty () && LineDef.empty ()) ? true : false;
 	Atom atom;
 	Line line;
 	gdouble alpha = m_alpha * M_PI / 180;
 	gdouble beta = m_beta * M_PI / 180;
 	gdouble gamma = m_gamma * M_PI / 180;
 	// Remove all atoms
-	while (!Atoms.empty())
-	{
-		delete Atoms.front();
-		Atoms.pop_front();
+	while (!Atoms.empty ()) {
+		delete Atoms.front ();
+		Atoms.pop_front ();
 	}
 	// Remove all bonds
-	while (!Lines.empty())
-	{
-		delete Lines.front();
-		Lines.pop_front();
+	while (!Lines.empty ()) {
+		delete Lines.front ();
+		Lines.pop_front ();
 	}
 
 	// update space group

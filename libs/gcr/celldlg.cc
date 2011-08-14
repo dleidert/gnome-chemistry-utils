@@ -47,7 +47,7 @@ void on_type_changed (G_GNUC_UNUSED GtkWidget* w, CellDlg *pBox)
 CellDlg::CellDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/cell.ui", "cell", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
-	TypeMenu = GTK_COMBO_BOX (GetWidget ("lattice-type"));
+	TypeMenu = GTK_COMBO_BOX (GetWidget ("bravais-box"));
 	TypeSignal = g_signal_connect (G_OBJECT (TypeMenu), "changed", G_CALLBACK (on_type_changed), this);
 	A = GTK_ENTRY (GetWidget ("a"));
 	B = GTK_ENTRY (GetWidget ("b"));
@@ -58,6 +58,7 @@ CellDlg::CellDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"
 	AutoSpaceGroup = GTK_TOGGLE_BUTTON (GetWidget ("auto-space-group-btn"));
 	g_signal_connect (G_OBJECT (AutoSpaceGroup), "toggled", G_CALLBACK (CellDlgPrivate::OnAutoSpaceGroupToggled), this);
 	SpaceGroup = GTK_SPIN_BUTTON (GetWidget ("space-group-btn"));
+	gtk_spin_button_set_value (SpaceGroup, m_pDoc->GetSpaceGroup ()->GetId ());
 	SpaceGroupSignal = g_signal_connect (G_OBJECT (SpaceGroup), "value-changed", G_CALLBACK (CellDlgPrivate::OnSpaceGroupChanged), this);
 	SpaceGroupAdj = gtk_spin_button_get_adjustment (SpaceGroup);
 	gcr::Lattice i;
@@ -78,6 +79,7 @@ CellDlg::CellDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"
 	gtk_toggle_button_set_active (AutoSpaceGroup, m_pDoc->GetAutoSpaceGroup ());
 	gtk_widget_set_sensitive (GTK_WIDGET (SpaceGroup), !m_pDoc->GetAutoSpaceGroup ());
 	OnTypeChanged ();
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 CellDlg::~CellDlg ()

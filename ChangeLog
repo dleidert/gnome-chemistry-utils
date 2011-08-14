@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.13.5).
+	* libs/gcr/celldlg.cc: start cell dialog reimplementation.
+	* libs/gcr/document.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* ui/crystal/cell.ui: ditto.
+
 2011-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: no more tar.gz package.
 	* libs/gcr/grid.cc: fixed decimal separator handling.

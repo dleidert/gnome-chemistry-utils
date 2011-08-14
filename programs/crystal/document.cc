@@ -60,7 +60,6 @@ using namespace std;
 
 gcDocument::gcDocument (gcApplication *pApp): gcr::Document (pApp)
 {
-	Init ();
 	m_filename = NULL;
 	m_bClosing = false;
 	m_ReadOnly = false;
