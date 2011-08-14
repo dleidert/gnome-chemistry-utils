@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.12.10).
+
 2011-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* mozilla-plugin/moz-plugin.c: make the plugin work with most recent
 	firefox.
