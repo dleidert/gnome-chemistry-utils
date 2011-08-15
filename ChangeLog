@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2011-08-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/celldlg.cc: made it instant apply.
+	* libs/gcr/celldlg.h: ditto.
+	* pixmaps/gchem3d.svg: new svg icon, thanks to Matthias Mailänder.
+	* pixmaps/gchemcalc.svg: ditto.
+	* pixmaps/gchempaint.svg: ditto.
+	* pixmaps/gchemtable.svg: ditto.
+	* pixmaps/gcrystal.svg: ditto.
+	* pixmaps/gspectrum.svg: ditto.
+
 2011-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.13.5).
 	* libs/gcr/celldlg.cc: start cell dialog reimplementation.

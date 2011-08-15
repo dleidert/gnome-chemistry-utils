@@ -39,9 +39,6 @@ public:
 	CellDlg (Application *App, Document* pDoc);
 	virtual ~CellDlg ();
 
-	bool Apply ();
-	void OnTypeChanged ();
-
 private:
 	char m_buf[64];
 	Document *m_pDoc;
@@ -51,7 +48,9 @@ private:
 	GtkToggleButton *AutoSpaceGroup;
 	GtkSpinButton *SpaceGroup;
 	GtkAdjustment *SpaceGroupAdj;
-	unsigned SpaceGroupSignal, TypeSignal;
+	unsigned SpaceGroupSignal, TypeSignal,
+			 ASignal, BSignal, CSignal,
+			 AlphaSignal, BetaSignal, GammaSignal;
 };
 
 }	//	namespace gcr
