@@ -31,19 +31,18 @@ class gcApplication;
 
 class gcPrefsDlg: public gcugtk::Dialog
 {
+friend class gcPrefsDlgPrivate;
 public:
 	gcPrefsDlg (gcApplication *App);
 	virtual ~gcPrefsDlg ();
-
-	virtual bool Apply ();
-	void UpdatePrinting ();
 
 private:
 	GtkComboBox *PrintResMenu;
 	GtkSpinButton *PrintResBtn;
 	GtkColorButton *BackgroundBtn;
 	GtkSpinButton *FoVBtn;
-	GtkEntry *PsiEnt, *ThetaEnt, *PhiEnt;;
+	GtkEntry *PsiEnt, *ThetaEnt, *PhiEnt;
+	unsigned long PsiSignal, ThetaSignal, PhiSignal, PrintResChanged;
 };
 
 #endif //GCRYSTAL_PREFS_H

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-08-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* pixmaps/Makefile.am: install scalable icons instead of bitmaps.
+	* programs/crystal/prefs.cc: made it instant apply.
+	* programs/crystal/prefs.h: ditto.
+	* ui/crystal/docprop.ui: minor fix.
+	* ui/crystal/prefs.ui: made it instant apply.
+
 2011-08-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/celldlg.cc: made it instant apply.
 	* libs/gcr/celldlg.h: ditto.

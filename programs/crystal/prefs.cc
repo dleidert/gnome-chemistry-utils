@@ -28,10 +28,115 @@
 #include "application.h"
 
 guint PrintResolution = 300;
+class gcPrefsDlgPrivate {
+public:
+	static void OnPrintResolution (gcPrefsDlg *dlg);
+	static void OnCustomPrintResolution (gcPrefsDlg *dlg);
+	static void OnFoVChanged (gcPrefsDlg *dlg);
+	static bool OnPsiChanged (gcPrefsDlg *dlg);
+	static bool OnThetaChanged (gcPrefsDlg *dlg);
+	static bool OnPhiChanged (gcPrefsDlg *dlg);
+	static void OnBackgroundChanged (gcPrefsDlg *dlg);
+};
 
-static void on_print_resolution (G_GNUC_UNUSED GtkWidget *widget, gcPrefsDlg * dialog)
+void gcPrefsDlgPrivate::OnPrintResolution (gcPrefsDlg *dlg)
 {
-	dialog->UpdatePrinting ();
+	int PrintIndex = gtk_combo_box_get_active (dlg->PrintResMenu);
+	switch (PrintIndex)
+	{
+	case 0:
+		PrintResolution = 300;
+		break;
+	case 1:
+		PrintResolution = 360;
+		break;
+	case 2:
+		PrintResolution = 600;
+		break;
+	case 3:
+		PrintResolution = 720;
+		break;
+	case 4:
+		PrintResolution = 1200;
+		break;
+	case 5:
+		PrintResolution = 1440;
+		break;
+	case 6:
+		PrintResolution = 2400;
+		break;
+	case 7:
+		PrintResolution = 2880;
+		break;
+	default:
+		gtk_widget_set_sensitive (GTK_WIDGET (dlg->PrintResBtn), true);
+		return; // no change in that case
+	}
+	g_signal_handler_block (dlg->PrintResBtn, dlg->PrintResChanged);
+	gtk_spin_button_set_value (dlg->PrintResBtn, PrintResolution);
+	gtk_widget_set_sensitive (GTK_WIDGET (dlg->PrintResBtn), false);
+	g_signal_handler_unblock (dlg->PrintResBtn, dlg->PrintResChanged);
+	go_conf_set_int (node, "printing/resolution", PrintResolution);
+}
+
+void gcPrefsDlgPrivate::OnCustomPrintResolution (gcPrefsDlg *dlg)
+{
+	PrintResolution = gtk_spin_button_get_value_as_int (dlg->PrintResBtn);
+	go_conf_set_int (node, "printing/resolution", PrintResolution);
+}
+
+void gcPrefsDlgPrivate::OnFoVChanged (gcPrefsDlg *dlg)
+{
+	FoV = gtk_spin_button_get_value_as_int (dlg->FoVBtn);
+	go_conf_set_int (node, "views/fov", FoV);
+}
+
+bool gcPrefsDlgPrivate::OnPsiChanged (gcPrefsDlg *dlg)
+{
+	g_signal_handler_block (dlg->PsiEnt, dlg->PsiSignal);
+	double value;
+	if (dlg->GetNumber (dlg->PsiEnt, &value, gcugtk::MinEqMax, -180, 180)) {
+		Psi = value;
+		go_conf_set_double (node, "views/psi", Psi);
+	}
+	g_signal_handler_unblock (dlg->PsiEnt, dlg->PsiSignal);
+	return false;
+}
+
+bool gcPrefsDlgPrivate::OnThetaChanged (gcPrefsDlg *dlg)
+{
+	g_signal_handler_block (dlg->ThetaEnt, dlg->ThetaSignal);
+	double value;
+	if (dlg->GetNumber (dlg->ThetaEnt, &value, gcugtk::MinEqMaxEq, 0, 180)) {
+		Theta = value;
+		go_conf_set_double (node, "views/theta", Theta);
+	}
+	g_signal_handler_unblock (dlg->ThetaEnt, dlg->ThetaSignal);
+	return false;
+}
+
+bool gcPrefsDlgPrivate::OnPhiChanged (gcPrefsDlg *dlg)
+{
+	g_signal_handler_block (dlg->PhiEnt, dlg->PhiSignal);
+	double value;
+	if (dlg->GetNumber (dlg->PhiEnt, &value, gcugtk::MinEqMax, -180, 180)) {
+		Phi = value;
+		go_conf_set_double (node, "views/phi", Phi);
+	}
+	g_signal_handler_unblock (dlg->PhiEnt, dlg->PhiSignal);
+	return false;
+}
+
+void gcPrefsDlgPrivate::OnBackgroundChanged (gcPrefsDlg *dlg)
+{
+	GdkRGBA rgba;
+	gtk_color_button_get_rgba (dlg->BackgroundBtn, &rgba);
+	Red = rgba.red;
+	go_conf_set_double (node, "views/red", Red);
+	Green = rgba.green;
+	go_conf_set_double (node, "views/green", Green);
+	Blue = rgba.blue;
+	go_conf_set_double (node, "views/blue", Blue);
 }
 
 gcPrefsDlg::gcPrefsDlg (gcApplication *App): gcugtk::Dialog (App, UIDIR"/prefs.ui", "prefs", GETTEXT_PACKAGE, App)
@@ -71,11 +176,13 @@ gcPrefsDlg::gcPrefsDlg (gcApplication *App): gcugtk::Dialog (App, UIDIR"/prefs.u
 		break;
 	}
 	gtk_spin_button_set_value (PrintResBtn, PrintResolution);
+	PrintResChanged = g_signal_connect_swapped (PrintResBtn, "value-changed", G_CALLBACK (gcPrefsDlgPrivate::OnCustomPrintResolution), this);
 	gtk_widget_set_sensitive (GTK_WIDGET (PrintResBtn), active);
 	gtk_combo_box_set_active (PrintResMenu, PrintIndex);
-	g_signal_connect (PrintResMenu, "changed", G_CALLBACK (on_print_resolution), this);
+	g_signal_connect_swapped (PrintResMenu, "changed", G_CALLBACK (gcPrefsDlgPrivate::OnPrintResolution), this);
 	FoVBtn = GTK_SPIN_BUTTON (GetWidget ("fov"));
 	gtk_spin_button_set_value (FoVBtn, FoV);
+	g_signal_connect_swapped (FoVBtn, "value-changed", G_CALLBACK (gcPrefsDlgPrivate::OnFoVChanged), this);
 	PsiEnt = GTK_ENTRY (GetWidget ("psi"));
 	ThetaEnt = GTK_ENTRY (GetWidget ("theta"));
 	PhiEnt = GTK_ENTRY (GetWidget ("phi"));
@@ -86,80 +193,23 @@ gcPrefsDlg::gcPrefsDlg (gcApplication *App): gcugtk::Dialog (App, UIDIR"/prefs.u
 	gtk_entry_set_text (ThetaEnt, m_buf);
 	snprintf (m_buf, sizeof (m_buf) - 1, "%g", Phi);
 	gtk_entry_set_text (PhiEnt, m_buf);
+	g_signal_connect_swapped (PsiEnt, "activate", G_CALLBACK (gcPrefsDlgPrivate::OnPsiChanged), this);
+	PsiSignal = g_signal_connect_swapped (PsiEnt, "focus-out-event", G_CALLBACK (gcPrefsDlgPrivate::OnPsiChanged), this);
+	g_signal_connect_swapped (ThetaEnt, "activate", G_CALLBACK (gcPrefsDlgPrivate::OnThetaChanged), this);
+	ThetaSignal = g_signal_connect_swapped (ThetaEnt, "focus-out-event", G_CALLBACK (gcPrefsDlgPrivate::OnThetaChanged), this);
+	g_signal_connect_swapped (PhiEnt, "activate", G_CALLBACK (gcPrefsDlgPrivate::OnPhiChanged), this);
+	PhiSignal = g_signal_connect_swapped (PhiEnt, "focus-out-event", G_CALLBACK (gcPrefsDlgPrivate::OnPhiChanged), this);
 	BackgroundBtn = GTK_COLOR_BUTTON (GetWidget ("color"));
-	GdkColor color;
-	color.red = (guint16) (Red * 65535.);
-	color.green = (guint16) (Green * 65535.);
-	color.blue = (guint16) (Blue * 65535.);
-	gtk_color_button_set_color (BackgroundBtn, &color);
+	GdkRGBA rgba;
+	rgba.red = Red;
+	rgba.green = Green;
+	rgba.blue = Blue;
+	rgba.alpha = 1.;
+	gtk_color_button_set_rgba (BackgroundBtn, &rgba);
+	g_signal_connect_swapped (BackgroundBtn, "color-set", G_CALLBACK (gcPrefsDlgPrivate::OnBackgroundChanged), this);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 gcPrefsDlg::~gcPrefsDlg()
 {
-}
-
-bool gcPrefsDlg::Apply()
-{
-	double x0, x1, x2;
-	if (!GetNumber (PsiEnt, &x0, gcugtk::MinEqMax, -180, 180))
-		return false;
-	if (!GetNumber (ThetaEnt, &x1, gcugtk::MinEqMaxEq, 0, 180))
-		return false;
-	if (!GetNumber (PhiEnt, &x2, gcugtk::MinEqMax, -180, 180))
-		return false;
-	PrintResolution = gtk_spin_button_get_value_as_int (PrintResBtn);
-	Psi = x0;
-	Theta= x1;
-	Phi = x2;
-	FoV = gtk_spin_button_get_value_as_int(FoVBtn);
-	GdkColor color;
-	gtk_color_button_get_color (BackgroundBtn, &color);
-	Red = color.red / 65535.;
-	Green = color.green / 65535.;
-	Blue = color.blue / 65535.;
-	go_conf_set_int (node, "printing/resolution", PrintResolution);
-	go_conf_set_int (node, "views/fov", FoV);
-	go_conf_set_double (node, "views/psi", Psi);
-	go_conf_set_double (node, "views/theta", Theta);
-	go_conf_set_double (node, "views/phi", Phi);
-	go_conf_set_double (node, "views/red", Red);
-	go_conf_set_double (node, "views/green", Green);
-	go_conf_set_double (node, "views/blue", Blue);
-	return true;
-}
-
-void gcPrefsDlg::UpdatePrinting ()
-{
-	int PrintRes = PrintResolution ;
-	int PrintIndex = gtk_combo_box_get_active (PrintResMenu);
-	switch (PrintIndex)
-	{
-	case 0:
-		PrintRes = 300;
-		break;
-	case 1:
-		PrintRes = 360;
-		break;
-	case 2:
-		PrintRes = 600;
-		break;
-	case 3:
-		PrintRes = 720;
-		break;
-	case 4:
-		PrintRes = 1200;
-		break;
-	case 5:
-		PrintRes = 1440;
-		break;
-	case 6:
-		PrintRes = 2400;
-		break;
-	case 7:
-		PrintRes = 2880;
-		break;
-	}
-	gtk_spin_button_set_value (PrintResBtn, PrintRes);
-	gtk_widget_set_sensitive (GTK_WIDGET (PrintResBtn), (PrintIndex < 8)? false : true);
 }
