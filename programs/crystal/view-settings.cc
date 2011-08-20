@@ -27,6 +27,74 @@
 #include "document.h"
 #include "application.h"
 
+class gcViewSettingsDlgPrivate
+{
+public:
+	static void OnFoVChanged (gcViewSettingsDlg *dlg);
+	static bool OnPsiChanged (gcViewSettingsDlg *dlg);
+	static bool OnThetaChanged (gcViewSettingsDlg *dlg);
+	static bool OnPhiChanged (gcViewSettingsDlg *dlg);
+	static void OnBackgroundChanged (gcViewSettingsDlg *dlg);
+};
+
+void gcViewSettingsDlgPrivate::OnFoVChanged (gcViewSettingsDlg *dlg)
+{
+	dlg->m_pView->GetFoV () = gtk_spin_button_get_value_as_int (dlg->FoV);
+	dlg->m_pView->Update ();
+	dynamic_cast < gcDocument * > (dlg->m_pView->GetDoc ())->SetDirty (true);
+}
+
+bool gcViewSettingsDlgPrivate::OnPsiChanged (gcViewSettingsDlg *dlg)
+{
+	g_signal_handler_block (dlg->Psi, dlg->PsiSignal);
+	double value;
+	if (dlg->GetNumber (dlg->Psi, &value, gcugtk::MinEqMax, -180, 180)) {
+		dlg->m_pView->SetRotation (value, dlg->m_pView->GetTheta (), dlg->m_pView->GetPhi ());
+		dlg->m_pView->Update ();
+		dynamic_cast < gcDocument * > (dlg->m_pView->GetDoc ())->SetDirty (true);
+	}
+	g_signal_handler_unblock (dlg->Psi, dlg->PsiSignal);
+	return false;
+}
+
+bool gcViewSettingsDlgPrivate::OnThetaChanged (gcViewSettingsDlg *dlg)
+{
+	g_signal_handler_block (dlg->Theta, dlg->ThetaSignal);
+	double value;
+	if (dlg->GetNumber (dlg->Theta, &value, gcugtk::MinEqMaxEq, 0, 180)) {
+		dlg->m_pView->SetRotation (dlg->m_pView->GetPsi (), value, dlg->m_pView->GetPhi ());
+		dlg->m_pView->Update ();
+		dynamic_cast < gcDocument * > (dlg->m_pView->GetDoc ())->SetDirty (true);
+	}
+	g_signal_handler_unblock (dlg->Theta, dlg->ThetaSignal);
+	return false;
+}
+
+bool gcViewSettingsDlgPrivate::OnPhiChanged (gcViewSettingsDlg *dlg)
+{
+	g_signal_handler_block (dlg->Phi, dlg->PhiSignal);
+	double value;
+	if (dlg->GetNumber (dlg->Phi, &value, gcugtk::MinEqMax, -180, 180)) {
+		dlg->m_pView->SetRotation (dlg->m_pView->GetPsi (), dlg->m_pView->GetTheta (), value);
+		dlg->m_pView->Update ();
+		dynamic_cast < gcDocument * > (dlg->m_pView->GetDoc ())->SetDirty (true);
+	}
+	g_signal_handler_unblock (dlg->Phi, dlg->PhiSignal);
+	return false;
+}
+
+void gcViewSettingsDlgPrivate::OnBackgroundChanged (gcViewSettingsDlg *dlg)
+{
+	GdkRGBA rgba;
+	gtk_color_button_get_rgba (dlg->Background, &rgba);
+	dlg->m_pView->SetRed (rgba.red);
+	dlg->m_pView->SetGreen (rgba.green);
+	dlg->m_pView->SetBlue (rgba.blue);
+	dlg->m_pView->SetAlpha (rgba.alpha);
+	dlg->m_pView->Update ();
+	dynamic_cast < gcDocument * > (dlg->m_pView->GetDoc ())->SetDirty (true);
+}
+
 gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): gcugtk::Dialog (static_cast < gcugtk::Application * > (pView->GetDoc ()->GetApp ()), UIDIR"/view-settings.ui", "view-settings", GETTEXT_PACKAGE, pView)
 {
 	m_pView = pView;
@@ -35,14 +103,11 @@ gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): gcugtk::Dialog (static_cas
 	Theta = GTK_ENTRY (GetWidget ("theta"));
 	Phi = GTK_ENTRY (GetWidget ("phi"));
 	Background = GTK_COLOR_BUTTON (GetWidget ("color"));
-	double x0, x1, x2, x3;
-	GdkColor color;
-	m_pView->GetBackgroundColor (&x0, &x1, &x2, &x3);
-	color.red = (guint16) (x0 * 65535.);
-	color.green = (guint16) (x1 * 65535.);
-	color.blue = (guint16) (x2 * 65535.);
-	gtk_color_button_set_color (Background, &color);
-	gtk_color_button_set_alpha (Background, (guint16) (x3 * 65535.));
+	GdkRGBA rgba;
+	m_pView->GetBackgroundColor (&rgba.red, &rgba.green, &rgba.blue, &rgba.alpha);
+	gtk_color_button_set_rgba (Background, &rgba);
+	g_signal_connect_swapped (Background, "color-set", G_CALLBACK (gcViewSettingsDlgPrivate::OnBackgroundChanged), this);
+	double x0, x1, x2;
 	m_pView->GetRotation (&x0, &x1, &x2);
 	char m_buf[32];
 	snprintf (m_buf, sizeof (m_buf) - 1, "%g", x0);
@@ -52,29 +117,17 @@ gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): gcugtk::Dialog (static_cas
 	snprintf (m_buf, sizeof (m_buf) - 1, "%g", x2);
 	gtk_entry_set_text (Phi, m_buf);
 	gtk_spin_button_set_value (FoV, (int) (m_pView->GetFoV ()));
+	g_signal_connect_swapped (G_OBJECT (Psi), "activate", G_CALLBACK (gcViewSettingsDlgPrivate::OnPsiChanged), this);
+	PsiSignal = g_signal_connect_swapped (G_OBJECT (Psi), "focus-out-event", G_CALLBACK (gcViewSettingsDlgPrivate::OnPsiChanged), this);
+	g_signal_connect_swapped (G_OBJECT (Theta), "activate", G_CALLBACK (gcViewSettingsDlgPrivate::OnThetaChanged), this);
+	ThetaSignal = g_signal_connect_swapped (G_OBJECT (Theta), "focus-out-event", G_CALLBACK (gcViewSettingsDlgPrivate::OnThetaChanged), this);
+	g_signal_connect_swapped (G_OBJECT (Phi), "activate", G_CALLBACK (gcViewSettingsDlgPrivate::OnPhiChanged), this);
+	PhiSignal = g_signal_connect_swapped (G_OBJECT (Phi), "focus-out-event", G_CALLBACK (gcViewSettingsDlgPrivate::OnPhiChanged), this);
+	g_signal_connect_swapped (FoV, "value-changed", G_CALLBACK (gcViewSettingsDlgPrivate::OnFoVChanged), this);
 
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 gcViewSettingsDlg::~gcViewSettingsDlg ()
 {
-}
-
-bool gcViewSettingsDlg::Apply()
-{
-	double x0, x1, x2;
-	if (!GetNumber (Psi, &x0, gcugtk::MinEqMax, -180, 180))
-		return false;
-	if (!GetNumber (Theta, &x1, gcugtk::MinEqMaxEq, 0, 180))
-		return false;
-	if (!GetNumber (Phi, &x2, gcugtk::MinEqMax, -180, 180))
-		return false;
-	m_pView->SetRotation (x0, x1, x2);
-	m_pView->GetFoV () = gtk_spin_button_get_value (FoV);
-	GdkColor color;
-	gtk_color_button_get_color (Background, &color);
-	m_pView->SetBackgroundColor (color.red / 65535., color.green / 65535., color.blue / 65535., gtk_color_button_get_alpha (Background) / 65535.);
-	m_pView->Update ();
-	dynamic_cast <gcDocument *> (m_pView->GetDoc ())->SetDirty (true);
-	return true;
 }

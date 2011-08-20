@@ -12,3 +12,14 @@ dist_icons_DATA = \
 	gchemtable.svg \
 	gcrystal.svg \
 	gspectrum.svg
+
+install-data-hook:
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes; \
+	$(INSTALL_DATA) $(srcdir)/gcrystal.svg \
+		$(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gcrystal.svg; \
+	$(INSTALL_DATA) $(srcdir)/gchempaint.svg \
+		$(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gchempaint.svg;
+
+uninstall-hook:
+	rm $(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gcrystal.svg; \
+	rm $(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gchempaint.svg;

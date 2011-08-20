@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-08-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* pixmaps/Makefile.am: install svg icons for mime types as well.
+	* programs/crystal/view-settings.cc: make it instant apply.
+	* programs/crystal/view-settings.h: ditto.
+	* ui/crystal/view-settings.ui: ditto.
+
 2011-08-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* pixmaps/Makefile.am: install scalable icons instead of bitmaps.
 	* programs/crystal/prefs.cc: made it instant apply.

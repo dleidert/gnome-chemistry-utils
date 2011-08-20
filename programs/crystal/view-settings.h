@@ -30,17 +30,17 @@
 
 class gcViewSettingsDlg: public gcugtk::Dialog
 {
+friend class gcViewSettingsDlgPrivate;
 public:
 	gcViewSettingsDlg (gcView* pView);
 	virtual ~gcViewSettingsDlg ();
-
-	virtual bool Apply ();
 
 private:
 	gcView *m_pView;
 	GtkColorButton *Background;
 	GtkSpinButton *FoV;
 	GtkEntry *Psi, *Theta, *Phi;
+	unsigned long PsiSignal, ThetaSignal, PhiSignal;
 };
 
 #endif //GCRYSTAL_VIEW_SETTINGS_H
