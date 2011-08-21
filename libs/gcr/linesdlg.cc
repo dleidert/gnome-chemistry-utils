@@ -50,6 +50,7 @@ public:
 	static void DeleteAll (LinesDlg *pBox);
 	static void ValueChanged (LinesDlg *pBox, unsigned row, unsigned column);
 	static void RowSelected (LinesDlg *pBox, int row);
+	static void RowDeleted (LinesDlg *pBox, int row);
 	static void EdgesToggled (GtkToggleButton *btn, LinesDlg *pBox);
 	static void DiagonalsToggled (GtkToggleButton *btn, LinesDlg *pBox);
 	static void MediansToggled (GtkToggleButton *btn, LinesDlg *pBox);
@@ -91,13 +92,7 @@ void LinesDlgPrivate::AddRow (LinesDlg *pBox)
 
 void LinesDlgPrivate::DeleteRow (LinesDlg *pBox)
 {
-	pBox->m_pDoc->GetLineList ()->remove (pBox->m_Lines[pBox->m_LineSelected]);
-	delete pBox->m_Lines[pBox->m_LineSelected];
-	pBox->m_Lines.erase (pBox->m_Lines.begin () + pBox->m_LineSelected);
-	gcr_grid_delete_row (GCR_GRID (pBox->m_Grid), pBox->m_LineSelected);
-	pBox->m_pDoc->Update ();
-	pBox->m_pDoc->SetDirty (true);
-	gtk_widget_set_sensitive (pBox->DeleteAllBtn, !pBox->m_pDoc->GetLineList ()->empty ());
+	gcr_grid_delete_selected_rows (GCR_GRID (pBox->m_Grid));
 }
 
 void LinesDlgPrivate::DeleteAll (LinesDlg *pBox)
@@ -156,6 +151,16 @@ void LinesDlgPrivate::RowSelected (LinesDlg *pBox, int row)
 		gtk_entry_set_text (pBox->LineR, buf);
 		g_free (buf);
 	}
+}
+
+void LinesDlgPrivate::RowDeleted (LinesDlg *pBox, int row)
+{
+	pBox->m_pDoc->GetLineList ()->remove (pBox->m_Lines[row]);
+	delete pBox->m_Lines[row];
+	pBox->m_Lines.erase (pBox->m_Lines.begin () + row);
+	pBox->m_pDoc->Update ();
+	pBox->m_pDoc->SetDirty (true);
+	gtk_widget_set_sensitive (pBox->DeleteAllBtn, !pBox->m_pDoc->GetLineList ()->empty ());
 }
 
 void LinesDlgPrivate::EdgesToggled (GtkToggleButton *btn, LinesDlg *pBox)
@@ -325,10 +330,12 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	m_Grid = GCR_GRID (gcr_grid_new (_("x1"), G_TYPE_DOUBLE, _("y1"), G_TYPE_DOUBLE, _("z1"), G_TYPE_DOUBLE,
 	                                 _("x2"), G_TYPE_DOUBLE, _("y2"), G_TYPE_DOUBLE, _("z2"), G_TYPE_DOUBLE,
 	                                 _("Single"), G_TYPE_BOOLEAN, NULL));
+	gcr_grid_set_allow_multiple_selection (m_Grid, true);
 	g_object_set (G_OBJECT (m_Grid), "expand", true, NULL);
 	gtk_grid_attach (GTK_GRID (GetWidget ("other-grid")), GTK_WIDGET (m_Grid), 0, 1, 4, 5);
 	g_signal_connect_swapped (G_OBJECT (m_Grid), "row-selected", G_CALLBACK (LinesDlgPrivate::RowSelected), this);
 	g_signal_connect_swapped (G_OBJECT (m_Grid), "value-changed", G_CALLBACK (LinesDlgPrivate::ValueChanged), this);
+	g_signal_connect_swapped (G_OBJECT (m_Grid), "row-deleted", G_CALLBACK (LinesDlgPrivate::RowDeleted), this);
 	EdgesBtn = GTK_CHECK_BUTTON (GetWidget ("edges"));
 	EdgesColor = GTK_COLOR_BUTTON (GetWidget ("edges-color"));
 	gtk_widget_set_sensitive (GTK_WIDGET (EdgesColor), false);

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-08-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: start work on multiple row selection.
+	* libs/gcr/grid.h: ditto.
+	* libs/gcr/linesdlg.cc: use multiple selection in grid.
+
 2011-08-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* pixmaps/Makefile.am: install svg icons for mime types as well.
 	* programs/crystal/view-settings.cc: make it instant apply.

@@ -28,6 +28,7 @@
 #include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
 #include <list>
+#include <set>
 #include <string>
 #include <vector>
 #include <cstring>
@@ -41,10 +42,11 @@ struct _GcrGrid
 {
 	GtkLayout base;
 	unsigned cols, rows, allocated_rows;
-	int col, row;
+	int col, row, last_row, clicked_row;
 	int first_visible;
 	unsigned nb_visible;
-	int header_width, row_height, width, *col_widths, line_offset, scroll_width, *min_widths, cols_min_width;
+	int header_width, row_height, width, actual_width, *col_widths,
+		line_offset, scroll_width, *min_widths, cols_min_width;
 	int cursor_index, sel_start;
 	GtkAdjustment *vadj;
 	GtkWidget *scroll;
@@ -56,6 +58,10 @@ struct _GcrGrid
 	unsigned long cursor_signal;
 	std::string *orig_string;
 	int can_edit;
+	bool allow_multiple;
+	bool dragging;
+	bool selection_locked;
+	std::set < int > selected_rows;
 };
 
 static GtkWidgetClass *parent_class;
@@ -64,6 +70,7 @@ static GdkPixbuf *checked = NULL, *unchecked = NULL;
 enum {
 	VALUE_CHANGED,
 	ROW_SELECTED,
+	ROW_DELETED,
 	LAST_SIGNAL
 };
 
@@ -220,7 +227,9 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 		cairo_rectangle (cr, 0, y, grid->header_width + 1, grid->row_height + 1);
 		cairo_fill (cr);
 		cairo_restore (cr);
-		gtk_style_context_set_state (ctxt, (row == grid->row)? GTK_STATE_FLAG_ACTIVE: GTK_STATE_FLAG_NORMAL);
+		gtk_style_context_set_state (ctxt, (row == grid->row ||
+		                                    grid->selected_rows.find (row) != grid->selected_rows.end ())?
+		                             		GTK_STATE_FLAG_ACTIVE: GTK_STATE_FLAG_NORMAL);
 		gtk_render_background (ctxt, cr, 0, y, grid->header_width + 1, grid->row_height + 1);
 		gtk_render_frame (ctxt, cr, 0, y, grid->header_width + 1, grid->row_height + 1);
 		char *buf = g_strdup_printf("%d", ++row);
@@ -236,12 +245,20 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 	cairo_rectangle (cr, grid->header_width, y, alloc.width - grid->header_width, alloc.height - y);
 	cairo_clip (cr);
 	// show a rectangle around current selection
-	if (grid->row >= 0 && grid->col >= 0) {
+	if (grid->row >= 0) {
 		pos = grid->header_width;
-		for (i = 0; static_cast < int > (i) < grid->col; i++)
-			pos += grid->col_widths[i];
 		cairo_save (cr);
-		cairo_rectangle (cr, pos + .5, y + (grid->row - grid->first_visible) * grid->row_height + .5, grid->col_widths[grid->col], grid->row_height);
+		if (grid->col >= 0)
+			for (i = 0; static_cast < int > (i) < grid->col; i++) {
+				pos += grid->col_widths[i];
+				cairo_rectangle (cr, pos + .5,
+				                 y + (grid->row - grid->first_visible) * grid->row_height + .5,
+				                 grid->col_widths[grid->col], grid->row_height);
+			} else {
+				cairo_rectangle (cr, pos + .5,
+				                 y + (grid->row - grid->first_visible) * grid->row_height + .5,
+				                 grid->actual_width, grid->row_height);
+			}
 		cairo_set_line_width (cr, 3.);
 		cairo_stroke_preserve (cr);
 		cairo_restore (cr);
@@ -375,7 +392,8 @@ static void gcr_grid_size_allocate (GtkWidget *w, GtkAllocation *alloc)
 	} else
 		gtk_adjustment_set_page_size (grid->vadj, 1.);
 	// adjust column widths
-	double ratio = static_cast < double > (alloc->width - grid->header_width - grid->scroll_width) / grid->cols_min_width;
+	grid->actual_width = alloc->width - grid->header_width - grid->scroll_width;
+	double ratio = static_cast < double > (grid->actual_width) / grid->cols_min_width;
 	if (ratio < 0.)
 		ratio = 1.;
 	double last_pos = 0., pos = 0.;
@@ -403,9 +421,12 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 	if (event->button != 1)
 		return false;	// FIXME: at least middle buttons should be accepted to paste data
 	GcrGrid *grid = GCR_GRID (widget);
+	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) == 0)
+		grid->selected_rows.clear ();
 	int value_changed = -1;
 	int x = grid->first_visible + event->y / grid->row_height - 1, i, new_row, new_col;
 	new_row = (x < 0 || x >= static_cast < int > (grid->rows))? -1: x;
+	grid->dragging = true;
 	if (new_row < 0)
 		new_col = -1;
 	else {
@@ -428,7 +449,7 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 		if (new_row != grid->row)
 			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
 		grid->col = new_col;
-		grid->row = new_row;
+		grid->row = grid->clicked_row = grid->last_row = new_row;
 	}
 	// evaluate the cursor position if any
 	if (grid->col >= 0) {
@@ -480,6 +501,36 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 	if (value_changed >= 0) // a boolean changed
 		g_signal_emit (grid, gcr_grid_signals[VALUE_CHANGED], 0, new_row, new_col);
 	gtk_widget_queue_draw (widget);
+	return true;
+}
+
+static gboolean gcr_grid_motion_notify_event (GtkWidget *widget, GdkEventMotion *event)
+{
+	GcrGrid *grid = GCR_GRID (widget);
+	if (!grid->dragging)
+		return true;
+	// evaluate the current row
+	int x = grid->first_visible + event->y / grid->row_height - 1, new_row, incr;
+	new_row = (x < 0 || x >= static_cast < int > (grid->rows))? -1: x;
+	// update selection
+	if (new_row != grid->last_row && grid->allow_multiple) {
+		incr = (grid->last_row > grid->clicked_row)? -1: 1;
+		for (x = grid->last_row; x != grid->clicked_row; x += incr)
+			grid->selected_rows.erase (x);
+		incr = (new_row > grid->clicked_row)? -1: 1;
+		for (x = new_row; x != grid->clicked_row; x += incr)
+			grid->selected_rows.insert (x);
+		grid->last_row = new_row;
+		grid->col = -1;
+	}
+	gtk_widget_queue_draw (widget);
+	return true;
+}
+
+static gboolean gcr_grid_button_release_event (GtkWidget *widget, G_GNUC_UNUSED GdkEventButton *event)
+{
+	GcrGrid *grid = GCR_GRID (widget);
+	grid->dragging = false;
 	return true;
 }
 
@@ -838,6 +889,8 @@ static void gcr_grid_class_init (GtkWidgetClass *klass)
 	klass->draw = gcr_grid_draw;
 	klass->size_allocate = gcr_grid_size_allocate;
 	klass->button_press_event = gcr_grid_button_press_event;
+	klass->motion_notify_event = gcr_grid_motion_notify_event;
+	klass->button_release_event = gcr_grid_button_release_event;
 	klass->scroll_event = gcr_grid_scroll_event;
 	klass->key_press_event = gcr_grid_key_press_event;
 	klass->focus_out_event = gcr_grid_focus_out_event;
@@ -858,6 +911,15 @@ static void gcr_grid_class_init (GtkWidgetClass *klass)
 	                                            G_TYPE_FROM_CLASS(klass),
 				                                G_SIGNAL_RUN_LAST,
 				                                G_STRUCT_OFFSET(GcrGridClass, row_selected_event),
+				                                NULL, NULL,
+				                                g_cclosure_marshal_VOID__INT,
+				                                G_TYPE_NONE, 1,
+				                                G_TYPE_INT
+				                                );
+	gcr_grid_signals[ROW_DELETED] = g_signal_new ("row-deleted",
+	                                            G_TYPE_FROM_CLASS(klass),
+				                                G_SIGNAL_RUN_LAST,
+				                                G_STRUCT_OFFSET(GcrGridClass, row_deleted_event),
 				                                NULL, NULL,
 				                                g_cclosure_marshal_VOID__INT,
 				                                G_TYPE_NONE, 1,
@@ -1136,14 +1198,50 @@ void gcr_grid_delete_row (GcrGrid *grid, unsigned row)
 {
 	g_return_if_fail (GCR_IS_GRID (grid) && grid->rows > row);
 	delete [] grid->row_data[row];
-	for (row++ ; row < grid->rows; row++)
-		grid->row_data[row - 1] = grid->row_data[row];
+	g_signal_emit (grid, gcr_grid_signals[ROW_DELETED], 0, row);
+	for (unsigned n = row + 1 ; n < grid->rows; n++)
+		grid->row_data[n - 1] = grid->row_data[n];
 	grid->rows--;
+	std::set < int > decreased;
+	std::set < int >::iterator i, end = grid->selected_rows.end ();
+	for (i = grid->selected_rows.begin (); i != end; i++)
+		if ((*i) > row)
+			decreased.insert (*i);
+	grid->selected_rows.erase (row);
+	end = decreased.end ();
+	for (i = decreased.begin (); i != end; i++)
+		grid->selected_rows.erase (*i);
+	for (i = decreased.begin (); i != end; i++)
+		grid->selected_rows.insert ((*i) - 1);
 	if (grid->row == static_cast < int > (grid->rows)) {
 		grid->row = -1;
 		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
 	}
+	if (!grid->selection_locked)
+		grid->selected_rows.clear ();
 	gtk_widget_queue_draw (GTK_WIDGET (grid));
+}
+
+void gcr_grid_delete_selected_rows (GcrGrid *grid)
+{
+	g_return_if_fail (GCR_IS_GRID (grid));
+	if (grid->row == -1)
+		return;
+	// save row and set it to -1 to not fire ROW_SELECTED when not needed
+	int row = grid->row;
+	grid->row = -1;
+	grid->selection_locked = true;
+	gcr_grid_delete_row (grid, row);
+	while (!grid->selected_rows.empty ())
+		gcr_grid_delete_row (grid, *grid->selected_rows.begin ());
+	grid->selected_rows.clear ();
+	if (row >= static_cast < int > (grid->rows))
+		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
+	else
+		grid->row = row;
+	g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
+	grid->selection_locked = false;
 }
 
 void gcr_grid_delete_all (GcrGrid *grid)
@@ -1182,4 +1280,9 @@ void gcr_grid_customize_column (GcrGrid *grid, unsigned column, unsigned chars, 
 		grid->width = grid->header_width + grid->cols_min_width + grid->scroll_width;
 		gtk_widget_queue_resize (GTK_WIDGET (grid));
 	}
+}
+
+void gcr_grid_set_allow_multiple_selection (GcrGrid *grid, bool allow)
+{
+	grid->allow_multiple = allow;
 }
