@@ -58,6 +58,8 @@ private:
 	bool m_Closing;
 	unsigned long m_EdgesFocusOutSignalID, m_DiagsFocusOutSignalID,
 		m_MediansFocusOutSignalID, m_LineFocusOutSignalID, m_ColorChangedID;
+	double m_Radius;
+	GdkRGBA m_rgba;
 };
 
 }	//	namespace gcr

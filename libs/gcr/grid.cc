@@ -522,6 +522,43 @@ static gboolean gcr_grid_motion_notify_event (GtkWidget *widget, GdkEventMotion 
 			grid->selected_rows.insert (x);
 		grid->last_row = new_row;
 		grid->col = -1;
+	} else if (grid->col >= 0) {
+		int new_col = -1;
+		x = grid->header_width;
+		if (event->x >= x)
+			for (incr = 0; incr < static_cast < int > (grid->cols); incr++) {
+				x += grid->col_widths[incr];
+				if (event->x < x) {
+					new_col = incr;
+					break;
+				}
+			}
+		if (new_col == grid->col) {
+			// evaluate the cursor position if any
+			if (new_col >= 0) {
+				switch (grid->types[grid->col]) {
+				case G_TYPE_INT:
+				case G_TYPE_UINT:
+				case G_TYPE_DOUBLE: {
+					x -=  grid->col_widths[grid->col];
+					PangoLayout *l = gtk_widget_create_pango_layout (widget, grid->row_data[grid->row][grid->col].c_str());
+					int xpos, startx;
+					pango_layout_get_pixel_size (l, &xpos, NULL);
+					startx = x + (grid->col_widths[grid->col] - xpos) / 2;
+					xpos = event->x - startx;
+					int index, trailing;
+					pango_layout_xy_to_index (l, xpos * PANGO_SCALE, 0, &index, &trailing);
+					grid->cursor_index = index + trailing;
+					break;
+				}
+				default:	// nothing to do
+					break;
+				}
+				*grid->orig_string = grid->row_data[grid->row][grid->col];
+				gtk_widget_grab_focus (widget);
+			}
+		} else
+			grid->col = -1;
 	}
 	gtk_widget_queue_draw (widget);
 	return true;
@@ -1286,3 +1323,31 @@ void gcr_grid_set_allow_multiple_selection (GcrGrid *grid, bool allow)
 {
 	grid->allow_multiple = allow;
 }
+
+void gcr_grid_for_each_selected (GcrGrid *grid, GridCb cb, void *user_data)
+{
+	g_return_if_fail (GCR_IS_GRID (grid));
+	if (grid->row < 0)
+		return;
+	cb (grid->row, user_data);
+	std::set < int >::iterator i, end = grid->selected_rows.end ();
+	for (i = grid->selected_rows.begin (); i != end; i++)
+		cb (*i, user_data);
+}
+
+void gcr_grid_select_all (GcrGrid *grid)
+{
+	g_return_if_fail (GCR_IS_GRID (grid));
+	if (grid->rows == 0)
+		return;
+	if (grid->row < 0) {
+		grid->row = 0;
+		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, 0);
+	} else if (grid->col > 0 && !gcr_grid_validate_change (grid))
+		return;
+	for (unsigned i = 0; i < grid->rows; i++)
+		if (i != static_cast < unsigned > (grid->row))
+			grid->selected_rows.insert (i);
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
+}
+

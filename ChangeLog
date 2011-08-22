@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-08-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: enhance mouse move selection and multiple selection.
+	* libs/gcr/grid.h: ditto.
+	* libs/gcr/linesdlg.cc: apply color and radius change to the whole 
+	selection.
+	* libs/gcr/linesdlg.h: ditto.
+
 2011-08-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: start work on multiple row selection.
 	* libs/gcr/grid.h: ditto.

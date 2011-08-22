@@ -54,9 +54,12 @@ unsigned gcr_grid_append_row (GcrGrid *grid,...);
 void gcr_grid_delete_row (GcrGrid *grid, unsigned row);
 void gcr_grid_delete_selected_rows (GcrGrid *grid);
 void gcr_grid_delete_all (GcrGrid *grid);
+void gcr_grid_select_all (GcrGrid *grid);
 void gcr_grid_customize_column (GcrGrid *grid, unsigned column, unsigned chars, bool editable);
 void gcr_grid_set_allow_multiple_selection (GcrGrid *grid, bool allow);
 
+typedef void (*GridCb) (unsigned i, void *user_data);
+void gcr_grid_for_each_selected (GcrGrid *grid, GridCb cb, void *user_data);
 G_END_DECLS
 
 #endif	//	GCR_GRID_H

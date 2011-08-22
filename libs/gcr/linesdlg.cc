@@ -61,7 +61,9 @@ public:
 	static void DiagsColorSet (GtkColorButton *btn, LinesDlg *pBox);
 	static void MediansColorSet (GtkColorButton *btn, LinesDlg *pBox);
 	static bool RadiusEdited (LinesDlg *pBox);
+	static void SetRadius (unsigned i, LinesDlg *pBox);
 	static void ColorSet (GtkColorButton *btn, LinesDlg *pBox);
+	static void SetColor (unsigned i, LinesDlg *pBox);
 };
 
 void LinesDlgPrivate::AddRow (LinesDlg *pBox)
@@ -292,25 +294,33 @@ void LinesDlgPrivate::MediansColorSet (GtkColorButton *btn, LinesDlg *pBox)
 	pBox->m_pDoc->SetDirty (true);
 }
 
+void LinesDlgPrivate::SetRadius (unsigned i, LinesDlg *pBox)
+{
+		pBox->m_Lines[i]->SetRadius (pBox->m_Radius);
+}
+
 bool LinesDlgPrivate::RadiusEdited (LinesDlg *pBox)
 {
 	g_signal_handler_block (pBox->LineR, pBox->m_LineFocusOutSignalID);
-	double r;
-	if (pBox->m_LineSelected >= 0 && pBox->GetNumber (pBox->LineR, &r, gcugtk::Min, 0)) {
-			pBox->m_Lines[pBox->m_LineSelected]->SetRadius (r);
-			pBox->m_pDoc->Update ();
-			pBox->m_pDoc->SetDirty (true);
+	if (pBox->m_LineSelected >= 0 && pBox->GetNumber (pBox->LineR, &pBox->m_Radius, gcugtk::Min, 0)) {
+		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetRadius), pBox);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
 	}
 	g_signal_handler_unblock (pBox->LineR, pBox->m_LineFocusOutSignalID);
 	return false;
 }
 
+void LinesDlgPrivate::SetColor (unsigned i, LinesDlg *pBox)
+{
+		pBox->m_Lines[i]->SetColor (pBox->m_rgba);
+}
+
 void LinesDlgPrivate::ColorSet (GtkColorButton *btn, LinesDlg *pBox)
 {
 	if (pBox->m_LineSelected >= 0) {
-		GdkRGBA rgba;
-		gtk_color_button_get_rgba (btn, &rgba);
-		pBox->m_Lines[pBox->m_LineSelected]->SetColor (rgba);
+		gtk_color_button_get_rgba (btn, &pBox->m_rgba);
+		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetColor), pBox);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
 	}
