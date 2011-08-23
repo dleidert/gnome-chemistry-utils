@@ -64,4 +64,9 @@ GtkWidget *UIBuilder::GetRefdWidget (char const *wname)
 		return NULL;
 }
 
+GObject *UIBuilder::GetObject (char const *name)
+{
+	return gtk_builder_get_object (m_Builder, name);
+}
+
 }   //  namespace gcu

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: enhance multiple selection handling.
+	* libs/gcr/grid.h: add gcr_grid_select_all().
+	* libs/gcr/linesdlg.cc: new "Select all" button.
+	* libs/gcugtk/ui-builder.cc: new GetObject() method.
+	* libs/gcugtk/ui-builder.h: ditto.
+	* ui/crystal/lines.ui: new "Select all" button.
+
 2011-08-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: enhance mouse move selection and multiple selection.
 	* libs/gcr/grid.h: ditto.

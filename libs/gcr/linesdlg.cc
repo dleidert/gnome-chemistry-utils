@@ -48,6 +48,7 @@ public:
 	static void AddRow (LinesDlg *pBox);
 	static void DeleteRow (LinesDlg *pBox);
 	static void DeleteAll (LinesDlg *pBox);
+	static void SelectAll (LinesDlg *pBox);
 	static void ValueChanged (LinesDlg *pBox, unsigned row, unsigned column);
 	static void RowSelected (LinesDlg *pBox, int row);
 	static void RowDeleted (LinesDlg *pBox, int row);
@@ -107,6 +108,11 @@ void LinesDlgPrivate::DeleteAll (LinesDlg *pBox)
 	pBox->m_pDoc->Update ();
 	pBox->m_pDoc->SetDirty (true);
 	gtk_widget_set_sensitive (pBox->DeleteAllBtn, false);
+}
+
+void LinesDlgPrivate::SelectAll (LinesDlg *pBox)
+{
+	gcr_grid_select_all (pBox->m_Grid);
 }
 
 void LinesDlgPrivate::ValueChanged (LinesDlg *pBox, unsigned row, unsigned column)
@@ -337,6 +343,7 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	g_signal_connect_swapped (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (LinesDlgPrivate::DeleteRow), this);
 	DeleteAllBtn = GetWidget ("delete-all");
 	g_signal_connect_swapped (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (LinesDlgPrivate::DeleteAll), this);
+	g_signal_connect_swapped (GetObject ("select-all"), "clicked", G_CALLBACK (LinesDlgPrivate::SelectAll), this);
 	m_Grid = GCR_GRID (gcr_grid_new (_("x1"), G_TYPE_DOUBLE, _("y1"), G_TYPE_DOUBLE, _("z1"), G_TYPE_DOUBLE,
 	                                 _("x2"), G_TYPE_DOUBLE, _("y2"), G_TYPE_DOUBLE, _("z2"), G_TYPE_DOUBLE,
 	                                 _("Single"), G_TYPE_BOOLEAN, NULL));

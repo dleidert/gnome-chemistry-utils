@@ -65,7 +65,14 @@ The destructor.
 
 @return the found widget if any with an incremented references count.
 */
-	GtkWidget *GetRefdWidget (char const *wname);
+	GtkWidget *GetRefdWidget (char const *wname);	
+/*!
+@param name an object name.
+
+@return the found object if any.
+*/
+	GObject *GetObject (char const *name);
+
 
 /*!\fn GetBuilder()
 @return the embedded GtkBuilder

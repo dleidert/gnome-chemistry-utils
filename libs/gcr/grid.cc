@@ -42,7 +42,7 @@ struct _GcrGrid
 {
 	GtkLayout base;
 	unsigned cols, rows, allocated_rows;
-	int col, row, last_row, clicked_row;
+	int col, row, last_row;
 	int first_visible;
 	unsigned nb_visible;
 	int header_width, row_height, width, actual_width, *col_widths,
@@ -61,7 +61,7 @@ struct _GcrGrid
 	bool allow_multiple;
 	bool dragging;
 	bool selection_locked;
-	std::set < int > selected_rows;
+	std::set < int > *selected_rows;
 };
 
 static GtkWidgetClass *parent_class;
@@ -228,7 +228,7 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 		cairo_fill (cr);
 		cairo_restore (cr);
 		gtk_style_context_set_state (ctxt, (row == grid->row ||
-		                                    grid->selected_rows.find (row) != grid->selected_rows.end ())?
+		                                    grid->selected_rows->find (row) != grid->selected_rows->end ())?
 		                             		GTK_STATE_FLAG_ACTIVE: GTK_STATE_FLAG_NORMAL);
 		gtk_render_background (ctxt, cr, 0, y, grid->header_width + 1, grid->row_height + 1);
 		gtk_render_frame (ctxt, cr, 0, y, grid->header_width + 1, grid->row_height + 1);
@@ -373,6 +373,7 @@ static void gcr_grid_finalize (GObject *obj)
 	delete [] grid->editable;
 	for (unsigned i = 0 ; i < grid->rows; i++)
 		delete [] grid->row_data[i];
+	delete grid->selected_rows;
 	reinterpret_cast < GObjectClass * > (parent_class)->finalize (obj);
 }
 
@@ -422,7 +423,7 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 		return false;	// FIXME: at least middle buttons should be accepted to paste data
 	GcrGrid *grid = GCR_GRID (widget);
 	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) == 0)
-		grid->selected_rows.clear ();
+		grid->selected_rows->clear ();
 	int value_changed = -1;
 	int x = grid->first_visible + event->y / grid->row_height - 1, i, new_row, new_col;
 	new_row = (x < 0 || x >= static_cast < int > (grid->rows))? -1: x;
@@ -444,12 +445,35 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 	if (grid->col != new_col || grid->row != new_row) {
 		if (grid->row >= 0 && !gcr_grid_validate_change (grid))
 			return true;
-		if (!grid->editable[new_col])
+		if (grid->allow_multiple && event->state & GDK_SHIFT_MASK) {
 			new_col = -1;
-		if (new_row != grid->row)
-			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
-		grid->col = new_col;
-		grid->row = grid->clicked_row = grid->last_row = new_row;
+			if (new_row != grid->last_row) {
+				int incr = (grid->last_row > grid->row)? -1: 1;
+				for (x = grid->last_row; x != grid->row; x += incr)
+					grid->selected_rows->erase (x);
+				incr = (new_row > grid->row)? -1: 1;
+				for (x = new_row; x != grid->row; x += incr)
+					grid->selected_rows->insert (x);
+				grid->last_row = new_row;
+			}
+		} else if (grid->allow_multiple && event->state & GDK_CONTROL_MASK) {
+			new_col = -1;
+			if (grid->selected_rows->find (new_row) != grid->selected_rows->end ()) {
+				grid->selected_rows->erase (new_row);
+				new_row = grid->row;
+			} else
+				grid->selected_rows->insert (grid->row);
+				if (new_row != grid->row)
+					g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
+				grid->row = grid->last_row = new_row;
+		} else {
+			if (!grid->editable[new_col])
+				new_col = -1;
+			if (new_row != grid->row)
+				g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
+			grid->col = new_col;
+			grid->row = grid->last_row = new_row;
+		}
 	}
 	// evaluate the cursor position if any
 	if (grid->col >= 0) {
@@ -466,7 +490,10 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 				xpos = event->x - startx;
 				int index, trailing;
 				pango_layout_xy_to_index (l, xpos * PANGO_SCALE, 0, &index, &trailing);
-				grid->sel_start = grid->cursor_index = index + trailing;
+				index += trailing;
+				grid->cursor_index = index;
+				if ((event->state & GDK_SHIFT_MASK) == 0)
+					grid->sel_start = index;
 			} else if (event->type == GDK_2BUTTON_PRESS) {
 				grid->sel_start = 0;
 				grid->cursor_index = grid->row_data[grid->row][grid->col].length ();
@@ -514,12 +541,12 @@ static gboolean gcr_grid_motion_notify_event (GtkWidget *widget, GdkEventMotion 
 	new_row = (x < 0 || x >= static_cast < int > (grid->rows))? -1: x;
 	// update selection
 	if (new_row != grid->last_row && grid->allow_multiple) {
-		incr = (grid->last_row > grid->clicked_row)? -1: 1;
-		for (x = grid->last_row; x != grid->clicked_row; x += incr)
-			grid->selected_rows.erase (x);
-		incr = (new_row > grid->clicked_row)? -1: 1;
-		for (x = new_row; x != grid->clicked_row; x += incr)
-			grid->selected_rows.insert (x);
+		incr = (grid->last_row > grid->row)? -1: 1;
+		for (x = grid->last_row; x != grid->row; x += incr)
+			grid->selected_rows->erase (x);
+		incr = (new_row > grid->row)? -1: 1;
+		for (x = new_row; x != grid->row; x += incr)
+			grid->selected_rows->insert (x);
 		grid->last_row = new_row;
 		grid->col = -1;
 	} else if (grid->col >= 0) {
@@ -1026,6 +1053,7 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	grid->titles = new std::string[grid->cols];
 	grid->types = new GType[grid->cols];
 	grid->editable = new bool[grid->cols];
+	grid->selected_rows = new std::set < int > ();
 	unsigned i;
 	std::list <char const *>::iterator title = titles.begin ();
 	std::list <GType>::iterator type = types.begin ();
@@ -1240,22 +1268,22 @@ void gcr_grid_delete_row (GcrGrid *grid, unsigned row)
 		grid->row_data[n - 1] = grid->row_data[n];
 	grid->rows--;
 	std::set < int > decreased;
-	std::set < int >::iterator i, end = grid->selected_rows.end ();
-	for (i = grid->selected_rows.begin (); i != end; i++)
+	std::set < int >::iterator i, end = grid->selected_rows->end ();
+	for (i = grid->selected_rows->begin (); i != end; i++)
 		if ((*i) > row)
 			decreased.insert (*i);
-	grid->selected_rows.erase (row);
+	grid->selected_rows->erase (row);
 	end = decreased.end ();
 	for (i = decreased.begin (); i != end; i++)
-		grid->selected_rows.erase (*i);
+		grid->selected_rows->erase (*i);
 	for (i = decreased.begin (); i != end; i++)
-		grid->selected_rows.insert ((*i) - 1);
+		grid->selected_rows->insert ((*i) - 1);
 	if (grid->row == static_cast < int > (grid->rows)) {
 		grid->row = -1;
 		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
 	}
 	if (!grid->selection_locked)
-		grid->selected_rows.clear ();
+		grid->selected_rows->clear ();
 	gtk_widget_queue_draw (GTK_WIDGET (grid));
 }
 
@@ -1269,9 +1297,9 @@ void gcr_grid_delete_selected_rows (GcrGrid *grid)
 	grid->row = -1;
 	grid->selection_locked = true;
 	gcr_grid_delete_row (grid, row);
-	while (!grid->selected_rows.empty ())
-		gcr_grid_delete_row (grid, *grid->selected_rows.begin ());
-	grid->selected_rows.clear ();
+	while (!grid->selected_rows->empty ())
+		gcr_grid_delete_row (grid, *grid->selected_rows->begin ());
+	grid->selected_rows->clear ();
 	if (row >= static_cast < int > (grid->rows))
 		g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
 	else
@@ -1330,14 +1358,14 @@ void gcr_grid_for_each_selected (GcrGrid *grid, GridCb cb, void *user_data)
 	if (grid->row < 0)
 		return;
 	cb (grid->row, user_data);
-	std::set < int >::iterator i, end = grid->selected_rows.end ();
-	for (i = grid->selected_rows.begin (); i != end; i++)
+	std::set < int >::iterator i, end = grid->selected_rows->end ();
+	for (i = grid->selected_rows->begin (); i != end; i++)
 		cb (*i, user_data);
 }
 
 void gcr_grid_select_all (GcrGrid *grid)
 {
-	g_return_if_fail (GCR_IS_GRID (grid));
+	g_return_if_fail (GCR_IS_GRID (grid)  && grid->allow_multiple);
 	if (grid->rows == 0)
 		return;
 	if (grid->row < 0) {
@@ -1347,7 +1375,15 @@ void gcr_grid_select_all (GcrGrid *grid)
 		return;
 	for (unsigned i = 0; i < grid->rows; i++)
 		if (i != static_cast < unsigned > (grid->row))
-			grid->selected_rows.insert (i);
+			grid->selected_rows->insert (i);
 	gtk_widget_queue_draw (GTK_WIDGET (grid));
 }
 
+void gcr_grid_add_row_to_selection (GcrGrid *grid, unsigned row)
+{
+	if (grid->row < 0)
+		grid->row = row;
+	else if (row != static_cast < unsigned > (grid->row))
+		grid->selected_rows->insert (row);
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
+}
