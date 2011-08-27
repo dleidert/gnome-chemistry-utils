@@ -59,8 +59,8 @@ private:
 	unsigned short m_nElt;
 	std::vector < Atom * > m_Atoms;
 	int m_AtomSelected;
-	GtkWidget *DeleteBtn, *DeleteAllBtn;
-	GtkComboBoxText *RadiusTypeMenu, *RadiusMenu, *ApplyBtn;
+	GtkWidget *DeleteBtn, *DeleteAllBtn, *SelectEltBtn;
+	GtkComboBoxText *RadiusTypeMenu, *RadiusMenu;
 	GtkSpinButton *ChargeBtn, *ScaleBtn;
 	const GcuAtomicRadius **m_Radii;
 	GcuAtomicRadius m_Radius;
@@ -69,6 +69,7 @@ private:
 	unsigned long m_RadiiSignalID, m_EntryFocusOutSignalID, m_ColorSignalID,
 				  m_RadiusTypeSignalID, m_ChargeSignalID, m_ScaleSignalID;
 	bool m_Closing;
+	double m_Ratio;
 };
 
 }	//	namespace gcr

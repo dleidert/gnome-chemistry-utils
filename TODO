@@ -16,7 +16,7 @@
 	* support for options when displaying a spectrum (?).
 
 * Gnome Crystal:
-	(nothing for now)
+	* enhance cif ans cml support (add more fields in document properties).
 
 * GChemPaint:
 	* enhance copy-and-paste support for OpenOffice.org (?).

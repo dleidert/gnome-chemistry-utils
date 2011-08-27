@@ -248,17 +248,16 @@ static gboolean gcr_grid_draw (GtkWidget *w, cairo_t* cr)
 	if (grid->row >= 0) {
 		pos = grid->header_width;
 		cairo_save (cr);
-		if (grid->col >= 0)
-			for (i = 0; static_cast < int > (i) < grid->col; i++) {
+		if (grid->col >= 0) {
+			for (i = 0; static_cast < int > (i) < grid->col; i++)
 				pos += grid->col_widths[i];
-				cairo_rectangle (cr, pos + .5,
-				                 y + (grid->row - grid->first_visible) * grid->row_height + .5,
-				                 grid->col_widths[grid->col], grid->row_height);
-			} else {
+			cairo_rectangle (cr, pos + .5,
+			                 y + (grid->row - grid->first_visible) * grid->row_height + .5,
+			                 grid->col_widths[grid->col], grid->row_height);
+		} else
 				cairo_rectangle (cr, pos + .5,
 				                 y + (grid->row - grid->first_visible) * grid->row_height + .5,
 				                 grid->actual_width, grid->row_height);
-			}
 		cairo_set_line_width (cr, 3.);
 		cairo_stroke_preserve (cr);
 		cairo_restore (cr);
@@ -515,7 +514,6 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 			break;
 		}
 		*grid->orig_string = grid->row_data[grid->row][grid->col];
-		gtk_widget_grab_focus (widget);
 	} else
 		grid->cursor_index = -1;
 	if (grid->cursor_index >= 0 && grid->cursor_signal == 0) {
@@ -527,6 +525,7 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 	}
 	if (value_changed >= 0) // a boolean changed
 		g_signal_emit (grid, gcr_grid_signals[VALUE_CHANGED], 0, new_row, new_col);
+	gtk_widget_grab_focus (widget);
 	gtk_widget_queue_draw (widget);
 	return true;
 }
@@ -582,11 +581,11 @@ static gboolean gcr_grid_motion_notify_event (GtkWidget *widget, GdkEventMotion 
 					break;
 				}
 				*grid->orig_string = grid->row_data[grid->row][grid->col];
-				gtk_widget_grab_focus (widget);
 			}
 		} else
 			grid->col = -1;
 	}
+	gtk_widget_grab_focus (widget);
 	gtk_widget_queue_draw (widget);
 	return true;
 }
@@ -608,7 +607,7 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	GcrGrid *grid = GCR_GRID (widget);
 	if (grid->row < 0)
 		return false;
-	int new_row = grid->row, new_col = grid->col, new_index = grid->cursor_index;
+	int new_row = grid->last_row, new_col = grid->col, new_index = grid->cursor_index;
 	char new_char = 0;
 	switch (event->keyval) {
 	case GDK_KEY_Tab:
@@ -652,16 +651,22 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 			if ((event->state & GDK_SHIFT_MASK) == 0)
 				grid->sel_start = new_index;
 		} else {
-			do {
-				if (new_col > 0)
-					new_col--;
-				else if (new_row > 0) {
-					new_row--;
-					new_col = grid->cols - 1;
-				} else
-					return true;
-			} while (!grid->editable[new_col]);
-			new_index = grid->row_data[new_row][new_col].length ();
+			if (event->state & GDK_SHIFT_MASK) {
+				if (new_col < static_cast < int > (grid->cols) - 1)
+					new_col = -1; // select the whole line
+				grid->sel_start = new_index = -1;
+			} else {
+				do {
+					if (new_col > 0)
+						new_col--;
+					else if (new_row > 0) {
+						new_row--;
+						new_col = grid->cols - 1;
+					} else
+						return true;
+				} while (!grid->editable[new_col]);
+				new_index = grid->row_data[new_row][new_col].length ();
+			}
 		}
 		break;
 	case GDK_KEY_Right:
@@ -671,26 +676,55 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 			if ((event->state & GDK_SHIFT_MASK) == 0)
 				grid->sel_start = new_index;
 		} else {
-			do {
+			if (event->state & GDK_SHIFT_MASK) {
 				if (new_col < static_cast < int > (grid->cols) - 1)
-					new_col++;
-				else if (grid->row < static_cast < int > (grid->rows) - 1) {
-					new_row++;
-					new_col = 0;
-				} else
-					return true;
-			} while (!grid->editable[new_col]);
-			new_index = 0;
+					new_col = -1; // select the whole line
+				grid->sel_start = new_index = -1;
+			} else {
+				do {
+					if (new_col < static_cast < int > (grid->cols) - 1)
+						new_col++;
+					else if (grid->row < static_cast < int > (grid->rows) - 1) {
+						new_row++;
+						new_col = 0;
+					} else
+						return true;
+				} while (!grid->editable[new_col]);
+				grid->selected_rows->clear ();
+				grid->sel_start = new_index = 0;
+			}
 		}
 		break;
 	case GDK_KEY_Up:
 	case GDK_KEY_KP_Up:
-		if (grid->row > 0)
+		if (event->state & GDK_SHIFT_MASK) {
+			new_col = -1; // select the whole line
+			grid->sel_start = new_index = -1;
+			if (new_row > 0) {
+				int row = new_row - 1;
+				if (row < grid->row)
+					gcr_grid_add_row_to_selection (grid, row);
+				else
+					gcr_grid_unselect_row (grid, grid->last_row);
+				grid->last_row = new_row = row;
+			}
+		} else if (grid->row > 0)
 			new_row--;
 		break;
 	case GDK_KEY_Down:
 	case GDK_KEY_KP_Down:
-		if (grid->row < static_cast < int > (grid->rows) - 1)
+		if (event->state & GDK_SHIFT_MASK) {
+			new_col = -1; // select the whole line
+			grid->sel_start = new_index = -1;
+			if (new_row < static_cast < int > (grid->rows) - 1) {
+				int row = new_row + 1;
+				if (row > grid->row)
+					gcr_grid_add_row_to_selection (grid, row);
+				else
+					gcr_grid_unselect_row (grid, grid->last_row);
+				grid->last_row = new_row = row;
+			}
+		} else if (grid->row < static_cast < int > (grid->rows) - 1)
 			new_row++;
 		break;
 	case GDK_KEY_Page_Up:
@@ -920,28 +954,31 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		new_index++;
 		grid->sel_start = new_index;
 	}
-	if (new_row != grid->row || new_col != grid->col) {
-		if (grid->row >= 0 && !gcr_grid_validate_change (grid))
+	if (new_row != grid->last_row || new_col != grid->col) {
+		if (grid->row >= 0 && grid->col >= 0 && !gcr_grid_validate_change (grid))
 			return true;
 		if (new_row != grid->row)
 			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
-		if (grid->editable[new_col]) {
+		if (new_col >= 0 && grid->editable[new_col]) {
 			grid->row = new_row;
 			grid->col = new_col;
 			*grid->orig_string = grid->row_data[new_row][new_col];
 			int l = grid->orig_string->length ();
 			if (new_index > l)
 				new_index = grid->sel_start = l;
-		} else {
+		} else if (new_col >= 0) {
 			grid->row = grid->col = new_index = -1;
 			g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, -1);
-		}
+		} else
+			grid->col = new_col;
+		if ((event->state & GDK_SHIFT_MASK) == 0)
+			grid->last_row = grid->row;
 	}
 	// ensure that the selection is visible
-	if (new_row < grid->first_visible)
-		grid->first_visible = new_row;
-	else if (new_row >= grid->first_visible + static_cast < int > (grid->nb_visible))
-		grid->first_visible = new_row + 1 - grid->nb_visible;
+	if (grid->last_row < grid->first_visible)
+		grid->first_visible = grid->last_row;
+	else if (grid->last_row >= grid->first_visible + static_cast < int > (grid->nb_visible))
+		grid->first_visible = grid->last_row + 1 - grid->nb_visible;
 	grid->cursor_index = new_index;
 	gtk_widget_queue_draw (widget);
 	return true;
@@ -1385,5 +1422,11 @@ void gcr_grid_add_row_to_selection (GcrGrid *grid, unsigned row)
 		grid->row = row;
 	else if (row != static_cast < unsigned > (grid->row))
 		grid->selected_rows->insert (row);
+	gtk_widget_queue_draw (GTK_WIDGET (grid));
+}
+
+void gcr_grid_unselect_row (GcrGrid *grid, unsigned row)
+{
+	grid->selected_rows->erase (row);
 	gtk_widget_queue_draw (GTK_WIDGET (grid));
 }

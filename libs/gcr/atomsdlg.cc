@@ -60,6 +60,8 @@ public:
 	static void AddRow (AtomsDlg *pBox);
 	static void DeleteRow (AtomsDlg *pBox);
 	static void DeleteAll (AtomsDlg *pBox);
+	static void SelectAll (AtomsDlg *pBox);
+	static void SelectElt (AtomsDlg *pBox);
 	static void ValueChanged (AtomsDlg *pBox, unsigned row, unsigned column);
 	static void RowSelected (AtomsDlg *pBox, int row);
 	static void ElementChanged (AtomsDlg *pBox, unsigned Z);
@@ -70,6 +72,7 @@ public:
 	static void RadiusIndexChanged(GtkComboBox *menu, AtomsDlg *pBox);
 	static bool RadiusEdited (AtomsDlg *pBox);
 	static void RadiusScaleChanged (GtkSpinButton *btn, AtomsDlg *pBox);
+	static void SetRadiusScale (unsigned i, AtomsDlg *pBox);
 };
 
 void AtomsDlgPrivate::AddRow (AtomsDlg *pBox)
@@ -120,6 +123,18 @@ void AtomsDlgPrivate::DeleteAll (AtomsDlg *pBox)
 	pBox->m_pDoc->Update ();
 	pBox->m_pDoc->SetDirty (true);
 	gtk_widget_set_sensitive (pBox->DeleteAllBtn, false);
+}
+
+void AtomsDlgPrivate::SelectAll (AtomsDlg *pBox)
+{
+	gcr_grid_select_all (pBox->m_Grid);
+}
+
+void AtomsDlgPrivate::SelectElt (AtomsDlg *pBox)
+{
+	for (unsigned i = 0; i < pBox->m_pDoc->GetAtomList ()->size (); i++)
+		if (pBox->m_Atoms[i]->GetZ () == pBox->m_nElt)
+			gcr_grid_add_row_to_selection (pBox->m_Grid, i);
 }
 
 void AtomsDlgPrivate::ValueChanged (AtomsDlg *pBox, unsigned row, unsigned column)
@@ -355,30 +370,19 @@ bool AtomsDlgPrivate::RadiusEdited (AtomsDlg *pBox)
 	return false;
 }
 
+void AtomsDlgPrivate::SetRadiusScale (unsigned i, AtomsDlg *pBox)
+{
+		pBox->m_Atoms[i]->SetEffectiveRadiusRatio (pBox->m_Ratio);
+}
+
 void AtomsDlgPrivate::RadiusScaleChanged (GtkSpinButton *btn, AtomsDlg *pBox)
 {
-	double ratio = gtk_spin_button_get_value (btn) / 100.;
-	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (pBox->ApplyBtn))) {
-	case 0: {
-		// element
-		for (unsigned i = 0; i < pBox->m_pDoc->GetAtomList ()->size (); i++)
-			if (pBox->m_Atoms[i]->GetZ () == pBox->m_nElt)
-				pBox->m_Atoms[i]->SetEffectiveRadiusRatio (ratio);
-		break;
+	pBox->m_Ratio = gtk_spin_button_get_value (btn) / 100.;
+	if (pBox->m_AtomSelected >= 0) {
+		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetRadiusScale), pBox);
+		pBox->m_pDoc->Update ();
+		pBox->m_pDoc->SetDirty (true);
 	}
-	case 1: // selected atom
-		if (pBox->m_AtomSelected >= 0)
-			pBox->m_Atoms[pBox->m_AtomSelected]->SetEffectiveRadiusRatio (ratio);
-		break;
-	case 2: // all atoms
-		for (unsigned i = 0; i < pBox->m_pDoc->GetAtomList ()->size (); i++)
-			pBox->m_Atoms[i]->SetEffectiveRadiusRatio (ratio);
-		break;
-	default: // should not happen
-		return;
-	}
-	pBox->m_pDoc->Update ();
-	pBox->m_pDoc->SetDirty (true);
 }
 
 AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
@@ -397,7 +401,11 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	g_signal_connect_swapped (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (AtomsDlgPrivate::DeleteRow), this);
 	DeleteAllBtn = GetWidget ("delete_all");
 	g_signal_connect_swapped (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (AtomsDlgPrivate::DeleteAll), this);
+	g_signal_connect_swapped (GetObject ("select-all"), "clicked", G_CALLBACK (AtomsDlgPrivate::SelectAll), this);
+	SelectEltBtn = GetWidget ("select-elt");
+	g_signal_connect_swapped (G_OBJECT (SelectEltBtn), "clicked", G_CALLBACK (AtomsDlgPrivate::SelectElt), this);
 	m_Grid = GCR_GRID (gcr_grid_new (_("Atom"), G_TYPE_STRING, _("x"), G_TYPE_DOUBLE, _("y"), G_TYPE_DOUBLE, _("z"), G_TYPE_DOUBLE, NULL));
+	gcr_grid_set_allow_multiple_selection (m_Grid, true);
 	g_object_set (G_OBJECT (m_Grid), "expand", true, NULL);
 	gcr_grid_customize_column (m_Grid, COLUMN_ELT, strlen ("Unknown"), false);
 	gtk_grid_attach (GTK_GRID (GetWidget ("atoms-grid")), GTK_WIDGET (m_Grid), 3, 1, 1, 5);
@@ -429,8 +437,7 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	m_EntryFocusOutSignalID = g_signal_connect_swapped (G_OBJECT (AtomR), "focus-out-event", G_CALLBACK (AtomsDlgPrivate::RadiusEdited), this);
 	ScaleBtn = GTK_SPIN_BUTTON (GetWidget ("scale-btn"));
 	m_ScaleSignalID = g_signal_connect (G_OBJECT (ScaleBtn), "value-changed", G_CALLBACK (AtomsDlgPrivate::RadiusScaleChanged), this);
-	ApplyBtn = GTK_COMBO_BOX_TEXT (GetWidget ("apply-to-box"));
-	gtk_combo_box_set_active (GTK_COMBO_BOX (ApplyBtn), 1);
+	m_ScaleSignalID = g_signal_connect (G_OBJECT (ScaleBtn), "activate", G_CALLBACK (AtomsDlgPrivate::RadiusScaleChanged), this);
 	m_RadiusType = m_Charge = 0;
 	m_Radii = NULL;
 	m_Radius.type = GCU_RADIUS_UNKNOWN;
@@ -486,6 +493,7 @@ void AtomsDlg::PopulateRadiiMenu ()
 			radius++;
 		}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (RadiusMenu), selected);
+	gtk_widget_set_sensitive (SelectEltBtn, m_nElt > 0);
 	g_signal_handler_unblock (RadiusMenu, m_RadiiSignalID);
 }
 

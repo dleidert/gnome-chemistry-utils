@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-08-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: remove obsolete  "Apply to" button.
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/grid.cc: enhance keyboard navigation.
+	* libs/gcr/grid.h: ditto.
+	* ui/crystal/atoms.ui: remove obsolete  "Apply to" button.
+
 2011-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: enhance multiple selection handling.
 	* libs/gcr/grid.h: add gcr_grid_select_all().
