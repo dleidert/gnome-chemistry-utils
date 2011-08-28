@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-08-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: apply radius and color changes to the whole
+	selection.
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/grid.cc: enhance keyboard navigation.
+
 2011-08-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: remove obsolete  "Apply to" button.
 	* libs/gcr/atomsdlg.h: ditto.

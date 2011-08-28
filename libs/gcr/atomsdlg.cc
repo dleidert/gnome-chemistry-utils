@@ -66,11 +66,14 @@ public:
 	static void RowSelected (AtomsDlg *pBox, int row);
 	static void ElementChanged (AtomsDlg *pBox, unsigned Z);
 	static void ColorSet (GtkColorButton *btn, AtomsDlg *pBox);
+	static void SetColor (unsigned i, AtomsDlg *pBox);
 	static void ColorToggled (GtkToggleButton *btn, AtomsDlg *pBox);
 	static void ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox);
+	static void SetCharge (unsigned i, AtomsDlg *pBox);
 	static void RadiusTypeChanged (GtkComboBox *menu, AtomsDlg *pBox);
 	static void RadiusIndexChanged(GtkComboBox *menu, AtomsDlg *pBox);
 	static bool RadiusEdited (AtomsDlg *pBox);
+	static void SetRadius (unsigned i, AtomsDlg *pBox);
 	static void RadiusScaleChanged (GtkSpinButton *btn, AtomsDlg *pBox);
 	static void SetRadiusScale (unsigned i, AtomsDlg *pBox);
 };
@@ -236,12 +239,16 @@ void AtomsDlgPrivate::ElementChanged (AtomsDlg *pBox, unsigned Z)
 	}
 }
 
+void AtomsDlgPrivate::SetColor (unsigned i, AtomsDlg *pBox)
+{
+		pBox->m_Atoms[i]->SetColor (pBox->m_RGBA.red, pBox->m_RGBA.green, pBox->m_RGBA.blue, pBox->m_RGBA.alpha);
+}
+
 void AtomsDlgPrivate::ColorSet (GtkColorButton *btn, AtomsDlg *pBox)
 {
 	if (pBox->m_AtomSelected >= 0) {
-		GdkRGBA rgba;
-		gtk_color_button_get_rgba (btn, &rgba);
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetColor (rgba.red, rgba.green, rgba.blue, rgba.alpha);
+		gtk_color_button_get_rgba (btn, &pBox->m_RGBA);
+		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetColor), pBox);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
 	}
@@ -250,6 +257,12 @@ void AtomsDlgPrivate::ColorSet (GtkColorButton *btn, AtomsDlg *pBox)
 void AtomsDlgPrivate::ColorToggled (GtkToggleButton *btn, AtomsDlg *pBox)
 {
 	gtk_widget_set_sensitive (GTK_WIDGET(pBox->AtomColor), gtk_toggle_button_get_active (btn));
+}
+
+void AtomsDlgPrivate::SetCharge (unsigned i, AtomsDlg *pBox)
+{
+		pBox->m_Atoms[i]->SetCharge (pBox->m_Charge);
+		pBox->m_Atoms[i]->SetRadius (pBox->m_Radius);
 }
 
 void AtomsDlgPrivate::ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox)
@@ -269,10 +282,8 @@ void AtomsDlgPrivate::ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox)
 	if (index >= 0)
 		gtk_combo_box_set_active (GTK_COMBO_BOX (pBox->RadiusTypeMenu), index);
 	pBox->PopulateRadiiMenu ();
-	// FIXME: we might have to apply to all atoms of the current element
 	if (pBox->m_AtomSelected >= 0) {
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetCharge (charge);
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
+		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetCharge), pBox);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
 	}
@@ -326,7 +337,7 @@ void AtomsDlgPrivate::RadiusTypeChanged (GtkComboBox *menu, AtomsDlg *pBox)
 	gtk_spin_button_set_value (pBox->ChargeBtn, pBox->m_Charge);
 	pBox->PopulateRadiiMenu ();
 	if (pBox->m_AtomSelected >= 0) {
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
+		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetRadius), pBox);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
 	}
@@ -350,10 +361,15 @@ void AtomsDlgPrivate::RadiusIndexChanged (GtkComboBox *menu, AtomsDlg *pBox)
 		pBox->m_Radius.type = static_cast < gcu_radius_type > (pBox->m_RadiusType);
 	}
 	if (pBox->m_AtomSelected >= 0) {
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
+		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetRadius), pBox);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
 	}
+}
+
+void AtomsDlgPrivate::SetRadius (unsigned i, AtomsDlg *pBox)
+{
+		pBox->m_Atoms[i]->SetRadius (pBox->m_Radius);
 }
 
 bool AtomsDlgPrivate::RadiusEdited (AtomsDlg *pBox)
@@ -362,7 +378,7 @@ bool AtomsDlgPrivate::RadiusEdited (AtomsDlg *pBox)
 		return false; // don't care
 	g_signal_handler_block (pBox->AtomR, pBox->m_EntryFocusOutSignalID);
 	if (pBox->GetNumber (pBox->AtomR, &(pBox->m_Radius.value.value), gcugtk::Min, 0) && pBox->m_AtomSelected >= 0) {
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
+		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetRadius), pBox);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
 	}
@@ -495,6 +511,7 @@ void AtomsDlg::PopulateRadiiMenu ()
 	gtk_combo_box_set_active (GTK_COMBO_BOX (RadiusMenu), selected);
 	gtk_widget_set_sensitive (SelectEltBtn, m_nElt > 0);
 	g_signal_handler_unblock (RadiusMenu, m_RadiiSignalID);
+	m_Radius.charge = m_Charge;
 }
 
 void AtomsDlg::Closed ()

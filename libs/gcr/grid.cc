@@ -729,14 +729,38 @@ static gboolean gcr_grid_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		break;
 	case GDK_KEY_Page_Up:
 	case GDK_KEY_KP_Page_Up:
-		if (grid->row >= static_cast < int > (grid->nb_visible))
+		if (event->state & GDK_SHIFT_MASK) {
+			new_col = -1; // select the whole line
+			grid->sel_start = new_index = -1;
+			int i, row = (grid->row >= static_cast < int > (grid->nb_visible))?
+							new_row - grid->nb_visible: 0;
+			for (i = row; i < new_row; i++) {
+				if (i < grid->row)
+					gcr_grid_add_row_to_selection (grid, i);
+				else
+					gcr_grid_unselect_row (grid, i);
+			}
+			grid->last_row = new_row = row;
+		} else if (grid->row >= static_cast < int > (grid->nb_visible))
 			new_row -= grid->nb_visible;
 		else
 			new_row = 0;
 		break;
 	case GDK_KEY_Page_Down:
 	case GDK_KEY_KP_Page_Down:
-		if (grid->rows > grid->nb_visible && grid->row < static_cast < int > (grid->rows - grid->nb_visible) - 1)
+		if (event->state & GDK_SHIFT_MASK) {
+			new_col = -1; // select the whole line
+			grid->sel_start = new_index = -1;
+			int i, row = (grid->rows > grid->nb_visible && grid->row < static_cast < int > (grid->rows - grid->nb_visible) - 1)?
+							new_row + grid->nb_visible: grid->rows - 1;
+			for (i = row; i > new_row; i--) {
+				if (i > grid->row)
+					gcr_grid_add_row_to_selection (grid, i);
+				else
+					gcr_grid_unselect_row (grid, i);
+			}
+			grid->last_row = new_row = row;
+		} if (grid->rows > grid->nb_visible && grid->row < static_cast < int > (grid->rows - grid->nb_visible) - 1)
 			new_row += grid->nb_visible;
 		else
 			new_row = grid->rows - 1;

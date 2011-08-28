@@ -70,6 +70,7 @@ private:
 				  m_RadiusTypeSignalID, m_ChargeSignalID, m_ScaleSignalID;
 	bool m_Closing;
 	double m_Ratio;
+	GdkRGBA m_RGBA;
 };
 
 }	//	namespace gcr
