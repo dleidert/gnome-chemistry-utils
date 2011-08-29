@@ -132,6 +132,7 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 	gtk_widget_set_sensitive (GTK_WIDGET (yrange), false);
 	yrangesgn = g_signal_connect_swapped (yrange, "value-changed", G_CALLBACK (on_yrange_changed), this);
 	gtk_grid_attach (grid, GTK_WIDGET (yrange), 4, 1, 1, 1);
+	m_ExtraWidget = NULL;
 }
 
 SpectrumView::~SpectrumView ()
@@ -216,6 +217,7 @@ void SpectrumView::SetAxisLabel (GogAxisType target, char const *unit)
 		g_object_unref (label);
 	}
 	label = GOG_OBJECT (g_object_new (GOG_TYPE_LABEL, NULL));
+	g_object_set (G_OBJECT (label), "allow-markup", TRUE, NULL);
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 	gog_object_add_by_name (axis, "Label", label);
 
@@ -425,6 +427,20 @@ void SpectrumView::InvertAxis (GogAxisType target, bool inverted)
 	GSList *axes = gog_chart_get_axes (chart, target);
 	GogAxis *axis = GOG_AXIS (axes->data);
 	g_object_set (axis, "invert-axis", inverted, NULL);
+}
+
+void SpectrumView::AddToOptionBox (GtkWidget *w)
+{
+	gtk_grid_attach (GTK_GRID (m_OptionBox), w, 0, 2, 5, 1);
+	m_ExtraWidget = w;
+}
+
+void SpectrumView::DestroyExtraWidget ()
+{
+	if (m_ExtraWidget) {
+		gtk_widget_destroy (m_ExtraWidget);
+		m_ExtraWidget = NULL;
+	}
 }
 
 }	//	namespace gcu

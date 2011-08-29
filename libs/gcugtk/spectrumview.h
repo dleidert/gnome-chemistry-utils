@@ -144,11 +144,15 @@ and pdf, and possibly a few other bitmap formats.
 */
 	void SaveAsImage (std::string const &filename, char const *mime_type, unsigned width, unsigned height) const;
 
+	void AddToOptionBox (GtkWidget *w);
+	void DestroyExtraWidget ();
+
 private:
 	GtkSpinButton *xminbtn, *xmaxbtn, *yminbtn, *ymaxbtn;
 	GtkRange *xrange, *yrange;
 	gulong minsgn, maxsgn, yminsgn, ymaxsgn, xrangesgn, yrangesgn;
 	double xmin, xmax, xstep, ymin, ymax, ystep;
+	GtkWidget *m_ExtraWidget;
 
 /*!\fn GetDoc()
 @return the associated document.

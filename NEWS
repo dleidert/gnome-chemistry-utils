@@ -1,4 +1,8 @@
 Version 0.13.5
+	GCrystal:
+		* Use multiple selection in atoms and lines dialogs.
+	GSpectrum:
+		* Allow markup in combo boxes and axes titles. 
 
 Version 0.13.4
 	All:

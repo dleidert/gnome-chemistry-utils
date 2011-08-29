@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-08-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcugtk/spectrumdoc.cc: use markup in combo box and axis title. 
+	* libs/gcugtk/spectrumview.cc: add two methods to sanitize custom option
+	widgets management.
+	* libs/gcugtk/spectrumview.h: ditto.
+
 2011-08-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: apply radius and color changes to the whole
 	selection.

@@ -235,7 +235,7 @@ char const *Units[] = {
 };
 
 char const *UnitNames[] = {
-	N_("Wavenumber (1/cm)"),
+	N_("Wavenumber (cm<sup>−1</sup>)"),
 	N_("Transmittance"),
 	N_("Absorbance"),
 	N_("Chemical shift (ppm)"),
@@ -2186,12 +2186,8 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	m_View->SetAxisBounds (GOG_AXIS_X, variables[X].Min, variables[X].Max, true);
 	m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[variables[X].Unit]));
 	OnXUnitChanged (0);
-	// remove the last widget from the option box, really a kludge
-	GtkContainer *container = GTK_CONTAINER (m_View->GetOptionBox ());
-	GList *l = gtk_container_get_children (container), *ptr;
-	for (ptr = l; ptr->next != NULL; ptr = ptr->next);
-	gtk_container_remove (container, GTK_WIDGET (ptr->data));
-	g_list_free (l);
+	// remove the last widget from the option box
+	m_View->DestroyExtraWidget ();
 	// now add the widgets appropriate for an NMR spectrum
 	GtkWidget *grid = gtk_grid_new (), *w;
 	gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
@@ -2210,7 +2206,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	g_signal_connect (w, "clicked", G_CALLBACK (on_show_integral), this);
 	gtk_container_add (GTK_CONTAINER (grid), w);
 	gtk_widget_show_all (grid);
-	gtk_container_add (container, grid);
+	m_View->AddToOptionBox (grid);
 }
 
 void SpectrumDocument::OnXAxisInvert (bool inverted)
@@ -2307,7 +2303,7 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 		g_signal_connect (w, "clicked", G_CALLBACK (on_show_integral), this);
 		gtk_container_add (GTK_CONTAINER (grid), w);
 		gtk_widget_show_all (grid);
-		gtk_container_add (GTK_CONTAINER (m_View->GetOptionBox ()), grid);
+		m_View->AddToOptionBox (grid);
 		hide_y_axis = true;
 		break;
 	}
@@ -2331,7 +2327,7 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 				gtk_widget_set_sensitive (w, false);
 			gtk_container_add (GTK_CONTAINER (grid), w);
 			gtk_widget_show_all (grid);
-			gtk_container_add (GTK_CONTAINER (m_View->GetOptionBox ()), grid);
+			m_View->AddToOptionBox (grid);
 		}
 		hide_y_axis = true;
 		break;
@@ -2354,18 +2350,24 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			w = gtk_label_new (_("X unit:"));
 			gtk_container_add (GTK_CONTAINER (grid), w);
 			w = gtk_combo_box_text_new ();
+			GList *cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (w));
+			if (cells && cells->data) {
+				/* set "markup" as the target property */
+				gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (w), GTK_CELL_RENDERER (cells->data),
+								"markup", 0, NULL);
+			}
 			if  (unit == GCU_SPECTRUM_UNIT_NANOMETERS)
 				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Wave length (nm)"));
 			else
 				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Wave length (µm)"));
-			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Wave number (1/cm)"));
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Wavenumber (cm<sup>−1</sup>)"));
 			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_CM_1)? 1: 0));
 			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
 			gtk_container_add (GTK_CONTAINER (grid), w);
 			m_XAxisInvertBtn = gtk_check_button_new_with_label (_("Invert X Axis"));
 			m_XAxisInvertSgn = g_signal_connect (m_XAxisInvertBtn, "toggled", G_CALLBACK (on_xaxis_invert), this);
-			gtk_container_add (GTK_CONTAINER (grid), w);
+			gtk_container_add (GTK_CONTAINER (grid), m_XAxisInvertBtn);
 			w = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
 			gtk_container_add (GTK_CONTAINER (grid), w);
 			w = gtk_label_new (_("Y unit:"));
@@ -2378,7 +2380,7 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			g_signal_connect (w, "changed", G_CALLBACK (on_yunit_changed), this);
 			gtk_container_add (GTK_CONTAINER (grid), w);
 			gtk_widget_show_all (grid);
-			gtk_container_add (GTK_CONTAINER (m_View->GetOptionBox ()), grid);
+			m_View->AddToOptionBox (grid);
 		}
 		break;
 //	case GCU_SPECTRUM_NMR_PEAK_TABLE:
