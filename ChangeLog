@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.h: API doc typo.
+	* libs/gcp/brackets.cc: add a contextual menu.
+	* libs/gcp/brackets.h: ditto.
+
 2011-08-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcugtk/spectrumdoc.cc: use markup in combo box and axis title. 
 	* libs/gcugtk/spectrumview.cc: add two methods to sanitize custom option

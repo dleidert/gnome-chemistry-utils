@@ -37,10 +37,12 @@
 #include <gcp/widgetdata.h>
 #include <gcu/application.h>
 #include <gcu/document.h>
+#include <gcugtk/ui-manager.h>
 #include <gccv/canvas.h>
 #include <gccv/structs.h>
 #include <sstream>
 #include <cstring>
+#include <glib/gi18n-lib.h>
 
 namespace gcp {
 
@@ -54,6 +56,7 @@ Brackets::Brackets (gccv::BracketsTypes type): gcu::Object (BracketsType), ItemC
 	m_Valid = false;
 	m_Used = gccv::BracketsBoth;
 	m_Content = BracketContentInvalid;
+	m_Decorations = BracketDecorationNone;
 }
 
 Brackets::~Brackets ()
@@ -199,7 +202,7 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 									   end = objects.end ();
 	std::set <gcu::TypeId> const &rules = GetApplication ()->GetRules (BracketsType, gcu::RuleMayContain);
 
-	bool ok;
+	bool ok = true;
 	if ((ok = objects.size () == 1)) {
 		obj = *i;
 		gcu::TypeId type = obj->GetType ();
@@ -208,12 +211,10 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 		else if (type == gcp::ReactionStepType || type == gcp::MechanismStepType || rules.find (type) != rules.end ())
 			m_Content = BracketContentGroup;
 		else
-			ok =false;
+			ok = false;
 		if (m_Used == gccv::BracketsBoth)
 			m_Decorations = BracketSuperscript;
 	}
-	if (m_Used != gccv::BracketsBoth)
-		return;
 	if (!ok) {
 		obj = (*i)->GetMolecule ();
 		if (obj != NULL) {
@@ -226,8 +227,9 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 			m_Content = BracketContentFragment;
 		} else
 			return; // may be we are missing some cases where the enclosed group is valid
+		if (m_Used == gccv::BracketsBoth)
+			m_Decorations = BracketSubscript;
 	}
-	m_Decorations = BracketSubscript;
 
 	SetParent (obj);
 	// unset existing links
@@ -283,6 +285,50 @@ bool Brackets::ConnectedAtoms (std::set < gcu::Object * > const &objects)
 		if ((*i)->GetType () == BracketsType)
 			nb++;
 	return objects.size () == test.size () + nb;
+}
+
+static void on_stoichiometry_add (Brackets *brackets) {
+}
+
+static void on_superscript_add (Brackets *brackets) {
+}
+
+bool Brackets::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y)
+{
+	bool result = false;
+	if (!HasChildren () && m_Decorations != BracketDecorationNone && m_Used == gccv::BracketsBoth) {
+		result = true;
+		if (m_Decorations & BracketSubscript) {
+			GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
+			GtkActionGroup *group = gtk_action_group_new ("bracket");
+			GtkAction *action;
+			action = gtk_action_new ("Brackets", _("Brackets"), NULL, NULL);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+			action = gtk_action_new ("Stoich", _("Add stoichiometry"), NULL, NULL);
+			g_signal_connect_swapped (action, "activate", G_CALLBACK (on_stoichiometry_add), this);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+			gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Brackets'><menuitem action='Stoich'/></menu></popup></ui>", -1, NULL);
+			gtk_ui_manager_insert_action_group (uim, group, 0);
+			g_object_unref (group);
+		} else if (m_Decorations & BracketSuperscript) {
+			GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
+			GtkActionGroup *group = gtk_action_group_new ("bracket");
+			GtkAction *action;
+			action = gtk_action_new ("Brackets", _("Brackets"), NULL, NULL);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+			action = gtk_action_new ("Super", _("Add superscript"), NULL, NULL);
+			g_signal_connect_swapped (action, "activate", G_CALLBACK (on_superscript_add), this);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+			gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Brackets'><menuitem action='Super'/></menu></popup></ui>", -1, NULL);
+			gtk_ui_manager_insert_action_group (uim, group, 0);
+			g_object_unref (group);
+		}
+	}
+	return result || Object::BuildContextualMenu (UIManager, object, x, y);
 }
 
 }

@@ -43,6 +43,7 @@ typedef enum {
 } BracketContent;
 
 typedef enum {
+	BracketDecorationNone = 0,
 	BracketSubscript = 1,
 	BracketSuperscript = 2
 } BracketsDecorations;
@@ -101,6 +102,15 @@ Called when an object has been unlinked. Programs should not call it
 directly, but should call Object::OnUnlink instead.
 */
 	void OnUnlink (Object *object);
+/*!
+@param UIManager: the gcu::UIManager to populate.
+@param object the atom on which occured the mouse click.
+@param x x coordinate of the mouse click.
+@param y y coordinate of the mouse click.
+
+This method is called to build a contextual menu for the brackets.
+*/
+	bool BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y);
 
 	void SetEmbeddedObjects (std::set < gcu::Object * > objects);
 	std::set < gcu::Object * > const &GetEmbeddedObjects () {return m_EmbeddedObjects;}

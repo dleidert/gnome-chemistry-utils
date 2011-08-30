@@ -244,7 +244,7 @@ condition.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
 
-This method is called to build a contextual menu for the atom.
+This method is called to build a contextual menu for the bond.
 */
 	bool BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y);
 /*!
