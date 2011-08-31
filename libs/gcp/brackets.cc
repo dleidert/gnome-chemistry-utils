@@ -25,6 +25,7 @@
 #include "config.h"
 #include "brackets.h"
 #include <gccv/canvas.h>
+#include <gcp/application.h>
 #include <gcp/atom.h>
 #include <gcp/bond.h>
 #include <gcp/document.h>
@@ -32,7 +33,9 @@
 #include <gcp/mechanism-step.h>
 #include <gcp/reaction-step.h>
 #include <gcp/settings.h>
+#include <gcp/text.h>
 #include <gcp/theme.h>
+#include <gcp/tool.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <gcu/application.h>
@@ -45,6 +48,8 @@
 #include <glib/gi18n-lib.h>
 
 namespace gcp {
+
+extern xmlDocPtr pXmlDoc;
 
 gcu::TypeId BracketsType = gcu::NoType;
 static gcu::Object *last_loaded;
@@ -288,6 +293,24 @@ bool Brackets::ConnectedAtoms (std::set < gcu::Object * > const &objects)
 }
 
 static void on_stoichiometry_add (Brackets *brackets) {
+	Document *pDoc = dynamic_cast <Document*> (brackets->GetDocument ());
+	Application * pApp = pDoc->GetApplication ();
+	View *pView = pDoc->GetView ();
+	Theme *pTheme= pDoc->GetTheme ();
+	WidgetData *pData = (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
+	gccv::Rect rect;
+	Operation *op = pDoc->GetNewOperation (GCP_MODIFY_OPERATION);
+	op->AddNode (brackets->GetGroup ()->Save (pXmlDoc), 0);
+	pData->GetObjectBounds (brackets, &rect);
+	double x = rect.x1 / pTheme->GetZoomFactor (),
+		y = rect.y1 / pTheme->GetZoomFactor ();
+	Text *text = new Text (x, y);
+	brackets->AddChild (text);
+	pDoc->AddObject (text);
+	Tool *tool = pApp->GetTool ("Text");
+	brackets->GetParent ()->EmitSignal (OnChangedSignal);
+	pApp->ActivateTool ("Text", true);
+	tool->OnClicked (pView, text, rect.x1, rect.y1, 0);
 }
 
 static void on_superscript_add (Brackets *brackets) {

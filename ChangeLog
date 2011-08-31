@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/brackets.cc: add a text field as stoichiometry.
+	* libs/gcugtk/cmd-context-gtk.cc: delete message box when done.
+
 2011-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.h: API doc typo.
 	* libs/gcp/brackets.cc: add a contextual menu.
