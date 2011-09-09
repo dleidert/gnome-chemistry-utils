@@ -53,6 +53,14 @@ Constructs a new empty text positioned according to the given coordiantes
 */
 	Text (double x, double y);
 /*!
+@param tag a gccv::Tag to apply to the whole text.
+@param x the x coordinate.
+@param y the y coordinate.
+
+Constructs a new empty text positioned according to the given coordiantes
+*/
+	Text (gccv::Tag tag, double x, double y);
+/*!
 The destructor.
 */
 	virtual ~Text ();
@@ -210,6 +218,8 @@ a carbon atom symbol using the current document theme.
 @return the gccv::Anchor used for the text as a reference.
 */
 GCU_PROP (gccv::Anchor, Anchor)
+
+GCU_RO_PROP (gccv::Tag, GlobalTag)
 
 private:
 	double m_Interline;

@@ -140,15 +140,14 @@ bool Brackets::Load (xmlNodePtr node)
 		g_strfreev (ids);
 		xmlFree (buf);
 	}
-	return true;
+	return gcu::Object::Load (node);
 }
 
 xmlNodePtr Brackets::Save (xmlDocPtr xml) const
 {
 	if (m_EmbeddedObjects.size () == 0)
 		return NULL;
-	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "brackets", NULL);
-	SaveId (node);
+	xmlNodePtr node = gcu::Object::Save (xml);//xmlNewDocNode (xml, NULL, (xmlChar*) "brackets", NULL);
 	char const *type = NULL;
 	switch (m_Type) {
 	case gccv::BracketsTypeNormal:
@@ -304,7 +303,7 @@ static void on_stoichiometry_add (Brackets *brackets) {
 	pData->GetObjectBounds (brackets, &rect);
 	double x = rect.x1 / pTheme->GetZoomFactor (),
 		y = rect.y1 / pTheme->GetZoomFactor ();
-	Text *text = new Text (x, y);
+	Text *text = new Text ((StoichiometryTag)? StoichiometryTag:(StoichiometryTag = gccv::TextTag::RegisterTagType ()), x, y);
 	brackets->AddChild (text);
 	pDoc->AddObject (text);
 	Tool *tool = pApp->GetTool ("Text");
@@ -314,6 +313,24 @@ static void on_stoichiometry_add (Brackets *brackets) {
 }
 
 static void on_superscript_add (Brackets *brackets) {
+	Document *pDoc = dynamic_cast <Document*> (brackets->GetDocument ());
+	Application * pApp = pDoc->GetApplication ();
+	View *pView = pDoc->GetView ();
+	Theme *pTheme= pDoc->GetTheme ();
+	WidgetData *pData = (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
+	gccv::Rect rect;
+	Operation *op = pDoc->GetNewOperation (GCP_MODIFY_OPERATION);
+	op->AddNode (brackets->GetGroup ()->Save (pXmlDoc), 0);
+	pData->GetObjectBounds (brackets, &rect);
+	double x = rect.x1 / pTheme->GetZoomFactor (),
+		y = rect.y0 / pTheme->GetZoomFactor ();
+	Text *text = new Text (x, y);
+	brackets->AddChild (text);
+	pDoc->AddObject (text);
+	Tool *tool = pApp->GetTool ("Text");
+	brackets->GetParent ()->EmitSignal (OnChangedSignal);
+	pApp->ActivateTool ("Text", true);
+	tool->OnClicked (pView, text, rect.x1, rect.y0, 0);
 }
 
 bool Brackets::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y)

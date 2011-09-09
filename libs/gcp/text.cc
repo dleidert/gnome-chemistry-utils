@@ -28,6 +28,7 @@
 #include "view.h"
 #include "document.h"
 #include "application.h"
+#include "fragment.h"
 #include "settings.h"
 #include "theme.h"
 #include "tool.h"
@@ -50,6 +51,7 @@ namespace gcp {
 Text::Text ():
 	TextObject (TextType),
 	m_Anchor (gccv::AnchorLineWest),
+	m_GlobalTag (gccv::Invalid),
 	m_Interline (0.),
 	m_Justification (GTK_JUSTIFY_LEFT)
 {
@@ -58,6 +60,16 @@ Text::Text ():
 Text::Text (double x, double y):
 	TextObject (x, y, TextType),
 	m_Anchor (gccv::AnchorLineWest),
+	m_GlobalTag (gccv::Invalid),
+	m_Interline (0.),
+	m_Justification (GTK_JUSTIFY_LEFT)
+{
+}
+
+Text::Text (gccv::Tag tag, double x, double y):
+	TextObject (x, y, TextType),
+	m_Anchor (gccv::AnchorLineWest),
+	m_GlobalTag (tag),
 	m_Interline (0.),
 	m_Justification (GTK_JUSTIFY_LEFT)
 {
@@ -450,6 +462,11 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 	default:
 		break;
 	}
+	if (m_GlobalTag != gccv::Invalid) {
+		if (m_GlobalTag == StoichiometryTag)
+			xmlNewProp (node, reinterpret_cast < xmlChar const * > ("role"), reinterpret_cast < xmlChar const * > ("stoichiometry"));
+		// TODO: support other tags, such as chemistry
+	}
 	if (m_Interline > 0.) {
 		char *buf = g_strdup_printf ("%g", m_Interline);
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("interline"), reinterpret_cast <xmlChar *> (buf));
@@ -556,6 +573,12 @@ bool Text::Load (xmlNodePtr node)
 	buf = xmlGetProp (node, (xmlChar const *) "interline");
 	if (buf) {
 		m_Interline = strtod (reinterpret_cast <char *> (buf), NULL);
+		xmlFree (buf);
+	}
+	buf = xmlGetProp (node, (xmlChar const *) "role");
+	if (buf) {
+		if (!strcmp (reinterpret_cast <char *> (buf), "stoichiometry"))
+			m_GlobalTag = StoichiometryTag;
 		xmlFree (buf);
 	}
 	xmlNodePtr child;

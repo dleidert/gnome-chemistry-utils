@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-09-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed AM_MAINTAINER_MODE usage.
+	* libs/gcp/brackets.cc: attempt to add a global tag to decorative text.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcp/text.h: ditto.
+
 2011-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/brackets.cc: add a text field as stoichiometry.
 	* libs/gcugtk/cmd-context-gtk.cc: delete message box when done.
