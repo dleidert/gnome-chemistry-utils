@@ -466,6 +466,8 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 		if (m_GlobalTag == StoichiometryTag)
 			xmlNewProp (node, reinterpret_cast < xmlChar const * > ("role"), reinterpret_cast < xmlChar const * > ("stoichiometry"));
 		// TODO: support other tags, such as chemistry
+		xmlNodeAddContent (node, reinterpret_cast <xmlChar const *> (m_buf.c_str ()));
+		return node;
 	}
 	if (m_Interline > 0.) {
 		char *buf = g_strdup_printf ("%g", m_Interline);
@@ -577,8 +579,11 @@ bool Text::Load (xmlNodePtr node)
 	}
 	buf = xmlGetProp (node, (xmlChar const *) "role");
 	if (buf) {
-		if (!strcmp (reinterpret_cast <char *> (buf), "stoichiometry"))
+		if (!strcmp (reinterpret_cast <char *> (buf), "stoichiometry")) {
+			if (StoichiometryTag == gccv::Invalid)
+				StoichiometryTag = gccv::TextTag::RegisterTagType ();
 			m_GlobalTag = StoichiometryTag;
+		}
 		xmlFree (buf);
 	}
 	xmlNodePtr child;
@@ -857,11 +862,19 @@ void Text::AddItem ()
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
 	PangoFontDescription *desc = pango_font_description_new ();
-	pango_font_description_set_family (desc, doc->GetTextFontFamily ());
-	pango_font_description_set_style (desc, doc->GetTextFontStyle ());
-	pango_font_description_set_variant (desc, doc->GetTextFontVariant ());
-	pango_font_description_set_weight (desc, doc->GetTextFontWeight ());
-	pango_font_description_set_size (desc, doc->GetTextFontSize ());
+	if (m_GlobalTag == gccv::Invalid) {
+		pango_font_description_set_family (desc, doc->GetTextFontFamily ());
+		pango_font_description_set_style (desc, doc->GetTextFontStyle ());
+		pango_font_description_set_variant (desc, doc->GetTextFontVariant ());
+		pango_font_description_set_weight (desc, doc->GetTextFontWeight ());
+		pango_font_description_set_size (desc, doc->GetTextFontSize ());
+	} else {
+		pango_font_description_set_family (desc, theme->GetFontFamily ());
+		pango_font_description_set_style (desc, theme->GetFontStyle ());
+		pango_font_description_set_variant (desc, theme->GetFontVariant ());
+		pango_font_description_set_weight (desc, theme->GetFontWeight ());
+		pango_font_description_set_size (desc, theme->GetFontSize ());
+	}
 	if (m_ascent <= 0) {
 		PangoContext* pc = gccv::Text::GetContext ();
 		PangoLayout *layout = pango_layout_new (pc);
@@ -892,6 +905,17 @@ void Text::AddItem ()
 	text->SetInterline (m_Interline);
 	pango_font_description_free (desc);
 	text->SetText (m_buf.c_str ());
+	if (m_GlobalTag != gccv::Invalid && m_TagList.empty ()) {
+		// add the global tag
+		gccv::TextTag *tag = NULL;
+		if (m_GlobalTag == gcp::StoichiometryTag)
+			tag = new gcp::StoichiometryTextTag (static_cast < double > (theme->GetFontSize ()) / PANGO_SCALE);
+		if (tag) {
+			tag->SetStartIndex (0);
+			tag->SetEndIndex (m_buf.length ());
+			m_TagList.push_front (tag);
+		}
+	}
 	while (!m_TagList.empty ()) {
 		text->InsertTextTag (m_TagList.front ());
 		m_TagList.pop_front ();

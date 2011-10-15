@@ -144,6 +144,7 @@ void gcpTextTool::OnDrag ()
 bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 {
 	if (m_Active) {
+		gcp::Text *text = static_cast < gcp::Text * > (m_Active->GetClient ());
 		if (event->state & GDK_CONTROL_MASK) {
 			switch (event->keyval) {
 			case GDK_KEY_Right:
@@ -175,34 +176,48 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 				CutSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
 				return true;
 			case GDK_KEY_i:
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				m_Style = (m_Style == PANGO_STYLE_NORMAL)? PANGO_STYLE_ITALIC: PANGO_STYLE_NORMAL;
 				SelectBestFontFace ();
 				BuildTagsList ();
 				return true;
 			case GDK_KEY_u:
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				gtk_combo_box_set_active (m_UnderlineBox, ((m_Underline == gccv::TextDecorationDefault)? 0: 1));
 				return true;
 			case GDK_KEY_b:
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				m_Weight = (m_Weight == PANGO_WEIGHT_NORMAL)? PANGO_WEIGHT_BOLD: PANGO_WEIGHT_NORMAL;
 				SelectBestFontFace ();
 				BuildTagsList ();
 				return true;
 			case GDK_KEY_k:
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				gtk_toggle_button_set_active (m_StrikethroughBtn, !m_Strikethrough);
 				return true;
 			case GDK_KEY_plus:
 			case GDK_KEY_dead_circumflex:
 			case GDK_KEY_KP_Add:
 			case GDK_KEY_asciicircum:
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				m_Position = (m_Position == gccv::Superscript)? gccv::Normalscript: gccv::Superscript;
 				BuildTagsList ();
 				return true;
 			case GDK_KEY_equal:
 			case GDK_KEY_underscore:
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				m_Position = (m_Position == gccv::Subscript)? gccv::Normalscript: gccv::Subscript;
 				BuildTagsList ();
 				return true;
 			case GDK_KEY_space: {
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				gccv::Text *saved = m_Active;
 				m_Active = NULL;
 				UpdateTagsList ();
@@ -211,33 +226,43 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 				return true;
 			}
 			case GDK_KEY_l:
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_LEFT, true);
 				return true;
 			case GDK_KEY_r:
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_RIGHT, true);
 				return true;
 			case GDK_KEY_j:
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_FILL, true);
 				return true;
 			case GDK_KEY_m:
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_CENTER, true);
 				return true;
-			case GDK_KEY_w:
-				if (m_Active) {
-					double w = m_Active->GetInterline ();
-					if (w == 0.)
+			case GDK_KEY_w: {
+				if (text->GetGlobalTag () != gccv::Invalid)
 						return true;
-					w -= 1.;
-					m_Active->SetInterline ((w > 0.? w: 0.), true);
-				}
+				double w = m_Active->GetInterline ();
+				if (w == 0.)
+					return true;
+				w -= 1.;
+				m_Active->SetInterline ((w > 0.? w: 0.), true);
 				return true;
+			}
 			case GDK_KEY_W:
-				if (m_Active)
-					m_Active->SetInterline (m_Active->GetInterline () + 1., true);
+				if (text->GetGlobalTag () != gccv::Invalid)
+						return true;
+				m_Active->SetInterline (m_Active->GetInterline () + 1., true);
 				return true;
 			default:
 				break;
@@ -260,6 +285,8 @@ void gcpTextTool::Activate ()
 {
 	if (!m_Active)
 		UpdateTagsList ();
+	if (m_PropertyPage && m_pObject)
+		gtk_widget_set_sensitive (m_PropertyPage, m_Active && static_cast < gcp::Text * > (m_pObject)->GetGlobalTag () == gccv::Invalid);
 }
 
 bool gcpTextTool::Deactivate ()
@@ -645,12 +672,22 @@ void gcpTextTool::UpdateTagsList ()
 	if (!m_FamilyList)
 		return;
 	gcp::Theme *pTheme = m_pApp->GetActiveDocument ()->GetTheme ();
-	m_FamilyName = pTheme->GetTextFontFamily ();
-	m_Style = pTheme->GetFontStyle ();
-	m_Weight = pTheme->GetFontWeight ();
-	m_Stretch = pTheme->GetFontStretch ();
-	m_Variant = pTheme->GetFontVariant ();
-	m_Size = pTheme->GetFontSize ();
+	gcp::Text *text = (m_Active)? static_cast < gcp::Text * > (m_Active->GetClient ()): NULL;
+	if (!text || text->GetGlobalTag () == gccv::Invalid) {
+		m_FamilyName = pTheme->GetTextFontFamily ();
+		m_Style = pTheme->GetTextFontStyle ();
+		m_Weight = pTheme->GetTextFontWeight ();
+		m_Stretch = pTheme->GetTextFontStretch ();
+		m_Variant = pTheme->GetTextFontVariant ();
+		m_Size = pTheme->GetTextFontSize ();
+	} else {
+		m_FamilyName = pTheme->GetFontFamily ();
+		m_Style = pTheme->GetFontStyle ();
+		m_Weight = pTheme->GetFontWeight ();
+		m_Stretch = pTheme->GetFontStretch ();
+		m_Variant = pTheme->GetFontVariant ();
+		m_Size = pTheme->GetFontSize ();
+	}
 	m_Rise = 0;
 	m_Underline = gccv::TextDecorationNone;
 	m_Strikethrough = gccv::TextDecorationNone;
@@ -758,17 +795,21 @@ void gcpTextTool::BuildTagsList ()
 	if (!m_Active)
 		return;
 	gccv::TextTagList *l = new gccv::TextTagList ();
-	l->push_front (new gccv::FamilyTextTag (m_FamilyName));
-	l->push_front (new gccv::StyleTextTag (m_Style));
-	l->push_front (new gccv::WeightTextTag (m_Weight));
-	l->push_front (new gccv::StretchTextTag (m_Stretch));
-	l->push_front (new gccv::VariantTextTag (m_Variant));
-	l->push_front (new gccv::SizeTextTag (m_Size));
-	l->push_front (new gccv::UnderlineTextTag (m_Underline));
-	l->push_front (new gccv::StrikethroughTextTag (m_Strikethrough));
-	l->push_front (new gccv::RiseTextTag (m_Rise));
-	l->push_front (new gccv::ForegroundTextTag (m_Color));
-	l->push_front (new gccv::PositionTextTag (m_Position, m_Size));
+	gccv::Tag tag = static_cast < gcp::Text * > (m_Active->GetClient ())->GetGlobalTag ();
+	if (tag == gccv::Invalid) {
+		l->push_front (new gccv::FamilyTextTag (m_FamilyName));
+		l->push_front (new gccv::StyleTextTag (m_Style));
+		l->push_front (new gccv::WeightTextTag (m_Weight));
+		l->push_front (new gccv::StretchTextTag (m_Stretch));
+		l->push_front (new gccv::VariantTextTag (m_Variant));
+		l->push_front (new gccv::SizeTextTag (m_Size));
+		l->push_front (new gccv::UnderlineTextTag (m_Underline));
+		l->push_front (new gccv::StrikethroughTextTag (m_Strikethrough));
+		l->push_front (new gccv::RiseTextTag (m_Rise));
+		l->push_front (new gccv::ForegroundTextTag (m_Color));
+		l->push_front (new gccv::PositionTextTag (m_Position, m_Size));
+	} else if (tag == gcp::StoichiometryTag)
+		l->push_front (new gcp::StoichiometryTextTag (m_Size));
 	m_Active->SetCurTagList (l);
 	m_Dirty = false;
 	if (m_pView)
@@ -941,9 +982,9 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 	gtk_widget_show (GTK_WIDGET (m_ColorSelector));
 	g_object_set (G_OBJECT (m_ColorSelector), "halign", GTK_ALIGN_START, NULL);
 	gtk_grid_attach (GTK_GRID (builder->GetWidget ("details")), GTK_WIDGET (m_ColorSelector), 1, 1, 1, 1);
-	GtkWidget *res = builder->GetRefdWidget ("fontsel");
+	m_PropertyPage = builder->GetRefdWidget ("fontsel");
 	delete builder;
-	return res;
+	return m_PropertyPage;
 }
 
 void gcpTextTool::OnSelectFamily (GtkTreeSelection *selection)

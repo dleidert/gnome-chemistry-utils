@@ -106,6 +106,7 @@ private:
 	bool m_Dirty;
 	gulong m_UnderlineSignal, m_StrikethroughSignal, m_ForeSignal, m_RiseSignal;
 	gcu::Object *m_Group;
+	GtkWidget *m_PropertyPage;
 
 GCU_PROP (std::string, FamilyName)
 GCU_PROP (PangoStyle, Style)
