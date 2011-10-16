@@ -541,17 +541,17 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 	case AnchorCenter:
 	case AnchorWest:
 	case AnchorEast:
-		starty = m_y - m_Height / 2. - m_LineOffset;
+		starty = m_y - m_Height / 2./* - m_LineOffset*/;
 		break;
 	case AnchorNorth:
 	case AnchorNorthWest:
 	case AnchorNorthEast:
-		starty = m_y - m_LineOffset;
+		starty = m_y/* - m_LineOffset*/;
 		break;
 	case AnchorSouth:
 	case AnchorSouthWest:
 	case AnchorSouthEast:
-		starty = m_y - m_Height - m_LineOffset;
+		starty = m_y - m_Height/* - m_LineOffset*/;
 		break;
 	}
 	if (m_CurPos >= m_StartSel) {
@@ -767,17 +767,17 @@ void Text::GetBounds (Rect *ink, Rect *logical)
 	case AnchorCenter:
 	case AnchorWest:
 	case AnchorEast:
-		starty = m_y - m_Height / 2. - m_LineOffset;
+		starty = m_y - m_Height / 2./* + m_LineOffset*/;
 		break;
 	case AnchorNorth:
 	case AnchorNorthWest:
 	case AnchorNorthEast:
-		starty = m_y - m_LineOffset;
+		starty = m_y/*  + m_LineOffset*/;
 		break;
 	case AnchorSouth:
 	case AnchorSouthWest:
 	case AnchorSouthEast:
-		starty = m_y - m_Height - m_LineOffset;
+		starty = m_y - m_Height/* +  + m_LineOffset*/;
 		break;
 	}
 	if (ink) {
@@ -1028,7 +1028,7 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 	for (i = m_Tags.begin (); i != iend; i++) {
 		if ((*i)->GetEndIndex () < static_cast <unsigned> (pos))
 			continue;
-		if ((*i)->GetStartIndex () >= static_cast <unsigned> (pos)) {
+		if ((*i)->GetStartIndex () > static_cast <unsigned> (pos)) {
 			(*i)->SetStartIndex ((*i)->GetStartIndex () + nl);
 			(*i)->SetEndIndex ((*i)->GetEndIndex () + nl);
 		}

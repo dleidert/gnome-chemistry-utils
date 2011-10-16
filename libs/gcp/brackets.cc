@@ -304,6 +304,7 @@ static void on_stoichiometry_add (Brackets *brackets) {
 	double x = rect.x1 / pTheme->GetZoomFactor (),
 		y = rect.y1 / pTheme->GetZoomFactor ();
 	Text *text = new Text ((StoichiometryTag)? StoichiometryTag:(StoichiometryTag = gccv::TextTag::RegisterTagType ()), x, y);
+	text->SetAnchor (gccv::AnchorSouthWest);
 	brackets->AddChild (text);
 	pDoc->AddObject (text);
 	Tool *tool = pApp->GetTool ("Text");

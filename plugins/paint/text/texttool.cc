@@ -809,7 +809,7 @@ void gcpTextTool::BuildTagsList ()
 		l->push_front (new gccv::ForegroundTextTag (m_Color));
 		l->push_front (new gccv::PositionTextTag (m_Position, m_Size));
 	} else if (tag == gcp::StoichiometryTag)
-		l->push_front (new gcp::StoichiometryTextTag (m_Size));
+		l->push_front (new gcp::StoichiometryTextTag (static_cast < double > (m_Size) / PANGO_SCALE));
 	m_Active->SetCurTagList (l);
 	m_Dirty = false;
 	if (m_pView)

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-10-16  Jean Bréfort  <jean@vaio>
+	* libs/gccv/text.cc: more work on brackets stoichimetry coefficient support.
+	* libs/gcp/brackets.cc: ditto.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcp/window.cc: expand the contents widget.
+	* plugins/paint/text/texttool.cc: more work on brackets stoichimetry
+	coefficient support.
+
 2011-10-15  Jean Bréfort  <jean@vaio>
 	* libs/gcp/text.cc: some progress on brackets stoichiometry coefficient.
 	* plugins/paint/text/texttool.cc: ditto.

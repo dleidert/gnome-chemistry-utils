@@ -905,7 +905,7 @@ void Text::AddItem ()
 	text->SetInterline (m_Interline);
 	pango_font_description_free (desc);
 	text->SetText (m_buf.c_str ());
-	if (m_GlobalTag != gccv::Invalid && m_TagList.empty ()) {
+	if (m_GlobalTag != gccv::Invalid && m_TagList.empty () && !m_buf.empty ()) {
 		// add the global tag
 		gccv::TextTag *tag = NULL;
 		if (m_GlobalTag == gcp::StoichiometryTag)
