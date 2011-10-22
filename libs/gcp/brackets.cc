@@ -302,7 +302,7 @@ static void on_stoichiometry_add (Brackets *brackets) {
 	op->AddNode (brackets->GetGroup ()->Save (pXmlDoc), 0);
 	pData->GetObjectBounds (brackets, &rect);
 	double x = rect.x1 / pTheme->GetZoomFactor (),
-		y = rect.y1 / pTheme->GetZoomFactor ();
+		y = (rect.y1 + pTheme->GetFontSize () / 3. / PANGO_SCALE) / pTheme->GetZoomFactor ();
 	Text *text = new Text ((StoichiometryTag)? StoichiometryTag:(StoichiometryTag = gccv::TextTag::RegisterTagType ()), x, y);
 	text->SetAnchor (gccv::AnchorSouthWest);
 	brackets->AddChild (text);
@@ -326,6 +326,7 @@ static void on_superscript_add (Brackets *brackets) {
 	double x = rect.x1 / pTheme->GetZoomFactor (),
 		y = rect.y0 / pTheme->GetZoomFactor ();
 	Text *text = new Text (x, y);
+	text->SetAnchor (gccv::AnchorNorthWest);
 	brackets->AddChild (text);
 	pDoc->AddObject (text);
 	Tool *tool = pApp->GetTool ("Text");
@@ -362,11 +363,12 @@ bool Brackets::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, d
 			g_object_unref (action);
 			action = gtk_action_new ("Super", _("Add superscript"), NULL, NULL);
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (on_superscript_add), this);
-			gtk_action_group_add_action (group, action);
+//			gtk_action_group_add_action (group, action);
 			g_object_unref (action);
-			gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Brackets'><menuitem action='Super'/></menu></popup></ui>", -1, NULL);
+//			gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Brackets'><menuitem action='Super'/></menu></popup></ui>", -1, NULL);
 			gtk_ui_manager_insert_action_group (uim, group, 0);
 			g_object_unref (group);
+			result = false; // remove when we support superscripts
 		}
 	}
 	return result || Object::BuildContextualMenu (UIManager, object, x, y);

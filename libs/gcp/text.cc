@@ -583,6 +583,7 @@ bool Text::Load (xmlNodePtr node)
 			if (StoichiometryTag == gccv::Invalid)
 				StoichiometryTag = gccv::TextTag::RegisterTagType ();
 			m_GlobalTag = StoichiometryTag;
+			m_Anchor = gccv::AnchorSouthWest;
 		}
 		xmlFree (buf);
 	}

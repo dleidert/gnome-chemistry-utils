@@ -112,6 +112,7 @@ This method is called to build a contextual menu for the brackets.
 */
 	bool BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y);
 
+
 	void SetEmbeddedObjects (std::set < gcu::Object * > objects);
 	std::set < gcu::Object * > const &GetEmbeddedObjects () {return m_EmbeddedObjects;}
 	static bool ConnectedAtoms (std::set < gcu::Object * > const &objects);
