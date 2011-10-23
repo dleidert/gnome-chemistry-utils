@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-10-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fixed an alignment issue.
+	* plugins/paint/text/texttool.cc: don't destroy a whole molecule when
+	removing just a bracket stoichiometry.
+
 2011-10-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/brackets.cc: make stoechimetry survive serialization.
 	* libs/gcp/brackets.h: ditto.

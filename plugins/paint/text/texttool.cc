@@ -402,13 +402,13 @@ bool gcpTextTool::Unselect ()
 	}
 	m_CurNode = m_InitNode = NULL;
 	if (!*text) {
-		Object* pMol = pObj->GetMolecule ();	//if pObj is a fragment
-		if (pMol)
-			pObj = pMol;
-		gcu::Object *parent = pObj->GetParent ();
+		char const *id = pObj->GetParent ()->GetId ();
+		std::string parent_id = (id)? id: "";
 		m_pView->GetDoc ()->Remove (pObj);
 		m_pView->GetDoc ()->AbortOperation ();
-		parent->EmitSignal (gcp::OnChangedSignal);
+		gcu::Object *parent = (id)? m_pView->GetDoc ()->GetDescendant (parent_id.c_str ()): NULL;
+		if (parent) 
+			parent->EmitSignal (gcp::OnChangedSignal);
 	}
 	m_pView->GetDoc ()->FinishOperation ();
 	m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", m_pView->GetDoc ()->HasChildren ());

@@ -494,7 +494,7 @@ void Text::SetPosition (double x, double y)
 	case AnchorSouth:
 	case AnchorSouthWest:
 	case AnchorSouthEast:
-		yr = m_y - m_Height + m_Padding;
+		yr = m_y - m_Height - m_Padding;
 		break;
 	}
 	Rectangle::SetPosition (xr, yr, w, h);
@@ -541,17 +541,17 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 	case AnchorCenter:
 	case AnchorWest:
 	case AnchorEast:
-		starty = m_y - m_Height / 2./* - m_LineOffset*/;
+		starty = m_y - m_Height / 2.;
 		break;
 	case AnchorNorth:
 	case AnchorNorthWest:
 	case AnchorNorthEast:
-		starty = m_y/* - m_LineOffset*/;
+		starty = m_y;
 		break;
 	case AnchorSouth:
 	case AnchorSouthWest:
 	case AnchorSouthEast:
-		starty = m_y - m_Height/* - m_LineOffset*/;
+		starty = m_y - m_Height;
 		break;
 	}
 	if (m_CurPos >= m_StartSel) {
