@@ -2,9 +2,9 @@
 
 /*
  * Gnome Chemistry Utils
- * gcu/window.h
+ * gcugtk/window.h
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -22,16 +22,17 @@
  * USA
  */
 
-#ifndef GCU_WINDOW_H
-#define GCU_WINDOW_H
+#ifndef GCU_GTK_WINDOW_H
+#define GCU_GTK_WINDOW_H
+
+#include <gcu/macros.h>
+#include <gcu/window.h>
+#include <gtk/gtk.h>
 
 /*!\file*/
-namespace gcu {
+namespace gcugtk {
 
-/*!\class Window gcu/window.h
-Base class for windows. Just a placeholder for now.
-*/
-class Window
+class Window: public gcu::Window
 {
 public:
 /*!
@@ -43,18 +44,15 @@ The destructor.
 */
 	virtual ~Window ();
 
-/*!
-Destroys the window. This method should be overloaded in derived classes since
-default imlementation does not do anything.
+/*!\var m_Window
+The GtkWindow instance corresponding to the Window.
 */
-	virtual void Destroy ();
-/*!
-Raises the window and makes it active. This method should be overloaded in
-derived classes since default imlementation does not do anything.
+/*!\fn GetWindow()
+@return the GtkWindow correspondig to this Window instance.
 */
-	virtual void Show ();
+GCU_PROT_PROP (GtkWindow*, Window);
 };
 
-}
+}	//	namespace gcu
 
-#endif	//	GCU_WINDOW_H
+#endif	//	GCU_GTK_WINDOW_H

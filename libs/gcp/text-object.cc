@@ -170,10 +170,11 @@ void TextObject::SelectionChanged (unsigned start, unsigned cur)
 		m_StartSel = cur;
 	}
 	bool activate = m_EndSel > m_StartSel;
-	Document* pDoc = dynamic_cast<Document*> (GetDocument ());
-	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Erase", activate);
-	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Copy", activate);
-	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Cut", activate);
+	Document* Doc = dynamic_cast<Document*> (GetDocument ());
+	Window *Win = static_cast < Window * > (Doc->GetWindow ());
+	Win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", activate);
+	Win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", activate);
+	Win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", activate);
 	if (m_Editor)
 		m_Editor->SelectionChanged ();
 }

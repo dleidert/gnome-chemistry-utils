@@ -163,7 +163,7 @@ bool gcpFragmentTool::OnClicked ()
 		m_Active->OnButtonPressed (m_x0, m_y0);
 		m_CurNode = m_Fragment->SaveSelected ();
 		m_InitNode = m_Fragment->SaveSelected ();
-		pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
+		static_cast < gcp::Window * > (pDoc->GetWindow ())->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
 		m_Fragment->SetEditor (this);
 	}
 	BuildTagsList ();
@@ -406,7 +406,7 @@ void gcpFragmentTool::BuildTagsList ()
 	}
 	m_Active->SetCurTagList (l);
 	if (m_pView)
-		gtk_window_present (m_pView->GetDoc ()->GetWindow ()->GetWindow ());
+		gtk_window_present (static_cast < gcugtk::Window * > (m_pView->GetDoc ()->GetWindow ())->GetWindow ());
 }
 
 void gcpFragmentTool::OnCommit (G_GNUC_UNUSED GtkIMContext *context, const gchar *str, gcpFragmentTool *tool)

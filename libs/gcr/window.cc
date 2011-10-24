@@ -24,7 +24,8 @@
 #include "window.h"
 namespace gcr {
 
-Window::Window (G_GNUC_UNUSED gcu::Application *app)
+Window::Window (G_GNUC_UNUSED gcu::Application *app):
+	gcugtk::Window ()
 {
 }
 

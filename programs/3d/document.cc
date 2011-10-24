@@ -51,3 +51,8 @@ void gc3dDocument::Load (char const *uri, char const *mime_type)
 	m_App->SetCurDir (dirname);
 	g_free (dirname);
 }
+
+gcu::Window *gc3dDocument::GetWindow ()
+{
+	return static_cast < gc3dView * > (GetView ())->GetWindow ();
+}

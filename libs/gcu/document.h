@@ -41,6 +41,7 @@ class Application;
 class Dialog;
 class Molecule;
 class Residue;
+class Window;
 
 typedef enum {
 	ActionException,
@@ -182,6 +183,7 @@ Processes pending references resulting from failed calls to SetTarget().
 
 	void ObjectLoaded (Object *obj);
 	std::set < Object * > GetNewObjects () {return m_NewObjects;}
+	virtual Window *GetWindow () {return NULL;}
 
 private:
 

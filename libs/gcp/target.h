@@ -26,7 +26,7 @@
 #define GCP_TARGET_H
 
 #include <gcu/macros.h>
-#include <gcu/window.h>
+#include <gcugtk/window.h>
 #include <gtk/gtk.h>
 
 /*!\file*/
@@ -42,7 +42,7 @@ gcp::Window is a derived class. Another one is gcpResidueDialog implemented
 in the residue plugin (but not documented like everything implemented
 in plugins).
 */
-class Target: public gcu::Window
+class Target: public gcugtk::Window
 {
 public:
 /*!

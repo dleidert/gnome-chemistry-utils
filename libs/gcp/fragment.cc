@@ -356,7 +356,7 @@ bool Fragment::OnChanged (bool save)
 	pView->Update (this);
 	m_bLoading = false;
 	m_Valid = Invalid;
-	Window* pWin = pDoc->GetWindow ();
+	Window *pWin = static_cast < Window * > (pDoc->GetWindow ());
 	if (m_Atom->GetZ () || ((m_buf.length () == 0) && (m_Atom->GetBondsNumber () == 0))) {
 		if (!pDoc->GetReadOnly ()) {
 			pWin->ActivateActionWidget ("/MainMenu/FileMenu/Save", true);
@@ -1338,10 +1338,10 @@ bool Fragment::Validate ()
 		&& m_Atom->GetBondsNumber () == 0)
 		return true;
 	if (m_Atom->GetZ() == 0 || (dynamic_cast <FragmentResidue*> (m_Atom) && !((FragmentResidue*) m_Atom)->GetResidue ())) {
-		Document *pDoc = dynamic_cast<Document*> (GetDocument ());
+		Document *pDoc = dynamic_cast <Document*> (GetDocument ());
 		m_TextItem->SetSelectionBounds (m_BeginAtom, (m_EndAtom == m_BeginAtom)? m_EndAtom + 1: m_EndAtom);
 		GtkWidget* w = gtk_message_dialog_new (
-										GTK_WINDOW (pDoc->GetWindow ()->GetWindow ()),
+										GTK_WINDOW (static_cast < Window *> (pDoc->GetWindow ())->GetWindow ()),
 										GTK_DIALOG_DESTROY_WITH_PARENT,
 										GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 										_("Invalid symbol."));
@@ -1370,7 +1370,7 @@ bool Fragment::Validate ()
 			Document *pDoc = dynamic_cast<Document*> (GetDocument ());
 			m_TextItem->SetSelectionBounds ((*it)->GetStartIndex (), (*it)->GetEndIndex ());
 			GtkWidget* w = gtk_message_dialog_new (
-											GTK_WINDOW (pDoc->GetWindow ()->GetWindow ()),
+											GTK_WINDOW (static_cast <Window * > (pDoc->GetWindow ())->GetWindow ()),
 											GTK_DIALOG_DESTROY_WITH_PARENT,
 											GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 											_("Invalid charge."));

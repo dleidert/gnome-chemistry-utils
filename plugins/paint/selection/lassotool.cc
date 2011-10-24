@@ -292,7 +292,7 @@ void gcpLassoTool::AddSelection (gcp::WidgetData* data)
 	gcp::WidgetData *d = m_pData;
 	m_pData = data;
 	m_pView = data->m_View;
-	gcp::Window *win = m_pView->GetDoc ()->GetWindow ();
+	gcp::Window *win = static_cast < gcp::Window * > (m_pView->GetDoc ()->GetWindow ());
 	if (m_pData->HasSelection()) {
 		GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 		m_pView->OnCopySelection (m_pData->Canvas, clipboard);

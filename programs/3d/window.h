@@ -25,14 +25,15 @@
 #ifndef GC3D_WINDOW_H
 #define GC3D_WINDOW_H
 
-#include <gtk/gtk.h>
+#include <gcugtk/window.h>
 
 class gc3dApplication;
 class gc3dDocument;
 class gc3dView;
 
-class gc3dWindow
+class gc3dWindow: public gcugtk::Window
 {
+friend class gc3dWindowPrivate;
 public:
 	gc3dWindow (gc3dApplication *App, gc3dDocument *Doc);
 	virtual ~gc3dWindow ();

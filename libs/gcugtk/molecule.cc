@@ -2,9 +2,9 @@
 
 /*
  * Gnome Chemistry Utils
- * gcu/window.h
+ * gcugtk/molecule.cc
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -22,39 +22,21 @@
  * USA
  */
 
-#ifndef GCU_WINDOW_H
-#define GCU_WINDOW_H
+#include "config.h"
+#include "molecule.h"
 
-/*!\file*/
-namespace gcu {
+namespace gcugtk {
 
-/*!\class Window gcu/window.h
-Base class for windows. Just a placeholder for now.
-*/
-class Window
+Molecule::Molecule (gcu::TypeId Type, gcu::ContentType ct): gcu::Molecule (Type, ct)
 {
-public:
-/*!
-The default constructor.
-*/
-	Window ();
-/*!
-The destructor.
-*/
-	virtual ~Window ();
-
-/*!
-Destroys the window. This method should be overloaded in derived classes since
-default imlementation does not do anything.
-*/
-	virtual void Destroy ();
-/*!
-Raises the window and makes it active. This method should be overloaded in
-derived classes since default imlementation does not do anything.
-*/
-	virtual void Show ();
-};
-
 }
 
-#endif	//	GCU_WINDOW_H
+Molecule::Molecule (gcu::Atom* pAtom, gcu::ContentType ct): gcu::Molecule (pAtom, ct)
+{
+}
+
+Molecule::~Molecule ()
+{
+}
+
+}

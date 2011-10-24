@@ -204,7 +204,7 @@ void DocPropDlg::OnThemeChanged (Theme *theme)
 void DocPropDlg::OnTitleChanged (char const *title)
 {
 	m_pDoc->SetTitle (title);
-	Window *window = m_pDoc->GetWindow ();
+	Window *window = static_cast < Window * > (m_pDoc->GetWindow ());
 	if (window)
 		window->SetTitle (m_pDoc->GetTitle ());
 }

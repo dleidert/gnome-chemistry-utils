@@ -27,7 +27,7 @@
 
 #include "fragment.h"
 #include <list>
-#include <gcu/molecule.h>
+#include <gcugtk/molecule.h>
 
 /*!\file*/
 
@@ -42,7 +42,7 @@ class Bond;
 /*!\class Molecule gcp/molecule.h
 \brief GChemPaint molecule class.
 */
-class Molecule: public gcu::Molecule
+class Molecule: public gcugtk::Molecule
 {
 friend class MoleculePrivate;
 public:

@@ -297,7 +297,7 @@ void View::OnDeleteSelection (GtkWidget* w)
 		}
 	}
 	m_pDoc->FinishOperation ();
-	Window *Win = m_pDoc->GetWindow ();
+	Window *Win = static_cast < Window * > (m_pDoc->GetWindow ());
 	if (Win) {
 		Win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", false);
 		Win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", false);
@@ -437,7 +437,7 @@ void View::OnCutSelection (GtkWidget* w, GtkClipboard* clipboard)
 		OnCopySelection (w, clipboard);
 		OnDeleteSelection (w);
 	}
-	Window *Win = m_pDoc->GetWindow ();
+	Window *Win = static_cast < Window * > (m_pDoc->GetWindow ());
 	if (Win) {
 		Win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", false);
 		Win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", false);

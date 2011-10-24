@@ -356,7 +356,7 @@ objecst as a molecule or a reaction, it will reurn it's alignment value, otherwi
 /*!
 @return the gcp::Window displaying the document if any.
 */
-	Window *GetWindow () {return m_Window;}
+	gcu::Window *GetWindow ();
 /*!
 @return GtkWindow displaying the document if any.
 */

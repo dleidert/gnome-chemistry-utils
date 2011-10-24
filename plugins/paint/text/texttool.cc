@@ -121,7 +121,7 @@ bool gcpTextTool::OnClicked ()
 		m_Active->OnButtonPressed (m_x0, m_y0);
 		m_CurNode = ((gcp::Text*) m_pObject)->SaveSelected ();
 		m_InitNode = ((gcp::Text*) m_pObject)->SaveSelected ();
-		m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
+		static_cast < gcp::Window * > (m_pView->GetDoc ()->GetWindow ())->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
 		text->SetEditor (this);
 		if (create)
 			BuildTagsList ();
@@ -411,7 +411,7 @@ bool gcpTextTool::Unselect ()
 			parent->EmitSignal (gcp::OnChangedSignal);
 	}
 	m_pView->GetDoc ()->FinishOperation ();
-	m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", m_pView->GetDoc ()->HasChildren ());
+	static_cast < gcp::Window * > (m_pView->GetDoc ()->GetWindow ())->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", m_pView->GetDoc ()->HasChildren ());
 	return true;
 }
 
@@ -603,7 +603,7 @@ bool gcpTextTool::OnUndo ()
 	text->LoadSelected (node);
 	m_UndoList.pop_front ();
 	gcp::Document *pDoc = m_pView->GetDoc ();
-	gcp::Window *pWin = pDoc->GetWindow ();
+	gcp::Window *pWin = static_cast < gcp::Window * > (pDoc->GetWindow ());
 	if (m_UndoList.empty() && !pDoc->CanUndo ())
 		pWin->ActivateActionWidget ("/MainMenu/EditMenu/Undo", false);
 	m_RedoList.push_front(m_CurNode);
@@ -620,7 +620,7 @@ bool gcpTextTool::OnRedo ()
 	gcp::TextObject *text = dynamic_cast <gcp::TextObject*> (m_Active->GetClient ());
 	text->LoadSelected (node);
 	m_RedoList.pop_front ();
-	gcp::Window *pWin = m_pView->GetDoc ()->GetWindow ();
+	gcp::Window *pWin = static_cast < gcp::Window * > (m_pView->GetDoc ()->GetWindow ());
 	if (m_RedoList.empty ())
 		pWin->ActivateActionWidget ("/MainMenu/EditMenu/Redo", false);
 	m_UndoList.push_front (m_CurNode);
@@ -631,7 +631,7 @@ bool gcpTextTool::OnRedo ()
 
 void gcpTextTool::PushNode (xmlNodePtr node)
 {
-	gcp::Window *pWin = m_pView->GetDoc ()->GetWindow ();
+	gcp::Window *pWin = static_cast < gcp::Window * > (m_pView->GetDoc ()->GetWindow ());
 	while (!m_RedoList.empty ()) {
 		xmlUnlinkNode (m_RedoList.front ());
 		xmlFreeNode (m_RedoList.front ());
@@ -664,7 +664,7 @@ void gcpTextTool::OnGetData (GtkClipboard *clipboard, GtkSelectionData *selectio
 		gtk_selection_data_set (selection_data, gdk_atom_intern (GCHEMPAINT_ATOM_NAME, FALSE), 8,  (const guchar*) gcp::ClipboardData, size);
 	}
 	if (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD))
-			m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Paste", true);
+			static_cast < gcp::Window * > (m_pView->GetDoc ()->GetWindow ())->ActivateActionWidget ("/MainMenu/EditMenu/Paste", true);
 }
 
 void gcpTextTool::UpdateTagsList ()
@@ -813,7 +813,7 @@ void gcpTextTool::BuildTagsList ()
 	m_Active->SetCurTagList (l);
 	m_Dirty = false;
 	if (m_pView)
-		gtk_window_present (m_pView->GetDoc ()->GetWindow ()->GetWindow ());
+		gtk_window_present (static_cast < gcugtk::Window * > (m_pView->GetDoc ()->GetWindow ())->GetWindow ());
 }
 
 static void on_select_family (GtkTreeSelection *selection, gcpTextTool *tool)

@@ -55,7 +55,7 @@ static bool on_state (G_GNUC_UNUSED GtkWidget *widget, GdkEventWindowState *even
 }
 
 Target::Target (Application *App):
-	gcu::Window (),
+	gcugtk::Window (),
 	m_Application (App)
 {
 	if (m_Application)

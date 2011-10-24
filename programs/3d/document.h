@@ -28,6 +28,10 @@
 #include <gcu/macros.h>
 #include <gcugtk/chem3ddoc.h>
 
+namespace gcu {
+class Window;
+}
+
 class gc3dApplication;
 
 class gc3dDocument: public gcugtk::Chem3dDoc
@@ -37,6 +41,7 @@ public:
 	virtual ~gc3dDocument ();
 
 	void Load (char const *uri, char const *mime_type);
+	gcu::Window *GetWindow ();
 };
 
 #endif	//	GC3D_DOCUMENT_H

@@ -52,6 +52,7 @@
 #include "target.h"
 #include "view.h"
 #include "window.h"
+#include "widgetdata.h"
 #include "zoomdlg.h"
 #include <gcugtk/ui-manager.h>
 #include <gcugtk/filechooser.h>
@@ -543,7 +544,7 @@ void Application::ActivateTool (const string& toolname, bool activate)
 void Application::ClearStatus ()
 {
 	if (m_pActiveDoc) {
-		Window *Win = m_pActiveDoc->GetWindow ();
+		Window *Win = static_cast < Window * > (m_pActiveDoc->GetWindow ());
 		if (Win)
 			Win->ClearStatus ();
 	}
@@ -552,7 +553,7 @@ void Application::ClearStatus ()
 void Application::SetStatusText (const char* text)
 {
 	if (m_pActiveDoc) {
-		Window *Win = m_pActiveDoc->GetWindow ();
+		Window *Win = static_cast < Window * > (m_pActiveDoc->GetWindow ());
 		if (Win)
 			Win->SetStatusText (text);
 	}
@@ -759,7 +760,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				pDoc->GetView ()->Update (pDoc);
 				pDoc->GetView ()->EnsureSize ();
 				if (pDoc->GetWindow ())
-					pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", pDoc->HasChildren ());
+					static_cast < Window * > (m_pActiveDoc->GetWindow ())->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", pDoc->HasChildren ());
 			}
 		}
 	}
@@ -1282,5 +1283,11 @@ gcu::Document *Application::CreateNewDocument ()
 {
 	return new Document (this, true, NULL);
 }
+
+void Application::ReceiveTargets (GtkClipboard *clipboard, GtkSelectionData *selection_data)
+{
+	on_receive_targets (clipboard, selection_data, this);
+}
+
 
 }	//	namespace gcp

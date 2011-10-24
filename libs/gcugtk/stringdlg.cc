@@ -1,8 +1,8 @@
 // -*- C++ -*-
 
 /*
- * GChemPaint library
- * stringdlg.cc
+ * Gnome Chemistry Utils
+ * gcugtk/stringdlg.cc
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -24,10 +24,9 @@
 
 #include "config.h"
 #include "stringdlg.h"
-#include "document.h"
 #include "application.h"
-#include "widgetdata.h"
 #include "window.h"
+#include <gcu/document.h>
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <sstream>
@@ -35,7 +34,7 @@
 
 using namespace std;
 
-namespace gcp {
+namespace gcugtk {
 
 static GtkTargetEntry const stargets[] = {
 	{(char *)"STRING", 0, 0}
@@ -58,8 +57,8 @@ static void on_string_clear_data(G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_U
 	copied = NULL;
 }
 
-StringDlg::StringDlg (Document *pDoc, string const &data, enum data_type type):
-	gcugtk::Dialog (pDoc->GetApplication(), UIDIR"/stringdlg.ui", "string", GETTEXT_PACKAGE)
+StringDlg::StringDlg (gcu::Document *pDoc, string const &data, enum data_type type):
+	gcugtk::Dialog (static_cast <Application * > (pDoc->GetApplication()), UIDIR"/stringdlg.ui", "string", GETTEXT_PACKAGE)
 {
 	Data = data;
 	Type = type;
@@ -79,7 +78,7 @@ StringDlg::StringDlg (Document *pDoc, string const &data, enum data_type type):
 	gtk_text_buffer_set_text (Buffer, data.c_str () , -1);
 	GtkWidget *w = GetWidget ("copy");
 	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_copy), this);
-	gtk_window_set_transient_for (dialog, pDoc->GetWindow ()->GetWindow ());
+	gtk_window_set_transient_for (dialog, static_cast < Window * > (pDoc->GetWindow ())->GetWindow ());
 }
 
 StringDlg::~StringDlg ()
@@ -220,7 +219,7 @@ void StringDlg::Copy ()
 		(GtkClipboardClearFunc) on_string_clear_data, this);
 	gtk_clipboard_request_contents (clipboard,
 			gdk_atom_intern ("TARGETS", FALSE),
-			(GtkClipboardReceivedFunc) on_receive_targets,
+			(GtkClipboardReceivedFunc) Application::OnReceiveTargets,
 			m_App);
 	g_free (copied); // copied should already be NULL,btw
 	copied = g_strdup (Data.c_str ());

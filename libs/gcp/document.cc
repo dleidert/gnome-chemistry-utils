@@ -1410,4 +1410,9 @@ gcu::Residue *Document::CreateResidue (char const *name, char const *symbol, gcu
 	return res;
 }
 
+gcu::Window *Document::GetWindow ()
+{
+	return m_Window;
+}
+
 }	//	namespace gcp

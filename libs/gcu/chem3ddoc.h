@@ -118,9 +118,6 @@ Clears the document.
 	void Clear ();
 	virtual GLView *CreateView ();
 
-private:
-	Molecule *m_Mol;
-
 /*!\fn SetDisplay3D(Display3DMode mode)
 @param mode: the new mode.
 
@@ -132,7 +129,8 @@ Sets the display mode to one of the available Display3DMode values.
 /*!\fn GetRefDisplay3D()
 @return the current mode as a reference.
 */
-GCU_PROP (Display3DMode, Display3D);
+GCU_PROP (Display3DMode, Display3D)
+GCU_RO_PROP (Molecule *, Mol)
 };
 
 }	// namespace gcu

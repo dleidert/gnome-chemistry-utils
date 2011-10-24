@@ -1,5 +1,50 @@
 ##Text encoding: utf-8
 
+2011-10-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils-priv.h: moved the gtk related gcu::Window code
+	to gtkgcu.
+	* libs/gcp/Makefile.am: moved the StringDlg class to gcugtk.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/docprop.cc: ditto.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/stringdlg.cc: ditto.
+	* libs/gcp/stringdlg.h: ditto.
+	* libs/gcp/target.cc: ditto.
+	* libs/gcp/target.h: ditto.
+	* libs/gcp/text-object.cc: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcr/window.cc: moved the gtk related gcu::Window code
+	to gtkgcu.
+	* libs/gcr/window.h: ditto.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/window.h: ditto.
+	* libs/gcugtk/Makefile.am: ditto.
+	* libs/gcugtk/application.h: ditto.
+	* libs/gcugtk/molecule.cc: ditto.
+	* libs/gcugtk/molecule.h: ditto.
+	* libs/gcugtk/stringdlg.cc: ditto.
+	* libs/gcugtk/stringdlg.h: ditto.
+	* libs/gcugtk/window.cc: ditto.
+	* libs/gcugtk/window.h: ditto.
+	* plugins/paint/selection/lassotool.cc: ditto.
+	* plugins/paint/selection/selectiontool.cc: ditto.
+	* plugins/paint/text/fragmenttool.cc: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+	* programs/3d/document.cc: ditto.
+	* programs/3d/document.h: ditto.
+	* programs/3d/window.cc: add export to GChemPaint and evaluation of InChI,
+	InChiKey and SMILES.
+	* programs/3d/window.h: ditto.
+	* ui/libgcu/Makefile.am: moved the StringDlg class to gcugtk.
+	* ui/paint/Makefile.am: ditto.
+	* ui/paint/stringdlg.ui: ditto.
+
 2011-10-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fixed an alignment issue.
 	* plugins/paint/text/texttool.cc: don't destroy a whole molecule when

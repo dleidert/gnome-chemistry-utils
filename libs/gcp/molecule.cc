@@ -28,9 +28,9 @@
 #include "bond.h"
 #include "document.h"
 #include "molecule.h"
-#include "stringdlg.h"
 #include "tool.h"
 #include "view.h"
+#include <gcugtk/stringdlg.h>
 #include <gcugtk/ui-manager.h>
 #include <gcu/chain.h>
 #include <gsf/gsf-input-memory.h>
@@ -76,19 +76,19 @@ std::vector < BaseAccess > MoleculePrivate::Databases;
 void MoleculePrivate::ShowInChIKey (Molecule *mol)
 {
 
-	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetInChIKey (), StringDlg::INCHIKEY);
+	new gcugtk::StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetInChIKey (), gcugtk::StringDlg::INCHIKEY);
 }
 
 void MoleculePrivate::ShowInChI (Molecule *mol)
 {
 
-	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetInChI (), StringDlg::INCHI);
+	new gcugtk::StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetInChI (), gcugtk::StringDlg::INCHI);
 }
 
 void MoleculePrivate::ShowSMILES (Molecule *mol)
 {
 
-	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetSMILES (), StringDlg::SMILES);
+	new gcugtk::StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetSMILES (), gcugtk::StringDlg::SMILES);
 }
 
 char *MoleculePrivate::Build3D (Molecule *mol)
@@ -252,13 +252,13 @@ static void do_open_in_calc (Molecule* pMol)
 	pMol->OpenCalc ();
 }
 
-Molecule::Molecule (TypeId Type): gcu::Molecule (Type, gcu::ContentType2D)
+Molecule::Molecule (TypeId Type): gcugtk::Molecule (Type, gcu::ContentType2D)
 {
 	m_Alignment = NULL;
 	m_IsResidue = false;
 }
 
-Molecule::Molecule (Atom* pAtom): gcu::Molecule (pAtom, gcu::ContentType2D)
+Molecule::Molecule (Atom* pAtom): gcugtk::Molecule (pAtom, gcu::ContentType2D)
 {
 	m_Alignment = NULL;
 	m_IsResidue = false;

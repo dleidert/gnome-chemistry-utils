@@ -413,6 +413,7 @@ it is pure virtual.
 
 	bool Have3DSupport () {return m_HaveGhemical | m_HaveGChem3D | m_HaveAvogadro;}
 	void AddCanvas (char const *path, gccv::Canvas *canvas) {m_ToolCanvases[path] = canvas;}
+	void ReceiveTargets (GtkClipboard *clipboard, GtkSelectionData *selection_data);
 
 protected:
 /*!

@@ -54,7 +54,6 @@ libgcp_@GCU_API_VER@_la_SOURCES = \
 		fontsel.cc \
 		newfiledlg.cc \
 		preferences.cc \
-		stringdlg.cc \
 		about.cc \
 		tool.cc \
 		tools.cc \
@@ -101,7 +100,6 @@ noinst_HEADERS = \
 		fontsel.h \
 		newfiledlg.h \
 		preferences.h \
-		stringdlg.h \
 		about.h \
 		tool.h \
 		tools.h \

@@ -1,8 +1,8 @@
 // -*- C++ -*-
 
 /*
- * GChemPaint library
- * stringdlg.h
+ * Gnome Chemistry Utils
+ * gcugtk/stringdlg.h
  *
  * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -29,11 +29,14 @@
 #include <string>
 
 /*!\file*/
-namespace gcp {
 
+namespace gcu {
 class Document;
+}
 
-/*!\class StringDlg gcp/stringdlg.h
+namespace gcugtk {
+
+/*!\class StringDlg gcugtk/stringdlg.h
 Represents the dialog used to display the InChI or canonical SMILES of a molecule.
 */
 class StringDlg: public gcugtk::Dialog
@@ -64,7 +67,7 @@ InChIKey of a molecule.
 Builds a dialog showing the string and display it. \a type is used to select
 an appropriate title for the dialog box.
 */
-	StringDlg (Document *pDoc, std::string const &data, enum data_type type);
+	StringDlg (gcu::Document *pDoc, std::string const &data, enum data_type type);
 /*!
 The destructor.
 */

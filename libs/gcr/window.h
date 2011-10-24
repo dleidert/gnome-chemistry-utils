@@ -24,7 +24,7 @@
 #define GCR_WINDOW_H
 
 #include <gcu/macros.h>
-#include <gcu/window.h>
+#include <gcugtk/window.h>
 
 namespace gcu {
 class Application;
@@ -34,7 +34,7 @@ namespace gcr {
 
 class Document;
 
-class Window: public gcu::Window
+class Window: public gcugtk::Window
 {
 public:
 	Window (gcu::Application *app);

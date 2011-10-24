@@ -16,7 +16,7 @@
 	* support for options when displaying a spectrum (?).
 
 * Gnome Crystal:
-	* enhance cif ans cml support (add more fields in document properties) (?).
+	* enhance cif and cml support (add more fields in document properties) (?).
 	* really add bond support, not through lines) (?).
 
 * GChemPaint:
@@ -24,7 +24,6 @@
 	* New tools:
 		- delocalized bonds (?),
 		- week interactions (e.g. H-bonds) (?),
-		- brackets (0.14).
 		- curved reaction arrows and Tollman's loops (?),
 		- cluster bonds (as in boranes) (?),
 		- electron vacancies (?).
@@ -33,6 +32,7 @@
 	* Enhance fragments (0.14+).
 	* Change cursor according to situation (?).
 	* Allow associating several objects with reaction arrows (0.14?).
+	* Allow various superscripts for brackets (charge, transition state,...)
 
 * Goffice component:
 	* support 3d structures (0.14?).

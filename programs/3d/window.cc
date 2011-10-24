@@ -28,7 +28,59 @@
 #include "view.h"
 #include "window.h"
 #include <gcugtk/print-setup-dlg.h>
+#include <gcugtk/stringdlg.h>
+#include <gsf/gsf-input-memory.h>
 #include <glib/gi18n.h>
+
+class gc3dWindowPrivate {
+public:
+	static void OnOpen2D (GtkWidget *widget, gc3dWindow *Win);
+	static void ShowInChIKey (GtkWidget *widget, gc3dWindow *Win);
+	static void ShowInChI (GtkWidget *widget, gc3dWindow *Win);
+	static void ShowSMILES (GtkWidget *widget, gc3dWindow *Win);
+};
+
+void gc3dWindowPrivate::ShowInChIKey (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
+{
+	gc3dDocument *Doc  = Win->GetDoc ();
+	gcu::Molecule *Mol = Doc->GetMol ();
+
+	new gcugtk::StringDlg (Doc, Mol->GetInChIKey (), gcugtk::StringDlg::INCHIKEY);
+}
+
+void gc3dWindowPrivate::ShowInChI (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
+{
+	gc3dDocument *Doc  = Win->GetDoc ();
+	gcu::Molecule *Mol = Doc->GetMol ();
+
+	new gcugtk::StringDlg (Doc, Mol->GetInChI (), gcugtk::StringDlg::INCHI);
+}
+
+void gc3dWindowPrivate::ShowSMILES (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
+{
+	gc3dDocument *Doc  = Win->GetDoc ();
+	gcu::Molecule *Mol = Doc->GetMol ();
+
+	new gcugtk::StringDlg (Doc, Mol->GetSMILES (), gcugtk::StringDlg::SMILES);
+}
+
+void gc3dWindowPrivate::OnOpen2D (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
+{
+	gcu::Molecule *mol = Win->GetDoc ()->GetMol ();
+	std::string const &InChI = mol->GetInChI ();
+	GsfInput *in = gsf_input_memory_new (reinterpret_cast <guint8 const *> (InChI.c_str ()), InChI.length (), false);
+	char *cml = mol->GetDocument ()->GetApp ()->ConvertToCML (in, "inchi", "--Gen2D");
+	g_object_unref (in);
+	char *tmpname = g_strdup ("/tmp/cmlXXXXXX.cml");
+	int f = g_mkstemp (tmpname);
+	write (f, cml, strlen (cml));
+	close (f);
+	g_free (cml);
+	char *command_line = g_strconcat ("gchempaint-", API_VERSION, " ", tmpname, NULL);
+	g_free (tmpname);
+	g_spawn_command_line_async (command_line, NULL);
+	g_free (command_line);
+}
 
 //Callbacks
 static bool on_delete_event (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GdkEvent *event, gc3dWindow *Win)
@@ -174,6 +226,15 @@ static GtkActionEntry entries[] = {
  	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChem3D"), G_CALLBACK (on_quit) },
   { "ViewMenu", NULL, N_("_View"), NULL, NULL, NULL },
+  { "ToolsMenu", NULL, N_("_Tools"), NULL, NULL, NULL },
+	  { "GChemPaint", NULL, N_("Open in GChemPaint"), NULL,
+		  N_("Open a 2D model for this molecule using GChemPaint"), G_CALLBACK (gc3dWindowPrivate::OnOpen2D) },
+	  { "InChI", NULL, N_("Show InChI"), NULL,
+		  N_("Show the InChI for this molecule"), G_CALLBACK (gc3dWindowPrivate::ShowInChI) },
+	  { "InChIKey", NULL, N_("Show InChiKey"), NULL,
+		  N_("Show the InChIKey for this molecule"), G_CALLBACK (gc3dWindowPrivate::ShowInChIKey) },
+	  { "SMILES", NULL, N_("Show SMILES"), NULL,
+		  N_("Show the SMILES for this molecule"), G_CALLBACK (gc3dWindowPrivate::ShowSMILES) },
   { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Molecules Viewer"), G_CALLBACK (on_help) },
@@ -225,6 +286,12 @@ static const char *ui_description =
 "      <menuitem action='Wireframe'/>"
 "	   <separator name='view-sep1'/>"
 "      <menuitem action='Background'/>"
+"    </menu>"
+"    <menu action='ToolsMenu'>"
+"      <menuitem action='GChemPaint'/>"
+"      <menuitem action='InChI'/>"
+"      <menuitem action='InChIKey'/>"
+"      <menuitem action='SMILES'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"

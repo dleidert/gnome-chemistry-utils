@@ -33,12 +33,15 @@ libgcugtk_@GCU_API_VER@_la_SOURCES = \
 		gcuspectrumviewer.cc \
 		glview.cc	\
 		message.cc	\
+		molecule.cc \
 		printable.cc \
 		print-setup-dlg.cc	\
 		spectrumdoc.cc \
 		spectrumview.cc \
+		stringdlg.cc \
 		ui-builder.cc \
-		ui-manager.cc
+		ui-manager.cc \
+		window.cc
 
 noinst_HEADERS = \
 		application.h \
@@ -52,12 +55,15 @@ noinst_HEADERS = \
 		gcuspectrumviewer.h \
 		glview.h	\
 		message.h	\
+		molecule.h \
 		printable.h \
 		print-setup-dlg.h	\
 		spectrumdoc.h \
 		spectrumview.h \
+		stringdlg.h \
 		ui-builder.h \
-		ui-manager.h
+		ui-manager.h \
+		window.h
 
 CLEANFILES =			\
 	marshalers.h		\

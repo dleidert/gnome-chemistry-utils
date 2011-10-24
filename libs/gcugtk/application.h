@@ -105,6 +105,12 @@ widget is intended to be added to a GtkFileChooserDialog.
 */
 	GtkWidget *GetImageSizeWidget ();
 
+	virtual void ReceiveTargets (GtkClipboard *, GtkSelectionData *) {;}
+	static void OnReceiveTargets (GtkClipboard *clipboard, GtkSelectionData *selection_data, Application *App)
+		{
+			App->ReceiveTargets (clipboard, selection_data);
+		}
+
 protected:
 
 /*!
