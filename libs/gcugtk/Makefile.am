@@ -11,7 +11,8 @@ libgcugtk_@GCU_API_VER@_la_LIBADD = \
 		$(gsf_LIBS) \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		-lX11
-DEFS += -DDATADIR=\"$(datadir)\" \
+DEFS += -DGCU_API_VER=\"@GCU_API_VER@\" \
+		-DDATADIR=\"$(datadir)\" \
 		-DLOCALEDIR=\"$(localedir)\" \
 		-DLIBEXECDIR=\"$(libexecdir)\" \
 		-DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \

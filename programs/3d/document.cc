@@ -27,6 +27,7 @@
 #include "application.h"
 #include "view.h"
 #include "window.h"
+#include <gcugtk/molecule.h>
 #include <glib/gutils.h>
 
 gc3dDocument::gc3dDocument (gc3dApplication *App): gcugtk::Chem3dDoc (App, new gc3dView (this))
@@ -44,7 +45,11 @@ void gc3dDocument::Load (char const *uri, char const *mime_type)
 	if (!*title)
 		title = g_path_get_basename (uri);
 	char *buf = g_uri_unescape_string (title, NULL);
-	dynamic_cast <gc3dView *> (m_View)->GetWindow ()->SetTitle (buf);
+	gc3dWindow *window = static_cast <gc3dView *> (m_View)->GetWindow ();
+	window->SetTitle (buf);
+	gcugtk::Molecule *mol = static_cast < gcugtk::Molecule * > (GetMol ());
+	if (mol->GetChildrenNumber ())
+		window->AddMoleculeMenus (mol);
 	g_free (buf);
 	g_free (title);
 	char *dirname = g_path_get_dirname (uri);

@@ -36,6 +36,7 @@ Provide some uiser interface for molecules.
 */
 class Molecule: public gcu::Molecule
 {
+friend class MoleculePrivate;
 public:
 /*!
 @param Type the type id of a derived class
@@ -55,6 +56,8 @@ be explored and all atoms and bonds found will be added to the molecule.
 The destructor.
 */
 	virtual ~Molecule ();
+
+	void BuildDatabasesMenu (GtkUIManager *UIManager, char const *path, char const *path_end);
 };
 
 }	//	namespace gcu

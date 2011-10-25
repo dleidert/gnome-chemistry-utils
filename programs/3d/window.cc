@@ -27,6 +27,7 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
+#include <gcugtk/molecule.h>
 #include <gcugtk/print-setup-dlg.h>
 #include <gcugtk/stringdlg.h>
 #include <gsf/gsf-input-memory.h>
@@ -287,12 +288,7 @@ static const char *ui_description =
 "	   <separator name='view-sep1'/>"
 "      <menuitem action='Background'/>"
 "    </menu>"
-"    <menu action='ToolsMenu'>"
-"      <menuitem action='GChemPaint'/>"
-"      <menuitem action='InChI'/>"
-"      <menuitem action='InChIKey'/>"
-"      <menuitem action='SMILES'/>"
-"    </menu>"
+"    <menu action='ToolsMenu'/>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"
 "      <menuitem action='Mail'/>"
@@ -309,7 +305,6 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	m_App = App;
 	m_Doc = Doc;
 	GtkWidget *grid, *bar;
-	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	GtkAccelGroup *accel_group;
 	GError *error = NULL;
@@ -322,7 +317,7 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	grid = gtk_grid_new ();
 	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, NULL);
 	gtk_container_add (GTK_CONTAINER (m_Window), grid);
-	ui_manager = gtk_ui_manager_new ();
+	m_UIManager = gtk_ui_manager_new ();
 	action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), this);
@@ -332,16 +327,17 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	g_signal_connect (G_OBJECT (combo), "activate", G_CALLBACK (on_color_changed), this);
 	gtk_action_group_add_action (action_group, GTK_ACTION (combo));
 	gtk_action_group_add_radio_actions (action_group, radios, G_N_ELEMENTS (radios), 0, G_CALLBACK (on_display), this);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
+	gtk_ui_manager_insert_action_group (m_UIManager, action_group, 0);
+	accel_group = gtk_ui_manager_get_accel_group (m_UIManager);
 	gtk_window_add_accel_group (GTK_WINDOW (m_Window), accel_group);
 	error = NULL;
-	if (!gtk_ui_manager_add_ui_from_string (ui_manager, ui_description, -1, &error)) {
+	if (!gtk_ui_manager_add_ui_from_string (m_UIManager, ui_description, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 		exit (EXIT_FAILURE);
 	}
-	GtkWidget *menu = gtk_ui_manager_get_widget (ui_manager, "/MainMenu/FileMenu/Open");
+	// add database access menus
+	GtkWidget *menu = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu/FileMenu/Open");
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());
 	gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (w), GTK_RECENT_SORT_MRU);
 	GtkRecentFilter *filter = gtk_recent_filter_new ();
@@ -355,9 +351,8 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), w);
 	gtk_widget_show_all (item);
 	gtk_menu_shell_insert (GTK_MENU_SHELL (gtk_widget_get_parent (menu)), item, 2);
-	bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
+	bar = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu");
 	gtk_container_add (GTK_CONTAINER (grid), bar);
-	g_object_unref (ui_manager);
 	m_View = dynamic_cast<gc3dView *> (m_Doc->GetView ());
 	m_View->SetWindow (this);
 	g_object_set (G_OBJECT (m_View->GetWidget ()), "expand", true, NULL);
@@ -381,6 +376,7 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 
 gc3dWindow::~gc3dWindow ()
 {
+	g_object_unref (m_UIManager);
 	delete m_Doc;
 }
 
@@ -403,4 +399,22 @@ void gc3dWindow::OnPageSetup ()
 void gc3dWindow::SetTitle (char const *title)
 {
 	gtk_window_set_title (m_Window, title);
+}
+
+static const char *ui_mol_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='ToolsMenu'>"
+"      <menuitem action='GChemPaint'/>"
+"      <menuitem action='InChI'/>"
+"      <menuitem action='InChIKey'/>"
+"      <menuitem action='SMILES'/>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+void gc3dWindow::AddMoleculeMenus (gcugtk::Molecule *mol)
+{
+	gtk_ui_manager_add_ui_from_string (m_UIManager, ui_mol_description, -1, NULL);
+	mol->BuildDatabasesMenu (m_UIManager, "<ui><menubar name='MainMenu'><menu action='ToolsMenu'>", "</menu></menubar></ui>");
 }

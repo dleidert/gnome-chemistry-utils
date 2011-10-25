@@ -27,6 +27,11 @@
 
 #include <gcugtk/window.h>
 
+namespace gcugtk
+{
+	class Molecule;
+}
+
 class gc3dApplication;
 class gc3dDocument;
 class gc3dView;
@@ -44,9 +49,10 @@ public:
 	void SetTitle (char const *title);
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
 	GtkWindow *GetWindow () {return m_Window;}
+	void AddMoleculeMenus (gcugtk::Molecule *mol);
 
 private:
-	GtkWindow* m_Window;
+	GtkUIManager *m_UIManager;
 
 GCU_RO_PROP (gc3dApplication *, App);
 GCU_RO_PROP (gc3dView *, View);

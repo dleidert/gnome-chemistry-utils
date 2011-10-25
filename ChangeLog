@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2011-10-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: make database support available for the 3d viewer.
+	* libs/gcugtk/Makefile.am: ditto.
+	* libs/gcugtk/molecule.cc: ditto.
+	* libs/gcugtk/molecule.h: ditto.
+	* programs/3d/document.cc: ditto.
+	* programs/3d/window.cc: ditto.
+	* programs/3d/window.h: ditto.
+
 2011-10-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils-priv.h: moved the gtk related gcu::Window code
 	to gtkgcu.
