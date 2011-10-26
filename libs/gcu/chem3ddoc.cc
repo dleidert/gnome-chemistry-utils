@@ -212,7 +212,7 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type, size_t size)
 			z0 += atom->z ();
 			atom = m_Mol->GetNextAtom (i);
 		}
-		m_Mol->Move (-x0 * m_Mol->GetAtomsNumber (), -y0 * m_Mol->GetAtomsNumber (), -z0 * m_Mol->GetAtomsNumber ());
+		m_Mol->Move (-x0 / m_Mol->GetAtomsNumber (), -y0 / m_Mol->GetAtomsNumber (), -z0 / m_Mol->GetAtomsNumber ());
 		char const *title = m_Mol->GetName ();
 		if (title)
 			SetTitle (title);

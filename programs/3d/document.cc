@@ -48,7 +48,7 @@ void gc3dDocument::Load (char const *uri, char const *mime_type)
 	gc3dWindow *window = static_cast <gc3dView *> (m_View)->GetWindow ();
 	window->SetTitle (buf);
 	gcugtk::Molecule *mol = static_cast < gcugtk::Molecule * > (GetMol ());
-	if (mol->GetChildrenNumber ())
+	if (mol && mol->GetChildrenNumber ())
 		window->AddMoleculeMenus (mol);
 	g_free (buf);
 	g_free (title);

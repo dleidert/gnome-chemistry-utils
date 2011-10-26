@@ -6,4 +6,5 @@ dist_ui_DATA = \
 	image-resolution.ui \
 	image-size.ui \
 	print-setup.ui \
-	stringdlg.ui
+	stringdlg.ui \
+	stringinputdlg.ui

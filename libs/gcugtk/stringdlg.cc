@@ -230,4 +230,4 @@ void StringDlg::OnGetData (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionDa
 	gtk_selection_data_set_text (selection_data, copied, strlen (copied));
 }
 
-}	//	namespace gcp
+}	//	namespace gcugtk

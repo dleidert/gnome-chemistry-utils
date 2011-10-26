@@ -91,7 +91,7 @@ Displays the molecule using OpenGL.
 @param uri the uri of the molecule file.
 @param mime_type the mime type of the molecule file.
 
-Loads a molecule from the provided uri using OpenBabel.
+Loads a molecule from the provided uri.
 */
 	void Load (char const *uri, char const *mime_type);
 
@@ -101,7 +101,7 @@ Loads a molecule from the provided uri using OpenBabel.
 @param size the size of the data. If nul, the size will be evaluated from
 the string length.
 
-Loads a molecule from the provided data using OpenBabel.
+Loads a molecule from the provided data.
 */
 	void LoadData (char const *data, char const *mime_type, size_t size = 0);
 

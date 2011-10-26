@@ -30,6 +30,7 @@
 #include <gcugtk/molecule.h>
 #include <gcugtk/print-setup-dlg.h>
 #include <gcugtk/stringdlg.h>
+#include <gcugtk/stringinputdlg.h>
 #include <gsf/gsf-input-memory.h>
 #include <glib/gi18n.h>
 
@@ -39,7 +40,37 @@ public:
 	static void ShowInChIKey (GtkWidget *widget, gc3dWindow *Win);
 	static void ShowInChI (GtkWidget *widget, gc3dWindow *Win);
 	static void ShowSMILES (GtkWidget *widget, gc3dWindow *Win);
+	static void ImportMolecule (G_GNUC_UNUSED GtkWidget* widget, gc3dWindow *Win);
+	static void DoImportMol (gcu::Document *doc, char const *str);
 };
+
+void gc3dWindowPrivate::ImportMolecule (G_GNUC_UNUSED GtkWidget* widget, gc3dWindow* Win)
+{
+	gcu::Dialog *dlg = Win->GetDoc ()->GetDialog ("string-input");
+	if (dlg)
+		dlg->Present ();
+	else
+		new gcugtk::StringInputDlg (Win->GetDoc (), &DoImportMol, _("Import molecule from InChI or SMILES"));
+}
+
+void gc3dWindowPrivate::DoImportMol (gcu::Document *doc, char const *str)
+{
+	if (!str || !*str)
+		return;
+	gcu::Application *app = doc->GetApplication ();
+	gc3dDocument *Doc = static_cast < gc3dDocument * > (doc);
+	GsfInput *input = gsf_input_memory_new (reinterpret_cast < guint8 const * > (str), strlen (str), false);
+	char *cml = app->ConvertToCML (input, ((!strncmp (str, "InChI=", 6))? "inchi": "smi"), "--Gen3D");
+	g_object_unref (input);
+	if (!cml) // TODO: add an error message handler
+		return;
+	if (Doc->GetMol ())
+		Doc = static_cast < gc3dApplication * > (app)->OnFileNew ();
+	Doc->LoadData (cml, "chemical/x-cml");
+	gcugtk::Molecule *mol = static_cast < gcugtk::Molecule * > (Doc->GetMol ());
+	if (mol && mol->GetChildrenNumber ())
+		static_cast < gc3dWindow * > (Doc->GetWindow ())->AddMoleculeMenus (static_cast < gcugtk::Molecule * > (mol));
+}
 
 void gc3dWindowPrivate::ShowInChIKey (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
 {
@@ -228,6 +259,8 @@ static GtkActionEntry entries[] = {
 		  N_("Quit GChem3D"), G_CALLBACK (on_quit) },
   { "ViewMenu", NULL, N_("_View"), NULL, NULL, NULL },
   { "ToolsMenu", NULL, N_("_Tools"), NULL, NULL, NULL },
+	  { "ImportMol", NULL, N_("_Import molecule"), NULL,
+		  N_("Import a molecule either from InChI or SMILES"), G_CALLBACK (gc3dWindowPrivate::ImportMolecule) },
 	  { "GChemPaint", NULL, N_("Open in GChemPaint"), NULL,
 		  N_("Open a 2D model for this molecule using GChemPaint"), G_CALLBACK (gc3dWindowPrivate::OnOpen2D) },
 	  { "InChI", NULL, N_("Show InChI"), NULL,
@@ -288,7 +321,9 @@ static const char *ui_description =
 "	   <separator name='view-sep1'/>"
 "      <menuitem action='Background'/>"
 "    </menu>"
-"    <menu action='ToolsMenu'/>"
+"    <menu action='ToolsMenu'>"
+"      <menuitem action='ImportMol'/>"
+"    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"
 "      <menuitem action='Mail'/>"
@@ -405,6 +440,7 @@ static const char *ui_mol_description =
 "<ui>"
 "  <menubar name='MainMenu'>"
 "    <menu action='ToolsMenu'>"
+"	   <separator name='tools-sep1'/>"
 "      <menuitem action='GChemPaint'/>"
 "      <menuitem action='InChI'/>"
 "      <menuitem action='InChIKey'/>"

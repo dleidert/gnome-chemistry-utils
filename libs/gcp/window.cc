@@ -35,6 +35,7 @@
 #include <gcugtk/filechooser.h>
 #include <gcugtk/print-setup-dlg.h>
 #include <gcugtk/ui-manager.h>
+#include <gcugtk/stringinputdlg.h>
 #include <gcu/matrix.h>
 #include <gsf/gsf-input-memory.h>
 #include <glib/gi18n-lib.h>
@@ -44,82 +45,49 @@ using namespace gcu;
 
 namespace gcp {
 
-typedef void (*StringInputCB) (Target *obj, char const *str);
-
-class StringInput: public gcugtk::Dialog
-{
-public:
-	StringInput (Target *target, StringInputCB cb, char const *title);
-	virtual ~StringInput ();
-
-	bool Apply ();
-
-private:
-	Target *m_Target;
-	StringInputCB m_CB;
-};
-
-StringInput::StringInput (Target *target, StringInputCB cb, char const *title):
-	gcugtk::Dialog (target->GetApplication (), UIDIR"/stringinputdlg.ui", "string-input", GETTEXT_PACKAGE, target->GetDocument ()),
-	m_Target (target),
-	m_CB (cb)
-{
-	GtkWidget *w = GTK_WIDGET (gtk_builder_get_object (GetBuilder (), "string-input"));
-	gtk_window_set_title (GTK_WINDOW (w), title);
-	gtk_widget_show_all (w);
-}
-
-StringInput::~StringInput ()
-{
-}
-
-bool StringInput::Apply ()
-{
-	GtkEntry *entry = GTK_ENTRY (gtk_builder_get_object (GetBuilder (), "result"));
-	if (entry)
-		m_CB (m_Target, gtk_entry_get_text (entry));
-	return true;
-}
-
-class WindowPrivate {
+	class WindowPrivate {
 public:
 	static void ImportMolecule (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win);
-	static void DoImportMol (Target *target, char const *str);
+	static void DoImportMol (gcu::Document *doc, char const *str);
 };
 
 void WindowPrivate::ImportMolecule (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
-	new StringInput (Win, &DoImportMol, _("Import moleculefrom InChI or SMILES"));
+	gcu::Dialog *dlg = Win->GetDocument ()->GetDialog ("string-input");
+	if (dlg)
+		dlg->Present ();
+	else
+		new gcugtk::StringInputDlg (Win->GetDocument (), &DoImportMol, _("Import molecule from InChI or SMILES"));
 }
 
-void WindowPrivate::DoImportMol (Target *target, char const *str)
+void WindowPrivate::DoImportMol (gcu::Document *doc, char const *str)
 {
 	if (!str || !*str)
 		return;
-	Application *app = target->GetApplication ();
-	Document *doc = target->GetDocument ();
+	Document *Doc = static_cast < Document * > (doc);
+	Application *app = Doc->GetApplication ();
 	GsfInput *input = gsf_input_memory_new (reinterpret_cast < guint8 const * > (str), strlen (str), false);
 	char *cml = app->ConvertToCML (input, ((!strncmp (str, "InChI=", 6))? "inchi": "smi"), "-c --gen2D");
 	g_object_unref (input);
 	if (!cml) // TODO: add an error message handler
 		return;
 	input = gsf_input_memory_new (reinterpret_cast < guint8 const * > (cml), strlen (cml), true);
-	app->Load (input, "chemical/x-cml", target->GetDocument (), NULL);
-	std::set < gcu::Object * > objs = static_cast < gcu::Document * > (doc)->GetNewObjects ();
-	doc->Loaded ();
+	app->Load (input, "chemical/x-cml", Doc, NULL);
+	std::set < gcu::Object * > objs = doc->GetNewObjects ();
+	Doc->Loaded ();
 	Molecule *mol = static_cast < Molecule * > ((*objs.begin ())->GetMolecule ());
 	// scale so that the mean bond length is correct
-	double l = mol->GetMeanBondLength (), l0 = doc->GetTheme ()->GetBondLength (), x0, y0, x1, y1;
+	double l = mol->GetMeanBondLength (), l0 = Doc->GetTheme ()->GetBondLength (), x0, y0, x1, y1;
 	l0 /= l;
 	Matrix2D m (l0, 0., 0., l0);
 	mol->Transform2D (m, 0., 0.);
 	// move to view center
-	doc->GetView ()->GetVisibleArea (x0, y0, x1, y1);
+	Doc->GetView ()->GetVisibleArea (x0, y0, x1, y1);
 	mol->Move ((x0 + x1) / 2., (y0 + y1) / 2.);
 	// show the molecule
-	doc->GetView ()->Update (mol);
+	Doc->GetView ()->Update (mol);
 	// mark the document as unsaved
-	doc->SetDirty ();
+	Doc->SetDirty ();
 	g_object_unref (input);
 }
 

@@ -8,6 +8,5 @@ dist_ui_DATA = \
 	H-pos.ui \
 	newfiledlg.ui \
 	preferences.ui \
-	stringinputdlg.ui	\
 	tools.ui \
 	zoom.ui

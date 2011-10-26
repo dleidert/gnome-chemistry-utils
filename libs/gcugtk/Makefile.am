@@ -40,6 +40,7 @@ libgcugtk_@GCU_API_VER@_la_SOURCES = \
 		spectrumdoc.cc \
 		spectrumview.cc \
 		stringdlg.cc \
+		stringinputdlg.cc \
 		ui-builder.cc \
 		ui-manager.cc \
 		window.cc
@@ -62,6 +63,7 @@ noinst_HEADERS = \
 		spectrumdoc.h \
 		spectrumview.h \
 		stringdlg.h \
+		stringinputdlg.h \
 		ui-builder.h \
 		ui-manager.h \
 		window.h
