@@ -292,23 +292,17 @@ void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *c
 			h = height;
 		break;
 	}
-	double scale = 300. / 72.;
-	GdkPixbuf *pixbuf = BuildPixbuf (w * scale, h * scale, GetPrintBackground ());
-	GOImage *img = go_image_new_from_pixbuf (pixbuf);
-	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
-	cairo_matrix_t cr_matrix;
+	double scale = 72. / 300.;
+	GdkPixbuf *pixbuf = BuildPixbuf (w / scale, h / scale, GetPrintBackground ());
+	GOImage *img = GO_IMAGE (go_pixbuf_new_from_pixbuf (pixbuf));
 	double x = 0., y = 0.;
 	if (GetHorizCentered ())
 		x = (width - w) / 2.;
 	if (GetVertCentered ())
 		y = (height - h) / 2.;
-	cairo_matrix_init_scale (&cr_matrix, scale, scale);
-	cairo_matrix_translate (&cr_matrix, -x, -y);
-	cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
-	cairo_rectangle (cr, x, y, w, h);
-	cairo_set_source (cr, cr_pattern);
-	cairo_fill (cr);
-	cairo_pattern_destroy (cr_pattern);
+	cairo_scale (cr, scale, scale);
+	cairo_translate (cr, x, y);
+	go_image_draw (img, cr);
 	g_object_unref (img);
 	g_object_unref (pixbuf);
 }
@@ -317,7 +311,6 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) co
 {
 	GdkPixbuf *pixbuf = NULL;
 	// Create the pixmap
-	Pixmap pixmap = XCreatePixmap (GDK_WINDOW_XDISPLAY (m_Window), GDK_WINDOW_XID (m_Window), width, height, 32);
 	int const attr_list[] = {
 		GLX_RGBA,
 		GLX_RED_SIZE, 1,
@@ -328,6 +321,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) co
 		0
 	};
 	XVisualInfo *xvi = glXChooseVisual (GDK_WINDOW_XDISPLAY (m_Window), gdk_screen_get_number (gdk_window_get_screen (m_Window)), const_cast < int * > (attr_list));
+	Pixmap pixmap = XCreatePixmap (GDK_WINDOW_XDISPLAY (m_Window), GDK_WINDOW_XID (m_Window), width, height, xvi->depth);
 	GLXContext ctxt = glXCreateContext (GDK_WINDOW_XDISPLAY (m_Window), xvi, NULL, false);
 	GLXPixmap glxp = glXCreateGLXPixmap (GDK_WINDOW_XDISPLAY (m_Window), xvi, pixmap);
 	// draw

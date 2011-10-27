@@ -178,6 +178,10 @@ a given convention.
 	std::string const &GetInChI ();
 	std::string const &GetInChIKey ();
 	std::string const &GetSMILES ();
+/*!
+@return the raw formula as a string.
+*/
+	virtual std::string GetRawFormula () const;
 
 protected:
 /*!

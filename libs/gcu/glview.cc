@@ -136,17 +136,11 @@ GdkPixbuf *GLView::BuildPixbuf (G_GNUC_UNUSED unsigned width, G_GNUC_UNUSED unsi
 
 void GLView::RenderToCairo (cairo_t *cr, unsigned width, unsigned height, bool use_bg) const
 {
-	double scale = 300. / 72.;
-	GdkPixbuf *pixbuf = BuildPixbuf (width * scale, height * scale, use_bg);
-	GOImage *img = go_image_new_from_pixbuf (pixbuf);
-	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
-	cairo_matrix_t cr_matrix;
-	cairo_matrix_init_scale (&cr_matrix, scale, scale);
-	cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
-	cairo_rectangle (cr, 0., 0., width, height);
-	cairo_set_source (cr, cr_pattern);
-	cairo_fill (cr);
-	cairo_pattern_destroy (cr_pattern);
+	double scale = 72. / 300.;
+	GdkPixbuf *pixbuf = BuildPixbuf (width / scale, height / scale, use_bg);
+	GOImage *img = GO_IMAGE (go_pixbuf_new_from_pixbuf (pixbuf));
+	cairo_scale (cr, scale, scale);
+	go_image_draw (img, cr);
 	g_object_unref (img);
 	g_object_unref (pixbuf);
 }

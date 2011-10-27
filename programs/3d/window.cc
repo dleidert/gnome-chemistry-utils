@@ -33,6 +33,7 @@
 #include <gcugtk/stringinputdlg.h>
 #include <gsf/gsf-input-memory.h>
 #include <glib/gi18n.h>
+#include <sstream>
 
 class gc3dWindowPrivate {
 public:
@@ -42,6 +43,7 @@ public:
 	static void ShowSMILES (GtkWidget *widget, gc3dWindow *Win);
 	static void ImportMolecule (G_GNUC_UNUSED GtkWidget* widget, gc3dWindow *Win);
 	static void DoImportMol (gcu::Document *doc, char const *str);
+	static void OnOpenCalc (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win);
 };
 
 void gc3dWindowPrivate::ImportMolecule (G_GNUC_UNUSED GtkWidget* widget, gc3dWindow* Win)
@@ -112,6 +114,14 @@ void gc3dWindowPrivate::OnOpen2D (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *W
 	g_free (tmpname);
 	g_spawn_command_line_async (command_line, NULL);
 	g_free (command_line);
+}
+
+void gc3dWindowPrivate::OnOpenCalc (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
+{
+	gcu::Molecule *mol = Win->GetDoc ()->GetMol ();
+	std::ostringstream ofs;
+	ofs << "gchemcalc-"API_VERSION" " << mol->GetRawFormula ();
+	g_spawn_command_line_async (ofs.str ().c_str (), NULL);
 }
 
 //Callbacks
@@ -263,6 +273,8 @@ static GtkActionEntry entries[] = {
 		  N_("Import a molecule either from InChI or SMILES"), G_CALLBACK (gc3dWindowPrivate::ImportMolecule) },
 	  { "GChemPaint", NULL, N_("Open in GChemPaint"), NULL,
 		  N_("Open a 2D model for this molecule using GChemPaint"), G_CALLBACK (gc3dWindowPrivate::OnOpen2D) },
+	  { "GChemCalc", NULL, N_("Open in GChemCalc"), NULL,
+		  N_("Open the raw formula in the chemical calculator"), G_CALLBACK (gc3dWindowPrivate::OnOpenCalc) },
 	  { "InChI", NULL, N_("Show InChI"), NULL,
 		  N_("Show the InChI for this molecule"), G_CALLBACK (gc3dWindowPrivate::ShowInChI) },
 	  { "InChIKey", NULL, N_("Show InChiKey"), NULL,
@@ -442,6 +454,7 @@ static const char *ui_mol_description =
 "    <menu action='ToolsMenu'>"
 "	   <separator name='tools-sep1'/>"
 "      <menuitem action='GChemPaint'/>"
+"      <menuitem action='GChemCalc'/>"
 "      <menuitem action='InChI'/>"
 "      <menuitem action='InChIKey'/>"
 "      <menuitem action='SMILES'/>"
