@@ -114,7 +114,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	ContentType type = ContentTypeCrystal;
 	GsfInputTextline *input = reinterpret_cast <GsfInputTextline *> (gsf_input_textline_new (in));
 	char *buf;
-	bool in_string = false, in_loop = false, waiting_value = false;
+	bool in_string = false, in_loop = false, waiting_value = false, empty = true;
 	string key, value;
 	int size;
 	char endstr = 0;
@@ -134,7 +134,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 		size = strlen (buf);
 		// check for new data bloc
 		if (!strncmp (cur, "data_", 5)) {
-			if (!doc->GetEmpty ())
+			if (!empty)
 				// FIXME: implement multiple data blocs reading
 				goto read_exit;
 		}
@@ -275,6 +275,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 										} else {
 											LabeledAtoms[val] = atom;
 											doc->AddChild (atom);
+											empty = false;
 										}
 										if (AtomTypes.empty ()) {
 											int i = 0;

@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-10-27  Hendrik Knackstedt
+	* de.po: enhanced translation. [#34531]
+
 2011-07-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* fr.po: one more typo fixed.
 

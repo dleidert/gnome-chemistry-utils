@@ -4,19 +4,21 @@
 # Christian Lohmaier <cloph@cup.uni-muenchen.de>, 2004.
 # Daniel Leidert <daniel.leidert@wgdd.de>, 2006,2007.
 # Matthias Mailänder <https://launchpad.net/~mailaender>, 2009
-#
+# Hendrik Knackstedt <hendrik.knackstedt@t-online.de>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils 0.8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-12 08:20+0200\n"
-"PO-Revision-Date: 2010-07-17 21:52+0100\n"
-"Last-Translator: Matthias Mailänder <matthias@mailaender.name>\n"
-"Language-Team: none\n"
-"Language: \n"
+"PO-Revision-Date: 2011-10-11 19:01+0200\n"
+"Last-Translator: Hendrik Knackstedt <hendrik.knackstedt@t-online.de>\n"
+"Language-Team: Ubuntu German Translators\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.6.1\n"
 
 #: ../gchemutils.schemas.in.h:1
 msgid "Default Bottom Margin"
@@ -69,7 +71,6 @@ msgstr ""
 "Seiteneinstellungsdialog verwendet werden soll."
 
 #: ../gchemutils.schemas.in.h:12
-#, fuzzy
 msgid "This value gives the default footer height number of points."
 msgstr "Dieser Wert gibt die Standardfußzeilenhöhe an. (Anzahl von Punkten)"
 
@@ -124,7 +125,7 @@ msgstr ""
 
 #: ../gchemutils.xml.in.h:1 ../programs/paint/x-gchempaint.desktop.in.h:1
 msgid "2D Chemical structure"
-msgstr "2D Strukturformel"
+msgstr "2D-Strukturformel"
 
 #: ../gchemutils.xml.in.h:2 ../programs/crystal/x-gcrystal.desktop.in.h:1
 msgid "Crystalline structure model"
@@ -692,11 +693,11 @@ msgstr "MOLARMASS berechnet die molare Masse der gegebenen @{formula}."
 
 #: ../gnumeric/functions.cc:55
 msgid "=molarmass(\"CCl4\")"
-msgstr ""
+msgstr "=molarmass(\"CCl4\")"
 
 #: ../gnumeric/functions.cc:82
 msgid "molarmass"
-msgstr ""
+msgstr "molarmass"
 
 #: ../gnumeric/plugin.xml.in.h:1
 msgid "Chemical Formula Functions"
@@ -719,9 +720,8 @@ msgid "Chemical structures"
 msgstr "chemische Strukturen"
 
 #: ../goffice/plugin.xml.in.h:3
-#, fuzzy
 msgid "Chemical structures component engine"
-msgstr "Chemikalische Strukturen Komponentengine"
+msgstr "Komponenten-Engine für chemische Strukturen"
 
 #: ../goffice/plugin.xml.in.h:4
 msgid "Component : GChemPaint"
@@ -817,7 +817,7 @@ msgstr "Fehler in"
 #. Note to translator: add a space if needed before the semicolon
 #: ../libs/gcp/application.cc:735
 msgid ":\n"
-msgstr ""
+msgstr ":\n"
 
 #: ../libs/gcp/application.cc:869 ../libs/gcp/application.cc:1000
 msgid "No filename"
@@ -876,9 +876,8 @@ msgid "Display symbol"
 msgstr "Symbol anzeigen"
 
 #: ../libs/gcp/atom.cc:1189
-#, fuzzy
 msgid "Whether to display carbon atom symbol"
-msgstr "Ob das Kohlenstoffatom angezeigt werden soll oder nicht."
+msgstr "Legt fest, ob das Symbol des Kohlenstoffatoms angezeigt werden soll."
 
 #: ../libs/gcp/atom.cc:1204 ../ui/paint/H-pos.ui.h:3
 msgid "Hydrogen atoms position"
@@ -1265,7 +1264,7 @@ msgstr "NeuesThema%d"
 
 #: ../libs/gcp/view.cc:727 ../libs/gcp/view.cc:753
 #: ../programs/3d/application.cc:188 ../programs/crystal/application.cc:307
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create stream!\n"
 "%s"
@@ -1295,17 +1294,16 @@ msgstr "Neue Datei erstellen"
 
 #: ../libs/gcp/window.cc:292
 msgid "Ne_w File with Theme..."
-msgstr "Ne_ue Datei mit Thema..."
+msgstr "Ne_ue Datei mit Thema …"
 
 #: ../libs/gcp/window.cc:293
-#, fuzzy
 msgid "Create a new file using a theme"
-msgstr "Neue Datei mit einem Vorgabethema erstellen"
+msgstr "Neue Datei mit einem Thema erstellen"
 
 #: ../libs/gcp/window.cc:294 ../programs/3d/window.cc:169
 #: ../programs/crystal/window.cc:284 ../programs/spectra/window.cc:197
 msgid "_Open..."
-msgstr "_Öffnen..."
+msgstr "_Öffnen …"
 
 #: ../libs/gcp/window.cc:295 ../programs/3d/window.cc:170
 #: ../programs/crystal/window.cc:285 ../programs/spectra/window.cc:198
@@ -1322,7 +1320,7 @@ msgstr "Aktuelle Datei speichern"
 
 #: ../libs/gcp/window.cc:298 ../programs/crystal/window.cc:288
 msgid "Save _As..."
-msgstr "Speichern _unter..."
+msgstr "Speichern _unter …"
 
 #: ../libs/gcp/window.cc:299 ../programs/crystal/window.cc:289
 msgid "Save the current file with a different name"
@@ -1368,7 +1366,7 @@ msgstr "Druckvorschau"
 #: ../programs/calc/gchemcalc.cc:601 ../programs/crystal/window.cc:296
 #: ../programs/spectra/window.cc:205 ../programs/table/gchemtable-curve.cc:214
 msgid "_Print..."
-msgstr "_Drucken..."
+msgstr "_Drucken …"
 
 #: ../libs/gcp/window.cc:307 ../programs/calc/gchemcalc.cc:602
 #: ../programs/crystal/window.cc:297 ../programs/spectra/window.cc:206
@@ -1379,7 +1377,7 @@ msgstr "Aktuelle Datei drucken"
 #: ../libs/gcp/window.cc:308 ../programs/crystal/window.cc:298
 #: ../programs/table/gchemtable-curve.cc:216
 msgid "Prope_rties..."
-msgstr "_Eigenschaften..."
+msgstr "_Eigenschaften …"
 
 #: ../libs/gcp/window.cc:309 ../programs/crystal/window.cc:299
 msgid "Modify the file's properties"
@@ -1686,9 +1684,8 @@ msgid "Chain"
 msgstr "Kette"
 
 #: ../libs/gcu/cycle.cc:222
-#, fuzzy
 msgid "Cycle"
-msgstr "Kreis"
+msgstr "Kreislauf"
 
 #: ../libs/gcu/crystaldoc.cc:466
 msgid "Everything has been cleaved"
@@ -1872,9 +1869,8 @@ msgstr ""
 "für die GcuPeriodic-Instanz %p\n"
 
 #: ../libs/gcu/loader.cc:102
-#, fuzzy
 msgid "Chemical file loader type."
-msgstr "Chemischer Dateiladertyp."
+msgstr "Dateiladetyp für chemische Dateien."
 
 #: ../libs/gcu/object.cc:702
 msgid "Object"
@@ -2358,22 +2354,22 @@ msgstr "_Rotation:"
 #: ../plugins/paint/atoms/orbital.ui.h:7
 #: ../plugins/paint/atoms/orbital-prop.ui.h:7
 msgid "d<sub>xy</sub>"
-msgstr ""
+msgstr "d<sub>xy</sub>"
 
 #: ../plugins/paint/atoms/orbital.ui.h:8
 #: ../plugins/paint/atoms/orbital-prop.ui.h:8
 msgid "d<sub>z<span size=\"smaller\" rise=\"0\">2</span></sub>"
-msgstr ""
+msgstr "d<sub>z<span size=\"smaller\" rise=\"0\">2</span></sub>"
 
 #: ../plugins/paint/atoms/orbital.ui.h:9
 #: ../plugins/paint/atoms/orbital-prop.ui.h:9
 msgid "p"
-msgstr ""
+msgstr "p"
 
 #: ../plugins/paint/atoms/orbital.ui.h:10
 #: ../plugins/paint/atoms/orbital-prop.ui.h:10
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: ../plugins/paint/atoms/plugin.cc:65
 msgid "Add or modify an atom"
@@ -2631,11 +2627,11 @@ msgstr "_Symbol(e):"
 
 #: ../plugins/paint/residues/residues.ui.h:8
 msgid "gtk-delete"
-msgstr ""
+msgstr "gtk-delete"
 
 #: ../plugins/paint/residues/residues.ui.h:9
 msgid "gtk-save"
-msgstr ""
+msgstr "gtk-save"
 
 #: ../plugins/paint/selection/group.cc:60
 msgid "Group properties..."
@@ -4514,15 +4510,15 @@ msgstr "Monoisotopenmasse:"
 
 #: ../ui/crystal/cell.ui.h:1
 msgid "&#x3B1; (&#xB0;):"
-msgstr ""
+msgstr "&#x3B1; (&#xB0;):"
 
 #: ../ui/crystal/cell.ui.h:2
 msgid "&#x3B2; (&#xB0;):"
-msgstr ""
+msgstr "&#x3B2; (&#xB0;):"
 
 #: ../ui/crystal/cell.ui.h:3
 msgid "&#x3B3; (&#xB0;):"
-msgstr ""
+msgstr "&#x3B3; (&#xB0;):"
 
 #: ../ui/crystal/cell.ui.h:5
 msgid "Base-centered monoclinic"
@@ -4646,50 +4642,47 @@ msgstr "_Titel:"
 
 #: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:1
 msgid "&#x3B8; (&#xB0;):"
-msgstr ""
+msgstr "&#x3B8; (&#xB0;):"
 
 #: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:2
 msgid "&#x3C6; (&#xB0;):"
-msgstr ""
+msgstr "&#x3C6; (&#xB0;):"
 
 #: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:3
 msgid "&#x3C8; (&#xB0;):"
-msgstr ""
+msgstr "&#x3C8; (&#xB0;):"
 
 #: ../ui/crystal/prefs.ui.h:4
-#, fuzzy
 msgid "1200"
-msgstr "_200%"
+msgstr "1200"
 
 #: ../ui/crystal/prefs.ui.h:5
 msgid "1440"
-msgstr ""
+msgstr "1440"
 
 #: ../ui/crystal/prefs.ui.h:6
-#, fuzzy
 msgid "2400"
-msgstr "_400%"
+msgstr "2400"
 
 #: ../ui/crystal/prefs.ui.h:7
 msgid "2880"
-msgstr ""
+msgstr "2880"
 
 #: ../ui/crystal/prefs.ui.h:8
-#, fuzzy
 msgid "300"
-msgstr "_300%"
+msgstr "300"
 
 #: ../ui/crystal/prefs.ui.h:9
 msgid "360"
-msgstr ""
+msgstr "360"
 
 #: ../ui/crystal/prefs.ui.h:10
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: ../ui/crystal/prefs.ui.h:11
 msgid "720"
-msgstr ""
+msgstr "720"
 
 #: ../ui/crystal/prefs.ui.h:12
 msgid ""
@@ -4863,11 +4856,11 @@ msgstr "Minimum"
 
 #: ../ui/libgcu/gcuperiodic.ui.h:1
 msgid "Actinides"
-msgstr "Actiniden"
+msgstr "Actinoide"
 
 #: ../ui/libgcu/gcuperiodic.ui.h:2
 msgid "Lanthanides"
-msgstr "Lanthaniden"
+msgstr "Lanthanoide"
 
 #: ../ui/libgcu/image-size.ui.h:1
 msgid "Height:"
@@ -4878,9 +4871,8 @@ msgid "Width:"
 msgstr "Breite:"
 
 #: ../ui/libgcu/image-resolution.ui.h:1
-#, fuzzy
 msgid "Image _resolution:"
-msgstr "Bildauflösung:"
+msgstr "Bild_auflösung:"
 
 #: ../ui/libgcu/image-resolution.ui.h:2
 msgid "Tr_ansparent background"
@@ -5037,11 +5029,11 @@ msgstr "_Rolle:"
 
 #: ../ui/paint/arrow-object.ui.h:3
 msgid "gtk-close"
-msgstr ""
+msgstr "gtk-close"
 
 #: ../ui/paint/arrow-object.ui.h:4 ../ui/paint/newfiledlg.ui.h:5
 msgid "gtk-help"
-msgstr ""
+msgstr "gtk-help"
 
 #: ../ui/paint/docprop.ui.h:3
 msgid "<b>Theme</b>"
@@ -5061,11 +5053,11 @@ msgstr "Neue Datei mit Thema"
 
 #: ../ui/paint/newfiledlg.ui.h:3
 msgid "gtk-apply"
-msgstr ""
+msgstr "gtk-apply"
 
 #: ../ui/paint/newfiledlg.ui.h:4
 msgid "gtk-cancel"
-msgstr ""
+msgstr "gtk-cancel"
 
 #: ../ui/paint/preferences.ui.h:1
 msgid "<b>Arrow heads</b>"
@@ -5174,8 +5166,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Distance in pixels of arrowhead trailing points from outside edge of shaft."
-msgstr ""
-"Abstand in Pixeln der Pfeilkopf-Wendepunkte vom äußeren Ende des Pfeils."
+msgstr "E der Pfeilkopf-Wendepunkte vom äußeren Ende des Pfeils."
 
 #: ../ui/paint/preferences.ui.h:24
 msgid ""
