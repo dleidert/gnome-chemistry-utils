@@ -14,8 +14,8 @@
   <object class="GtkGrid" id="size-grid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="row_spacing">12</property>
-    <property name="column_spacing">6</property>
+    <property name="row_spacing">6</property>
+    <property name="column_spacing">12</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkLabel" id="width-lbl">

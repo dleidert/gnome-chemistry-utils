@@ -2190,7 +2190,10 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	m_View->DestroyExtraWidget ();
 	// now add the widgets appropriate for an NMR spectrum
 	GtkWidget *grid = gtk_grid_new (), *w;
-	gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
+	if (gtk_check_version (3, 2, 0))
+		gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
+	else
+		gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
 	if (go_finite (freq)) {
 		w = gtk_label_new (_("X unit:"));
 		gtk_container_add (GTK_CONTAINER (grid), w);
@@ -2287,7 +2290,10 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 		}
 		// add some widgets to the option box
 		GtkWidget *grid = gtk_grid_new (), *w;
-		gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
+		if (gtk_check_version (3, 2, 0))
+			gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
+		else
+			gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
 		if (go_finite (freq)) {
 			w = gtk_label_new (_("X unit:"));
 			gtk_container_add (GTK_CONTAINER (grid), w);
@@ -2320,7 +2326,10 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 		}
 		if (R >= 0 && I >= 0) {
 			GtkWidget *grid = gtk_grid_new ();
-			gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
+			if (gtk_check_version (3, 2, 0))
+				gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
+			else
+				gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
 			GtkWidget *w = gtk_button_new_with_label (_("Transform to spectrum"));
 			g_signal_connect (w, "clicked", G_CALLBACK (on_transform_fid), this);
 			if (!go_finite (offset))
@@ -2346,7 +2355,10 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 				unit = GCU_SPECTRUM_UNIT_NANOMETERS;
 			// add some widgets to the option box
 			GtkWidget *grid = gtk_grid_new (), *w;
-			gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
+			if (gtk_check_version (3, 2, 0))
+				gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
+			else
+				gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
 			w = gtk_label_new (_("X unit:"));
 			gtk_container_add (GTK_CONTAINER (grid), w);
 			w = gtk_combo_box_text_new ();

@@ -57,7 +57,10 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 		gtk_file_chooser_set_select_multiple (chooser, true);
 	if (mime_types.size () > 1) {
 		GtkWidget *grid = gtk_grid_new ();
-		gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
+		if (gtk_check_version (3, 2, 0))
+			gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
+		else
+			gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
 		GtkWidget *label = gtk_label_new_with_mnemonic (_("File _type:"));
 		format_combo = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
 		gtk_combo_box_text_append_text (format_combo, _("Automatic"));

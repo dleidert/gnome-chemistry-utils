@@ -9,6 +9,7 @@
 * 3d viewer:
 	* allow selection of atoms and or bonds, and display of lengths and angles (0.14?).
 	* add a preferences dialog.
+	* accept several molecules from the same file.
 
 * Mozilla plugin:
 	* implement printing (?).
@@ -18,6 +19,7 @@
 * Gnome Crystal:
 	* enhance cif and cml support (add more fields in document properties) (?).
 	* really add bond support, not through lines) (?).
+	* accept several crystal description from the same file.
 
 * GChemPaint:
 	* enhance copy-and-paste support for OpenOffice.org (?).

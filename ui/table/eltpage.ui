@@ -80,8 +80,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">12</property>
-                <property name="row_spacing">12</property>
-                <property name="column_spacing">6</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">12</property>
                 <child>
                   <object class="GtkLabel" id="symbol">
                     <property name="visible">True</property>
@@ -102,8 +102,8 @@
                   <object class="GtkGrid" id="main-props-grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="row_spacing">12</property>
-                    <property name="column_spacing">6</property>
+                    <property name="row_spacing">6</property>
+                    <property name="column_spacing">12</property>
                     <child>
                       <object class="GtkLabel" id="z-lbl">
                         <property name="visible">True</property>
@@ -245,8 +245,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">12</property>
-                <property name="row_spacing">12</property>
-                <property name="column_spacing">6</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">12</property>
                 <child>
                   <object class="GtkLabel" id="pauling-lbl">
                     <property name="visible">True</property>
@@ -310,8 +310,8 @@
                   <object class="GtkGrid" id="ei-grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="row_spacing">12</property>
-                    <property name="column_spacing">6</property>
+                    <property name="row_spacing">6</property>
+                    <property name="column_spacing">12</property>
                     <child>
                       <object class="GtkLabel" id="ei-lbl">
                         <property name="visible">True</property>
@@ -382,8 +382,8 @@
                   <object class="GtkGrid" id="ae-grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="row_spacing">12</property>
-                    <property name="column_spacing">6</property>
+                    <property name="row_spacing">6</property>
+                    <property name="column_spacing">12</property>
                     <child>
                       <object class="GtkLabel" id="ae-lbl">
                         <property name="visible">True</property>
@@ -480,8 +480,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">12</property>
-                <property name="row_spacing">12</property>
-                <property name="column_spacing">6</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">12</property>
                 <child>
                   <object class="GtkLabel" id="covalent-lbl">
                     <property name="visible">True</property>
@@ -676,8 +676,8 @@
                 <property name="can_focus">False</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
-                <property name="row_spacing">12</property>
-                <property name="column_spacing">6</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">12</property>
                 <property name="border_width">12</property>
                 <child>
                   <object class="GtkLabel" id="melting-lbl">

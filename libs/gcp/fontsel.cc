@@ -515,7 +515,10 @@ gcp_font_sel_init (GcpFontSel *fs)
 	fs->Families = map<string, PangoFontFamily*>();
 	fs->Faces = map<string, PangoFontFace*>();
 	GtkGrid *grid = GTK_GRID (w);
-	gtk_grid_set_row_spacing (grid, 12);
+	if (gtk_check_version (3, 2, 0))
+		gtk_grid_set_row_spacing (grid, 6);
+	else
+		gtk_grid_set_column_spacing (grid, 6);
 	gtk_container_add (GTK_CONTAINER (fs), GTK_WIDGET (w));
 	w = gtk_label_new ("");
 	fs->Label = GTK_LABEL (w);

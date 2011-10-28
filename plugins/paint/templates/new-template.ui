@@ -77,8 +77,8 @@
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="border_width">12</property>
-            <property name="row_spacing">12</property>
-            <property name="column_spacing">6</property>
+            <property name="row_spacing">6</property>
+            <property name="column_spacing">12</property>
             <child>
               <object class="GtkScrolledWindow" id="scrolledcanvas">
                 <property name="height_request">220</property>

@@ -101,8 +101,13 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 	              "margin-right", 6,
 	              NULL);
 	GtkGrid *grid = GTK_GRID (m_OptionBox);
-	gtk_grid_set_column_spacing (grid, 6);
-	gtk_grid_set_row_spacing (grid, 12);
+	if (gtk_check_version (3, 2, 0)) {
+		gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
+		gtk_grid_set_row_spacing (grid, 6);
+	} else {
+		gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
+		gtk_grid_set_row_spacing (grid, 6);
+	}
 	GtkWidget *w = gtk_label_new (_("Minimum X value:"));
 	gtk_grid_attach (grid, w, 0, 0, 1, 1);
 	xminbtn = GTK_SPIN_BUTTON (gtk_spin_button_new_with_range (0., 1., 0.1));

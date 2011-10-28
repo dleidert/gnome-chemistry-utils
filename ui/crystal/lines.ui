@@ -58,8 +58,8 @@
           <object class="GtkGrid" id="lines-grid">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="row_spacing">12</property>
-            <property name="column_spacing">6</property>
+            <property name="row_spacing">6</property>
+            <property name="column_spacing">12</property>
             <child>
               <object class="GtkCheckButton" id="edges">
                 <property name="label" translatable="yes">Cell edges</property>
@@ -124,8 +124,8 @@
                   <object class="GtkGrid" id="other-grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="row_spacing">12</property>
-                    <property name="column_spacing">6</property>
+                    <property name="row_spacing">6</property>
+                    <property name="column_spacing">12</property>
                     <child>
                       <object class="GtkButton" id="add">
                         <property name="label" translatable="yes">_Add</property>

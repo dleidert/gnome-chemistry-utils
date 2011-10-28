@@ -11,7 +11,7 @@
       <object class="GtkGrid" id="calc-grid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="column_spacing">6</property>
+        <property name="row_spacing">6</property>
         <child>
           <object class="GtkEntry" id="entry">
             <property name="visible">True</property>
@@ -134,8 +134,8 @@
               <object class="GtkGrid" id="pattern">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-	        <property name="column_spacing">6</property>
-	        <property name="row_spacing">12</property>
+	        <property name="column_spacing">12</property>
+	        <property name="row_spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="monomass-lbl">
                     <property name="visible">True</property>

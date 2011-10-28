@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-10-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* acinclude.m4: removed DOLT support.
+	* configure.ac: ditto.
+	* *.cc: made GtkGrid spacing compatible with gtk+-3.2.
+	* *.ui: ditto.
+
 2011-10-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/glview.cc: fixed after a Goffice API break.
 	* libs/gcu/molecule.cc: implement GetRawFormula().

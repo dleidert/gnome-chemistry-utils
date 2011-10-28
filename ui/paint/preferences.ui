@@ -176,8 +176,8 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="border_width">12</property>
-            <property name="row_spacing">12</property>
-            <property name="column_spacing">6</property>
+            <property name="row_spacing">6</property>
+            <property name="column_spacing">12</property>
             <child>
               <object class="GtkLabel" id="compression-lbl">
                 <property name="visible">True</property>
@@ -350,8 +350,8 @@
                       <object class="GtkGrid" id="general-grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="row_spacing">12</property>
-                        <property name="column_spacing">6</property>
+                        <property name="row_spacing">6</property>
+                        <property name="column_spacing">12</property>
                         <child>
                           <object class="GtkLabel" id="name-lbl">
                             <property name="visible">True</property>
@@ -576,8 +576,8 @@
                       <object class="GtkGrid" id="bonds-grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="row_spacing">12</property>
-                        <property name="column_spacing">6</property>
+                        <property name="row_spacing">6</property>
+                        <property name="column_spacing">12</property>
                         <child>
                           <object class="GtkLabel" id="normal-bond-lbl">
                             <property name="visible">True</property>
@@ -891,8 +891,8 @@
                       <object class="GtkGrid" id="arrows-grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="row_spacing">12</property>
-                        <property name="column_spacing">6</property>
+                        <property name="row_spacing">6</property>
+                        <property name="column_spacing">12</property>
                         <child>
                           <object class="GtkLabel" id="arrow-length-lbl">
                             <property name="visible">True</property>
@@ -1199,7 +1199,7 @@
                       <object class="GtkGrid" id="atoms-extra-grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="row_spacing">12</property>
+                        <property name="row_spacing">6</property>
                         <child>
                           <object class="GtkLabel" id="charge-size-lbl">
                             <property name="visible">True</property>

@@ -1,8 +1,17 @@
 Version 0.13.5
+	3d viewer:
+		* Import from InChI or SMILES.
+		* Export to GChemPaint and GChemCalc.
+		* Generates InChI, InChiKey and SMILES.
+		* Add access to databases.
+	GChemPaint:
+		* Brackets inside a molecule accept a stoichiometry coefficient.
 	GCrystal:
 		* Use multiple selection in atoms and lines dialogs.
 	GSpectrum:
-		* Allow markup in combo boxes and axes titles. 
+		* Allow markup in combo boxes and axes titles.
+	Other:
+		* Fixed one more OpenGL related crasher.
 
 Version 0.13.4
 	All:

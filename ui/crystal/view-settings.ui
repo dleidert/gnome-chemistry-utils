@@ -65,8 +65,8 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="border_width">12</property>
-            <property name="row_spacing">12</property>
-            <property name="column_spacing">6</property>
+            <property name="row_spacing">6</property>
+            <property name="column_spacing">12</property>
             <child>
               <object class="GtkSeparator" id="view-sep">
                 <property name="visible">True</property>
@@ -147,8 +147,8 @@
               <object class="GtkGrid" id="fov-grid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="row_spacing">12</property>
-                <property name="column_spacing">6</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">12</property>
                 <child>
                   <object class="GtkLabel" id="fov-lbl">
                     <property name="visible">True</property>
@@ -193,8 +193,8 @@
               <object class="GtkGrid" id="bg-grid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="row_spacing">12</property>
-                <property name="column_spacing">6</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">12</property>
                 <child>
                   <object class="GtkColorButton" id="color">
                     <property name="visible">True</property>
