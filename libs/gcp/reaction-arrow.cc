@@ -430,4 +430,15 @@ std::string ReactionArrow::Name ()
 	return _("Reaction arrow");
 }
 
+char ReactionArrow::GetSymbolicPosition (double x, double y)
+{
+	x -= m_x;
+	y -= m_y;
+	double s = x * m_width + y * m_height;
+	if (s < 0.)
+		return 't';
+	double l = m_width * m_width + m_height * m_height;
+	return (s > l)? 'h': 'o';
+}
+
 }	//	namespace gcp

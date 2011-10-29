@@ -172,6 +172,8 @@ This method should be called when an arrow has been fully loaded.
 */
 	std::string Name ();
 
+	char GetSymbolicPosition (double x, double y);
+
 private:
 	unsigned m_Type;
 	bool m_TypeChanged;

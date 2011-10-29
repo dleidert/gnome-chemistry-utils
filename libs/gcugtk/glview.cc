@@ -151,30 +151,15 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 	m_bInit = false;
 /* Create new OpenGL widget. */
 	static bool inited = false;
-//	if (glconfig == NULL)
 	if (!inited) {
 		inited = true;
 		/* Check if OpenGL is supported. */
 		if (!glXQueryExtension (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), NULL, NULL))
 			throw  std::runtime_error ("*** OpenGL is not supported.\n");
 
-		/* Configure OpenGL-capable visual. */
-
-		/* Try double-buffered visual */
-//		glconfig = gdk_gl_config_new_by_mode (GdkGLConfigMode (GDK_GL_MODE_RGB |
-//											GDK_GL_MODE_DEPTH |
-//											GDK_GL_MODE_DOUBLE));
-//		if (glconfig == NULL)
-//			throw  std::runtime_error ("*** Cannot find the double-buffered visual.\n");
 	}
-	/* create new OpenGL widget */
+	/* create new widget */
 	m_Widget = GTK_WIDGET (gtk_drawing_area_new ());
-	/* Set OpenGL-capability to the widget. */
-//	gtk_widget_set_gl_capability(m_Widget,
-//					glconfig,
-//					NULL,
-//					TRUE,
-//					GDK_GL_RGBA_TYPE);
 
 	gtk_widget_set_events (GTK_WIDGET (m_Widget),
 		GDK_EXPOSURE_MASK |
@@ -202,6 +187,7 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 
 	gtk_widget_show (GTK_WIDGET (m_Widget));
 	SetHasBackground (true);
+	m_Window = NULL;
 }
 
 GLView::~GLView ()
@@ -320,12 +306,13 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) co
 		GLX_DEPTH_SIZE, 1,
 		0
 	};
-	XVisualInfo *xvi = glXChooseVisual (GDK_WINDOW_XDISPLAY (m_Window), gdk_screen_get_number (gdk_window_get_screen (m_Window)), const_cast < int * > (attr_list));
-	Pixmap pixmap = XCreatePixmap (GDK_WINDOW_XDISPLAY (m_Window), GDK_WINDOW_XID (m_Window), width, height, xvi->depth);
-	GLXContext ctxt = glXCreateContext (GDK_WINDOW_XDISPLAY (m_Window), xvi, NULL, false);
-	GLXPixmap glxp = glXCreateGLXPixmap (GDK_WINDOW_XDISPLAY (m_Window), xvi, pixmap);
+	GdkWindow *window = (m_Window)? m_Window: gdk_get_default_root_window ();
+	XVisualInfo *xvi = glXChooseVisual (GDK_WINDOW_XDISPLAY (window), gdk_screen_get_number (gdk_window_get_screen (window)), const_cast < int * > (attr_list));
+	Pixmap pixmap = XCreatePixmap (GDK_WINDOW_XDISPLAY (window), GDK_WINDOW_XID (window), width, height, xvi->depth);
+	GLXContext ctxt = glXCreateContext (GDK_WINDOW_XDISPLAY (window), xvi, NULL, false);
+	GLXPixmap glxp = glXCreateGLXPixmap (GDK_WINDOW_XDISPLAY (window), xvi, pixmap);
 	// draw
-	if (glXMakeCurrent (GDK_WINDOW_XDISPLAY (m_Window), glxp, ctxt)) {
+	if (glXMakeCurrent (GDK_WINDOW_XDISPLAY (window), glxp, ctxt)) {
 		double aspect = (GLfloat) width / height;
 		double x = m_Doc->GetMaxDist (), w, h;
 		if (x == 0)
@@ -345,6 +332,10 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) co
 		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
 		glMaterialfv (GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
 		glMaterialfv (GL_FRONT_AND_BACK, GL_SPECULAR, spec);
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glShadeModel (GL_SMOOTH);
+		glPolygonMode (GL_FRONT, GL_FILL);
+		glEnable(GL_BLEND);
 		glViewport (0, 0, width, height);
 	    glMatrixMode (GL_PROJECTION);
 	    glLoadIdentity ();
@@ -375,7 +366,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) co
 		glFlush ();
 	}
 	// get the pixels and copy to a GdkPixbuf
-	XImage *image = XGetImage (GDK_WINDOW_XDISPLAY (m_Window), pixmap, 0, 0, width, height, AllPlanes, ZPixmap);
+	XImage *image = XGetImage (GDK_WINDOW_XDISPLAY (window), pixmap, 0, 0, width, height, AllPlanes, ZPixmap);
 	unsigned i = 4 * width * height, j;
 	guchar *data = reinterpret_cast < guchar * > (g_malloc (i)), *dst = data;
 	guchar *src_line = reinterpret_cast < guchar * > (image->data), *src;
@@ -393,14 +384,14 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) co
 	}
 	pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, true, 8, width, height, 4 * width, reinterpret_cast < GdkPixbufDestroyNotify > (g_free), NULL);
 	// reset the current context
-	glXMakeCurrent (GDK_WINDOW_XDISPLAY (m_Window), None, NULL);
+	glXMakeCurrent (GDK_WINDOW_XDISPLAY (window), None, NULL);
 	// now free things
 	XDestroyImage (image);
 	// now free things
-	glXDestroyGLXPixmap (GDK_WINDOW_XDISPLAY (m_Window), glxp);
-	glXDestroyContext (GDK_WINDOW_XDISPLAY (m_Window), ctxt);
+	glXDestroyGLXPixmap (GDK_WINDOW_XDISPLAY (window), glxp);
+	glXDestroyContext (GDK_WINDOW_XDISPLAY (window), ctxt);
 	XFree (xvi);
-	XFreePixmap (GDK_WINDOW_XDISPLAY (m_Window), pixmap);
+	XFreePixmap (GDK_WINDOW_XDISPLAY (window), pixmap);
 	return pixbuf;
 }
 

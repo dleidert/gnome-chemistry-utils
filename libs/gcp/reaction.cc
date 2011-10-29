@@ -76,14 +76,16 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	Theme *pTheme = pDoc->GetTheme ();
 	WidgetData  *pData= reinterpret_cast<WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
 	map<Object*, gccv::Rect> Objects;
-	set < Object * >::iterator i, end = Children.end ();
+	list < ReactionArrow * >::iterator a, aend;
+	set < Object * >::iterator i, iend = Children.end ();
 	list < ReactionArrow * > Arrows;
 	set < Object * > Others;
 	map < double, Object * > Left, Right;
 	double x0, y0, x1, y1, x, y, xpos, ypos, l;
-	bool horiz = true;;
+	bool horiz = true;
+	double zf = pTheme->GetZoomFactor ();
 	gccv::Rect *rect, srect;
-	for (i = Children.begin (); i != end; i++) {
+	for (i = Children.begin (); i != iend; i++) {
 		// It might be better to use the objects coordinates there
 		pData->GetObjectBounds (*i, &Objects[*i]);
 		// Search arrows
@@ -93,6 +95,24 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 			Others.insert (*i);
 		else return false;
 	}
+	/* sort objects according their position relative to each arrow, using string, with
+	 * one char per arrow, 't' means on tail side, 'h', header side, and 'o' other.
+	 * If we support arrows with several tails or heads, just add a figure
+	 * (there should not be more than 10 heads or tails! */ 
+	map < string, set <Object * > > steps;
+	iend = Others.end ();
+	aend = Arrows.end ();
+	for (i = Others.begin (); i != iend; i++) {
+		string s;
+		gccv::Rect rect = Objects[*i];
+		double x = (rect.x0 + rect.x1) / 2. / zf, y = (rect.y0 + rect.y1) / 2. / zf;
+		for (a = Arrows.begin (); a != aend; a++)
+			s += (*a)->GetSymbolicPosition (x, y);
+		steps[s].insert (*i);
+	}
+	// now we must find the relations between the various sets and the arrows
+	// FIXME
+
 	if (Arrows.size () == 1) {
 	// FIXME: only simple reactions schemes with one arrow are supported in this version
 		ReactionArrow *arrow = Arrows.front ();
@@ -104,15 +124,15 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 		// x1, y1 will now be the coordinates of a normalized vector:
 		x1 -= x0;
 		y1 -= y0;
-		x0 *= pTheme->GetZoomFactor ();
-		y0 *= pTheme->GetZoomFactor ();
+		x0 *= zf;
+		y0 *= zf;
 		l = sqrt (x1 * x1 + y1 * y1);
 		x1 /= l;
 		y1 /= l;
 		// Now, group objects depending of their position relative to the arrow
 		// FIXME: objects above or below an arrow are not supported.
-		end = Others.end ();
-		for (i = Others.begin (); i != end; i++) {
+		iend = Others.end ();
+		for (i = Others.begin (); i != iend; i++) {
 			rect = &Objects[*i];
 			xpos = x = (rect->x0 + rect->x1) / 2;
 			y = (rect->y0 + rect->y1) / 2;
@@ -170,7 +190,7 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 				y0 += l;
 			}
 			arrow->GetCoords (&srect.x0, &srect.y0, &srect.x1, &srect.y1);
-			arrow->Move (x0 / pTheme->GetZoomFactor () - srect.x0, y0 / pTheme->GetZoomFactor () - srect.y0);
+			arrow->Move (x0 / zf - srect.x0, y0 / zf - srect.y0);
 		}
 		arrow->GetCoords (&srect.x0, &srect.y0, &srect.x1, &srect.y1);
 		xpos = srect.x1;
@@ -181,7 +201,7 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 			arrow->SetEndStep (step);
 			pData->GetObjectBounds (step, &srect);
 			x0 = (srect.x0 + srect.x1) / 2;
-			y0 = step->GetYAlign () * pTheme->GetZoomFactor ();
+			y0 = step->GetYAlign () * zf;
 			if (l == 0.) {
 				if ((fabs (x1) > 1e-5) && (fabs (y1) > 1e-5))
 					horiz = (fabs (x1) > fabs (y1));
@@ -205,7 +225,7 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 				x0 -= l * x1 / y1;
 				y0 -= l;
 			}
-			step->Move (xpos - x0 / pTheme->GetZoomFactor (), ypos - y0 / pTheme->GetZoomFactor ());
+			step->Move (xpos - x0 /zf, ypos - y0 / zf);
 		}
 	} else
 		throw  invalid_argument (_("Error could not build a reaction\nfrom the selected objects."));

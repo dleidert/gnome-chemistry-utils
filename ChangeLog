@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-10-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils.cc: make it build with most recent goffice.
+	* libs/gcp/reaction-arrow.cc: start work on multi-step reaction schemes.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction.cc: ditto.
+	* libs/gcugtk/glview.cc: make BuildPixbuf work even if the widget is not
+	realized.
+
 2011-10-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* acinclude.m4: removed DOLT support.
 	* configure.ac: ditto.
