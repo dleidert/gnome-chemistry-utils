@@ -32,7 +32,10 @@ class UIManager
 public:
 	UIManager ();
 	virtual ~UIManager ();
+
+	virtual void ActivateActionWidget (char const *path, bool activate);
 	// TODO: add as many virtual functions as needed
+
 };
 
 }	//	namespace gcu

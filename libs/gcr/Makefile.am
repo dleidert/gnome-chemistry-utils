@@ -10,13 +10,17 @@ noinst_HEADERS = \
 	celldlg.h \
 	cleavage.h \
 	cleavagesdlg.h \
+	docprop.h \
 	document.h \
 	gcrcrystalviewer.h \
+	globals.h \
 	grid.h \
 	line.h \
 	linesdlg.h \
+	prefs.h \
 	sizedlg.h \
 	view.h \
+	view-settings.h \
 	window.h
 
 libgcrystal_@GCU_API_VER@_la_SOURCES =	\
@@ -27,13 +31,16 @@ libgcrystal_@GCU_API_VER@_la_SOURCES =	\
 	celldlg.cc \
 	cleavage.cc \
 	cleavagesdlg.cc \
+	docprop.cc \
 	document.cc \
 	gcrcrystalviewer.cc \
 	grid.cc \
 	line.cc \
 	linesdlg.cc \
+	prefs.cc \
 	sizedlg.cc \
 	view.cc \
+	view-settings.cc \
 	window.cc
 
 libgcrystal_@GCU_API_VER@_la_LDFLAGS = \
@@ -47,4 +54,5 @@ INCLUDES = \
 		-I$(top_builddir)/libs $(goffice_CFLAGS) \
 		$(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/crystal\"
+        -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/crystal\" \
+        -DPIXMAPSDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/pixmaps\"

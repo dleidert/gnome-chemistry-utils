@@ -25,12 +25,13 @@
 #include "gogcuapp.h"
 #include "gogcrystalapp.h"
 #include "gogcrystalwin.h"
+#include <gcr/application.h>
 #include <gcr/document.h>
 #include <gcu/application.h>
 #include <glib/gi18n-lib.h>
 
 GOGCrystalWindow::GOGCrystalWindow (GOGCrystalApplication *App, GOGChemUtilsComponent *gogcu):
-	gcr::Window (dynamic_cast <gcu::Application *> (App))
+	gcr::Window (dynamic_cast <gcu::Application *> (App), NULL)
 {
 	m_gogcu = gogcu;
 	gogcu->window = this;
@@ -44,7 +45,7 @@ GOGCrystalWindow::GOGCrystalWindow (GOGCrystalApplication *App, GOGChemUtilsComp
 			xmlFreeDoc (xml);
 			xml = NULL;
 		}
-//		SetTitle (m_Document->GetLabel ());
+		SetTitle (m_Document->GetLabel ());
 		gtk_window_present (GetWindow ());
 	}
 	catch (int i) {

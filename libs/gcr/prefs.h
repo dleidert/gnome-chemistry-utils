@@ -2,9 +2,9 @@
 
 /*
  * Gnome Crystal
- * globals.h
+ * prefs.h
  *
- * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -21,19 +21,32 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
  * USA
  */
-#include <glib.h>
-#include <goffice/goffice.h>
 
-bool IsEmbedded();
+#ifndef GCR_PREFS_H
+#define GCR_PREFS_H
 
-class gcDocument;
-class gcView;
-gcDocument* GetNewDocument();
-void RemoveDocument(gcDocument* pDoc);
-bool RequestApp(gcView* pView);
+#include <gcugtk/dialog.h>
 
-extern guint PrintWidth, PrintHeight, PrintResolution;
-extern guint FoV;
-extern gdouble Phi, Theta, Psi;
-extern gdouble Red, Green, Blue;
-extern GOConfNode *node;
+namespace gcr {
+
+class Application;
+
+class PrefsDlg: public gcugtk::Dialog
+{
+friend class PrefsDlgPrivate;
+public:
+	PrefsDlg (Application *App);
+	virtual ~PrefsDlg ();
+
+private:
+	GtkComboBox *PrintResMenu;
+	GtkSpinButton *PrintResBtn;
+	GtkColorButton *BackgroundBtn;
+	GtkSpinButton *FoVBtn;
+	GtkEntry *PsiEnt, *ThetaEnt, *PhiEnt;
+	unsigned long PsiSignal, ThetaSignal, PhiSignal, PrintResChanged;
+};
+
+}	//	namespace gcr
+
+#endif //GCR_PREFS_H

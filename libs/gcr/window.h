@@ -32,15 +32,26 @@ class Application;
 
 namespace gcr {
 
+class Application;
 class Document;
+class View;
 
 class Window: public gcugtk::Window
 {
+friend class WindowPrivate;
 public:
-	Window (gcu::Application *app);
+	Window (gcu::Application *app, Document *doc, char const *extra_ui = NULL);
 	virtual ~Window ();
 
 	virtual void Destroy ();
+	void ClearStatus ();
+	void SetStatusText (const char* text);
+
+private:
+	GtkWidget* m_Bar;	//GtkStatusBar
+	unsigned m_statusId;
+	unsigned m_MessageId; //currently displayed message in the status bar
+
 /*!\var m_Document
 The gcr::Document displayed in this window.
 */
@@ -54,7 +65,8 @@ The gcu::Application owning this window.
 /*!\fn GetApplication()
 @return the gcu::Application owning this window.
 */
-GCU_PROT_PROP (gcu::Application*, Application)
+GCU_PROT_PROP (gcr::Application*, Application)
+GCU_RO_PROP (View *, View)
 };
 
 }

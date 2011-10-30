@@ -38,36 +38,10 @@ public:
 	~gcApplication();
 
 //Callbacks methods
-	gcDocument *OnFileNew();
-	void OnFileOpen();
-	void OnFileSave();
-	void OnFileSaveAs();
-	bool OnFileClose();
-	void OnSaveAsImage ();
-	bool IsEmpty() {return m_Views.empty();}
-	gcDocument* GetDoc (const char* filename);
-	void SetOpening() {m_bFileOpening = true;}
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
-	void SetActiveDocument (gcDocument *doc) {m_pActiveDoc = doc;}
-	void AddDocument (gcDocument *pDoc) {m_Docs.push_front (pDoc);}
-	void RemoveDocument (gcDocument *pDoc);
-	bool OnQuit ();
-	char const *GetFirstSupportedMimeType (std::list<std::string>::iterator &it);
-	char const *GetNextSupportedMimeType (std::list<std::string>::iterator &it);
+	gcr::Document *OnFileNew();
+	gcr::Window *CreateNewWindow (gcr::Document *doc);
 
 private:
-	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
-
-private:
-	std::list<gcView*>m_Views;
-	std::list<gcDocument*> m_Docs;
-	gcDocument* m_pActiveDoc;
-	GtkUIManager* m_UIManager;
-	unsigned m_statusId;
-	bool m_bFileOpening;
-	static bool m_bInit;
-	std::list<std::string> m_SupportedMimeTypes;
-	std::list<std::string> m_WriteableMimeTypes;
 };
 
 #endif //GCRYSTAL_APPLICATION_H

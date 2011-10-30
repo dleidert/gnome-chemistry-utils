@@ -30,7 +30,6 @@
 #include "application.h"
 #include "document.h"
 #include "view.h"
-#include "globals.h"
 #include <glib/gi18n.h>
 #include <cstdio>
 #include <cstring>
@@ -44,23 +43,6 @@ gcDocument* pDoc;
 gcView* pView;
 GtkWidget *mainwindow, *vbox1 ;
 GOConfNode *node;
-guint NotificationId;
-
-// defines used for GCU_GCONF_GET
-#define ROOTDIR	"/apps/gchemutils/crystal/"
-#define m_ConfNode node
-
-static void on_config_changed (GOConfNode *node, gchar const *name, G_GNUC_UNUSED gpointer user_data)
-{
-	GCU_UPDATE_KEY ("printing/resolution", int, PrintResolution, {})
-	GCU_UPDATE_KEY ("view/fov", int, FoV, {})
-	GCU_UPDATE_KEY ("view/psi", float, Psi, {})
-	GCU_UPDATE_KEY ("view/theta", float, Theta, {})
-	GCU_UPDATE_KEY ("view/phi", float, Phi, {})
-	GCU_UPDATE_KEY ("view/red", float, Red, {})
-	GCU_UPDATE_KEY ("view/green", float, Green, {})
-	GCU_UPDATE_KEY ("view/blue", float, Blue, {})
-}
 
 static void cb_print_version (G_GNUC_UNUSED const gchar *option_name, G_GNUC_UNUSED const gchar *value, G_GNUC_UNUSED gpointer data, G_GNUC_UNUSED GError **error)
 {
@@ -101,19 +83,8 @@ int main(int argc, char *argv[])
 		argv ++;
 	}
 
-//Configuration loading
-	node = go_conf_get_node (Application::GetConfDir (), "crystal");
-	GCU_GCONF_GET ("printing/resolution", int, PrintResolution, 300)
-	FoV = go_conf_load_int (node, "views/fov", 0, 45, 10);
-	Psi = go_conf_load_double (node, "views/psi", -180., 180., 70.);
-	Theta = go_conf_load_double (node, "views/theta", 0., 180., 10.);
-	Phi = go_conf_load_double (node, "views/phi", -180., 180., -90.);
-	Red = go_conf_load_double (node, "views/red", 0., 1., 1.);
-	Green = go_conf_load_double (node, "views/green", 0., 1., 1.);
-	Blue = go_conf_load_double (node, "views/blue", 0., 1., 1.);
-	NotificationId = go_conf_add_monitor (node, NULL, (GOConfMonitorFunc) on_config_changed, NULL);
-	gcApplication* gcApp = new gcApplication ();
-	gcDocument *pDoc = gcApp->OnFileNew();
+	gcr::Application* gcApp = new gcApplication ();
+	gcr::Document *pDoc = gcApp->OnFileNew();
 	gcApp->SetOpening();
 
 	char *path, *uri;
@@ -146,9 +117,6 @@ int main(int argc, char *argv[])
 		argv++;
 	}
 	gtk_main ();
-
-	go_conf_remove_monitor (NotificationId);
-	go_conf_free_node (node);
 
 	delete gcApp;
 

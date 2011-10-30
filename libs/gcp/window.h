@@ -170,19 +170,6 @@ Sets the window title.
 */
 	void SetTitle (char const *title);
 /*!
-@param path the path to activate.
-@param activate whether to activate or deactivate.
-
-Activates or deactivates the menu item corresponding to \a path according
-to the value of \a activate.
-
-To deactivate the "Paste" menu item, use:
-\code
-ActivateActionWidget ("/MainMenu/EditMenu/Paste", false);
-\endcode
-*/
-	void ActivateActionWidget (char const *path, bool activate);
-/*!
 If the document has been modified since last saving, pops-up a dialog box to
 ask the user if he wants to save the document, to drop the changes or to abort
 closing.
@@ -195,11 +182,6 @@ Method called by the framework when the File/Page setup menu command is fired.
 */
 	void OnPageSetup ();
 
-protected:
-/*!
-The gcugtk::UIManager associated with the window.
-*/
-	gcugtk::UIManager* m_UIManager;
 
 private:
 	GtkWidget* m_Bar;	//GtkStatusBar

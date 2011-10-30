@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "ui-manager.h"
 #include "window.h"
 
 namespace gcu {
@@ -41,6 +42,11 @@ void Window::Destroy ()
 
 void Window::Show ()
 {
+}
+
+void Window::ActivateActionWidget (char const *path, bool activate)
+{
+	m_UIManager->ActivateActionWidget (path, activate);
 }
 
 }

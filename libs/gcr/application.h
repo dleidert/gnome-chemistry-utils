@@ -26,13 +26,49 @@
 #define GCR_APPLICATION_H
 
 #include <gcugtk/application.h>
+#include <goffice/goffice.h>
 
 namespace gcr {
+
+class Document;
+class View;
+class Window;
 
 class Application: public gcugtk::Application {
 public:
 	Application ();
 	virtual ~Application ();
+
+	virtual gcr::Document *OnFileNew () = 0;
+	void OnFileOpen ();
+	void OnFileSave ();
+	void OnFileSaveAs ();
+	bool OnFileClose ();
+	void OnSaveAsImage ();
+	bool OnQuit ();
+	void SetActiveDocument (Document *doc) {m_pActiveDoc = doc;}
+	virtual Window *CreateNewWindow (Document *doc) = 0;
+	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
+	char const *GetFirstSupportedMimeType (std::list<std::string>::iterator &it);
+	char const *GetNextSupportedMimeType (std::list<std::string>::iterator &it);
+	Document* GetDocument (const char* filename);
+	bool IsEmpty() {return m_Views.empty();}
+	void SetOpening() {m_bFileOpening = true;}
+
+private:
+	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
+
+private:
+	Document* m_pActiveDoc;
+	std::list<std::string> m_SupportedMimeTypes;
+	std::list<std::string> m_WriteableMimeTypes;
+	std::list <View*> m_Views;
+	GtkUIManager* m_UIManager;
+	unsigned m_statusId;
+	bool m_bFileOpening;
+	guint m_NotificationId;
+
+GCU_RO_PROP (GOConfNode *, ConfNode)
 };
 
 }	//	namespace gcr

@@ -101,8 +101,10 @@ go_gchemutils_component_edit (GOComponent *component)
 static void
 go_gchemutils_component_mime_type_set (GOComponent *component)
 {
-	if (!strcmp (component->mime_type, "application/x-gcrystal"))
+	if (!strcmp (component->mime_type, "application/x-gcrystal")) {
+		component->resizable = true;
 		component->snapshot_type = GO_SNAPSHOT_PNG;
+	}
 }
 
 static void

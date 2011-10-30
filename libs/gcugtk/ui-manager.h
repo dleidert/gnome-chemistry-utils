@@ -37,6 +37,8 @@ public:
 	UIManager (GtkUIManager *ui);
 	virtual ~UIManager ();
 
+	void ActivateActionWidget (char const *path, bool activate);
+
 GCU_RO_PROP (GtkUIManager *, UIManager)
 };
 

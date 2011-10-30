@@ -1,8 +1,8 @@
 // -*- C++ -*-
 
 /*
- * Gnome Crystal
- * view-settings.h
+ * Gnome Crystal library
+ * globals.h
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,25 +22,27 @@
  * USA
  */
 
-#ifndef GCRYSTAL_VIEW_SETTINGS_H
-#define GCRYSTAL_VIEW_SETTINGS_H
+#ifndef GCR_GLOBALS_H
+#define GCR_GLOBALS_H
 
-#include "view.h"
-#include <gcugtk/dialog.h>
+#include <glib.h>
+#include <goffice/goffice.h>
 
-class gcViewSettingsDlg: public gcugtk::Dialog
-{
-friend class gcViewSettingsDlgPrivate;
-public:
-	gcViewSettingsDlg (gcView* pView);
-	virtual ~gcViewSettingsDlg ();
+bool IsEmbedded();
 
-private:
-	gcView *m_pView;
-	GtkColorButton *Background;
-	GtkSpinButton *FoV;
-	GtkEntry *Psi, *Theta, *Phi;
-	unsigned long PsiSignal, ThetaSignal, PhiSignal;
-};
+namespace gcr {
 
-#endif //GCRYSTAL_VIEW_SETTINGS_H
+class Document;
+class View;
+Document* GetNewDocument();
+void RemoveDocument(Document* pDoc);
+bool RequestApp(View* pView);
+
+extern guint PrintWidth, PrintHeight, PrintResolution;
+extern guint FoV;
+extern gdouble Phi, Theta, Psi;
+extern gdouble Red, Green, Blue;
+
+}	//	namespace gcr
+
+#endif	//	GCR_GLOBALS_H

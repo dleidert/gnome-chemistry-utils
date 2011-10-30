@@ -530,20 +530,21 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	gtk_action_group_add_toggle_actions (action_group, toggle_entries, G_N_ELEMENTS (toggle_entries), this);
 
 	m_UIManager = new gcugtk::UIManager (gtk_ui_manager_new ());
-	g_object_connect (m_UIManager->GetUIManager (),
+	GtkUIManager *manager = static_cast < gcugtk::UIManager * > (m_UIManager)->GetUIManager ();
+	g_object_connect (manager,
 		"signal::connect_proxy",    G_CALLBACK (on_connect_proxy), this,
 		"signal::disconnect_proxy", G_CALLBACK (on_disconnect_proxy), this,
 		NULL);
-	gtk_ui_manager_insert_action_group (m_UIManager->GetUIManager (), action_group, 0);
+	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 	g_object_unref (action_group);
 
 	error = NULL;
-	if (!gtk_ui_manager_add_ui_from_string (m_UIManager->GetUIManager (), ui_description, -1, &error)) {
+	if (!gtk_ui_manager_add_ui_from_string (manager, ui_description, -1, &error)) {
 		std::string what = std::string ("building menus failed: ") + error->message;
 		g_error_free (error);
 		throw std::runtime_error (what);
 	}
-	if (extra_ui && !gtk_ui_manager_add_ui_from_string (m_UIManager->GetUIManager (), extra_ui, -1, &error)) {
+	if (extra_ui && !gtk_ui_manager_add_ui_from_string (manager, extra_ui, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
@@ -551,7 +552,7 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	//  now add entries registered by plugins.
 	App->BuildMenu (m_UIManager);
 
-	accel_group = gtk_ui_manager_get_accel_group (m_UIManager->GetUIManager ());
+	accel_group = gtk_ui_manager_get_accel_group (manager);
 	gtk_window_add_accel_group (window, accel_group);
 
 	switch (App->GetDefaultWindowState ()) {
@@ -563,13 +564,13 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 		break;
 	case gcugtk::FullScreenWindowState:
 		gtk_window_fullscreen (window);
-		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (gtk_ui_manager_get_action (m_UIManager->GetUIManager (), "/MainMenu/ViewMenu/FullScreen")), true);
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (gtk_ui_manager_get_action (manager, "/MainMenu/ViewMenu/FullScreen")), true);
 		break;
 	default:
 		break;
 	}
 
-	GtkWidget *menu = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/MainMenu/FileMenu/Open");
+	GtkWidget *menu = gtk_ui_manager_get_widget (manager, "/MainMenu/FileMenu/Open");
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());
 	gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (w), GTK_RECENT_SORT_MRU);
 	GtkRecentFilter *filter = gtk_recent_filter_new ();
@@ -584,9 +585,9 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	gtk_widget_show_all (item);
 	gtk_menu_shell_insert (GTK_MENU_SHELL (gtk_widget_get_parent (menu)), item, 3);
 
-	bar = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/MainMenu");
+	bar = gtk_ui_manager_get_widget (manager, "/MainMenu");
 	gtk_container_add (GTK_CONTAINER (grid), bar);
-	bar = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/MainToolbar");
+	bar = gtk_ui_manager_get_widget (manager, "/MainToolbar");
 	gtk_container_add (GTK_CONTAINER (grid), bar);
 	m_Document = new Document (App, true, this);
 	if (Theme)
@@ -610,9 +611,9 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	g_signal_connect (G_OBJECT(window), "key_press_event", (GCallback)on_key_press, this);
 	g_signal_connect (G_OBJECT(window), "key_release_event", (GCallback)on_key_release, this);
 
-	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/MainMenu/EditMenu/Copy"), false);
-	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/MainMenu/EditMenu/Cut"), false);
-	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/MainMenu/EditMenu/Erase"), false);
+	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (manager, "/MainMenu/EditMenu/Copy"), false);
+	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (manager, "/MainMenu/EditMenu/Cut"), false);
+	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (manager, "/MainMenu/EditMenu/Erase"), false);
 	gtk_widget_show_all (GTK_WIDGET (window));
 	App->SetActiveDocument (m_Document);
 }
@@ -773,13 +774,6 @@ bool Window::Close ()
 char const *Window::GetDefaultTitle ()
 {
 	return _("GChemPaint");
-}
-
-void Window::ActivateActionWidget (char const *path, bool activate)
-{
-	GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), path);
-	if (w)
-		gtk_widget_set_sensitive (w, activate);
 }
 
 bool Window::VerifySaved ()

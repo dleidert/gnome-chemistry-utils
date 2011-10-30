@@ -398,7 +398,7 @@ Creates a new document using the default theme.
 /*!
 @param Theme a gcp::Theme or NULL.
 
-Creates a new document using the ginev theme or the default theme if
+Creates a new document using the given theme or the default theme if
 \a Theme is NULL. This method must be overloaded by derived classes since
 it is pure virtual.
 */

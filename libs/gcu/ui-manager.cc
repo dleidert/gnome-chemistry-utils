@@ -33,4 +33,8 @@ UIManager::~UIManager ()
 {
 }
 
+void UIManager::ActivateActionWidget (char const *, bool)
+{
+}
+
 }	//	namespace gcu

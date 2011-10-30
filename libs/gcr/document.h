@@ -97,10 +97,12 @@ The destructor of Document
 */
 	virtual ~Document ();
 
+	bool Load (const std::string &filename);
+
 /*!
 @param xml: a pointer to the root xmlNode of the xmlDoc containing the definition of the crystal.
 
-Analyses the contents of the XML document and builds the cryatl structure from the data. Typical usage is:
+Analyses the contents of the XML document and builds the crystal structure from the data. Typical usage is:
 \code
 Document *crystal = new Document();
 xmlDocPtr doc = xmlParseFile (filename);
@@ -112,7 +114,10 @@ crystal->ParseXMLTree (doc->children);
 This method must be called when a new document is loaded or when the definition of the crystal is changed. It recalculates
 everything and updates all the views.
 */
-	virtual void Update ();
+	void Update ();
+
+	void UpdateAllViews ();
+
 /*!
 @return a pointer to the first View of the document. The view will be created if it does not already exist.
 */
@@ -210,6 +215,30 @@ Reinitialize a Document instance. Used when loading a file in an already existin
 	void CheckCleavages ();
 	void CheckLines ();
 	void Define (unsigned nPage = 0);
+	void AddView(View* pView);
+	bool RemoveView(View* pView);
+	void RemoveAllViews ();
+	View *GetActiveView () {return m_pActiveView;}
+	std::list <gcr::View *> *GetViews () {return &m_Views;}
+	void RenameViews ();
+	bool VerifySaved();
+	void SetWidget (GtkWidget* widget) {m_widget = widget;}
+	const gchar* GetFileName () {return m_filename;}
+	void SetActiveView (View *pView) {m_pActiveView = pView;}
+	void SaveAsImage (const std::string &filename, char const *type, std::map<std::string, std::string>& options);
+	void SetFileName (const std::string &filename);
+	void SetTitle (char const *title);
+	void SetTitle (std::string& title);
+	char const *GetTitle () {return m_Title.c_str ();}
+	void SetAuthor (char const *author);
+	void SetMail (char const *mail);
+	void SetComment (char const *comment);
+	void SetLabel (char const *label);
+	GDate *GetCreationDate () {return &m_CreationDate;}
+	GDate *GetRevisionDate () {return &m_RevisionDate;}
+	char const *GetLabel () {return m_Label? m_Label: m_DefaultLabel.c_str ();}
+	void OnExportVRML (const std::string &FileName) const;
+	void Save () const;
 
 protected:
 /*!
@@ -226,6 +255,7 @@ Loads a view from a XML document. This methd must be overrided by applications s
 private:
 	void Duplicate (Atom& Atom);
 	void Duplicate (Line& Line);
+	void Error(int num) const;
 
 protected:
 /*!
@@ -305,6 +335,17 @@ List of the views of the document.
 */
 	std::list <View *> m_Views;
 
+	GDate m_CreationDate, m_RevisionDate;
+
+private:
+	gchar *m_filename;
+	bool m_bClosing;
+	GtkWidget* m_widget;
+	std::list <gcu::Dialog *> m_Dialogs;
+	View *m_pActiveView;
+	std::string m_DefaultLabel;
+	char *m_Label;
+
 /*!\fn GetNameCommon()
 @return the common name or the chemical entity.
 */
@@ -350,6 +391,11 @@ GCU_PROP (bool, AutoSpaceGroup)
 true if cleavages must not change positions in the view.
 */
 GCU_PROP (bool, FixedSize);
+
+GCU_PROP (bool, ReadOnly)
+GCU_PROT_POINTER_PROP (char, Author)
+GCU_PROT_POINTER_PROP (char, Mail)
+GCU_PROT_POINTER_PROP (char, Comment)
 };
 
 /*!

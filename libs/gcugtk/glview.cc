@@ -353,7 +353,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) co
 		}
 	    glMatrixMode (GL_MODELVIEW);
 		glLoadIdentity ();
-		glTranslatef (0, 0, -m_Radius);
+		glTranslatef (0, 0, -radius);
 		if (use_bg)
 			glClearColor (GetRed (), GetGreen (), GetBlue (), GetAlpha ());
 		else

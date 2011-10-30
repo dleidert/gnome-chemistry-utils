@@ -43,20 +43,11 @@ public:
 	gcView (gcView *pView);
 	~gcView ();
 
-	void SetBackgroundColor (float red, float green, float blue, float alpha);
-	void GetBackgroundColor (double *red, double *green, double *blue, double *alpha);
-	gdouble& GetFoV () {return GetRefAngle ();}
-	gdouble& GetPos () {return m_Radius;}
-	void GetRotation (double *psi, double *theta, double *phi);
 	bool LoadOld (xmlNodePtr node);
-	gcWindow *GetWindow () {return m_Window;}
-	void SetWindow (gcWindow *window) {m_Window = window;}
 
 private:
 
 	GtkMenuItem* m_pMenu;
-	std::list <gcu::Dialog *> m_Dialogs;
-	gcWindow *m_Window;
 };
 
 #endif //GCRYSTAL_VIEW_H

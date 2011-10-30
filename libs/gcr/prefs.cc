@@ -1,7 +1,7 @@
 // -*- C++ -*-
 
 /*
- * Gnome Crystal
+ * Gnome Crystal library
  * prefs.cc
  *
  * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
@@ -27,19 +27,21 @@
 #include "globals.h"
 #include "application.h"
 
+namespace gcr {
+
 guint PrintResolution = 300;
-class gcPrefsDlgPrivate {
+class PrefsDlgPrivate {
 public:
-	static void OnPrintResolution (gcPrefsDlg *dlg);
-	static void OnCustomPrintResolution (gcPrefsDlg *dlg);
-	static void OnFoVChanged (gcPrefsDlg *dlg);
-	static bool OnPsiChanged (gcPrefsDlg *dlg);
-	static bool OnThetaChanged (gcPrefsDlg *dlg);
-	static bool OnPhiChanged (gcPrefsDlg *dlg);
-	static void OnBackgroundChanged (gcPrefsDlg *dlg);
+	static void OnPrintResolution (PrefsDlg *dlg);
+	static void OnCustomPrintResolution (PrefsDlg *dlg);
+	static void OnFoVChanged (PrefsDlg *dlg);
+	static bool OnPsiChanged (PrefsDlg *dlg);
+	static bool OnThetaChanged (PrefsDlg *dlg);
+	static bool OnPhiChanged (PrefsDlg *dlg);
+	static void OnBackgroundChanged (PrefsDlg *dlg);
 };
 
-void gcPrefsDlgPrivate::OnPrintResolution (gcPrefsDlg *dlg)
+void PrefsDlgPrivate::OnPrintResolution (PrefsDlg *dlg)
 {
 	int PrintIndex = gtk_combo_box_get_active (dlg->PrintResMenu);
 	switch (PrintIndex)
@@ -76,70 +78,70 @@ void gcPrefsDlgPrivate::OnPrintResolution (gcPrefsDlg *dlg)
 	gtk_spin_button_set_value (dlg->PrintResBtn, PrintResolution);
 	gtk_widget_set_sensitive (GTK_WIDGET (dlg->PrintResBtn), false);
 	g_signal_handler_unblock (dlg->PrintResBtn, dlg->PrintResChanged);
-	go_conf_set_int (node, "printing/resolution", PrintResolution);
+	go_conf_set_int (static_cast <Application * > (dlg->GetApp ())->GetConfNode (), "printing/resolution", PrintResolution);
 }
 
-void gcPrefsDlgPrivate::OnCustomPrintResolution (gcPrefsDlg *dlg)
+void PrefsDlgPrivate::OnCustomPrintResolution (PrefsDlg *dlg)
 {
 	PrintResolution = gtk_spin_button_get_value_as_int (dlg->PrintResBtn);
-	go_conf_set_int (node, "printing/resolution", PrintResolution);
+	go_conf_set_int (static_cast <Application * > (dlg->GetApp ())->GetConfNode (), "printing/resolution", PrintResolution);
 }
 
-void gcPrefsDlgPrivate::OnFoVChanged (gcPrefsDlg *dlg)
+void PrefsDlgPrivate::OnFoVChanged (PrefsDlg *dlg)
 {
 	FoV = gtk_spin_button_get_value_as_int (dlg->FoVBtn);
-	go_conf_set_int (node, "views/fov", FoV);
+	go_conf_set_int (static_cast <Application * > (dlg->GetApp ())->GetConfNode (), "views/fov", FoV);
 }
 
-bool gcPrefsDlgPrivate::OnPsiChanged (gcPrefsDlg *dlg)
+bool PrefsDlgPrivate::OnPsiChanged (PrefsDlg *dlg)
 {
 	g_signal_handler_block (dlg->PsiEnt, dlg->PsiSignal);
 	double value;
 	if (dlg->GetNumber (dlg->PsiEnt, &value, gcugtk::MinEqMax, -180, 180)) {
 		Psi = value;
-		go_conf_set_double (node, "views/psi", Psi);
+		go_conf_set_double (static_cast <Application * > (dlg->GetApp ())->GetConfNode (), "views/psi", Psi);
 	}
 	g_signal_handler_unblock (dlg->PsiEnt, dlg->PsiSignal);
 	return false;
 }
 
-bool gcPrefsDlgPrivate::OnThetaChanged (gcPrefsDlg *dlg)
+bool PrefsDlgPrivate::OnThetaChanged (PrefsDlg *dlg)
 {
 	g_signal_handler_block (dlg->ThetaEnt, dlg->ThetaSignal);
 	double value;
 	if (dlg->GetNumber (dlg->ThetaEnt, &value, gcugtk::MinEqMaxEq, 0, 180)) {
 		Theta = value;
-		go_conf_set_double (node, "views/theta", Theta);
+		go_conf_set_double (static_cast <Application * > (dlg->GetApp ())->GetConfNode (), "views/theta", Theta);
 	}
 	g_signal_handler_unblock (dlg->ThetaEnt, dlg->ThetaSignal);
 	return false;
 }
 
-bool gcPrefsDlgPrivate::OnPhiChanged (gcPrefsDlg *dlg)
+bool PrefsDlgPrivate::OnPhiChanged (PrefsDlg *dlg)
 {
 	g_signal_handler_block (dlg->PhiEnt, dlg->PhiSignal);
 	double value;
 	if (dlg->GetNumber (dlg->PhiEnt, &value, gcugtk::MinEqMax, -180, 180)) {
 		Phi = value;
-		go_conf_set_double (node, "views/phi", Phi);
+		go_conf_set_double (static_cast <Application * > (dlg->GetApp ())->GetConfNode (), "views/phi", Phi);
 	}
 	g_signal_handler_unblock (dlg->PhiEnt, dlg->PhiSignal);
 	return false;
 }
 
-void gcPrefsDlgPrivate::OnBackgroundChanged (gcPrefsDlg *dlg)
+void PrefsDlgPrivate::OnBackgroundChanged (PrefsDlg *dlg)
 {
 	GdkRGBA rgba;
 	gtk_color_button_get_rgba (dlg->BackgroundBtn, &rgba);
 	Red = rgba.red;
-	go_conf_set_double (node, "views/red", Red);
+	go_conf_set_double (static_cast <Application * > (dlg->GetApp ())->GetConfNode (), "views/red", Red);
 	Green = rgba.green;
-	go_conf_set_double (node, "views/green", Green);
+	go_conf_set_double (static_cast <Application * > (dlg->GetApp ())->GetConfNode (), "views/green", Green);
 	Blue = rgba.blue;
-	go_conf_set_double (node, "views/blue", Blue);
+	go_conf_set_double (static_cast <Application * > (dlg->GetApp ())->GetConfNode (), "views/blue", Blue);
 }
 
-gcPrefsDlg::gcPrefsDlg (gcApplication *App): gcugtk::Dialog (App, UIDIR"/prefs.ui", "prefs", GETTEXT_PACKAGE, App)
+PrefsDlg::PrefsDlg (Application *App): gcugtk::Dialog (App, UIDIR"/prefs.ui", "prefs", GETTEXT_PACKAGE, App)
 {
 	PrintResMenu = GTK_COMBO_BOX (GetWidget ("printres"));
 	PrintResBtn = GTK_SPIN_BUTTON (GetWidget ("printresbtn"));
@@ -176,13 +178,13 @@ gcPrefsDlg::gcPrefsDlg (gcApplication *App): gcugtk::Dialog (App, UIDIR"/prefs.u
 		break;
 	}
 	gtk_spin_button_set_value (PrintResBtn, PrintResolution);
-	PrintResChanged = g_signal_connect_swapped (PrintResBtn, "value-changed", G_CALLBACK (gcPrefsDlgPrivate::OnCustomPrintResolution), this);
+	PrintResChanged = g_signal_connect_swapped (PrintResBtn, "value-changed", G_CALLBACK (PrefsDlgPrivate::OnCustomPrintResolution), this);
 	gtk_widget_set_sensitive (GTK_WIDGET (PrintResBtn), active);
 	gtk_combo_box_set_active (PrintResMenu, PrintIndex);
-	g_signal_connect_swapped (PrintResMenu, "changed", G_CALLBACK (gcPrefsDlgPrivate::OnPrintResolution), this);
+	g_signal_connect_swapped (PrintResMenu, "changed", G_CALLBACK (PrefsDlgPrivate::OnPrintResolution), this);
 	FoVBtn = GTK_SPIN_BUTTON (GetWidget ("fov"));
 	gtk_spin_button_set_value (FoVBtn, FoV);
-	g_signal_connect_swapped (FoVBtn, "value-changed", G_CALLBACK (gcPrefsDlgPrivate::OnFoVChanged), this);
+	g_signal_connect_swapped (FoVBtn, "value-changed", G_CALLBACK (PrefsDlgPrivate::OnFoVChanged), this);
 	PsiEnt = GTK_ENTRY (GetWidget ("psi"));
 	ThetaEnt = GTK_ENTRY (GetWidget ("theta"));
 	PhiEnt = GTK_ENTRY (GetWidget ("phi"));
@@ -193,12 +195,12 @@ gcPrefsDlg::gcPrefsDlg (gcApplication *App): gcugtk::Dialog (App, UIDIR"/prefs.u
 	gtk_entry_set_text (ThetaEnt, m_buf);
 	snprintf (m_buf, sizeof (m_buf) - 1, "%g", Phi);
 	gtk_entry_set_text (PhiEnt, m_buf);
-	g_signal_connect_swapped (PsiEnt, "activate", G_CALLBACK (gcPrefsDlgPrivate::OnPsiChanged), this);
-	PsiSignal = g_signal_connect_swapped (PsiEnt, "focus-out-event", G_CALLBACK (gcPrefsDlgPrivate::OnPsiChanged), this);
-	g_signal_connect_swapped (ThetaEnt, "activate", G_CALLBACK (gcPrefsDlgPrivate::OnThetaChanged), this);
-	ThetaSignal = g_signal_connect_swapped (ThetaEnt, "focus-out-event", G_CALLBACK (gcPrefsDlgPrivate::OnThetaChanged), this);
-	g_signal_connect_swapped (PhiEnt, "activate", G_CALLBACK (gcPrefsDlgPrivate::OnPhiChanged), this);
-	PhiSignal = g_signal_connect_swapped (PhiEnt, "focus-out-event", G_CALLBACK (gcPrefsDlgPrivate::OnPhiChanged), this);
+	g_signal_connect_swapped (PsiEnt, "activate", G_CALLBACK (PrefsDlgPrivate::OnPsiChanged), this);
+	PsiSignal = g_signal_connect_swapped (PsiEnt, "focus-out-event", G_CALLBACK (PrefsDlgPrivate::OnPsiChanged), this);
+	g_signal_connect_swapped (ThetaEnt, "activate", G_CALLBACK (PrefsDlgPrivate::OnThetaChanged), this);
+	ThetaSignal = g_signal_connect_swapped (ThetaEnt, "focus-out-event", G_CALLBACK (PrefsDlgPrivate::OnThetaChanged), this);
+	g_signal_connect_swapped (PhiEnt, "activate", G_CALLBACK (PrefsDlgPrivate::OnPhiChanged), this);
+	PhiSignal = g_signal_connect_swapped (PhiEnt, "focus-out-event", G_CALLBACK (PrefsDlgPrivate::OnPhiChanged), this);
 	BackgroundBtn = GTK_COLOR_BUTTON (GetWidget ("color"));
 	GdkRGBA rgba;
 	rgba.red = Red;
@@ -206,10 +208,12 @@ gcPrefsDlg::gcPrefsDlg (gcApplication *App): gcugtk::Dialog (App, UIDIR"/prefs.u
 	rgba.blue = Blue;
 	rgba.alpha = 1.;
 	gtk_color_button_set_rgba (BackgroundBtn, &rgba);
-	g_signal_connect_swapped (BackgroundBtn, "color-set", G_CALLBACK (gcPrefsDlgPrivate::OnBackgroundChanged), this);
+	g_signal_connect_swapped (BackgroundBtn, "color-set", G_CALLBACK (PrefsDlgPrivate::OnBackgroundChanged), this);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
-gcPrefsDlg::~gcPrefsDlg()
+PrefsDlg::~PrefsDlg()
 {
 }
+
+}	//	namespace gcr

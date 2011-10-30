@@ -36,6 +36,7 @@
 namespace gcr
 {
 class Document;
+class Window;
 
 /*!\class View gcr/view.h
 The class representing a view of the model. Each document
@@ -70,6 +71,12 @@ Loads the parameters of the view from an xmlNode.
 */
 	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 
+	void SetBackgroundColor (float red, float green, float blue, float alpha);
+	void GetBackgroundColor (double *red, double *green, double *blue, double *alpha);
+	gdouble& GetFoV () {return GetRefAngle ();}
+	gdouble& GetPos () {return m_Radius;}
+	void GetRotation (double *psi, double *theta, double *phi);
+
 protected:
 /*!
 The height of the widget.
@@ -79,6 +86,8 @@ The height of the widget.
 The width of the widget.
 */
 	gdouble m_width;
+	
+GCU_POINTER_PROP (Window, Window);
 };
 
 }	//	namespace gcr

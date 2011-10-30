@@ -27,6 +27,7 @@
 
 /*!\file*/
 namespace gcu {
+class UIManager;
 
 /*!\class Window gcu/window.h
 Base class for windows. Just a placeholder for now.
@@ -53,6 +54,25 @@ Raises the window and makes it active. This method should be overloaded in
 derived classes since default imlementation does not do anything.
 */
 	virtual void Show ();
+/*!
+@param path the path to activate.
+@param activate whether to activate or deactivate.
+
+Activates or deactivates the menu item corresponding to \a path according
+to the value of \a activate.
+
+To deactivate the "Paste" menu item, use:
+\code
+ActivateActionWidget ("/MainMenu/EditMenu/Paste", false);
+\endcode
+*/
+	void ActivateActionWidget (char const *path, bool activate);
+
+protected:
+/*!
+The gcugtk::UIManager associated with the window.
+*/
+	UIManager* m_UIManager;
 };
 
 }

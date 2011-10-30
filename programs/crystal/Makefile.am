@@ -23,8 +23,7 @@ INCLUDES = \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/crystal\" \
-        -DPIXMAPSDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/pixmaps\"
+        -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/crystal\"
 
 bin_PROGRAMS = gcrystal-@GCU_API_VER@
 
@@ -35,21 +34,14 @@ gcrystal_@GCU_API_VER@_SOURCES = \
 		atom.h \
 		cleavage.cc \
 		cleavage.h \
-		docprop.cc \
-		docprop.h \
 		document.cc \
 		document.h \
 		gcrystal.h \
-		globals.h \
 		line.cc \
 		line.h \
 		main.cc \
-		prefs.cc \
-		prefs.h \
 		view.cc \
 		view.h \
-		view-settings.cc \
-		view-settings.h \
 		window.cc \
 		window.h
 

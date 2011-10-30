@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-10-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcugtk/glview.cc: fixed an off-screen rendering issue.
+	* all others: moved code from programs/crystal to libs/gcr to prepare
+	for crystal models support in the goffice plugin.
+
 2011-10-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: make it build with most recent goffice.
 	* libs/gcp/reaction-arrow.cc: start work on multi-step reaction schemes.

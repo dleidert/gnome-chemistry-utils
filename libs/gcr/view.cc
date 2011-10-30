@@ -23,6 +23,7 @@
 #include "config.h"
 #include "view.h"
 #include "document.h"
+#include "globals.h"
 #include <gcu/matrix.h>
 #include <gcu/xml-utils.h>
 #include <GL/gl.h>
@@ -34,11 +35,19 @@
 namespace gcr
 {
 
+guint FoV;
+gdouble Psi, Theta, Phi;
+gdouble Red, Green, Blue;
+
 View::View (Document* pDoc): gcugtk::GLView (pDoc)
 {
-	SetRed (1.);
-	SetGreen (1.);
-	SetBlue (1.);
+	SetAngle (FoV);
+	SetRotation (Psi, Theta, Phi);
+	SetBlue (Blue);
+	SetRed (Red);
+	SetGreen (Green);
+	SetAlpha (1.0);
+	m_Window = NULL;
 }
 
 View::~View ()
@@ -126,6 +135,29 @@ xmlNodePtr View::Save (xmlDocPtr xml) const
 	}
 
 	return parent;
+}
+
+void View::SetBackgroundColor (float red, float green, float blue, float alpha)
+{
+	SetRed (red);
+	SetGreen (green);
+	SetBlue (blue);
+	SetAlpha (alpha);
+}
+
+void View::GetBackgroundColor (double *red, double *green, double *blue, double *alpha)
+{
+	*red = GetRed ();
+	*green = GetGreen ();
+	*blue = GetBlue ();
+	*alpha = GetAlpha ();
+}
+
+void View::GetRotation (double *psi, double *theta, double *phi)
+{
+	*psi = GetPsi ();
+	*theta = GetTheta ();
+	*phi = GetPhi ();
 }
 
 }	//	namespace gcr

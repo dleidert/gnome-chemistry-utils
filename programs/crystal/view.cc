@@ -29,24 +29,13 @@
 #include <libxml/xmlmemory.h>
 #include "view.h"
 #include "document.h"
-#include "globals.h"
 #include <cmath>
 #include <cstring>
 
-guint FoV;
-gdouble Psi, Theta, Phi;
-gdouble Red, Green, Blue;
 extern GtkWidget *vbox1;
 
 gcView::gcView (gcDocument *pDoc): gcr::View (pDoc)
 {
-	SetAngle (FoV);
-	SetRotation (Psi, Theta, Phi);
-	SetBlue (Blue);
-	SetRed (Red);
-	SetGreen (Green);
-	SetAlpha (1.0);
-	m_Window = NULL;
 }
 
 gcView::gcView (gcView *pView):
@@ -64,35 +53,6 @@ gcView::gcView (gcView *pView):
 gcView::~gcView ()
 {
 	gtk_widget_destroy (GTK_WIDGET(m_pMenu));
-	gcu::Dialog *dialog;
-	while (!m_Dialogs.empty ()) {
-		dialog = m_Dialogs.front();
-		m_Dialogs.pop_front();
-		dialog->Destroy();
-	}
-}
-
-void gcView::SetBackgroundColor (float red, float green, float blue, float alpha)
-{
-	SetRed (red);
-	SetGreen (green);
-	SetBlue (blue);
-	SetAlpha (alpha);
-}
-
-void gcView::GetBackgroundColor (double *red, double *green, double *blue, double *alpha)
-{
-	*red = GetRed ();
-	*green = GetGreen ();
-	*blue = GetBlue ();
-	*alpha = GetAlpha ();
-}
-
-void gcView::GetRotation (double *psi, double *theta, double *phi)
-{
-	*psi = GetPsi ();
-	*theta = GetTheta ();
-	*phi = GetPhi ();
 }
 
 bool gcView::LoadOld (xmlNodePtr node)

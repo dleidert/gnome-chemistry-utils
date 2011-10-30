@@ -1,7 +1,7 @@
 // -*- C++ -*-
 
 /*
- * GChemPaint library
+ * Gnome Crystal library
  * docprop.cc
  *
  * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
@@ -29,54 +29,78 @@
 #include "window.h"
 #include <glib/gi18n-lib.h>
 
-using namespace gcu;
-using namespace std;
+namespace gcr {
 
-static void on_title_changed (GtkEntry *entry, gcDocPropDlg *dlg)
+class DocPropDlgPrivate
+{
+public:
+	static void OnTitleChanged (GtkEntry *entry, Document *doc);
+	static bool OnTitleFocusedOut (GtkEntry *entry, GdkEventFocus *event, Document *doc);
+	static void OnNameChanged (GtkEntry *entry, Document *doc);
+	static bool OnNameFocusedOut (GtkEntry *entry, GdkEventFocus *event, Document *doc);
+	static void OnMailChanged (GtkEntry *entry, Document *doc);
+	static bool OnMailFocusedOut (GtkEntry *entry, GdkEventFocus *event, Document *doc);
+	static void OnCommentsChanged (GtkTextBuffer *buffer, Document *doc);
+};
+
+void DocPropDlgPrivate::OnTitleChanged (GtkEntry *entry, Document *doc)
 {
 	char const *txt = gtk_entry_get_text (entry);
-	dlg->OnTitleChanged ((txt && *txt)? txt: NULL);
+	if (txt && *txt == 0)
+		txt = NULL;
+	doc->SetTitle (txt);
+	doc->RenameViews ();
+	doc->SetDirty ();
 }
 
-static bool on_title_focused_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, gcDocPropDlg *dlg)
+bool DocPropDlgPrivate::OnTitleFocusedOut (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, Document *doc)
 {
 	char const *txt = gtk_entry_get_text (entry);
-	dlg->OnTitleChanged ((txt && *txt)? txt: NULL);
+	if (txt && *txt == 0)
+		txt = NULL;
+	doc->SetTitle (txt);
+	doc->RenameViews ();
+	doc->SetDirty ();
 	return false;
 }
 
-static void on_name_changed (GtkEntry *entry, gcDocPropDlg *dlg)
+void DocPropDlgPrivate::OnNameChanged (GtkEntry *entry, Document *doc)
 {
-	dlg->OnNameChanged (gtk_entry_get_text (entry));
+	doc->SetAuthor (gtk_entry_get_text (entry));
+	doc->SetDirty ();
 }
 
-static bool on_name_focused_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, gcDocPropDlg *dlg)
+bool DocPropDlgPrivate::OnNameFocusedOut (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, Document *doc)
 {
-	dlg->OnNameChanged (gtk_entry_get_text (entry));
+	doc->SetAuthor (gtk_entry_get_text (entry));
+	doc->SetDirty ();
 	return false;
 }
 
-static void on_mail_changed (GtkEntry *entry, gcDocPropDlg *dlg)
+void DocPropDlgPrivate::OnMailChanged (GtkEntry *entry, Document *doc)
 {
-	dlg->OnMailChanged (gtk_entry_get_text (entry));
+	doc->SetMail (gtk_entry_get_text (entry));
+	doc->SetDirty ();
 }
 
-static bool on_mail_focused_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, gcDocPropDlg *dlg)
+bool DocPropDlgPrivate::OnMailFocusedOut (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, Document *doc)
 {
-	dlg->OnMailChanged (gtk_entry_get_text (entry));
+	doc->SetMail (gtk_entry_get_text (entry));
+	doc->SetDirty ();
 	return false;
 }
 
-static void on_comments_changed (GtkTextBuffer *buffer, gcDocPropDlg *dlg)
+void DocPropDlgPrivate::OnCommentsChanged (GtkTextBuffer *buffer, Document *doc)
 {
 	GtkTextIter start, end;
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
 	char *text = gtk_text_buffer_get_text (buffer, &start, &end, true);
-	dlg->OnCommentsChanged (text);
+	doc->SetComment (text);
 	g_free (text);
+	doc->SetDirty ();
 }
 
-gcDocPropDlg::gcDocPropDlg (gcDocument* pDoc):
+DocPropDlg::DocPropDlg (Document* pDoc):
 	gcugtk::Dialog (static_cast < gcugtk::Application * > (pDoc->GetApp ()), UIDIR"/docprop.ui", "properties", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
@@ -85,20 +109,20 @@ gcDocPropDlg::gcDocPropDlg (gcDocument* pDoc):
 	chn = m_pDoc->GetTitle ();
 	if (chn)
 		gtk_entry_set_text (Title, chn);
-	g_signal_connect (G_OBJECT (Title), "activate", G_CALLBACK (on_title_changed), this);
-	g_signal_connect (G_OBJECT (Title), "focus-out-event", G_CALLBACK (on_title_focused_out), this);
+	g_signal_connect (G_OBJECT (Title), "activate", G_CALLBACK (DocPropDlgPrivate::OnTitleChanged), pDoc);
+	g_signal_connect (G_OBJECT (Title), "focus-out-event", G_CALLBACK (DocPropDlgPrivate::OnTitleFocusedOut), pDoc);
 	Name = GTK_ENTRY (GetWidget ("name"));
 	chn = m_pDoc->GetAuthor ();
 	if (chn)
 		gtk_entry_set_text (Name, chn);
-	g_signal_connect (G_OBJECT (Name), "activate", G_CALLBACK (on_name_changed), this);
-	g_signal_connect (G_OBJECT (Name), "focus-out-event", G_CALLBACK (on_name_focused_out), this);
+	g_signal_connect (G_OBJECT (Name), "activate", G_CALLBACK (DocPropDlgPrivate::OnNameChanged), pDoc);
+	g_signal_connect (G_OBJECT (Name), "focus-out-event", G_CALLBACK (DocPropDlgPrivate::OnNameFocusedOut), pDoc);
 	Mail = GTK_ENTRY (GetWidget ("mail"));
 	chn = m_pDoc->GetMail ();
 	if (chn)
 		gtk_entry_set_text (Mail, chn);
-	g_signal_connect (G_OBJECT (Mail), "activate", G_CALLBACK (on_mail_changed), this);
-	g_signal_connect (G_OBJECT (Mail), "focus-out-event", G_CALLBACK (on_mail_focused_out), this);
+	g_signal_connect (G_OBJECT (Mail), "activate", G_CALLBACK (DocPropDlgPrivate::OnMailChanged), pDoc);
+	g_signal_connect (G_OBJECT (Mail), "focus-out-event", G_CALLBACK (DocPropDlgPrivate::OnMailFocusedOut), pDoc);
 	CreationDate = GTK_LABEL (GetWidget ("creation"));
 	const GDate* Date = pDoc->GetCreationDate ();
 	gchar tmp[64];
@@ -119,36 +143,12 @@ gcDocPropDlg::gcDocPropDlg (gcDocument* pDoc):
 	chn = m_pDoc->GetComment ();
 	if(chn)
 		gtk_text_buffer_set_text (Buffer, chn , -1);
-	g_signal_connect (G_OBJECT (Buffer), "changed", G_CALLBACK (on_comments_changed), this);
+	g_signal_connect (G_OBJECT (Buffer), "changed", G_CALLBACK (DocPropDlgPrivate::OnCommentsChanged), pDoc);
 	gtk_widget_show_all(GTK_WIDGET (dialog));
 }
 
-gcDocPropDlg::~gcDocPropDlg ()
+DocPropDlg::~DocPropDlg ()
 {
 }
 
-void gcDocPropDlg::OnTitleChanged (char const *title)
-{
-	m_pDoc->SetTitle (title);
-	m_pDoc->RenameViews ();
-	m_pDoc->SetDirty ();
-}
-
-void gcDocPropDlg::OnNameChanged (char const *name)
-{
-	m_pDoc->SetAuthor (name);
-	m_pDoc->SetDirty ();
-}
-
-void gcDocPropDlg::OnMailChanged (char const *mail)
-{
-	m_pDoc->SetMail (mail);
-	m_pDoc->SetDirty ();
-}
-
-void gcDocPropDlg::OnCommentsChanged (char const *comment)
-{
-	m_pDoc->SetComment (comment);
-	m_pDoc->SetDirty ();
-}
-
+}	//	namespace gcr

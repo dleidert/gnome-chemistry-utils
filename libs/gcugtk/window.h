@@ -44,6 +44,8 @@ The destructor.
 */
 	virtual ~Window ();
 
+	void SetTitle (char const *title) {gtk_window_set_title (m_Window, title);}
+
 /*!\var m_Window
 The GtkWindow instance corresponding to the Window.
 */

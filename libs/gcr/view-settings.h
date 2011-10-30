@@ -1,10 +1,10 @@
 // -*- C++ -*-
 
 /*
- * Gnome Crystal
- * docprop.h
+ * Gnome Crystal library
+ * view-settings.h
  *
- * Copyright (C) 2002-2011 Jean BrÃ©fort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,35 +18,34 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
  * USA
  */
 
-#ifndef GCRYSTAL_DOC_PROP_H
-#define GCRYSTAL_DOC_PROP_H
+#ifndef GCR_VIEW_SETTINGS_H
+#define GCR_VIEW_SETTINGS_H
 
 #include <gcugtk/dialog.h>
-#include <gcu/macros.h>
 
-class gcDocument;
+namespace gcr {
 
-class gcDocPropDlg: public gcugtk::Dialog
+class View;
+
+class ViewSettingsDlg: public gcugtk::Dialog
 {
+friend class ViewSettingsDlgPrivate;
 public:
-	gcDocPropDlg (gcDocument* pDoc);
-	virtual ~gcDocPropDlg ();
-
-	void OnTitleChanged (char const *title);
-	void OnNameChanged (char const *title);
-	void OnMailChanged (char const *title);
-	void OnCommentsChanged (char const *title);
+	ViewSettingsDlg (View* pView);
+	virtual ~ViewSettingsDlg ();
 
 private:
-	gcDocument* m_pDoc;
-	GtkEntry *Title, *Name, *Mail;
-	GtkLabel *CreationDate, *RevisionDate;
-	GtkTextView *Comments;
-	gulong m_ChangedSignal;
+	View *m_pView;
+	GtkColorButton *Background;
+	GtkSpinButton *FoV;
+	GtkEntry *Psi, *Theta, *Phi;
+	unsigned long PsiSignal, ThetaSignal, PhiSignal;
 };
 
-#endif //GCRYSTAL_DOC_PROP_H
+}	//	namespace gcr
+
+#endif //	GCR_VIEW_SETTINGS_H

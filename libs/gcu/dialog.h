@@ -24,6 +24,8 @@
 
 #ifndef GCU_DIALOG_H
 #define GCU_DIALOG_H
+
+#include "macros.h"
 #include <string>
 #include <stdexcept>
 
@@ -68,14 +70,15 @@ method, because that would throw an error.
 	std::string &GetWindowName () {return m_windowname;}
 
 protected:
-/*!
-The Application instance owning the dialog.
-*/
-	Application *m_App;
 	std::string m_windowname;
 
 private:
 	DialogOwner *m_Owner;
+
+/*!\var m_App
+The Application instance owning the dialog.
+*/
+GCU_PROT_PROP (Application *, App)
 };
 
 }	// namespace gcu

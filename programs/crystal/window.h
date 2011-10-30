@@ -26,35 +26,22 @@
 #define GCRYSTAL_WINDOW_H
 
 #include <gcu/macros.h>
+#include <gcr/window.h>
 #include <gtk/gtk.h>
 
 class gcApplication;
 class gcDocument;
 class gcView;
 
-class gcWindow
+class gcWindow: public gcr::Window
 {
 public:
 	gcWindow (gcApplication *App, gcDocument *Doc);
 	~gcWindow ();
 
-	gcApplication *GetApplication () {return m_App;}
-	void ClearStatus ();
-	void SetStatusText (const char* text);
+	gcApplication *GetApplication () {return GetApplication ();}
 	bool TryClose ();
 	void Destroy ();
-	void ActivateActionWidget (char const *path, bool activate);
-
-private:
-	GtkUIManager* m_UIManager;
-	GtkWidget* m_Bar;	//GtkStatusBar
-	unsigned m_statusId;
-	unsigned m_MessageId; //currently displayed message in the status bar
-
-GCU_RO_PROP (gcApplication *, App);
-GCU_RO_PROP (gcView *, View);
-GCU_RO_PROP (gcDocument *, Doc);
-GCU_RO_PROP (GtkWindow *, Window);
 };
 
 #endif	//	GCRYSTAL_WINDOW_H
