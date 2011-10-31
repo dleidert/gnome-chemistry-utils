@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2011-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils.cc: more work on gcrystal files support in component.
+	* goffice/gogcrystalapp.cc: ditto.
+	* goffice/gogcrystalapp.h: ditto.
+	* goffice/gogcrystalwin.cc: ditto.
+	* libs/gcr/window.cc: ditto.
+	* libs/gcr/window.h: ditto.
+	* libs/gcp/window.h: white space issue.
+
 2011-10-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcugtk/glview.cc: fixed an off-screen rendering issue.
 	* all others: moved code from programs/crystal to libs/gcr to prepare

@@ -31,7 +31,7 @@
 #include <glib/gi18n-lib.h>
 
 GOGCrystalWindow::GOGCrystalWindow (GOGCrystalApplication *App, GOGChemUtilsComponent *gogcu):
-	gcr::Window (dynamic_cast <gcu::Application *> (App), NULL)
+	gcr::Window (App, static_cast <gcr::Document * > (gogcu->document))
 {
 	m_gogcu = gogcu;
 	gogcu->window = this;

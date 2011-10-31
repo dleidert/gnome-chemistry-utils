@@ -32,7 +32,7 @@
 using namespace gcu;
 using namespace std;
 
-GOGCrystalApplication::GOGCrystalApplication (): gcu::Application ("gcrystal"), GOGcuApplication ()
+GOGCrystalApplication::GOGCrystalApplication (): gcr::Application (), GOGcuApplication ()
 {
 }
 
@@ -159,13 +159,14 @@ void GOGCrystalApplication::UpdateBounds (GOGChemUtilsComponent *gogcu)
 	gogcu->parent.height = gogcu->parent.ascent + gogcu->parent.descent;*/
 }
 
-void GOGCrystalApplication::OnFileNew (char const *Theme)
+gcr::Document *GOGCrystalApplication::OnFileNew ()
 {
-/*	gchar tmp[32];
-	if (m_pActiveDoc && !m_pActiveDoc->GetView ()->PrepareUnselect ())
-		return;
-	g_snprintf (tmp, sizeof (tmp), _("Untitled %d"), m_NumWindow++);
-	new gcp::Window (this, Theme);*/
+	return new gcr::Document (this);
+}
+
+gcr::Window *GOGCrystalApplication::CreateNewWindow (gcr::Document *doc)
+{
+	return new gcr::Window (this, doc);//this is bad, we need to access the component
 }
 
 void GOGCrystalApplication::OnFileClose ()

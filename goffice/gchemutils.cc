@@ -108,6 +108,13 @@ go_gchemutils_component_mime_type_set (GOComponent *component)
 }
 
 static void
+go_gchemutils_component_set_size (GOComponent *component)
+{
+	if (component->resizable)
+		component->ascent = component->height;
+}
+
+static void
 go_gchemutils_component_finalize (GObject *obj)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (obj);
@@ -140,6 +147,7 @@ go_gchemutils_component_class_init (GOComponentClass *klass)
 	klass->render = go_gchemutils_component_render;
 	klass->edit = go_gchemutils_component_edit;
 	klass->mime_type_set = go_gchemutils_component_mime_type_set;
+	klass->set_size = go_gchemutils_component_set_size;
 }
 
 GSF_DYNAMIC_CLASS (GOGChemUtilsComponent, go_gchemutils_component,

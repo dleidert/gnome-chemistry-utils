@@ -23,12 +23,12 @@
 #ifndef GCP_GOFFICE_CRYSTAL_APP_H
 #define GCP_GOFFICE_CRYSTAL_APP_H
 
-#include <gcu/application.h>
+#include <gcr/application.h>
 #include <gogcuapp.h>
 #include <map>
 #include <string>
 
-class GOGCrystalApplication: public gcu::Application, public GOGcuApplication
+class GOGCrystalApplication: public gcr::Application, public GOGcuApplication
 {
 public:
 	GOGCrystalApplication ();
@@ -43,7 +43,8 @@ public:
 	void Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height);
 	void UpdateBounds (GOGChemUtilsComponent *gogcu);
 
-	void OnFileNew (char const *Theme = NULL);
+	gcr::Document *OnFileNew ();
+	gcr::Window *CreateNewWindow (gcr::Document *doc);
 	void OnFileClose ();
 
 	void NoMoreDocsEvent () {;}

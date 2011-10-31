@@ -182,7 +182,6 @@ Method called by the framework when the File/Page setup menu command is fired.
 */
 	void OnPageSetup ();
 
-
 private:
 	GtkWidget* m_Bar;	//GtkStatusBar
 	unsigned m_statusId;

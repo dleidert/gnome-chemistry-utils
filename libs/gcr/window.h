@@ -47,6 +47,9 @@ public:
 	void ClearStatus ();
 	void SetStatusText (const char* text);
 
+protected:
+	virtual void OnSave ();
+
 private:
 	GtkWidget* m_Bar;	//GtkStatusBar
 	unsigned m_statusId;

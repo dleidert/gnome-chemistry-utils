@@ -39,7 +39,13 @@ namespace gcr {
 class WindowPrivate
 {
 public:
+	static void OnFileSave (GtkWidget *widget, Window* Win);
 };
+
+void WindowPrivate::OnFileSave (G_GNUC_UNUSED GtkWidget *widget, Window* Win)
+{
+	Win->OnSave ();
+}
 
 //Callbacks
 static bool on_delete_event (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED GdkEvent *event, Window* Win)
@@ -59,11 +65,6 @@ void on_file_new (G_GNUC_UNUSED GtkWidget *widget, Window* Win)
 static void on_file_open (G_GNUC_UNUSED GtkWidget *widget, Window* Win)
 {
 	static_cast < gcr::Application * > (Win->GetApplication ())->OnFileOpen ();
-}
-
-static void on_file_save (G_GNUC_UNUSED GtkWidget *widget, Window* Win)
-{
-	static_cast < gcr::Application * > (Win->GetApplication ())->OnFileSave ();
 }
 
 static void on_file_save_as (G_GNUC_UNUSED GtkWidget *widget, Window* Win)
@@ -284,7 +285,7 @@ static GtkActionEntry entries[] = {
 	  { "Open", GTK_STOCK_OPEN, N_("_Open..."), "<control>O",
 		  N_("Open a file"), G_CALLBACK (on_file_open) },
 	  { "Save", GTK_STOCK_SAVE, N_("_Save"), "<control>S",
-		  N_("Save the current file"), G_CALLBACK (on_file_save) },
+		  N_("Save the current file"), G_CALLBACK (WindowPrivate::OnFileSave) },
 	  { "SaveAs", GTK_STOCK_SAVE_AS, N_("Save _As..."), "<shift><control>S",
 		  N_("Save the current file with a different name"), G_CALLBACK (on_file_save_as) },
 	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
@@ -502,6 +503,11 @@ void Window::SetStatusText(const char* text)
 	if (m_MessageId)
 		gtk_statusbar_pop (GTK_STATUSBAR (m_Bar), m_statusId);
 	m_MessageId = gtk_statusbar_push (GTK_STATUSBAR (m_Bar), m_statusId, text);
+}
+
+void Window::OnSave ()
+{
+	static_cast < gcr::Application * > (GetApplication ())->OnFileSave ();
 }
 
 }
