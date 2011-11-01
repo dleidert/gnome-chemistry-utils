@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils GOffice component
  * gogcrystal.cc
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -49,16 +49,17 @@ void GOGCrystalApplication::ToggleMenu (G_GNUC_UNUSED const string& menuname, G_
 {
 }
 
-gcu::Document *GOGCrystalApplication::ImportDocument (const string& mime_type, const char* data, int length)
+void GOGCrystalApplication::ImportDocument (GOGChemUtilsComponent *gogcu)
 {
 	gcr::Document *doc = NULL;
-	if (mime_type == "application/x-gcrystal") {
+	GOComponent *component = GO_COMPONENT (gogcu);
+	if (!strcmp (component->mime_type, "application/x-gcrystal")) {
 		xmlDocPtr xml;
-		if (!(xml = xmlParseMemory(data, length)) ||
+		if (!(xml = xmlParseMemory (component->data, component->length)) ||
 			xml->children == NULL ||
 			strcmp (reinterpret_cast <char const *> (xml->children->name), "crystal")) {
 			xmlFreeDoc (xml);
-			return NULL;
+			return;
 		}
 		doc = new gcr::Document (this);
 		gtk_widget_show_all (doc->GetView ()->GetWidget ());
@@ -66,7 +67,7 @@ gcu::Document *GOGCrystalApplication::ImportDocument (const string& mime_type, c
 		xmlFreeDoc (xml);
 	} else {
 	}
-	return (doc);
+	gogcu->document = doc;
 }
 
 GtkWindow * GOGCrystalApplication::EditDocument (GOGChemUtilsComponent *gogcu)
@@ -88,22 +89,16 @@ GtkWindow * GOGCrystalApplication::EditDocument (GOGChemUtilsComponent *gogcu)
 
 bool GOGCrystalApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), G_GNUC_UNUSED gpointer *user_data)
 {
-//	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
+	gcr::Document *doc = static_cast <gcr::Document *> (gogcu->document);
 	bool result = false;
-/*	xmlDocPtr xml = NULL;
-	char *old_num_locale, *old_time_locale;
+	xmlDocPtr xml = NULL;
 
-	if (!doc || !doc->HasChildren ()) {
+	if (!doc || doc->GetEmpty ()) {
 		*data = NULL;
 		*length = 0;
-		* clearfunc = NULL;
+		*clearfunc = NULL;
 		return true;
 	}
-
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale(LC_NUMERIC, "C");
-	old_time_locale = g_strdup (setlocale (LC_TIME, NULL));
-	setlocale (LC_TIME, "C");
 
 	try {
 		xml = doc->BuildXMLTree ();
@@ -120,12 +115,11 @@ bool GOGCrystalApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *dat
 		if (xml)
 			xmlFreeDoc (xml);
 		xml = NULL;
+		*data = NULL;
+		*length = 0;
+		*clearfunc = NULL;
 		result = false;
 	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
-	setlocale (LC_TIME, old_time_locale);
-	g_free (old_time_locale);*/
 
 	return result;
 }
@@ -136,37 +130,13 @@ void GOGCrystalApplication::Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, d
 	doc->GetView ()->RenderToCairo (cr, width, height, false);
 }
 
-void GOGCrystalApplication::UpdateBounds (GOGChemUtilsComponent *gogcu)
+void GOGCrystalApplication::UpdateBounds (GOGChemUtilsComponent *)
 {
-/*	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
-	gcp::Theme *pTheme = doc->GetTheme ();
-	GtkWidget *w = doc->GetWidget ();
-	gccv::Rect rect;
-	gcp::WidgetData *pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	pData->GetObjectBounds (doc, &rect);
-	double y = doc->GetYAlign ();
-	y += doc->GetView ()->GetBaseLineOffset ();
-	y *= pTheme->GetZoomFactor ();
-	if (rect.x0 || rect.y0)
-		doc->Move (- rect.x0 / pTheme->GetZoomFactor (), - rect.y0 / pTheme->GetZoomFactor ());
-	doc->GetView ()->Update (doc);
-	if (y < rect.y0)
-		y = rect.y1;
-	// assuming 96 dpi, setting dimensions as inches.
-	gogcu->parent.ascent = (y - rect.y0) / 96;
-	gogcu->parent.descent = (rect.y1 - y) / 96;
-	gogcu->parent.width = (rect.x1 - rect.x0) / 96;
-	gogcu->parent.height = gogcu->parent.ascent + gogcu->parent.descent;*/
 }
 
 gcr::Document *GOGCrystalApplication::OnFileNew ()
 {
 	return new gcr::Document (this);
-}
-
-gcr::Window *GOGCrystalApplication::CreateNewWindow (gcr::Document *doc)
-{
-	return new gcr::Window (this, doc);//this is bad, we need to access the component
 }
 
 void GOGCrystalApplication::OnFileClose ()

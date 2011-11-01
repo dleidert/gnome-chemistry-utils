@@ -47,7 +47,7 @@ public:
 	void OnSaveAsImage ();
 	bool OnQuit ();
 	void SetActiveDocument (Document *doc) {m_pActiveDoc = doc;}
-	virtual Window *CreateNewWindow (Document *doc) = 0;
+	virtual Window *CreateNewWindow (Document *doc);
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 	char const *GetFirstSupportedMimeType (std::list<std::string>::iterator &it);
 	char const *GetNextSupportedMimeType (std::list<std::string>::iterator &it);
@@ -58,8 +58,10 @@ public:
 private:
 	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
 
-private:
+protected:
 	Document* m_pActiveDoc;
+
+private:
 	std::list<std::string> m_SupportedMimeTypes;
 	std::list<std::string> m_WriteableMimeTypes;
 	std::list <View*> m_Views;

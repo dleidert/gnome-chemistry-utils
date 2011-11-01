@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2011-11-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils.cc: make gcrystal files support in component work, and
+	ensure that gcrystal still works.
+	* goffice/gogcpapp.cc: ditto.
+	* goffice/gogcpapp.h: ditto.
+	* goffice/gogcrystalapp.cc: ditto.
+	* goffice/gogcrystalapp.h: ditto.
+	* goffice/gogcrystalwin.cc: ditto.
+	* goffice/gogcrystalwin.h: ditto.
+	* goffice/gogcuapp.h: ditto.
+	* libs/gcr/application.cc: ditto.
+	* libs/gcr/application.h: ditto.
+	* libs/gcr/document.cc: ditto.
+	* libs/gcr/window.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/window.cc: ditto.
+
 2011-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: more work on gcrystal files support in component.
 	* goffice/gogcrystalapp.cc: ditto.

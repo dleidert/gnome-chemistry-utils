@@ -40,6 +40,12 @@ static const char *ui_description =
 "        <menuitem action='Quit'/>"
 "	   </placeholder>"
 "    </menu>"
+"	 <placeholder name='menu1'>"
+"      <menu action='WindowsMenu'>"
+"        <menuitem action='NewView'/>"
+"        <menuitem action='CloseView'/>"
+"      </menu>"
+"	 </placeholder>"
 "  </menubar>"
 "</ui>";
 

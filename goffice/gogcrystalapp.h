@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils GOffice component
  * gogcrystalapp.h
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -37,14 +37,13 @@ public:
 	virtual GtkWindow* GetWindow();
 	virtual void ToggleMenu (const std::string& menuname, bool active);
 
-	gcu::Document *ImportDocument (const std::string& mime_type, const char* data, int length);
+	void ImportDocument (GOGChemUtilsComponent *gogcu);
 	GtkWindow *EditDocument (GOGChemUtilsComponent *gogcu);
 	bool GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), gpointer *user_data);
 	void Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height);
 	void UpdateBounds (GOGChemUtilsComponent *gogcu);
 
 	gcr::Document *OnFileNew ();
-	gcr::Window *CreateNewWindow (gcr::Document *doc);
 	void OnFileClose ();
 
 	void NoMoreDocsEvent () {;}

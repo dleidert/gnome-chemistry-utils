@@ -65,7 +65,11 @@ go_gchemutils_component_set_data (GOComponent *component)
 		if (!gogcu->application)
 			return;
 	}
-	gogcu->document = gogcu->application->ImportDocument (component->mime_type, component->data, component->length);
+	if (gogcu->document) {
+		delete gogcu->document;
+		gogcu->document = NULL;
+	}
+	gogcu->application->ImportDocument (gogcu);
 	gogcu->application->UpdateBounds (gogcu);
 }
 

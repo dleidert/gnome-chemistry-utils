@@ -447,7 +447,7 @@ Document* Application::GetDocument (const char* filename)
 		return pDoc;
 	if (m_bFileOpening) {
 		pDoc = m_pActiveDoc;
-		if (!pDoc->GetEmpty () || pDoc->GetDirty ())
+		if (pDoc && (!pDoc->GetEmpty () || pDoc->GetDirty ()))
 			pDoc = NULL;
 	}
 	if (!pDoc) {
@@ -456,5 +456,11 @@ Document* Application::GetDocument (const char* filename)
 	}
 	return pDoc;
 }
+
+Window *Application::CreateNewWindow (Document *)
+{
+	return NULL;
+}
+	
 
 }	//	namespace gcr

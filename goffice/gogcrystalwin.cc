@@ -2,7 +2,7 @@
  * GChemPaint GOffice component
  * gogcrystalwin.cc
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -27,11 +27,12 @@
 #include "gogcrystalwin.h"
 #include <gcr/application.h>
 #include <gcr/document.h>
+#include <gcr/view.h>
 #include <gcu/application.h>
 #include <glib/gi18n-lib.h>
 
 GOGCrystalWindow::GOGCrystalWindow (GOGCrystalApplication *App, GOGChemUtilsComponent *gogcu):
-	gcr::Window (App, static_cast <gcr::Document * > (gogcu->document))
+	gcr::Window (App, new gcr::Document (App))
 {
 	m_gogcu = gogcu;
 	gogcu->window = this;
@@ -45,7 +46,7 @@ GOGCrystalWindow::GOGCrystalWindow (GOGCrystalApplication *App, GOGChemUtilsComp
 			xmlFreeDoc (xml);
 			xml = NULL;
 		}
-		SetTitle (m_Document->GetLabel ());
+		m_Document->UpdateAllViews ();
 		gtk_window_present (GetWindow ());
 	}
 	catch (int i) {
@@ -68,10 +69,13 @@ void GOGCrystalWindow::OnSave ()
 	delete m_gogcu->document;
 	gcr::Document *doc = new gcr::Document (GetApplication ());
 	m_gogcu->document = doc;
-//	doc->GetView ()->CreateNewWidget ();
 	xmlDocPtr xml = NULL; // makes g++ happy
 	try {
 		xml = m_Document->BuildXMLTree ();
+		xmlChar *mem;
+		int size;
+		xmlDocDumpMemory (xml, &mem, &size);
+		gtk_widget_show_all (doc->GetView ()->GetWidget ());
 		doc->ParseXMLTree (xml->children);
 		xmlFreeDoc (xml);
 		xml = NULL;

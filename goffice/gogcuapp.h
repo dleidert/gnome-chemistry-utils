@@ -36,7 +36,7 @@ public:
 	GOGcuApplication ();
 	virtual ~GOGcuApplication ();
 
-	virtual gcu::Document *ImportDocument (const std::string& mime_type, const char* data, int length) = 0;
+	virtual void ImportDocument (GOGChemUtilsComponent *gogcu) = 0;
 	virtual GtkWindow *EditDocument (GOGChemUtilsComponent *gogcu) = 0;
 	virtual bool GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), gpointer *user_data) = 0;
 	virtual void Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height) = 0;

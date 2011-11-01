@@ -116,7 +116,8 @@ Document::~Document()
 	while (!m_Views.empty ()) {
 		m_Views.pop_back ();
 	}
-	g_free (m_filename);
+	if (m_filename)
+		g_free (m_filename);
 	Reinit ();
 	gcu::Dialog *dialog;
 	while (!m_Dialogs.empty ()) {
@@ -163,6 +164,8 @@ void Document::Init()
 	m_xmax = m_ymax = m_zmax = 1;
 	m_FixedSize = false;
 	m_MaxDist = 0;
+	m_filename = NULL;
+	m_Label = NULL;
 }
 
 void Document::ParseXMLTree (xmlNode* xml)
@@ -245,11 +248,11 @@ void Document::ParseXMLTree (xmlNode* xml)
 			else
 				delete pCleavage;
 		} else if (!strcmp ((gchar*) node->name, "view")) {
-			if (!bViewLoaded) {
-				m_Views.front ()->Load (node); //the first view is created with the document
-				bViewLoaded = true;
-			} else
+			if (!bViewLoaded &&! m_Views.empty ())
+				m_Views.front ()->Load (node);
+			else
 				LoadNewView (node);
+			bViewLoaded = true;
 		}
 		node = node->next;
 	}
@@ -278,7 +281,7 @@ View *Document::GetView ()
 
 void Document::Update ()
 {
-	m_Empty = (AtomDef.empty () && LineDef.empty ()) ? true : false;
+	m_Empty = AtomDef.empty () && LineDef.empty ();
 	Atom atom;
 	Line line;
 	gdouble alpha = m_alpha * M_PI / 180;

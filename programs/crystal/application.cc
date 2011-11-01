@@ -53,6 +53,7 @@ gcr::Document *gcApplication::OnFileNew ()
 	g_snprintf (buf, sizeof (buf), _("Untitled%d"), nNewDocs++);
 	pDoc->SetLabel (buf);
 	new gcWindow (this, pDoc);
+	m_pActiveDoc = pDoc;
 	return pDoc;
 }
 

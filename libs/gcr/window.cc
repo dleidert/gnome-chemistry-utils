@@ -371,10 +371,7 @@ static const char *ui_description =
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ViewSettings'/>"
 "    </menu>"
-"    <menu action='WindowsMenu'>"
-"      <menuitem action='NewView'/>"
-"      <menuitem action='CloseView'/>"
-"    </menu>"
+"	 <placeholder name='menu1'/>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"
 "      <menuitem action='Mail'/>"
@@ -418,7 +415,7 @@ Window::Window (gcu::Application *app, Document *doc, char const *extra_ui):
 
 	m_UIManager = new gcugtk::UIManager (gtk_ui_manager_new ());
 	GtkUIManager *manager = static_cast < gcugtk::UIManager * > (m_UIManager)->GetUIManager ();
-	g_object_connect (m_UIManager,
+	g_object_connect (manager,
 		"signal::connect_proxy",    G_CALLBACK (on_connect_proxy), this,
 		"signal::disconnect_proxy", G_CALLBACK (on_disconnect_proxy), this,
 		NULL);
