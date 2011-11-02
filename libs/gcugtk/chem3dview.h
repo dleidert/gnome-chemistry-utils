@@ -2,9 +2,9 @@
 
 /*
  * Gnome Chemistry Utils
- * programs/3d/window.h
+ * gcugtk/chem3dview.h
  *
- * Copyright (C) 2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -22,28 +22,41 @@
  * USA
  */
 
-#ifndef GC3D_WINDOW_H
-#define GC3D_WINDOW_H
+#ifndef GCU_GTK_CHEM3D_VIEW_H
+#define GCU_GTK_CHEM3D_VIEW_H
 
-#include <gcugtk/chem3dwindow.h>
+#include "glview.h"
 
-namespace gcugtk
-{
-	class Molecule;
-}
+/*!\file*/
+namespace gcugtk {
 
-class gc3dApplication;
-class gc3dDocument;
-class gc3dView;
+class Chem3dDoc;
+class Chem3dWindow;
 
-class gc3dWindow: public gcugtk::Chem3dWindow
+/*!
+\class Chem3dView gcugtk/chem3dview.h
+
+View class for a molecule.
+*/
+class Chem3dView: public GLView
 {
 public:
-	gc3dWindow (gc3dApplication *App, gc3dDocument *Doc);
-	virtual ~gc3dWindow ();
+/*!
+@param doc the document for the view.
 
-	void SetTitle (char const *title);
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
+Default constructor
+*/
+	Chem3dView (Chem3dDoc *doc);
+
+	/*!
+Default destructor
+*/
+	virtual ~Chem3dView ();
+
+// Properties
+GCU_POINTER_PROP (Chem3dWindow, Window);
 };
 
-#endif	// GC3D_WINDOW_H
+}	// namespace gcugtk
+
+#endif	//	GCU_GTK_CHEM3D_VIEW_H

@@ -25,19 +25,16 @@
 #ifndef GC3D_VIEW_H
 #define GC3D_VIEW_H
 
-#include <gcugtk/glview.h>
+#include <gcugtk/chem3dview.h>
 
 class gc3dDocument;
 class gc3dWindow;
 
-class gc3dView: public gcugtk::GLView
+class gc3dView: public gcugtk::Chem3dView
 {
 public:
 	gc3dView (gc3dDocument *Doc);
 	virtual ~gc3dView ();
-
-// Properties
-GCU_PROP (gc3dWindow*, Window);
 };
 
 #endif	//	GC3D_VIEW_H

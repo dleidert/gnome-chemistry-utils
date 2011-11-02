@@ -26,7 +26,7 @@
 #include "document.h"
 #include "view.h"
 
-gc3dView::gc3dView (gc3dDocument *Doc): gcugtk::GLView (Doc)
+gc3dView::gc3dView (gc3dDocument *Doc): gcugtk::Chem3dView (Doc)
 {
 }
 

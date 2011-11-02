@@ -56,7 +56,11 @@ Spectral data.
 /*!
 Miscalleneous contents. Might include anything.
 */
-	ContentTypeMisc
+	ContentTypeMisc,
+/*!
+Invalid data.
+*/
+	ContentTypeInvalid
 } ContentType;
 
 }   //  namespace gcu

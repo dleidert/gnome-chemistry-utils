@@ -45,7 +45,7 @@ void gc3dDocument::Load (char const *uri, char const *mime_type)
 	if (!*title)
 		title = g_path_get_basename (uri);
 	char *buf = g_uri_unescape_string (title, NULL);
-	gc3dWindow *window = static_cast <gc3dView *> (m_View)->GetWindow ();
+	gc3dWindow *window = static_cast < gc3dWindow * > (static_cast < gc3dView * > (m_View)->GetWindow ());
 	window->SetTitle (buf);
 	gcugtk::Molecule *mol = static_cast < gcugtk::Molecule * > (GetMol ());
 	if (mol && mol->GetChildrenNumber ())

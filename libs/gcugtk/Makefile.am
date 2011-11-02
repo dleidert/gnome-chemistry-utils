@@ -25,7 +25,10 @@ libgcugtk_@GCU_API_VER@_la_SOURCES = \
 		\
 		application.cc \
 		cmd-context-gtk.cc \
+		chem3dapplication.cc	\
 		chem3ddoc.cc	\
+		chem3dview.cc	\
+		chem3dwindow.cc	\
 		dialog.cc	\
 		filechooser.cc	\
 		gcuchem3dviewer.cc \
@@ -48,7 +51,10 @@ libgcugtk_@GCU_API_VER@_la_SOURCES = \
 noinst_HEADERS = \
 		application.h \
 		cmd-context-gtk.h \
+		chem3dapplication.h	\
 		chem3ddoc.h	\
+		chem3dview.h	\
+		chem3dwindow.h	\
 		dialog.h	\
 		filechooser.h	\
 		gcuchem3dviewer.h \

@@ -26,6 +26,7 @@
 #include "gchemutils.h"
 #include <gogcuapp.h>
 #include <gcu/document.h>
+#include <gcu/structs.h>
 #include <gcugtk/window.h>
 
 struct _GOGChemUtilsComponent
@@ -35,6 +36,7 @@ struct _GOGChemUtilsComponent
 	GOGcuApplication *application;
 	gcu::Document *document;
 	gcugtk::Window *window; // TODO use a gcu::Window.
+	gcu::ContentType type;
 };
 
 

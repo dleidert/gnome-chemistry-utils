@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 	}
 
 	gc3dApplication *App = new gc3dApplication (display3d_mode_from_string (display3d), bgcolor);
-	gc3dDocument *pDoc = App->OnFileNew();
+	gcugtk::Chem3dDoc *pDoc = App->OnFileNew();
 	path = g_get_current_dir ();
 	dir = g_strconcat (path, "/", NULL);
 	g_free (path);

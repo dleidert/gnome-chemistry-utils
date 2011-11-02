@@ -25,27 +25,18 @@
 #ifndef GC3D_APPLICATION_H
 #define GC3D_APPLICATION_H
 
-#include <gcugtk/application.h>
+#include <gcugtk/chem3dapplication.h>
 #include <gcu/chem3ddoc.h>
 
 class gc3dDocument;
 
-class gc3dApplication: public gcugtk::Application
+class gc3dApplication: public gcugtk::Chem3dApplication
 {
 public:
 	gc3dApplication (gcu::Display3DMode display3d = gcu::BALL_AND_STICK, char const *bg = "black");
 	~gc3dApplication ();
 
-	gc3dDocument *OnFileNew ();
-	void OnFileOpen (gc3dDocument *Doc);
-	void OnSaveAsImage (gc3dDocument *Doc);
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
-	void OnQuit ();
-
-GCU_RO_PROP (gcu::Display3DMode, Display3D)
-GCU_RO_PROP (float, Red);
-GCU_RO_PROP (float, Green);
-GCU_RO_PROP (float, Blue);
+	gcugtk::Chem3dDoc *OnFileNew ();
 };
 
 #endif	//	GC3D_APPLICATION_H

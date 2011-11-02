@@ -24,10 +24,11 @@
 #include "gchemutils-priv.h"
 #include "gogcpapp.h"
 #include "gogcrystalapp.h"
+#include "gogchem3dapp.h"
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <goffice/component/go-component-factory.h>
-#include <libintl.h>
+#include <glib/gi18n-lib.h>
 #include <map>
 #include <string>
 #include <cstring>
@@ -37,6 +38,48 @@
 extern "C"
 {
 
+static struct {
+	gcu::ContentType type;
+	char const *name;
+} content_types[gcu::ContentTypeInvalid] = {
+	{gcu::ContentTypeUnknown, "auto"},
+	{gcu::ContentType3D, "3d"},
+	{gcu::ContentType2D, "2d"},
+	{gcu::ContentTypeCrystal, "crystal"},
+	{gcu::ContentTypeSpectrum, "spectrum"},
+	{gcu::ContentTypeMisc, "misc"}
+};
+
+static gcu::ContentType
+gcu_content_type_from_str (char const *name)
+{
+	unsigned i;
+	gcu::ContentType ret = gcu::ContentTypeUnknown;
+
+	for (i = 0; i < gcu::ContentTypeInvalid; i++) {
+		if (strcmp (content_types[i].name, name) == 0) {
+			ret = content_types[i].type;
+			break;
+		}
+	}
+	return ret;
+}
+
+char const *
+gcu_content_type_as_string (gcu::ContentType type)
+{
+	unsigned i;
+	char const *ret = "auto";
+
+	for (i = 0; i < gcu::ContentTypeInvalid; i++) {
+		if (content_types[i].type == type) {
+			ret = content_types[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+
 extern GOPluginModuleDepend const go_plugin_depends [] = {
     { "goffice", GOFFICE_API_VERSION }
 };
@@ -45,7 +88,16 @@ extern GOPluginModuleHeader const go_plugin_header =
 
 static GObjectClass *gogcu_parent_klass;
 
+enum {
+	GOGCU_PROP_0,
+	GOGCU_PROP_TYPE,
+	GOGCU_PROP_PSI,
+	GOGCU_PROP_THETA,
+	GOGCU_PROP_PHI
+};
+
 using namespace std;
+
 static map <string, GOGcuApplication *> Apps;
 
 static gboolean
@@ -61,7 +113,10 @@ go_gchemutils_component_set_data (GOComponent *component)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);
 	if (!gogcu->application) {
-		gogcu->application = Apps[component->mime_type];
+		if (gogcu->type == gcu::ContentTypeUnknown)
+			gogcu->application = Apps[component->mime_type];
+		else
+			gogcu->application = Apps[gcu_content_type_as_string (gogcu->type)];
 		if (!gogcu->application)
 			return;
 	}
@@ -119,6 +174,59 @@ go_gchemutils_component_set_size (GOComponent *component)
 }
 
 static void
+go_gchemutils_component_set_property (GObject *obj, guint param_id,
+		       GValue const *value, GParamSpec *pspec)
+{
+	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (obj);
+
+	switch (param_id) {
+	case GOGCU_PROP_TYPE:
+		gogcu->type = gcu_content_type_from_str (g_value_get_string (value));
+		break;
+	case GOGCU_PROP_PSI:
+		// FIXME: implement
+		break;
+	case GOGCU_PROP_THETA:
+		// FIXME: implement
+		break;
+	case GOGCU_PROP_PHI:
+		// FIXME: implement
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
+}
+
+static void
+go_gchemutils_component_get_property (GObject *obj, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (obj);
+
+	switch (param_id) {
+	case GOGCU_PROP_TYPE:
+		g_value_set_string (value, gcu_content_type_as_string (gogcu->type));
+		break;
+	case GOGCU_PROP_PSI:
+		// FIXME: return a non default when model is 3d
+			                    g_value_set_double (value, 70.);	       
+		break;
+	case GOGCU_PROP_THETA:
+		// FIXME: return a non default when model is 3d
+			                    g_value_set_double (value, 10.);	       
+		break;
+	case GOGCU_PROP_PHI:
+		// FIXME: return a non default when model is 3d
+		g_value_set_double (value, -90.);	       
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
+}
+
+static void
 go_gchemutils_component_finalize (GObject *obj)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (obj);
@@ -130,12 +238,14 @@ go_gchemutils_component_finalize (GObject *obj)
 static void
 go_gchemutils_component_init (GOComponent *component)
 {
+	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);
 	component->resizable = false;
 	component->editable = true;
 	component->ascent = 1.;
 	component->descent = 0.;
 	component->width = 1.;
 	component->snapshot_type = GO_SNAPSHOT_SVG;
+	gogcu->type = gcu::ContentTypeUnknown;
 }
 
 static void
@@ -143,6 +253,8 @@ go_gchemutils_component_class_init (GOComponentClass *klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) klass;
 	obj_klass->finalize = go_gchemutils_component_finalize;
+	obj_klass->get_property = go_gchemutils_component_get_property;
+	obj_klass->set_property = go_gchemutils_component_set_property;
 
 	gogcu_parent_klass = (GObjectClass*) g_type_class_peek_parent (klass);
 
@@ -152,6 +264,23 @@ go_gchemutils_component_class_init (GOComponentClass *klass)
 	klass->edit = go_gchemutils_component_edit;
 	klass->mime_type_set = go_gchemutils_component_mime_type_set;
 	klass->set_size = go_gchemutils_component_set_size;
+
+	g_object_class_install_property (obj_klass, GOGCU_PROP_TYPE,
+					 g_param_spec_string ("type", _("Type"),
+							    _("Whether the model should be represented in 2d, 3d, or as a crystal cell"),
+							    "auto", static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
+	g_object_class_install_property (obj_klass, 	GOGCU_PROP_PSI,
+					 g_param_spec_double ("psi", _("Psi"),
+							    _("Value of Euler's Psi angle"),
+							    -180., 180., 70, static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
+	g_object_class_install_property (obj_klass, 	GOGCU_PROP_THETA,
+					 g_param_spec_double ("psi", _("Psi"),
+							    _("Value of Euler's Psi angle"),
+							    0., 180., 10, static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
+	g_object_class_install_property (obj_klass, 	GOGCU_PROP_PHI,
+					 g_param_spec_double ("phi", _("Phi"),
+							    _("Value of Euler's Phi angle"),
+							    -180., 180., -90., static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
 }
 
 GSF_DYNAMIC_CLASS (GOGChemUtilsComponent, go_gchemutils_component,
@@ -167,11 +296,15 @@ go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	GTypeModule *module = go_plugin_get_type_module (plugin);
 	go_gchemutils_component_register_type (module);
-//	go_components_set_mime_suffix ("chemical/x-xyz", "*.xyz");
+	go_components_set_mime_suffix ("chemical/x-xyz", "*.xyz");
 	go_components_set_mime_suffix ("application/x-gchempaint", "*.gchempaint");
 	go_components_set_mime_suffix ("application/x-gcrystal", "*.gcrystal");
 	Apps["application/x-gchempaint"] = new GOGcpApplication ();
+	Apps["2d"] = new GOGcpApplication ();
 	Apps["application/x-gcrystal"] = new GOGCrystalApplication ();
+	Apps["crystal"] = new GOGCrystalApplication ();
+	Apps["chemical/x-xyz"] = new GOGChem3dApplication ();
+	Apps["3d"] = new GOGChem3dApplication ();
 // TODO: add other types
 }
 
