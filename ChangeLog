@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2011-11-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils.cc: don't duplicate applications.
+	* libs/gcu/chem3ddoc.cc: moved string to/from display mode here.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcugtk/chem3dwindow.cc: more work for the goffice plugin.
+	* libs/gcugtk/chem3dwindow.h: ditto.
+	* programs/3d/main.cc: moved string to/from display mode to gcu library.
+	* programs/3d/window.cc: ensure Quit menu item presence.
+
 2011-11-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/Makefile.am: start working on 3d viewer support in the goffice
 	component.

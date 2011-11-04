@@ -93,7 +93,8 @@ enum {
 	GOGCU_PROP_TYPE,
 	GOGCU_PROP_PSI,
 	GOGCU_PROP_THETA,
-	GOGCU_PROP_PHI
+	GOGCU_PROP_PHI,
+	GOGCU_PROP_3DMODE
 };
 
 using namespace std;
@@ -192,6 +193,9 @@ go_gchemutils_component_set_property (GObject *obj, guint param_id,
 	case GOGCU_PROP_PHI:
 		// FIXME: implement
 		break;
+	case GOGCU_PROP_3DMODE:
+		// FIXME: implement
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		return; /* NOTE : RETURN */
@@ -210,15 +214,19 @@ go_gchemutils_component_get_property (GObject *obj, guint param_id,
 		break;
 	case GOGCU_PROP_PSI:
 		// FIXME: return a non default when model is 3d
-			                    g_value_set_double (value, 70.);	       
+		g_value_set_double (value, 70.);	       
 		break;
 	case GOGCU_PROP_THETA:
 		// FIXME: return a non default when model is 3d
-			                    g_value_set_double (value, 10.);	       
+		g_value_set_double (value, 10.);	       
 		break;
 	case GOGCU_PROP_PHI:
 		// FIXME: return a non default when model is 3d
 		g_value_set_double (value, -90.);	       
+		break;
+	case GOGCU_PROP_3DMODE:
+		g_value_set_string (value, "ball&stick");
+		// FIXME: implement
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -271,16 +279,20 @@ go_gchemutils_component_class_init (GOComponentClass *klass)
 							    "auto", static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
 	g_object_class_install_property (obj_klass, 	GOGCU_PROP_PSI,
 					 g_param_spec_double ("psi", _("Psi"),
-							    _("Value of Euler's Psi angle"),
+							    _("Value of Euler's Ψ angle"),
 							    -180., 180., 70, static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
 	g_object_class_install_property (obj_klass, 	GOGCU_PROP_THETA,
-					 g_param_spec_double ("psi", _("Psi"),
-							    _("Value of Euler's Psi angle"),
+					 g_param_spec_double ("theta", _("Theta"),
+							    _("Value of Euler's Θ angle"),
 							    0., 180., 10, static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
 	g_object_class_install_property (obj_klass, 	GOGCU_PROP_PHI,
 					 g_param_spec_double ("phi", _("Phi"),
-							    _("Value of Euler's Phi angle"),
+							    _("Value of Euler's Φ angle"),
 							    -180., 180., -90., static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
+	g_object_class_install_property (obj_klass, GOGCU_PROP_TYPE,
+					 g_param_spec_string ("mode", _("Display mode"),
+							    _("The display mode for the molecule: \"ball&stick\", \"spacefill\", \"cylinders\", or \"wireframe\""),
+							    "ball&stick", static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
 }
 
 GSF_DYNAMIC_CLASS (GOGChemUtilsComponent, go_gchemutils_component,
@@ -299,12 +311,9 @@ go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 	go_components_set_mime_suffix ("chemical/x-xyz", "*.xyz");
 	go_components_set_mime_suffix ("application/x-gchempaint", "*.gchempaint");
 	go_components_set_mime_suffix ("application/x-gcrystal", "*.gcrystal");
-	Apps["application/x-gchempaint"] = new GOGcpApplication ();
-	Apps["2d"] = new GOGcpApplication ();
-	Apps["application/x-gcrystal"] = new GOGCrystalApplication ();
-	Apps["crystal"] = new GOGCrystalApplication ();
-	Apps["chemical/x-xyz"] = new GOGChem3dApplication ();
-	Apps["3d"] = new GOGChem3dApplication ();
+	Apps["2d"] = Apps["application/x-gchempaint"] = new GOGcpApplication ();
+	Apps["crystal"] = Apps["application/x-gcrystal"] = new GOGCrystalApplication ();
+	Apps["3d"] = Apps["chemical/x-xyz"] = new GOGChem3dApplication ();
 // TODO: add other types
 }
 

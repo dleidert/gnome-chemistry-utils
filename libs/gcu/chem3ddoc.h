@@ -118,6 +118,9 @@ Clears the document.
 	void Clear ();
 	virtual GLView *CreateView ();
 
+	static Display3DMode Display3DModeFromString (char const *name);
+	static char const *Display3DModeAsString (Display3DMode mode);
+
 /*!\fn SetDisplay3D(Display3DMode mode)
 @param mode: the new mode.
 

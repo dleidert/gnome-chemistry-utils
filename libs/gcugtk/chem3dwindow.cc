@@ -48,6 +48,7 @@ public:
 	static void ImportMolecule (G_GNUC_UNUSED GtkWidget* widget, Chem3dWindow *Win);
 	static void DoImportMol (gcu::Document *doc, char const *str);
 	static void OnOpenCalc (G_GNUC_UNUSED GtkWidget *widget, Chem3dWindow *Win);
+	static void Save (GtkWidget *widget, Chem3dWindow *Win);
 };
 
 void Chem3dWindowPrivate::ImportMolecule (G_GNUC_UNUSED GtkWidget* widget, Chem3dWindow* Win)
@@ -126,6 +127,11 @@ void Chem3dWindowPrivate::OnOpenCalc (G_GNUC_UNUSED GtkWidget *widget, Chem3dWin
 	std::ostringstream ofs;
 	ofs << "gchemcalc-"API_VERSION" " << mol->GetRawFormula ();
 	g_spawn_command_line_async (ofs.str ().c_str (), NULL);
+}
+
+void Chem3dWindowPrivate::Save (G_GNUC_UNUSED GtkWidget* widget, Chem3dWindow* Win)
+{
+	Win->Save ();
 }
 
 //Callbacks
@@ -259,6 +265,8 @@ static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File"), NULL, NULL, NULL },
 	  { "Open", GTK_STOCK_OPEN, N_("_Open..."), "<control>O",
 		  N_("Open a file"), G_CALLBACK (on_file_open) },
+	  { "Save", GTK_STOCK_SAVE, N_("_Save"), "<control>S",
+		  N_("Save the current settings"), G_CALLBACK (Chem3dWindowPrivate::Save) },
 	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
 		  N_("Save the current file as an image"), G_CALLBACK (on_file_save_as_image) },
 	  { "PageSetup", NULL, N_("Page Set_up..."), NULL,
@@ -320,6 +328,7 @@ static const char *ui_description =
 "  <menubar name='MainMenu'>"
 "    <menu action='FileMenu'>"
 "      <menuitem action='Open'/>"
+"      <placeholder name='file1'/>"
 "      <menuitem action='SaveAsImage'/>"
 "	   <separator name='file-sep1'/>"
 "      <menuitem action='PageSetup'/>"
@@ -327,7 +336,7 @@ static const char *ui_description =
 "      <menuitem action='Print'/>"
 "	   <separator name='file-sep2'/>"
 "      <menuitem action='Close'/>"
-"      <menuitem action='Quit'/>"
+"	   <placeholder name='file2'/>"
 "    </menu>"
 "    <menu action='ViewMenu'>"
 "      <menuitem action='BallnStick'/>"
@@ -351,7 +360,7 @@ static const char *ui_description =
 "  </menubar>"
 "</ui>";
 
-Chem3dWindow::Chem3dWindow (Application *app, Chem3dDoc *doc):
+Chem3dWindow::Chem3dWindow (Application *app, Chem3dDoc *doc, char const *extra_ui):
 Window (),
 m_Application (app),
 m_Document (doc),
@@ -390,6 +399,10 @@ m_View (NULL)
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 		exit (EXIT_FAILURE);
+	}
+	if (extra_ui && !gtk_ui_manager_add_ui_from_string (manager, extra_ui, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
 	}
 	// add database access menus
 	GtkWidget *menu = gtk_ui_manager_get_widget (manager, "/MainMenu/FileMenu/Open");
@@ -453,6 +466,10 @@ void Chem3dWindow::AddMoleculeMenus (Molecule *mol)
 	GtkUIManager *manager = static_cast < gcugtk::UIManager * > (m_UIManager)->GetUIManager ();
 	gtk_ui_manager_add_ui_from_string (manager, ui_mol_description, -1, NULL);
 	mol->BuildDatabasesMenu (manager, "<ui><menubar name='MainMenu'><menu action='ToolsMenu'>", "</menu></menubar></ui>");
+}
+
+void Chem3dWindow::Save ()
+{
 }
 
 }	// namespace gcugtk

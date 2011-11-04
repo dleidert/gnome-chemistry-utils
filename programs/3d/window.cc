@@ -29,7 +29,19 @@
 #include "window.h"
 #include <glib/gi18n.h>
 
-gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc): gcugtk::Chem3dWindow (App, Doc)
+static const char *ui_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='FileMenu'>"
+"	   <separator name='file-sep2'/>"
+"	   <placeholder name='file2'>"
+"      <menuitem action='Quit'/>"
+"	   </placeholder>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc): gcugtk::Chem3dWindow (App, Doc, ui_description)
 {
 }
 

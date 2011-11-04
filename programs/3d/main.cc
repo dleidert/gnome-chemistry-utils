@@ -51,30 +51,6 @@ static GOptionEntry options[] =
 	{ NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
 };
 
-static char const *Display3DModeNames[] = {
-	"ball&stick",
-	"spacefill",
-	"cylinders",
-	"wireframe"
-};
-
-static gcu::Display3DMode display3d_mode_from_string (char const *mode)
-{
-	if (mode == NULL)
-		return  gcu::BALL_AND_STICK;
-	// first ensure the string is in lower case
-	char lcmode[16];
-	int i, max = strlen (mode), res = gcu::WIREFRAME;
-	if (max > 15)
-		return  gcu::BALL_AND_STICK;
-	for (i = 0; i < max; i++)
-		lcmode[i] = tolower (mode[i]);
-	lcmode[i] = 0;
-	while (res >=  gcu::BALL_AND_STICK && strcmp (lcmode, Display3DModeNames[res]))
-		res--;
-	return static_cast < gcu::Display3DMode > (res);
-}
-
 
 int main(int argc, char *argv[])
 {
@@ -99,7 +75,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	gc3dApplication *App = new gc3dApplication (display3d_mode_from_string (display3d), bgcolor);
+	gc3dApplication *App = new gc3dApplication (gcu::Chem3dDoc::Display3DModeFromString (display3d), bgcolor);
 	gcugtk::Chem3dDoc *pDoc = App->OnFileNew();
 	path = g_get_current_dir ();
 	dir = g_strconcat (path, "/", NULL);

@@ -51,6 +51,35 @@ using namespace std;
 namespace gcu
 {
 
+static char const *Display3DModeNames[] = {
+	"ball&stick",
+	"spacefill",
+	"cylinders",
+	"wireframe"
+};
+
+Display3DMode Chem3dDoc::Display3DModeFromString (char const *name)
+{
+	if (name == NULL)
+		return  gcu::BALL_AND_STICK;
+	// first ensure the string is in lower case
+	char lcname[16];
+	int i, max = strlen (name), res = gcu::WIREFRAME;
+	if (max > 15)
+		return  gcu::BALL_AND_STICK;
+	for (i = 0; i < max; i++)
+		lcname[i] = tolower (name[i]);
+	lcname[i] = 0;
+	while (res >=  gcu::BALL_AND_STICK && strcmp (lcname, Display3DModeNames[res]))
+		res--;
+	return static_cast < gcu::Display3DMode > (res);
+}
+
+char const *Chem3dDoc::Display3DModeAsString (Display3DMode mode)
+{
+	return Display3DModeNames[mode];
+}
+
 Chem3dDoc::Chem3dDoc (): GLDocument (Application::GetDefaultApplication ())
 {
 	m_View = CreateView ();

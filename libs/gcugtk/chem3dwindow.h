@@ -49,7 +49,7 @@ public:
 
 Default constructor
 */
-	Chem3dWindow (Application *app, Chem3dDoc *doc);
+	Chem3dWindow (Application *app, Chem3dDoc *doc, char const *extra_ui = NULL);
 
 	/*!
 Default destructor
@@ -57,6 +57,9 @@ Default destructor
 	virtual ~Chem3dWindow ();
 
 	void AddMoleculeMenus (Molecule *mol);
+
+protected:
+	virtual void Save ();
 
 GCU_PROT_POINTER_PROP (Application, Application);
 GCU_PROT_POINTER_PROP (Chem3dDoc, Document);
