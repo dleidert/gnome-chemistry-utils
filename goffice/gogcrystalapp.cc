@@ -136,7 +136,7 @@ void GOGCrystalApplication::UpdateBounds (GOGChemUtilsComponent *)
 
 gcr::Document *GOGCrystalApplication::OnFileNew ()
 {
-	return new gcr::Document (this);
+	return m_pActiveDoc = new gcr::Document (this);
 }
 
 void GOGCrystalApplication::OnFileClose ()

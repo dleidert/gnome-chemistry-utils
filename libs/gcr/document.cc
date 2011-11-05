@@ -116,8 +116,7 @@ Document::~Document()
 	while (!m_Views.empty ()) {
 		m_Views.pop_back ();
 	}
-	if (m_filename)
-		g_free (m_filename);
+	g_free (m_filename);
 	Reinit ();
 	gcu::Dialog *dialog;
 	while (!m_Dialogs.empty ()) {
@@ -150,6 +149,9 @@ void Document::Reinit()
 		delete Cleavages.front ();
 		Cleavages.pop_front ();
 	}
+	g_free (m_Author);
+	g_free (m_Mail);
+	g_free (m_Comment);
 	Init ();
 }
 
@@ -166,6 +168,9 @@ void Document::Init()
 	m_MaxDist = 0;
 	m_filename = NULL;
 	m_Label = NULL;
+	m_Author = NULL;
+	m_Mail = NULL;
+	m_Comment = NULL;
 }
 
 void Document::ParseXMLTree (xmlNode* xml)

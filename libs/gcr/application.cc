@@ -85,6 +85,7 @@ Application::Application (): gcugtk::Application ("gcrystal")
 		}
 		found = gcu::Loader::GetNextLoader (it);
 	}
+	m_pActiveDoc = NULL;
 }
 
 Application::~Application ()
@@ -332,7 +333,9 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			type = CML;
 		else
 			return true;
+		m_bFileOpening = true; // force creation of new document if current one is not empty or is dirty
 		Document *xDoc = GetDocument (filename);
+		m_bFileOpening = false;
 		if (xDoc)
 			Doc = xDoc;
 		else if (!pDoc->GetEmpty () || pDoc->GetDirty ())
@@ -447,8 +450,9 @@ Document* Application::GetDocument (const char* filename)
 		return pDoc;
 	if (m_bFileOpening) {
 		pDoc = m_pActiveDoc;
-		if (pDoc && (!pDoc->GetEmpty () || pDoc->GetDirty ()))
+		if (pDoc && (!pDoc->GetEmpty () || pDoc->GetDirty ())){
 			pDoc = NULL;
+		}
 	}
 	if (!pDoc) {
 		OnFileNew ();
@@ -457,9 +461,9 @@ Document* Application::GetDocument (const char* filename)
 	return pDoc;
 }
 
-Window *Application::CreateNewWindow (Document *)
+Window *Application::CreateNewWindow (Document *doc)
 {
-	return NULL;
+	return new Window (this, doc);
 }
 	
 
