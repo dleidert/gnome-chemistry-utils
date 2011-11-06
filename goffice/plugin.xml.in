@@ -31,11 +31,11 @@
 				<_description>CIF file</_description>
 			</information>
 		</service>
-<!--		<service type="component_type" id="GOGChemUtilsComponent">
-			<mime_type name="chemical/x-cml" priority="print" clipboard="yes"/>
+		<service type="component_type" id="GOGChemUtilsComponent">
+			<mime_type name="chemical/x-xyz" priority="print" clipboard="yes"/>
 			<information>
 				<_description>3D chemical structures</_description>
 			</information>
-		</service> -->
+		</service>
 	</services>
 </plugin>

@@ -21,10 +21,14 @@
  */
 
 #include "config.h"
+#include "gchemutils-priv.h"
 #include "gogchem3dapp.h"
+#include <gcugtk/chem3ddoc.h>
 #include <glib/gi18n-lib.h>
 
-GOGChem3dApplication::GOGChem3dApplication (): gcu::Application (_("GChem3D Viewer"), DATADIR, "gchem3d"), GOGcuApplication ()
+GOGChem3dApplication::GOGChem3dApplication ():
+	gcugtk::Application (_("GChem3D Viewer"), DATADIR, "gchem3d"),
+	GOGcuApplication ()
 {
 }
 
@@ -34,6 +38,13 @@ GOGChem3dApplication::~GOGChem3dApplication ()
 
 void GOGChem3dApplication::ImportDocument (GOGChemUtilsComponent *gogcu)
 {
+	gcugtk::Chem3dDoc *doc = new gcugtk::Chem3dDoc (this, NULL);
+	GOComponent *component = GO_COMPONENT (gogcu);
+	gcu::ContentType type = Load (component->data, component->mime_type, doc);
+	if (type != gcu::ContentType3D) {
+		// FIXME: load in the appropriate application, may be asking in case of a 2d view 
+	}
+	gogcu->document = doc;
 }
 
 GtkWindow *GOGChem3dApplication::EditDocument (GOGChemUtilsComponent *gogcu)

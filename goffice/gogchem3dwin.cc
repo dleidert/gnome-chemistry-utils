@@ -1,6 +1,6 @@
 /*
- * Gnome Chemistry Utils GOffice component
- * gogchem3dapp.h
+ * GChemPaint GOffice component
+ * gogchem3dwin.h
  *
  * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -20,28 +20,28 @@
  * USA
  */
 
-#ifndef GO_GCHEM3D_APP_H
-#define GO_GCHEM3D_APP_H
+#include "config.h"
+#include "gogchem3dapp.h"
+#include "gogchem3dwin.h"
+#include <gcugtk/chem3ddoc.h>
+#include <gcugtk/chem3dview.h>
+#include <glib/gi18n-lib.h>
 
-#include "gchemutils.h"
-#include "gogcuapp.h"
-#include <gcugtk/application.h>
-
-namespace gcu {
-	class Document;
+GOGChem3dWindow::GOGChem3dWindow (GOGChem3dApplication *App, GOGChemUtilsComponent *gogcu):
+	gcugtk::Chem3dWindow (App, new gcugtk::Chem3dDoc (App, GetView ())),
+	m_gogcu (gogcu)
+{
 }
 
-class GOGChem3dApplication: public gcugtk::Application, public GOGcuApplication
+GOGChem3dWindow::~GOGChem3dWindow ()
 {
-public:
-	GOGChem3dApplication ();
-	virtual ~GOGChem3dApplication ();
+}
 
-	void ImportDocument (GOGChemUtilsComponent *gogcu);
-	GtkWindow *EditDocument (GOGChemUtilsComponent *gogcu);
-	bool GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), gpointer *user_data);
-	void Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height);
-	void UpdateBounds (GOGChemUtilsComponent *gogcu);
-};
+void GOGChem3dWindow::OnSave ()
+{
+}
 
-#endif	// GO_GCHEM3D_APP_H
+char const *GOGChem3dWindow::GetDefaultTitle ()
+{
+	return _("Embedded GChem3d Object");
+}

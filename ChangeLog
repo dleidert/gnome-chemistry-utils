@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-11-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/Makefile.am: add a window class for 3d views.
+	* goffice/gogchem3dapp.cc: implement load data.
+	* goffice/gogchem3dapp.h: fixed class declaration.
+	* goffice/gogchem3dwin.cc: add a window class for 3d views.
+	* goffice/gogchem3dwin.h: ditto.
+	* goffice/plugin.xml.in: support chemical/x-xyz at the print level.
+
 2011-11-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogcrystalapp.cc: fixed various issues in component.
 	* libs/gcr/application.cc: ditto.
