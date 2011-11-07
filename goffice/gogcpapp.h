@@ -47,6 +47,7 @@ public:
 	void OnFileClose ();
 
 	void NoMoreDocsEvent () {;}
+	gcu::ContentType GetContentType () {return gcu::ContentType2D;}
 
 private:
 	std::map<gcp::Document *, gpointer> m_Windows;

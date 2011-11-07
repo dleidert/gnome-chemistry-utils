@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-11-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils-priv.h: enhance content type support.
+	* goffice/gchemutils.cc: ditto.
+	* goffice/gogchem3dapp.h: ditto.
+	* goffice/gogcpapp.h: ditto.
+	* goffice/gogcrystalapp.h: ditto.
+	* goffice/gogcuapp.h: ditto.
+
 2011-11-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/Makefile.am: add a window class for 3d views.
 	* goffice/gogchem3dapp.cc: implement load data.

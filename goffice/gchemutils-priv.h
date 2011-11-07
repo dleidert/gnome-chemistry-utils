@@ -24,9 +24,9 @@
 #define GOFFICE_GCHEMUTILS_PRIV_H
 
 #include "gchemutils.h"
+#include <gcu/structs.h>
 #include <gogcuapp.h>
 #include <gcu/document.h>
-#include <gcu/structs.h>
 #include <gcugtk/window.h>
 
 struct _GOGChemUtilsComponent

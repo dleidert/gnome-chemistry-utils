@@ -24,6 +24,7 @@
 #define GO_GCU_APP_H
 
 #include "gchemutils.h"
+#include <gcu/structs.h>
 #include <string>
 
 namespace gcu {
@@ -41,6 +42,7 @@ public:
 	virtual bool GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), gpointer *user_data) = 0;
 	virtual void Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height) = 0;
 	virtual void UpdateBounds (GOGChemUtilsComponent *gogcu) = 0;
+	virtual gcu::ContentType GetContentType () = 0;
 };
 
 #endif	// GO_GCU_APP_H

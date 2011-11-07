@@ -42,6 +42,7 @@ public:
 	bool GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), gpointer *user_data);
 	void Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height);
 	void UpdateBounds (GOGChemUtilsComponent *gogcu);
+	gcu::ContentType GetContentType () {return gcu::ContentType3D;}
 };
 
 #endif	// GO_GCHEM3D_APP_H
