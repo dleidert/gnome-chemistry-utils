@@ -2,6 +2,7 @@
 
 2011-11-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/3d/document.cc: fixed build after glib headers change.
+	* programs/spectra/document.cc: ditto.
 
 2011-10-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cif/cif.cc: really only load the first struture from
