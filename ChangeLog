@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-11-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystalatom.cc: serialize radius effective ratio.
+	* libs/gcu/crystaldoc.cc: don't crash when an atom can't be loaded.
+	* libs/gcu/spacegroup.cc: don't add more atoms than needed.
+	* mozilla-plugin/moz-plugin.c: fixed build.
+
 2011-11-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/3d/document.cc: fixed build after glib headers change.
 	* programs/spectra/document.cc: ditto.

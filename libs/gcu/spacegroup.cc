@@ -269,15 +269,15 @@ list<Vector> SpaceGroup::Transform (const Vector &v) const
 		t = *(*i) * v;
 		if (t.GetX () < 0.)
 			t.GetRefX () += 1.;
-		else if (t.GetX () > 1.)
+		else if (t.GetX () >= 1.)
 			t.GetRefX () -= 1.;
 		if (t.GetY () < 0.)
 			t.GetRefY () += 1.;
-		else if (t.GetY () > 1.)
+		else if (t.GetY () >= 1.)
 			t.GetRefY () -= 1.;
 		if (t.GetZ () < 0.)
 			t.GetRefZ () += 1.;
-		else if (t.GetZ () > 1.)
+		else if (t.GetZ () >= 1.)
 			t.GetRefZ () -= 1.;
 		list <Vector>::iterator j, jend = res.end ();
 		bool duplicate = false;

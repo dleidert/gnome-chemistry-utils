@@ -194,6 +194,8 @@ bool CrystalAtom::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
 	if (!WriteRadius (xml, node, m_Radius))
 		return false;
 
+	gcu::WriteFloat (node, "radius-ratio", m_EffectiveRadiusRatio);
+
 	if (m_bCustomColor && !WriteColor (xml, node, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha))
 		return false;
 
@@ -213,6 +215,7 @@ bool CrystalAtom::LoadNode(xmlNodePtr node)
 	if (!child) return false;
 	m_Radius.Z = GetZ();
 	bool result = ReadRadius(child, m_Radius);
+	gcu::ReadFloat (node, "radius-ratio", m_EffectiveRadiusRatio, 1.);
 	return result;
 }
 

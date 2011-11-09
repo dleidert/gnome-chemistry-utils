@@ -238,8 +238,10 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 			}
 		} else if (!strcmp ((gchar*) node->name, "atom")) {
 			CrystalAtom *pAtom = CreateNewAtom ();
-			if (pAtom->Load (node))
+			if (pAtom->Load (node)) {
 				AddChild (pAtom);
+				AtomDef.remove (pAtom);
+			}
 			else
 				delete pAtom;
 		} else if (!strcmp ((gchar*) node->name, "line")) {
