@@ -39,7 +39,6 @@ namespace gcr
 
 Atom::Atom (): gcu::Atom ()
 {
-	m_Radius.Z = (unsigned char) GetZ();
 	m_Radius.type = GCU_RADIUS_UNKNOWN;
 	m_Radius.scale = NULL;
 	m_Radius.spin = GCU_N_A_SPIN,
@@ -202,6 +201,8 @@ bool Atom::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
 	if (!gcu::WriteRadius (xml, node, m_Radius))
 		return false;
 
+	gcu::WriteFloat (node, "radius-ratio", m_EffectiveRadiusRatio);
+
 	if (m_bCustomColor && !gcu::WriteColor (xml, node, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha))
 		return false;
 
@@ -223,6 +224,7 @@ bool Atom::LoadNode (xmlNodePtr node)
 		return false;
 	m_Radius.Z = GetZ ();
 	bool result = gcu::ReadRadius (child, m_Radius);
+	gcu::ReadFloat (node, "radius-ratio", m_EffectiveRadiusRatio, 1.);
 	return result;
 }
 

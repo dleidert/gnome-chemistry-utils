@@ -326,7 +326,7 @@ go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 	go_components_set_mime_suffix ("application/x-gchempaint", "*.gchempaint");
 	go_components_set_mime_suffix ("application/x-gcrystal", "*.gcrystal");
 	Apps["2d"] = Apps["application/x-gchempaint"] = new GOGcpApplication ();
-	Apps["crystal"] = Apps["application/x-gcrystal"] = new GOGCrystalApplication ();
+	Apps["crystal"] = Apps["chemical/x-cif"] = Apps["application/x-gcrystal"] = new GOGCrystalApplication ();
 	Apps["3d"] = Apps["chemical/x-xyz"] = new GOGChem3dApplication ();
 // TODO: add other types
 }

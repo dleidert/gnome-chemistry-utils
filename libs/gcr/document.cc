@@ -93,37 +93,8 @@ Document::Document (gcu::Application *App): gcu::GLDocument (App),
 
 Document::~Document()
 {
-	while (!AtomDef.empty ()) {
-		delete AtomDef.front ();
-		AtomDef.pop_front ();
-	}
-	while (!Atoms.empty ()) {
-		delete Atoms.front ();
-		Atoms.pop_front ();
-	}
-	while (!LineDef.empty ()) {
-		delete LineDef.front ();
-		LineDef.pop_front ();
-	}
-	while (!Lines.empty ()) {
-		delete Lines.front ();
-		Lines.pop_front ();
-	}
-	while (!Cleavages.empty ()) {
-		delete Cleavages.front ();
-		Cleavages.pop_front ();
-	}
-	while (!m_Views.empty ()) {
-		m_Views.pop_back ();
-	}
 	g_free (m_filename);
 	Reinit ();
-	gcu::Dialog *dialog;
-	while (!m_Dialogs.empty ()) {
-		dialog = m_Dialogs.front ();
-		m_Dialogs.pop_front ();
-		dialog->Destroy ();
-	}
 }
 
 void Document::Reinit()
@@ -238,8 +209,10 @@ void Document::ParseXMLTree (xmlNode* xml)
 		} else if (!strcmp ((gchar*) node->name, "atom")) {
 			Atom *pAtom = CreateNewAtom ();
 			AddChild (pAtom);
-			if (!pAtom->Load (node))
+			if (!pAtom->Load (node)) {
+				AtomDef.remove (pAtom);
 				delete pAtom;
+			}
 		} else if (!strcmp ((gchar*) node->name, "line")) {
 			Line *pLine = CreateNewLine ();
 			if (pLine->Load (node))

@@ -24,16 +24,24 @@
 #include "gchemutils-priv.h"
 #include "gogcrystalapp.h"
 #include "gogcrystalwin.h"
+#include <gcr/atom.h>
 #include <gcr/document.h>
 #include <gcr/view.h>
+#include <gsf/gsf-input-memory.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
 
 using namespace gcu;
 using namespace std;
 
+static gcu::Object *CreateAtom ()
+{
+	return new gcr::Atom ();
+}
+
 GOGCrystalApplication::GOGCrystalApplication (): gcr::Application (), GOGcuApplication ()
 {
+		AddType ("atom", CreateAtom, gcu::AtomType);
 }
 
 GOGCrystalApplication::~GOGCrystalApplication ()
@@ -65,9 +73,16 @@ void GOGCrystalApplication::ImportDocument (GOGChemUtilsComponent *gogcu)
 		gtk_widget_show_all (doc->GetView ()->GetWidget ());
 		doc->ParseXMLTree (xml->children);
 		xmlFreeDoc (xml);
-	} else {
+	} else if (!strcmp (component->mime_type, "chemical/x-cif")) {
+		doc = new gcr::Document (this);
+		GsfInput *input = gsf_input_memory_new (reinterpret_cast < guint8 const * > (component->data), component->length, false);
+		gogcu->type = Load (input, component->mime_type, doc);
+		doc->Loaded ();
+		doc->Update ();
+		g_object_unref (input);
 	}
 	gogcu->document = doc;
+	component->resizable = true;
 }
 
 GtkWindow * GOGCrystalApplication::EditDocument (GOGChemUtilsComponent *gogcu)
@@ -90,6 +105,7 @@ GtkWindow * GOGCrystalApplication::EditDocument (GOGChemUtilsComponent *gogcu)
 bool GOGCrystalApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), G_GNUC_UNUSED gpointer *user_data)
 {
 	gcr::Document *doc = static_cast <gcr::Document *> (gogcu->document);
+	GOComponent *component = GO_COMPONENT (gogcu);
 	bool result = false;
 	xmlDocPtr xml = NULL;
 
@@ -110,6 +126,10 @@ bool GOGCrystalApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *dat
 		*length = size;
 		*clearfunc = xmlFree;
 		result = true;
+		if (strcmp (component->mime_type, "application/x-gcrystal")) {
+			g_free (component->mime_type);
+			component->mime_type = g_strdup ("application/x-gcrystal");
+		}
 	}
 	catch (int) {
 		if (xml)

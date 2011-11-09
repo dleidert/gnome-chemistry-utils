@@ -341,7 +341,6 @@ private:
 	gchar *m_filename;
 	bool m_bClosing;
 	GtkWidget* m_widget;
-	std::list <gcu::Dialog *> m_Dialogs;
 	View *m_pActiveView;
 	std::string m_DefaultLabel;
 	char *m_Label;

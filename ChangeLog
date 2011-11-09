@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-11-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils.cc: add support for CIF files.
+	* goffice/gogcrystalapp.cc: ditto.
+	* libs/gcr/atom.cc: serialize effective radius ratio.
+	* libs/gcr/document.cc: fix crasher.
+	* libs/gcr/document.h: remove local dialogs list.
+	* libs/gcu/spacegroup.cc: don't add too many atoms.
+
 2011-11-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils-priv.h: enhance content type support.
 	* goffice/gchemutils.cc: ditto.
