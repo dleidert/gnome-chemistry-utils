@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2011-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: really fix mozilla plugin build.
+	* mozilla-plugin/moz-plugin.c: ditto.
+
+2011-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: drop GConf support.
 	* gchemutils.schemas.in: ditto.
 	* plugins/paint/arrows/Makefile.am: ditto.

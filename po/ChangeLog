@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: fixed files list.
+
 2011-10-27  Hendrik Knackstedt
 	* de.po: enhanced translation. [#34531]
 

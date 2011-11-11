@@ -260,7 +260,11 @@ NPError NP_GetValue (G_GNUC_UNUSED void *future, NPPVariable variable, void *val
 	return NPERR_NO_ERROR;
 }
 
+#ifdef MOZILLA_USES_CONST_CHAR
+char const *NP_GetMIMEDescription (void)
+#else
 char *NP_GetMIMEDescription (void)
+#endif
 {
 	return ("chemical/x-xyz:xyz:XYZ Coordinate Format;"
 			"chemical/x-mdl-molfile:mol:MDL Molfile;"
