@@ -10,6 +10,8 @@ Version 0.13.5
 		* Use multiple selection in atoms and lines dialogs.
 	GSpectrum:
 		* Allow markup in combo boxes and axes titles.
+	Goffice component:
+		* Add support for crystal structures.
 	Other:
 		* Fixed one more OpenGL related crasher.
 

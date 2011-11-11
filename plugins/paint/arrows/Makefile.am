@@ -1,11 +1,10 @@
 EXTRA_DIST = \
 	$(IMAGES) \
-	$(schemas_in_files)	\
 	org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in
 
 BUILT_SOURCES = gcp-stock-pixbufs.h
 
-CLEANFILES = $(BUILT_SOURCES) $(schemas_DATA) $(gsettings_SCHEMAS)
+CLEANFILES = $(BUILT_SOURCES) $(gsettings_SCHEMAS)
 
 MAINTAINERCLEANFILES = Makefile.in
 
@@ -63,32 +62,8 @@ noinst_HEADERS = \
 uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/arrows
 dist_ui_DATA = arrowtool.ui curvedarrowtool.ui
 
-schemas_in_files = gchempaint-arrows.schemas.in
-
 $(BUILT_SOURCES): $(IMAGES)
 	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@
-
-if USE_GCONF
-schemasdir = $(GCONF_SCHEMA_FILE_DIR)
-schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
-@INTLTOOL_SCHEMAS_RULE@
-
-install-data-local:
-if GCONF_SCHEMAS_INSTALL
-	for p in $(schemas_DATA) ; do \
-		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
-			$(GCONFTOOL) --makefile-install-rule $$p; \
-	done
-endif #GCONF_SCHEMAS_INSTALL
-
-uninstall-local:
-if GCONF_SCHEMAS_INSTALL
-	for schema in $(schemas_DATA) ; do \
-		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
-			$(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
-	done
-endif #GCONF_SCHEMAS_INSTALL
-endif #USE_GCONF
 
 gsettings_SCHEMAS =	\
 	org.gnome.gchemutils.paint.plugins.arrows.gschema.xml

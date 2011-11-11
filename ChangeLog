@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2011-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: drop GConf support.
+	* gchemutils.schemas.in: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/arrows/gchempaint-arrows.schemas.in: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/crystal/gcrystal.schemas.in: ditto.
+	* programs/paint/Makefile.am: ditto.
+	* programs/paint/gchempaint.schemas.in: ditto.
+
 2011-11-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: add support for CIF files.
 	* goffice/gogcrystalapp.cc: ditto.
