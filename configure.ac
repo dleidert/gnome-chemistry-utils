@@ -230,6 +230,7 @@ AC_ARG_ENABLE(
 	[test_mozilla_plugin="$enableval"]
 )
 
+ac_moz_mime_const_char=no
 if test "x$test_mozilla_plugin" != "xno"; then
 	if test -z "$MOZILLA_CONFIG"; then
 		AC_PATH_PROG([MOZILLA_CONFIG], [mozilla-config], [no])
@@ -255,6 +256,8 @@ if test "x$test_mozilla_plugin" != "xno"; then
 		saved_CPPFLAGS=$CPPFLAGS
 		CPPFLAGS=$MOZILLA_CFLAGS
 		AC_CHECK_HEADERS([npfunctions.h])
+		AC_COMPILE_IFELSE([AC_LANG_PROGRAM([#include <npfunctions.h>], [char const *NP_GetMIMEDescription (void);])],
+					[ac_moz_mime_const_char=yes], [ac_moz_mime_const_char=no])
 		CPPFLAGS=$saved_CPPFLAGS
 	fi
 fi
@@ -275,6 +278,9 @@ fi
 AM_CONDITIONAL([WITH_MOZILLA], [test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST([MOZILLA_CFLAGS])
 AC_SUBST([mozlibdir])
+if test "x$ac_moz_mime_const_char" = "xyes"; then
+	AC_DEFINE_UNQUOTED([MOZILLA_USES_CONST_CHAR], [1], [Whether NP_GetMIMEDescription returns const char*])
+fi
 
 
 ##################################################

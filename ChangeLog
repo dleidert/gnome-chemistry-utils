@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: really fix mozilla plugin build.
+	* mozilla-plugin/moz-plugin.c: ditto.
+
 2011-11-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystalatom.cc: serialize radius effective ratio.
 	* libs/gcu/crystaldoc.cc: don't crash when an atom can't be loaded.
