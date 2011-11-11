@@ -1,3 +1,14 @@
+Version 0.12.10
+	GCrystal:
+		* show only atoms from the first crystal when loading a CIF file
+		with several structures.
+		* don't crash when loading a file with invalid atoms.
+		* don't display two atoms at the same position.
+		* don't loose the radius ratio on serialization.
+	Other:
+		* fix build with most recent glib-2.0 and xulrunner.
+		* enhanced translation: de. 
+
 Version 0.12.9
 	GCrystal:
 		* don't allow more than one dialog of each type at once (avoids
