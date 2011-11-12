@@ -1,3 +1,5 @@
+Version 0.12.11
+
 Version 0.12.10
 	GCrystal:
 		* show only atoms from the first crystal when loading a CIF file
