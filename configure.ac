@@ -1,6 +1,6 @@
 AC_PREREQ(2.64)
 
-AC_INIT([gnome-chemistry-utils], [0.13.5], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
+AC_INIT([gnome-chemistry-utils], [0.13.6], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
 AC_CONFIG_SRCDIR([libs/gcugtk/gcuperiodic.c])
 AM_INIT_AUTOMAKE([1.11.1 tar-ustar no-dist-gzip dist-bzip2 dist-xz])
 AM_MAINTAINER_MODE([enable])
@@ -68,7 +68,7 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Package name for in
 
 AC_ARG_ENABLE(
 	[update-databases],
-	AC_HELP_STRING(
+	AS_HELP_STRING(
 		[--enable-update-databases],
 		[
 		 enable (or disable) the running of the update-desktop-database and update-mime-database
@@ -96,7 +96,7 @@ AM_CONDITIONAL([WITH_UPDATE_MIME], [test "x$UPDATE_MIME_DATABASE" != "xno"])
 dnl install desktop files for kde if needed
 AC_ARG_WITH(
 	[kde-mime-dir],
-	AC_HELP_STRING(
+	AS_HELP_STRING(
 		[--with-kde-mime-dir],
 		[
 		 path to KDE's directory containing MIME .desktop files
@@ -148,7 +148,7 @@ PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.3.0])
 PKG_CHECK_MODULES(x11, [x11 >= 1.0.0])
 
 dnl Not sure we need to test for glx.h
-AC_CHECK_HEADER(GL/glx.h,,[AC_ERROR([Error, GL/glx.h not found.])])
+AC_CHECK_HEADER(GL/glx.h,,[AC_MSG_ERROR([Error, GL/glx.h not found.])])
 
 dnl The following 4 lines were borrowed from gnumeric
 dnl The following conditional is set in AM_GCONF_SOURCE_2.
@@ -186,7 +186,7 @@ dnl --without is not handled
 GOFFICE_PLUGINS_DIR=`pkg-config --variable=PluginDir $libgoffice`
 AC_ARG_WITH(
 	[goffice-plugins-dir],
-	AC_HELP_STRING(
+	AS_HELP_STRING(
 		[--with-goffice-plugins-dir],
 		[path to GOffice plugins directory [default=auto]]
 	),
@@ -222,7 +222,7 @@ build_mozilla_plugin=no
 test_mozilla_plugin=true
 AC_ARG_ENABLE(
 	[mozilla-plugin],
-	AC_HELP_STRING(
+	AS_HELP_STRING(
 		[--enable-mozilla-plugin],
 		[build a Mozilla/Firefox chemistry files viewing plugin @<:@default=auto@:>@]
 	),
@@ -262,7 +262,7 @@ fi
 
 AC_ARG_WITH(
 	[mozilla-libdir],
-	AC_HELP_STRING(
+	AS_HELP_STRING(
 		[--with-mozilla-libdir],
 		[path to mozilla/firefox/... libdir @<:@default=auto@:>@]
 	),
@@ -271,7 +271,7 @@ AC_ARG_WITH(
 
 if test -z "$mozlibdir"; then
 		build_mozilla_plugin=no
-		AC_WARN([Mozilla plugins directory has not been set, the plugin will not be built])
+		AS_WARN([Mozilla plugins directory has not been set, the plugin will not be built])
 fi
 AM_CONDITIONAL([WITH_MOZILLA], [test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST([MOZILLA_CFLAGS])
@@ -307,7 +307,7 @@ GNUMERIC_PLUGINS_DIR=`pkg-config --variable=PluginDir $libspreadsheet`
 gnm_version=`pkg-config --modversion $libspreadsheet`
 AC_ARG_WITH(
 	[gnumeric-plugins-dir],
-	AC_HELP_STRING(
+	AS_HELP_STRING(
 		[--with-gnumeric-plugins-dir],
 		[path to Gnumeric plugins directory [default=auto]]
 	),
