@@ -82,14 +82,14 @@ char const *Chem3dDoc::Display3DModeAsString (Display3DMode mode)
 
 Chem3dDoc::Chem3dDoc (): GLDocument (Application::GetDefaultApplication ())
 {
-	m_View = CreateView ();
+	m_View = NULL;
 	m_Display3D = BALL_AND_STICK;
 	m_Mol = NULL;
 }
 
 Chem3dDoc::Chem3dDoc (Application *App, GLView *View): GLDocument (App)
 {
-	m_View = (View)? View: CreateView ();
+	m_View = View;
 	m_Display3D = BALL_AND_STICK;
 	m_Mol = NULL;
 }
@@ -192,7 +192,7 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	g_object_unref (file);
 }
 
-void Chem3dDoc::LoadData (char const *data, char const *mime_type, size_t size)
+ContentType Chem3dDoc::LoadData (char const *data, char const *mime_type, size_t size)
 {
 	bool need_free = false;
 	if (!mime_type) {
@@ -201,7 +201,7 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type, size_t size)
 	}
 	if (!mime_type) {
 		// should not happen
-		return;
+		return ContentTypeUnknown;
 	}
 	if (size == 0)
 		size = strlen (data);
@@ -253,6 +253,7 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type, size_t size)
 	if (need_free)
 		g_free (const_cast <char *> (mime_type));
 	g_object_unref (input);
+	return type;
 }
 
 struct VrmlBond {
@@ -544,11 +545,6 @@ void Chem3dDoc::Clear ()
 {
 	Object::Clear ();
 	m_Mol = NULL;
-}
-
-GLView *Chem3dDoc::CreateView ()
-{
-	return NULL;
 }
 
 }	//	namespace gcu

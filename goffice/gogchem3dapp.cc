@@ -24,6 +24,7 @@
 #include "gchemutils-priv.h"
 #include "gogchem3dapp.h"
 #include <gcugtk/chem3ddoc.h>
+#include <gcu/glview.h>
 #include <glib/gi18n-lib.h>
 
 GOGChem3dApplication::GOGChem3dApplication ():
@@ -40,7 +41,7 @@ void GOGChem3dApplication::ImportDocument (GOGChemUtilsComponent *gogcu)
 {
 	gcugtk::Chem3dDoc *doc = new gcugtk::Chem3dDoc (this, NULL);
 	GOComponent *component = GO_COMPONENT (gogcu);
-	gcu::ContentType type = Load (component->data, component->mime_type, doc);
+	gcu::ContentType type = doc->LoadData (component->data, component->mime_type, component->length);
 	if (type != gcu::ContentType3D) {
 		// FIXME: load in the appropriate application, may be asking in case of a 2d view 
 	}
@@ -59,6 +60,8 @@ bool GOGChem3dApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *data
 
 void GOGChem3dApplication::Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height)
 {
+	gcu::Chem3dDoc *doc = static_cast <gcu::Chem3dDoc *> (gogcu->document);
+	doc->GetView ()->RenderToCairo (cr, width, height, false);
 }
 
 void GOGChem3dApplication::UpdateBounds (GOGChemUtilsComponent *gogcu)

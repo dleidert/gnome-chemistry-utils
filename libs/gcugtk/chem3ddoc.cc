@@ -30,11 +30,11 @@
 namespace gcugtk
 {
 
-Chem3dDoc::Chem3dDoc (): gcu::Chem3dDoc ()
+Chem3dDoc::Chem3dDoc (): gcu::Chem3dDoc (Application::GetDefaultApplication (), CreateView ())
 {
 }
 
-Chem3dDoc::Chem3dDoc (Application *App, GLView *View): gcu::Chem3dDoc (App, View)
+Chem3dDoc::Chem3dDoc (Application *App, GLView *View): gcu::Chem3dDoc (App, View? View: CreateView ())
 {
 }
 

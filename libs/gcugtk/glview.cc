@@ -192,8 +192,10 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 
 GLView::~GLView ()
 {
-	glXDestroyContext (GDK_WINDOW_XDISPLAY (m_Window), m_Context);
-	XFree (m_VisualInfo);
+	if (m_Window) {
+		glXDestroyContext (GDK_WINDOW_XDISPLAY (m_Window), m_Context);
+		XFree (m_VisualInfo);
+	}
 }
 
 void GLView::Update()

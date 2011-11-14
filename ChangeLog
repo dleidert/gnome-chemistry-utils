@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-11-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogchem3dapp.cc: 3d viewer starts working inside goffice
+	component.
+	* libs/gcu/chem3ddoc.cc: ditto.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcugtk/chem3ddoc.cc: ditto.
+	* libs/gcugtk/glview.cc: ditto.
+
 2011-11-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.13.6).
 

@@ -103,7 +103,7 @@ the string length.
 
 Loads a molecule from the provided data.
 */
-	void LoadData (char const *data, char const *mime_type, size_t size = 0);
+	ContentType LoadData (char const *data, char const *mime_type, size_t size = 0);
 
 /*!
 @param filename the name of the vrml file to which the data should be written.
@@ -116,7 +116,7 @@ Exports the embedded molecule as a vrml scene.
 Clears the document.
 */
 	void Clear ();
-	virtual GLView *CreateView ();
+	virtual GLView *CreateView () = 0;
 
 	static Display3DMode Display3DModeFromString (char const *name);
 	static char const *Display3DModeAsString (Display3DMode mode);
