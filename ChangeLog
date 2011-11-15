@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogchem3dapp.cc: add a nil pointer to the documents list to
+	avoid an unwanted call to gtk_main_quit().
+
 2011-11-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogchem3dapp.cc: 3d viewer starts working inside goffice
 	component.

@@ -31,6 +31,7 @@ GOGChem3dApplication::GOGChem3dApplication ():
 	gcugtk::Application (_("GChem3D Viewer"), DATADIR, "gchem3d"),
 	GOGcuApplication ()
 {
+	m_Docs.insert (NULL);	// avoids a call to gtk_main_quit() when all the documents are deleted
 }
 
 GOGChem3dApplication::~GOGChem3dApplication ()
