@@ -47,7 +47,7 @@ gcpGroupDlg::gcpGroupDlg (gcp::Document *Doc, gcpGroup *group):
 	m_Group = group;
 	m_Doc = Doc;
 	m_Data = (gcp::WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
-	align_box = GTK_COMBO_BOX (GetWidget ("align_type"));
+	align_box = GTK_COMBO_BOX (GetWidget ("align-type"));
 	align_btn = GTK_TOGGLE_BUTTON (GetWidget ("align_btn"));
 	group_btn = GTK_TOGGLE_BUTTON (GetWidget ("group_btn"));
 	space_btn = GTK_TOGGLE_BUTTON (GetWidget ("space"));
@@ -79,6 +79,7 @@ gcpGroupDlg::gcpGroupDlg (gcp::Document *Doc, gcpGroup *group):
 	}
 	g_signal_connect_swapped (align_btn, "toggled", G_CALLBACK (on_align_toggled), this);
 	g_signal_connect_swapped (space_btn, "toggled", G_CALLBACK (on_space_toggled), this);
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 gcpGroupDlg::~gcpGroupDlg ()
