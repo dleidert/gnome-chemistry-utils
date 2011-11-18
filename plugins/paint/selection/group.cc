@@ -42,10 +42,14 @@ TypeId GroupType = NoType;
 
 static void on_group_properties (gcpGroup* group)
 {
-	new gcpGroupDlg ((gcp::Document*) group->GetDocument (), group);
+	Dialog *dlg = group->GetDialog ("group");
+	if (dlg)
+		dlg->Present ();
+	else 
+		new gcpGroupDlg ((gcp::Document*) group->GetDocument (), group);
 }
 
-gcpGroup::gcpGroup (): Object(GroupType)
+gcpGroup::gcpGroup (): Object(GroupType), DialogOwner ()
 {
 	SetId ("gr1");
 	m_Align = false;

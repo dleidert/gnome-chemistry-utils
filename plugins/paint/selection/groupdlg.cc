@@ -42,7 +42,7 @@ static void on_space_toggled (gcpGroupDlg *dlg)
 }
 
 gcpGroupDlg::gcpGroupDlg (gcp::Document *Doc, gcpGroup *group):
-	gcugtk::Dialog (Doc->GetApplication (), UIDIR"/group.ui", "group", GETTEXT_PACKAGE, Doc)
+	gcugtk::Dialog (Doc->GetApplication (), UIDIR"/group.ui", "group", GETTEXT_PACKAGE, (group)? static_cast < DialogOwner * > (group): static_cast < DialogOwner * > (Doc))
 {
 	m_Group = group;
 	m_Doc = Doc;

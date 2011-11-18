@@ -24,6 +24,7 @@
 #define GCHEMPAINT_GROUP_H
 
 #include <gcu/object.h>
+#include <gcu/dialog-owner.h>
 
 namespace gcu {
 class UIManager;
@@ -43,7 +44,7 @@ typedef enum {
 	GCP_ALIGN_RIGHT
 } gcpAlignType;
 
-class gcpGroup: public Object
+class gcpGroup: public Object, public DialogOwner
 {
 public:
 	gcpGroup ();

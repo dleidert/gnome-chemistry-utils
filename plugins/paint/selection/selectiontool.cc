@@ -363,7 +363,11 @@ static void on_group (gcpSelectionTool* tool)
 void gcpSelectionTool::Group ()
 {
 	gcp::Document *pDoc = m_pView->GetDoc ();
-	new gcpGroupDlg (pDoc, NULL);
+	gcu::Dialog *dlg = pDoc->GetDialog ("group");
+	if (dlg)
+		dlg->Present ();
+	else
+		new gcpGroupDlg (pDoc, NULL);
 }
 
 void gcpSelectionTool::CreateGroup ()
