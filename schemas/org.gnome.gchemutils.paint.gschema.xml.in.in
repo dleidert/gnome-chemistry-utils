@@ -1,9 +1,9 @@
 <schemalist>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint" path="/apps/gchemutils/paint/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint" path="/org/gnome/gchemutils/paint/">
 	<child name="settings" schema="org.gnome.gchemutils.paint.settings" />
 	<child name="plugins" schema="org.gnome.gchemutils.paint.plugins" />
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint.settings" path="/apps/gchemutils/paint/settings/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint.settings" path="/org/gnome/gchemutils/paint/settings/">
     <key name="bond-length" type="d">
       <default>140.</default>
       <_summary>Default bond length</_summary>
@@ -195,5 +195,5 @@
       <_description>GChempaint displays black atomic symbols by default. When this key is set TRUE, atoms in new documents will be displayed using symbolic colors.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint.plugins" path="/apps/gchemutils/paint/plugins/"/>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint.plugins" path="/org/gnome/gchemutils/paint/plugins/"/>
 </schemalist>

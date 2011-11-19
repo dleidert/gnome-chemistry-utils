@@ -1,8 +1,8 @@
 <schemalist>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils" path="/apps/gchemutils/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils" path="/org/gnome/gchemutils/">
     <child name="printsetup" schema="org.gnome.gchemutils.printsetup" />
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.printsetup" path="/apps/gchemutils/printsetup/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.printsetup" path="/org/gnome/gchemutils/printsetup/">
     <key name="preferred-unit" type="s">
       <default>'mm'</default>
       <_summary>Preferred Display Unit</_summary>

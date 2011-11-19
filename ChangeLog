@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-11-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gs
+	chema.xml.in.in: fixed paths.
+	* schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in: ditto.
+	* schemas/org.gnome.gchemutils.gschema.xml.in.in: ditto.
+	* schemas/org.gnome.gchemutils.paint.gschema.xml.in.in: ditto.
+
 2011-11-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/selection/group.cc: make Group derive from DialogOwner
 	so that its property box can be non modal.

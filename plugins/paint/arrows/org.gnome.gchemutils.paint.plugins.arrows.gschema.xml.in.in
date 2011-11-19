@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint.plugins.arrows" path="/apps/gchemutils/paint/plugins/arrows/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint.plugins.arrows" path="/org/gnome/gchemutils/paint/plugins/arrows/">
     <key name="full-arrows-heads" type="b">
       <default>false</default>
       <_summary>Use full arrows heads for reversible reactions</_summary>

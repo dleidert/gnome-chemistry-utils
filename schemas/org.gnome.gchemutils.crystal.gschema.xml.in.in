@@ -1,16 +1,16 @@
 <schemalist>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.crystal" path="/apps/gchemutils/crystal/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.crystal" path="/org/gnome/gchemutils/crystal/">
     <child name="printing" schema="org.gnome.gchemutils.crystal.printing" />
     <child name="views" schema="org.gnome.gchemutils.crystal.views" />
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.crystal.printing" path="/apps/gchemutils/crystal/printing/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.crystal.printing" path="/org/gnome/gchemutils/crystal/printing/">
     <key name="resolution" type="i">
       <default>300</default>
       <_summary>Printing resolution</_summary>
       <_description>Printing resolution if not automatically detected.</_description>
     </key>
   </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.crystal.views" path="/apps/gchemutils/crystal/views/">
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.crystal.views" path="/org/gnome/gchemutils/crystal/views/">
     <key name="fov" type="i">
       <default>10</default>
       <_summary>Default field of view</_summary>
