@@ -118,7 +118,7 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 	xmaxbtn = GTK_SPIN_BUTTON (gtk_spin_button_new_with_range (0., 1., 0.1));
 	maxsgn = g_signal_connect_swapped (xmaxbtn, "value-changed", G_CALLBACK (on_max_changed), this);
 	gtk_grid_attach (grid, GTK_WIDGET (xmaxbtn), 3, 0, 1, 1);
-	xrange = GTK_RANGE (gtk_hscrollbar_new (NULL));
+	xrange = GTK_RANGE (gtk_scrollbar_new (GTK_ORIENTATION_HORIZONTAL, NULL));
 	g_object_set (G_OBJECT (xrange), "hexpand", true, NULL);
 	gtk_widget_set_sensitive (GTK_WIDGET (xrange), false);
 	xrangesgn = g_signal_connect_swapped (xrange, "value-changed", G_CALLBACK (on_xrange_changed), this);
@@ -133,7 +133,7 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 	ymaxbtn = GTK_SPIN_BUTTON (gtk_spin_button_new_with_range (0., 1., 0.1));
 	ymaxsgn = g_signal_connect_swapped (ymaxbtn, "value-changed", G_CALLBACK (on_ymax_changed), this);
 	gtk_grid_attach (grid, GTK_WIDGET (ymaxbtn), 3, 1, 1, 1);
-	yrange = GTK_RANGE (gtk_hscrollbar_new (NULL));
+	yrange = GTK_RANGE (gtk_scrollbar_new (GTK_ORIENTATION_HORIZONTAL, NULL));
 	gtk_widget_set_sensitive (GTK_WIDGET (yrange), false);
 	yrangesgn = g_signal_connect_swapped (yrange, "value-changed", G_CALLBACK (on_yrange_changed), this);
 	gtk_grid_attach (grid, GTK_WIDGET (yrange), 4, 1, 1, 1);

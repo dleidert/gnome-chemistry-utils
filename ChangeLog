@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-11-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcugtk/spectrumview.cc: fixed build with gtk+-3.2.
+
 2011-11-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gs
 	chema.xml.in.in: fixed paths.
@@ -29,8 +32,7 @@
 2011-11-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogchem3dapp.cc: 3d viewer starts working inside goffice
 	component.
-	* libs/gcu/chem3ddoc.cc: ditto.
-	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/chem3ddoc.cc: ditto.	* libs/gcu/chem3ddoc.h: ditto.
 	* libs/gcugtk/chem3ddoc.cc: ditto.
 	* libs/gcugtk/glview.cc: ditto.
 
