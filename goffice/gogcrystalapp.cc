@@ -76,7 +76,7 @@ void GOGCrystalApplication::ImportDocument (GOGChemUtilsComponent *gogcu)
 	} else if (!strcmp (component->mime_type, "chemical/x-cif")) {
 		doc = new gcr::Document (this);
 		GsfInput *input = gsf_input_memory_new (reinterpret_cast < guint8 const * > (component->data), component->length, false);
-		gogcu->type = Load (input, component->mime_type, doc);
+		Load (input, component->mime_type, doc);
 		doc->Loaded ();
 		doc->Update ();
 		g_object_unref (input);

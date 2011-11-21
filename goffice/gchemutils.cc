@@ -288,7 +288,7 @@ go_gchemutils_component_class_init (GOComponentClass *klass)
 	klass->set_size = go_gchemutils_component_set_size;
 
 	g_object_class_install_property (obj_klass, GOGCU_PROP_TYPE,
-					 g_param_spec_string ("type", _("Type"),
+					 g_param_spec_string ("content-type", _("Content type"),
 							    _("Whether the model should be represented in 2d, 3d, or as a crystal cell"),
 							    "auto", static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
 	g_object_class_install_property (obj_klass, 	GOGCU_PROP_PSI,

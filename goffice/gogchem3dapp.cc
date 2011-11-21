@@ -47,6 +47,7 @@ void GOGChem3dApplication::ImportDocument (GOGChemUtilsComponent *gogcu)
 		// FIXME: load in the appropriate application, may be asking in case of a 2d view 
 	}
 	gogcu->document = doc;
+	component->resizable = true;
 }
 
 GtkWindow *GOGChem3dApplication::EditDocument (GOGChemUtilsComponent *gogcu)

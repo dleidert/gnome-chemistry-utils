@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils.cc: use a better property name.
+	* goffice/gogchem3dapp.cc: fix size on loading.
+	* goffice/gogcrystalapp.cc: no need to change the content type for a
+	CIF file if we don't treat any error.
+
 2011-11-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcugtk/spectrumview.cc: fixed build with gtk+-3.2.
 
