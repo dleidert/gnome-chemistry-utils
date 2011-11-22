@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-11-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gnumeric/functions.cc: remove extra white space in function help.
+	* libs/gcp/document.cc: don't access a NULL object on pasting.
+	* libs/gcu/chem3ddoc.cc: always ensure the view distance is valid.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/gldocument.cc: ditto.
+	* libs/gcu/macros.h: new GCU_PROP_EX macro.
+
 2011-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: use a better property name.
 	* goffice/gogchem3dapp.cc: fix size on loading.

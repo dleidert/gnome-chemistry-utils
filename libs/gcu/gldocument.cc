@@ -30,6 +30,7 @@ namespace gcu
 
 GLDocument::GLDocument (Application *App): Document (App)
 {
+	m_MaxDist = 0;
 }
 
 GLDocument::~GLDocument ()

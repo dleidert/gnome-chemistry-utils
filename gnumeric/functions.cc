@@ -49,7 +49,7 @@ GnmValue *value_new_error_std        (GnmEvalPos const *pos, GnmStdError err);
 char const *value_peek_string		 (GnmValue const *v);
 GnmValue *value_new_float            (gnm_float f);
 static GnmFuncHelp const help_molarmass[] = {
-    { GNM_FUNC_HELP_NAME, N_("MOLARMASS: molar mass of a chemical entity")},
+    { GNM_FUNC_HELP_NAME, N_("MOLARMASS:molar mass of a chemical entity")},
     { GNM_FUNC_HELP_ARG, N_("formula:the input chemical formula such as \"CCl4\"")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("MOLARMASS calculates a molar mass associated with the given @{formula}.") },
 	{ GNM_FUNC_HELP_EXAMPLES, N_("=molarmass(\"CCl4\")") },

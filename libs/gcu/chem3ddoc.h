@@ -132,7 +132,7 @@ Sets the display mode to one of the available Display3DMode values.
 /*!\fn GetRefDisplay3D()
 @return the current mode as a reference.
 */
-GCU_PROP (Display3DMode, Display3D)
+GCU_PROP_EX (Display3DMode, Display3D)
 GCU_RO_PROP (Molecule *, Mol)
 };
 

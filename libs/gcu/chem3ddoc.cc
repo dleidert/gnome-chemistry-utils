@@ -184,6 +184,7 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 			SetTitle (fn);
 			g_free (fn);
 		}
+		ChangedDisplay3D ();
 		m_View->Update ();
 	} else if (type != ContentTypeUnknown) {
 		Clear ();
@@ -245,6 +246,7 @@ ContentType Chem3dDoc::LoadData (char const *data, char const *mime_type, size_t
 		char const *title = m_Mol->GetName ();
 		if (title)
 			SetTitle (title);
+		ChangedDisplay3D ();
 		m_View->Update ();
 	} else if (type != ContentTypeUnknown) {
 		Clear ();
@@ -430,8 +432,7 @@ void Chem3dDoc::Draw (Matrix const &m) const
 	std::list <Atom *>::const_iterator i;
 	Atom const *atom = m_Mol->GetFirstAtom (i);
 	unsigned int Z;
-	gdouble R, w, x, y, z, dist;
-	dist = 0.;
+	gdouble R;
 	map<Atom const *, Vector> atomPos;
 	const gdouble* color;
 	Vector v, normal (0., 0., 1.);
@@ -465,12 +466,7 @@ void Chem3dDoc::Draw (Matrix const &m) const
 				if (m_Display3D == BALL_AND_STICK)
 					R *= 0.2;
 			}
-			x = v.GetX ();
-			y = v.GetY ();
-			z = v.GetZ ();
 			color = gcu_element_get_default_color (Z);
-			if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
-				dist = w + R;
 			if (m_Display3D != WIREFRAME) {
 				glColor3d (color[0], color[1], color[2]);
 				sp.draw (v, R);
@@ -478,7 +474,6 @@ void Chem3dDoc::Draw (Matrix const &m) const
 		}
 		atom = m_Mol->GetNextAtom (i);
 	}
-	const_cast <Chem3dDoc *> (this)->m_MaxDist = dist * 1.05;
 	if (m_Display3D != SPACEFILL) {
 		Cylinder cyl (10);
 		std::list <Bond *>::const_iterator j;
@@ -545,6 +540,43 @@ void Chem3dDoc::Clear ()
 {
 	Object::Clear ();
 	m_Mol = NULL;
+}
+
+void Chem3dDoc::ChangedDisplay3D ()
+{
+	if (!m_Mol)
+		return;
+	std::list <Atom *>::const_iterator i;
+	Atom const *atom = m_Mol->GetFirstAtom (i);
+	unsigned int Z;
+	gdouble R, w, x, y, z;
+	GcuAtomicRadius rad;
+	rad.type = GCU_VAN_DER_WAALS;
+	rad.charge = 0;
+	rad.cn = -1;
+	rad.spin = GCU_N_A_SPIN;
+	rad.scale = NULL;
+	m_MaxDist = 0;
+	while (atom) {
+		Z = atom->GetZ ();
+		if (Z > 0) {
+			if (m_Display3D == CYLINDERS) {
+				R = 12.;
+			} else if (m_Display3D == WIREFRAME) {
+				R = 0.;
+			} else {
+				rad.Z = Z;
+				Element::GetElement (Z)->GetRadius (&rad);
+				R = rad.value.value;
+				if (m_Display3D == BALL_AND_STICK)
+					R *= 0.2;
+			}
+			atom->GetCoords (&x, &y, &z);
+			if ((w = sqrt (x * x + y * y + z * z)) > m_MaxDist - R)
+				m_MaxDist = w + R;
+		}
+		atom = m_Mol->GetNextAtom (i);
+	}
 }
 
 }	//	namespace gcu

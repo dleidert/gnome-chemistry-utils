@@ -1075,12 +1075,14 @@ void Document::PasteData (xmlNodePtr node)
 		child = (strcmp ((const char*) node->name, "object"))? node: node->children;
 		str = (const char*) child->name;
 		pObject = app->CreateObject (str, this);
-		AddObject (pObject);
-		if (!pObject->Load (child))
-			Remove (pObject);
-		else {
-			m_pView->Update (pObject);//FIXME: should not be necessary, but solve problem with cyclic double bonds
-			pData->SetSelected (pObject);
+		if (pObject) {
+			AddObject (pObject);
+			if (!pObject->Load (child))
+				Remove (pObject);
+			else {
+				m_pView->Update (pObject);//FIXME: should not be necessary, but solve problem with cyclic double bonds
+				pData->SetSelected (pObject);
+			}
 		}
 		node = node->next;
 	}
