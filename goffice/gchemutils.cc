@@ -25,6 +25,7 @@
 #include "gogcpapp.h"
 #include "gogcrystalapp.h"
 #include "gogchem3dapp.h"
+#include <gcu/glview.h>
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <goffice/component/go-component-factory.h>
@@ -74,6 +75,46 @@ gcu_content_type_as_string (gcu::ContentType type)
 	for (i = 0; i < gcu::ContentTypeInvalid; i++) {
 		if (content_types[i].type == type) {
 			ret = content_types[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+
+static struct {
+	gcu::Display3DMode mode;
+	char const *name;
+} display3d_modes[4] = {
+	{gcu::BALL_AND_STICK, "ball&stick"},
+	{gcu::SPACEFILL, "spacefill"},
+	{gcu::CYLINDERS, "cylinders"},
+	{gcu::WIREFRAME, "wireframe"}
+};
+
+static gcu::Display3DMode
+gcu_display3d_mode_from_str (char const *name)
+{
+	unsigned i;
+	gcu::Display3DMode ret = gcu::BALL_AND_STICK;
+
+	for (i = 0; i < 4; i++) {
+		if (strcmp (display3d_modes[i].name, name) == 0) {
+			ret = display3d_modes[i].mode;
+			break;
+		}
+	}
+	return ret;
+}
+
+char const *
+gcu_display3d_mode_as_string (gcu::Display3DMode mode)
+{
+	unsigned i;
+	char const *ret = "ball&stick";
+
+	for (i = 0; i < 4; i++) {
+		if (display3d_modes[i].mode == mode) {
+			ret = display3d_modes[i].name;
 			break;
 		}
 	}
@@ -172,13 +213,8 @@ go_gchemutils_component_edit (GOComponent *component)
 }
 
 static void
-go_gchemutils_component_mime_type_set (GOComponent *component)
+go_gchemutils_component_mime_type_set (GOComponent *)
 {
-/*	if (!strcmp (component->mime_type, "application/x-gcrystal") ||
-	    (!strcmp (component->mime_type, "chemical/x-xyz")) {
-		component->resizable = true;
-		component->snapshot_type = GO_SNAPSHOT_PNG;
-	}*/
 }
 
 static void
@@ -199,16 +235,16 @@ go_gchemutils_component_set_property (GObject *obj, guint param_id,
 		gogcu->type = gcu_content_type_from_str (g_value_get_string (value));
 		break;
 	case GOGCU_PROP_PSI:
-		// FIXME: implement
+		gogcu->psi = g_value_get_double (value);
 		break;
 	case GOGCU_PROP_THETA:
-		// FIXME: implement
+		gogcu->theta = g_value_get_double (value);
 		break;
 	case GOGCU_PROP_PHI:
-		// FIXME: implement
+		gogcu->phi = g_value_get_double (value);
 		break;
 	case GOGCU_PROP_3DMODE:
-		// FIXME: implement
+		gogcu->mode = gcu_display3d_mode_from_str (g_value_get_string (value));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -227,20 +263,16 @@ go_gchemutils_component_get_property (GObject *obj, guint param_id,
 		g_value_set_string (value, gcu_content_type_as_string (gogcu->type));
 		break;
 	case GOGCU_PROP_PSI:
-		// FIXME: return a non default when model is 3d
-		g_value_set_double (value, 70.);	       
+		g_value_set_double (value, gogcu->psi);	       
 		break;
 	case GOGCU_PROP_THETA:
-		// FIXME: return a non default when model is 3d
-		g_value_set_double (value, 10.);	       
+		g_value_set_double (value, gogcu->theta);	       
 		break;
 	case GOGCU_PROP_PHI:
-		// FIXME: return a non default when model is 3d
-		g_value_set_double (value, -90.);	       
+		g_value_set_double (value, gogcu->phi);	       
 		break;
 	case GOGCU_PROP_3DMODE:
-		g_value_set_string (value, "ball&stick");
-		// FIXME: implement
+		g_value_set_string (value, gcu_display3d_mode_as_string (gogcu->mode));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -254,6 +286,7 @@ go_gchemutils_component_finalize (GObject *obj)
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (obj);
 	if (gogcu->window)
 		gogcu->window->Destroy ();
+	g_free (gogcu->data);
 	G_OBJECT_CLASS (gogcu_parent_klass)->finalize (obj);
 }
 
@@ -268,6 +301,10 @@ go_gchemutils_component_init (GOComponent *component)
 	component->width = 1.;
 	component->snapshot_type = GO_SNAPSHOT_SVG;
 	gogcu->type = gcu::ContentTypeUnknown;
+	gogcu->psi = DefaultPsi;
+	gogcu->theta = DefaultTheta;
+	gogcu->phi = DefaultPhi;
+	gogcu->mode = gcu::BALL_AND_STICK;
 }
 
 static void
@@ -303,7 +340,7 @@ go_gchemutils_component_class_init (GOComponentClass *klass)
 					 g_param_spec_double ("phi", _("Phi"),
 							    _("Value of Euler's Φ angle"),
 							    -180., 180., -90., static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));
-	g_object_class_install_property (obj_klass, GOGCU_PROP_TYPE,
+	g_object_class_install_property (obj_klass, GOGCU_PROP_3DMODE,
 					 g_param_spec_string ("mode", _("Display mode"),
 							    _("The display mode for the molecule: \"ball&stick\", \"spacefill\", \"cylinders\", or \"wireframe\""),
 							    "ball&stick", static_cast < GParamFlags > (G_PARAM_READWRITE | GO_PARAM_PERSISTENT)));

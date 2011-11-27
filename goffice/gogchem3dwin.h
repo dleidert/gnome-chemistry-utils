@@ -35,7 +35,7 @@ public:
 	GOGChem3dWindow (GOGChem3dApplication *App, GOGChemUtilsComponent *gogcu);
 	virtual ~GOGChem3dWindow ();
 
-	void OnSave ();
+	void Save ();
 	char const *GetDefaultTitle ();
 
 private:

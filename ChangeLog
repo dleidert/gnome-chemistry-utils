@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-11-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils-priv.h: make support for 3d molecules.
+	* goffice/gchemutils.cc: ditto.
+	* goffice/gogchem3dapp.cc: ditto.
+	* goffice/gogchem3dwin.cc: ditto.
+	* goffice/gogchem3dwin.h: ditto.
+
 2011-11-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gnumeric/functions.cc: remove extra white space in function help.
 	* libs/gcp/document.cc: don't access a NULL object on pasting.

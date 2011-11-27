@@ -24,6 +24,7 @@
 #define GOFFICE_GCHEMUTILS_PRIV_H
 
 #include "gchemutils.h"
+#include <gcu/chem3ddoc.h>
 #include <gcu/structs.h>
 #include <gogcuapp.h>
 #include <gcu/document.h>
@@ -37,6 +38,10 @@ struct _GOGChemUtilsComponent
 	gcu::Document *document;
 	gcugtk::Window *window; // TODO use a gcu::Window.
 	gcu::ContentType type;
+	gcu::Display3DMode mode;
+	double psi, theta, phi; // only used by the chem3d code
+	char *data; // only used by the chem3d code
+	size_t length; // only used by the chem3d code
 };
 
 

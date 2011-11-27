@@ -1,4 +1,6 @@
 Version 0.13.6
+	Goffice component:
+		* Add support for 3D molecular structures.
 
 Version 0.13.5
 	3d viewer:

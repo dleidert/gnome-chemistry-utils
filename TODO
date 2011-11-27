@@ -37,7 +37,7 @@
 	* Allow various superscripts for brackets (charge, transition state,...)
 
 * Goffice component:
-	* support 3d structures (0.14?).
+	* add support for cml files (?).
 
 * Spectrum viewer:
 	* support inclusion of zoomed partials.
