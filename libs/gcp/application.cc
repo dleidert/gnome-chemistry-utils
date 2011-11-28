@@ -377,6 +377,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		AddRule ("reaction-prop", RuleMayContain, "text");
 		AddRule ("reaction-operator", RuleMustBeIn, "reaction-step");
 		AddRule ("reactant", RuleMayContain, "molecule");
+		AddRule ("reactant", RuleMayContain, "text");
 		AddRule ("mesomer", RuleMustContain, "molecule");
 		AddRule ("mesomer", RuleMustBeIn, "mesomery");
 		AddRule ("mesomery", RuleMustContain, "mesomer");

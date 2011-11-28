@@ -27,7 +27,7 @@
 #include "application.h"
 #include "view.h"
 #include "window.h"
-#include <glib/gutils.h>
+#include <glib.h>
 
 using namespace gcu;
 using namespace std;

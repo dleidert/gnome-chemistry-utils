@@ -48,6 +48,10 @@ libgcrystal_@GCU_API_VER@_la_LDFLAGS = \
 libgcrystal_@GCU_API_VER@_la_LIBADD = \
 		$(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
+		$(goffice_LIBS) \
+		$(gsf_LIBS) \
+		$(gtk_LIBS) \
+		$(xml_LIBS) \
 		-lGL
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \

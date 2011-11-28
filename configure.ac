@@ -138,6 +138,7 @@ fi
 PKG_CHECK_MODULES(shared_mime_info, [shared-mime-info >= 0.12])
 PKG_CHECK_MODULES(cairo, [cairo >= 1.6.0])
 PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.26.0])
+PKG_CHECK_MODULES(gdk_pixbuf, [gdk-pixbuf-2.0 >= 2.22.0])
 PKG_CHECK_MODULES(gtk, [gtk+-3.0 >= 3.0.0])
 PKG_CHECK_MODULES(xml, [libxml-2.0 >= 2.4.16])
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])

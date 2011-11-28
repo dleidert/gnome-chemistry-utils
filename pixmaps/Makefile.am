@@ -1,10 +1,10 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-pixmapdir = $(DESTDIR)$(datadir)/gchemutils/@GCU_API_VER@/pixmaps
+pixmapdir = $(datadir)/gchemutils/@GCU_API_VER@/pixmaps
 dist_pixmap_DATA = gcrystal_logo.png gchempaint_logo.png
 
 
-iconsdir = $(DESTDIR)$(datadir)/icons/hicolor/scalable/apps
+iconsdir = $(datadir)/icons/hicolor/scalable/apps
 dist_icons_DATA = \
 	gchem3d.svg \
 	gchemcalc.svg \
@@ -14,12 +14,12 @@ dist_icons_DATA = \
 	gspectrum.svg
 
 install-data-hook:
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes; \
+	$(mkinstalldirs) $(datadir)/icons/hicolor/scalable/mimetypes; \
 	$(INSTALL_DATA) $(srcdir)/gcrystal.svg \
-		$(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gcrystal.svg; \
+		$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gcrystal.svg; \
 	$(INSTALL_DATA) $(srcdir)/gchempaint.svg \
-		$(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gchempaint.svg;
+		$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gchempaint.svg;
 
 uninstall-hook:
-	rm $(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gcrystal.svg; \
-	rm $(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gchempaint.svg;
+	rm $(datadir)/icons/hicolor/scalable/mimetypes/application-x-gcrystal.svg; \
+	rm $(datadir)/icons/hicolor/scalable/mimetypes/application-x-gchempaint.svg;

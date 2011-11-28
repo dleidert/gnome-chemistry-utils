@@ -8,7 +8,11 @@ libgcu_@GCU_API_VER@_la_LDFLAGS = \
 		-version-info  @GCU_VERSION_INFO@
 libgcu_@GCU_API_VER@_la_LIBADD = \
 		$(goffice_LIBS) \
-		$(gsf_LIBS)
+		$(gsf_LIBS) \
+		$(gdk_pixbuf_LIBS) \
+		$(gio_LIBS) \
+		$(cairo_LIBS) \
+		-lGL
 DEFS += -DDATADIR=\"$(datadir)\" \
 		-DLOCALEDIR=\"$(localedir)\" \
 		-DLIBEXECDIR=\"$(libexecdir)\" \

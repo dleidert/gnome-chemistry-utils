@@ -406,6 +406,7 @@ This method converts CML to a target.
 protected:
 	void RegisterBabelType (const char *mime_type, const char *type);
 	virtual void CreateDefaultCmdContext () {}
+	virtual bool LoopRunning () {return false;}
 
 private:
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
@@ -452,7 +453,7 @@ GCU_PROT_PROP (std::set <Document*>, Docs)
 /*!\fn GetScreenResolution()
 @return the current screen resolution.
 */
-GCU_RO_PROP (unsigned, ScreenResolution)
+GCU_PROT_PROP (unsigned, ScreenResolution)
 /*!\fn SetImageResolution(unsigned ImageResolution)
 @param ImageResolution the new image resolution.
 

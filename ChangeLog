@@ -1,5 +1,29 @@
 ##Text encoding: utf-8
 
+2011-11-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed build with ->l,--no-undefined. [patch #7677]
+	* goffice/Makefile.am: ditto.
+	* libs/gcp/application.cc: allow text as reactant.
+	* libs/gcr/Makefile.am: fixed build with ->l,--no-undefined.
+	* libs/gcu/Makefile.am: ditto.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/application.h: ditto.
+	* libs/gcugtk/Makefile.am: ditto.
+	* libs/gcugtk/application.cc: ditto.
+	* libs/gcugtk/application.h: ditto.
+	* pixmaps/Makefile.am: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/atoms/Makefile.am: ditto.
+	* plugins/paint/bonds/Makefile.am: ditto.
+	* plugins/paint/cycles/Makefile.am: ditto.
+	* plugins/paint/residues/Makefile.am: ditto.
+	* plugins/paint/selection/Makefile.am: ditto.
+	* plugins/paint/templates/Makefile.am: ditto.
+	* plugins/paint/text/Makefile.am: ditto.
+	* programs/3d/document.cc: fixed build with most recent glib.
+	* programs/spectra/document.cc: ditto.
+
 2011-11-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils-priv.h: make support for 3d molecules.
 	* goffice/gchemutils.cc: ditto.
@@ -53,7 +77,8 @@
 2011-11-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogchem3dapp.cc: 3d viewer starts working inside goffice
 	component.
-	* libs/gcu/chem3ddoc.cc: ditto.	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/chem3ddoc.cc: ditto.
+	* libs/gcu/chem3ddoc.h: ditto.
 	* libs/gcugtk/chem3ddoc.cc: ditto.
 	* libs/gcugtk/glview.cc: ditto.
 

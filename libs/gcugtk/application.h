@@ -121,6 +121,7 @@ the program. Derived class might overide this method to change this.
 	virtual void NoMoreDocsEvent () {gtk_main_quit ();}
 
 	void CreateDefaultCmdContext ();
+	bool LoopRunning () {return (gtk_main_level ());}
 
 private:
 	static WindowState DefaultWindowState;

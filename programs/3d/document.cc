@@ -28,7 +28,7 @@
 #include "view.h"
 #include "window.h"
 #include <gcugtk/molecule.h>
-#include <glib/gutils.h>
+#include <glib.h>
 
 gc3dDocument::gc3dDocument (gc3dApplication *App): gcugtk::Chem3dDoc (App, new gc3dView (this))
 {

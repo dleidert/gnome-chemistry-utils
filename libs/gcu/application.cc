@@ -87,8 +87,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 		first_call = false;
 	}
 	IconName = icon_name? icon_name: (help_name? help_name: Name.c_str ());
-	GdkScreen *screen = gdk_screen_get_default ();
-	m_ScreenResolution = (unsigned) rint (gdk_screen_get_width (screen) * 25.4 / gdk_screen_get_width_mm (screen));
+	m_ScreenResolution = 72;
 	m_ImageResolution = m_ScreenResolution;
 	m_ImageHeight = m_ImageWidth = 300;
 
@@ -205,7 +204,7 @@ char const *Application::GetPixbufTypeName (string& filename, char const *mime_t
 void Application::RemoveDocument (Document *Doc)
 {
 	m_Docs.erase (Doc);
-	if (m_Docs.size () == 0 && gtk_main_level ())
+	if (m_Docs.size () == 0 && LoopRunning ())
 		NoMoreDocsEvent ();
 }
 

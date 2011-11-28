@@ -902,6 +902,13 @@ bool CDXMLLoader::WriteObject (xmlDocPtr xml, xmlNodePtr node, Object const *obj
 					either in this code or in the cml schema */
 }
 
+void CDXMLLoader::AddIntProperty (xmlNodePtr node, char const *id, int value)
+{
+	char *buf = g_strdup_printf ("%d", value);
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar *> (buf));
+	g_free (buf);
+}
+
 void CDXMLLoader::AddStringProperty (xmlNodePtr node, char const *id, string &value)
 {
 	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar const *> (value.c_str ()));

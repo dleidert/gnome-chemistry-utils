@@ -41,6 +41,7 @@ arrows_la_LIBADD = \
 		$(gtk_LIBS) $(goffice_LIBS) $(xml_LIBS) \
 		$(top_builddir)/libs/gccv/libgccv-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
+		$(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la
 
 arrows_la_SOURCES = \

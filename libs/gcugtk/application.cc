@@ -82,6 +82,8 @@ Application::Application (std::string name, std::string datadir, char const *hel
 {
 	m_RecentManager = gtk_recent_manager_get_default ();
 	RegisterOptions (options);
+	GdkScreen *screen = gdk_screen_get_default ();
+	m_ScreenResolution = (unsigned) rint (gdk_screen_get_width (screen) * 25.4 / gdk_screen_get_width_mm (screen));
 }
 
 Application::~Application ()

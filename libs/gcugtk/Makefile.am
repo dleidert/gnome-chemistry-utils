@@ -9,8 +9,9 @@ libgcugtk_@GCU_API_VER@_la_LDFLAGS = \
 libgcugtk_@GCU_API_VER@_la_LIBADD = \
 		$(goffice_LIBS) \
 		$(gsf_LIBS) \
+		$(gtk_LIBS) \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
-		-lX11
+		-lX11 -lGL
 DEFS += -DGCU_API_VER=\"@GCU_API_VER@\" \
 		-DDATADIR=\"$(datadir)\" \
 		-DLOCALEDIR=\"$(localedir)\" \
