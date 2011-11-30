@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-11-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/text.cc: fixed rise position serialization. [#34947]
+
 2011-11-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: fixed build with ->l,--no-undefined. [patch #7677]
 	* goffice/Makefile.am: ditto.

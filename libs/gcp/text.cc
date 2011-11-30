@@ -360,7 +360,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		double rise = static_cast <gccv::RiseTextTag *> (m_tag)->GetRise ();
 		if (rise != 0) {
 			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ((rise > 0)? "sup": "sub"), NULL);
-			char *buf = g_strdup_printf ("%g", fabs (rise));
+			char *buf = g_strdup_printf ("%g", fabs (rise) / PANGO_SCALE);
 			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("height"), reinterpret_cast <xmlChar const *> (buf));
 			g_free (buf);
 			xmlAddChild (node, child);
@@ -750,7 +750,7 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int cur_size)
 	} else if (!strcmp ((const char*) node->name, "sub")) {
 		buf = (char*) xmlGetProp (node, (xmlChar*) "height");
 		if (buf) {
-			int rise = -strtoul (buf, NULL, 10) * PANGO_SCALE;
+			int rise = -strtod (buf, NULL) * PANGO_SCALE;
 			xmlFree (buf);
 			tag = new gccv::RiseTextTag (rise);
 		} else {
@@ -771,7 +771,7 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int cur_size)
 	} else if (!strcmp ((const char*) node->name, "sup")) {
 		buf = (char*) xmlGetProp (node, (xmlChar*) "height");
 		if (buf) {
-			int rise = strtoul (buf, NULL, 10) * PANGO_SCALE;
+			int rise = strtod (buf, NULL) * PANGO_SCALE;
 			xmlFree (buf);
 			tag = new gccv::RiseTextTag (rise);
 		} else {
