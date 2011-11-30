@@ -1,4 +1,6 @@
 Version 0.12.11
+	GChemPaint:
+		* fixed text position serialization. [#34947]
 
 Version 0.12.10
 	GCrystal:
