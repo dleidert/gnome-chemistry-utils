@@ -40,6 +40,7 @@ class Vector;
 */
 class SpaceGroup
 {
+friend class SpaceGroupPrivate;
 public:
 /*!
 Constructs a new empty, and then invalid, SpaceGroup.
@@ -192,6 +193,11 @@ Sets the crystallographic group identifier.
 @return the crystallographic group identifier as a reference.
 */
 GCU_PROP (unsigned, Id)
+/*!\fn GetRefCoordinateAlternative()
+Returns the coordinate system code for groups for which it is meaningful
+or 0 for other groups as a reference.
+*/
+GCU_RO_PROP (unsigned, CoordinateAlternative)
 };
 
 }

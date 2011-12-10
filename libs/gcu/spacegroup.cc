@@ -79,41 +79,81 @@ typedef struct {
 	SpaceGroup *group;
 } SGReadState;
 
-static void
-transform_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+class SpaceGroupPrivate
+{
+public:
+	static void TransformEnd (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob);
+	static void GroupStart (GsfXMLIn *xin, xmlChar const **attrs);
+};
+
+void SpaceGroupPrivate::TransformEnd (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	SGReadState	*state = (SGReadState *) xin->user_state;
 	state->group->AddTransform (xin->content->str);
 }
 
-static void
-group_start (GsfXMLIn *xin, xmlChar const **attrs)
+/*!
+*/
+void SpaceGroup::RegisterSpaceGroup (int nb, ...)
+{
+	if (m_HMName.length () > 0 && _SpaceGroups.sgbn[m_HMName] == NULL)
+		_SpaceGroups.sgbn[m_HMName] = this;
+	if (m_HallName.length () > 0 && _SpaceGroups.sgbn[m_HallName] == NULL)
+		_SpaceGroups.sgbn[m_HallName] = this;
+	if (nb == 0)
+		return;
+	va_list args;
+	va_start (args, nb);
+	string name;
+	for (int i = 0; i < nb; i++) {
+		name=va_arg (args, const char *);
+		if (name.length () > 0 && _SpaceGroups.sgbn[name] == NULL)
+			_SpaceGroups.sgbn[name] = this;
+	}
+	va_end (args);
+}
+
+void SpaceGroupPrivate::GroupStart (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	SGReadState	*state = (SGReadState *) xin->user_state;
 	state->group = new SpaceGroup();
 	string HMs;
+	_SpaceGroups.sgs.insert (state->group);
 	while (*attrs) {
 		if (!strcmp (reinterpret_cast <char const *> (*attrs), "id")) {
-			state->group->SetId (atoi (reinterpret_cast <char const *> (attrs[1])));
+			state->group->m_Id = atoi (reinterpret_cast <char const *> (attrs[1]));
+			if (state->group->m_Id > 0 && state->group->m_Id <= 230)
+				_SpaceGroups.sgbi[state->group->m_Id - 1].push_back (state->group);
 		} else if (!strcmp (reinterpret_cast <char const *> (*attrs), "HM")) {
-			state->group->SetHMName (reinterpret_cast <char const *> (attrs[1]));
+			std::string hm = reinterpret_cast <char const *> (attrs[1]);
+			size_t i;
+			if (hm.length () > 0 && _SpaceGroups.sgbn[hm] == NULL)
+				_SpaceGroups.sgbn[hm] = state->group;
+			if ((i = hm.find (':')) != std::string::npos) {
+				state->group->m_CoordinateAlternative = atoi (hm.c_str () + i + 1);
+				state->group->m_HMName = hm.substr (0, i);
+				if (state->group->m_CoordinateAlternative == 2 &&
+				    state->group->m_HMName.length () > 0 && _SpaceGroups.sgbn[state->group->m_HMName] == NULL)
+				_SpaceGroups.sgbn[state->group->m_HMName] = state->group;
+			} else
+				state->group->m_HMName = hm;
 		} else if (!strcmp (reinterpret_cast <char const *> (*attrs), "HMs")) {
 			HMs = reinterpret_cast <char const *> (attrs[1]);
+			if (HMs.length () > 0 && _SpaceGroups.sgbn[HMs] == NULL)
+				_SpaceGroups.sgbn[HMs] = state->group;
 		} else if (!strcmp (reinterpret_cast <char const *> (*attrs), "Hall")) {
-			state->group->SetHallName (reinterpret_cast <char const *> (attrs[1]));
+			state->group->m_HallName = reinterpret_cast <char const *> (attrs[1]);
+			if (state->group->m_HallName.length () > 0 && _SpaceGroups.sgbn[state->group->m_HallName] == NULL)
+				_SpaceGroups.sgbn[state->group->m_HallName] = state->group;
 		}
 		attrs += 2;
 	}
-	if (HMs.length() > 0)
-		state->group->RegisterSpaceGroup(1, HMs.c_str());
-	else
-		state->group->RegisterSpaceGroup();
 }
 
 static GsfXMLInNode const sg_dtd[] = {
 GSF_XML_IN_NODE (GROUPS, GROUPS, -1, "list", GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (GROUPS, GROUP, -1, "group", GSF_XML_NO_CONTENT, group_start, NULL),
-		GSF_XML_IN_NODE (GROUP, TRANSFORM, -1, "transform", GSF_XML_CONTENT, NULL, transform_end),
+	GSF_XML_IN_NODE (GROUPS, GROUP, -1, "group", GSF_XML_NO_CONTENT, SpaceGroupPrivate::GroupStart, NULL),
+		GSF_XML_IN_NODE (GROUP, TRANSFORM, -1, "transform", GSF_XML_CONTENT, NULL, SpaceGroupPrivate::TransformEnd),
 GSF_XML_IN_NODE_END
 };
 
@@ -140,7 +180,8 @@ void SpaceGroups::Init ()
 }
 
 SpaceGroup::SpaceGroup ():
-	m_Id(0)
+	m_Id (0),
+	m_CoordinateAlternative (0)
 {
 }
 
@@ -337,30 +378,6 @@ SpaceGroup const *SpaceGroup::GetSpaceGroup (unsigned id)
 	if (!_SpaceGroups.Inited ())
 		_SpaceGroups.Init ();
 	return (id > 0 && id <= 230)? _SpaceGroups.sgbi[id - 1].front (): NULL;
-}
-
-/*!
-*/
-void SpaceGroup::RegisterSpaceGroup (int nb, ...)
-{
-	_SpaceGroups.sgs.insert (this);
-	if (m_Id > 0 && m_Id <= 230)
-		_SpaceGroups.sgbi[m_Id - 1].push_back (this);
-	if (m_HMName.length () > 0 && _SpaceGroups.sgbn[m_HMName] == NULL)
-		_SpaceGroups.sgbn[m_HMName] = this;
-	if (m_HallName.length () > 0 && _SpaceGroups.sgbn[m_HallName] == NULL)
-		_SpaceGroups.sgbn[m_HallName] = this;
-	if (nb == 0)
-		return;
-	va_list args;
-	va_start (args, nb);
-	string name;
-	for (int i = 0; i < nb; i++) {
-		name=va_arg (args, const char *);
-		if (name.length () > 0 && _SpaceGroups.sgbn[name] == NULL)
-			_SpaceGroups.sgbn[name] = this;
-	}
-	va_end (args);
 }
 
 /*!

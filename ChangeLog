@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-12-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/space-groups.xml.in: fixed two groups identifiers.
+	* libs/gcu/spacegroup.cc: separate HM name from coordinate alternative.
+	* libs/gcu/spacegroup.h: ditto.
+
 2011-11-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/text.cc: fixed rise position serialization. [#34947]
 
