@@ -213,8 +213,26 @@ go_gchemutils_component_edit (GOComponent *component)
 }
 
 static void
-go_gchemutils_component_mime_type_set (GOComponent *)
+go_gchemutils_component_mime_type_set (GOComponent *component)
 {
+	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);
+	if (gogcu->type == gcu::ContentTypeUnknown) {
+		gogcu->application = Apps[component->mime_type];
+		gogcu->type = gogcu->application->GetContentType ();
+		switch (gogcu->type) {
+		case gcu::ContentType2D:
+		default:
+			component->resizable = false;
+			component->snapshot_type = GO_SNAPSHOT_SVG;
+			break;
+		case gcu::ContentType3D:
+		case gcu::ContentTypeCrystal:
+			component->resizable = true;
+			component->snapshot_type = GO_SNAPSHOT_PNG;
+			break;
+		}
+	} else
+		gogcu->application = Apps[gcu_content_type_as_string (gogcu->type)];
 }
 
 static void

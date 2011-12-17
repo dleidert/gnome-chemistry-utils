@@ -76,11 +76,11 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	Theme *pTheme = pDoc->GetTheme ();
 	WidgetData  *pData= reinterpret_cast<WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
 	map<Object*, gccv::Rect> Objects;
-	list < ReactionArrow * >::iterator a, aend;
+	list < ReactionArrow * >::iterator a, a1, aend;
 	set < Object * >::iterator i, iend = Children.end ();
 	list < ReactionArrow * > Arrows;
 	set < Object * > Others;
-	map < double, Object * > Left, Right;
+	map < double, Object * > Cur, Left, Right;
 	double x0, y0, x1, y1, x, y, xpos, ypos, l;
 	bool horiz = true;
 	double zf = pTheme->GetZoomFactor ();
@@ -91,15 +91,20 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 		// Search arrows
 		if ((*i)->GetType() == ReactionArrowType)
 			Arrows.push_front ((ReactionArrow*) (*i));
-		else if ((*i)->GetType() == MoleculeType || (*i)->GetType() == MechanismStepType)
+		else if ((*i)->GetType () == MoleculeType || (*i)->GetType () == MechanismStepType
+		         || (*i)->GetType () == TextType)
 			Others.insert (*i);
 		else return false;
 	}
+	// if there is only one arrow just to the previous incomplete code for now
+	// FIXME: remove whan done
+	if (Arrows.size () == 1)
+		goto old_code; {
 	/* sort objects according their position relative to each arrow, using string, with
 	 * one char per arrow, 't' means on tail side, 'h', header side, and 'o' other.
 	 * If we support arrows with several tails or heads, just add a figure
 	 * (there should not be more than 10 heads or tails! */ 
-	map < string, set <Object * > > steps;
+	map < string, set < Object * > > steps;
 	iend = Others.end ();
 	aend = Arrows.end ();
 	for (i = Others.begin (); i != iend; i++) {
@@ -110,9 +115,61 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 			s += (*a)->GetSymbolicPosition (x, y);
 		steps[s].insert (*i);
 	}
-	// now we must find the relations between the various sets and the arrows
+	map < string, ReactionStep * > rsteps;
+	map < string, set < Object * > >::iterator istep, step_end = steps.end ();
+	for (istep = steps.begin (); istep != step_end; istep++) {
+		set < Object * > &cur_set = (*istep).second;
+		set < Object * >::iterator i, end = cur_set.end ();
+		for (i = cur_set.begin (); i != end; i++) {
+			rect = &Objects[*i];
+			xpos = x = (rect->x0 + rect->x1) / 2;
+			while (Cur[xpos] != NULL)
+				xpos += 1e-5;
+			Cur[xpos] = *i;
+			rsteps[(*istep).first] = new ReactionStep (this, Cur, Objects);
+		}
+		Cur.clear ();
+	}
+	// now we must find the relations between the various steps and the arrows
+	// for each arrow, determine the position of head and tail relative to each other arrow
+	for (a = Arrows.begin (); a != aend; a++) {
+		AddChild (*a);
+		(*a)->GetCoords (&x0, &y0, &x1, &y1);
+		std::string st, sh;
+		// search step at tail and head
+		for (a1 = Arrows.begin (); a1 != aend; a1++) {
+			if (a == a1) {
+				st += 't';
+				sh += 'h';
+			} else {
+				st += (*a1)->GetSymbolicPosition (x0, y0);
+				sh += (*a1)->GetSymbolicPosition (x1, y1);
+			}
+		}
+		ReactionStep *step = rsteps[st];
+		if (step != NULL) {
+			step->AddArrow (*a);
+			(*a)->SetStartStep (step);
+		} else {
+			// FIXME
+		}
+		step = rsteps[sh];
+		if (step != NULL) {
+			step->AddArrow (*a);
+			(*a)->SetEndStep (step);
+		} else {
+			// FIXME
+		}
+	}
+	// if two arrows have no reactant between them, insert an empty step if the arrows are
+	// consecutive or return an error otherwise, that is -> -> is ok -> <- or <- -> are forbidden.
 	// FIXME
 
+	return true;
+
+	// old code to be removed later
+		}
+old_code:
 	if (Arrows.size () == 1) {
 	// FIXME: only simple reactions schemes with one arrow are supported in this version
 		ReactionArrow *arrow = Arrows.front ();
