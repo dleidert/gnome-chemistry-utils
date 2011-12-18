@@ -43,6 +43,7 @@ using namespace std;
 namespace gcp {
 
 TypeId ReactionStepType = NoType;
+TypeId DummyStepType = NoType;
 
 ReactionStep::ReactionStep (): MechanismStep (ReactionStepType)
 {
@@ -160,6 +161,7 @@ void ReactionStep::OnLoaded ()
 	double x, y, x0, y0, x1, y1;
 	// this method is called more than once (might consider this a bug) so we need to remove old operators
 	std::list <gcu::Object *> Operators;
+	// FIXME: add a dummy object if empty
 	while (pObj) {
 		if (pObj->GetType () == ReactionOperatorType)
 			Operators.push_front (pObj);
@@ -391,6 +393,14 @@ void ReactionStep::AddMolecule (Molecule *molecule, bool signal)
 	new Reactant (this, molecule);
 	if (signal)
 		EmitSignal (OnChangedSignal);
+}
+
+bool ReactionStep::Validate ()
+{
+	if (m_Arrows.empty ())
+		return false;
+	// FIXME:
+	return true;
 }
 
 }	//	namespace gcp

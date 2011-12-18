@@ -184,7 +184,7 @@ xmlNodePtr Atom::Save (xmlDocPtr xml) const
 		return NULL;
 	SaveId (parent);
 
-	if (m_Z) {
+	if (m_Z > 0) {
 		strncpy(buf, GetSymbol(), sizeof(buf));
 		xmlNewProp(parent, (xmlChar*) "element", (xmlChar*) buf);
 	}

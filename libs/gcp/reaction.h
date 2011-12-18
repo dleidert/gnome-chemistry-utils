@@ -107,6 +107,9 @@ Used to retrieve the y coordinate for alignment.
 @return the localized object generic name.
 */
 	std::string Name ();
+
+private:
+	void Align ();
 };
 
 }	//	namespace gcp

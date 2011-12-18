@@ -528,11 +528,6 @@ void Mesomery::Align ()
 	View *pView = pDoc->GetView ();
 	Theme *pTheme = pDoc->GetTheme ();
 	WidgetData  *pData = reinterpret_cast <WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
-	/* Update the canvas if necessary */
-/*	GnomeCanvas* w = GNOME_CANVAS (((Document*) GetDocument ())->GetWidget ());
-	while (w->idle_id)
-		gtk_main_iteration();
-	gnome_canvas_update_now (w);*/
 	map<string, Object*>::iterator i;
 	Object *pObj = GetFirstChild (i);
 	Mesomer *pStart = NULL, *mes0, *mes;

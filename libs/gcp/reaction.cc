@@ -81,10 +81,9 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	list < ReactionArrow * > Arrows;
 	set < Object * > Others;
 	map < double, Object * > Cur, Left, Right;
-	double x0, y0, x1, y1, x, y, xpos, ypos, l;
-	bool horiz = true;
+	double x0, y0, x1, y1, x, xpos;
 	double zf = pTheme->GetZoomFactor ();
-	gccv::Rect *rect, srect;
+	gccv::Rect *rect;
 	for (i = Children.begin (); i != iend; i++) {
 		// It might be better to use the objects coordinates there
 		pData->GetObjectBounds (*i, &Objects[*i]);
@@ -96,10 +95,6 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 			Others.insert (*i);
 		else return false;
 	}
-	// if there is only one arrow just to the previous incomplete code for now
-	// FIXME: remove whan done
-	if (Arrows.size () == 1)
-		goto old_code; {
 	/* sort objects according their position relative to each arrow, using string, with
 	 * one char per arrow, 't' means on tail side, 'h', header side, and 'o' other.
 	 * If we support arrows with several tails or heads, just add a figure
@@ -151,24 +146,33 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 			step->AddArrow (*a);
 			(*a)->SetStartStep (step);
 		} else {
-			// FIXME
+			// FIXME: add a dummy step for now
 		}
 		step = rsteps[sh];
 		if (step != NULL) {
 			step->AddArrow (*a);
 			(*a)->SetEndStep (step);
 		} else {
-			// FIXME
+			// FIXME: add a dummy step for now
 		}
 	}
+
+	// check if all steps are valid
+	map < string, ReactionStep * >::iterator rsi, rsiend = rsteps.end ();
+	for (rsi = rsteps.begin (); rsi != rsiend; rsi++) {
+		if ((*rsi).second && !(*rsi).second->Validate ()) {
+			// FIXME: select molecules from this step (should be done in ReactionStep::Validate())
+			throw  invalid_argument (_("Error: isolated molecules."));
+		}
+	}
+
+	// FIXME: remove dummy steps
 	// if two arrows have no reactant between them, insert an empty step if the arrows are
 	// consecutive or return an error otherwise, that is -> -> is ok -> <- or <- -> are forbidden.
-	// FIXME
-
-	return true;
+	// FIXME: if we have an isolated arrow, return false
 
 	// old code to be removed later
-		}
+#if 0
 old_code:
 	if (Arrows.size () == 1) {
 	// FIXME: only simple reactions schemes with one arrow are supported in this version
@@ -286,6 +290,10 @@ old_code:
 		}
 	} else
 		throw  invalid_argument (_("Error could not build a reaction\nfrom the selected objects."));
+#endif
+
+	// now, position the various steps and arrows
+	Align ();
 	return true;
 }
 
@@ -485,6 +493,21 @@ double Reaction::GetYAlign ()
 std::string Reaction::Name ()
 {
 	return _("Reaction");
+}
+
+void Reaction::Align ()
+{
+	Document *doc = (Document*) GetDocument ();
+	Theme *theme = doc->GetTheme ();
+	View *view = doc->GetView ();
+	WidgetData  *data = reinterpret_cast <WidgetData *> (g_object_get_data (G_OBJECT (doc->GetWidget ()), "data"));
+	std::map < std::string, gcu::Object* >::iterator i;
+	gcu::Object *obj = GetFirstChild (i);
+/*	double x0, y0, x1, y1, x, y, xpos, ypos, l;
+	bool horiz = true;
+	double zf = theme->GetZoomFactor ();
+	gccv::Rect *rect, srect;
+*/
 }
 
 }	//	namespace gcp

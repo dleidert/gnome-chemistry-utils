@@ -120,10 +120,17 @@ not anymore relevant.
 @param molecule a molecule.
 @param signal wheter to emit the \a OnChangedSignal
 
-Adds amolecue to this step.
+Adds a molecule to this step.
 */
 	void AddMolecule (Molecule *molecule, bool signal = true);
-	 void OnLoaded ();
+/*!
+*/
+	void OnLoaded ();
+/*!
+@return true if there is at least one arrow associated with this step if the
+step is not empty of if there are non consecutive arrows around.
+*/
+	bool Validate ();
 
 private:
 	void CleanChildren ();

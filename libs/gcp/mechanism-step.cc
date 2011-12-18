@@ -38,7 +38,7 @@ gcu::TypeId MechanismStepType;
 extern gcu::SignalId OnChangedSignal;
 
 MechanismStep::MechanismStep (gcu::TypeId type):
-	Object (type),
+	Step (type),
 	m_bLoading (false)
 {
 	SetId ("ms1");

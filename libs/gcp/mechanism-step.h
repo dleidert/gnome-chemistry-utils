@@ -4,7 +4,7 @@
  * GChemPaint library
  * mechanism-step.h
  *
- * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -27,7 +27,7 @@
 
 /*!\file*/
 
-#include <gcu/object.h>
+#include <gcp/step.h>
 
 namespace gcp {
 
@@ -38,7 +38,7 @@ extern gcu::TypeId MechanismStepType;
 
 One or several molecules with mechanism arrows joining them.
 */
-class MechanismStep: public gcu::Object
+class MechanismStep: public Step
 {
 public:
 /*!

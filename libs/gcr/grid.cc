@@ -358,9 +358,15 @@ static gboolean gcr_grid_focus_out_event (GtkWidget *widget, G_GNUC_UNUSED GdkEv
 			g_source_remove (grid->cursor_signal);
 		grid->cursor_signal = 0;
 		grid->col = -1;
+		grid->dragging = false;
 		gtk_widget_queue_draw (widget);
 	}
 	return true;
+}
+
+static void gcr_grid_grab_notify (GtkWidget *widget, gboolean)
+{
+	GCR_GRID (widget)->dragging = false;
 }
 
 static void gcr_grid_finalize (GObject *obj)
@@ -466,7 +472,7 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 					g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
 				grid->row = grid->last_row = new_row;
 		} else {
-			if (!grid->editable[new_col])
+			if (new_col >= 0 && !grid->editable[new_col])
 				new_col = -1;
 			if (new_row != grid->row)
 				g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
@@ -1018,6 +1024,7 @@ static void gcr_grid_class_init (GtkWidgetClass *klass)
 	klass->button_release_event = gcr_grid_button_release_event;
 	klass->scroll_event = gcr_grid_scroll_event;
 	klass->key_press_event = gcr_grid_key_press_event;
+	klass->grab_notify = gcr_grid_grab_notify;
 	klass->focus_out_event = gcr_grid_focus_out_event;
 	reinterpret_cast < GObjectClass * > (klass)->finalize = gcr_grid_finalize;
 	klass->get_preferred_height = gcr_grid_get_preferred_height;

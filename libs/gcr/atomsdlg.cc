@@ -378,9 +378,9 @@ bool AtomsDlgPrivate::RadiusEdited (AtomsDlg *pBox)
 		return false; // don't care
 	g_signal_handler_block (pBox->AtomR, pBox->m_EntryFocusOutSignalID);
 	if (pBox->GetNumber (pBox->AtomR, &(pBox->m_Radius.value.value), gcugtk::Min, 0) && pBox->m_AtomSelected >= 0) {
-		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetRadius), pBox);
+/*		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetRadius), pBox);
 		pBox->m_pDoc->Update ();
-		pBox->m_pDoc->SetDirty (true);
+		pBox->m_pDoc->SetDirty (true);*/
 	}
 	g_signal_handler_unblock (pBox->AtomR, pBox->m_EntryFocusOutSignalID);
 	return false;
@@ -433,7 +433,7 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	m_Atoms.resize ((Atoms->size () / 10 + 1) * 10);
 	list < gcr::Atom * >::iterator i, end = Atoms->end ();
 	for (i = Atoms->begin (); i != end; i++)
-		m_Atoms[gcr_grid_append_row (m_Grid, ((*i)->GetZ ())? Element::Symbol ((*i)->GetZ ()): _("Unknown"), (*i)->x (), (*i)->y (), (*i)->z ())] = *i;
+		m_Atoms[gcr_grid_append_row (m_Grid, ((*i)->GetZ () > 0)? Element::Symbol ((*i)->GetZ ()): _("Unknown"), (*i)->x (), (*i)->y (), (*i)->z ())] = *i;
 	if (Atoms->empty ())
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
 	AtomColor = GTK_COLOR_BUTTON (GetWidget ("color"));
@@ -460,6 +460,8 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	m_Radius.cn = -1;
 	m_Radius.spin = GCU_N_A_SPIN;
 	m_Radius.value.value = 0.;
+	m_Radius.value.prec = 0;
+	m_Radius.value.delta = 0;
 	m_Radius.scale = "custom";
 	PopulateRadiiMenu ();
 	gtk_widget_show_all (GTK_WIDGET (dialog));

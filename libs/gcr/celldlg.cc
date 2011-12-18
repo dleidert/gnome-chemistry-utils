@@ -432,7 +432,7 @@ monoclinic_end:
 		break;
 	}
 	g_signal_handler_block (dlg->SpaceGroup, dlg->SpaceGroupSignal);
-	if (id != spg->GetId ()) {
+	if (!spg || id != spg->GetId ()) {
 		spg = NULL;
 		dlg->m_pDoc->SetSpaceGroup (gcu::SpaceGroup::GetSpaceGroup (id));
 	}

@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2011-12-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: add new files.
+	* libs/gcp/mechanism-step.cc: derives from Step.
+	* libs/gcp/mechanism-step.h: ditto.
+	* libs/gcp/mesomery.cc: removed obsolete comments.
+	* libs/gcp/reaction-step.cc: add a Validate() method.
+	* libs/gcp/reaction-step.h: ditto.
+	* libs/gcp/reaction.cc: add some more checks when buildiong a reaction.
+	* libs/gcp/reaction.h: ditto.
+	* libs/gcp/step.cc: new parent class for various steps between arrows.
+	* libs/gcp/step.h: ditto.
+	* libs/gcr/atomsdlg.cc: fixed crashes.
+	* libs/gcr/celldlg.cc: ditto.
+	* libs/gcr/grid.cc: ditto.
+	* libs/gcu/atom.cc: ditto.
+
 2011-12-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: restore app selection when the mime type is set.
 	* libs/gcp/reaction.cc: some progress on multistep reactions.
