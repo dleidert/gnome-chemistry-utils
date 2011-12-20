@@ -49,23 +49,34 @@ The destructor.
 	virtual ~Step ();
 
 /*!
-@param arrow an arrow related to this instance.
+@param arrow an arrow
+@param step the Step at the other end of the arrow.
 
-Adds an arrow to the list of arrows related to this instance.
+Adds the arrow to the arrows map. See Step::GetArrows().
 */
-	void AddArrow (Arrow *arrow) {m_Arrows.insert (arrow);}
+	void AddArrow (Arrow *arrow, Step *step) throw (std::invalid_argument);
 /*!
-@param arrow an arrow related to this instance.
+@param arrow an arrow
+@param step the Step at the other end of the arrow.
 
-Removes an arrow from the list of arrows related to this instance when it
-not anymore relevant.
+Removes the arrow from the arrows map. See Step::GetArrows().
 */
-	void RemoveArrow (Arrow *arrow);
+	void RemoveArrow (Arrow *arrow, Step *mesomer);
+/*!
+@return true if the step is associated with at least one arrow, false
+otherwise. See gcp::Scheme::Validate() for more information.
+*/
+	bool Validate () {return m_Arrows.size () > 0;}
+/*!
+@return the map of all arrows pointing to this Step indexed by the
+Step at the other end of the arrow.
+*/
+	std::map < Step *, Arrow * > *GetArrows () {return &m_Arrows;}
 
 protected:
-	std::set < Arrow *> m_Arrows;
+	std::map < Step *, Arrow * > m_Arrows;
 };
 
 }	//	namespace gcp
 
-#endif	//	GCHEMPAINT_REACTION_STEP_H
+#endif	//	GCHEMPAINT_STEP_H

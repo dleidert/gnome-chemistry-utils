@@ -51,7 +51,6 @@ ReactionArrow::ReactionArrow (Reaction* react, unsigned Type): Arrow (ReactionAr
 {
 	SetId ("ra1");
 	m_Type = Type;
-	m_Start = m_End = NULL;
 	if (react)
 		react->AddChild (this);
 	m_TypeChanged = false;
@@ -60,12 +59,6 @@ ReactionArrow::ReactionArrow (Reaction* react, unsigned Type): Arrow (ReactionAr
 
 ReactionArrow::~ReactionArrow ()
 {
-	if (IsLocked ())
-		return;
-	if (m_Start)
-		m_Start->RemoveArrow (this);
-	if (m_End)
-		m_End->RemoveArrow (this);
 }
 
 xmlNodePtr ReactionArrow::Save (xmlDocPtr xml) const
@@ -81,10 +74,10 @@ xmlNodePtr ReactionArrow::Save (xmlDocPtr xml) const
 	xmlNewProp (node, (xmlChar*) "type", (xmlChar*) ((m_Type == SimpleArrow)? "single": "double"));
 	if (m_Type == FullReversibleArrow)
 		xmlNewProp (node, (xmlChar*) "heads", (xmlChar*) "full");
-	if (m_Start)
-		xmlNewProp (node, (xmlChar*) "start",  (xmlChar*) m_Start->GetId ());
-	if (m_End)
-		xmlNewProp (node, (xmlChar*) "end",  (xmlChar*) m_End->GetId ());
+	if (GetStartStep ())
+		xmlNewProp (node, (xmlChar*) "start",  (xmlChar*) GetStartStep ()->GetId ());
+	if (GetEndStep ())
+		xmlNewProp (node, (xmlChar*) "end",  (xmlChar*) GetEndStep ()->GetId ());
 	Reaction* r = (Reaction*) GetReaction();
 	if (!r) {
 		//save the arrow as an object (this is NOT safe)
@@ -138,25 +131,17 @@ bool ReactionArrow::Load (xmlNodePtr node)
 			return true;
 		buf = (char*) xmlGetProp (node, (xmlChar*) "start");
 		if (buf) {
-			doc->SetTarget (buf, reinterpret_cast <Object **> (&m_Start), GetParent (), this, ActionIgnore);
+			doc->SetTarget (buf, reinterpret_cast <Object **> (GetStartStepPtr ()), GetParent (), this, ActionIgnore);
 			xmlFree (buf);
 		}
 		buf = (char*) xmlGetProp (node, (xmlChar*) "end");
 		if (buf) {
-			doc->SetTarget (buf, reinterpret_cast <Object **> (&m_End), GetParent (), this, ActionIgnore);
+			doc->SetTarget (buf, reinterpret_cast <Object **> (GetEndStepPtr ()), GetParent (), this, ActionIgnore);
 			xmlFree (buf);
 		}
 		return true;
 	}
 	return false;
-}
-
-void ReactionArrow::OnLoaded ()
-{
-	if (m_Start)
-		m_Start->AddArrow (this);
-	if (m_End)
-		m_End->AddArrow (this);
 }
 
 void ReactionArrow::AddItem ()
@@ -250,14 +235,6 @@ void ReactionArrow::UpdateItem ()
 		m_Item = NULL;
 	}
 	AddItem ();
-}
-
-void ReactionArrow::RemoveStep (ReactionStep *Step)
-{
-	if (Step == m_Start)
-		m_Start = NULL;
-	else if (Step == m_End)
-		m_End = NULL;
 }
 
 struct CallbackData {

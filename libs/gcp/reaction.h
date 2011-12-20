@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_REACTION_H
 #define GCHEMPAINT_REACTION_H
 
-#include <gcu/object.h>
+#include <gcp/scheme.h>
 #include <stdexcept>
 
 /*!\file*/
@@ -44,7 +44,7 @@ whole reactions scheme with several steps, although only one step is currently
 really supported. Acceptable children for an instance of this class are
 instances of ReactionArrow and ReactionStep.
 */
-class Reaction: public gcu::Object
+class Reaction: public Scheme
 {
 public:
 /*!
@@ -107,9 +107,6 @@ Used to retrieve the y coordinate for alignment.
 @return the localized object generic name.
 */
 	std::string Name ();
-
-private:
-	void Align ();
 };
 
 }	//	namespace gcp

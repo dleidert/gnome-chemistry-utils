@@ -2,7 +2,7 @@
 
 /*
  * GChemPaint library
- * step.cc
+ * step.h
  *
  * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,31 +22,29 @@
  * USA
  */
 
-#include "config.h"
-#include "arrow.h"
-#include "step.h"
-#include <glib/gi18n-lib.h>
+#ifndef GCHEMPAINT_SCHEME_H
+#define GCHEMPAINT_SCHEME_H
 
+#include <gcu/object.h>
+
+/*!\file*/
 namespace gcp {
 
-Step::Step (gcu::TypeId type): gcu::Object (type)
-{
-}
+/*!\class Scheme gcp/scheme.h
+\brief parent class for reaction, mesomery, and anything else containing chemical
+objects and arrows between them.
+*/
 
-Step::~Step ()
+class Scheme: public gcu::Object
 {
-}
+public:
+	Scheme (gcu::TypeId type);
+	virtual ~Scheme ();
 
-void Step::AddArrow (Arrow *arrow, Step *step) throw (std::invalid_argument)
-{
-	if (m_Arrows.find (step) != m_Arrows.end ())
-		throw std::invalid_argument (_("Only one arrow can link two given steps."));
-	m_Arrows[step] = arrow;
-}
-
-void Step::RemoveArrow (Arrow *, Step *step)
-{
-	m_Arrows.erase (step);
-}
+protected:
+	void Align () throw (std::invalid_argument);
+};
 
 }	//	namespace gcp
+
+#endif	//	GCHEMPAINT_STEP_H

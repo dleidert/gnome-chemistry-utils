@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2011-12-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: add scheme.[cc,h].
+	* libs/gcp/arrow.cc: add steps.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/reaction-arrow.cc: move steps to base class.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-step.cc: move arrows management to parent class.
+	* libs/gcp/reaction-step.h: ditto.
+	* libs/gcp/reaction.cc: make Reaction derive from Scheme. 
+	* libs/gcp/reaction.h: ditto.
+	* libs/gcp/scheme.cc: new parent class for reactions and more. Manage
+	alignment for any number of arrows.
+	* libs/gcp/scheme.h: ditto.
+	* libs/gcp/step.cc: add arrows management.
+	* libs/gcp/step.h: ditto.
+
 2011-12-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: add new files.
 	* libs/gcp/mechanism-step.cc: derives from Step.

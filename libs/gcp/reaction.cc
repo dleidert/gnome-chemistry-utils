@@ -42,7 +42,7 @@ using namespace std;
 
 namespace gcp {
 
-Reaction::Reaction (): Object (ReactionType)
+Reaction::Reaction (): Scheme (ReactionType)
 {
 	SetId ("rxn1");
 }
@@ -76,9 +76,9 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	Theme *pTheme = pDoc->GetTheme ();
 	WidgetData  *pData= reinterpret_cast<WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
 	map<Object*, gccv::Rect> Objects;
-	list < ReactionArrow * >::iterator a, a1, aend;
+	list < Arrow * >::iterator a, a1, aend;
 	set < Object * >::iterator i, iend = Children.end ();
-	list < ReactionArrow * > Arrows;
+	list < Arrow * > Arrows;
 	set < Object * > Others;
 	map < double, Object * > Cur, Left, Right;
 	double x0, y0, x1, y1, x, xpos;
@@ -107,7 +107,7 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 		gccv::Rect rect = Objects[*i];
 		double x = (rect.x0 + rect.x1) / 2. / zf, y = (rect.y0 + rect.y1) / 2. / zf;
 		for (a = Arrows.begin (); a != aend; a++)
-			s += (*a)->GetSymbolicPosition (x, y);
+			s += static_cast < ReactionArrow * > (*a)->GetSymbolicPosition (x, y);
 		steps[s].insert (*i);
 	}
 	map < string, ReactionStep * > rsteps;
@@ -137,24 +137,21 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 				st += 't';
 				sh += 'h';
 			} else {
-				st += (*a1)->GetSymbolicPosition (x0, y0);
-				sh += (*a1)->GetSymbolicPosition (x1, y1);
+				st += static_cast < ReactionArrow * > (*a1)->GetSymbolicPosition (x0, y0);
+				sh += static_cast < ReactionArrow * > (*a1)->GetSymbolicPosition (x1, y1);
 			}
 		}
-		ReactionStep *step = rsteps[st];
-		if (step != NULL) {
-			step->AddArrow (*a);
-			(*a)->SetStartStep (step);
-		} else {
+		ReactionStep *start = rsteps[st], *end = rsteps[sh];
+		if (start == NULL) {
 			// FIXME: add a dummy step for now
 		}
-		step = rsteps[sh];
-		if (step != NULL) {
-			step->AddArrow (*a);
-			(*a)->SetEndStep (step);
-		} else {
+		if (end == NULL) {
 			// FIXME: add a dummy step for now
 		}
+		start->AddArrow (*a, end);
+		end->AddArrow (*a, start);
+		(*a)->SetStartStep (start);
+		(*a)->SetEndStep (end);
 	}
 
 	// check if all steps are valid
@@ -338,7 +335,7 @@ bool Reaction::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 					horiz = true;
 				else
 					horiz = false;
-				step = arrow->GetStartStep ();
+				step = static_cast < ReactionStep * > (arrow->GetStartStep ());
 				if (step) {
 					has_start = true;
 					pData->GetObjectBounds (step, &rect);
@@ -364,7 +361,7 @@ bool Reaction::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 					arrow->Move (xpos, ypos);
 					pView->Update (arrow);
 				}
-				step = arrow->GetEndStep ();
+				step = static_cast < ReactionStep * > (arrow->GetEndStep ());
 				if (step) {
 					pData->GetObjectBounds (step, &rect);
 					x2 = (rect.x0 + rect.x1) / 2;
@@ -493,21 +490,6 @@ double Reaction::GetYAlign ()
 std::string Reaction::Name ()
 {
 	return _("Reaction");
-}
-
-void Reaction::Align ()
-{
-	Document *doc = (Document*) GetDocument ();
-	Theme *theme = doc->GetTheme ();
-	View *view = doc->GetView ();
-	WidgetData  *data = reinterpret_cast <WidgetData *> (g_object_get_data (G_OBJECT (doc->GetWidget ()), "data"));
-	std::map < std::string, gcu::Object* >::iterator i;
-	gcu::Object *obj = GetFirstChild (i);
-/*	double x0, y0, x1, y1, x, y, xpos, ypos, l;
-	bool horiz = true;
-	double zf = theme->GetZoomFactor ();
-	gccv::Rect *rect, srect;
-*/
 }
 
 }	//	namespace gcp

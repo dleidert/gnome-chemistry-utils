@@ -285,14 +285,6 @@ bool ReactionStep::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 		return true;
 }
 
-void ReactionStep::RemoveArrow (ReactionArrow *arrow) {
-	m_Arrows.erase (arrow);
-	if (m_Arrows.empty ()) {
-		// if there is no more arrows this is no more a reaction step
-		delete this;
-	}
-}
-
 std::string ReactionStep::Name ()
 {
 	return _("Reaction step");
@@ -300,9 +292,9 @@ std::string ReactionStep::Name ()
 
 void ReactionStep::CleanChildren ()
 {
-	set<ReactionArrow *>::iterator i, end = m_Arrows.end();
+	map < Step *, Arrow * >::iterator i, end = m_Arrows.end();
 	for (i = m_Arrows.begin (); i != end; i++)
-		(*i)->RemoveStep (this);
+		(*i).second->RemoveStep (this);
 	/* If there are no chidren, don't care and exit */
 	if (!GetChildrenNumber ())
 		return;

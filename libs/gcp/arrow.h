@@ -4,7 +4,7 @@
  * GChemPaint library
  * arrow.h
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -30,6 +30,8 @@
 
 /*!\file*/
 namespace gcp {
+
+class Step;
 
 /*!\enum ArrowTypes
 Enumeration of the known reaction arrow types.
@@ -142,6 +144,47 @@ currently supported: gcu::GCU_PROP_ARROW_COORDS.
 false otherwise.
 */
 	bool SetProperty (unsigned property, char const *value);
+/*!
+@param step a Step
+
+Sets \a step at first end of the arrow. This does not affect coordinates,
+alignment is dealt with elsewhere.
+*/
+	void SetStartStep (Step *step) {m_Start = step;}
+/*!
+@return a pointer to the Step at first end of the arrow.
+*/
+	Step** GetStartStepPtr () {return &m_Start;}
+/*!
+@return the Step at first end of the arrow.
+*/
+	Step* GetStartStep () const {return m_Start;}
+/*!
+@param step a Step
+
+Sets \a step at last end of the arrow. This does not affect coordinates,
+alignment is dealt with elsewhere.
+*/
+	void SetEndStep (Step *step) {m_End = step;}
+/*!
+@return the Step at last end of the arrow.
+*/
+	Step* GetEndStep () const {return m_End;}
+/*!
+@return a pointer to the Step at last end of the arrow.
+*/
+	Step** GetEndStepPtr () {return &m_End;}
+/*!
+Exchange both ends or the arrow and their associated steps.
+*/
+	void Reverse ();
+/*!
+@param step the Step to remove from the Scheme
+
+Removes the Step, which might be either the initial or final step.
+If it not one of these, nothing is done.
+*/
+	void RemoveStep (Step *step);
 
 protected:
 /*!
@@ -154,6 +197,11 @@ This method must be called from derived classes overloaded Save methods.
 	bool Save (xmlDocPtr xml, xmlNodePtr node) const;
 
 	std::string Name ();
+
+/*!
+This method should be called when an arrow has been fully loaded.
+*/
+	void OnLoaded ();
 
 protected:
 /*!
@@ -172,6 +220,9 @@ The x coordinate to the end point.
 The y coordinate to the end point.
 */
 	double m_height;
+
+private:
+	Step *m_Start, *m_End;
 };
 
 }	//	namespace gcp

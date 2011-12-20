@@ -75,33 +75,6 @@ Used to update the representation of the arrow in the view.
 */
 	void UpdateItem ();
 /*!
-@param Step the reaction step before the reaction
-
-Sets the initial reaction step.
-*/
-	void SetStartStep (ReactionStep *Step) {m_Start = Step;}
-/*!
-@return the initial reaction step.
-*/
-	ReactionStep* GetStartStep () {return m_Start;}
-/*!
-@param Step the reaction step after the reaction
-
-Sets the final reaction step.
-*/
-	void SetEndStep (ReactionStep *Step) {m_End = Step;}
-/*!
-@return the final reaction step.
-*/
-	ReactionStep* GetEndStep () {return m_End;}
-/*!
-@param Step the reaction step to remove from the reaction
-
-Removes the reaction step, which might be either the initial or final step.
-If it not one of these, nothing is done.
-*/
-	void RemoveStep (ReactionStep *Step);
-/*!
 @param UIManager the gcu::UIManager to populate.
 @param object the Object on which occured the mouse click.
 @param x x coordinate of the mouse click.
@@ -163,11 +136,6 @@ false otherwise.
 	bool SetProperty (unsigned property, char const *value);
 
 /*!
-This method should be called when an arrow has been fully loaded.
-*/
-	void OnLoaded ();
-
-/*!
 @return the localized object generic name.
 */
 	std::string Name ();
@@ -177,7 +145,6 @@ This method should be called when an arrow has been fully loaded.
 private:
 	unsigned m_Type;
 	bool m_TypeChanged;
-	ReactionStep *m_Start, *m_End;
 };
 
 }	//	namespace gcp

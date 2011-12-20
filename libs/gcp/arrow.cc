@@ -26,6 +26,7 @@
 #include "arrow.h"
 #include "document.h"
 #include "settings.h"
+#include "step.h"
 #include "view.h"
 #include "widgetdata.h"
 #include <gcu/objprops.h>
@@ -44,10 +45,17 @@ Arrow::Arrow (TypeId Type):
 	Object (Type),
 	gccv::ItemClient ()
 {
+	m_Start = m_End = NULL;
 }
 
 Arrow::~Arrow ()
 {
+	if (IsLocked ())
+		return;
+	if (m_Start)
+		m_Start->RemoveArrow (this, m_End);
+	if (m_End)
+		m_End->RemoveArrow (this, m_Start);
 }
 
 bool Arrow::Save (xmlDocPtr xml, xmlNodePtr node) const
@@ -210,6 +218,34 @@ bool Arrow::SetProperty (unsigned property, char const *value)
 std::string Arrow::Name ()
 {
 	return _("Arrow");
+}
+
+void Arrow::Reverse ()
+{
+	Step *step = m_Start;
+	m_Start = m_End;
+	m_End = step;
+	m_x = m_x + m_width;
+	m_y = m_y + m_height;
+	m_width = - m_width;
+	m_height = - m_height;
+}
+
+void Arrow::RemoveStep (Step *step)
+{
+printf("remove step %p\n",step);
+	if (step == m_Start)
+		m_Start = NULL;
+	else if (step == m_End)
+		m_End = NULL;
+}
+
+void Arrow::OnLoaded ()
+{
+	if (m_Start)
+		m_Start->AddArrow (this, m_End);
+	if (m_End)
+		m_End->AddArrow (this, m_Start);
 }
 
 }	//	namespace gcp

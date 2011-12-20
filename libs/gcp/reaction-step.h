@@ -99,20 +99,6 @@ It should not be called by a program; call Object::EmitSignal instead.
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 
 /*!
-@param arrow an arrow related to this instance.
-
-Adds an arrow to the list of arrows related to this instance.
-*/
-	void AddArrow (ReactionArrow *arrow) {m_Arrows.insert (arrow);}
-/*!
-@param arrow an arrow related to this instance.
-
-Removes an arrow from the list of arrows related to this instance when it
-not anymore relevant.
-*/
-	void RemoveArrow (ReactionArrow *arrow);
-
-/*!
 @return the localized object generic name.
 */
 	std::string Name ();
@@ -137,7 +123,6 @@ private:
 
 private:
 	bool m_bLoading;
-	std::set<ReactionArrow *> m_Arrows;
 };
 
 }	//	namespace gcp
