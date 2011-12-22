@@ -739,6 +739,13 @@ void Molecule::OnLoaded ()
 	// for now, we don't keep them
 	for (it = done.begin (); it != end; it++)
 		m_ChiralAtoms.erase (*it);
+	// check for crossing bonds
+	std::list < gcu::Bond * >::const_iterator i;
+	Bond const *bond = static_cast < Bond const * > (GetFirstBond (i));
+	while (bond) {
+		CheckCrossings (const_cast <Bond *> (bond));
+		bond = static_cast < Bond const * > (GetNextBond (i));
+	}
 	GetParent ()->OnLoaded (); // FIXME: shouldn't needed.
 }
 

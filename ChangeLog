@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-12-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: fixed loading of crossing bonds.
+
 2011-12-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: add scheme.[cc,h].
 	* libs/gcp/arrow.cc: add steps.
