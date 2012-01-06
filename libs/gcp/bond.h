@@ -4,7 +4,7 @@
  * GChemPaint library
  * bond.h
  *
- * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -44,6 +44,7 @@ The bond types recognized in GChemPaint. Possible values are:
  - DownBondType: hash bond,
  - ForeBondType: large bond,
  - UndeterminedBondType: squiggled bond.
+ - NewmanBondType: the bond displayed as a circle in a Newman projection.
 */
 typedef enum
 {
@@ -51,7 +52,8 @@ typedef enum
 	UpBondType,
 	DownBondType,
 	ForeBondType,
-	UndeterminedBondType
+	UndeterminedBondType,
+	NewmanBondType
 } BondType;
 
 /*!\struct BondCrossing gcp/bond.h

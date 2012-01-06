@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction.cc
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -112,7 +112,10 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	}
 	map < string, ReactionStep * > rsteps;
 	map < string, set < Object * > >::iterator istep, step_end = steps.end ();
+	set < ReactionStep * > unused_steps;
+	ReactionStep *step;
 	for (istep = steps.begin (); istep != step_end; istep++) {
+printf("found step for %s\n",(*istep).first.c_str());
 		set < Object * > &cur_set = (*istep).second;
 		set < Object * >::iterator i, end = cur_set.end ();
 		for (i = cur_set.begin (); i != end; i++) {
@@ -121,8 +124,10 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 			while (Cur[xpos] != NULL)
 				xpos += 1e-5;
 			Cur[xpos] = *i;
-			rsteps[(*istep).first] = new ReactionStep (this, Cur, Objects);
 		}
+		step = new ReactionStep (this, Cur, Objects);
+		rsteps[(*istep).first] = step;
+		unused_steps.insert (step);
 		Cur.clear ();
 	}
 	// now we must find the relations between the various steps and the arrows
@@ -130,6 +135,17 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	for (a = Arrows.begin (); a != aend; a++) {
 		AddChild (*a);
 		(*a)->GetCoords (&x0, &y0, &x1, &y1);
+		// add some padding to the arrow bounds
+		double dx, dy, dl;
+		dx = x1 - x0;
+		dy = y1 - y0;
+		dl = sqrt (dx * dx + dy * dy) / pTheme->GetArrowPadding () * pTheme->GetZoomFactor ();
+		dx /= dl;
+		dy /= dl;
+		x0 -= dx;
+		y0 -= dy;
+		x1 += dx;
+		y1 += dy;
 		std::string st, sh;
 		// search step at tail and head
 		for (a1 = Arrows.begin (); a1 != aend; a1++) {
@@ -142,12 +158,15 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 			}
 		}
 		ReactionStep *start = rsteps[st], *end = rsteps[sh];
+printf("st=%s start=%p       sh=%s end=%p\n",st.c_str(),start,sh.c_str(),end);
 		if (start == NULL) {
 			// FIXME: add a dummy step for now
-		}
+		} else
+			unused_steps.erase (start);
 		if (end == NULL) {
 			// FIXME: add a dummy step for now
-		}
+		} else
+			unused_steps.erase (end);
 		start->AddArrow (*a, end);
 		end->AddArrow (*a, start);
 		(*a)->SetStartStep (start);
@@ -167,127 +186,6 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	// if two arrows have no reactant between them, insert an empty step if the arrows are
 	// consecutive or return an error otherwise, that is -> -> is ok -> <- or <- -> are forbidden.
 	// FIXME: if we have an isolated arrow, return false
-
-	// old code to be removed later
-#if 0
-old_code:
-	if (Arrows.size () == 1) {
-	// FIXME: only simple reactions schemes with one arrow are supported in this version
-		ReactionArrow *arrow = Arrows.front ();
-		AddChild (arrow);
-		arrow->GetCoords (&x0, &y0, &x1, &y1);
-		//x0 and y0 should be the center of the arrow, not the beginning, so we must transform them
-		x0 = (x0 + x1) / 2;
-		y0 = (y0 + y1) / 2;
-		// x1, y1 will now be the coordinates of a normalized vector:
-		x1 -= x0;
-		y1 -= y0;
-		x0 *= zf;
-		y0 *= zf;
-		l = sqrt (x1 * x1 + y1 * y1);
-		x1 /= l;
-		y1 /= l;
-		// Now, group objects depending of their position relative to the arrow
-		// FIXME: objects above or below an arrow are not supported.
-		iend = Others.end ();
-		for (i = Others.begin (); i != iend; i++) {
-			rect = &Objects[*i];
-			xpos = x = (rect->x0 + rect->x1) / 2;
-			y = (rect->y0 + rect->y1) / 2;
-			// search the direction from the center of the arrow to the center of the object
-			x -= x0;
-			y -= y0;
-			l = sqrt (x * x + y * y);
-			x /= l;
-			y /= l;
-			// scalar product:
-			l = x * x1 + y * y1;
-			if (l > 0.71) {
-				while (Right[xpos] != NULL)
-					xpos += 1e-5;
-				Right[xpos] = *i;
-			}
-			else if (l < -0.71) {
-				while (Left[xpos] != NULL)
-					xpos += 1e-5;
-				Left[xpos] = *i;
-			}
-			else //Object too far from the arrow direction
-				throw  invalid_argument(_("Error could not build a reaction\nfrom the selected objects."));
-		}
-		// We have one or two sets of objects. We must transform them in reaction steps
-		ReactionStep *step;
-		l= 0.;
-		if (Left.size ()) {
-			step = new ReactionStep (this, Left, Objects);
-			// Link fisrt step to the arrow
-			arrow->SetStartStep (step);
-			// Move the arrow to its new position
-			pData->GetObjectBounds (step, &srect);
-			x0 = (srect.x0 + srect.x1) / 2;
-			y0 = step->GetYAlign () * pTheme->GetZoomFactor ();
-			x = srect.x1 - x0;
-			y = srect.y1 - y0;
-			if ((fabs (x1) > 1e-5) && (fabs (y1) > 1e-5))
-				horiz = (fabs (x1) > fabs (y1));
-			else if (fabs (x1) > 1e-5)
-				horiz = true;
-			else
-				horiz = false;
-			if (horiz) {
-				l = x + pTheme->GetArrowPadding ();
-				if (x1 < 0)
-					l = -l;
-				x0 += l;
-				y0 += l * y1 / x1;
-			} else {
-				l = y + pTheme->GetArrowPadding ();
-				if (y1 < 0)
-					l = -l;
-				x0 += l * x1 / y1;
-				y0 += l;
-			}
-			arrow->GetCoords (&srect.x0, &srect.y0, &srect.x1, &srect.y1);
-			arrow->Move (x0 / zf - srect.x0, y0 / zf - srect.y0);
-		}
-		arrow->GetCoords (&srect.x0, &srect.y0, &srect.x1, &srect.y1);
-		xpos = srect.x1;
-		ypos = srect.y1;
-		// Create second step
-		if (Right.size ()) {
-			step = new ReactionStep (this, Right, Objects);
-			arrow->SetEndStep (step);
-			pData->GetObjectBounds (step, &srect);
-			x0 = (srect.x0 + srect.x1) / 2;
-			y0 = step->GetYAlign () * zf;
-			if (l == 0.) {
-				if ((fabs (x1) > 1e-5) && (fabs (y1) > 1e-5))
-					horiz = (fabs (x1) > fabs (y1));
-				else if (fabs (x1) > 1e-5)
-					horiz = true;
-				else
-					horiz = false;
-			}
-			if (horiz) {
-				x = srect.x1 - x0;
-				l = x + pTheme->GetArrowPadding ();
-				if (x1 < 0)
-					l = -l;
-				x0 -= l;
-				y0 -= l * y1 / x1;
-			} else {
-				y = srect.y1 - y0;
-				l = y + pTheme->GetArrowPadding ();
-				if (y1 < 0)
-					l = -l;
-				x0 -= l * x1 / y1;
-				y0 -= l;
-			}
-			step->Move (xpos - x0 /zf, ypos - y0 / zf);
-		}
-	} else
-		throw  invalid_argument (_("Error could not build a reaction\nfrom the selected objects."));
-#endif
 
 	// now, position the various steps and arrows
 	Align ();

@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2012-01-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/poly-line.cc: use auto color when needed.
+	* libs/gcp/atom.cc: fixed a bonds crossing issue.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcp/fragment-residue.cc: when changing residue, update the symbol.
+	* libs/gcp/fragment-residue.h: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/reaction.cc: better building, not perfect yet.
+	* plugins/paint/bonds/Makefile.am: new Newman projection tool.
+	* plugins/paint/bonds/newman.cc: ditto.
+	* plugins/paint/bonds/newman.h: ditto.
+	* plugins/paint/bonds/newman.ui: ditto.
+	* plugins/paint/bonds/plugin.cc: ditto.
+
 2011-12-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: fixed loading of crossing bonds.
 

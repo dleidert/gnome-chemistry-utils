@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment-residue.h
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-1012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -69,11 +69,12 @@ Loads the symbol and associated resdue from \a node.
 */
 	bool Load (xmlNodePtr node);
 /*!
-@param res the residue correspondig to the symbol.
+@param res the residue corresponding to the symbol.
+@param symbol the symbol to use, or NULL to use the default symbol.
 
 Sets the associated residue.
 */
-	void SetResidue (Residue const *res);
+	void SetResidue (Residue const *res, char const *symbol = NULL);
 /*!
 @return the symbol of this Residue.
 */

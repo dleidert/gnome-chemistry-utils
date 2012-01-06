@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/poly-line.cc
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -108,7 +108,7 @@ double PolyLine::Distance (double x, double y, Item **item) const
 
 void PolyLine::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
-	GOColor color = GetLineColor ();
+	GOColor color = GetEffectiveLineColor ();
 	if (color != 0) {
 		cairo_set_line_width (cr, GetLineWidth ());
 		list <Point>::const_iterator i = m_Points.begin (), end = m_Points.end ();

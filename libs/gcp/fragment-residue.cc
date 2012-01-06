@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment-residue.cc
  *
- * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -52,10 +52,14 @@ FragmentResidue::~FragmentResidue ()
 		const_cast <Residue *> (m_Residue)->Unref ();
 }
 
-void FragmentResidue::SetResidue (Residue const *res)
+void FragmentResidue::SetResidue (Residue const *res, char const *symbol)
 {
 	if (m_Residue)
 		const_cast <Residue *> (m_Residue)->Unref ();
+	if (symbol)
+		m_Abbrev = symbol;
+	else
+		m_Abbrev = (*res->GetSymbols ().begin ()).first;
 	m_Residue = res;
 	const_cast <Residue *> (m_Residue)->Ref ();
 }

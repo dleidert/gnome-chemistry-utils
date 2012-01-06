@@ -4,7 +4,7 @@
  * GChemPaint library
  * atom.h
  *
- * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -368,7 +368,7 @@ Used to retrieve the size of the ink rectangle of the atom symbol (if displayed)
 \a angle is absolute value of the angle between an horizontal line and the line joining
 the center and the top left or the bottom left vertex.
 The returned width value is actually half the full width. Height is the height.
-This method is used to avoid bonds lines extyending over their atoms symbols.
+This method is used to avoid bonds lines extending over their atoms symbols.
 */
 	void GetSymbolGeometry (double &width, double &height, double &angle, bool up) const;
 
@@ -387,6 +387,7 @@ This method is used to avoid bonds lines extyending over their atoms symbols.
 
 	bool UpdateStereoBonds ();
 	bool HasStereoBond () const;
+	Bond *GetNewmanBond () const;
 
 protected:
 /*!

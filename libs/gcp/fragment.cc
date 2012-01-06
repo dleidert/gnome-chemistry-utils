@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment.cc
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -235,7 +235,7 @@ bool Fragment::OnChanged (bool save)
 			m_BeginAtom = start;
 			m_EndAtom = CurPos;
 			if (residue)
-				residue->SetResidue (r);
+				residue->SetResidue (r, sy);
 			else {
 				map<gcu::Atom*, gcu::Bond*>::iterator i;
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
@@ -307,7 +307,7 @@ bool Fragment::OnChanged (bool save)
 		if (r) {
 			m_EndAtom = m_BeginAtom + strlen (sy);
 			if (residue)
-				residue->SetResidue (r);
+				residue->SetResidue (r, sy);
 			else {
 				map<gcu::Atom*, gcu::Bond*>::iterator i;
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
@@ -1113,7 +1113,7 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 		m_BeginAtom = cur;
 		m_EndAtom = cur + strlen (sy);
 		if (residue)
-			residue->SetResidue (r);
+			residue->SetResidue (r, sy);
 		else {
 			map<gcu::Atom*, gcu::Bond*>::iterator i;
 			Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);

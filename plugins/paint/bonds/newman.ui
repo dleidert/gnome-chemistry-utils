@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkAdjustment" id="fore-angle-adj">
+    <property name="lower">-180</property>
+    <property name="upper">180</property>
+    <property name="value">90</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="fore-bonds-adj">
+    <property name="lower">1</property>
+    <property name="upper">4</property>
+    <property name="value">3</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="fore-first-angle-adj">
+    <property name="lower">45</property>
+    <property name="upper">180</property>
+    <property name="value">120</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="length-adj">
+    <property name="lower">90</property>
+    <property name="upper">500</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="order-adj">
+    <property name="lower">1</property>
+    <property name="upper">2</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="rear-angle-adj">
+    <property name="lower">-180</property>
+    <property name="upper">180</property>
+    <property name="value">-90</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="rear-bonds-adj">
+    <property name="lower">1</property>
+    <property name="upper">4</property>
+    <property name="value">3</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+  </object>
+  <object class="GtkGrid" id="newman">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="border_width">12</property>
+    <property name="row_spacing">6</property>
+    <property name="column_spacing">12</property>
+    <child>
+      <object class="GtkLabel" id="name">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">&lt;b&gt;Property&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="value">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">&lt;b&gt;Value&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="fore-bonds-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">Bonds number:</property>
+        <property name="use_underline">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">3</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="bond-length-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">Bond length:</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="fore-bonds-btn">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">•</property>
+        <property name="invisible_char_set">True</property>
+        <property name="adjustment">fore-bonds-adj</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">3</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="fore-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">&lt;b&gt;Fore&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">3</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="front-bond-angle-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="yalign">0</property>
+        <property name="label" translatable="yes">Angle between bonds:</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">5</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="front-first-angle-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">First bond angle:</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">4</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="rear-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">&lt;b&gt;Rear&lt;/b&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">6</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="rear-bonds-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">Bonds number:</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">6</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="rear-bonds-btn">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">•</property>
+        <property name="invisible_char_set">True</property>
+        <property name="adjustment">rear-bonds-adj</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">6</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="rear-bond-angle-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="yalign">0</property>
+        <property name="label" translatable="yes">Angle between bonds:</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">8</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="rear-first-angle-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">First bond angle:</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">7</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="order-lbl">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">Bond order:</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">2</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="bond-length-btn">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">•</property>
+        <property name="adjustment">length-adj</property>
+        <property name="digits">1</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="order-btn">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">•</property>
+        <property name="adjustment">order-adj</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">2</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="fore-angle-btn">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">•</property>
+        <property name="adjustment">fore-angle-adj</property>
+        <property name="digits">1</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">4</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="fore-first-angle-btn">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">•</property>
+        <property name="adjustment">fore-first-angle-adj</property>
+        <property name="digits">1</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">5</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="rear-angle-btn">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">•</property>
+        <property name="adjustment">rear-angle-adj</property>
+        <property name="digits">1</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">7</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSpinButton" id="rear-first-angle-btn">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">•</property>
+        <property name="adjustment">rear-first-angle-adj</property>
+        <property name="digits">1</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">8</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="rear-first-angle-adj">
+    <property name="lower">45</property>
+    <property name="upper">180</property>
+    <property name="value">120</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+</interface>

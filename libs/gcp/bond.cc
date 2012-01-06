@@ -4,7 +4,7 @@
  * GChemPaint library
  * bond.cc
  *
- * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -33,6 +33,7 @@
 #include "view.h"
 #include "widgetdata.h"
 #include <gccv/canvas.h>
+#include <gccv/circle.h>
 #include <gccv/group.h>
 #include <gccv/hash.h>
 #include <gccv/line.h>
@@ -76,6 +77,12 @@ void Bond::SetType (BondType type)
 	m_CoordsCalc = false;
 	if (m_type != NormalBondType)
 		m_order = 1;
+	if (m_type == NewmanBondType && m_Begin && m_End) {
+		gcu::Atom *atom = m_Begin->z () > m_End->z ()? m_End: m_Begin;
+		std::map < gcu::Atom *, gcu::Bond * >::iterator i;
+		for (Bond *bond = static_cast <Bond * > (atom->GetFirstBond (i)); bond; bond = static_cast <Bond * > (atom->GetNextBond (i)))
+		     bond->m_CoordsCalc = false;
+	}
 }
 
 double Bond::GetAngle2D (Atom* pAtom)
@@ -100,49 +107,63 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 	if ((Num == 0) || (Num > m_order))
 		return false;
 	if (!m_CoordsCalc) {
-		Theme *Theme = dynamic_cast <Document *> (GetDocument ())->GetTheme ();
+		Document *doc = dynamic_cast < Document * > (GetDocument ());
+		Theme *Theme = doc->GetTheme ();
 		m_Begin->GetCoords (x1, y1);
 		m_End->GetCoords (x2, y2);
 		double dx = *x2 - *x1, dy = *y2 - *y1;
 		double l = sqrt (square (dx) + square (dy));
 		double BondDist = Theme->GetBondDist () / Theme->GetZoomFactor ();
+		double bl = doc->GetBondLength () / 3./* * Theme->GetZoomFactor ()*/;
 		dx *= (BondDist / l);
 		dy *= (BondDist / l);
 		// now, exclude symbols rectangles from the drawing
 		double ax, ay, anga, angb = atan2 (fabs (dy), fabs (dx));
-		static_cast <Atom *> (m_Begin)->GetSymbolGeometry (ax, ay, anga, dy < 0);
 		bool horizontal;
-		if (ax > 0) {
-			horizontal = anga >= angb;
-			if (horizontal) {
-				ax = (ax + 1.) / Theme->GetZoomFactor ();
-				if (dx > 0)
-					ax = - ax;
-				*x1 -= ax;
-				*y1 -= ax * dy / dx;
-			} else {
-				ay = (ay + 1.) / Theme->GetZoomFactor ();
-				if (dy > 0)
-					ay = - ay;
-				*y1 -= ay;
-				*x1 -= ay * dx / dy;
+		gcp::Bond *bond = static_cast < Atom * > (m_Begin)->GetNewmanBond ();
+		if (bond != NULL && m_Begin->z () < bond->GetAtom (m_Begin)->z ()) {
+			*x1 += (*x2 - *x1) / l * bl;
+			*y1 += (*y2 - *y1) / l * bl;
+		} else {
+			static_cast < Atom * > (m_Begin)->GetSymbolGeometry (ax, ay, anga, dy < 0);
+			if (ax > 0) {
+				horizontal = anga >= angb;
+				if (horizontal) {
+					ax = (ax + 1.) / Theme->GetZoomFactor ();
+					if (dx > 0)
+						ax = - ax;
+					*x1 -= ax;
+					*y1 -= ax * dy / dx;
+				} else {
+					ay = (ay + 1.) / Theme->GetZoomFactor ();
+					if (dy > 0)
+						ay = - ay;
+					*y1 -= ay;
+					*x1 -= ay * dx / dy;
+				}
 			}
 		}
-		static_cast <Atom *> (m_End)->GetSymbolGeometry (ax, ay, anga, dy > 0);
-		if (ax > 0) {
-			horizontal = anga >= angb;
-			if (horizontal) {
-				ax = (ax + 1.) / Theme->GetZoomFactor ();
-				if (dx > 0)
-					ax = - ax;
-				*x2 += ax;
-				*y2 += ax * dy / dx;
-			} else {
-				ay = (ay + 1.) / Theme->GetZoomFactor ();
-				if (dy > 0)
-					ay = - ay;
-				*y2 += ay;
-				*x2 += ay * dx / dy;
+		bond = static_cast < Atom * > (m_End)->GetNewmanBond ();
+		if (bond != NULL && m_End->z () < bond->GetAtom (m_End)->z ()) {
+			*x2 -= (*x2 - *x1) / l * bl;
+			*y2 -= (*y2 - *y1) / l * bl;
+		} else {
+			static_cast <Atom *> (m_End)->GetSymbolGeometry (ax, ay, anga, dy > 0);
+			if (ax > 0) {
+				horizontal = anga >= angb;
+				if (horizontal) {
+					ax = (ax + 1.) / Theme->GetZoomFactor ();
+					if (dx > 0)
+						ax = - ax;
+					*x2 += ax;
+					*y2 += ax * dy / dx;
+				} else {
+					ay = (ay + 1.) / Theme->GetZoomFactor ();
+					if (dy > 0)
+						ay = - ay;
+					*y2 += ay;
+					*x2 += ay * dx / dy;
+				}
 			}
 		}
 		// always set the first line coords, even if changed later
@@ -387,6 +408,9 @@ bool Bond::SaveNode (G_GNUC_UNUSED xmlDocPtr xml, xmlNodePtr node) const
 	case UndeterminedBondType:
 		xmlNewProp (node, (xmlChar*) "type", (xmlChar*) "undetermined");
 		break;
+	case NewmanBondType:
+		xmlNewProp (node, (xmlChar*) "type", (xmlChar*) "newman");
+		break;
 	default:
 		break;
 	}
@@ -412,6 +436,8 @@ bool Bond::LoadNode (xmlNodePtr node)
 		SetType (ForeBondType);
 	else if (!strcmp (buf, "undetermined"))
 		SetType (UndeterminedBondType);
+	else if (!strcmp (buf, "newman"))
+		SetType (NewmanBondType);
 	else
 		SetType (NormalBondType);
 	if (buf)
@@ -555,6 +581,7 @@ void Bond::SetSelected (int state)
 		break;
 	}
 	case UndeterminedBondType:
+	case NewmanBondType:
 	case ForeBondType: {
 		gccv::LineItem *item = static_cast <gccv::LineItem *> (m_Item);
 		item->SetLineColor (color);
@@ -674,6 +701,17 @@ void Bond::AddItem ()
 		hash->SetLineDist (theme->GetHashDist ());
 		m_Item = hash;
 		break;
+	}
+	case NewmanBondType: {
+		m_Begin->GetCoords (&x1, &y1);
+		gccv::Circle *circle = new gccv::Circle (view->GetCanvas ()->GetRoot (),
+		                                         x1 * theme->GetZoomFactor (),
+		                                         y1 * theme->GetZoomFactor (),
+		                                         theme->GetBondLength () / 3. * theme->GetZoomFactor (),
+		                                         this);
+		circle->SetFillColor (0);
+		circle->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		m_Item = circle;
 	}
 	}
 }
@@ -960,6 +998,10 @@ void Bond::OnLoaded ()
 		obj->SetDirty ();
 	} else
 		GetParent ()->SetDirty ();
+	if (m_type == NewmanBondType && m_Begin && m_End) {
+		// ensure begin and end are at the same x,y position
+		m_End->SetCoords (m_Begin->x (), m_Begin->y (), m_End->z ());
+	}
 }
 
 }	//	namespace gcp

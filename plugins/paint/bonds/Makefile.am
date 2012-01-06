@@ -16,8 +16,6 @@ DEFS += -DDATADIR=\"$(datadir)\" \
         -DPLUGINSDIR=\"$(bondsdir)\"
 
 IMAGES = \
-	bond24.png \
-	chain24.png \
 	delocalized24.png \
 	downbond24.png \
 	idownbond24.png \
@@ -26,8 +24,6 @@ IMAGES = \
 	xbond24.png
 
 VARIABLES = \
-	gcp_bond_24			$(srcdir)/bond24.png \
-	gcp_chain_24			$(srcdir)/chain24.png \
 	gcp_delocalizedbond_24		$(srcdir)/delocalized24.png \
 	gcp_downbond_24			$(srcdir)/downbond24.png \
 	gcp_idownbond_24		$(srcdir)/idownbond24.png \
@@ -50,18 +46,21 @@ bonds_la_SOURCES = \
 	plugin.cc \
 	bondtool.cc \
 	chaintool.cc \
-	delocalizedtool.cc
+	delocalizedtool.cc \
+	newman.cc
 
 noinst_HEADERS = \
 	plugin.h \
 	bondtool.h \
 	chaintool.h \
-	delocalizedtool.h
+	delocalizedtool.h \
+	newman.h
 
 uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/bonds
 dist_ui_DATA = \
 	bond.ui \
-	chain.ui
+	chain.ui \
+	newman.ui
 
 
 $(BUILT_SOURCES): $(IMAGES)
