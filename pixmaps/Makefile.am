@@ -14,12 +14,12 @@ dist_icons_DATA = \
 	gspectrum.svg
 
 install-data-hook:
-	$(mkinstalldirs) $(datadir)/icons/hicolor/scalable/mimetypes; \
+	$(mkinstalldirs) $(DESTDIR)/$(datadir)/icons/hicolor/scalable/mimetypes; \
 	$(INSTALL_DATA) $(srcdir)/gcrystal.svg \
-		$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gcrystal.svg; \
+		$(DESTDIR)/$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gcrystal.svg; \
 	$(INSTALL_DATA) $(srcdir)/gchempaint.svg \
-		$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gchempaint.svg;
+		$(DESTDIR)/$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gchempaint.svg;
 
 uninstall-hook:
-	rm $(datadir)/icons/hicolor/scalable/mimetypes/application-x-gcrystal.svg; \
-	rm $(datadir)/icons/hicolor/scalable/mimetypes/application-x-gchempaint.svg;
+	rm $(DESTDIR)/$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gcrystal.svg; \
+	rm $(DESTDIR)/$(datadir)/icons/hicolor/scalable/mimetypes/application-x-gchempaint.svg;
