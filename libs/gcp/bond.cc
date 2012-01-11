@@ -41,6 +41,7 @@
 #include <gccv/wedge.h>
 #include <gcu/cycle.h>
 #include <gcu/objprops.h>
+#include <gcu/xml-utils.h>
 #include <gcugtk/ui-manager.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -63,7 +64,6 @@ Bond::Bond (Atom* first, Atom* last, unsigned char order):
 		gcu::Bond (first, last, order), ItemClient (), m_type (NormalBondType)
 {
 	m_CoordsCalc = false;
-//	m_type = NormalBondType;
 	m_level = 0;
 }
 
@@ -75,13 +75,20 @@ void Bond::SetType (BondType type)
 {
 	m_type = type;
 	m_CoordsCalc = false;
-	if (m_type != NormalBondType)
+	if (m_type != NormalBondType && m_type != NewmanBondType)
 		m_order = 1;
-	if (m_type == NewmanBondType && m_Begin && m_End) {
-		gcu::Atom *atom = m_Begin->z () > m_End->z ()? m_End: m_Begin;
-		std::map < gcu::Atom *, gcu::Bond * >::iterator i;
-		for (Bond *bond = static_cast <Bond * > (atom->GetFirstBond (i)); bond; bond = static_cast <Bond * > (atom->GetNextBond (i)))
-		     bond->m_CoordsCalc = false;
+	if (m_type == NewmanBondType) {
+		if (m_Begin && m_End) {
+			gcu::Atom *atom = m_Begin->z () > m_End->z ()? m_End: m_Begin;
+			std::map < gcu::Atom *, gcu::Bond * >::iterator i;
+			for (Bond *bond = static_cast < Bond * > (atom->GetFirstBond (i)); bond; bond = static_cast <Bond * > (atom->GetNextBond (i)))
+				 bond->m_CoordsCalc = false;
+		}
+		Document *doc = static_cast < Document * > (GetDocument ());
+		if (doc != NULL)
+			m_coords[15] = doc->GetBondLength () / 3.;
+		else
+			m_coords[15] = go_nan;
 	}
 }
 
@@ -114,7 +121,7 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 		double dx = *x2 - *x1, dy = *y2 - *y1;
 		double l = sqrt (square (dx) + square (dy));
 		double BondDist = Theme->GetBondDist () / Theme->GetZoomFactor ();
-		double bl = doc->GetBondLength () / 3./* * Theme->GetZoomFactor ()*/;
+		double bl;
 		dx *= (BondDist / l);
 		dy *= (BondDist / l);
 		// now, exclude symbols rectangles from the drawing
@@ -122,6 +129,9 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 		bool horizontal;
 		gcp::Bond *bond = static_cast < Atom * > (m_Begin)->GetNewmanBond ();
 		if (bond != NULL && m_Begin->z () < bond->GetAtom (m_Begin)->z ()) {
+			bl = bond->m_coords[15];
+			if (!go_finite (bl))
+				return false;
 			*x1 += (*x2 - *x1) / l * bl;
 			*y1 += (*y2 - *y1) / l * bl;
 		} else {
@@ -145,6 +155,9 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 		}
 		bond = static_cast < Atom * > (m_End)->GetNewmanBond ();
 		if (bond != NULL && m_End->z () < bond->GetAtom (m_End)->z ()) {
+			bl = bond->m_coords[15];
+			if (!go_finite (bl))
+				return false;
 			*x2 -= (*x2 - *x1) / l * bl;
 			*y2 -= (*y2 - *y1) / l * bl;
 		} else {
@@ -410,6 +423,7 @@ bool Bond::SaveNode (G_GNUC_UNUSED xmlDocPtr xml, xmlNodePtr node) const
 		break;
 	case NewmanBondType:
 		xmlNewProp (node, (xmlChar*) "type", (xmlChar*) "newman");
+		gcu::WriteFloat (node, "radius", m_coords[15]);
 		break;
 	default:
 		break;
@@ -446,6 +460,10 @@ bool Bond::LoadNode (xmlNodePtr node)
 	if (buf) {
 		m_level = atoi (buf);
 		xmlFree (buf);
+	}
+	if (m_type == NewmanBondType) {
+		return gcu::ReadFloat (node, "radius", m_coords[15], static_cast < Document * > (GetDocument ())->GetBondLength ());
+		
 	}
 	return true;
 }
@@ -707,7 +725,7 @@ void Bond::AddItem ()
 		gccv::Circle *circle = new gccv::Circle (view->GetCanvas ()->GetRoot (),
 		                                         x1 * theme->GetZoomFactor (),
 		                                         y1 * theme->GetZoomFactor (),
-		                                         theme->GetBondLength () / 3. * theme->GetZoomFactor (),
+		                                         m_coords[15] * theme->GetZoomFactor (),
 		                                         this);
 		circle->SetFillColor (0);
 		circle->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);

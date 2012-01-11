@@ -38,6 +38,8 @@ libs/gcp/reaction-arrow.cc
 libs/gcp/reaction-operator.cc
 libs/gcp/reaction-prop.cc
 libs/gcp/reaction-step.cc
+libs/gcp/scheme.cc
+libs/gcp/step.cc
 libs/gcp/text.cc
 libs/gcp/theme.cc
 libs/gcp/view.cc
@@ -111,6 +113,7 @@ plugins/paint/atoms/plugin.cc
 plugins/paint/bonds/bondtool.cc
 [type: gettext/glade]plugins/paint/bonds/chain.ui
 plugins/paint/bonds/chaintool.cc
+[type: gettext/glade]plugins/paint/bonds/newman.ui
 plugins/paint/bonds/plugin.cc
 [type: gettext/glade]plugins/paint/cycles/cycle.ui
 [type: gettext/glade]plugins/paint/cycles/cyclen.ui

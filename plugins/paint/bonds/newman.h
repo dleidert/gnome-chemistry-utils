@@ -29,6 +29,7 @@
 
 class gcpNewmanTool: public gcp::Tool
 {
+friend class gcpNewmanToolPrivate;
 public:
 	gcpNewmanTool (gcp::Application *App);
 	virtual ~gcpNewmanTool ();
@@ -37,6 +38,14 @@ public:
 	void OnDrag ();
 	void OnRelease ();
 	GtkWidget *GetPropertyPage ();
+	void Activate ();
+
+private:
+	GtkSpinButton *m_LengthBtn, *m_OrderBtn, *m_ForeBondsBtn, *m_RearBondsBtn,
+				  *m_ForeFirstAngleBtn, *m_RearFirstAngleBtn,
+				  *m_ForeBondAngleBtn, *m_RearBondAngleBtn;
+	double m_ForeFirstAngle, m_RearFirstAngle, m_ForeBondAngle, m_RearBondAngle;
+	int m_ForeBonds, m_RearBonds, m_Order;
 };
 
 #endif	//	GCHEMPAINT_NEWMAN_TOOL_H

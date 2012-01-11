@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-01-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: add more files.
+
 2011-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: fixed files list.
 

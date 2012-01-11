@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2012-01-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: fixed Newman bond radius when bond length changes.
+	* plugins/paint/bonds/newman.cc: make property page work.
+	* plugins/paint/bonds/newman.h: ditto.
+	* plugins/paint/bonds/newman.ui: ditto.
+
 2012-01-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* pixmaps/Makefile.am: restore mime types related pixmaps installation.
 
