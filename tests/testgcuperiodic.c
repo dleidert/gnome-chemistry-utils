@@ -67,11 +67,10 @@ int main (int argc, char *argv[])
 {
 	GtkWidget *window;
 	GtkWidget *periodic;
-	GtkVBox* vbox;
-	GtkHBox* hbox;
-	GtkLabel* label;
+	GtkGrid *grid;
+	GtkLabel *label;
 	GtkRadioButton *btn;
-	GSList* btn_group;
+	GSList *btn_group;
 
 	gtk_init (&argc, &argv);
 
@@ -82,25 +81,23 @@ int main (int argc, char *argv[])
 		 NULL);
 
 	periodic = gcu_periodic_new ();
-	vbox = (GtkVBox*) gtk_vbox_new (FALSE, 0);
-	hbox = (GtkHBox*) gtk_hbox_new (FALSE, 0);
+	grid = (GtkGrid *) gtk_grid_new ();
 	label = (GtkLabel*) gtk_label_new ("Color scheme:");
-	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (label), TRUE, TRUE, 0);
+	gtk_grid_attach (grid, GTK_WIDGET (label), 0, 0, 1, 1);
 	btn = (GtkRadioButton*) gtk_radio_button_new_with_label (NULL, "None");
 	g_signal_connect (G_OBJECT (btn), "toggled", (GCallback) on_color_scheme_none, (gpointer) periodic);
-	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (btn), TRUE, TRUE, 0);
+	gtk_grid_attach (grid, GTK_WIDGET (btn), 1, 0, 1, 1);
 	btn_group = gtk_radio_button_get_group (btn);
 	btn = (GtkRadioButton*) gtk_radio_button_new_with_label (btn_group, "Default");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (btn), TRUE);
 	g_signal_connect (G_OBJECT (btn), "toggled", (GCallback) on_color_scheme_default, (gpointer) periodic);
-	gtk_box_pack_end (GTK_BOX (hbox), GTK_WIDGET (btn), TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (hbox), TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), gtk_hseparator_new (), TRUE, TRUE, 0);
+	gtk_grid_attach (grid, GTK_WIDGET (btn), 2, 0, 1, 1);
+	gtk_grid_attach (grid, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL), 0, 1, 3, 1);
 
-	g_object_set (G_OBJECT (periodic), "color-style", GCU_PERIODIC_COLOR_DEFAULT, NULL);
+	g_object_set (G_OBJECT (periodic), "color-style", GCU_PERIODIC_COLOR_DEFAULT, "expand", TRUE, NULL);
 	g_signal_connect (G_OBJECT (periodic), "element_changed", (GCallback) on_changed, NULL);
-	gtk_box_pack_end (GTK_BOX (vbox), GTK_WIDGET (GCU_PERIODIC (periodic)), TRUE, TRUE, 0);
-	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (vbox));
+	gtk_grid_attach (grid, GTK_WIDGET (GCU_PERIODIC (periodic)), 0, 2, 3, 1);
+	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (grid));
 	gtk_widget_show_all (window);
 
 	gtk_main ();

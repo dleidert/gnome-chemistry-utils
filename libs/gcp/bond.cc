@@ -461,10 +461,9 @@ bool Bond::LoadNode (xmlNodePtr node)
 		m_level = atoi (buf);
 		xmlFree (buf);
 	}
-	if (m_type == NewmanBondType) {
-		return gcu::ReadFloat (node, "radius", m_coords[15], static_cast < Document * > (GetDocument ())->GetBondLength ());
-		
-	}
+	if (m_type == NewmanBondType)
+		// don't care if there is no radius property
+		gcu::ReadFloat (node, "radius", m_coords[15], static_cast < Document * > (GetDocument ())->GetBondLength ());
 	return true;
 }
 
