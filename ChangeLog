@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2012-01-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.cc: add a length property.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/reaction.cc: don't crash on missing step.
+
 2012-01-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: don't crash when a Newman bond has no radius.
 	* tests/testgcuperiodic.c (main): make it build with gtk+-3.2.

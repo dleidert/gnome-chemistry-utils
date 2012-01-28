@@ -115,7 +115,6 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	set < ReactionStep * > unused_steps;
 	ReactionStep *step;
 	for (istep = steps.begin (); istep != step_end; istep++) {
-printf("found step for %s\n",(*istep).first.c_str());
 		set < Object * > &cur_set = (*istep).second;
 		set < Object * >::iterator i, end = cur_set.end ();
 		for (i = cur_set.begin (); i != end; i++) {
@@ -158,19 +157,24 @@ printf("found step for %s\n",(*istep).first.c_str());
 			}
 		}
 		ReactionStep *start = rsteps[st], *end = rsteps[sh];
-printf("st=%s start=%p       sh=%s end=%p\n",st.c_str(),start,sh.c_str(),end);
 		if (start == NULL) {
-			// FIXME: add a dummy step for now
-		} else
+			if (Arrows.size () > 1)
+				throw  invalid_argument (_("Error: arrow without a reactant or product."));
+			// FIXME: add a dummy step
+		} else {
 			unused_steps.erase (start);
+			start->AddArrow (*a, end);
+			(*a)->SetStartStep (start);
+		}
 		if (end == NULL) {
-			// FIXME: add a dummy step for now
-		} else
+			if (Arrows.size () > 1)
+				throw  invalid_argument (_("Error: arrow without a reactant or product."));
+			// FIXME: add a dummy step
+		} else {
 			unused_steps.erase (end);
-		start->AddArrow (*a, end);
-		end->AddArrow (*a, start);
-		(*a)->SetStartStep (start);
-		(*a)->SetEndStep (end);
+			end->AddArrow (*a, start);
+			(*a)->SetEndStep (end);
+		}
 	}
 
 	// check if all steps are valid

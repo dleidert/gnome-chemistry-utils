@@ -205,24 +205,26 @@ This method should be called when an arrow has been fully loaded.
 
 protected:
 /*!
-The x coordinate to the start point.
+The x coordinate of the start point.
 */
 	double m_x;
 /*!
-The y coordinate to the start point.
+The y coordinate of the start point.
 */
 	double m_y;
 /*!
-The x coordinate to the end point.
+The x coordinate difference between tail and head.
 */
 	double m_width;
 /*!
-The y coordinate to the end point.
+The y coordinate difference between tail and head.
 */
 	double m_height;
 
 private:
 	Step *m_Start, *m_End;
+
+GCU_RO_PROP (double, Length)
 };
 
 }	//	namespace gcp

@@ -150,6 +150,7 @@ void Arrow::SetCoords (double xstart, double ystart, double xend, double yend)
 	m_y = ystart;
 	m_width = xend - xstart;
 	m_height = yend - ystart;
+	m_Length = sqrt (m_width * m_width + m_height *m_height);
 }
 
 bool Arrow::GetCoords (double* xstart, double* ystart, double* xend, double* yend) const
@@ -233,7 +234,6 @@ void Arrow::Reverse ()
 
 void Arrow::RemoveStep (Step *step)
 {
-printf("remove step %p\n",step);
 	if (step == m_Start)
 		m_Start = NULL;
 	else if (step == m_End)
