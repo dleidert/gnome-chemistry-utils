@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2012-01-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/brackets.h: update API docs.
+	* libs/gccv/line-item.h: ditto.
+	* libs/gccv/wedge.h: ditto.
+
 2012-01-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/arrow.cc: add a length property.
 	* libs/gcp/arrow.h: ditto.

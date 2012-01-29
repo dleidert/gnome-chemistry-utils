@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/wedge.h
  *
- * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -110,27 +110,39 @@ Evaluates the Wedge bounds.
 
 protected:
 /*!
+The horizontal start position.
 */
 	double m_xstart;
 /*!
+The vertical start position.
 */
 	double m_ystart;
 /*!
+The horizontal central end position.
 */
 	double m_xend;
 /*!
+The vertical central end position.
 */
 	double m_yend;
 /*!
+The horizontal position of the first corner at end position. This value is
+automatically set and should not be changed by code external to this class.
 */
 	double m_xe1;
 /*!
+The vertical position of the first corner at end position. This value is
+automatically set and should not be changed by code external to this class.
 */
 	double m_ye1;
 /*!
+The horizontal position of the second corner at end position. This value is
+automatically set and should not be changed by code external to this class.
 */
 	double m_xe2;
 /*!
+The vertical position of the second corner at end position. This value is
+automatically set and should not be changed by code external to this class.
 */
 	double m_ye2;
 

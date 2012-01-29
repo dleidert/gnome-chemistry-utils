@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/fill-item.h
  *
- * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -58,8 +58,24 @@ The destructor.
 */
 	virtual ~LineItem ();
 
+/*!
+@return the line color whether it is an automatic color or not.
+*/
 	GOColor GetEffectiveLineColor () const;
+/*!
+@param cr the cairo_t to which the line must be rendered.
+
+Sets the line style to \a cairo. cairo_restore must be called when done.
+*/
 	void ApplyLine (cairo_t *cr) const;
+/*!
+@param dashes the dashes lengths.
+@param num_dashes the dashes number inside the pattern.
+@param offset the dashes offset at line start.
+
+Sets the line dashes, see cairo_set_dash for more details on the parameters
+values.
+*/
 	void SetDashes (double const *dashes, int num_dashes, double offset);
 
 private:
@@ -85,6 +101,15 @@ Sets the LineItem color.
 @return the line color.
 */
 GCCV_ITEM_PROP (GOColor, LineColor)
+/*!\fn SetAutoColor(bool auto)
+@param auto whether to use a color from the theme.
+
+if \a auto is true, the color used to draw the line whiil be retrieved from
+the Gtk+ theme instead of using the LineColor member.
+*/
+/*!\fn GetAutoColor()
+@return the line color mode, true if automatic, false otherwise.
+*/
 GCCV_ITEM_PROP (bool, AutoColor)
 };
 
