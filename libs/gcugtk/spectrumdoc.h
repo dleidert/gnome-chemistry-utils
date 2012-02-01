@@ -1,7 +1,8 @@
 /*
  * Gnome Chemisty Utils
  * spectrumdoc.h
- *1109 Jean Bréfort <jean.brefort@normalesup.org>
+ *
+ * Copyright (C) 2007-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -32,7 +33,7 @@
 namespace gcugtk
 {
 
-/*!\enum SpectrumType gcu/spectrumdoc.h
+/*!\enum SpectrumType gcugtk/spectrumdoc.h
 Represents the list of spectrum types supported (or which should be supported)
 by the gcu::SpectrumDocument class.
 */
@@ -89,7 +90,7 @@ equal to the number of supported types.
 } SpectrumType;
 
 
-/*!\enum SpectrumUnitType gcu/spectrumdoc.h
+/*!\enum SpectrumUnitType gcugtk/spectrumdoc.h
 Represents the list of units supported by the gcu::SpectrumDocument class.
 */
 typedef enum {
@@ -164,7 +165,7 @@ equal to the number of supported types.
 	GCU_SPECTRUM_TYPE_MAX
 } SpectrumVarType;
 
-/*!\enum SpectrumFormatType gcu/spectrumdoc.h
+/*!\enum SpectrumFormatType gcugtk/spectrumdoc.h
 Represents the list of data formats from the JCAMP-DX specification supported
 by the gcu::SpectrumDocument class. See the JCAMP-DX specification for
 more information.
@@ -200,7 +201,7 @@ equal to the number of supported formats.
 class Application;
 class SpectrumView;
 
-/*!\struct JdxVar gcu/spectrumdoc.h
+/*!\struct JdxVar gcugtk/spectrumdoc.h
 Used to store a series of data.
 */
 typedef struct  {
@@ -260,7 +261,7 @@ information.
 	GogSeries *Series;
 } JdxVar;
 
-/*!\class SpectrumDocument gcu/spectrumdoc.h
+/*!\class SpectrumDocument gcugtk/spectrumdoc.h
 The document class used for spectra. This API is still quite unstable and
 might change in the future.
 */

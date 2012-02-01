@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gcuspectrumviewer.h
  *
- * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -58,7 +58,7 @@ NULL otherwise.
 */
 #define GCU_SPECTRUM_VIEWER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GCU_TYPE_SPECTRUM_VIEWER, GcuSpectrumViewerClass))
 
-/*! \struct GcuSpectrumViewer gcu/gcuspectrumviewer.h
+/*! \struct GcuSpectrumViewer gcugtk/gcuspectrumviewer.h
  The GcuSpectrumViewer displays using the goffice library. Only spectra in the JCAMP-DX format are supported in this
 version.
 

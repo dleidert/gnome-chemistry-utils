@@ -51,7 +51,8 @@ Curly brackets.
 */
 	BracketsTypeCurly
 } BracketsTypes;
-/*!\enum BracketsTypes
+
+/*!\enum BracketsUses
 Enumeration of the brackets use modes.
 */
 typedef enum

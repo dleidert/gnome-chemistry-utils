@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * spectrumview.h
  *
- * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -31,7 +31,7 @@ namespace gcugtk
 
 class SpectrumDocument;
 
-/*!\class SpectrumView gcu/spectrumview.h
+/*!\class SpectrumView gcugtk/spectrumview.h
 The view class used for spectra. This API is still quite unstable and
 might change in the future.
 */

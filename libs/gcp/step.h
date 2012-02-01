@@ -61,7 +61,7 @@ Adds the arrow to the arrows map. See Step::GetArrows().
 
 Removes the arrow from the arrows map. See Step::GetArrows().
 */
-	void RemoveArrow (Arrow *arrow, Step *mesomer);
+	void RemoveArrow (Arrow *arrow, Step *step);
 /*!
 @return true if the step is associated with at least one arrow, false
 otherwise. See gcp::Scheme::Validate() for more information.

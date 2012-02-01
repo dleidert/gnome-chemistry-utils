@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcugtk/application.h
  *
- * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -37,8 +37,18 @@ namespace gcugtk {
 class Object;
 class CmdContextGtk;
 
+/*!\struct Database gcugtk/application.h
+A simple struture storing a database name and the URI used to access it.
+*/
 typedef struct {
+/*!
+The database name as it will appear in the user interface
+*/
 	std::string name;
+/*!
+The URI of the database. %I will be replaced by the molecule InChI,
+%K by the InChiKey and %S by the SMILES of the target molecule.
+*/
 	std::string uri;
 } Database;
 
@@ -78,6 +88,7 @@ public:
 If NULL, the name parameter is used.
 @param icon_name the name to use for the default icon of all windows. If NULL,
 the help_name or name parameters will be used.
+@param cc the associated CmdContextGtk.
 
 The datadir variable is used to build the full path to the help file:
 "file://"+datadir+"/gnome/help/"+name+"/"+LANG+"/"+name".xml".
@@ -105,7 +116,24 @@ widget is intended to be added to a GtkFileChooserDialog.
 */
 	GtkWidget *GetImageSizeWidget ();
 
-	virtual void ReceiveTargets (GtkClipboard *, GtkSelectionData *) {;}
+/*!
+@param clipboard a GtkClipboard
+@param selection_data the current GtkSelectionData
+
+The virtual member called by OnReceiveTargets(). The defaullt implementation
+does nothing. This method should be overriden for derived classes supporting
+clipboard operations.
+*/
+	virtual void ReceiveTargets (G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED GtkSelectionData *selection_data) {;}
+
+/*!
+@param clipboard a GtkClipboard
+@param selection_data the current GtkSelectionData
+@param App the Application target
+
+Static callback to pass as third argument to gtk_clipboard_request_contents().
+\a App must be used as fourth argument (user_data).
+*/
 	static void OnReceiveTargets (GtkClipboard *clipboard, GtkSelectionData *selection_data, Application *App)
 		{
 			App->ReceiveTargets (clipboard, selection_data);
@@ -114,13 +142,20 @@ widget is intended to be added to a GtkFileChooserDialog.
 protected:
 
 /*!
-This method is called by the framework when all the documents have been removed from
+	 This method is called by the framework when all the documents have been removed from
 the set of opened documents. The default behavior is to call gtk_main_quit and exit
 the program. Derived class might overide this method to change this.
 */
 	virtual void NoMoreDocsEvent () {gtk_main_quit ();}
 
+/*!
+Creates a default GtkCmdContext instance for the application.
+*/
 	void CreateDefaultCmdContext ();
+
+/*!
+@return true if the main loop is running.
+*/
 	bool LoopRunning () {return (gtk_main_level ());}
 
 private:

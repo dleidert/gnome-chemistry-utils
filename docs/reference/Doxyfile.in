@@ -428,6 +428,7 @@ WARN_LOGFILE           =
 # with spaces.
 
 INPUT                  = @top_srcdir@/libs/gcu \
+							@top_srcdir@/libs/gcugtk \
 							@top_srcdir@/libs/gcp \
 							@top_srcdir@/libs/gccv \
 							@top_srcdir@/libs/gcr \
@@ -459,6 +460,7 @@ EXCLUDE                = @top_srcdir@/libs/gcu/gcuperiodic.c \
 						@top_srcdir@/libs/gcu/gcuspectrumviewer.c \
 						@top_srcdir@/libs/gcu/crystalbond.h \
 						@top_srcdir@/libs/gcu/view.h \
+						@top_srcdir@/libs/gcugtk/marshalers.h \
 						@top_srcdir@/libs/gcp/gcp-stock-pixbufs.h
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or 

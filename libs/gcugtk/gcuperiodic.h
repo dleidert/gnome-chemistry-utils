@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * gcuperiodic.h
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -85,7 +85,7 @@ typedef struct _GcuPeriodic       GcuPeriodic;
 /*! The GcuPeriodic widget object class.*/
 typedef struct _GcuPeriodicClass  GcuPeriodicClass;
 
-/*! \struct GcuPeriodic gcu/gcuperiodic.h
+/*! \struct GcuPeriodic gcugtk/gcuperiodic.h
  The GcuPeriodic Widget displays a Periodic table of the elements, each element being represented in a toggle button.
  A test program is available in the tests directory of the Gnome Chemistry Utils source archive
 (source in testgcuperiodic.c).

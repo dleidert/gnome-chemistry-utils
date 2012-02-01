@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/chem3ddoc.h
  *
- * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -116,9 +116,29 @@ Exports the embedded molecule as a vrml scene.
 Clears the document.
 */
 	void Clear ();
+
+/*!
+	 Pure virtual method used to create a view. Must be overriden in derived classes.
+
+@return the newly created view.
+*/
 	virtual GLView *CreateView () = 0;
 
+/*!
+@param the name of the display mode.
+
+Converts a string to an actual display mode. Supported names are: "ball&stick",
+"spacefill", "cylinders", and "wireframe".
+@return the display mode or BALL_AND_STICK on error.
+
+*/
 	static Display3DMode Display3DModeFromString (char const *name);
+
+/*!
+@param mode a display mode.
+
+@return a string representation of the display mode.
+*/
 	static char const *Display3DModeAsString (Display3DMode mode);
 
 /*!\fn SetDisplay3D(Display3DMode mode)
@@ -129,10 +149,10 @@ Sets the display mode to one of the available Display3DMode values.
 /*!\fn GetDisplay3D()
 @return the current mode.
 */
-/*!\fn GetRefDisplay3D()
-@return the current mode as a reference.
-*/
 GCU_PROP_EX (Display3DMode, Display3D)
+/*!\fn GetMol()
+@return the molecule dispayed inside the document.
+*/
 GCU_RO_PROP (Molecule *, Mol)
 };
 

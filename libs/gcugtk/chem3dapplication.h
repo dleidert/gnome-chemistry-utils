@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcugtk/chem3dapplication.h
  *
- * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -53,11 +53,31 @@ Default destructor
 */
 	virtual ~Chem3dApplication ();
 
+/*!
+Pure virtual function used to create a new document of the appropriate type.
 
+@return the newly created document.
+*/
 	virtual Chem3dDoc *OnFileNew () = 0;
+
+/*!
+
+*/
 	void OnFileOpen (Chem3dDoc *doc);
+
+/*!
+
+*/
 	void OnSaveAsImage (Chem3dDoc *Doc);
+
+/*!
+
+*/
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
+
+/*!
+
+*/
 	void OnQuit ();
 
 GCU_PROT_PROP (gcu::Display3DMode, Display3D)

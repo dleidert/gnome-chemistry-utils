@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * printable.h
  *
- * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -49,7 +49,7 @@ Automatic scaling (will fill the print area).
 	GCU_PRINT_SCALE_AUTO,
 } PrintScaleType;
 
-/*!\class Printable gcu/printable.h
+/*!\class Printable gcugtk/printable.h
 A base class for everything that might be printed.
 */
 class Printable: virtual public gcu::DialogOwner

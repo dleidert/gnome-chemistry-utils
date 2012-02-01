@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcugtk/filechooser.h
  *
- * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -38,7 +38,7 @@ namespace gcugtk
 
 class Application;
 
-/*!\class FileChooser gcu/filechooser.h
+/*!\class FileChooser gcugtk/filechooser.h
 This class is used each time a file name must be choosen. It embeds a GtkFileChooserDialog
 window.
 */

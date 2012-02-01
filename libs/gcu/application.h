@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/application.h
  *
- * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -437,8 +437,11 @@ Derived class might overide this method to change this.
 /*!
 std::map of the supported pixbuf formats. Keys are the mime type names.
 */
-	std::map<std::string, GdkPixbufFormat*> m_SupportedPixbufFormats;
+	            std::map<std::string, GdkPixbufFormat*> m_SupportedPixbufFormats;
 
+/*!
+The CmdContext used to display messages, might be NULL.
+*/
 	CmdContext *m_CmdContext;
 
 private:

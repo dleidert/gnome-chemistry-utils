@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * spacegroup.h - Handle Crystallographic Space Groups.
  *
- * Copyright (C) 2007-2010 by Jean Bréfort
+ * Copyright (C) 2007-2012 by Jean Bréfort
  *
  * This file was originally part of the Open Babel project.
  * For more information, see <http://openbabel.sourceforge.net/>
@@ -193,9 +193,9 @@ Sets the crystallographic group identifier.
 @return the crystallographic group identifier as a reference.
 */
 GCU_PROP (unsigned, Id)
-/*!\fn GetRefCoordinateAlternative()
+/*!\fn GetCoordinateAlternative()
 Returns the coordinate system code for groups for which it is meaningful
-or 0 for other groups as a reference.
+or 0 for other groups.
 */
 GCU_RO_PROP (unsigned, CoordinateAlternative)
 };

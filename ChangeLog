@@ -1,5 +1,26 @@
 ##Text encoding: utf-8
 
+2012-02-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Doxyfile.in: more API docs update.
+	* libs/gccv/brackets.h: ditto.
+	* libs/gcp/step.h: ditto.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/chemistry.h: ditto.
+	* libs/gcu/spacegroup.h: ditto.
+	* libs/gcugtk/application.h: ditto.
+	* libs/gcugtk/chem3dapplication.h: ditto.
+	* libs/gcugtk/filechooser.h: ditto.
+	* libs/gcugtk/gcuchem3dviewer.h: ditto.
+	* libs/gcugtk/gcucomboperiodic.h: ditto.
+	* libs/gcugtk/gcuperiodic.c: ditto.
+	* libs/gcugtk/gcuperiodic.h: ditto.
+	* libs/gcugtk/gcuspectrumviewer.h: ditto.
+	* libs/gcugtk/print-setup-dlg.h: ditto.
+	* libs/gcugtk/printable.h: ditto.
+	* libs/gcugtk/spectrumdoc.h: ditto.
+	* libs/gcugtk/spectrumview.h: ditto.
+
 2012-01-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/brackets.h: update API docs.
 	* libs/gccv/line-item.h: ditto.
