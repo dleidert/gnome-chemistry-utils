@@ -984,6 +984,7 @@ void Element::LoadBODR ()
 			node = node->next;
 		}
 	}
+	xmlFreeDoc (xml);
 }
 
 Value const *Element::GetProperty (char const *property_name)

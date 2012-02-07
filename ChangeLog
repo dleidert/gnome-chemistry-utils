@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/element.cc: fixed a memory leak.
+
 2012-02-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Doxyfile.in: more API docs update.
 	* libs/gccv/brackets.h: ditto.
