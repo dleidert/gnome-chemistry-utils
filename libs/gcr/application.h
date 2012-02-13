@@ -28,6 +28,13 @@
 #include <gcugtk/application.h>
 #include <goffice/goffice.h>
 
+/*!\file*/
+
+/*!\namespace gcr
+\brief The crystal structures related classes
+
+The namespace used for C++ classes related to crystal structures.
+*/
 namespace gcr {
 
 class Document;

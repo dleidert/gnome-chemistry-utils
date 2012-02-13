@@ -407,7 +407,7 @@ bool gcpTextTool::Unselect ()
 		m_pView->GetDoc ()->Remove (pObj);
 		m_pView->GetDoc ()->AbortOperation ();
 		gcu::Object *parent = (id)? m_pView->GetDoc ()->GetDescendant (parent_id.c_str ()): NULL;
-		if (parent) 
+		if (parent)
 			parent->EmitSignal (gcp::OnChangedSignal);
 	}
 	m_pView->GetDoc ()->FinishOperation ();

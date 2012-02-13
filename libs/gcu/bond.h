@@ -66,14 +66,25 @@ The destructor of Bond.
 @return a pointer to the Atom instance: first Atom if which is 0, last if which is 1 or NULL.
 */
 	virtual Atom* GetAtom (int which) const; //0 = first, 1 = last, others reserved (for multicentered bonds?)
+
 /*!
 @param pAtom a pointer to an Atom instance.
 @param which an index which might be used for multicentered bonds (not supported); the default value should
 always be used even if the implementation does not use it in this version.
+
 @return the last atom if pAtom is the first, the first if pAtom is the last or NULL if pAtom is not concerned by this Bond.
 */
 	virtual Atom* GetAtom (Atom* pAtom, int which = 0) const;	//"which" is just a place holder for multicenter bonds; returns an atom different from pAtom
 															//i.e. the other end of the bond
+
+/*!
+@param pAtom a pointer to a constant Atom instance.
+@param which an index which might be used for multicentered bonds (not supported); the default value should
+always be used even if the implementation does not use it in this version.
+
+The const version of the method.
+@return the last atom if pAtom is the first, the first if pAtom is the last or NULL if pAtom is not concerned by this Bond.
+*/
 	virtual Atom const * GetAtom (Atom const * pAtom, int which = 0) const;
 	/*!
 @return the Bond order.

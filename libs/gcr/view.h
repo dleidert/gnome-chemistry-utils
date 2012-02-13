@@ -86,7 +86,7 @@ The height of the widget.
 The width of the widget.
 */
 	gdouble m_width;
-	
+
 GCU_POINTER_PROP (Window, Window);
 };
 

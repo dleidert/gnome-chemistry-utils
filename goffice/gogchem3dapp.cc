@@ -49,7 +49,7 @@ void GOGChem3dApplication::ImportDocument (GOGChemUtilsComponent *gogcu)
 	memcpy (gogcu->data, component->data, gogcu->length);
 	gcu::ContentType type = doc->LoadData (component->data, component->mime_type, component->length);
 	if (type != gcu::ContentType3D) {
-		// FIXME: load in the appropriate application, may be asking in case of a 2d view 
+		// FIXME: load in the appropriate application, may be asking in case of a 2d view
 	}
 	gogcu->document = doc;
 	gcu::GLView *view = doc->GetView ();

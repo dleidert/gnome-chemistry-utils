@@ -66,6 +66,8 @@ public:
 If NULL, the name parameter is used.
 @param icon_name the name to use for the default icon of all windows. If NULL,
 the help_name or name parameters will be used.
+@param cc the gcu::CmdContext to use to diaplay the error messages, if NULL,
+the default one will be used if it exists.
 
 The datadir variable is used to build the full path to the help file:
 "file://"+datadir+"/gnome/help/"+name+"/"+LANG+"/"+name".xml".
@@ -185,6 +187,8 @@ is not supported by GdkPixbuf.
 @param uri the uri of the document to load.
 @param mime_type the mime type of the document.
 @param Doc the document instance which will contain the loaded data.
+@param options an option string to pass to the parser or to OpenBabel when using
+it to convert to CML.
 
 This method loads a document using the appropriate gcu::Loader class
 instance.
@@ -196,6 +200,8 @@ instance.
 @param input a GsfInput.
 @param mime_type the mime type of the document.
 @param Doc the document instance which will contain the loaded data.
+@param options an option string to pass to the parser or to OpenBabel when using
+it to convert to CML.
 
 This method loads a document using the appropriate gcu::Loader class
 instance.
@@ -208,6 +214,8 @@ instance.
 @param mime_type the mime type of the document.
 @param Obj the object instance which contains the data to be saved.
 @param type the type of the data to be saved (see gcu::ContentType).
+@param options an option string to pass to the parser or to OpenBabel when using
+it to convert from CML.
 
 This method saves the document using the appropriate gcu::Loader class
 instance.
@@ -220,6 +228,8 @@ instance.
 @param mime_type the mime type of the document.
 @param Obj the object instance which contains the data to be saved.
 @param type the type of the data to be saved (see gcu::ContentType).
+@param options an option string to pass to the parser or to OpenBabel when using
+it to convert from CML.
 
 This method saves the document using the appropriate gcu::Loader class
 instance using \a output as target.
@@ -261,12 +271,25 @@ Adds all registered options to the context. This should be called once
 just after creating the application and before parsing options.
 */
 	void AddOptions (GOptionContext *context);
+
 /*!
 @return a dummy Application instance which might be used when there is no other
 Application available.
 */
 	static Application *GetDefaultApplication ();
+
+/*!
+@param name: aa Application name
+
+@return the Application with the given name if it currently exists in the process.
+*/
 	static Application *GetApplication (char const *name);
+
+/*!
+@param name: aa Application name
+
+@return the Application with the given name if it currently exists in the process.
+*/
 	static Application *GetApplication (std::string &name);
 
 	// Object creation related methods
@@ -341,12 +364,13 @@ the class seems possible.
 	const std::string& GetCreationLabel (TypeId Id);
 
 /*!
+@param target a gcu::Object.
 @param uim the UIManager to populate.
 @param object the Object on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
 
-This method is called to build a contextual menu for the object. It is called by Object::BuildContextualMenu, so
+This method is called to build a contextual menu for the target. It is called by Object::BuildContextualMenu, so
 it should not be necessary to call it directly.
 @return true if something is added to the UIManager, false otherwise.
 */
@@ -365,11 +389,24 @@ adds a callback for modifying the contextual menu of objects of type Id.
 
 @return the string defined by SetCreationLabel.
 */
-	const std::string& GetCreationLabel (const std::string& TypeName);
+	            const std::string& GetCreationLabel (const std::string& TypeName);
 
 	TypeDesc const *GetTypeDescription (TypeId Id);
+
+/*!
+@return the gcu::CmdContext used to display error messages.
+*/
 	CmdContext *GetCmdContext ();
 
+/*!
+@param uri the source to convert to CML.
+@param mime_type the mime type of the document.
+@param options options to pass to OpenBabel.
+
+This method converts the source to CML.
+@return the converted text as a newly allocate string or NULL.
+*/
+	char* ConvertToCML (std::string const &uri, const char *mime_type, const char *options = NULL);
 
 /*!
 @param input a source GsfInput.
@@ -379,11 +416,10 @@ adds a callback for modifying the contextual menu of objects of type Id.
 This method converts the source to CML.
 @return the converted text as a newly allocate string or NULL.
 */
-	char* ConvertToCML (std::string const &uri, const char *mime_type, const char *options = NULL);
 	char* ConvertToCML (GsfInput *input, const char *mime_type, const char *options = NULL);
 
 /*!
-@param cml: the CML string to convert.
+@param cml the CML string to convert.
 @param uri the uri of the document to which the document will be saved.
 @param mime_type the mime type of the document.
 @param options options to pass to OpenBabel.
@@ -393,7 +429,7 @@ This method converts CML to a target.
 	void ConvertFromCML (const char *cml, std::string const &uri, const char *mime_type, const char *options = NULL);
 
 /*!
-@param cml: the CML string to convert.
+@param cml the CML string to convert.
 @param output a target GsfOutput.
 @param mime_type the mime type of the document.
 @param options options to pass to OpenBabel.
@@ -401,12 +437,48 @@ This method converts CML to a target.
 This method converts CML to a target.
 */
 	void ConvertFromCML (const char *cml, GsfOutput *output, const char *mime_type, const char *options = NULL);
-	std::list < Database > const &GetDatabases (char const *classname) {return m_Databases[classname];}
+
+	            /*!
+*/
+	            std::list < Database > const &GetDatabases (char const *classname) {return m_Databases[classname];}
 
 protected:
+/*!
+@param mime_type a mime type.
+@param type the OpenBabel type string associated with mime_type.
+
+Registers the new file type so that it can be opened by the application. Actually,
+these files are translated to CML by OpenBabel and then loaded from CML.
+*/
 	void RegisterBabelType (const char *mime_type, const char *type);
+
+/*!
+Creates the default gcu::CmdContext for the application. This method must be
+overriden by derived classes since the default implementation does nothing.
+*/
 	virtual void CreateDefaultCmdContext () {}
+
+/*!
+@return true if some kind of main loop is running. The default implementation
+always return false. Must be overriden by derived class where this is significant.
+*/
 	virtual bool LoopRunning () {return false;}
+
+/*!
+This method is called by the framework when all the documents have been removed from
+the set of opened documents. The default behavior is to do nothing
+Derived class might overide this method to change this.
+*/
+	virtual void NoMoreDocsEvent () {}
+/*!
+std::map of the supported pixbuf formats. Keys are the mime type names.
+*/
+	std::map<std::string, GdkPixbufFormat*> m_SupportedPixbufFormats;
+
+/*!
+The CmdContext used to display messages, might be NULL.
+*/
+	CmdContext *m_CmdContext;
 
 private:
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
@@ -425,27 +497,8 @@ private:
 	std::list <option_data> m_Options;
 	std::map <TypeId, TypeDesc> m_Types;
 	std::map <std::string, std::string> m_BabelTypes;
-
-protected:
-
-/*!
-This method is called by the framework when all the documents have been removed from
-the set of opened documents. The default behavior is to do nothing
-Derived class might overide this method to change this.
-*/
-	virtual void NoMoreDocsEvent () {}
-/*!
-std::map of the supported pixbuf formats. Keys are the mime type names.
-*/
-	            std::map<std::string, GdkPixbufFormat*> m_SupportedPixbufFormats;
-
-/*!
-The CmdContext used to display messages, might be NULL.
-*/
-	CmdContext *m_CmdContext;
-
-private:
 	std::map < std::string, std::list <Database> >m_Databases;
+
 /*!\var m_Docs
 The currently opened documents.
 */

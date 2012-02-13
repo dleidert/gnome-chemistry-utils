@@ -34,7 +34,6 @@ namespace gcu {
 
   /**
    * \class Cylinder gcu/cylinder.h
-   * @internal
    * @brief This class represents and draws a cylinder
    * @author Benoit Jacob <jacob@math.jussieu.fr>
    */
@@ -42,17 +41,18 @@ namespace gcu {
   class CylinderPrivate;
   class Cylinder
   {
-    protected:
+    private:
       void initialize ();
       void freeBuffers ();
 
     public:
+      /** creates a cylinder with given number of faces. */
       Cylinder (int faces=0);
       ~Cylinder ();
       /** initializes the cylinder with given number of faces. If the
        * cylinder was already initialized, any pre-allocated buffers
        * are freed and then re-allocated */
-      void setup (int faces);
+		  void setup (int faces);
       /**
        * draws the cylinder at specified position, with specified
        * radius.

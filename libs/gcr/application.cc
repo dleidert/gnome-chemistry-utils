@@ -465,6 +465,6 @@ Window *Application::CreateNewWindow (Document *doc)
 {
 	return new Window (this, doc);
 }
-	
+
 
 }	//	namespace gcr

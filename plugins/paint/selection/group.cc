@@ -45,7 +45,7 @@ static void on_group_properties (gcpGroup* group)
 	Dialog *dlg = group->GetDialog ("group");
 	if (dlg)
 		dlg->Present ();
-	else 
+	else
 		new gcpGroupDlg ((gcp::Document*) group->GetDocument (), group);
 }
 

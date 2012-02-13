@@ -168,6 +168,12 @@ Use this function to retrieve the first Bond of this Atom and initialize the ite
 @return the first Bond of this Atom or NULL if the Atom has is not bonded.
 */
 	Bond *GetFirstBond (std::map < Atom *, Bond * >::iterator& i);
+/*!
+@param i a C++ std::map constant iterator.
+
+Use this function to retrieve the first Bond of this constant Atom and initialize the iterator.
+@return the first Bond of this Atom or NULL if the Atom has is not bonded.
+*/
 	Bond const *GetFirstBond (std::map< Atom *, Bond * >::const_iterator& i) const;
 /*!
 @param i a C++ std::map iterator initialized by Atom::GetFirstBond.
@@ -176,6 +182,12 @@ Use this method to iterate through the list of Bond instances of this Atom.
 @return the next Bond of this Atom or NULL.
 */
 	Bond *GetNextBond (std::map<Atom*, Bond*>::iterator& i);
+/*!
+@param i a C++ std::map constant iterator initialized by Atom::GetFirstBond(std::map< Atom *, Bond * >::const_iterator&).
+
+Use this method to iterate through the list of Bond instances of this Atom.
+@return the next Bond of this Atom or NULL.
+*/
 	Bond const *GetNextBond (std::map< Atom *, Bond * >::const_iterator& i) const;
 /*!
 @param pAtom a pointer to an Atom instance.

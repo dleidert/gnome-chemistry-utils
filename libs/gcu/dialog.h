@@ -50,6 +50,9 @@ the contextual help and to ensure the uniqueness of the dialog (in some cases).
 or NULL (the default). when owner is not NULL, the dialog will be unique for it.
 */
 	Dialog (Application* App, const char* windowname, DialogOwner *owner = NULL) throw (std::runtime_error);
+/*!
+The destructor
+*/
 	virtual ~Dialog ();
 
 /*!
@@ -65,8 +68,23 @@ method, because that would throw an error.
 */
 	void SetRealName (char const *name, DialogOwner *owner) throw (std::runtime_error);
 
+/*!
+Make sure the dialog is visible.
+This is a pure virtual function and derived classes must implement it.
+*/
 	virtual void Present () = 0;
+
+/*!
+Destroys the dialog.
+This is a pure virtual function and derived classes must implement it.
+*/
 	virtual void Destroy () = 0;
+
+/*!
+Dialogs are referenced by their DialogOwner through their name which must be unique.
+This makes possible to display a hidden dialog without having two instances of it.
+@return the dialog window name.
+*/
 	std::string &GetWindowName () {return m_windowname;}
 
 protected:
@@ -77,6 +95,9 @@ private:
 
 /*!\var m_App
 The Application instance owning the dialog.
+*/
+/*!\fn GetApp()
+@return the Application instance owning the dialog.
 */
 GCU_PROT_PROP (Application *, App)
 };

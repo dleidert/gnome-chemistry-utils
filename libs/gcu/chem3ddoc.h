@@ -125,7 +125,7 @@ Clears the document.
 	virtual GLView *CreateView () = 0;
 
 /*!
-@param the name of the display mode.
+@param name the name of the display mode.
 
 Converts a string to an actual display mode. Supported names are: "ball&stick",
 "spacefill", "cylinders", and "wireframe".

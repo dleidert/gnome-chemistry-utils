@@ -65,7 +65,7 @@ The destructor.
 
 @return the found widget if any with an incremented references count.
 */
-	GtkWidget *GetRefdWidget (char const *wname);	
+	GtkWidget *GetRefdWidget (char const *wname);
 /*!
 @param name an object name.
 

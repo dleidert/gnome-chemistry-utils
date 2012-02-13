@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2012-02-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/application.h: more API docs update.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/chain.h: ditto.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/cmd-context.h: ditto.
+	* libs/gcu/cylinder.h: ditto.
+	* libs/gcu/dialog.h: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/element.h: ditto.
+	* libs/gcugtk/application.h: ditto.
+
 2012-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/element.cc: fixed a memory leak.
 

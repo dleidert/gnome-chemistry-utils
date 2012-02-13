@@ -32,6 +32,12 @@ class Object;
 }
 
 /*!\file*/
+/*!\namespace gcugtk
+\brief The Gtk using base classes.
+
+The namespace used for C++ base classes usin Gtk+. This namespace implements
+various virtual classes defined in namespace gcu.
+*/
 namespace gcugtk {
 
 class Object;

@@ -281,13 +281,13 @@ go_gchemutils_component_get_property (GObject *obj, guint param_id,
 		g_value_set_string (value, gcu_content_type_as_string (gogcu->type));
 		break;
 	case GOGCU_PROP_PSI:
-		g_value_set_double (value, gogcu->psi);	       
+		g_value_set_double (value, gogcu->psi);
 		break;
 	case GOGCU_PROP_THETA:
-		g_value_set_double (value, gogcu->theta);	       
+		g_value_set_double (value, gogcu->theta);
 		break;
 	case GOGCU_PROP_PHI:
-		g_value_set_double (value, gogcu->phi);	       
+		g_value_set_double (value, gogcu->phi);
 		break;
 	case GOGCU_PROP_3DMODE:
 		g_value_set_string (value, gcu_display3d_mode_as_string (gogcu->mode));

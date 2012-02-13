@@ -98,7 +98,7 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	/* sort objects according their position relative to each arrow, using string, with
 	 * one char per arrow, 't' means on tail side, 'h', header side, and 'o' other.
 	 * If we support arrows with several tails or heads, just add a figure
-	 * (there should not be more than 10 heads or tails! */ 
+	 * (there should not be more than 10 heads or tails! */
 	map < string, set < Object * > > steps;
 	iend = Others.end ();
 	aend = Arrows.end ();

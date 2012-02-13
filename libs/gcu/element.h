@@ -303,6 +303,9 @@ private:
 	std::map<std::string, std::string> sprops;
 	std::map<std::string, int> iprops;
 	std::string ElecConfig;
+/*!\fn GetStability()
+@return true if the element has at least one stable isotope, false otherwise.
+*/
 GCU_RO_PROP (bool, Stability)
 };
 

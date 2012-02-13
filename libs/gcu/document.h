@@ -43,20 +43,17 @@ class Molecule;
 class Residue;
 class Window;
 
+/*!\enum Action gcu/document.h
+Represents what should be done when an error occurs on an object.
+*/
 typedef enum {
+/*!Throw an exception*/
 	ActionException,
+/*!Delete the object*/
 	ActionDelete,
+/*!Ignore the error*/
 	ActionIgnore
 } Action;
-
-class PendingTarget
-{
-public:
-	Object *parent;
-	Object *owner;
-	Object **target;
-	Action action;
-};
 
 /*!\class Document gcu/document.h
 This class is the base document class.
@@ -66,6 +63,17 @@ class Document: public Object, virtual public DialogOwner
 friend class Application;
 friend class Object;
 friend class Dialog;
+
+private:
+class PendingTarget
+{
+public:
+	Object *parent;
+	Object *owner;
+	Object **target;
+	Action action;
+};
+
 public:
 /*!
 @param App the Appllcation which owns the new document.
@@ -162,6 +170,7 @@ it to return a consistent value. Default implementation returns NULL.
 @param target where to store the found object.
 @param parent the ancestor of the search object or NULL.
 @param owner the owner of the reference to the search object.
+@param action what to do with \a owner if the target is not found.
 
 Search the descendant of \a parent, or of the whole document if \a parent is not set
 whose Id is \a id. I not found, the parameters are stored for post loading processing
@@ -181,8 +190,23 @@ Processes pending references resulting from failed calls to SetTarget().
 */
 	std::string Name ();
 
+/*!
+ @param obj a just loaded object.
+
+Inserts \a obj in the set of new objects. This set is used to avoid a confusion
+with pre-existing objects with the same Id when processing pending links.
+*/
 	void ObjectLoaded (Object *obj);
+
+/*!
+@return the set of objects that have just been loaded.
+*/
 	std::set < Object * > GetNewObjects () {return m_NewObjects;}
+
+/*!
+@return the Window associated with the document. The default implementation
+always returns NULL.
+*/
 	virtual Window *GetWindow () {return NULL;}
 
 private:
@@ -218,7 +242,7 @@ The document title.
 The Application instance owning the document.
 */
 /*!\fn GetApp()
-@return a pointer to the Appication instance owning the ocument or NULL for
+@return a pointer to the Application instance owning the document or NULL for
 an orphan document.
 */
 GCU_PROT_POINTER_PROP (Application, App)

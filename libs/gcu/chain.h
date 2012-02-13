@@ -183,6 +183,15 @@ Adds the two atoms and the bond between them to the chain. The two atoms must be
 @return the localized object generic name.
 */
 	std::string Name ();
+
+/*!
+@param cycle_size where to store a cycle size if a cycle is encountered
+@param cycle_pos where to store a cycle position if a cycle is encountered
+
+Finds the longest chani starting from first bond and ending when a cycle is
+found or at the chain end.
+@return the evaluated chain length.
+*/
 	unsigned BuildLength (unsigned *cycle_size = NULL, unsigned *cycle_pos = NULL);
 
 protected:
