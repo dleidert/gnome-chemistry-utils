@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * gcu/ui-manager.h
  *
- * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -27,12 +27,28 @@
 
 namespace gcu {
 
+/*!\class UIManager gcu/ui-manager.h
+@brief base class for a user interface manager
+*/
 class UIManager
 {
 public:
+/*!
+The default constructor.
+*/
 	UIManager ();
+
+/*!
+The destructor.
+*/
 	virtual ~UIManager ();
 
+/*!
+@param path a path describing a menu or tool.
+@param activate whether to activate the item.
+
+Make the item associated to \a path active or inactive according to \a activate.
+*/
 	virtual void ActivateActionWidget (char const *path, bool activate);
 	// TODO: add as many virtual functions as needed
 

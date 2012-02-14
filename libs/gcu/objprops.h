@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/objprops.h
  *
- * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -133,11 +133,12 @@ The Id of the atom at the last extremity of the bond.
 */
 	GCU_PROP_BOND_END,
 /*!
+The bond order.
 */
 	GCU_PROP_BOND_ORDER,
 /*!
-The bond order.
-*/
+The bond type: normal, hash, wedge,...
+	 */
 	GCU_PROP_BOND_TYPE, //normal, hash, wedge,...
 	// Text properties
 /*!

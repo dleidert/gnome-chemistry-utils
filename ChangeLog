@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2012-02-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/glview.h: more API docs update.
+	* libs/gcu/molecule.h: ditto.
+	* libs/gcu/objprops.h: ditto.
+	* libs/gcu/ui-manager.h: ditto.
+	* libs/gcugtk/window.h: ditto.
+
 2012-02-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/application.h: more API docs update.
 	* libs/gcu/application.h: ditto.

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/glview.h
  *
- * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -112,14 +112,57 @@ std::
 Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 */
 	void Rotate (gdouble x, gdouble y);
+
+/*!
+Starts an OpenGL drawing operation. Will set the appropriate context.
+This method is pure virtual and must be implemented in derived classes.
+@return true if successful.
+*/
 	virtual bool GLBegin () = 0;
+
+/*!
+Ends an OpenGL drawing operation.
+This method is pure virtual and must be implemented in derived classes.
+*/
 	virtual void GLEnd () = 0;
 
 protected:
+/*!
+A Matrix reprenting the scene spatial orientation
+*/
 	Matrix m_Euler;
-	double m_Lastx, m_Lasty;
-	int m_WindowHeight, m_WindowWidth;
-	double m_Height, m_Width, m_Near, m_Far;
+/*!
+A matrix 
+*/
+	double m_Lastx;
+/*!
+A Matrix 
+*/
+	double m_Lasty;
+/*!
+The view height. 
+*/
+	int m_WindowHeight;
+/*!
+The view witdth.
+*/
+	int m_WindowWidth;
+/*!
+The scene height.
+*/
+	double m_Height;
+/*!
+The scene width. 
+*/
+	double m_Width;
+/*!
+The distance from the view point to the nearest scene point. 
+*/
+	double m_Near;
+/*!
+The distance from the view point to the farest scene point. 
+*/
+	double m_Far;
 
 // Properties
 /*!\fn SetAngle(double angle)

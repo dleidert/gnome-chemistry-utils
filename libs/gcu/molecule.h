@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/molecule.h
  *
- * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -169,14 +169,34 @@ a given convention.
 */
 	std::string Name ();
 
+/*!
+Reinitialize all chemical identifiers for the molecule (InChI, InChIKey, and SMILES
+*/
 	void ResetIndentifiers ();
+
+/*!
+@return a CML representation of the molecule.
+*/
 	std::string const &GetCML ();
+
+/*!
+Clears all information related to cycles.
+*/
 	void ClearCycles ();
+
 /*!
 @return the InChI.
 */
 	std::string const &GetInChI ();
+
+/*!
+@return the InChIKey.
+*/
 	std::string const &GetInChIKey ();
+
+/*!
+@return the canonical SMILES for the molecule.
+*/
 	std::string const &GetSMILES ();
 /*!
 @return the raw formula as a string.

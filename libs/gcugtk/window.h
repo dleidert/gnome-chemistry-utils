@@ -44,6 +44,11 @@ The destructor.
 */
 	virtual ~Window ();
 
+/*!
+@param title the new title.
+
+Sets the window title.
+*/
 	void SetTitle (char const *title) {gtk_window_set_title (m_Window, title);}
 
 /*!\var m_Window
