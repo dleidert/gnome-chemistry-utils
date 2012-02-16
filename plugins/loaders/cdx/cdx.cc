@@ -782,12 +782,12 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
 								Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
 							} else {
-								// FIXME: should the document care with the residues?
 								g_warning (_("Unsupported feature, please report!"));
+								// FIXME: should the document care with the residues?
 							}
 						} else {
-							// FIXME: Unkown residue: add it to the database? or just to the document?
 							g_warning (_("Unsupported feature, please report!"));
+							// FIXME: Unkown residue: add it to the database? or just to the document?
 						}
 						break;
 					}
@@ -914,8 +914,8 @@ fragment_success:
 							Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
 							parent->GetDocument ()->ObjectLoaded (static_cast <gcp::Fragment *> (Atom)->GetAtom ());
 						} else {
-							// TODO: import it in the document
 							g_warning (_("Unsupported feature, please report!"));
+							// TODO: import it in the document
 						}
 						break;
 					}

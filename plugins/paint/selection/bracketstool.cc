@@ -199,7 +199,7 @@ GtkWidget *gcpBracketsTool::GetPropertyPage ()
 		static bool done = false;
 		if (!done) {
 			done = true;
-			std::string mess = _("Error loading the properties widget description: \n");
+			std::string mess = _("Error loading the properties widget description:\n");
 			mess += e.what ();
 			new gcugtk::Message (GetApplication (), mess, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE);
 		}

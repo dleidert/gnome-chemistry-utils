@@ -46,6 +46,8 @@ friend class Chain;
 public:
 /*!
 @param Type the type id of a derived class
+@param ct the content type for the molecule (2d or 3d), defaults to
+ContentType3D.
 
 The constructor. The type id may be changed in derived classes, otherwise the
 argument is not needed, since the default value is enough.
@@ -53,6 +55,8 @@ argument is not needed, since the default value is enough.
 	Molecule (TypeId Type = MoleculeType, ContentType ct = ContentType3D);
 /*!
 @param pAtom
+@param ct the content type for the molecule (2d or 3d), defaults to
+ContentType3D.
 
 Builds a molecule from an atom. If the atom has bonds, the connectivity will
 be explored and all atoms and bonds found will be added to the molecule.

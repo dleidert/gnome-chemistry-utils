@@ -181,8 +181,8 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	map < string, ReactionStep * >::iterator rsi, rsiend = rsteps.end ();
 	for (rsi = rsteps.begin (); rsi != rsiend; rsi++) {
 		if ((*rsi).second && !(*rsi).second->Validate ()) {
-			// FIXME: select molecules from this step (should be done in ReactionStep::Validate())
 			throw  invalid_argument (_("Error: isolated molecules."));
+			// FIXME: select molecules from this step (should be done in ReactionStep::Validate())
 		}
 	}
 

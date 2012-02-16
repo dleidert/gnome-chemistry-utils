@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcugtk/dialog.h
  *
- * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -95,6 +95,9 @@ default actions will be associated with these buttons.
 If the Application does not provide help support, the Help button will be hidden.
 */
 	Dialog (Application* App, char const *filename, const char* windowname, char const *domainname, gcu::DialogOwner *owner = NULL, void (*extra_destroy)(gpointer) = NULL, gpointer data = NULL) throw (std::runtime_error);
+/*!
+The destructor.
+*/
 	virtual ~Dialog ();
 
 /*!

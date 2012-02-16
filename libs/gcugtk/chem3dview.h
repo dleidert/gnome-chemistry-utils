@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcugtk/chem3dview.h
  *
- * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -54,6 +54,14 @@ Default destructor
 	virtual ~Chem3dView ();
 
 // Properties
+/*!\fn SetWindow()
+@param val the new window for the view.
+
+Sets the view window.
+*/
+/*!\fn GetWindow()
+@return the view window.
+*/
 GCU_POINTER_PROP (Chem3dWindow, Window);
 };
 

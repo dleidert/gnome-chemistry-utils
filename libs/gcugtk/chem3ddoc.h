@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcugtk/chem3ddoc.h
  *
- * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -58,6 +58,10 @@ Default destructor
 */
 	virtual ~Chem3dDoc ();
 
+/*!
+Creates a new view for the document.
+@return the newly created view.
+*/
 	virtual gcu::GLView *CreateView ();
 };
 

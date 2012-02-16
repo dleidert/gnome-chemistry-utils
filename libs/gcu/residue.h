@@ -127,6 +127,7 @@ Removes \a symbol from the list of valid symbols for the atoms group.
 	void RemoveSymbol (char const *symbol);
 /*!
 @param node a XMLNode* representing the residue.
+@param app the Application owning the residue.
 
 loads the residu from an XML file.
 */

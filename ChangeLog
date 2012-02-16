@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2012-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction.cc: more API docs update.
+	* libs/gcu/molecule.h: ditto.
+	* libs/gcu/residue.h: ditto.
+	* libs/gcugtk/chem3dapplication.h: ditto.
+	* libs/gcugtk/chem3ddoc.h: ditto.
+	* libs/gcugtk/chem3dview.h: ditto.
+	* libs/gcugtk/chem3dwindow.h: ditto.
+	* libs/gcugtk/cmd-context-gtk.h: ditto.
+	* libs/gcugtk/dialog.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/paint/selection/bracketstool.cc: ditto.
+
 2012-02-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/glview.h: more API docs update.
 	* libs/gcu/molecule.h: ditto.

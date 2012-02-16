@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* fr.po: update french translation.
+
 2012-01-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: add more files.
 
