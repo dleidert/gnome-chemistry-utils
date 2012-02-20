@@ -135,7 +135,7 @@
 	* libs/gcp/mesomery.cc: removed obsolete comments.
 	* libs/gcp/reaction-step.cc: add a Validate() method.
 	* libs/gcp/reaction-step.h: ditto.
-	* libs/gcp/reaction.cc: add some more checks when buildiong a reaction.
+	* libs/gcp/reaction.cc: add some more checks when building a reaction.
 	* libs/gcp/reaction.h: ditto.
 	* libs/gcp/step.cc: new parent class for various steps between arrows.
 	* libs/gcp/step.h: ditto.

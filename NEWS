@@ -1,10 +1,13 @@
 Version 0.13.6
 	GChemPaint:
 		* fixed text position serialization. [#34947]
+		* add some support for Newman projections.
+		* accept some multisteps reactions.
 	Goffice component:
 		* Add support for 3D molecular structures.
 	Other:
 		* Fixed pixmaps installation directory. [#35272]
+		* fixed build with ->l,--no-undefined. [patch #7677]
 
 Version 0.13.5
 	3d viewer:
