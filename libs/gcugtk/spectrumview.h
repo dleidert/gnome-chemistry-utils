@@ -144,7 +144,17 @@ and pdf, and possibly a few other bitmap formats.
 */
 	void SaveAsImage (std::string const &filename, char const *mime_type, unsigned width, unsigned height) const;
 
+/*!
+@param w the widget to add to the view.
+
+Adds a widget to display more options to the view.
+*/
 	void AddToOptionBox (GtkWidget *w);
+
+/*!
+Destroys any widget that might have been added to  the view using
+AddToOptionBox().
+*/
 	void DestroyExtraWidget ();
 
 private:
@@ -170,7 +180,13 @@ GCU_RO_PROP (GtkWidget *, OptionBox)
 @return the first GogSeries* created for the view.
 */
 GCU_RO_PROP (GogSeries *, Series)
+/*!\fn GetWidth()
+@return the view width.
+*/
 GCU_RO_PROP (int, Width)
+/*!\fn GetHeigth()
+@return the view height.
+*/
 GCU_RO_PROP (int, Height)
 };
 

@@ -40,6 +40,8 @@ friend class MoleculePrivate;
 public:
 /*!
 @param Type the type id of a derived class
+@param ct the content type for the molecule (2d or 3d), defaults to
+ContentType3D.
 
 The constructor. The type id may be changed in derived classes, otherwise the
 argument is not needed, since the default value is enough.
@@ -47,6 +49,8 @@ argument is not needed, since the default value is enough.
 	Molecule (gcu::TypeId Type = gcu::MoleculeType, gcu::ContentType ct = gcu::ContentType3D);
 /*!
 @param pAtom
+@param ct the content type for the molecule (2d or 3d), defaults to
+ContentType3D.
 
 Builds a molecule from an atom. If the atom has bonds, the connectivity will
 be explored and all atoms and bonds found will be added to the molecule.
@@ -57,6 +61,13 @@ The destructor.
 */
 	virtual ~Molecule ();
 
+/*!
+@param UIManager a GtkUIManager.
+@param path the path to insert before each new action entry.
+@param path_end the path to insert after each new action entry.
+
+Adds menu entry for databases access.
+*/
 	void BuildDatabasesMenu (GtkUIManager *UIManager, char const *path, char const *path_end);
 };
 

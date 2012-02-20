@@ -35,7 +35,7 @@ Declaration of the GcuPeriodic widget.
 */
 /*! \enum GcuPeriodicColorSchemes
  Predefined coloring scheme used for the buttons when displaying the periodic table of the GcuPeriodic widget.
- Possible values are:
+	 Possible values are:
 	 - GCU_PERIODIC_COLOR_NONE: the default Gtk theme is used.
 	 - GCU_PERIODIC_COLOR_DEFAULT: the default color for each element is used as returned by gcu_element_get_default_color.
  Other values can be added using gcu_periodic_add_color_scheme.
@@ -47,9 +47,19 @@ enum GcuPeriodicColorSchemes
   GCU_PERIODIC_COLOR_MAX,
 };
 
+/*! \enum GcuPeriodicTipSchemes
+Predefined tipsg scheme used when the mouse cursor is over an element button.
+*/
 enum GcuPeriodicTipSchemes
 {
+/*!
+Show the element name in the tips popup.
+*/
 	GCU_PERIODIC_TIP_NAME,
+/*!
+Show the element atomic number, symbol, name, electronic configuration,
+and atomic weight.
+*/
 	GCU_PERIODIC_TIP_STANDARD
 };
 
@@ -176,6 +186,13 @@ upon a parameter which has changed.
 */
 void				gcu_periodic_set_colors (GcuPeriodic *periodic);
 
+/*!
+@param periodic a GcuPeriodic widget.
+@param scheme a tips scheme identifier.
+
+Configures the element buttons tips. \a scheme must be one of the values defined
+in the GcuPeriodicTipSchemes enum.
+*/
 void				gcu_periodic_set_tips (GcuPeriodic *periodic, unsigned scheme);
 
 G_END_DECLS

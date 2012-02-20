@@ -135,7 +135,7 @@ Relative abundance.
 */
 	GCU_SPECTRUM_UNIT_REL_ABUNDANCE,
 /*!
-Last known value. This value does not represent a valid type, but is
+Last known value. This value does not represent a valid unit, but is
 equal to the number of supported units.
 */
 	GCU_SPECTRUM_UNIT_MAX

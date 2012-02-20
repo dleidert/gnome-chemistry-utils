@@ -42,35 +42,13 @@ public:
 @param App the application.
 @param printable the printable object.
 
-Builds and shows a print setup dialog for the gcu::Printable instance.
+Builds and shows a print setup dialog for the gcugtk::Printable instance.
 */
 	PrintSetupDlg (Application* App, Printable *printable);
 /*!
 The destructor.
 */
 	virtual ~PrintSetupDlg ();
-
-	void DoPrint (bool preview);
-	void OnPrinterSetup ();
-	void UpdatePageSetup (GtkPageSetup *page_setup);
-	void OnOrientation (GtkPageOrientation orientation);
-	bool SelectUnit (GtkTreeIter *iter);
-	void OnUnitChanged ();
-	void OnTopMarginChanged (double x);
-	void OnBottomMarginChanged (double x);
-	void OnRightMarginChanged (double x);
-	void OnLeftMarginChanged (double x);
-	void OnHeaderHeightChanged (double x);
-	void OnFooterHeightChanged (double x);
-	void OnHorizCenter ();
-	void OnVertCenter ();
-	void UpdateScale ();
-	void OnScaleType (PrintScaleType type);
-	void OnScale (double scale);
-	void OnHFit (bool fit);
-	void OnVFit (bool fit);
-	void OnHPages (int pages);
-	void OnVPages (int pages);
 
 private:
 	Printable *m_Printable;

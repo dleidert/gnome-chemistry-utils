@@ -29,16 +29,39 @@
 #include <gcu/ui-manager.h>
 #include <gtk/gtk.h>
 
+/*!\file */
 namespace gcugtk {
 
+/*!\class UIManager
+@brief A GtkUIManager wrapper.
+
+Implements gcu::UIManager using an associated GtkUIManager.
+*/
 class UIManager: public gcu::UIManager
 {
 public:
+/*!
+@param ui A GtkUIManager.
+
+The constructor. Associates \a ui with the new instance.
+*/
 	UIManager (GtkUIManager *ui);
+/*!
+The destructor.
+*/
 	virtual ~UIManager ();
 
+/*!
+@param path a path describing a menu or tool item.
+@param activate whether to activate the item.
+
+Make the item associated to \a path active or inactive according to \a activate.
+*/
 	void ActivateActionWidget (char const *path, bool activate);
 
+/*!\fn GetUIManager()
+@return the associated GtkUIManager.
+*/
 GCU_RO_PROP (GtkUIManager *, UIManager)
 };
 

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcugtk/stringinputdlg.h
  *
- * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -36,6 +36,9 @@ namespace gcu {
 
 namespace gcugtk {
 
+/*!\typedef StringInputCB
+Type for the callbacks used when a string has been entered in a StringInputDlg.
+*/
 typedef void (*StringInputCB) (gcu::Document *doc, char const *str);
 
 /*!\class StringInputDlg gcugtk/stringinputdlg.h
@@ -45,9 +48,24 @@ GChem3d to import an InChI or a SMILES.
 class StringInputDlg: public gcugtk::Dialog
 {
 public:
+/*!
+@param doc a document.
+@param cb the callback to use when a string has been entered.
+@param title the window title.
+
+The constructor.
+*/
 	StringInputDlg (gcu::Document *doc, StringInputCB cb, char const *title);
+/*!
+The destructor.
+*/
 	virtual ~StringInputDlg ();
 
+/*!
+Called after the user has eneterd and balidated a string.
+
+@return true.
+*/
 	bool Apply ();
 
 private:

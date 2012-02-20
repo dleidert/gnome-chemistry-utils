@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2012-02-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcugtk/gcuperiodic.h: more API docs update.
+	* libs/gcugtk/message.h: ditto.
+	* libs/gcugtk/molecule.h: ditto.
+	* libs/gcugtk/print-setup-dlg.cc: ditto.
+	* libs/gcugtk/print-setup-dlg.h: ditto.
+	* libs/gcugtk/printable.h: ditto.
+	* libs/gcugtk/spectrumdoc.h: ditto.
+	* libs/gcugtk/spectrumview.h: ditto.
+	* libs/gcugtk/stringinputdlg.h: ditto.
+	* libs/gcugtk/ui-manager.h: ditto.
+
 2012-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction.cc: more API docs update.
 	* libs/gcu/molecule.h: ditto.

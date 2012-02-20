@@ -31,7 +31,7 @@
 
 namespace gcugtk {
 
-/*!\enum PrintScaleType gcu/printable.h
+/*!\enum PrintScaleType gcugtks/printable.h
 Represents how printing is scaled
 */
 typedef enum {
@@ -249,7 +249,30 @@ Sets the full height in pages of the printing, when printing to several pages.
 spread as a reference.
 */
 GCU_PROP (int, VPages)
+/*!\fn SetHasBackground(bool HasBackground)
+@param HasBackground whether the Printable owns a background.
+
+Sets whether the Printable owns a background. Should only used from constructors
+of derived classes.
+*/
+/*!\fn GetHasBackground()
+@return whether the Printable owns a background.
+*/
+/*!\fn GetRefHasBackground()
+@return whether the Printable owns a background as a reference.
+*/
 GCU_PROP (bool, HasBackground)
+/*!\fn SetPrinBackground(bool PrintBackground)
+@param PrintBackground whether the background should be printed.
+
+Sets whether the background should be printed.
+*/
+/*!\fn GetPrinBackground()
+@return whether the background should be printed.
+*/
+/*!\fn GetRefPrinBackground()
+@return whether the background should be printed as a reference.
+*/
 GCU_PROP (bool, PrintBackground)
 };
 

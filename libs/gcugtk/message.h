@@ -28,18 +28,54 @@
 #include <gtk/gtk.h>
 #include <string>
 
+/*!\file*/
 namespace gcugtk {
 
 class Application;
 
-class Message {
+/*!\class Message gcugtk/message.h
+@brief Message box.
+
+This class implements a wrapper around GtkMessageDialog.
+*/
+	class Message {
 friend class MessagePrivate;
 public:
+/*!
+@param app the Application owning the message box.
+@param message the text displayed inside the message box.
+@param type the message box type.
+@param buttons the buttons to display.
+@param parent the parent window.
+@param modal whether the message should be a modal dialog.
+
+Contructs a new message box.
+*/
 	Message (Application *app, std::string &message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent = NULL, bool modal = false);
+/*!
+@param app the Application owning the message box.
+@param message the text displayed inside the message box.
+@param type the message box type.
+@param buttons the buttons to display.
+@param parent the parent window.
+@param modal whether the message should be a modal dialog.
+
+Contructs a new message box.
+*/
 	Message (Application *app, char const *message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent = NULL, bool modal = false);
+/*!
+The destructor.
+*/
 	virtual ~Message ();
 
+/*!
+Runs the modal message box.
+@return the response from the dialog.
+*/
 	int Run ();
+/*!
+Displays a non modal message box.
+*/
 	void Show ();
 
 private:
