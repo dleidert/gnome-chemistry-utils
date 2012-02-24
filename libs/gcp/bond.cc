@@ -756,6 +756,8 @@ bool Bond::IsCrossing (Bond *pBond)
 {
 	double a1, a2, b1, b2, c1, c2, d, d1, d2;
 	double x0, x1, x2, x3, y0, y1, y2, y3, z0, z1, z2, z3;
+	if (m_Begin == NULL || m_End == NULL || pBond->m_Begin == NULL || pBond->m_End == NULL)
+		return false;
 	if (m_Begin == pBond->m_Begin || m_Begin == pBond->m_End ||
 			m_End == pBond->m_Begin || m_End == pBond->m_End)
 		return false;
