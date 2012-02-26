@@ -40,6 +40,7 @@ One or several molecules with mechanism arrows joining them.
 */
 class MechanismStep: public Step
 {
+friend class MechanismStepPrivate;
 public:
 /*!
 Constructs a new MechanismStep.
@@ -89,9 +90,20 @@ Used to load a mechanism step in memory. The MechanismStep must already exist.
 Destroys the MechanismStep when empty.
 */
 	void NotifyEmpty ();
+/*!
+@param UIManager the gcu::UIManager to populate.
+@param object the Object on which occured the mouse click.
+@param x x coordinate of the mouse click.
+@param y y coordinate of the mouse click.
+
+This method is called to build the contextual menu for the mechanism step.
+@return true if something is added to the UIManager, false otherwise.
+*/
+	bool BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *object, double x, double y);
 
 private:
 	bool m_bLoading;
+	gcu::Object *m_Alignment;
 };
 
 }	//	namespace gcp

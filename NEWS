@@ -1,3 +1,8 @@
+Version 0.13.7
+	GChemPaint:
+		* fixed crash when selecting the alignment item inside a mechanism
+		step. [#35626]
+
 Version 0.13.6
 	GChemPaint:
 		* fixed text position serialization. [#34947]
