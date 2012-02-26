@@ -111,10 +111,10 @@ bool MechanismStep::OnSignal (gcu::SignalId Signal, G_GNUC_UNUSED gcu::Object *C
 				std::set <Object *>::iterator j, end = molecules.end ();
 				// search for molecules without a mechanism arrow
 				for (obj = GetFirstChild (i); obj; obj = GetNextChild (i))
-					if (molecules.find (obj) == end)
+					if (obj->GetType () != MechanismArrowType && molecules.find (obj) == end)
 						orphans.insert (obj);
 				// now remove orphans from this
-				j = orphans.end ();
+				end = orphans.end ();
 				for (j = orphans.begin (); j != end; j++) {
 					if (step)
 						step->AddMolecule (static_cast <Molecule *> (*j), false);

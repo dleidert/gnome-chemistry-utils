@@ -143,6 +143,7 @@ bool Reaction::Build (list<Object*>& Children) throw (invalid_argument)
 			step = new ReactionStep (this, Left, Objects);
 			// Link fisrt step to the arrow
 			arrow->SetStartStep (step);
+			step->AddArrow (arrow);
 			// Move the arrow to its new position
 			pData->GetObjectBounds (step, &srect);
 			x0 = (srect.x0 + srect.x1) / 2;
@@ -178,6 +179,7 @@ bool Reaction::Build (list<Object*>& Children) throw (invalid_argument)
 		if (Right.size ()) {
 			step = new ReactionStep (this, Right, Objects);
 			arrow->SetEndStep (step);
+			step->AddArrow (arrow);
 			pData->GetObjectBounds (step, &srect);
 			x0 = (srect.x0 + srect.x1) / 2;
 			y0 = step->GetYAlign () * pTheme->GetZoomFactor ();
