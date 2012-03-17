@@ -254,22 +254,22 @@ static void on_help (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 
 static void on_web (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 {
-	Win->GetApplication ()->OnWeb ("gchempaint.nongnu.org");
+	Win->GetApplication ()->OnWeb (Win->GetScreen ());
 }
 
 static void on_mail (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 {
-	Win->GetApplication ()->OnMail ("mailto:gchempaint-main@nongnu.org");
+	Win->GetApplication ()->OnMail (Win->GetScreen ());
 }
 
 static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, gcp::Window *Win)
 {
-	Win->GetApplication ()->OnLiveAssistance ();
+	Win->GetApplication ()->OnLiveAssistance (Win->GetScreen ());
 }
 
 static void on_bug (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 {
-	Win->GetApplication ()->OnBug ();
+	Win->GetApplication ()->OnBug (Win->GetScreen ());
 }
 
 static void on_show_menu_tip (GtkWidget *proxy, gcp::Window* Win)

@@ -201,22 +201,22 @@ static void on_help (G_GNUC_UNUSED GtkWidget *widget, Chem3dWindow *window)
 
 static void on_web (G_GNUC_UNUSED GtkWidget *widget, Chem3dWindow *window)
 {
-	window->GetApplication ()->OnWeb ();
+	window->GetApplication ()->OnWeb (window->GetScreen ());
 }
 
 static void on_mail (G_GNUC_UNUSED GtkWidget *widget, Chem3dWindow *window)
 {
-	window->GetApplication ()->OnMail ();
+	window->GetApplication ()->OnMail (window->GetScreen ());
 }
 
 static void on_bug (G_GNUC_UNUSED GtkWidget *widget, Chem3dWindow *window)
 {
-	window->GetApplication ()->OnBug ();
+	window->GetApplication ()->OnBug (window->GetScreen ());
 }
 
 static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, Chem3dWindow *window)
 {
-	window->GetApplication ()->OnLiveAssistance ();
+	window->GetApplication ()->OnLiveAssistance (window->GetScreen ());
 }
 
 static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED Chem3dWindow *window)

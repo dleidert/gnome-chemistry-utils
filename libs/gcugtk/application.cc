@@ -131,4 +131,19 @@ GtkWidget *Application::GetImageSizeWidget ()
 	return w;
 }
 
+void Application::OnMail (GdkScreen *screen, char const *MailAddress)
+{
+	go_gtk_url_show (MailAddress, screen);
+}
+
+void Application::ShowURI (GdkScreen *screen, std::string& uri)
+{
+	go_gtk_url_show (uri.c_str (), screen);
+}
+
+void Application::OnLiveAssistance (GdkScreen *screen)
+{
+	go_gtk_url_show ("irc://irc.gimp.net/gchemutils", screen);
+}
+
 }	//	namespace gcugtk

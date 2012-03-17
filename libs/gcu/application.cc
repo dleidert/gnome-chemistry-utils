@@ -161,21 +161,6 @@ void Application::SetCurDir (string const &dir)
 	CurDir = dir;
 }
 
-void Application::OnMail (char const *MailAddress)
-{
-	go_url_show (MailAddress);
-}
-
-void Application::ShowURI (string& uri)
-{
-	go_url_show (uri.c_str ());
-}
-
-void Application::OnLiveAssistance ()
-{
-	go_url_show ("irc://irc.gimp.net/gchemutils");
-}
-
 char const *Application::GetPixbufTypeName (string& filename, char const *mime_type)
 {
 	GdkPixbufFormat *format = m_SupportedPixbufFormats[mime_type];

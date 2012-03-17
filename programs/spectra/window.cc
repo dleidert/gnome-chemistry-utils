@@ -86,24 +86,24 @@ static void on_help (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* window)
 	window->GetApp ()->OnHelp ();
 }
 
-static void on_web (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* window)
+static void on_web (GtkWidget *widget, gsvWindow* window)
 {
-	window->GetApp ()->OnWeb ();
+	window->GetApp ()->OnWeb (gtk_widget_get_screen (widget));
 }
 
-static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, gsvWindow *Win)
+static void on_live_assistance (GtkWidget *widget, gsvWindow *Win)
 {
-	Win->GetApp ()->OnLiveAssistance ();
+	Win->GetApp ()->OnLiveAssistance (gtk_widget_get_screen (widget));
 }
 
-static void on_mail (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* window)
+static void on_mail (GtkWidget *widget, gsvWindow* window)
 {
-	window->GetApp ()->OnMail ();
+	window->GetApp ()->OnMail (gtk_widget_get_screen (widget));
 }
 
-static void on_bug (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* window)
+static void on_bug (GtkWidget *widget, gsvWindow* window)
 {
-	window->GetApp ()->OnBug ();
+	window->GetApp ()->OnBug (gtk_widget_get_screen (widget));
 }
 
 static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gsvWindow *Win)

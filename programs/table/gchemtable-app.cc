@@ -103,24 +103,24 @@ static void on_help (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
 	app->OnHelp ();
 }
 
-static void on_web (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
+static void on_web (GtkWidget *widget, GChemTableApp *app)
 {
-	app->OnWeb ();
+	app->OnWeb (gtk_widget_get_screen (widget));
 }
 
-static void on_mail (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
+static void on_mail (GtkWidget *widget, GChemTableApp *app)
 {
-	app->OnMail ();
+	app->OnMail (gtk_widget_get_screen (widget));
 }
 
-static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
+static void on_live_assistance (GtkWidget *widget, GChemTableApp *app)
 {
-	app->OnLiveAssistance ();
+	app->OnLiveAssistance (gtk_widget_get_screen (widget));
 }
 
-static void on_bug (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
+static void on_bug (GtkWidget *widget, GChemTableApp *app)
 {
-	app->OnBug ();
+	app->OnBug (gtk_widget_get_screen (widget));
 }
 
 static void on_about (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)

@@ -255,24 +255,24 @@ static void on_help (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer dat
 	App->OnHelp ();
 }
 
-static void on_web (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer data)
+static void on_web (GtkWidget *widget, G_GNUC_UNUSED gpointer data)
 {
-	App->OnWeb ();
+	App->OnWeb (gtk_widget_get_screen (widget));
 }
 
-static void on_mail (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer data)
+static void on_mail (GtkWidget *widget, G_GNUC_UNUSED gpointer data)
 {
-	App->OnMail ();
+	App->OnMail (gtk_widget_get_screen (widget));
 }
 
-static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer dataw)
+static void on_live_assistance (GtkWidget *widget, G_GNUC_UNUSED gpointer dataw)
 {
-	App->OnLiveAssistance ();
+	App->OnLiveAssistance (gtk_widget_get_screen (widget));
 }
 
-static void on_bug (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer data)
+static void on_bug (GtkWidget *widget, G_GNUC_UNUSED gpointer data)
 {
-	App->OnBug ();
+	App->OnBug (gtk_widget_get_screen (widget));
 }
 
 static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)

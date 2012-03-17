@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2012-03-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/window.cc: fixed URI opening.
+	* libs/gcr/window.cc: ditto.
+	* libs/gcu/application.cc: moved URI opening to gcugtk for now after
+	go_url_show removal and the need for a GdkScreen. 
+	* libs/gcu/application.h: ditto.
+	* libs/gcugtk/application.cc: ditto.
+	* libs/gcugtk/application.h: ditto.
+	* libs/gcugtk/chem3dwindow.cc: fixed URI opening.
+	* libs/gcugtk/molecule.cc: ditto.
+	* libs/gcugtk/window.h: add a GetScreen method for convenience.
+	* programs/calc/gchemcalc.cc: fixed URI opening.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+
 2012-02-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-step.cc: fixed a crasher [#35626] and allow a choice
 	of a molecule for alignment when the step has more than one.

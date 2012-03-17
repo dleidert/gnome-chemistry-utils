@@ -145,6 +145,46 @@ Static callback to pass as third argument to gtk_clipboard_request_contents().
 			App->ReceiveTargets (clipboard, selection_data);
 		}
 
+/*!
+@param screen the screen wher the uri should be displayed.
+@param uri the uri to display.
+
+Displays uri in the default web browser if any.
+*/
+	void ShowURI (GdkScreen *screen, std::string& uri);
+
+/*!
+@param screen the screen where the uri should be displayed.
+@param uri the uri to the package bugs database. Default value is PACKAGE_BUGREPORT.
+
+	 Opens the bugs web page in the default browser if any.
+*/
+	void OnBug (GdkScreen *screen, char const *uri = PACKAGE_BUGREPORT)
+		{std::string s (uri); ShowURI (screen, s);}
+
+/*!
+@param screen the screen where the uri should be displayed.
+@param uri the uri to the main web page of the program. Default value is
+"http://gchemutils.nongnu.org/".
+*/
+	void OnWeb (GdkScreen *screen, char const *uri = "http://gchemutils.nongnu.org/")
+		{std::string s (uri); ShowURI (screen, s);}
+
+/*!
+@param screen the screen where the uri should be displayed.
+@param MailAddress the mail adress to which a message will be sent. Defaults to the
+		Gnome Chemistry Utils main list.
+
+Creates a new empty message using the default mail if any.
+*/
+	void OnMail (GdkScreen *screen, char const *MailAddress = "mailto:gchemutils-main@nongnu.org");
+
+/*!
+@param screen the screen where the IRC window should be displayed.
+Attempts to open the \#gchemutils channel at irc.gimp.net.
+*/
+	void OnLiveAssistance (GdkScreen *screen);
+	
 protected:
 
 /*!

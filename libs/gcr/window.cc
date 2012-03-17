@@ -205,22 +205,22 @@ static void on_help (G_GNUC_UNUSED GtkWidget *widget, Window* Win)
 
 static void on_web (G_GNUC_UNUSED GtkWidget *widget, Window* Win)
 {
-	static_cast < gcr::Application * > (Win->GetApplication ())->OnWeb ();
+	static_cast < gcr::Application * > (Win->GetApplication ())->OnWeb (Win->GetScreen ());
 }
 
 static void on_mail (G_GNUC_UNUSED GtkWidget *widget, Window* Win)
 {
-	static_cast < gcr::Application * > (Win->GetApplication ())->OnMail ();
+	static_cast < gcr::Application * > (Win->GetApplication ())->OnMail (Win->GetScreen ());
 }
 
 static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, Window *Win)
 {
-	Win->GetApplication ()->OnLiveAssistance ();
+	Win->GetApplication ()->OnLiveAssistance (Win->GetScreen ());
 }
 
 static void on_bug (G_GNUC_UNUSED GtkWidget *widget, Window* Win)
 {
-	Win->GetApplication ()->OnBug ();
+	Win->GetApplication ()->OnBug (Win->GetScreen ());
 }
 
 static bool on_focus_in (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GdkEventFocus *event, Window* Win)

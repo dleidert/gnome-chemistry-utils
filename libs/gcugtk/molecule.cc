@@ -24,7 +24,7 @@
 
 #include "config.h"
 #include "molecule.h"
-#include <gcu/application.h>
+#include <gcugtk/application.h>
 #include <gcu/document.h>
 #include <gsf/gsf-input-stdio.h>
 #include <glib/gi18n-lib.h>
@@ -136,7 +136,9 @@ void MoleculePrivate::ShowDatabase (GObject *action)
 		char *escaped = g_uri_escape_string (key.c_str (), NULL, false);
 		uri.replace (pos, 2, escaped);
 		g_free (escaped);
-		static_cast < gcu::Document * > (state->mol->GetDocument ())->GetApplication ()->ShowURI (uri);
+		gcugtk::Application *app = static_cast < gcugtk::Application * > (state->mol->GetDocument ()->GetApplication ());
+		GdkScreen *screen = gdk_event_get_screen (gtk_get_current_event ());
+		app->ShowURI (screen, uri); 
 	}
 }
 

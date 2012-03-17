@@ -133,41 +133,6 @@ if they use the FileChooser.
 	void SetCurDir (std::string const &dir);
 
 /*!
-@param uri the uri to display.
-
-Displays uri in the default web browser if any.
-*/
-	void ShowURI (std::string& uri);
-
-/*!
-@param uri the uri to the package bugs database. Default value is PACKAGE_BUGREPORT.
-
-Opens the bugs web page in the default browser if any.
-*/
-	void OnBug (char const *uri = PACKAGE_BUGREPORT)
-		{std::string s (uri); ShowURI (s);}
-
-/*!
-@param uri the uri to the main web page of the program. Default value is
-"http://gchemutils.nongnu.org/".
-*/
-	void OnWeb (char const *uri = "http://gchemutils.nongnu.org/")
-		{std::string s (uri); ShowURI (s);}
-
-/*!
-@param MailAddress the mail adress to which a message will be sent. Defaults to the
-		Gnome Chemistry Utils main list.
-
-Creates a new empty message using the default mail if any.
-*/
-	void OnMail (char const *MailAddress = "mailto:gchemutils-main@nongnu.org");
-
-/*!
-Attempts to open the \#gchemutils channel at irc.gimp.net.
-*/
-	void OnLiveAssistance ();
-
-/*!
 @return a std::map of the supported pixbuf formats. Keys are the mime type names.
 */
 	std::map<std::string, GdkPixbufFormat*> &GetSupportedPixbufFormats () {return m_SupportedPixbufFormats;}
