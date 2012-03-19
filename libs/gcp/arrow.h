@@ -4,7 +4,7 @@
  * GChemPaint library
  * arrow.h
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -196,6 +196,9 @@ This method must be called from derived classes overloaded Save methods.
 */
 	bool Save (xmlDocPtr xml, xmlNodePtr node) const;
 
+/*!
+@return "Arrow" (actually it is localized).
+*/
 	std::string Name ();
 
 /*!
@@ -224,6 +227,9 @@ The y coordinate difference between tail and head.
 private:
 	Step *m_Start, *m_End;
 
+/*!\fn GetLength
+@return the arrow length.
+*/
 GCU_RO_PROP (double, Length)
 };
 

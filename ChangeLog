@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2012-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.h: API docs.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/atom.cc: ditto.
+	* libs/gcp/atom.h: ditto.
+	* programs/table/gchemtable-curve.cc: really fixed URI opening.
+
 2012-03-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/window.cc: fixed URI opening.
 	* libs/gcr/window.cc: ditto.

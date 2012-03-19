@@ -1523,7 +1523,7 @@ bool Atom::UpdateStereoBonds ()
 	std::list < unsigned > sorted;
 	std::list < unsigned >::iterator s, send;
 	// we need to determine wich bonds should be considered as stereobonds
-	// the answer is that stereocenters shound not be bonded by a stereobond
+	// the answer is that stereocenters should not be bonded by a stereobond
 	// then the bond should not be cyclic
 	// then it shoud be in the shortest possible chain
 	// it should be not more that 90° from the nearest bond (which might also be

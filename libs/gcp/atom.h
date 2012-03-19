@@ -385,8 +385,19 @@ This method is used to avoid bonds lines extending over their atoms symbols.
 */
 	Bond *GetBondAtAngle (double angle);
 
+/*!
+Infers which bonds should be displayed as stereobonds given the known parity
+and molecular structure.
+*/
 	bool UpdateStereoBonds ();
+/*!
+@return true if the bond is a stereocenter.
+*/
 	bool HasStereoBond () const;
+/*!
+@return the axial bond in a Newman projection if the atom has one. If the atom
+has more than one (as in an allene) one of them is returned.
+*/
 	Bond *GetNewmanBond () const;
 
 protected:

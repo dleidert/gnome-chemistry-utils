@@ -4,7 +4,7 @@
  * GChemPaint library
  * application.h
  *
- * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -411,8 +411,24 @@ it is pure virtual.
 */
 	GdkCursor *GetCursor (CursorId id)  {return m_Cursors[id];}
 
+/*!
+@return true if an appropriate 3D viewer is available.
+*/
 	bool Have3DSupport () {return m_HaveGhemical | m_HaveGChem3D | m_HaveAvogadro;}
+/*!
+@param path the path associated to a tool
+@param the canvas used as icon for the tool
+
+Associates a canvas to a tool for use as an icon for the tool button. Used to
+have scalable icons using the theme colors whenever possible. 
+*/
 	void AddCanvas (char const *path, gccv::Canvas *canvas) {m_ToolCanvases[path] = canvas;}
+/*!
+@param clipboard a clipboard.
+@param selection_data the available data
+
+Used as callback as gtk_clipboard_request_contents().
+*/
 	void ReceiveTargets (GtkClipboard *clipboard, GtkSelectionData *selection_data);
 
 protected:
@@ -478,18 +494,21 @@ private:
 	GdkCursor *m_Cursors[CursorMax];
 	std::map < std::string, gccv::Canvas * >m_ToolCanvases;
 
-#if 0
-/*!\fn GetStyle()
-@return the default GtkStyle for the windows.
-*/
-	GCU_RO_POINTER_PROP	(GtkStyle, Style)
-#endif
 /*!\fn GetHaveGhemical
 @return true if ghemical is usable on startup.
 */
 	GCU_RO_STATIC_PROP (bool, HaveGhemical)
+/*!\fn GetHaveGChem3D
+@return true if gchem3d is usable on startup.
+*/
 	GCU_RO_STATIC_PROP (bool, HaveGChem3D)
+/*!\fn GetHaveAvogadro
+@return true if avogadro is usable on startup.
+*/
 	GCU_RO_STATIC_PROP (bool, HaveAvogadro)
+/*!\fn GetUseAtomColors
+@return true if atomic symbols are displayed using the element symbolic color.
+*/
 	GCU_RO_PROP (bool, UseAtomColors)
 };
 

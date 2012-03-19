@@ -180,22 +180,22 @@ static void on_curve_help (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *cur
 
 static void on_web (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
-	curve->GetApplication ()->OnWeb ();
+	curve->GetApplication ()->OnWeb (gtk_widget_get_screen (widget));
 }
 
 static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
-	curve->GetApplication ()->OnLiveAssistance ();
+	curve->GetApplication ()->OnLiveAssistance (gtk_widget_get_screen (widget));
 }
 
 static void on_mail (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
-	curve->GetApplication ()->OnMail ();
+	curve->GetApplication ()->OnMail (gtk_widget_get_screen (widget));
 }
 
 static void on_bug (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
-	curve->GetApplication ()->OnBug ();
+	curve->GetApplication ()->OnBug (gtk_widget_get_screen (widget));
 }
 
 static void on_about (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
