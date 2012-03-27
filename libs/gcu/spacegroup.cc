@@ -505,7 +505,7 @@ find_by_id:
 	for (i = _SpaceGroups.sgs.begin(); i != end; i++)
 		if (**i == *group)
 			return *i;
-	cerr << _("Unknown space group error, please file a bug report.") << endl;;
+	cerr << _("Unknown space group error, please file a bug report.") << endl;
 	return NULL;
 }
 

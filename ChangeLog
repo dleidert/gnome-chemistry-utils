@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2012-03-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/space-groups.xml.in: add some large cell variants for groups
+	#1 and #2.
+	* libs/gcp/brackets.h: API docs.
+	* libs/gcu/spacegroup.cc: typo.
+	* plugins/loaders/cif/cif.cc: load space groups with
+	_space_group_symop_operation_xyz fields.
+
 2012-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.h: API docs.
 	* libs/gcp/arrow.h: ditto.

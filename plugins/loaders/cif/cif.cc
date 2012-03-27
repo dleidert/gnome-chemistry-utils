@@ -4,7 +4,7 @@
  * CIF files loader plugin
  * cif.cc
  *
- * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -57,7 +57,8 @@ public:
 enum { // local only properties
 	CIF_ATOM_SITE_SYMBOL = GCU_PROP_MAX + 1,
 	CIF_ATOM_SITE_OXIDATION_NUMBER,
-	CIF_ATOM_LABEL
+	CIF_ATOM_LABEL,
+	CIF_TRANSFORM
 };
 
 CIFLoader::CIFLoader ()
@@ -89,6 +90,9 @@ CIFLoader::CIFLoader ()
 	KnownProps["_atom_site_fract_y"] = GCU_PROP_YFRACT;
 	KnownProps["_atom_site_fract_z"] = GCU_PROP_ZFRACT;
 	KnownProps["_atom_site_aniso_label"] = CIF_ATOM_LABEL;
+
+	KnownProps["_symmetry_equiv_pos_as_xyz"] = CIF_TRANSFORM;
+	KnownProps["_space_group_symop_operation_xyz"] = CIF_TRANSFORM;
 }
 
 CIFLoader::~CIFLoader ()
@@ -207,7 +211,10 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 								loop_type = LOOP_ATOM;
 							else if (!key.compare (0, 13, "_publ_author_",13))
 								loop_type = LOOP_AUTHOR;
-							else if (key == "_symmetry_equiv_pos_as_xyz")
+							else if (key == "_symmetry_equiv_pos_as_xyz" ||
+							         key == "_symmetry_equiv_pos_site_id" ||
+							         key == "_space_group_symop_operation_xyz" ||
+							         key == "_space_group_symop_id")
 								loop_type = LOOP_SYMMETRY;
 						}
 					} else {
@@ -383,7 +390,11 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 								break;
 							}
 							case LOOP_SYMMETRY: {
-								group->AddTransform (loop_values.front ());
+								for (loop_prop = loop_contents.begin (); loop_prop != loop_contents.end (); loop_prop++) {
+									if (*loop_prop == CIF_TRANSFORM)
+										group->AddTransform (loop_values.front ());
+									loop_values.pop_front ();
+								}
 								break;
 							}
 							}

@@ -4,7 +4,7 @@
  * GChemPaint library
  * brackets.h
  *
- * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -35,26 +35,65 @@ namespace gcp {
 
 extern gcu::TypeId BracketsType;
 
+/*!\enum BracketContent
+\brief The contents on a pair of brackets
+
+Defines what is enclosed by a pair of brackets. One of the brackets might
+be invisible.
+*/
 typedef enum {
+/*!
+Invalid or unknown content.
+*/
 	BracketContentInvalid,
+/*!
+The brackets enclose part of a molecule.
+*/
 	BracketContentFragment,
+/*!
+The brackets enclose a whole molecule.
+*/
 	BracketContentMolecule,
+/*!
+The brackets enclose several objects.
+*/
 	BracketContentGroup
 } BracketContent;
 
+/*!\enum BracketDecorations
+\brief Describes the objects that can be attached to the brackets.
+
+Defines which of a superscript and subscript can be attached to a bracket.
+The values can be combined. Actually, only subscript are supported for now.
+*/
 typedef enum {
+/*!
+Nothing allowed.
+*/
 	BracketDecorationNone = 0,
+/*!
+A subscript is allowed.
+*/
 	BracketSubscript = 1,
+/*!
+A superscript is allowed.
+*/
 	BracketSuperscript = 2
 } BracketsDecorations;
 
 /*!\class Braclets gcp/brackets.h
+\brief Brackets class.
+
+Represents brackets of various types that might be used in different situations
+as to enclose part of a molecule or a whole object or several objects.
 */
 class Brackets: public gcu::Object, public gccv::ItemClient
 {
 public:
 /*!
-Used to create a brackets pair or a single bracket.
+\param type whether to create a brackets pair or a single bracket.
+
+Used to create a brackets pair or a single, closing, or opening bracket.
 */
 	Brackets (gccv::BracketsTypes type = gccv::BracketsTypeNormal);
 /*!
@@ -112,9 +151,23 @@ This method is called to build a contextual menu for the brackets.
 */
 	bool BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y);
 
+/*!
+@param objects: the objects to enclose.
 
+Sets the collection of objects that should be enclosed inside the brackets.
+*/
 	void SetEmbeddedObjects (std::set < gcu::Object * > objects);
+
+/*!
+@return the collection of objects that should be enclosed inside the brackets.
+*/
 	std::set < gcu::Object * > const &GetEmbeddedObjects () {return m_EmbeddedObjects;}
+
+/*!
+Tests if a collection of atoms can be enclosed inside brackets. Enclosing non
+connected atoms is not allowed.
+@return true if all atoms in the set are connected.
+*/
 	static bool ConnectedAtoms (std::set < gcu::Object * > const &objects);
 
 private:
