@@ -4,11 +4,11 @@
  * Gnome Chemistry Utils
  * programs/calc/gchemcalc.cc
  *
- * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
+ * published by the Free Software Foundation; either version 3 of the
  * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -284,7 +284,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 	const gchar * license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
-		"published by the Free Software Foundation; either version 2 of the\n"
+		"published by the Free Software Foundation; either version 3 of the\n"
 		"License, or (at your option) any later version.\n\n"
 		"This program is distributed in the hope that it will be useful,\n"
 		"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"

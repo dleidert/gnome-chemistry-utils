@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2012-03-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* all files: Changed version from GPL-v2+ to GPL-v3+ except for the
+	Openbabel server.
+
 2012-03-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/space-groups.xml.in: add some large cell variants for groups
 	#1 and #2.

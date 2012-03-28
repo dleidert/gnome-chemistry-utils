@@ -1,12 +1,15 @@
 The Gnome chemistry Utils are a collection of libraries and programs for the
 GNOME desktop which migh be useful for chemists and science students.
 
-Copyright 1999-2010 Jean Bréfort jean.brefort@normalesup.org, All Rights Reserved.
+Copyright 1999-2012 Jean Bréfort jean.brefort@normalesup.org, All Rights Reserved.
 	http://jean.brefort.free.fr
 
-This software is copyrighted under the GNU GPL version 2 or later.  Please see
+This software is copyrighted under the GNU GPL version 3 or later.  Please see
 the file COPYING, or, to obtain a copy of the GNU GPL, please visit:
   http://www.gnu.org
+
+An exception is the openbabel directory which is copyrighted under the GNU GPL
+version 2 or later, because of the OpenBabel license.
 
 See the file AUTHORS for a list of who has contributed to the application.
 
@@ -17,8 +20,7 @@ The latest version of the software can be found at:
 See the file ChangeLog for more information about this software.
 
 What is needed to install the Gnome Chemistry Utils:
-	GtkGLExt version 1.0.0 or later.
-	GOffice version 0.8.x.
+	GOffice version 0.9.x.
 	All dependencies of these libraries.
 These libraries are available from ftp://ftp.gnome.org or one of its mirrors.
 	BODR (the Blue Obelisk Data Repository) version 5 or later.
@@ -55,8 +57,8 @@ Six programs are avaible:
 * A periodic table of the elements application (GChemTable).
 
 Three plugins for external programs are included:
-* A GOffice plugin allows embedding GChemPaint supported files in programs
-supporting the GOffice component framework (Abiword is the only one none).
+* A GOffice plugin allows embedding GChemPaint supported files ans 3D structures
+in programs supporting the GOffice component framework.
 * A Gnumeric plugin provides a molarmass function for the spreadsheet.
 * A Mozilla plugin allows embedding 2D, 3D and crystal structures as well as
 spectra in web pages.
