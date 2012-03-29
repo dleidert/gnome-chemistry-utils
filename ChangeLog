@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2012-03-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: request GPL-v3 goffice and libspreadsheet versions.
+	* openbabel/COPYING: add missing.
+
 2012-03-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* all files: Changed version from GPL-v2+ to GPL-v3+ except for the
 	Openbabel server.

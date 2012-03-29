@@ -4,6 +4,8 @@ Version 0.13.7
 		step. [#35626]
 	GCrystal:
 		* Fixed loading CIF files using uptodate space groups descriptions.
+	Other:
+		* License is now GPL version 3 (except for the OpenBabel related code).
 
 Version 0.13.6
 	GChemPaint:

@@ -142,7 +142,7 @@ PKG_CHECK_MODULES(gdk_pixbuf, [gdk-pixbuf-2.0 >= 2.22.0])
 PKG_CHECK_MODULES(gtk, [gtk+-3.0 >= 3.0.0])
 PKG_CHECK_MODULES(xml, [libxml-2.0 >= 2.4.16])
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
-PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.9.0])
+PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.9.3])
 PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
 PKG_CHECK_MODULES(bodr, [bodr >= 5])
 PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.3.0])
@@ -299,7 +299,7 @@ if test "x$libspreadsheet" = x; then
   libspreadsheet=libspreadsheet-1.12
 fi
 
-PKG_CHECK_MODULES(gnumeric, [$libspreadsheet >= 1.11.0], [build_gnumeric_plugin=yes],
+PKG_CHECK_MODULES(gnumeric, [$libspreadsheet >= 1.11.3], [build_gnumeric_plugin=yes],
 		[build_gnumeric_plugin=no])
 dnl --without is not handled
 
