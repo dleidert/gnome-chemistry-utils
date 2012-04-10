@@ -4,7 +4,7 @@
  * GChemPaint library
  * text.h
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -214,11 +214,15 @@ a carbon atom symbol using the current document theme.
 /*!\fn GetAnchor()
 @return the gccv::Anchor used for the text.
 */
-/*!fn GetRefAnchor()
+	/*!fn GetRefAnchor()
 @return the gccv::Anchor used for the text as a reference.
 */
 GCU_PROP (gccv::Anchor, Anchor)
 
+/*!\fn GetGlobalTag()
+@return the global gccv::TextTag applied to this text or gccv::Invalid if none
+has been explicitly set in the constructor.
+*/
 GCU_RO_PROP (gccv::Tag, GlobalTag)
 
 private:

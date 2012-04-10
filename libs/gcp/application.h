@@ -417,7 +417,7 @@ it is pure virtual.
 	bool Have3DSupport () {return m_HaveGhemical | m_HaveGChem3D | m_HaveAvogadro;}
 /*!
 @param path the path associated to a tool
-@param the canvas used as icon for the tool
+@param canvas the canvas used as icon for the tool
 
 Associates a canvas to a tool for use as an icon for the tool button. Used to
 have scalable icons using the theme colors whenever possible. 

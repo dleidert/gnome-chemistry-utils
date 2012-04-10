@@ -184,7 +184,7 @@ GCU_RO_PROP (GogSeries *, Series)
 @return the view width.
 */
 GCU_RO_PROP (int, Width)
-/*!\fn GetHeigth()
+/*!\fn GetHeight()
 @return the view height.
 */
 GCU_RO_PROP (int, Height)

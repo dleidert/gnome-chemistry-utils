@@ -71,6 +71,7 @@ The destructor.
 /*!
 @param node an XML node.
 @param ro whether the residue is read-only or not.
+@param app the used application.
 
 Loads data GChemPaint specific data from \a node, and calls
 gcu::Residue::Load().

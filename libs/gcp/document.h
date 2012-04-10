@@ -4,7 +4,7 @@
  * GChemPaint library
  * document.h
  *
- * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -445,11 +445,16 @@ but a different meaning from the standard residue.
 @param molecule a molecule with a pseudo atom which describes the structure
 of the residue.
 
-
 @return the new Residue on success or NULL.
 */
 	gcu::Residue *CreateResidue (char const *name, char const *symbol, gcu::Molecule *molecule);
 
+/*!
+@return the set of objects created during the current operation (such as
+pasting data). This is used to properly update links such as which bonds
+correspond to which atoms as the pasted objects might have the same id than
+already existing objects.
+*/
 	std::set <std::string> &GetNewObjects () {return m_NewObjects;}
 
 private:
@@ -644,6 +649,19 @@ Sets the new current text font size for the document.
 @return the current brackets font size as a reference.
 */
 GCU_PROP (int, BracketsFontSize)
+
+/*!\fn SetUseAtomColors(bool val)
+@param val whether to use symbolic colors for the atomic symbols.
+
+When set, atomic symbols will be displayed using the symbolic colors for the
+element (when the color is not white, i.e. hydrogen symbol will always be black).
+*/
+/*!\fn GetUseAtomColors()
+@return whether to use symbolic colors for the atomic symbols.
+*/
+/*!\fn GetRefUseAtomColors()
+@return whether to use symbolic colors for the atomic symbols as a reference.
+*/
 GCU_PROP (bool, UseAtomColors)
 };
 

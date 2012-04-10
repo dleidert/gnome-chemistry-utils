@@ -4,7 +4,7 @@
  * GChemPaint libray
  * newfiledlg.h
  *
- * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -61,11 +61,7 @@ happen if the user edits the preference when this dialog is opened.
 	void OnThemeNamesChanged ();
 
 private:
-#if GTK_CHECK_VERSION (2, 24, 0)
 	GtkComboBoxText *m_Box;
-#else
-	GtkComboBox *m_Box;
-#endif
 	unsigned m_Lines;
 	gulong m_ChangedSignal;
 

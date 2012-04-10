@@ -4,7 +4,7 @@
  * GChemPaint library
  * step.h
  *
- * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -38,10 +38,22 @@ objects and arrows between them.
 class Scheme: public gcu::Object
 {
 public:
+/*!
+@param type the actual type of the object.
+
+The default constructor.
+*/
 	Scheme (gcu::TypeId type);
+
+/*!
+The destructor.
+*/
 	virtual ~Scheme ();
 
 protected:
+/*!
+Aligns the children logically.
+*/
 	void Align () throw (std::invalid_argument);
 };
 

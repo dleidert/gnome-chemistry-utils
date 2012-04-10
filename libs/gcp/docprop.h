@@ -4,7 +4,7 @@
  * GChemPaint library
  * docprop.h
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -94,11 +94,7 @@ private:
 	GtkLabel *CreationDate, *RevisionDate;
 	GtkTextView *Comments;
 	GtkTextBuffer *Buffer;
-#if GTK_CHECK_VERSION (2, 24, 0)
 	GtkComboBoxText *m_Box;
-#else
-	GtkComboBox *m_Box;
-#endif
 	unsigned m_Lines;
 	gulong m_ChangedSignal;
 };

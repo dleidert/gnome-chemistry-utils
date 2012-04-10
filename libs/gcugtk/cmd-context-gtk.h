@@ -28,7 +28,7 @@
 /*!\file*/
 namespace gcugtk {
 
-/*!\class CmdContextGtk gcugtk/cmd-context-gtk
+/*!\class CmdContextGtk gcugtk/cmd-context-gtk.h
 @brief A Gtk+ using gcu::CmdContext implementation.
 
 This class uses GtkMessageBox dialogs to interact with the user.

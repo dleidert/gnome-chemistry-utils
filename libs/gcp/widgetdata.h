@@ -4,7 +4,7 @@
  * GChemPaint library
  * widgetdata.h
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -128,7 +128,7 @@ The set of selected objects.
 
 /*!
 @param obj an object.
-@return true if all the object children are selected, false otherwise or if @obj
+@return true if all the object children are selected, false otherwise or if \a obj
 has no children.
 */
 	bool ChildrenSelected (gcu::Object const *obj) const;
@@ -221,19 +221,25 @@ normally. This is used when printing or exporting an image.
 	void ShowSelection (bool state);
 /*!
 @param obj a gcu::Object.
-@param rect an ArtDRect which will receive the object bounds.
+@param rect a gccv::Rect which will receive the object bounds.
 
 Gets the object bounds in canvas coordinates.
 */
 	void GetObjectBounds (gcu::Object const *obj, gccv::Rect *rect) const;
 /*!
 @param objects a set of gcu::Object.
-@param rect an ArtDRect which will receive the object bounds.
+@param rect a gccv::Rect which will receive the object bounds.
 
-Gets the object bounds in canvas coordinates.
+Gets the objects bounds in canvas coordinates.
 */
 	void GetObjectsBounds (std::set <gcu::Object const *> const &objects, gccv::Rect *rect) const;
 	void GetObjectsBounds (std::set <gcu::Object *> const &objects, gccv::Rect *rect) const;
+/*!
+@param obj a gcu::Object.
+@param rect a gccv::Rect which will receive the object bounds.
+
+Gets the object bounds in canvas coordinates.
+*/
 	void GetObjectBounds (gcu::Object const* obj, gccv::Rect &rect) const;
 
 /*!

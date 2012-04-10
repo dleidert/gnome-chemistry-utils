@@ -60,7 +60,7 @@ The brackets enclose several objects.
 	BracketContentGroup
 } BracketContent;
 
-/*!\enum BracketDecorations
+/*!\enum BracketsDecorations
 \brief Describes the objects that can be attached to the brackets.
 
 Defines which of a superscript and subscript can be attached to a bracket.
@@ -81,7 +81,7 @@ A superscript is allowed.
 	BracketSuperscript = 2
 } BracketsDecorations;
 
-/*!\class Braclets gcp/brackets.h
+/*!\class Brackets gcp/brackets.h
 \brief Brackets class.
 
 Represents brackets of various types that might be used in different situations
@@ -175,9 +175,49 @@ private:
 	bool m_Valid;
 	BracketContent m_Content;
 
+/*!\fn SetType(gccv::BracketsTypes val)
+@param val the new type for the brackets.
+
+Sets the new default bond length for the document.
+*/
+/*!\fn GetType()
+@return the brackets type.
+*/
+/*!\fn GetRefType()
+@return the brackets type as a reference.
+*/
 GCU_PROP (gccv::BracketsTypes, Type)
+
+/*!\fn SetUsed(gccv::BracketsUses val)
+@param val the brackets to use.
+
+Sets the brackets used for this instance, opening, closing, or both.
+*/
+/*!\fn GetUsed()
+@return the used brackets.
+*/
+/*!\fn GetRefUsed()
+@return the used brackets as a reference.
+*/
 GCU_PROP (gccv::BracketsUses, Used)
+
+/*!\fn GetDecorations()
+@return the allowed additions to the brackets as a bit field composed of
+BracketsDecorations values.
+*/
 GCU_RO_PROP (unsigned, Decorations)
+
+/*!\fn SetFontDesc(std::string val)
+@param val the font to use as a string.
+
+Sets the font to use when displaying the brackets.
+*/
+/*!\fn GetFontDesc()
+@return the font used to display the brackets.
+*/
+/*!\fn GetRefFontDesc()
+@return the font used to display the brackets as a reference.
+*/
 GCU_PROP (std::string, FontDesc)
 };
 

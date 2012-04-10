@@ -204,7 +204,26 @@ The tags list associated with the object.
 @return a copy of the tags list for this object.
 */
 GCU_PROT_PROP (gccv::TextTagList, TagList)
+
+/*!\fn SetEditor(TextEditor *val)
+@param val the text editor associated with the object during edition.
+
+Associates \a val with the object during edition.
+*/
+/*!\fn GetEditor()
+@return the associated text editor.
+*/
+/*!\fn GetRefEditor()
+@return the associated text editor as a reference.
+*/
 GCU_PROP (TextEditor*, Editor)
+
+/*!\var m_TextItem
+The canvas text item used to display the object.
+*/
+/*!\fn GetTextItem
+@return the canvas text item used to display the object.
+*/
 GCU_PROT_PROP (gccv::Text*, TextItem)
 };
 

@@ -4,7 +4,7 @@
  * GChemPaint library
  * molecule.h
  *
- * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -201,8 +201,22 @@ only, whatever their real atomic composition.
 */
 	unsigned GetAtomsNumber () const;
 
+/*!
+@return the mean of the bond lengths for the molecule.
+*/
 	double GetMeanBondLength () const;
+
+/*!
+@param atom a chiral atom
+
+Adds \a atom to the list of chiral atoms.
+*/
 	void AddChiralAtom (Atom *atom) {m_ChiralAtoms.insert (atom);}
+
+/*!
+@param atom an atom
+@return true if \a atom is a chirality center.
+*/
 	bool AtomIsChiral (Atom *atom) const;
 
 private:

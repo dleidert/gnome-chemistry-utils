@@ -293,6 +293,14 @@ Changes the selection state of \a object if it owns an item and of all its desce
 */
 	WidgetData *GetData () {return m_pData;}
 
+/*!
+@param x0 where to store the left horizontal coordinate of the visible area.
+@param y0 where to store the top vertical coordinate of the visible area.
+@param x1 where to store the right horizontal coordinate of the visible area.
+@param y1 where to store the bottom vertical coordinate of the visible area.
+
+Gets the visible area for the view.
+*/
 	void GetVisibleArea (double &x0, double &y0, double &x1, double &y1);
 
 	//Implementation

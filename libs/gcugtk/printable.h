@@ -262,15 +262,15 @@ of derived classes.
 @return whether the Printable owns a background as a reference.
 */
 GCU_PROP (bool, HasBackground)
-/*!\fn SetPrinBackground(bool PrintBackground)
+/*!\fn SetPrintBackground(bool PrintBackground)
 @param PrintBackground whether the background should be printed.
 
 Sets whether the background should be printed.
 */
-/*!\fn GetPrinBackground()
+/*!\fn GetPrintBackground()
 @return whether the background should be printed.
 */
-/*!\fn GetRefPrinBackground()
+/*!\fn GetRefPrintBackground()
 @return whether the background should be printed as a reference.
 */
 GCU_PROP (bool, PrintBackground)

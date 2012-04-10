@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-arrow.h
  *
- * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -140,6 +140,10 @@ false otherwise.
 */
 	std::string Name ();
 
+/*!
+@return a character corresponding to where the point lies relative to the arrow.
+'t' means on tail side, 'h' on head side, and 'o' for other.
+*/
 	char GetSymbolicPosition (double x, double y);
 
 private:
