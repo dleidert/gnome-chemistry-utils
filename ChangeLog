@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2012-04-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/application.h: API documentation.
+	* libs/gcr/atomsdlg.cc: ditto.
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/celldlg.h: ditto.
+	* libs/gcr/cleavagesdlg.h: ditto.
+	* libs/gcr/docprop.h: ditto.
+	* libs/gcr/document.h: ditto.
+	* libs/gcr/linesdlg.h: ditto.
+	* libs/gcr/sizedlg.h: ditto.
+	* libs/gcu/application.h: ditto.
+	* plugins/loaders/nuts/nuts.cc: fix build on big endian machines (patch
+	from Dan Horak). [#36175]
+
 2012-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.h: API documentation and cleaning.
 	* libs/gcp/brackets.h: ditto.

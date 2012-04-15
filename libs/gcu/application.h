@@ -354,7 +354,7 @@ adds a callback for modifying the contextual menu of objects of type Id.
 
 @return the string defined by SetCreationLabel.
 */
-	            const std::string& GetCreationLabel (const std::string& TypeName);
+	const std::string& GetCreationLabel (const std::string& TypeName);
 
 	TypeDesc const *GetTypeDescription (TypeId Id);
 
@@ -403,9 +403,11 @@ This method converts CML to a target.
 */
 	void ConvertFromCML (const char *cml, GsfOutput *output, const char *mime_type, const char *options = NULL);
 
-	            /*!
+/*!
+@param classname the name of a class such as "Molecule".
+@return the list of the databases available for the given classname.
 */
-	            std::list < Database > const &GetDatabases (char const *classname) {return m_Databases[classname];}
+	std::list < Database > const &GetDatabases (char const *classname) {return m_Databases[classname];}
 
 protected:
 /*!

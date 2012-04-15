@@ -4,7 +4,7 @@
  * Gnome Crystal
  * sizedlg.h
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -27,16 +27,32 @@
 
 #include <gcugtk/dialog.h>
 
+/*!\file*/
 namespace gcr {
 
 class Document;
 class Application;
 
+/*!\class SizeDlg gcr/sizedlg.h
+\brief GCrystal model size dialog class.
+
+This class wraps the dialog used to define the size of the view expressed in
+cell coordinates.
+*/
 class SizeDlg: public gcugtk::Dialog
 {
 friend class SizeDlgPrivate;
 public:
+/*!
+@param App the application running the dialog.
+@param pDoc the document.
+
+Creates the dialog.
+*/
 	SizeDlg (Application *App, Document* pDoc);
+/*!
+The destructor.
+*/
 	virtual ~SizeDlg ();
 
 private:

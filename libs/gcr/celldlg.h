@@ -4,7 +4,7 @@
  * Gnome Crystal
  * celldlg.h
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -27,16 +27,32 @@
 
 #include <gcugtk/dialog.h>
 
+/*!\file*/
+
 namespace gcr {
 
 class Document;
 class Application;
 
+/*!\class CellDlg gcr/celldlg.h
+\brief GCrystal cell dialog class.
+
+This class wraps the dialog used to define the crystal cell.
+*/
 class CellDlg: public gcugtk::Dialog
 {
 friend class CellDlgPrivate;
 public:
+/*!
+@param App the application running the dialog.
+@param pDoc the document.
+
+Creates the dialog.
+*/
 	CellDlg (Application *App, Document* pDoc);
+/*!
+The destructor.
+*/
 	virtual ~CellDlg ();
 
 private:

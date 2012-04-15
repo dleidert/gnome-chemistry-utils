@@ -29,6 +29,7 @@
 #include "grid.h"
 #include <vector>
 
+/*!\file*/
 namespace gcu {
 class Application;
 }
@@ -39,15 +40,35 @@ class Document;
 class Application;
 class Cleavage;
 
+/*!\class CleavagesDlg gcr/cleavagesdlg.h
+\brief GCrystal cleavages dialog class.
+
+This class wraps the dialog used to define cleavages inside a crystal model.
+*/
 class CleavagesDlg: public gcugtk::Dialog
 {
 friend class CleavagesDlgPrivate;
 public:
+/*!
+@param App the application running the dialog.
+@param pDoc the document.
+
+Creates the dialog.
+*/
 	CleavagesDlg (gcr::Application *App, gcr::Document* pDoc);
+/*!
+The destructor.
+*/
 	virtual ~CleavagesDlg ();
 
-	void Closed ();
+/*!
+Reloads the cleavages list from the document. The list might have changed after
+simplification following duplicates detection.
+*/
 	void ReloadData ();
+
+private:
+	void Closed ();
 
 private:
 	Document *m_pDoc;

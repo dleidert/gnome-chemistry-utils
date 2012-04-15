@@ -518,7 +518,7 @@ void AtomsDlg::PopulateRadiiMenu ()
 
 void AtomsDlg::Closed ()
 {
-	// check if the cleavages list is coherent
+	// check if the atoms list is coherent
 	m_Closing = true;
 	m_pDoc->CheckAtoms ();
 }

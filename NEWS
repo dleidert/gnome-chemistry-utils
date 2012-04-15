@@ -6,6 +6,7 @@ Version 0.13.7
 		* Fixed loading CIF files using uptodate space groups descriptions.
 	Other:
 		* License is now GPL version 3 (except for the OpenBabel related code).
+		* Fix build on big endian machines (Dan Horak). [#36175]
 
 Version 0.13.6
 	GChemPaint:

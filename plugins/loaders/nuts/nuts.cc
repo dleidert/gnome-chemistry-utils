@@ -40,14 +40,14 @@
 unsigned char buffer[4];
 bool readint_res;
 #define READINT16(input,i) \
-	readint_res = gsf_input_read (input, 2, (guint8*) buffer), \
-	i = buffer[0] + (buffer[1] << 8), readint_res
+	(readint_res = gsf_input_read (input, 2, (guint8*) buffer), \
+	i = buffer[0] + (buffer[1] << 8), readint_res)
 #define READINT32(input,i) \
-	readint_res = gsf_input_read (input, 4, (guint8*) buffer), \
-	i = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24), readint_res
+	(readint_res = gsf_input_read (input, 4, (guint8*) buffer), \
+	i = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24), readint_res)
 #define READFLOAT(input,i) \
-	readint_res = gsf_input_read (input, 4, (guint8*) buffer), \
-	*((int32_t *) &i) = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24), readint_res
+	(readint_res = gsf_input_read (input, 4, (guint8*) buffer), \
+	*((int32_t *) &i) = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24), readint_res)
 #endif
 
 class NUTSLoader: public gcu::Loader

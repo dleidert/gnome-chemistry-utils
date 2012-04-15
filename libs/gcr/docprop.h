@@ -28,15 +28,30 @@
 #include <gcugtk/dialog.h>
 #include <gcu/macros.h>
 
+/*!\file*/
 namespace gcr {
 
 class Document;
 
+/*!\class DocProcDlg gcr/docprop.h
+\brief Document properties dialog class.
+
+This class wraps the dialog used to define the document properties such as
+author, comments, and more.
+*/
 class DocPropDlg: public gcugtk::Dialog
 {
 friend class DocProDlgPrivate;
 public:
+/*!
+@param pDoc the document.
+
+Creates the dialog.
+*/
 	DocPropDlg (Document* pDoc);
+/*!
+The destructor.
+*/
 	virtual ~DocPropDlg ();
 
 private:

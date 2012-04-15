@@ -29,21 +29,42 @@
 #include "grid.h"
 #include <vector>
 
+/*!\file*/
 namespace gcr {
 
 class Document;
 class Application;
 class Line;
 
+/*!\class LinesDlg gcr/linesdlg.h
+\brief GCrystal lines dialog class.
+
+This class wraps the dialog used to define lines inside a crystal representation.
+*/
 class LinesDlg: public gcugtk::Dialog
 {
 friend class LinesDlgPrivate;
 public:
+/*!
+@param App the application running the dialog.
+@param pDoc the document.
+
+Creates the dialog.
+*/
 	LinesDlg (Application *App, Document* pDoc);
+/*!
+The destructor.
+*/
 	virtual ~LinesDlg ();
 
-	void Closed ();
+/*!
+Reloads the lines list from the document. The list might have changed after
+simplification following duplicates detection.
+*/
 	void ReloadData ();
+
+private:
+	void Closed ();
 
 private:
 	Document *m_pDoc;

@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * gcr/document.h
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -361,8 +361,8 @@ GCU_RO_PROP (std::string, NameMineral)
 @return the structure name or the chemical entity.
 */
 GCU_RO_PROP (std::string, NameStructure)
-/*!\fn SetSpaceGroup(SpaceGroup const *group)
-@param group a SpaceGroup.
+/*!\fn SetSpaceGroup(SpaceGroup const *val)
+@param val a SpaceGroup.
 Associates a the space group with the lattice.
 */
 /*!\fn GetSpaceGroup()

@@ -4,7 +4,7 @@
  * Gnome Crystal
  * atomsdlg.h
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -30,23 +30,42 @@
 #include "grid.h"
 #include <vector>
 
+/*!\file*/
 using namespace std;
 
 namespace gcr {
 class Document;
 class Application;
 
+/*!\class AtomsDlg gcr/atomsdlg.h
+\brief GCrystal atoms dialog class.
+
+This class wraps the dialog used to define atoms inside a crystal.
+*/
 class AtomsDlg: public gcugtk::Dialog
 {
 friend class AtomsDlgPrivate;
 public:
+/*!
+@param App the application running the dialog.
+@param pDoc the document.
+
+Creates the dialog.
+*/
 	AtomsDlg (Application *App, Document* pDoc);
+/*!
+The destructor.
+*/
 	virtual ~AtomsDlg ();
 
-	void Closed ();
+/*!
+Reloads the atoms list from the document. The list might have changed after
+simplification following symmetry detection.
+*/
 	void ReloadData ();
-
+	
 private:
+	void Closed ();
 	void PopulateRadiiMenu ();
 
 private:
