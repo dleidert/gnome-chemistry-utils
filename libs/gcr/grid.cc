@@ -1218,7 +1218,7 @@ double gcr_grid_get_double (GcrGrid *grid, unsigned row, unsigned column)
 
 char const *gcr_grid_get_string (GcrGrid *grid, unsigned row, unsigned column)
 {
-	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_STRING, false);
+	g_return_val_if_fail (GCR_IS_GRID (grid) && row < grid->rows && column < grid->cols && grid->types[column] == G_TYPE_STRING, NULL);
 	return grid->row_data[row][column].c_str ();
 }
 

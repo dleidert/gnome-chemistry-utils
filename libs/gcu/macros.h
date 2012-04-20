@@ -178,7 +178,7 @@ protected:	\
 	type m_##member;
 
 /*!\def GCU_PROT_POINTER_PROP()
-Defines a private pointer member with an appropriate get method. The member can be modified
+Defines a protected pointer member with an appropriate get method. The member can be modified
 the class it belongs too or a friend class or a derived class. The data referenced
 by the pointer can be modified if the class instance is not const.
 GCU_PROT_POINTER_PROP((Type,Foo) expands to one private member:

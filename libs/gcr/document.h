@@ -204,40 +204,245 @@ Attempts to infer the symmetry space group for the crystal.
 Reinitialize a Document instance. Used when loading a file in an already existing document.
 */
 	void Reinit ();
+
+/*!
+@return the list of atoms defining the crystal.
+*/
 	AtomList* GetAtomList () {return &AtomDef;}
+
+/*!
+@return the list of defined cleavages.
+*/
 	CleavageList *GetCleavageList () {return &Cleavages;}
+
+/*!
+@return the list of defined lines.
+*/
 	LineList* GetLineList () {return &LineDef;}
+
+/*!
+@param lattice where to store the lattice.
+@param a where to store the a cell parameter.
+@param b where to store the b cell parameter.
+@param c where to store the c cell parameter.
+@param alpha where to store the alpha cell parameter.
+@param beta where to store the beta cell parameter.
+@param gamma where to store the gamma cell parameter.
+
+Retrieves the cell parameters.
+*/
 	void GetCell (Lattice *lattice, double *a, double *b, double *c, double *alpha, double *beta, double *gamma);
+
+/*!
+@param lattice the new lattice.
+@param a the new a value.
+@param b the new b value.
+@param c the new c value.
+@param alpha the new alpha value.
+@param beta the new beta value.
+@param gamma the new gamma value.
+
+Sets the cell parameters.
+*/
 	void SetCell (Lattice lattice, double a, double b, double c, double alpha, double beta, double gamma);
+
+/*!
+@param xmin where to store the minimum x.
+@param xmax where to store the maximum x.
+@param ymin where to store the minimum y.
+@param ymax where to store the maximum y.
+@param zmin where to store the minimum z.
+@param zmax where to store the maximum z.
+
+Retrieves the visible volume in cell coordinates.
+*/
 	void GetSize (double* xmin, double* xmax, double* ymin, double* ymax, double* zmin, double* zmax);
+
+/*!
+@param xmin the new minimum x.
+@param xmax the new maximum x.
+@param ymin the new minimum y.
+@param ymax the new maximum y.
+@param zmin the new minimum z.
+@param zmax the new maximum z.
+
+Sets the visible volume in cell coordinates.
+*/
 	void SetSize (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax);
+
+/*!
+Checks the atoms list and remove duplicates if needed.
+*/
 	void CheckAtoms ();
+
+/*!
+Checks the cleavages list and remove duplicates if needed.
+*/
 	void CheckCleavages ();
+
+/*!
+Checks the lines list and remove duplicates if needed.
+*/
 	void CheckLines ();
+
+/*!
+@param nPage the dialog id.
+
+Shows the dialog corresponding to \a nPage:
+0: cell and lattice dialog,
+1: atoms dialog,
+2: lines dialog,
+3: size dialog,
+4: cleavages dialog.
+*/
 	void Define (unsigned nPage = 0);
+
+/*!
+@param pView a new view.
+
+Adds a new view to the document.
+*/
 	void AddView(View* pView);
+
+/*!
+@param pView the view to remove.
+
+	 Removes a view from the document when possible.
+@return true if the view could be removed.
+*/
 	bool RemoveView(View* pView);
+
+/*!
+Removes all views from the document. This should be done only when destroying
+the document.
+*/
 	void RemoveAllViews ();
+
+/*!
+@return the active view.
+*/
 	View *GetActiveView () {return m_pActiveView;}
+
+/*!
+@return the list of all views.
+*/
 	std::list <gcr::View *> *GetViews () {return &m_Views;}
+
+/*!
+Updates the views window titles.
+*/
 	void RenameViews ();
+
+/*!
+Checks if the document needs to be saved and ask the user about what to do when
+needed.
+
+@return tue unless the user cancelled the dialog.
+*/
 	bool VerifySaved();
+
+/*!
+@param widget the new current widget.
+
+Sets the currently active widget.
+*/
 	void SetWidget (GtkWidget* widget) {m_widget = widget;}
+
+/*!
+@return the current document file name.
+*/
 	const gchar* GetFileName () {return m_filename;}
+
+/*!
+@param pView the new active view.
+
+Sets the new active view.
+*/
 	void SetActiveView (View *pView) {m_pActiveView = pView;}
+
+/*!
+@param filename a file name
+@param type an image type such as "png" or "jpeg".
+@param options the options to use if any.
+
+Saves the scene as a bitmap.
+*/
 	void SaveAsImage (const std::string &filename, char const *type, std::map<std::string, std::string>& options);
+
+/*!
+@param filename a new file name
+
+Changes the file name.
+*/
 	void SetFileName (const std::string &filename);
+
+/*!
+@param title the new title.
+
+Changes the document title.
+*/
 	void SetTitle (char const *title);
 	void SetTitle (std::string& title);
+
+/*!
+@return the current document title.
+*/
 	char const *GetTitle () {return m_Title.c_str ();}
+
+/*!
+@param author the file author's name
+
+Sets the author's name.
+*/
 	void SetAuthor (char const *author);
+
+/*!
+@param mail the file author's mail address
+
+Sets the author's mail address.
+*/
 	void SetMail (char const *mail);
+
+/*!
+@param comment a comment
+
+Adds a comment to the document. Currently only one comment is allowed per
+document.
+*/
 	void SetComment (char const *comment);
+
+/*!
+@param label the new window title.
+
+Sets the label to use as window title for views.
+*/
 	void SetLabel (char const *label);
+
+/*!
+@return the document creation date.
+*/
 	GDate *GetCreationDate () {return &m_CreationDate;}
+
+/*!
+@return the document last change date.
+*/
 	GDate *GetRevisionDate () {return &m_RevisionDate;}
+
+/*!
+@return the label to use as window title for views.
+*/
 	char const *GetLabel () {return m_Label? m_Label: m_DefaultLabel.c_str ();}
+
+/*!
+@param FileName a file name.
+
+Saves the scene as a VRML file.
+*/
 	void OnExportVRML (const std::string &FileName) const;
+
+/*!
+Saves the document.
+*/
 	void Save () const;
 
 protected:
@@ -335,7 +540,15 @@ List of the views of the document.
 */
 	std::list <View *> m_Views;
 
-	GDate m_CreationDate, m_RevisionDate;
+/*!
+The document creation date.
+*/
+	GDate m_CreationDate;
+
+/*!
+The document last revision date.
+*/
+	GDate m_RevisionDate;
 
 private:
 	gchar *m_filename;
@@ -372,8 +585,8 @@ Associates a the space group with the lattice.
 @return the space group associated with the lattice as a reference.
 */
 GCU_PROP (gcu::SpaceGroup const *, SpaceGroup)
-/*!\fn SetAutoSpaceGroup(bool auto)
-@param auto wheteher the lattice SpaceGroup should be automatically searched for.
+/*!\fn SetAutoSpaceGroup(bool val)
+@param val whether the lattice SpaceGroup should be automatically searched for.
 
 If true, after each change, the framework will reevaluate the space group according
 to the Bravais lattice and the defines atoms.
@@ -386,14 +599,55 @@ to the Bravais lattice and the defines atoms.
 */
 GCU_PROP (bool, AutoSpaceGroup)
 
-/*!\var m_FixedSize
-true if cleavages must not change positions in the view.
+/*!\fn SetFixedSize(bool val)
+@param val whether cleavages should not change positions in the view.
+
+If true, adding cleavages will not change atoms positions, otherwise, the scene
+will be made as large as possible.
+*/
+/*!\fn GetFixedSize()
+@return true if cleavages will not change atoms positions.
+*/
+/*!\fn GetRefFixedSize()
+@return whether cleavages will not change atoms positions as a reference.
 */
 GCU_PROP (bool, FixedSize);
 
+/*!\fn SetReadOnly(bool val)
+@param val whether the file can be modified.
+
+If true, the document can't be saved using the original file name.
+*/
+/*!\fn GetReadOnly()
+@return whether the file can be modified.
+*/
+/*!\fn GetRefReadOnly()
+@return whether the file can be modified as a reference.
+*/
 GCU_PROP (bool, ReadOnly)
+
+/*!\var m_Author
+The document author's name.
+*/
+/*!\fn GetReadOnly()
+@return the document author's name.
+*/
 GCU_PROT_POINTER_PROP (char, Author)
+
+/*!\var m_Mail
+The document author's mail address.
+*/
+/*!\fn GetMail()
+@return the document author's mail address.
+*/
 GCU_PROT_POINTER_PROP (char, Mail)
+
+/*!\var m_Comment
+The document comment.
+*/
+/*!\fn GetComment()
+@return the document comment.
+*/
 GCU_PROT_POINTER_PROP (char, Comment)
 };
 

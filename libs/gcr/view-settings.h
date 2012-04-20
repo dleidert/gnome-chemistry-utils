@@ -4,7 +4,7 @@
  * Gnome Crystal library
  * view-settings.h
  *
- * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -27,15 +27,29 @@
 
 #include <gcugtk/dialog.h>
 
+/*!\file*/
 namespace gcr {
 
 class View;
 
+/*!\class ViewSettingsDlg gcr/view-settings.h
+\brief View settings dialog class.
+
+This class wraps the dialog used to define the view settings.
+*/
 class ViewSettingsDlg: public gcugtk::Dialog
 {
 friend class ViewSettingsDlgPrivate;
 public:
+/*!
+@param pView the view.
+
+Creates the dialog.
+*/
 	ViewSettingsDlg (View* pView);
+/*!
+The destructor.
+*/
 	virtual ~ViewSettingsDlg ();
 
 private:

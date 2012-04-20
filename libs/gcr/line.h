@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcr/line.h
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -172,6 +172,11 @@ Moves a line to a new position.
 Changes the color used to display the line.
 */
 	void SetColor (float red, float green, float blue, float alpha);
+/*!
+@param rgba: the new color of the line.
+
+Changes the color used to display the line.
+*/
 	void SetColor (GdkRGBA rgba);
 /*!
 @param red: a pointer to the location to which the red component of the color of the line will be copied.
@@ -182,6 +187,11 @@ Changes the color used to display the line.
 Gets the components of the color used to display the line.
 */
 	void GetColor (double *red, double *green, double *blue, double *alpha);
+/*!
+@param rgba: a pointer to the location to which the new color of the line will be copied.
+
+Gets the color used to display the line.
+*/
 	void GetColor (GdkRGBA &rgba);
 /*!
 @param r: the new radius of the cylinder representing the line.

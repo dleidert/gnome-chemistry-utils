@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gcr/gcrcrystalviewer.h
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -21,7 +21,7 @@
  */
 
 /*!\file
-Declaration of the GcuCrystalViewer widget.
+Declaration of the GcrCrystalViewer widget.
 */
 
 #ifndef GCR_CRYSTAL_VIEWER_H
@@ -32,29 +32,29 @@ Declaration of the GcuCrystalViewer widget.
 
 G_BEGIN_DECLS
 
-/*!\return the GType associated to GcuCrystalViewer */
+/*!\return the GType associated to GcrCrystalViewer */
 #define GCR_TYPE_CRYSTAL_VIEWER		  (gcr_crystal_viewer_get_type ())
 /*!
-Casts \a obj to a GcuCrystalViewer * pointer.
-\return a pointer to the GcuCrystalViewer * or NULL if \a obj does not point to
-a GcuCrystalViewer widget.
+Casts \a obj to a GcrCrystalViewer * pointer.
+\return a pointer to the GcrCrystalViewer * or NULL if \a obj does not point to
+a GcrCrystalViewer widget.
 */
 #define GCR_CRYSTAL_VIEWER(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GCR_TYPE_CRYSTAL_VIEWER, GcrCrystalViewer))
 /*!
-Casts \a klass to a GcuCrystalViewerClass * pointer.
-\return a pointer to the GcuCrystalViewerClass * or NULL if \a obj not point to a GcuCrystalViewerClass.
+Casts \a klass to a GcrCrystalViewerClass * pointer.
+\return a pointer to the GcrCrystalViewerClass * or NULL if \a obj not point to a GcrCrystalViewerClass.
 */
-#define GCR_CRYSTAL_VIEWER_CLASS(klass)	  (G_TYPE_CHECK_CLASS_CAST ((klass), GCR_TYPE_CRYSTAL_VIEWER, GcuCrystalViewerClass))
+#define GCR_CRYSTAL_VIEWER_CLASS(klass)	  (G_TYPE_CHECK_CLASS_CAST ((klass), GCR_TYPE_CRYSTAL_VIEWER, GcrCrystalViewerClass))
 /*!
-\return TRUE if \a obj points to a GcuCrystalViewer widget, FALSE otherwise.
+\return TRUE if \a obj points to a GcrCrystalViewer widget, FALSE otherwise.
 */
 #define GCR_IS_CRYSTAL_VIEWER(obj)	  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GCR_TYPE_CRYSTAL_VIEWER))
 /*!
-\return TRUE if \a klass points to a GcuCrystalViewerClass, FALSE otherwise.
+\return TRUE if \a klass points to a GcrCrystalViewerClass, FALSE otherwise.
 */
 #define GCR_IS_CRYSTAL_VIEWER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GCR_TYPE_CRYSTAL_VIEWER))
 /*!
-\return the GcuCrystalViewerClass * associated to \a obj if obj points to a GcuCrystalViewer widget,
+\return the GcrCrystalViewerClass * associated to \a obj if obj points to a GcrCrystalViewer widget,
 NULL otherwise.
 */
 #define GCR_CRYSTAL_VIEWER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GCR_TYPE_CRYSTAL_VIEWER, GcrCrystalViewerClass))

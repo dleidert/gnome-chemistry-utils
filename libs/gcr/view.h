@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcr/view.h
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -41,14 +41,13 @@ class Window;
 /*!\class View gcr/view.h
 The class representing a view of the model. Each document
 might have several views.
-Most methods are automatically called by the framework and should not be explicitely used in programs.
 */
 class View: public gcugtk::GLView
 {
 public:
 //!Constructor.
 /*!
-@param pDoc: a pointer to the Document instance.
+@param pDoc a pointer to the Document instance.
 
 Creates a new view for the document.
 */
@@ -60,21 +59,55 @@ The destructor of View.
 	virtual ~View ();
 
 /*!
-@param node: a pointer to the xmlNode containing the serialized view.
+@param node a pointer to the xmlNode containing the serialized view.
 
 Loads the parameters of the view from an xmlNode.
 */
 	virtual bool Load (xmlNodePtr node);
 /*!
-@param xml: the xmlDoc used to save the document.
+@param xml the xmlDoc used to save the document.
 @return a pointer to the xmlNode containig the view parameters or NULL if an error occured.
 */
 	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 
+/*!
+@param red the red component of the background color.
+@param green the green component of the background color.
+@param blue the blue component of the background color.
+@param alpha the alpha component of the background color.
+
+Sets the view background color.
+*/
 	void SetBackgroundColor (float red, float green, float blue, float alpha);
+
+/*!
+@param red where to store the red component of the background color.
+@param green where to store the green component of the background color.
+@param blue where to store the blue component of the background color.
+@param alpha where to store the alpha component of the background color.
+
+Retrieves the view background color.
+*/
 	void GetBackgroundColor (double *red, double *green, double *blue, double *alpha);
+
+/*!
+@return the field of view. Might be 0 for orthogonal projections.
+*/
 	gdouble& GetFoV () {return GetRefAngle ();}
+
+/*!
+@return the distance from the model center to the point of view. Not used for
+orthogonal projections.
+*/
 	gdouble& GetPos () {return m_Radius;}
+
+/*!
+@param psi where to store Euler's psi angle.
+@param theta where to store Euler's theta angle.
+@param phi where to store Euler's phi angle.
+
+Retrieves the view orientation.
+*/
 	void GetRotation (double *psi, double *theta, double *phi);
 
 protected:
@@ -87,6 +120,14 @@ The width of the widget.
 */
 	gdouble m_width;
 
+/*!\fn SetWindow(Window *val)
+@param val a Window
+
+Sets the Window used to display the view.
+*/
+/*!\fn GetWindow()
+@return the Window used to display the view.
+*/
 GCU_POINTER_PROP (Window, Window);
 };
 

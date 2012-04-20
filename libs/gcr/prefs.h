@@ -4,7 +4,7 @@
  * Gnome Crystal
  * prefs.h
  *
- * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -27,15 +27,29 @@
 
 #include <gcugtk/dialog.h>
 
+/*!\file*/
 namespace gcr {
 
 class Application;
 
+/*!\class PrefsDlg gcr/prefs.h
+\brief Application preferences dialog class.
+
+This class wraps the dialog used to define the preferences of the application.
+*/
 class PrefsDlg: public gcugtk::Dialog
 {
 friend class PrefsDlgPrivate;
 public:
+/*!
+@param App the application.
+
+Creates the dialog.
+*/
 	PrefsDlg (Application *App);
+/*!
+The destructor.
+*/
 	virtual ~PrefsDlg ();
 
 private:

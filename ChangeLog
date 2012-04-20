@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2012-04-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/document.h: API documentation.
+	* libs/gcr/gcrcrystalviewer.h: ditto.
+	* libs/gcr/grid.cc: ditto.
+	* libs/gcr/grid.h: ditto.
+	* libs/gcr/line.h: ditto.
+	* libs/gcr/prefs.h: ditto.
+	* libs/gcr/view-settings.h: ditto.
+	* libs/gcr/view.h: ditto.
+	* libs/gcr/window.h: ditto.
+	* libs/gcu/macros.h: ditto.
+
 2012-04-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/application.h: API documentation.
 	* libs/gcr/atomsdlg.cc: ditto.
