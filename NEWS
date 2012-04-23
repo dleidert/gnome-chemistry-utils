@@ -7,6 +7,7 @@ Version 0.13.7
 	Other:
 		* License is now GPL version 3 (except for the OpenBabel related code).
 		* Fix build on big endian machines (Dan Horak). [#36175]
+		* Updated API documentation.
 
 Version 0.13.6
 	GChemPaint:
