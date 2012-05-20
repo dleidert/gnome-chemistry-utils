@@ -5,13 +5,13 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.4\n"
+"Project-Id-Version: 0.12.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-12 08:20+0200\n"
 "PO-Revision-Date: 2002-02-25 15:53-0600\n"
-"Last-Translator: Tigrux <tigrux@avantel.net>\n"
-"Language-Team: Spanish/Mexico\n"
-"Language: \n"
+"Last-Translator: Ibon Santisteban <obibon@gmx.com>\n"
+"Language-Team: \n"
+"Language: Spanish (Spain)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,26 +19,26 @@ msgstr ""
 #: ../gchemutils.schemas.in.h:1
 #, fuzzy
 msgid "Default Bottom Margin"
-msgstr "Vista predeterminada"
+msgstr "Margen inferior predeterminado"
 
 #: ../gchemutils.schemas.in.h:2
 #, fuzzy
 msgid "Default Left Margin"
-msgstr "Vista predeterminada"
+msgstr "Margen izquierdo predeterminado"
 
 #: ../gchemutils.schemas.in.h:3
 #, fuzzy
 msgid "Default Top Margin"
-msgstr "Vista predeterminada"
+msgstr "Margen superior predeterminado"
 
 #: ../gchemutils.schemas.in.h:4
 #, fuzzy
 msgid "Default Top Outside Margin"
-msgstr "Vista predeterminada"
+msgstr "Margen superior exterior predeterminado"
 
 #: ../gchemutils.schemas.in.h:5
 msgid "Footer height"
-msgstr ""
+msgstr "Altura de la nota de pie"
 
 #: ../gchemutils.schemas.in.h:6
 msgid "Off screen rendering"
@@ -46,15 +46,15 @@ msgstr ""
 
 #: ../gchemutils.schemas.in.h:7
 msgid "Paper"
-msgstr ""
+msgstr "Papel"
 
 #: ../gchemutils.schemas.in.h:8
 msgid "Preferred Display Unit"
-msgstr ""
+msgstr "Unidad preferida"
 
 #: ../gchemutils.schemas.in.h:9
 msgid "This is the default paper orientation."
-msgstr ""
+msgstr "Esta es la orientación predeterminada del papel."
 
 #: ../gchemutils.schemas.in.h:10
 msgid ""
@@ -64,39 +64,47 @@ msgstr ""
 
 #: ../gchemutils.schemas.in.h:11
 msgid "This string gives the default unit to be used in the page setup dialog."
-msgstr ""
+msgstr "Este comando da la unidad predeterminada en el diálogo de configuración de la página."
 
 #: ../gchemutils.schemas.in.h:12
 msgid "This value gives the default footer height number of points."
-msgstr ""
+msgstr "Este valor da el número de puntos predeterminados en la altura del pie de página."
 
 #: ../gchemutils.schemas.in.h:13
 msgid "This value gives the default header height number of points."
-msgstr ""
+msgstr "Este valor da el número de puntos predeterminados en la altura del encabezado."
 
 #: ../gchemutils.schemas.in.h:14
 msgid ""
 "This value gives the default number of points from the bottom of a page to "
 "the end of the body."
 msgstr ""
+"Este valor da el número de puntos predeterminados desde el final de una página "
+"hasta el final del cuerpo."
 
 #: ../gchemutils.schemas.in.h:15
 msgid ""
 "This value gives the default number of points from the left of a page to the "
 "left of the body."
 msgstr ""
+"Este valor da el número de puntos predeterminados desde la izquierda de una página "
+"hasta el extremo izquierdo del cuerpo."
 
 #: ../gchemutils.schemas.in.h:16
 msgid ""
 "This value gives the default number of points from the right of a page to "
 "the right of the body."
 msgstr ""
+"Este valor da el número de puntos predeterminados desde la derecha de una página "
+"hasta el extremo derecho del cuerpo."
 
 #: ../gchemutils.schemas.in.h:17
 msgid ""
 "This value gives the default number of points from the top of a page to the "
 "start of the body."
 msgstr ""
+"Este valor da el número de puntos predeterminados desde el margen superior de una página "
+"hasta el comienzo del cuerpo."
 
 #: ../gchemutils.schemas.in.h:18
 msgid ""
@@ -106,617 +114,617 @@ msgstr ""
 
 #: ../gchemutils.xml.in.h:1 ../programs/paint/x-gchempaint.desktop.in.h:1
 msgid "2D Chemical structure"
-msgstr ""
+msgstr "Estructura química 2D"
 
 #: ../gchemutils.xml.in.h:2 ../programs/crystal/x-gcrystal.desktop.in.h:1
 #, fuzzy
 msgid "Crystalline structure model"
-msgstr "C_ristal"
+msgstr "Modelo de la estructura química"
 
 #: ../database/residues.xml.in.h:1
 msgid "Acetyl"
-msgstr ""
+msgstr "Acetilo"
 
 #: ../database/residues.xml.in.h:2
 msgid "Alkyl"
-msgstr ""
+msgstr "Alquilo"
 
 #: ../database/residues.xml.in.h:3
 msgid "Aryl"
-msgstr ""
+msgstr "Arilo"
 
 #: ../database/residues.xml.in.h:4
 msgid "Benzoyl"
-msgstr ""
+msgstr "Benzoilo"
 
 #: ../database/residues.xml.in.h:5
 msgid "Benzyl"
-msgstr ""
+msgstr "Benzilo"
 
 #: ../database/residues.xml.in.h:6
 msgid "Butyl"
-msgstr ""
+msgstr "Butilo"
 
 #: ../database/residues.xml.in.h:7
 msgid "Ethyl"
-msgstr ""
+msgstr "Etilo"
 
 #: ../database/residues.xml.in.h:8
 msgid "Halogen"
-msgstr ""
+msgstr "Halógeno"
 
 #: ../database/residues.xml.in.h:9
 msgid "Isobutyl"
-msgstr ""
+msgstr "Isobutilo"
 
 #: ../database/residues.xml.in.h:10
 msgid "Isopropyl"
-msgstr ""
+msgstr "Isopropilo"
 
 #: ../database/residues.xml.in.h:11
 msgid "Mesyl"
-msgstr ""
+msgstr "Mesilo"
 
 #: ../database/residues.xml.in.h:12
 msgid "Metal"
-msgstr ""
+msgstr "Metal"
 
 #: ../database/residues.xml.in.h:13
 msgid "Methyl"
-msgstr ""
+msgstr "Metilo"
 
 #: ../database/residues.xml.in.h:14
 msgid "Phenyl"
-msgstr ""
+msgstr "Fenilo"
 
 #: ../database/residues.xml.in.h:15
 msgid "Propyl"
-msgstr ""
+msgstr "Propilo"
 
 #: ../database/residues.xml.in.h:16
 msgid "Tosyl"
-msgstr ""
+msgstr "Tosilo"
 
 #: ../database/residues.xml.in.h:17
 msgid "Triflyl"
-msgstr ""
+msgstr "Triflilo"
 
 #: ../database/residues.xml.in.h:18
 msgid "sec-Butyl"
-msgstr ""
+msgstr "sec-Butilo"
 
 #: ../database/elements.xml.in.h:1
 #, fuzzy
 msgid "Actinium"
-msgstr "Actínidos"
+msgstr "Actinio"
 
 #: ../database/elements.xml.in.h:2
 msgid "Aluminum"
-msgstr ""
+msgstr "Aluminio"
 
 #: ../database/elements.xml.in.h:3
 msgid "Americium"
-msgstr ""
+msgstr "Americio"
 
 #: ../database/elements.xml.in.h:4
 msgid "Antimony"
-msgstr ""
+msgstr "Antimonio"
 
 #: ../database/elements.xml.in.h:5
 msgid "Argon"
-msgstr ""
+msgstr "Argón"
 
 #: ../database/elements.xml.in.h:6
 msgid "Arsenic"
-msgstr ""
+msgstr "Arsénico"
 
 #: ../database/elements.xml.in.h:7
 msgid "Astatine"
-msgstr ""
+msgstr "Astato"
 
 #: ../database/elements.xml.in.h:8
 #, fuzzy
 msgid "Barium"
-msgstr "Máximo"
+msgstr "Bario"
 
 #: ../database/elements.xml.in.h:9
 msgid "Berkelium"
-msgstr ""
+msgstr "Berkelio"
 
 #: ../database/elements.xml.in.h:10
 msgid "Beryllium"
-msgstr ""
+msgstr "Berilio"
 
 #: ../database/elements.xml.in.h:11
 msgid "Bismuth"
-msgstr ""
+msgstr "Bismuto"
 
 #: ../database/elements.xml.in.h:12
 msgid "Bohrium"
-msgstr ""
+msgstr "Bohrio"
 
 #: ../database/elements.xml.in.h:13
 msgid "Boron"
-msgstr ""
+msgstr "Boro"
 
 #: ../database/elements.xml.in.h:14
 msgid "Bromine"
-msgstr ""
+msgstr "Bromo"
 
 #: ../database/elements.xml.in.h:15
 #, fuzzy
 msgid "Cadmium"
-msgstr "Radio (pm) :"
+msgstr "Cadmio"
 
 #: ../database/elements.xml.in.h:16
 msgid "Caesium"
-msgstr ""
+msgstr "Cesio"
 
 #: ../database/elements.xml.in.h:17
 msgid "Calcium"
-msgstr ""
+msgstr "Calcio"
 
 #: ../database/elements.xml.in.h:18
 msgid "Californium"
-msgstr ""
+msgstr "Californio"
 
 #: ../database/elements.xml.in.h:19
 msgid "Carbon"
-msgstr ""
+msgstr "Carbono"
 
 #: ../database/elements.xml.in.h:20
 msgid "Cerium"
-msgstr ""
+msgstr "Cerio"
 
 #: ../database/elements.xml.in.h:21
 #, fuzzy
 msgid "Chlorine"
-msgstr "Coordenadas"
+msgstr "Cloro"
 
 #: ../database/elements.xml.in.h:22
 msgid "Chromium"
-msgstr ""
+msgstr "Cromo"
 
 #: ../database/elements.xml.in.h:23
 msgid "Cobalt"
-msgstr ""
+msgstr "Cobalto"
 
 #: ../database/elements.xml.in.h:24
 msgid "Copernicium"
-msgstr ""
+msgstr "Copernicio"
 
 #: ../database/elements.xml.in.h:25
 msgid "Copper"
-msgstr ""
+msgstr "Cobre"
 
 #: ../database/elements.xml.in.h:26
 msgid "Curium"
-msgstr ""
+msgstr "Curio"
 
 #: ../database/elements.xml.in.h:27
 msgid "Darmstadtium"
-msgstr ""
+msgstr "Darmstadtio"
 
 #: ../database/elements.xml.in.h:28
 msgid "Dubnium"
-msgstr ""
+msgstr "Dubnio"
 
 #: ../database/elements.xml.in.h:29
 msgid "Dysprosium"
-msgstr ""
+msgstr "Disprosio"
 
 #: ../database/elements.xml.in.h:30
 msgid "Einsteinium"
-msgstr ""
+msgstr "Einsteinio"
 
 #: ../database/elements.xml.in.h:31
 msgid "Erbium"
-msgstr ""
+msgstr "Erbio"
 
 #: ../database/elements.xml.in.h:32
 msgid "Europium"
-msgstr ""
+msgstr "Europio"
 
 #: ../database/elements.xml.in.h:33
 msgid "Fermium"
-msgstr ""
+msgstr "Fermio"
 
 #: ../database/elements.xml.in.h:34
 msgid "Fluorine"
-msgstr ""
+msgstr "Flúor"
 
 #: ../database/elements.xml.in.h:35
 msgid "Francium"
-msgstr ""
+msgstr "Francio"
 
 #: ../database/elements.xml.in.h:36
 msgid "Gadolinium"
-msgstr ""
+msgstr "Gadolinio"
 
 #: ../database/elements.xml.in.h:37
 msgid "Gallium"
-msgstr ""
+msgstr "Galio"
 
 #: ../database/elements.xml.in.h:38
 msgid "Germanium"
-msgstr ""
+msgstr "Germanio"
 
 #: ../database/elements.xml.in.h:39
 msgid "Gold"
-msgstr ""
+msgstr "Oro"
 
 #: ../database/elements.xml.in.h:40
 msgid "Hafnium"
-msgstr ""
+msgstr "Hafnio"
 
 #: ../database/elements.xml.in.h:41
 msgid "Hassium"
-msgstr ""
+msgstr "Hassio"
 
 #: ../database/elements.xml.in.h:42
 msgid "Helium"
-msgstr ""
+msgstr "Helio"
 
 #: ../database/elements.xml.in.h:43
 msgid "Holmium"
-msgstr ""
+msgstr "Holmio"
 
 #: ../database/elements.xml.in.h:44
 msgid "Hydrogen"
-msgstr ""
+msgstr "Hidrógeno"
 
 #: ../database/elements.xml.in.h:45
 #, fuzzy
 msgid "Indium"
-msgstr "Mínimo"
+msgstr "Indio"
 
 #: ../database/elements.xml.in.h:46
 msgid "Iodine"
-msgstr ""
+msgstr "Iodo"
 
 #: ../database/elements.xml.in.h:47
 msgid "Iridium"
-msgstr ""
+msgstr "Iridio"
 
 #: ../database/elements.xml.in.h:48
 msgid "Iron"
-msgstr ""
+msgstr "Hierro"
 
 #: ../database/elements.xml.in.h:49
 msgid "Krypton"
-msgstr ""
+msgstr "Criptón"
 
 #: ../database/elements.xml.in.h:50
 #, fuzzy
 msgid "Lanthanum"
-msgstr "Lantánidos"
+msgstr "Lantano"
 
 #: ../database/elements.xml.in.h:51
 msgid "Lawrencium"
-msgstr ""
+msgstr "Laurencio"
 
 #: ../database/elements.xml.in.h:52
 msgid "Lead"
-msgstr ""
+msgstr "Plomo"
 
 #: ../database/elements.xml.in.h:53
 msgid "Lithium"
-msgstr ""
+msgstr "Litio"
 
 #: ../database/elements.xml.in.h:54
 msgid "Lutetium"
-msgstr ""
+msgstr "Lutecio"
 
 #: ../database/elements.xml.in.h:55
 #, fuzzy
 msgid "Magnesium"
-msgstr "Máximo"
+msgstr "Magnesio"
 
 #: ../database/elements.xml.in.h:56
 #, fuzzy
 msgid "Manganese"
-msgstr "Lantánidos"
+msgstr "Manganeso"
 
 #: ../database/elements.xml.in.h:57
 #, fuzzy
 msgid "Meitnerium"
-msgstr "Mínimo"
+msgstr "Meitnerio"
 
 #: ../database/elements.xml.in.h:58
 msgid "Mendelevium"
-msgstr ""
+msgstr "Mendelevio"
 
 #: ../database/elements.xml.in.h:59
 msgid "Mercury"
-msgstr ""
+msgstr "Mercurio"
 
 #: ../database/elements.xml.in.h:60
 msgid "Molybdenum"
-msgstr ""
+msgstr "Molibdeno"
 
 #: ../database/elements.xml.in.h:61
 msgid "Neodymium"
-msgstr ""
+msgstr "Neodimio"
 
 #: ../database/elements.xml.in.h:62
 #, fuzzy
 msgid "Neon"
-msgstr "Nouveau"
+msgstr "Neón"
 
 #: ../database/elements.xml.in.h:63
 msgid "Neptunium"
-msgstr ""
+msgstr "Neptuno"
 
 #: ../database/elements.xml.in.h:64
 msgid "Nickel"
-msgstr ""
+msgstr "Níquel"
 
 #: ../database/elements.xml.in.h:65
 msgid "Niobium"
-msgstr ""
+msgstr "Niobio"
 
 #: ../database/elements.xml.in.h:66
 msgid "Nitrogen"
-msgstr ""
+msgstr "Nitrógeno"
 
 #: ../database/elements.xml.in.h:67
 msgid "Nobelium"
-msgstr ""
+msgstr "Nobelio"
 
 #: ../database/elements.xml.in.h:68
 msgid "Osmium"
-msgstr ""
+msgstr "Osmio"
 
 #: ../database/elements.xml.in.h:69
 #, fuzzy
 msgid "Oxygen"
-msgstr "Abrir"
+msgstr "Oxígeno"
 
 #: ../database/elements.xml.in.h:70
 msgid "Palladium"
-msgstr ""
+msgstr "Paladio"
 
 #: ../database/elements.xml.in.h:71
 msgid "Phosphorus"
-msgstr ""
+msgstr "Fósforo"
 
 #: ../database/elements.xml.in.h:72
 msgid "Platinum"
-msgstr ""
+msgstr "Platino"
 
 #: ../database/elements.xml.in.h:73
 msgid "Plutonium"
-msgstr ""
+msgstr "Plutonio"
 
 #: ../database/elements.xml.in.h:74
 msgid "Polonium"
-msgstr ""
+msgstr "Polonio"
 
 #: ../database/elements.xml.in.h:75
 msgid "Potassium"
-msgstr ""
+msgstr "Potasio"
 
 #: ../database/elements.xml.in.h:76
 msgid "Praseodymium"
-msgstr ""
+msgstr "Praseodimio"
 
 #: ../database/elements.xml.in.h:77
 msgid "Promethium"
-msgstr ""
+msgstr "Prometio"
 
 #: ../database/elements.xml.in.h:78
 msgid "Protactinium"
-msgstr ""
+msgstr "Protoactinio"
 
 #: ../database/elements.xml.in.h:79
 #, fuzzy
 msgid "Radium"
-msgstr "Radio (pm) :"
+msgstr "Radio"
 
 #: ../database/elements.xml.in.h:80
 msgid "Radon"
-msgstr ""
+msgstr "Radón"
 
 #: ../database/elements.xml.in.h:81
 msgid "Rhenium"
-msgstr ""
+msgstr "Rhenio"
 
 #: ../database/elements.xml.in.h:82
 #, fuzzy
 msgid "Rhodium"
-msgstr "Radio (pm) :"
+msgstr "Rhodio"
 
 #: ../database/elements.xml.in.h:83
 msgid "Roentgenium"
-msgstr ""
+msgstr "Roentgenio"
 
 #: ../database/elements.xml.in.h:84
 msgid "Rubidium"
-msgstr ""
+msgstr "Rubidio"
 
 #: ../database/elements.xml.in.h:85
 msgid "Ruthenium"
-msgstr ""
+msgstr "Rutenio"
 
 #: ../database/elements.xml.in.h:86
 msgid "Rutherfordium"
-msgstr ""
+msgstr "Rutherfordio"
 
 #: ../database/elements.xml.in.h:87
 msgid "Samarium"
-msgstr ""
+msgstr "Samario"
 
 #: ../database/elements.xml.in.h:88
 msgid "Scandium"
-msgstr ""
+msgstr "Escandio"
 
 #: ../database/elements.xml.in.h:89
 msgid "Seaborgium"
-msgstr ""
+msgstr "Seaborgio"
 
 #: ../database/elements.xml.in.h:90
 msgid "Selenium"
-msgstr ""
+msgstr "Selenio"
 
 #: ../database/elements.xml.in.h:91
 msgid "Silicon"
-msgstr ""
+msgstr "Sílice"
 
 #: ../database/elements.xml.in.h:92
 #, fuzzy
 msgid "Silver"
-msgstr "Tamaño"
+msgstr "Plata"
 
 #: ../database/elements.xml.in.h:93
 msgid "Sodium"
-msgstr ""
+msgstr "Sodio"
 
 #: ../database/elements.xml.in.h:94
 msgid "Strontium"
-msgstr ""
+msgstr "Estroncio"
 
 #: ../database/elements.xml.in.h:95
 msgid "Sulfur"
-msgstr ""
+msgstr "Azufre"
 
 #: ../database/elements.xml.in.h:96
 msgid "Tantalum"
-msgstr ""
+msgstr "Tántalo"
 
 #: ../database/elements.xml.in.h:97
 msgid "Technetium"
-msgstr ""
+msgstr "Tecnecio"
 
 #: ../database/elements.xml.in.h:98
 msgid "Tellurium"
-msgstr ""
+msgstr "Telurio"
 
 #: ../database/elements.xml.in.h:99
 msgid "Terbium"
-msgstr ""
+msgstr "Terbio"
 
 #: ../database/elements.xml.in.h:100
 msgid "Thallium"
-msgstr ""
+msgstr "Talio"
 
 #: ../database/elements.xml.in.h:101
 msgid "Thorium"
-msgstr ""
+msgstr "Torio"
 
 #: ../database/elements.xml.in.h:102
 msgid "Thulium"
-msgstr ""
+msgstr "Tulio"
 
 #: ../database/elements.xml.in.h:103
 msgid "Tin"
-msgstr ""
+msgstr "Estaño"
 
 #: ../database/elements.xml.in.h:104
 #, fuzzy
 msgid "Titanium"
-msgstr "Mínimo"
+msgstr "Titanio"
 
 #: ../database/elements.xml.in.h:105
 msgid "Tungsten"
-msgstr ""
+msgstr "Wolframio"
 
 #: ../database/elements.xml.in.h:106
 msgid "Ununhexium"
-msgstr ""
+msgstr "Ununhexio"
 
 #: ../database/elements.xml.in.h:107
 msgid "Ununpentium"
-msgstr ""
+msgstr "Ununpentio"
 
 #: ../database/elements.xml.in.h:108
 msgid "Ununquadium"
-msgstr ""
+msgstr "Ununquadio"
 
 #: ../database/elements.xml.in.h:109
 msgid "Ununtrium"
-msgstr ""
+msgstr "Ununtrío"
 
 #: ../database/elements.xml.in.h:110
 msgid "Uranium"
-msgstr ""
+msgstr "Uranio"
 
 #: ../database/elements.xml.in.h:111
 msgid "Vanadium"
-msgstr ""
+msgstr "Vanadio"
 
 #: ../database/elements.xml.in.h:112
 msgid "Xenon"
-msgstr ""
+msgstr "Xenón"
 
 #: ../database/elements.xml.in.h:113
 msgid "Ytterbium"
-msgstr ""
+msgstr "Yterbio"
 
 #: ../database/elements.xml.in.h:114
 msgid "Yttrium"
-msgstr ""
+msgstr "Ytrio"
 
 #: ../database/elements.xml.in.h:115
 msgid "Zinc"
-msgstr ""
+msgstr "Zinc"
 
 #: ../database/elements.xml.in.h:116
 #, fuzzy
 msgid "Zirconium"
-msgstr "Mínimo"
+msgstr "Zirconio"
 
 #: ../database/isotopes.xml.in.h:1
 msgid "deuterium"
-msgstr ""
+msgstr "deuterio"
 
 #: ../database/isotopes.xml.in.h:2
 msgid "protium"
-msgstr ""
+msgstr "protio"
 
 #: ../database/isotopes.xml.in.h:3
 msgid "tritium"
-msgstr ""
+msgstr "tritio"
 
 #: ../gnumeric/functions.cc:52
 msgid "MOLARMASS: molar mass of a chemical entity"
-msgstr ""
+msgstr "MOLARMASS: masa molar de una entidad química"
 
 #: ../gnumeric/functions.cc:53
 msgid "formula:the input chemical formula such as \"CCl4\""
-msgstr ""
+msgstr "fórmula: entrada de fórmula química como \"CCl4\""
 
 #: ../gnumeric/functions.cc:54
 msgid "MOLARMASS calculates a molar mass associated with the given @{formula}."
-msgstr ""
+msgstr "MOLARMASS calcula una masa molar asociada a la @{fórmula} dada."
 
 #: ../gnumeric/functions.cc:55
 msgid "=molarmass(\"CCl4\")"
-msgstr ""
+msgstr "=molarmass(\"CCl4\")"
 
 #: ../gnumeric/functions.cc:82
 msgid "molarmass"
-msgstr ""
+msgstr "molarmass"
 
 #: ../gnumeric/plugin.xml.in.h:1
 msgid "Chemical Formula Functions"
-msgstr ""
+msgstr "Funciones de la fórmula química"
 
 #: ../gnumeric/plugin.xml.in.h:2
 msgid "Chemical Functions"
-msgstr ""
+msgstr "Funciones químicas"
 
 #: ../gnumeric/plugin.xml.in.h:3
 #, fuzzy
 msgid "Chemistry"
-msgstr "Documentos"
+msgstr "Química"
 
 #: ../goffice/plugin.xml.in.h:1
 msgid "2D Chemical Structures Viewer/Editor"
-msgstr ""
+msgstr "Editor/visualizador de estructuras químicas 2D"
 
 #: ../goffice/plugin.xml.in.h:2
 msgid "Chemical structures"
-msgstr ""
+msgstr "Estructuras químicas"
 
 #: ../goffice/plugin.xml.in.h:3
 msgid "Chemical structures component engine"
@@ -724,7 +732,7 @@ msgstr ""
 
 #: ../goffice/plugin.xml.in.h:4
 msgid "Component : GChemPaint"
-msgstr ""
+msgstr "Componente: GChemPaint"
 
 #: ../goffice/gogcpapp.cc:182 ../programs/paint/standaloneapp.cc:46
 #, fuzzy, c-format
@@ -733,36 +741,36 @@ msgstr "SinNombre%d"
 
 #: ../goffice/gogcpwin.cc:89
 msgid "Embedded GChemPaint Object"
-msgstr ""
+msgstr "Objeto incrustado de GChemPaint"
 
 #. Note to translators: replace the following string with the appropriate credits for you lang
 #: ../libs/gcp/about.cc:49 ../programs/3d/window.cc:146
 #: ../programs/calc/gchemcalc.cc:306 ../programs/crystal/window.cc:146
 #: ../programs/spectra/window.cc:137 ../programs/table/gchemtable-app.cc:419
 msgid "translator_credits"
-msgstr ""
+msgstr "Traducción al castellano: OBIBON."
 
 #: ../libs/gcp/about.cc:55
 msgid "GChemPaint is a 2D chemical structures editor for Gnome"
-msgstr ""
+msgstr "GChemPaint es un editor de estructuras químicas 2D para Gnome"
 
 #: ../libs/gcp/about.cc:56
 #, fuzzy
 msgid "Copyright © 2001-2010 by Jean Bréfort"
-msgstr "(C) 1999-2001 por Jean Bréfort"
+msgstr "Copyright © 2001-2010 por Jean Bréfort"
 
 #: ../libs/gcp/arrow.cc:198 ../libs/gcp/reaction-arrow.cc:287
 msgid "Arrow"
-msgstr ""
+msgstr "Flecha"
 
 #: ../libs/gcp/application.cc:312
 #, fuzzy
 msgid "Create a new reaction"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Crear una nueva reacción"
 
 #: ../libs/gcp/application.cc:319
 msgid "Create a new mesomery relationship"
-msgstr ""
+msgstr "Crear una nueva relación de mesomería"
 
 #: ../libs/gcp/application.cc:524 ../libs/gcp/stringdlg.cc:102
 #: ../plugins/paint/wikipedia/wikipediatool.cc:90
@@ -779,10 +787,15 @@ msgid ""
 "Sorry, format %s not supported!\n"
 "Failed to load %s."
 msgstr ""
+"¡No hay soporte para el formato %s!\n"
+"Error al cargar %s."
 
 #: ../libs/gcp/application.cc:598 ../libs/gcp/stringdlg.cc:118
 #: ../plugins/paint/wikipedia/wikipediatool.cc:104
 #: ../programs/3d/application.cc:167 ../programs/calc/gchemcalc.cc:209
+
+
+
 #: ../programs/crystal/application.cc:238
 #: ../programs/spectra/application.cc:80
 #: ../programs/table/gchemtable-app.cc:737
@@ -792,7 +805,7 @@ msgid ""
 "exists, overwrite?"
 msgstr ""
 "El archivo %s\n"
-"existe, sobreescribir ?"
+"ya existe, sobreescribir?"
 
 #: ../libs/gcp/application.cc:613 ../libs/gcp/stringdlg.cc:134
 #: ../libs/gcu/application.cc:305
@@ -803,19 +816,21 @@ msgid ""
 "Error while processing %s:\n"
 "%s"
 msgstr ""
+"Error al procesar %s:\n"
+"%s"
 
 #: ../libs/gcp/application.cc:732
 msgid "Error in "
-msgstr ""
+msgstr "Error en"
 
 #. Note to translator: add a space if needed before the semicolon
 #: ../libs/gcp/application.cc:735
 msgid ":\n"
-msgstr ""
+msgstr ":\n"
 
 #: ../libs/gcp/application.cc:869 ../libs/gcp/application.cc:1000
 msgid "No filename"
-msgstr ""
+msgstr "No hay nombre de archivo"
 
 #: ../libs/gcp/application.cc:872
 #, fuzzy, c-format
@@ -823,13 +838,13 @@ msgid ""
 "Could not open file\n"
 "%s"
 msgstr ""
-"No pudo guardar archivo\n"
+"No se ha podido abrir archivo\n"
 "%s"
 
 #: ../libs/gcp/application.cc:875 ../libs/gcp/application.cc:1012
 #, c-format
 msgid "%s: parse error."
-msgstr ""
+msgstr "%s: error de analísis."
 
 #: ../libs/gcp/application.cc:1003 ../programs/crystal/document.cc:329
 #, c-format
@@ -837,7 +852,7 @@ msgid ""
 "Could not load file\n"
 "%s"
 msgstr ""
-"No pudo cargar archivo\n"
+"No se ha podido cargar archivo\n"
 "%s"
 
 #: ../libs/gcp/application.cc:1006 ../programs/crystal/document.cc:332
@@ -847,7 +862,7 @@ msgid ""
 "Tree is empty?"
 msgstr ""
 "%s: archivo XML inválido.\n"
-"Quizá el árbol está vació?"
+"¿Quizá el árbol está vació?"
 
 #: ../libs/gcp/application.cc:1009 ../programs/crystal/document.cc:335
 #, c-format
@@ -860,45 +875,45 @@ msgstr "%s: formato de archivo inválido"
 #: ../programs/table/gchemtable-app.cc:725
 #, fuzzy
 msgid "Save as image"
-msgstr "Salvar archivo"
+msgstr "Guardar como imagen"
 
 #: ../libs/gcp/atom.cc:1186 ../libs/gcp/atom.cc:1200 ../libs/gcp/atom.cc:1213
 #: ../libs/gcu/atom.cc:362 ../plugins/paint/atoms/plugin.cc:64
 #: ../programs/crystal/atomsdlg.cc:129
 #, fuzzy
 msgid "Atom"
-msgstr "Átomos"
+msgstr "Átomo"
 
 #: ../libs/gcp/atom.cc:1189
 msgid "Display symbol"
-msgstr ""
+msgstr "Mostrar símbolo"
 
 #: ../libs/gcp/atom.cc:1189
 msgid "Whether to display carbon atom symbol"
-msgstr ""
+msgstr "Si se muestra el símbolo del átomo de carbono o no"
 
 #: ../libs/gcp/atom.cc:1204 ../ui/paint/H-pos.ui.h:3
 #, fuzzy
 msgid "Hydrogen atoms position"
-msgstr "Posición de las pestañas"
+msgstr "Posición de los átomos de hidrógeno"
 
 #: ../libs/gcp/atom.cc:1217
 msgid "Show charge"
-msgstr ""
+msgstr "Mostrar carga"
 
 #: ../libs/gcp/atom.cc:1217
 msgid "Whether to display atom charge"
-msgstr ""
+msgstr "Si se muestra la carga del átomo o no"
 
 #: ../libs/gcp/atom.cc:1237 ../plugins/paint/selection/plugin.cc:64
 #, fuzzy
 msgid "Select"
-msgstr "_Borrar"
+msgstr "Seleccionar"
 
 #: ../libs/gcp/atom.cc:1237
 #, fuzzy
 msgid "Select object"
-msgstr "_Borrar"
+msgstr "Seleccionar objeto"
 
 #: ../libs/gcp/atom.cc:1241
 #, fuzzy
@@ -908,84 +923,84 @@ msgstr "_Borrar"
 #: ../libs/gcp/atom.cc:1241
 #, fuzzy
 msgid "Delete object"
-msgstr "_Borrar"
+msgstr "_Borrar objeto"
 
 #: ../libs/gcp/atom.cc:1248 ../plugins/paint/atoms/orbital.cc:410
 #, fuzzy
 msgid "Properties"
-msgstr "Preferencias"
+msgstr "Propiedades"
 
 #: ../libs/gcp/atom.cc:1248
 #, fuzzy
 msgid "Object properties"
-msgstr "Documentos"
+msgstr "Propiedades del objeto"
 
 #: ../libs/gcp/bond.cc:776 ../libs/gcu/bond.cc:334
 #: ../plugins/paint/bonds/plugin.cc:58
 msgid "Bond"
-msgstr ""
+msgstr "Enlace"
 
 #: ../libs/gcp/bond.cc:780
 msgid "Move to back"
-msgstr ""
+msgstr "Llevar hacia atrás"
 
 #: ../libs/gcp/bond.cc:787
 msgid "Bring to front"
-msgstr ""
+msgstr "Acercar al frente"
 
 #: ../libs/gcp/docprop.cc:114 ../libs/gcp/docprop.cc:121
 #: ../programs/crystal/docprop.cc:105 ../programs/crystal/docprop.cc:112
 msgid "%A, %B %d, %Y"
-msgstr ""
+msgstr "%A, %B %d, %Y"
 
 #: ../libs/gcp/electron.cc:330
 msgid "Electron pair"
-msgstr ""
+msgstr "Par de electrones"
 
 #: ../libs/gcp/electron.cc:330
 msgid "Electron"
-msgstr ""
+msgstr "Electrón"
 
 #: ../libs/gcp/fontsel.cc:293 ../programs/table/gchemtable-app.cc:158
 msgid "Family"
-msgstr ""
+msgstr "Familia"
 
 #: ../libs/gcp/fontsel.cc:294
 msgid "Font family"
-msgstr ""
+msgstr "Tipo de letra"
 
 #: ../libs/gcp/fontsel.cc:297
 msgid "Style"
-msgstr ""
+msgstr "Estilo"
 
 #: ../libs/gcp/fontsel.cc:298
 msgid "The font style (normal, oblique or italic)"
-msgstr ""
+msgstr "Estilo de la letra (normal, oblícuo o cursiva)"
 
 #: ../libs/gcp/fontsel.cc:302
 #, fuzzy
 msgid "Weight"
-msgstr "Derecha"
+msgstr "Grosor"
 
 #: ../libs/gcp/fontsel.cc:303
 msgid "The font weight"
-msgstr ""
+msgstr "Grosor de letra"
 
 #: ../libs/gcp/fontsel.cc:307
 msgid "Variant"
-msgstr ""
+msgstr "Variante"
 
 #: ../libs/gcp/fontsel.cc:308
 msgid "The font variant"
-msgstr ""
+msgstr "Variante de la tipografía"
 
 #: ../libs/gcp/fontsel.cc:312
 msgid "Stretch"
-msgstr ""
+msgstr "Ancho"
 
 #: ../libs/gcp/fontsel.cc:313
 msgid "The font stretch (condensed, normal or expanded)"
-msgstr ""
+msgstr "Ancho de la tipografía (condensada, normal o expandida)"
 
 #: ../libs/gcp/fontsel.cc:317
 #, fuzzy
@@ -994,27 +1009,27 @@ msgstr "_Tamaño"
 
 #: ../libs/gcp/fontsel.cc:318
 msgid "The font size (in pango units)"
-msgstr ""
+msgstr "Tamaño de letra (en unidades pango)"
 
 #: ../libs/gcp/fragment.cc:1341
 msgid "Invalid symbol."
-msgstr ""
+msgstr "Símbolo no válido."
 
 #: ../libs/gcp/fragment.cc:1370
 msgid "Invalid charge."
-msgstr ""
+msgstr "Carga no válida"
 
 #: ../libs/gcp/fragment.cc:1549
 msgid "Fragment"
-msgstr ""
+msgstr "Fragmento"
 
 #: ../libs/gcp/mechanism-arrow.cc:464
 msgid "Mechanism arrow"
-msgstr ""
+msgstr "Flecha de mecanismo"
 
 #: ../libs/gcp/mechanism-step.cc:47
 msgid "Mechanism step"
-msgstr ""
+msgstr "Paso de mecanismo"
 
 #: ../libs/gcp/mesomer.cc:114
 msgid "NULL argument to Mesomer constructor!"
@@ -1022,91 +1037,92 @@ msgstr ""
 
 #: ../libs/gcp/mesomer.cc:129
 msgid "Only one arrow can link two given mesomers."
-msgstr ""
+msgstr "Sólo una flecha puede unir dos mesómeros."
 
 #: ../libs/gcp/mesomer.cc:169
 msgid "Mesomer"
-msgstr ""
+msgstr "Mesómero"
 
 #: ../libs/gcp/mesomery.cc:161 ../libs/gcp/mesomery.cc:556
 #: ../plugins/paint/arrows/retrosynthesis.cc:162
 msgid "Something wrong happened, please file a bug report."
-msgstr ""
+msgstr "Ha ocurrido un error, por favor informa del fallo."
 
 #: ../libs/gcp/mesomery.cc:206 ../plugins/paint/arrows/retrosynthesis.cc:199
 msgid "No space left between molecule and arrow!"
-msgstr ""
+msgstr "¡No hay espacio libre entre la moécula y la flecha!"
 
 #: ../libs/gcp/mesomery.cc:224 ../plugins/paint/arrows/retrosynthesis.cc:217
 msgid "Isolated arrows are not allowed!"
-msgstr ""
+msgstr "¡Las flechas aisladas no están permitidas!"
 
 #: ../libs/gcp/mesomery.cc:238 ../plugins/paint/arrows/retrosynthesis.cc:232
 msgid ""
 "Isolated molecule!\n"
 " Please add missing arrows."
-msgstr ""
+msgstr "¡Molécula aíslada!\n"
+"Añade las flechas que faltan."
 
 #: ../libs/gcp/mesomery.cc:243
 msgid "Please add missing arrows."
-msgstr ""
+msgstr "Añade las flechas que faltan"
 
 #: ../libs/gcp/mesomery.cc:776
 msgid "Destroy the mesomery relationship"
-msgstr ""
+msgstr "Destruir la relación de mesomería"
 
 #: ../libs/gcp/mesomery.cc:819
 msgid "Mesomery"
-msgstr ""
+msgstr "Mesomería"
 
 #: ../libs/gcp/mesomery-arrow.cc:164 ../plugins/paint/arrows/plugin.cc:85
 msgid "Mesomery arrow"
-msgstr ""
+msgstr "Flecha de mesomería"
 
 #: ../libs/gcp/molecule.cc:501 ../libs/gcu/molecule.cc:386
 msgid "Molecule"
-msgstr ""
+msgstr "Molécula"
 
 #: ../libs/gcp/molecule.cc:507
 msgid "Export molecule to Ghemical"
-msgstr ""
+msgstr "Exportal molécula a Ghemical"
 
 #: ../libs/gcp/molecule.cc:514
 msgid "Generate InChI"
-msgstr ""
+msgstr "Generar InChI"
 
 #: ../libs/gcp/molecule.cc:519
 msgid "NIST WebBook page for this molecule"
-msgstr ""
+msgstr "Página NIST WebBook de ésta molécula"
 
 #: ../libs/gcp/molecule.cc:524
 msgid "PubChem page for this molecule"
-msgstr ""
+msgstr "Página PubChem de ésta molécula"
 
 #: ../libs/gcp/molecule.cc:530
 msgid "Generate SMILES"
-msgstr ""
+msgstr "Generar SMILES"
 
 #: ../libs/gcp/molecule.cc:535
 msgid "Open in Calculator"
-msgstr ""
+msgstr "Abrir en la calculadora"
 
 #: ../libs/gcp/molecule.cc:543
 msgid "Select alignment item"
-msgstr ""
+msgstr "Seleccionar ítem de alineación"
 
 #: ../libs/gcp/preferences.cc:361 ../libs/gcp/preferences.cc:380
 #: ../libs/gcp/preferences.cc:509 ../libs/gcp/theme.cc:316
 #: ../libs/gcp/theme.cc:324 ../programs/table/gchemtable-app.cc:153
 #, fuzzy
 msgid "Default"
-msgstr "Vista predeterminada"
+msgstr "Predeterminado"
 
 #: ../libs/gcp/preferences.cc:401 ../libs/gcp/preferences.cc:470
 #: ../libs/gcp/preferences.cc:538
 #, fuzzy
 msgid "General"
-msgstr "Gnome Cristal"
+msgstr "General"
 
 #: ../libs/gcp/preferences.cc:407 ../libs/gcp/preferences.cc:481
 #: ../libs/gcp/preferences.cc:531 ../ui/crystal/atoms.ui.h:3
@@ -1116,7 +1132,7 @@ msgstr "Átomos"
 #: ../libs/gcp/preferences.cc:411 ../libs/gcp/preferences.cc:485
 #: ../libs/gcp/preferences.cc:540
 msgid "Font"
-msgstr ""
+msgstr "Fuente"
 
 #: ../libs/gcp/preferences.cc:415 ../libs/gcp/preferences.cc:489
 #: ../libs/gcp/preferences.cc:542 ../ui/crystal/prefs.ui.h:18
@@ -1126,26 +1142,27 @@ msgstr "Otro"
 #: ../libs/gcp/preferences.cc:419 ../libs/gcp/preferences.cc:493
 #: ../libs/gcp/preferences.cc:544 ../ui/crystal/bonds.ui.h:1
 msgid "Bonds"
-msgstr ""
+msgstr "Enlaces"
 
 #: ../libs/gcp/preferences.cc:423 ../libs/gcp/preferences.cc:497
 #: ../libs/gcp/preferences.cc:546
 msgid "Arrows"
-msgstr ""
+msgstr "Flechas"
 
 #: ../libs/gcp/preferences.cc:427 ../libs/gcp/preferences.cc:501
+
 #: ../libs/gcp/preferences.cc:548 ../libs/gcp/text.cc:1013
 #: ../plugins/paint/text/plugin.cc:52
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #: ../libs/gcp/reactant.cc:81
 msgid "Add a stoichiometry coefficient"
-msgstr ""
+msgstr "Añadir un coeficiente estequiométrico"
 
 #: ../libs/gcp/reactant.cc:266 ../libs/gcp/reaction-prop.cc:41
 msgid "Reactant"
-msgstr ""
+msgstr "Reactivo"
 
 #. Object too far from the arrow direction
 #: ../libs/gcp/reaction.cc:137 ../libs/gcp/reaction.cc:210
@@ -1153,66 +1170,68 @@ msgid ""
 "Error could not build a reaction\n"
 "from the selected objects."
 msgstr ""
+"Error: no se ha podido construir una reacción\n"
+"a partir de los objetos seleccionados."
 
 #: ../libs/gcp/reaction.cc:378
 msgid "Destroy the reaction"
-msgstr ""
+msgstr "Destruir la reacción"
 
 #: ../libs/gcp/reaction.cc:408
 msgid "Reaction"
-msgstr ""
+msgstr "Reacción"
 
 #: ../libs/gcp/reaction-arrow.cc:293
 msgid "Attach selection to arrow..."
-msgstr ""
+msgstr "Añadir selección a flecha..."
 
 #: ../libs/gcp/reaction-arrow.cc:426
 msgid "Reaction arrow"
-msgstr ""
+msgstr "Flecha de reacción"
 
 #: ../libs/gcp/reaction-operator.cc:124
 msgid "Reaction operator"
-msgstr ""
+msgstr "Operador de reacción"
 
 #: ../libs/gcp/reaction-prop.cc:39 ../libs/gcp/theme.cc:528
 #: ../libs/gcp/theme.cc:532 ../programs/crystal/atomsdlg.cc:184
 #: ../programs/crystal/atomsdlg.cc:314 ../programs/crystal/atomsdlg.cc:478
 #: ../ui/crystal/atoms.ui.h:17
 msgid "Unknown"
-msgstr ""
+msgstr "Desconocido"
 
 #: ../libs/gcp/reaction-prop.cc:40
 msgid "Catalyst"
-msgstr ""
+msgstr "Catalizador"
 
 #: ../libs/gcp/reaction-prop.cc:42
 msgid "Product"
-msgstr ""
+msgstr "Producto"
 
 #: ../libs/gcp/reaction-prop.cc:43
 #, fuzzy
 msgid "Solvent"
-msgstr "Tamaño"
+msgstr "Disolvente"
 
 #: ../libs/gcp/reaction-prop.cc:44
 msgid "Temperature"
-msgstr ""
+msgstr "Temperatura"
 
 #: ../libs/gcp/reaction-prop.cc:45
 msgid "Pressure"
-msgstr ""
+msgstr "Presión"
 
 #: ../libs/gcp/reaction-prop.cc:46
 msgid "Time"
-msgstr ""
+msgstr "Tiempo"
 
 #: ../libs/gcp/reaction-prop.cc:47
 msgid "Enthalpy"
-msgstr ""
+msgstr "Entalpía"
 
 #: ../libs/gcp/reaction-prop.cc:110
 msgid "Reaction property"
-msgstr ""
+msgstr "Propiedades de reacción"
 
 #: ../libs/gcp/reaction-step.cc:68 ../libs/gcp/reaction-step.cc:88
 msgid "A mechanism step must stay alone inside a reaction step"
@@ -1220,12 +1239,12 @@ msgstr ""
 
 #: ../libs/gcp/reaction-step.cc:267
 msgid "Reaction step"
-msgstr ""
+msgstr "Paso de la reacción"
 
 #: ../libs/gcp/stringdlg.cc:79 ../libs/gcu/filechooser.cc:41
 #, fuzzy
 msgid "Save as"
-msgstr "Salvar"
+msgstr "Guardar como"
 
 #: ../libs/gcp/stringdlg.cc:150
 #, fuzzy, c-format
@@ -1233,7 +1252,7 @@ msgid ""
 "Could not open file %s, error was:\n"
 "%s"
 msgstr ""
-"No pudo guardar archivo\n"
+"No se ha podido guardar el archivo%s, el error es: \n"
 "%s"
 
 #: ../libs/gcp/stringdlg.cc:168
@@ -1241,7 +1260,8 @@ msgstr ""
 msgid ""
 "Could not write to file %s, error was:\n"
 "%s."
-msgstr ""
+msgstr "No se ha podido escribir al archivo %s, el error es:\n"
+"%s."
 
 #: ../libs/gcp/stringdlg.cc:184
 #, fuzzy, c-format
@@ -1249,21 +1269,21 @@ msgid ""
 "Could not close file %s, error was:\n"
 "%s"
 msgstr ""
-"No pudo guardar archivo\n"
+"No se ha podido guardar el archivo %s, el error es: \n"
 "%s"
 
 #: ../libs/gcp/text.cc:118 ../libs/gcp/text.cc:124
 msgid "This should not have occured, please file a bug record."
-msgstr ""
+msgstr "Esto no tenía que haber ocurrido. Por favor, informe del fallo."
 
 #: ../libs/gcp/theme.cc:422
 msgid "NewTheme1"
-msgstr ""
+msgstr "TemaNuevo1"
 
 #: ../libs/gcp/theme.cc:426
 #, c-format
 msgid "NewTheme%d"
-msgstr ""
+msgstr "TemaNuevo%d"
 
 #: ../libs/gcp/view.cc:727 ../libs/gcp/view.cc:753
 #: ../programs/3d/application.cc:188 ../programs/crystal/application.cc:307
@@ -1278,7 +1298,7 @@ msgstr ""
 #: ../libs/gcp/view.cc:775 ../libs/gcu/glview.cc:359
 #, c-format
 msgid "Unable to save image file: %s\n"
-msgstr ""
+msgstr "No se pudo guardar archivo de imagen: %s\n"
 
 #: ../libs/gcp/window.cc:289 ../programs/3d/window.cc:168
 #: ../programs/calc/gchemcalc.cc:594 ../programs/crystal/window.cc:281
@@ -1286,119 +1306,119 @@ msgstr ""
 #: ../programs/table/gchemtable-curve.cc:207
 #, fuzzy
 msgid "_File"
-msgstr "Archivo nuevo"
+msgstr "_Archivo"
 
 #: ../libs/gcp/window.cc:290 ../programs/crystal/window.cc:282
 #, fuzzy
 msgid "_New File"
-msgstr "Archivo nuevo"
+msgstr "_Nuevo"
 
 #: ../libs/gcp/window.cc:291 ../programs/crystal/window.cc:283
 msgid "Create a new file"
-msgstr ""
+msgstr "Crear un documento nuevo"
 
 #: ../libs/gcp/window.cc:292
 msgid "Ne_w File with Theme..."
-msgstr ""
+msgstr "Nuevo archivo con"
 
 #: ../libs/gcp/window.cc:293
 #, fuzzy
 msgid "Create a new file using a theme"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Crear un nuevo archivo usando un tema"
 
 #: ../libs/gcp/window.cc:294 ../programs/3d/window.cc:169
 #: ../programs/crystal/window.cc:284 ../programs/spectra/window.cc:197
 #, fuzzy
 msgid "_Open..."
-msgstr "Abrir"
+msgstr "Abrir..."
 
 #: ../libs/gcp/window.cc:295 ../programs/3d/window.cc:170
 #: ../programs/crystal/window.cc:285 ../programs/spectra/window.cc:198
 #, fuzzy
 msgid "Open a file"
-msgstr "Abrir archivo"
+msgstr "Abrir un archivo"
 
 #: ../libs/gcp/window.cc:296 ../programs/crystal/window.cc:286
 #, fuzzy
 msgid "_Save"
-msgstr "Salvar"
+msgstr "Guardar"
 
 #: ../libs/gcp/window.cc:297 ../programs/crystal/window.cc:287
 #, fuzzy
 msgid "Save the current file"
-msgstr "Salvar archivo"
+msgstr "Guardar archivo"
 
 #: ../libs/gcp/window.cc:298 ../programs/crystal/window.cc:288
 #, fuzzy
 msgid "Save _As..."
-msgstr "Guardar modelo como..."
+msgstr "Guardar como..."
 
 #: ../libs/gcp/window.cc:299 ../programs/crystal/window.cc:289
 msgid "Save the current file with a different name"
-msgstr ""
+msgstr "Guardar el documento con un nombre diferente"
 
 #: ../libs/gcp/window.cc:300 ../programs/3d/window.cc:171
 #: ../programs/calc/gchemcalc.cc:595 ../programs/crystal/window.cc:290
 #: ../programs/spectra/window.cc:199 ../programs/table/gchemtable-curve.cc:208
 #, fuzzy
 msgid "Save As _Image..."
-msgstr "Guardar modelo como..."
+msgstr "Guardar como _Imagen..."
 
 #: ../libs/gcp/window.cc:301 ../programs/3d/window.cc:172
 #: ../programs/calc/gchemcalc.cc:596 ../programs/crystal/window.cc:291
 #: ../programs/spectra/window.cc:200 ../programs/table/gchemtable-curve.cc:209
 #, fuzzy
 msgid "Save the current file as an image"
-msgstr "Salvar archivo"
+msgstr "Guardar el archivo como una imagen"
 
 #: ../libs/gcp/window.cc:302 ../programs/3d/window.cc:173
 #: ../programs/calc/gchemcalc.cc:597 ../programs/crystal/window.cc:292
 #: ../programs/spectra/window.cc:201 ../programs/table/gchemtable-curve.cc:210
 msgid "Page Set_up..."
-msgstr ""
+msgstr "Configuración de la página..."
 
 #: ../libs/gcp/window.cc:303 ../programs/3d/window.cc:174
 #: ../programs/calc/gchemcalc.cc:598 ../programs/crystal/window.cc:293
 #: ../programs/spectra/window.cc:202 ../programs/table/gchemtable-curve.cc:211
 msgid "Setup the page settings for your current printer"
-msgstr ""
+msgstr "Configura las preferencias de la impresora"
 
 #: ../libs/gcp/window.cc:304 ../programs/3d/window.cc:175
 #: ../programs/calc/gchemcalc.cc:599 ../programs/crystal/window.cc:294
 #: ../programs/spectra/window.cc:203 ../programs/table/gchemtable-curve.cc:212
 #, fuzzy
 msgid "Print Pre_view"
-msgstr "Imprimir vista"
+msgstr "Vista preliminar de impresión"
 
 #: ../libs/gcp/window.cc:305 ../programs/3d/window.cc:176
 #: ../programs/calc/gchemcalc.cc:600 ../programs/crystal/window.cc:295
 #: ../programs/spectra/window.cc:204 ../programs/table/gchemtable-curve.cc:213
 #, fuzzy
 msgid "Print preview"
-msgstr "Imprimir vista"
+msgstr "Vista preliminar de impresión"
 
 #: ../libs/gcp/window.cc:306 ../programs/3d/window.cc:177
 #: ../programs/calc/gchemcalc.cc:601 ../programs/crystal/window.cc:296
 #: ../programs/spectra/window.cc:205 ../programs/table/gchemtable-curve.cc:214
 #, fuzzy
 msgid "_Print..."
-msgstr "Imprimir"
+msgstr "_Imprimir..."
 
 #: ../libs/gcp/window.cc:307 ../programs/calc/gchemcalc.cc:602
 #: ../programs/crystal/window.cc:297 ../programs/spectra/window.cc:206
 #: ../programs/table/gchemtable-curve.cc:215
 msgid "Print the current file"
-msgstr ""
+msgstr "Imprimir el documento"
 
 #: ../libs/gcp/window.cc:308 ../programs/crystal/window.cc:298
 #: ../programs/table/gchemtable-curve.cc:216
 #, fuzzy
 msgid "Prope_rties..."
-msgstr "Preferencias"
+msgstr "Propiedades..."
 
 #: ../libs/gcp/window.cc:309 ../programs/crystal/window.cc:299
 msgid "Modify the file's properties"
-msgstr ""
+msgstr "Modificar las propiedades del documento"
 
 #: ../libs/gcp/window.cc:310 ../programs/3d/window.cc:179
 #: ../programs/crystal/window.cc:300 ../programs/spectra/window.cc:207
@@ -1412,9 +1432,8 @@ msgstr "Cerrar"
 #: ../programs/table/gchemtable-curve.cc:219
 #, fuzzy
 msgid "Close the current file"
-msgstr ""
-"No pudo guardar archivo\n"
-"%s"
+msgstr "Cerrar el archivo"
+
 
 #: ../libs/gcp/window.cc:312 ../programs/3d/window.cc:181
 #: ../programs/calc/gchemcalc.cc:603 ../programs/crystal/window.cc:302
@@ -1427,172 +1446,173 @@ msgstr "Salir"
 #: ../libs/gcp/window.cc:313
 #, fuzzy
 msgid "Quit GChemPaint"
-msgstr "Gnome Cristal"
+
+msgstr "Salir de GChemPaint"
 
 #: ../libs/gcp/window.cc:314 ../programs/calc/gchemcalc.cc:605
 #: ../programs/crystal/window.cc:304 ../programs/spectra/window.cc:211
 #: ../programs/table/gchemtable-curve.cc:222
 msgid "_Edit"
-msgstr ""
+msgstr "_Editar"
 
 #: ../libs/gcp/window.cc:315
 msgid "_Undo"
-msgstr ""
+msgstr "Deshacer"
 
 #: ../libs/gcp/window.cc:316
 msgid "Undo the last action"
-msgstr ""
+msgstr "Deshacer la última acción"
 
 #: ../libs/gcp/window.cc:317
 msgid "_Redo"
-msgstr ""
+msgstr "_Rehacer"
 
 #: ../libs/gcp/window.cc:318
 msgid "Redo the undone action"
-msgstr ""
+msgstr "Rehacer la acción deshecha"
 
 #: ../libs/gcp/window.cc:319
 #, fuzzy
 msgid "Cu_t"
-msgstr "Color:"
+msgstr "Cor_tar"
 
 #: ../libs/gcp/window.cc:320
 msgid "Cut the selection"
-msgstr ""
+msgstr "Cortar la selección"
 
 #: ../libs/gcp/window.cc:321 ../programs/calc/gchemcalc.cc:606
 #: ../programs/spectra/window.cc:212 ../programs/table/gchemtable-curve.cc:223
 msgid "_Copy"
-msgstr ""
+msgstr "_Copiar"
 
 #: ../libs/gcp/window.cc:322 ../programs/calc/gchemcalc.cc:607
 #: ../programs/spectra/window.cc:213 ../programs/table/gchemtable-curve.cc:224
 msgid "Copy the selection"
-msgstr ""
+msgstr "Copiar la selección"
 
 #: ../libs/gcp/window.cc:323
 msgid "_Paste"
-msgstr ""
+msgstr "_Pegar"
 
 #: ../libs/gcp/window.cc:324
 msgid "Paste the clipboard"
-msgstr ""
+msgstr "Pegar el cortapapeles"
 
 #: ../libs/gcp/window.cc:325
 msgid "C_lear"
-msgstr ""
+msgstr "_Limpiar"
 
 #: ../libs/gcp/window.cc:326
 msgid "Clear the selection"
-msgstr ""
+msgstr "Limpiar la selección"
 
 #: ../libs/gcp/window.cc:327
 #, fuzzy
 msgid "Select _All"
-msgstr "Elegir un color"
+msgstr "Seleccionar todo"
 
 #: ../libs/gcp/window.cc:328
 msgid "Select everything"
-msgstr ""
+msgstr "Seleccionar todo"
 
 #: ../libs/gcp/window.cc:329
 #, fuzzy
 msgid "Pr_eferences..."
-msgstr "Preferencias"
+msgstr "Pr_eferencias..."
 
 #: ../libs/gcp/window.cc:330 ../programs/crystal/window.cc:306
 msgid "Configure the application"
-msgstr ""
+msgstr "Configurar la aplicación"
 
 #: ../libs/gcp/window.cc:331 ../programs/3d/window.cc:183
 #: ../programs/crystal/window.cc:318 ../programs/table/gchemtable-app.cc:149
 #, fuzzy
 msgid "_View"
-msgstr "_Nuevo"
+msgstr "_Vista"
 
 #: ../libs/gcp/window.cc:332
 msgid "_Zoom"
-msgstr ""
+msgstr "_Zoom"
 
 #: ../libs/gcp/window.cc:333
 msgid "_400%"
-msgstr ""
+msgstr "_400%"
 
 #: ../libs/gcp/window.cc:334
 msgid "Zoom to 400%"
-msgstr ""
+msgstr "Zoom al 400%"
 
 #: ../libs/gcp/window.cc:335
 msgid "_300%"
-msgstr ""
+msgstr "_300%"
 
 #: ../libs/gcp/window.cc:336
 msgid "Zoom to 300%"
-msgstr ""
+msgstr "Zoom al 300%"
 
 #: ../libs/gcp/window.cc:337
 msgid "_200%"
-msgstr ""
+msgstr "_200%"
 
 #: ../libs/gcp/window.cc:338
 msgid "Zoom to 200%"
-msgstr ""
+msgstr "Zoom al 200%"
 
 #: ../libs/gcp/window.cc:339
 msgid "150%"
-msgstr ""
+msgstr "150%"
 
 #: ../libs/gcp/window.cc:340
 msgid "Zoom to 150%"
-msgstr ""
+msgstr "Zoom al 150%"
 
 #: ../libs/gcp/window.cc:341
 msgid "_100%"
-msgstr ""
+msgstr "_100%"
 
 #: ../libs/gcp/window.cc:342
 msgid "Zoom to 100%"
-msgstr ""
+msgstr "Zoom al 100%"
 
 #: ../libs/gcp/window.cc:343
 msgid "_75%"
-msgstr ""
+msgstr "_75%"
 
 #: ../libs/gcp/window.cc:344
 msgid "Zoom to 75%"
-msgstr ""
+msgstr "Zoom al 75%"
 
 #: ../libs/gcp/window.cc:345
 msgid "_50%"
-msgstr ""
+msgstr "_50%"
 
 #: ../libs/gcp/window.cc:346
 msgid "Zoom to 50%"
-msgstr ""
+msgstr "Zoom al 50%"
 
 #: ../libs/gcp/window.cc:347
 msgid "25%"
-msgstr ""
+msgstr "25%"
 
 #: ../libs/gcp/window.cc:348
 msgid "Zoom to 25%"
-msgstr ""
+msgstr "Zoom al 25%"
 
 #: ../libs/gcp/window.cc:349
 msgid "_Zoom to...%"
-msgstr ""
+msgstr "_Zoom al ...%"
 
 #: ../libs/gcp/window.cc:350
 msgid "Open Zoom Dialog Box"
-msgstr ""
+msgstr "Abrir el cuadro de diálogo del zoom"
 
 #: ../libs/gcp/window.cc:351
 msgid "_Tools"
-msgstr ""
+msgstr "_Herramientas"
 
 #: ../libs/gcp/window.cc:352 ../programs/crystal/window.cc:321
 msgid "_Windows"
-msgstr ""
+msgstr "Ventanas"
 
 #: ../libs/gcp/window.cc:353 ../programs/3d/window.cc:184
 #: ../programs/calc/gchemcalc.cc:609 ../programs/crystal/window.cc:326
@@ -1600,7 +1620,7 @@ msgstr ""
 #: ../programs/table/gchemtable-curve.cc:225
 #: ../programs/table/gchemtable-curve.cc:228
 msgid "_Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: ../libs/gcp/window.cc:354 ../programs/3d/window.cc:185
 #: ../programs/calc/gchemcalc.cc:610 ../programs/crystal/window.cc:327
@@ -1608,88 +1628,88 @@ msgstr ""
 #: ../programs/table/gchemtable-curve.cc:226
 #, fuzzy
 msgid "_Contents"
-msgstr "Coordenadas"
+msgstr "_Contenidos"
 
 #: ../libs/gcp/window.cc:355
 #, fuzzy
 msgid "View help for GChemPaint"
-msgstr "Gnome Cristal"
+msgstr "Ver la ayuda de GChemPaint"
 
 #: ../libs/gcp/window.cc:356
 msgid "GChemPaint on the _web"
-msgstr ""
+msgstr "GChemPaint en la web"
 
 #: ../libs/gcp/window.cc:357
 msgid "Browse GChemPaint's web site"
-msgstr ""
+msgstr "Navegar la web de GChemPaint"
 
 #: ../libs/gcp/window.cc:358 ../programs/3d/window.cc:189
 #: ../programs/calc/gchemcalc.cc:614 ../programs/crystal/window.cc:331
 #: ../programs/spectra/window.cc:219 ../programs/table/gchemtable-app.cc:201
 #: ../programs/table/gchemtable-curve.cc:232
 msgid "Live assistance"
-msgstr ""
+msgstr "Asistencia en vivo"
 
 #: ../libs/gcp/window.cc:359 ../programs/3d/window.cc:190
 #: ../programs/calc/gchemcalc.cc:615 ../programs/crystal/window.cc:332
 #: ../programs/spectra/window.cc:220 ../programs/table/gchemtable-app.cc:202
 #: ../programs/table/gchemtable-curve.cc:233
 msgid "Open the Gnome Chemistry Utils IRC channel"
-msgstr ""
+msgstr "Abrir el canal IRC de Gnome Chemistry Utils"
 
 #: ../libs/gcp/window.cc:360 ../programs/3d/window.cc:191
 #: ../programs/calc/gchemcalc.cc:616 ../programs/crystal/window.cc:333
 #: ../programs/spectra/window.cc:221 ../programs/table/gchemtable-app.cc:203
 #: ../programs/table/gchemtable-curve.cc:234
 msgid "_Ask a question"
-msgstr ""
+msgstr "Haz una pregunta"
 
 #: ../libs/gcp/window.cc:361
 msgid "Ask a question about GChemPaint"
-msgstr ""
+msgstr "Haz una pregunta sobre GChemPaint"
 
 #: ../libs/gcp/window.cc:362 ../programs/3d/window.cc:193
 #: ../programs/calc/gchemcalc.cc:618 ../programs/crystal/window.cc:335
 #: ../programs/spectra/window.cc:223 ../programs/table/gchemtable-app.cc:205
 #: ../programs/table/gchemtable-curve.cc:236
 msgid "Report _Bugs"
-msgstr ""
+msgstr "Informa sobre errores"
 
 #: ../libs/gcp/window.cc:363
 msgid "Submit a bug report for GChemPaint"
-msgstr ""
+msgstr "Informa acerca de errores en GChemPaint"
 
 #: ../libs/gcp/window.cc:364 ../programs/3d/window.cc:195
 #: ../programs/calc/gchemcalc.cc:620 ../programs/crystal/window.cc:337
 #: ../programs/spectra/window.cc:225 ../programs/table/gchemtable-app.cc:207
 #: ../programs/table/gchemtable-curve.cc:238
 msgid "_About"
-msgstr ""
+msgstr "_Acerca de"
 
 #: ../libs/gcp/window.cc:365
 #, fuzzy
 msgid "About GChemPaint"
-msgstr "Gnome Cristal"
+msgstr "Acerca de GchemPaint"
 
 #: ../libs/gcp/window.cc:370
 msgid "_Full Screen"
-msgstr ""
+msgstr "Pantalla completa"
 
 #: ../libs/gcp/window.cc:371
 msgid "Switch between full screen and windowed mode"
-msgstr ""
+msgstr "Alternar entre pantalla completa y modo ventana"
 
 #: ../libs/gcp/window.cc:527
 msgid "Open _recent"
-msgstr ""
+msgstr "Abrir reciente"
 
 #: ../libs/gcp/window.cc:550 ../programs/crystal/window.cc:464
 msgid "Ready"
-msgstr ""
+msgstr "Listo"
 
 #: ../libs/gcp/window.cc:719
 msgid "GChemPaint"
-msgstr ""
+msgstr "GChemPaint"
 
 #: ../libs/gcp/window.cc:736 ../programs/crystal/document.cc:760
 #, fuzzy, c-format
@@ -1698,27 +1718,27 @@ msgstr "``%s'' ha sido modificado. ¿Desea guardarlo?"
 
 #: ../libs/gcu/application.cc:70
 msgid "Open new windows full screen"
-msgstr ""
+msgstr "Abrir nuevas ventanas en pantalla completa"
 
 #: ../libs/gcu/application.cc:71
 #, fuzzy
 msgid "Maximize new windows"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Maximizar nuevas ventanas"
 
 #: ../libs/gcu/application.cc:213
 #, c-format
 msgid "(screen resolution is %u)"
-msgstr ""
+msgstr "(la resolución de la pantalla es %u)"
 
 #: ../libs/gcu/chain.cc:298 ../plugins/paint/bonds/plugin.cc:61
 #, fuzzy
 msgid "Chain"
-msgstr "Coordenadas"
+msgstr "Cadena"
 
 #: ../libs/gcu/cycle.cc:222
 #, fuzzy
 msgid "Cycle"
-msgstr "_Tamaño"
+msgstr "Ciclo"
 
 #: ../libs/gcu/crystaldoc.cc:466
 msgid "Everything has been cleaved"
@@ -1727,7 +1747,7 @@ msgstr "Todo ha sido dividido"
 #. do we need to set m_Owner to NULL?
 #: ../libs/gcu/dialog.cc:70 ../libs/gcu/dialog.cc:234
 msgid "Could not reference the new dialog."
-msgstr ""
+msgstr "No se pudo referenciar el nuevo diálogo."
 
 #: ../libs/gcu/dialog.cc:126
 msgid "Type a number"
@@ -1736,27 +1756,27 @@ msgstr "Escriba un número"
 #: ../libs/gcu/dialog.cc:135
 #, fuzzy, c-format
 msgid "Type a number greater than or equal %g and lower than to %g"
-msgstr "Escriba un número mayor que %g"
+msgstr "Escriba un número mayor o igual a %g y menor que %g"
 
 #: ../libs/gcu/dialog.cc:145
 #, fuzzy, c-format
 msgid "Type a number greater than %g and lower than or equal to %g"
-msgstr "Escriba un número mayor que %g"
+msgstr "Escriba un número mayor que %g y menor o igual a %g"
 
 #: ../libs/gcu/dialog.cc:155
 #, fuzzy, c-format
 msgid "Type a number between %g and %g, the limits are valid."
-msgstr "Escriba un número entre %g y %g"
+msgstr "Escriba un número entre %g y %g, ambos inclusive."
 
 #: ../libs/gcu/dialog.cc:165
 #, fuzzy, c-format
 msgid "Type a number greater than %g and lower than %g"
-msgstr "Escriba un número mayor que %g"
+msgstr "Escriba un número mayor que %g y menor que %g"
 
 #: ../libs/gcu/dialog.cc:175
 #, fuzzy, c-format
 msgid "Type a number lower than %g"
-msgstr "Escriba un número mayor que %g"
+msgstr "Escriba un número menor que %g"
 
 #: ../libs/gcu/dialog.cc:185
 #, c-format
@@ -1766,21 +1786,21 @@ msgstr "Escriba un número mayor que %g"
 #: ../libs/gcu/dialog.cc:195
 #, fuzzy, c-format
 msgid "Type a number lower than or equal to %g"
-msgstr "Escriba un número mayor que %g"
+msgstr "Escriba un número menor o igual a %g"
 
 #: ../libs/gcu/dialog.cc:205
 #, fuzzy, c-format
 msgid "Type a number greater than or equal to %g"
-msgstr "Escriba un número mayor que %g"
+msgstr "Escriba un número mayor o igual a %g"
 
 #. Note to translators: the two strings are concatenated with the missing id between them.
 #: ../libs/gcu/document.cc:126
 msgid "The input contains a reference to object \""
-msgstr ""
+msgstr "La entrada contiene una referencia al objeto \""
 
 #: ../libs/gcu/document.cc:126
 msgid "\" but no object with this Id is described."
-msgstr ""
+msgstr "\" pero no hay ningún objeto con ésta identidad."
 
 #: ../libs/gcu/document.cc:142
 #, fuzzy
@@ -1789,67 +1809,67 @@ msgstr "Documentos"
 
 #: ../libs/gcu/element.cc:95
 msgid "German"
-msgstr ""
+msgstr "Alemán"
 
 #: ../libs/gcu/element.cc:96
 msgid "French"
-msgstr ""
+msgstr "Francés"
 
 #: ../libs/gcu/element.cc:97
 msgid "Italian"
-msgstr ""
+msgstr "Italiano"
 
 #: ../libs/gcu/element.cc:98
 msgid "Polish"
-msgstr ""
+msgstr "Polaco"
 
 #: ../libs/gcu/element.cc:99
 msgid "Brazilian"
-msgstr ""
+msgstr "Portugués (Brasil)"
 
 #: ../libs/gcu/element.cc:100
 msgid "Russian"
-msgstr ""
+msgstr "Ruso"
 
 #: ../libs/gcu/element.cc:101
 msgid "Chinese (TW)"
-msgstr ""
+msgstr "Chino (TW)"
 
 #: ../libs/gcu/element.cc:103
 msgid "Can't find and read elements.xml"
-msgstr ""
+msgstr "No se puede encontrar y leer elements.xml"
 
 #: ../libs/gcu/element.cc:109 ../libs/gcu/element.cc:118
 msgid "Incorrect file format: elements.xml"
-msgstr ""
+msgstr "Formato de archivo incorrecto: elements.xml"
 
 #: ../libs/gcu/element.cc:154
 msgid "English"
-msgstr ""
+msgstr "Inglés"
 
 #: ../libs/gcu/element.cc:415
 msgid "Can't find and read radii.xml"
-msgstr ""
+msgstr "No se puede encontrar y leer radii.xml"
 
 #: ../libs/gcu/element.cc:421 ../libs/gcu/element.cc:434
 msgid "Incorrect file format: radii.xml"
-msgstr ""
+msgstr "Formato de archivo incorrecto: radii.xml"
 
 #: ../libs/gcu/element.cc:524
 msgid "Can't find and read elecprops.xml"
-msgstr ""
+msgstr "No se puede encontrar y leer elecprops.xml"
 
 #: ../libs/gcu/element.cc:530 ../libs/gcu/element.cc:537
 msgid "Incorrect file format: elecprops.xml"
-msgstr ""
+msgstr "Formato de archivo incorrecto: elecprops.xml"
 
 #: ../libs/gcu/element.cc:686
 msgid "Can't find and read isotopes.xml"
-msgstr ""
+msgstr "No se puede encontrar y leer isotopes.xml"
 
 #: ../libs/gcu/element.cc:692 ../libs/gcu/element.cc:701
 msgid "Incorrect file format: isotopes.xml"
-msgstr ""
+msgstr "Formato de archivo incorrecto: isotopes.xml"
 
 #: ../libs/gcu/filechooser.cc:41
 msgid "Open"
@@ -1857,28 +1877,28 @@ msgstr "Abrir"
 
 #: ../libs/gcu/filechooser.cc:60
 msgid "File _type:"
-msgstr ""
+msgstr "_Tipo de archivo:"
 
 #: ../libs/gcu/filechooser.cc:62 ../ui/crystal/cell.ui.h:4
 #, fuzzy
 msgid "Automatic"
-msgstr "Átomos"
+msgstr "Automático"
 
 #: ../libs/gcu/formula.cc:513 ../libs/gcu/formula.cc:553
 msgid "Unmatched parenthesis"
-msgstr ""
+msgstr "Falta un paréntesis"
 
 #: ../libs/gcu/formula.cc:541
 msgid "Could not interpret the symbol list"
-msgstr ""
+msgstr "No se pudo interpretar la lista de símbolos"
 
 #: ../libs/gcu/formula.cc:547
 msgid "Parser failed, please fill a bug report."
-msgstr ""
+msgstr "El analizador ha fallado, por favor informa del error."
 
 #: ../libs/gcu/formula.cc:555
 msgid "Invalid character"
-msgstr ""
+msgstr "Caracter inválido"
 
 #: ../libs/gcu/gcuchem3dviewer.cc:160
 #, fuzzy
@@ -1887,7 +1907,7 @@ msgstr "Color de fondo:"
 
 #: ../libs/gcu/gcuchem3dviewer.cc:161
 msgid "Color used to paint the background"
-msgstr ""
+msgstr "Color usado para pintar el fondo"
 
 #: ../libs/gcu/gcucomboperiodic.c:95 ../programs/table/gchemtable-app.cc:307
 #: ../programs/table/gchemtable.desktop.in.h:2 ../ui/crystal/atoms.ui.h:11
@@ -1907,34 +1927,35 @@ msgstr ""
 
 #: ../libs/gcu/object.cc:702
 msgid "Object"
-msgstr ""
+msgstr "Objeto"
 
 #: ../libs/gcu/print-setup-dlg.cc:328
 #, c-format
 msgid "%.1f %s wide by %.1f %s tall"
-msgstr ""
+msgstr "%.1f %s de anchura por %.1f %s de altura"
 
 #: ../libs/gcu/print-setup-dlg.cc:328
 #, c-format
 msgid "%.0f %s wide by %.0f %s tall"
-msgstr ""
+msgstr "%.0f %s de anchura por %.0f %s de altura"
 
 #: ../libs/gcu/printable.cc:34
 msgid "pixels"
-msgstr ""
+msgstr "píxeles"
 
 #: ../libs/gcu/printable.cc:35
 #, fuzzy
 msgid "points"
-msgstr "Taille"
+msgstr "puntos"
+
 
 #: ../libs/gcu/printable.cc:36
 msgid "inches"
-msgstr ""
+msgstr "pulgadas"
 
 #: ../libs/gcu/printable.cc:37
 msgid "mm"
-msgstr ""
+msgstr "mm"
 
 #: ../libs/gcu/spacegroup.cc:126
 msgid "Could not find space groups definitions in "
@@ -1942,11 +1963,11 @@ msgstr ""
 
 #: ../libs/gcu/spacegroup.cc:127
 msgid "Error is: "
-msgstr ""
+msgstr "El erros es:"
 
 #: ../libs/gcu/spacegroup.cc:137
 msgid " is corrupt!"
-msgstr ""
+msgstr "está corrupto!"
 
 #: ../libs/gcu/spacegroup.cc:398
 msgid "Duplicated transform: "
@@ -1963,100 +1984,100 @@ msgstr ""
 #: ../libs/gcu/spacegroup.cc:436 ../libs/gcu/spacegroup.cc:457
 #: ../libs/gcu/spacegroup.cc:491
 msgid "Unknown space group error, please file a bug report."
-msgstr ""
+msgstr "Error desconocido de grupo espacial; por favor informa del fallo."
 
 #. theses groups have duplicates
 #: ../libs/gcu/spacegroup.cc:441
 msgid "Space group error, please file a bug report."
-msgstr ""
+msgstr "Error de grupo espacial; por favor, informa del fallo"
 
 #: ../libs/gcu/spacegroup.cc:466 ../libs/gcu/spacegroup.cc:478
 msgid "Ambiguous space group with incomplete definition."
-msgstr ""
+msgstr "Grupo espacial ambiguo con definición incompleta."
 
 #: ../libs/gcu/spacegroup.cc:484
 msgid "Unknown space group with incomplete or wrong definition."
-msgstr ""
+msgstr "Grupo espacial desconocido con definición errónea o incompleta"
 
 #: ../libs/gcu/spectrumdoc.cc:233
 msgid "Wavenumber (1/cm)"
-msgstr ""
+msgstr "Número de onda (1/cm)"
 
 #: ../libs/gcu/spectrumdoc.cc:234 ../libs/gcu/spectrumdoc.cc:1347
 msgid "Transmittance"
-msgstr ""
+msgstr "Transmitancia"
 
 #: ../libs/gcu/spectrumdoc.cc:235 ../libs/gcu/spectrumdoc.cc:1346
 msgid "Absorbance"
-msgstr ""
+msgstr "Absorbancia"
 
 #: ../libs/gcu/spectrumdoc.cc:236 ../libs/gcu/spectrumdoc.cc:1282
 msgid "Chemical shift (ppm)"
-msgstr ""
+msgstr "Desplazamiento químico (ppm)"
 
 #: ../libs/gcu/spectrumdoc.cc:237
 msgid "Wavelength (nm)"
-msgstr ""
+msgstr "Longitud de onda (nm)"
 
 #: ../libs/gcu/spectrumdoc.cc:238
 msgid "Wavelength (µm)"
-msgstr ""
+msgstr "Longitud de onda (µm)"
 
 #: ../libs/gcu/spectrumdoc.cc:239
 msgid "Time (s)"
-msgstr ""
+msgstr "Tiempo (s)"
 
 #: ../libs/gcu/spectrumdoc.cc:240 ../libs/gcu/spectrumdoc.cc:1283
 msgid "Frequency (Hz)"
-msgstr ""
+msgstr "Frecuencia (Hz)"
 
 #: ../libs/gcu/spectrumdoc.cc:241
 msgid "Mass/charge ratio"
-msgstr ""
+msgstr "Relación masa/carga"
 
 #: ../libs/gcu/spectrumdoc.cc:242
 msgid "Relative abundance"
-msgstr ""
+msgstr "Abundancia relativa"
 
 #: ../libs/gcu/spectrumdoc.cc:612 ../libs/gcu/spectrumdoc.cc:1289
 msgid "Show integral"
-msgstr ""
+msgstr "Mostrar integral"
 
 #: ../libs/gcu/spectrumdoc.cc:612
 msgid "Hide integral"
-msgstr ""
+msgstr "Ocultar integral"
 
 #: ../libs/gcu/spectrumdoc.cc:711 ../libs/gcu/spectrumdoc.cc:1619
 msgid "Found too many data!"
-msgstr ""
+msgstr "¡Demasiados datos!"
 
 #: ../libs/gcu/spectrumdoc.cc:1279 ../libs/gcu/spectrumdoc.cc:1326
 msgid "X unit:"
-msgstr ""
+msgstr "Unidades de X:"
 
 #: ../libs/gcu/spectrumdoc.cc:1330
 msgid "Wave length (nm)"
-msgstr ""
+msgstr "Longitud de onda (nm)"
 
 #: ../libs/gcu/spectrumdoc.cc:1332
 msgid "Wave length (µm)"
-msgstr ""
+msgstr "Longitud de onda (µm)"
 
 #: ../libs/gcu/spectrumdoc.cc:1333
 msgid "Wave number (1/cm)"
-msgstr ""
+msgstr "Número de onda (1/cm)"
 
 #: ../libs/gcu/spectrumdoc.cc:1338
 msgid "Invert X Axis"
-msgstr ""
+msgstr "Eje X invertido"
 
 #: ../libs/gcu/spectrumdoc.cc:1343
 msgid "Y unit:"
-msgstr ""
+msgstr "Unidades de Y:"
 
 #: ../libs/gcu/spectrumdoc.cc:1515 ../libs/gcu/spectrumdoc.cc:1545
 msgid "Constant too long"
-msgstr ""
+msgstr "Constante demasiado larga"
 
 #: ../libs/gcu/spectrumdoc.cc:1538
 msgid "Invalid character in data block"
@@ -2077,11 +2098,11 @@ msgstr ""
 #. FIXME: Throw an exception
 #: ../libs/gcu/spectrumdoc.cc:1667
 msgid "Found too many data"
-msgstr ""
+msgstr "Demasiados datos"
 
 #: ../libs/gcu/spectrumdoc.cc:1978
 msgid "Integral"
-msgstr ""
+msgstr "Integral"
 
 #: ../libs/gcu/spectrumdoc.cc:2099
 msgid "Real transformed data"
@@ -2094,33 +2115,32 @@ msgstr ""
 #: ../libs/gcu/spectrumview.cc:98
 #, fuzzy
 msgid "Minimum X value:"
-msgstr "Mínimo"
+msgstr "Valor mínimo de X:"
 
 #: ../libs/gcu/spectrumview.cc:103
 #, fuzzy
 msgid "Maximum X value:"
-msgstr "Máximo"
+msgstr "Valor máximo de X:"
 
 #: ../libs/gcu/spectrumview.cc:114
 #, fuzzy
 msgid "Minimum Y value:"
-msgstr "Mínimo"
+msgstr "Valor mínimo de Y:"
 
 #: ../libs/gcu/spectrumview.cc:119
 #, fuzzy
 msgid "Maximum Y value:"
-msgstr "Máximo"
+msgstr "Valor máximo de Y:"
 
 #: ../libs/gcu/ui-builder.cc:37
 #, fuzzy, c-format
 msgid "Could not load %s."
-msgstr ""
-"No pudo cargar archivo\n"
+msgstr "No se ha podido cargar archivo\n"
 "%s"
 
 #: ../libs/gcu/value.cc:146
 msgid "Attempt to add two values with different units."
-msgstr ""
+msgstr "Intento de añadir dos valores con unidades diferentes."
 
 #. FIXME: should the document care with the residues?
 #. FIXME: Unkown residue: add it to the database? or just to the document?
@@ -2128,42 +2148,42 @@ msgstr ""
 #: ../plugins/loaders/cdx/cdx.cc:776 ../plugins/loaders/cdx/cdx.cc:780
 #: ../plugins/loaders/cdx/cdx.cc:905 ../plugins/loaders/cdx/cdx.cc:910
 msgid "Unsupported feature, please report!"
-msgstr ""
+msgstr "Función no implementada, por favor informa de esto"
 
 #: ../plugins/loaders/cdx/cdx.cc:867 ../plugins/loaders/cdxml/cdxml.cc:494
 #, c-format
 msgid "failed for %s\n"
-msgstr ""
+msgstr "fallo para %s\n"
 
 #: ../plugins/loaders/cdx/plugin.xml.in.h:1
 msgid "Chemdraw cdx files loader"
-msgstr ""
+msgstr "Cargador de archivos cdx de ChemDraw"
 
 #: ../plugins/loaders/cdx/plugin.xml.in.h:2
 msgid "Chemdraw cdx files loader."
-msgstr ""
+msgstr "Cargador de archivos cdx de ChemDraw."
 
 #: ../plugins/loaders/cdx/plugin.xml.in.h:3
 msgid "Loader : cdx"
-msgstr ""
+msgstr "Cargador: cdx"
 
 #: ../plugins/loaders/cdxml/cdxml.cc:755 ../plugins/loaders/cdxml/cdxml.cc:770
 #: ../plugins/loaders/cml/cml.cc:503
 #, c-format
 msgid "'%s' is corrupt!"
-msgstr ""
+msgstr "¡'%s' está corrupto!"
 
 #: ../plugins/loaders/cdxml/plugin.xml.in.h:1
 msgid "Chemdraw XML files loader"
-msgstr ""
+msgstr "Cargador de archivos XML de ChemDraw"
 
 #: ../plugins/loaders/cdxml/plugin.xml.in.h:2
 msgid "Chemdraw XML files loader."
-msgstr ""
+msgstr "Cargador de archivos XML de ChemDraw."
 
 #: ../plugins/loaders/cdxml/plugin.xml.in.h:3
 msgid "Loader : cdxml"
-msgstr ""
+msgstr "Cargador: cdxml"
 
 #: ../plugins/loaders/cif/cif.cc:174
 msgid "Invalid loop in data."
@@ -2171,28 +2191,28 @@ msgstr ""
 
 #: ../plugins/loaders/cif/cif.cc:440
 msgid "Invalid symmetry group."
-msgstr ""
+msgstr "Grupo de simetría inválido."
 
 #: ../plugins/loaders/cif/plugin.xml.in.h:1
 msgid "CIF files loader."
-msgstr ""
+msgstr "Cargador de archivos CIF"
 
 #: ../plugins/loaders/cif/plugin.xml.in.h:2
 #: ../plugins/loaders/cml/plugin.xml.in.h:1
 msgid "CML files loader"
-msgstr ""
+msgstr "Cargador de archivos CML"
 
 #: ../plugins/loaders/cif/plugin.xml.in.h:3
 msgid "Loader : cif"
-msgstr ""
+msgstr "Cargador: cif"
 
 #: ../plugins/loaders/cml/plugin.xml.in.h:2
 msgid "CML files loader."
-msgstr ""
+msgstr "Cargador de archivos CML"
 
 #: ../plugins/loaders/cml/plugin.xml.in.h:3
 msgid "Loader : cml"
-msgstr ""
+msgstr "Cargador: cml"
 
 #: ../plugins/paint/arrows/arrowtool.cc:201
 #: ../plugins/paint/atoms/chargetool.cc:141
@@ -2209,250 +2229,258 @@ msgstr "Impresión"
 
 #: ../plugins/paint/arrows/arrowtool.ui.h:1
 msgid "Arrow len_gth:"
-msgstr ""
+msgstr "Lon_gitud de la flecha"
 
 #: ../plugins/paint/arrows/arrowtool.ui.h:2
 msgid "H_alf heads"
-msgstr ""
+msgstr "Medias cabezas"
 
 #: ../plugins/paint/arrows/arrowtool.ui.h:3
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:3
 msgid "Set _default"
-msgstr ""
+msgstr "Establecer _predeterminado"
 
 #: ../plugins/paint/arrows/arrowtool.ui.h:4
 msgid "_Full heads"
-msgstr ""
+msgstr "Cabezas enteras"
 
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:1
 msgid "End arrow at center of new bond."
-msgstr ""
+msgstr "Finalizar flecha en el centro de un nuevo enlace."
 
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:2
 msgid ""
 "If check, an arrow corresponding to a new bond will end at center of the new "
 "bond, otherwise, the arrow will end at the other atom."
 msgstr ""
+"Si está marcado, una flecha correspondiente a un nuevo enlace finalizará"
+"en el centro de ése nuevo enlace. Si no, finalizará en el otro átomo."
 
 #: ../plugins/paint/arrows/gchempaint-arrows.schemas.in.h:1
 msgid "End mechanism arrows at center of new bonds"
-msgstr ""
+msgstr "Finalizar flechas de mecanismos en el centro de un nuevo enlace"
 
 #: ../plugins/paint/arrows/gchempaint-arrows.schemas.in.h:2
 msgid ""
 "If set to true, arrows for reversible reaction steps will use full arrows "
 "heads by default instead of half heads."
 msgstr ""
+"Si está marcado, las flechas para reacciones reversibles usarán por defecto "
+"cabezas enteras en vez de medias cabezas."
 
 #: ../plugins/paint/arrows/gchempaint-arrows.schemas.in.h:3
 msgid ""
 "If true, a curved arrow corresponding to a new bond will end at center of "
 "the new bond, otherwise, the arrow will end at the other atom."
 msgstr ""
+"Si está marcado, una flecha curva correspondiente a un nuevo enlace finalizará "
+"en el centro del nuevo enlace; si no, finalizará en el otro átomo."
 
 #: ../plugins/paint/arrows/gchempaint-arrows.schemas.in.h:4
 msgid "Use full arrows heads for reversible reactions"
-msgstr ""
+msgstr "Usar flechas de cabezas completas para reacciones reversibles"
 
 #: ../plugins/paint/arrows/plugin.cc:56
 msgid "Create a new retrosynthesis pathway"
-msgstr ""
+msgstr "Crear un nuevo camino retrosintético"
 
 #: ../plugins/paint/arrows/plugin.cc:76
 msgid "Simple arrow"
-msgstr ""
+msgstr "Flecha simple"
 
 #: ../plugins/paint/arrows/plugin.cc:77
 msgid "Add an arrow for an irreversible reaction"
-msgstr ""
+msgstr "Añadir una flecha para una reacción irreversible"
 
 #: ../plugins/paint/arrows/plugin.cc:79
 msgid "Double arrow"
-msgstr ""
+msgstr "Flecha doble"
 
 #: ../plugins/paint/arrows/plugin.cc:80
 msgid "Add a pair of arrows for a reversible reaction"
-msgstr ""
+msgstr "Añadir un par de flechas para una reacción reversible"
 
 #: ../plugins/paint/arrows/plugin.cc:82
 #: ../plugins/paint/arrows/retrosynthesisarrow.cc:206
 msgid "Retrosynthesis arrow"
-msgstr ""
+msgstr "Flecha de retrosíntesis"
 
 #: ../plugins/paint/arrows/plugin.cc:83
 msgid "Add an arrow for a retrosynthesis step"
-msgstr ""
+msgstr "Añadir una flecha para un paso de retrosíntesis"
 
 #: ../plugins/paint/arrows/plugin.cc:86
 msgid "Add a double headed arrow to represent mesomery"
-msgstr ""
+msgstr "Añadir una flecha doble para representar mesomería"
 
 #: ../plugins/paint/arrows/plugin.cc:88
 msgid "Electron pair move arrow"
-msgstr ""
+msgstr "Flecha de movimiento del par de electrones"
 
 #: ../plugins/paint/arrows/plugin.cc:89
 msgid "Add a curved arrow to represent an electron pair move"
-msgstr ""
+msgstr "Añadir una flecha curva para representar el movimiento de un par de electrones"
 
 #: ../plugins/paint/arrows/plugin.cc:91
 msgid "Single electron move arrow"
-msgstr ""
+msgstr "Flecha de movimiento de un único electrón"
 
 #: ../plugins/paint/arrows/plugin.cc:92
 msgid "Add a curved arrow to represent an single electron move"
-msgstr ""
+msgstr "Añadir una flecha curva para representar el movimiento de un único electrón"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:239
 msgid "No target molecule!"
-msgstr ""
+msgstr "¡No hay molécula de destino!"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:241
 msgid "Multiple target molecules or missing arrows."
-msgstr ""
+msgstr "Múltiples moléculas de destino o faltan flechas."
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:243
 msgid "Sorry, cyclic retrosynthesis paths are not supported."
-msgstr ""
+msgstr "Los caminos de retrosíntesis cíclicos no están implementados"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:414
 msgid "Destroy the retrosynthesis path"
-msgstr ""
+msgstr "Destruir el camino retrosintético"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:456
 msgid "Retrosynthesis"
-msgstr ""
+msgstr "Retrosíntesis"
 
 #: ../plugins/paint/arrows/retrosynthesisstep.cc:76
 msgid "Only one arrow can link two given steps."
-msgstr ""
+msgstr "Sólo una flecha puede unir dos pasos."
 
 #: ../plugins/paint/arrows/retrosynthesisstep.cc:121
 msgid "Retrosynthesis step"
-msgstr ""
+msgstr "Paso de retrosíntesis"
 
 #: ../plugins/paint/atoms/orbital.cc:396 ../plugins/paint/atoms/orbital.cc:407
 #: ../plugins/paint/atoms/plugin.cc:79
 msgid "Orbital"
-msgstr ""
+msgstr "Orbital"
 
 #: ../plugins/paint/atoms/orbital.cc:410
 #: ../plugins/paint/atoms/orbital-prop.ui.h:4
 #, fuzzy
 msgid "Orbital properties"
-msgstr "Documentos"
+msgstr "Propiedades del orbital"
 
 #: ../plugins/paint/atoms/orbital.ui.h:1
 #: ../plugins/paint/atoms/orbital-prop.ui.h:1
 #: ../plugins/paint/bonds/bond.ui.h:1 ../plugins/paint/bonds/chain.ui.h:2
 #: ../plugins/paint/cycles/cycle.ui.h:1 ../plugins/paint/cycles/cyclen.ui.h:1
 msgid "<b>Property</b>"
-msgstr ""
+
+msgstr "<b>Propiedades</b>"
 
 #: ../plugins/paint/atoms/orbital.ui.h:2
 #: ../plugins/paint/atoms/orbital-prop.ui.h:2
 msgid "<b>Type:</b>"
-msgstr ""
+msgstr "<b>Tipo:</b>"
 
 #: ../plugins/paint/atoms/orbital.ui.h:3
 #: ../plugins/paint/atoms/orbital-prop.ui.h:3
 #: ../plugins/paint/bonds/bond.ui.h:2 ../plugins/paint/bonds/chain.ui.h:3
 #: ../plugins/paint/cycles/cycle.ui.h:2 ../plugins/paint/cycles/cyclen.ui.h:2
 msgid "<b>Value</b>"
-msgstr ""
+msgstr "<b>Valor</b>"
 
 #: ../plugins/paint/atoms/orbital.ui.h:4
 msgid ""
 "Orbital coefficient for the current atom. The size of the representation of "
 "the orbital will be proportional to this coefficient."
-msgstr ""
+msgstr "Coeficiente de orbital para el átomo actual. El tamaño de representación "
+"del orbital es directamente proporcional a este coeficiente."
 
 #: ../plugins/paint/atoms/orbital.ui.h:5
 #: ../plugins/paint/atoms/orbital-prop.ui.h:5
 msgid "_Coefficient:"
-msgstr ""
+msgstr "_Coeficiente:"
 
 #: ../plugins/paint/atoms/orbital.ui.h:6
 #: ../plugins/paint/atoms/orbital-prop.ui.h:6
 msgid "_Rotation:"
-msgstr ""
+msgstr "_Rotación:"
 
 #: ../plugins/paint/atoms/orbital.ui.h:7
 #: ../plugins/paint/atoms/orbital-prop.ui.h:7
 msgid "d<sub>xy</sub>"
-msgstr ""
+msgstr "d<sub>xy</sub>"
 
 #: ../plugins/paint/atoms/orbital.ui.h:8
 #: ../plugins/paint/atoms/orbital-prop.ui.h:8
 msgid "d<sub>z<span size=\"smaller\" rise=\"0\">2</span></sub>"
-msgstr ""
+msgstr "d<sub>z<span size=\"smaller\" rise=\"0\">2</span></sub>"
 
 #: ../plugins/paint/atoms/orbital.ui.h:9
 #: ../plugins/paint/atoms/orbital-prop.ui.h:9
 msgid "p"
-msgstr ""
+msgstr "p"
 
 #: ../plugins/paint/atoms/orbital.ui.h:10
 #: ../plugins/paint/atoms/orbital-prop.ui.h:10
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: ../plugins/paint/atoms/plugin.cc:65
 #, fuzzy
 msgid "Add or modify an atom"
-msgstr "Agregar átomos"
+msgstr "Añadir o modificar un átomo"
 
 #: ../plugins/paint/atoms/plugin.cc:67
 msgid "Positive Charge"
-msgstr ""
+msgstr "Carga positiva"
 
 #: ../plugins/paint/atoms/plugin.cc:68
 msgid "Increment the charge of an atom"
-msgstr ""
+msgstr "Aumentar la carga de un átomo"
 
 #: ../plugins/paint/atoms/plugin.cc:70
 msgid "Negative Charge"
-msgstr ""
+msgstr "Carga negativa"
 
 #: ../plugins/paint/atoms/plugin.cc:71
 msgid "Decrement the charge of an atom"
-msgstr ""
+msgstr "Disminuir la carga de un átomo"
 
 #: ../plugins/paint/atoms/plugin.cc:73
 msgid "Electron Pair"
-msgstr ""
+msgstr "Par de electrones"
 
 #: ../plugins/paint/atoms/plugin.cc:74
 msgid "Add an electron pair to an atom"
-msgstr ""
+msgstr "Añadir un par de electrones a un átomo"
 
 #: ../plugins/paint/atoms/plugin.cc:76
 msgid "Unpaired Electron"
-msgstr ""
+msgstr "Electrón solitario"
 
 #: ../plugins/paint/atoms/plugin.cc:77
 msgid "Add an unpaired electron to an atom"
-msgstr ""
+msgstr "Añadir un electrón solitario a un átomo"
 
 #: ../plugins/paint/atoms/plugin.cc:80
 #, fuzzy
 msgid "Add or modify an atomic orbital"
-msgstr "Agregar átomos"
+msgstr "Añadir o modificar un orbital atómico"
 
 #: ../plugins/paint/bonds/bond.ui.h:3 ../plugins/paint/bonds/chain.ui.h:4
 #, fuzzy
 msgid "Bond _angle:"
-msgstr "_Enlaces y líneas"
+msgstr "_Ángulo de enlace:"
 
 #: ../plugins/paint/bonds/bond.ui.h:4 ../plugins/paint/bonds/chain.ui.h:5
 #: ../plugins/paint/cycles/cycle.ui.h:3 ../plugins/paint/cycles/cyclen.ui.h:3
 msgid "Bond len_gth:"
-msgstr ""
+msgstr "Lon_gitud de enlace:"
 
 #: ../plugins/paint/bonds/bond.ui.h:5 ../plugins/paint/bonds/chain.ui.h:7
 #: ../plugins/paint/cycles/cycle.ui.h:4 ../plugins/paint/cycles/cyclen.ui.h:5
 msgid "_Merge with existing atoms"
-msgstr ""
+msgstr "Unir con átomos existentes"
 
 #: ../plugins/paint/bonds/bondtool.cc:348
 msgid "Invalid document tree, please file a bug report"
@@ -2460,25 +2488,25 @@ msgstr ""
 
 #: ../plugins/paint/bonds/chain.ui.h:1
 msgid "<b>Auto</b>"
-msgstr ""
+msgstr "<b>Auto</b>"
 
 #: ../plugins/paint/bonds/chain.ui.h:6
 msgid "Bonds _number:"
-msgstr ""
+msgstr "Número de enlaces:"
 
 #: ../plugins/paint/bonds/chaintool.cc:131
 #: ../plugins/paint/bonds/chaintool.cc:244
 #, c-format
 msgid "Bonds: %d, Orientation: %g"
-msgstr ""
+msgstr "Enlaces: %d, Orientación: %g"
 
 #: ../plugins/paint/bonds/plugin.cc:59
 msgid "Add a bond or change the multiplicity of an existing one"
-msgstr ""
+msgstr "Añadir un enlace o modificar la multiplicidad de uno existente"
 
 #: ../plugins/paint/bonds/plugin.cc:62
 msgid "Add a chain"
-msgstr ""
+msgstr "Añadir una cadena"
 
 #: ../plugins/paint/bonds/plugin.cc:64
 msgid "Wedge bond tool"
@@ -2487,7 +2515,7 @@ msgstr ""
 #: ../plugins/paint/bonds/plugin.cc:65
 #, fuzzy
 msgid "Add a wedge bond"
-msgstr "Agregar enlaces"
+msgstr ""
 
 #: ../plugins/paint/bonds/plugin.cc:67
 msgid "Hash bond tool"
@@ -2496,15 +2524,15 @@ msgstr ""
 #: ../plugins/paint/bonds/plugin.cc:68
 #, fuzzy
 msgid "Add a hash bond"
-msgstr "Agregar enlaces"
+msgstr ""
 
 #: ../plugins/paint/bonds/plugin.cc:70
 msgid "Squiggle bond tool"
-msgstr ""
+msgstr "Herramienta del enlace zig-zag"
 
 #: ../plugins/paint/bonds/plugin.cc:71
 msgid "Add a squiggle bond"
-msgstr ""
+msgstr "Añadir un enlace zig-zag"
 
 #: ../plugins/paint/bonds/plugin.cc:73
 msgid "Fore bond tool"
@@ -2513,98 +2541,98 @@ msgstr ""
 #: ../plugins/paint/bonds/plugin.cc:74
 #, fuzzy
 msgid "Add a fore bond"
-msgstr "Agregar enlaces"
+msgstr ""
 
 #: ../plugins/paint/bonds/plugin.cc:76
 msgid "Delocalized bond tool"
-msgstr ""
+msgstr "Herramienta de enlace delocalizado"
 
 #: ../plugins/paint/bonds/plugin.cc:77
 msgid "Add a delocalized bonds system"
-msgstr ""
+msgstr "Añadir un sistema de enlaces delocalizados"
 
 #: ../plugins/paint/cycles/cyclen.ui.h:4
 #, fuzzy
 msgid "Cycle _Size"
-msgstr "_Tamaño"
+msgstr "_Tamaño del ciclo"
 
 #: ../plugins/paint/cycles/plugin.cc:54
 msgid "Three atoms cycle"
-msgstr ""
+msgstr "Ciclo de tres átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:55
 msgid "Add a three membered cycle"
-msgstr ""
+msgstr "Añadir un ciclo de tres átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:57
 msgid "Four atoms cycle"
-msgstr ""
+msgstr "Ciclo de cuatro átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:58
 msgid "Add a four membered cycle"
-msgstr ""
+msgstr "Añadir un ciclo de cuatro átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:60
 msgid "Five atoms cycle"
-msgstr ""
+msgstr "Ciclo de cinco átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:61
 msgid "Add a five membered cycle"
-msgstr ""
+msgstr "Añadir un ciclo de cinco átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:63
 msgid "Six atoms cycle"
-msgstr ""
+msgstr "Ciclo de seis átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:64
 msgid "Add a six membered cycle"
-msgstr ""
+msgstr "Añadir un ciclo de seis átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:66
 msgid "Seven atoms cycle"
-msgstr ""
+msgstr "Ciclo de siete átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:67
 msgid "Add a seven membered cycle"
-msgstr ""
+msgstr "Añadir un ciclo de siete átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:69
 msgid "Eight atoms cycle"
-msgstr ""
+msgstr "Ciclo de ocho átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:70
 msgid "Add an eight membered cycle"
-msgstr ""
+msgstr "Añadir un ciclo de ocho átomos"
 
 #: ../plugins/paint/cycles/plugin.cc:72
 msgid "Variable sized cycle"
-msgstr ""
+msgstr "Ciclo de tamaño variable"
 
 #: ../plugins/paint/cycles/plugin.cc:73
 msgid "Add a cycle"
-msgstr ""
+msgstr "Añadir un ciclo"
 
 #: ../plugins/paint/residues/plugin.cc:104
 msgid "_Edit residues..."
-msgstr ""
+msgstr "_Editar residuos..."
 
 #: ../plugins/paint/residues/plugin.cc:105
 #, fuzzy
 msgid "Create new abbreviations"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Crear nuevas abreviaturas"
 
 #: ../plugins/paint/residues/residues-dlg.cc:217
 msgid "Please, provide only one molecule."
-msgstr ""
+msgstr "Provee sólo una molécula."
 
 #: ../plugins/paint/residues/residues-dlg.cc:233
 msgid "Please, provide a name for the residue"
-msgstr ""
+msgstr "Provee un nombre para el residuo"
 
 #. Symbols longer than 8 chars are not currently allowed
 #: ../plugins/paint/residues/residues-dlg.cc:251
 msgid "Symbols with more than eight characters are not allowed."
-msgstr ""
+msgstr "No se permiten símbolos con más de 8 caracteres."
 
 #: ../plugins/paint/residues/residues-dlg.cc:256
 #: ../plugins/paint/residues/residues-dlg.cc:402
@@ -2614,47 +2642,48 @@ msgstr "Nuevo"
 
 #: ../plugins/paint/residues/residues-dlg.cc:257
 msgid "\"New\" is not a valid symbol"
-msgstr ""
+msgstr "\"Nuevo\" no es un símbolo válido"
 
 #: ../plugins/paint/residues/residues-dlg.cc:266
 msgid "Please provide at least one symbol"
-msgstr ""
+msgstr "Provee al menos un símbolo"
 
 #: ../plugins/paint/residues/residues-dlg.cc:276
 #, c-format
 msgid "%s is already used by another residue."
-msgstr ""
+msgstr "%s ya está siendo usado por otro residuo."
 
 #: ../plugins/paint/residues/residues-dlg.cc:288
 msgid ""
 "Empty formula, this should never happen.\n"
 "Please file a bug report"
-msgstr ""
+msgstr "Fórmula vacía, ésto no tenía que haber pasado.\n"
+"Por favor informa de este error."
 
 #: ../plugins/paint/residues/residues.ui.h:1
 msgid "Formula"
-msgstr ""
+msgstr "Fórmula"
 
 #: ../plugins/paint/residues/residues.ui.h:2
 msgid "Identity"
-msgstr ""
+msgstr "Identidad"
 
 #: ../plugins/paint/residues/residues.ui.h:3 ../ui/paint/preferences.ui.h:30
 #, fuzzy
 msgid "N_ame:"
-msgstr "Nouveau"
+msgstr "_Nombre:"
 
 #: ../plugins/paint/residues/residues.ui.h:5
 msgid "Residues"
-msgstr ""
+msgstr "Residuos"
 
 #: ../plugins/paint/residues/residues.ui.h:6
 msgid "_Generic"
-msgstr ""
+msgstr "_Genérico"
 
 #: ../plugins/paint/residues/residues.ui.h:7
 msgid "_Symbol(s):"
-msgstr ""
+msgstr "_Símbolo(s):"
 
 #: ../plugins/paint/residues/residues.ui.h:8
 msgid "gtk-delete"
@@ -2666,15 +2695,15 @@ msgstr ""
 
 #: ../plugins/paint/selection/group.cc:60
 msgid "Group properties..."
-msgstr ""
+msgstr "Propiedades del grupo..."
 
 #: ../plugins/paint/selection/group.cc:355
 msgid "Group"
-msgstr ""
+msgstr "Grupo"
 
 #: ../plugins/paint/selection/group.ui.h:1
 msgid "A_lign"
-msgstr ""
+msgstr "A_linear"
 
 #: ../plugins/paint/selection/group.ui.h:2 ../ui/paint/H-pos.ui.h:2
 #, fuzzy
@@ -2684,15 +2713,15 @@ msgstr "Abajo"
 #: ../plugins/paint/selection/group.ui.h:3
 #, fuzzy
 msgid "Center"
-msgstr "Gnome Cristal"
+msgstr "Centro"
 
 #: ../plugins/paint/selection/group.ui.h:4
 msgid "Distance:"
-msgstr ""
+msgstr "Distancia:"
 
 #: ../plugins/paint/selection/group.ui.h:5
 msgid "Group and/or align selected objects"
-msgstr ""
+msgstr "Agrupar y/o alinear objetos seleccionados"
 
 #: ../plugins/paint/selection/group.ui.h:6 ../ui/paint/H-pos.ui.h:4
 msgid "Left"
@@ -2701,16 +2730,16 @@ msgstr "Izquierda"
 #: ../plugins/paint/selection/group.ui.h:7
 #, fuzzy
 msgid "Mid-height"
-msgstr "Alto:"
+msgstr "Altura media"
 
 #: ../plugins/paint/selection/group.ui.h:8
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../plugins/paint/selection/group.ui.h:9 ../ui/paint/H-pos.ui.h:5
 #, fuzzy
 msgid "Right"
-msgstr "Alto:"
+msgstr "Derecha"
 
 #: ../plugins/paint/selection/group.ui.h:10 ../ui/paint/H-pos.ui.h:6
 msgid "Top"
@@ -2718,146 +2747,147 @@ msgstr "Arriba"
 
 #: ../plugins/paint/selection/group.ui.h:11
 msgid "_Group"
-msgstr ""
+msgstr "_Agrupar"
 
 #: ../plugins/paint/selection/group.ui.h:12
 msgid "_Space evenly"
-msgstr ""
+msgstr "E_spaciar uniformemente"
 
 #: ../plugins/paint/selection/plugin.cc:65
 msgid "Select one or more objects"
-msgstr ""
+msgstr "Seleccione uno o más objetos"
 
 #: ../plugins/paint/selection/plugin.cc:67 ../plugins/paint/text/plugin.cc:55
 msgid "Erase"
-msgstr ""
+msgstr "Borrar"
 
 #: ../plugins/paint/selection/plugin.cc:68
 msgid "Eraser"
-msgstr ""
+msgstr "Borrador"
 
 #: ../plugins/paint/selection/selectiontool.cc:378
 msgid "Creation failed!"
-msgstr ""
+msgstr "¡Creación fallida!"
 
 #: ../plugins/paint/selection/selectiontool.cc:408
 msgid "Group and/or align objects"
-msgstr ""
+msgstr "Agrupar y/o alinear objetos"
 
 #: ../plugins/paint/selection/selectiontool.cc:446
 msgid "Horizontal flip"
-msgstr ""
+msgstr "Giro horizontal"
 
 #: ../plugins/paint/selection/selectiontool.cc:447
 msgid "Flip the selection horizontally"
-msgstr ""
+msgstr "Girar la selección horizontalmente"
 
 #: ../plugins/paint/selection/selectiontool.cc:448
 msgid "Vertical flip"
-msgstr ""
+msgstr "Giro vertical"
 
 #: ../plugins/paint/selection/selectiontool.cc:449
 msgid "Flip the selection vertically"
-msgstr ""
+msgstr "Girar la selección verticalmente"
 
 #: ../plugins/paint/selection/selectiontool.cc:450
 msgid "Merge"
-msgstr ""
+msgstr "Unir"
 
 #: ../plugins/paint/selection/selectiontool.cc:451
 msgid "Merge two molecules"
-msgstr ""
+msgstr "Unir dos moléculas"
 
 #: ../plugins/paint/selection/selectiontool.cc:455
 msgid "_Rotate"
-msgstr ""
+msgstr "_Rotar"
 
 #: ../plugins/paint/selection/selectiontool.cc:456
 msgid "Rotate the selection"
-msgstr ""
+msgstr "Rotar la selección"
 
 #: ../plugins/paint/templates/new-template.ui.h:1 ../ui/crystal/size.ui.h:1
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: ../plugins/paint/templates/new-template.ui.h:2
 msgid "New template"
-msgstr ""
+msgstr "Nueva plantilla"
 
 #: ../plugins/paint/templates/new-template.ui.h:3
 msgid "_Category:"
-msgstr ""
+msgstr "_Categoría"
+
 
 #: ../plugins/paint/templates/new-template.ui.h:4
 #, fuzzy
 msgid "_Name"
-msgstr "Nouveau"
+msgstr "_Nombre"
 
 #: ../plugins/paint/templates/plugin.cc:110
 msgid "Templates"
-msgstr ""
+msgstr "Plantillas"
 
 #: ../plugins/paint/templates/plugin.cc:111
 msgid "Use or manage templates"
-msgstr ""
+msgstr "Usar o gestionar plantillas"
 
 #: ../plugins/paint/templates/plugin.cc:235
 #: ../plugins/paint/templates/plugin.cc:237
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Otros"
 
 #: ../plugins/paint/templates/templates.ui.h:1
 msgid "No selected template"
-msgstr ""
+msgstr "Ninguna plantilla seleccionada"
 
 #: ../plugins/paint/templates/templates.ui.h:2
 msgid "_Templates"
-msgstr ""
+msgstr "Plantillas"
 
 #: ../plugins/paint/templates/templates.ui.h:3
 msgid "category"
-msgstr ""
+msgstr "categoría"
 
 #: ../plugins/paint/templates/templatetool.cc:344
 msgid "Please provide an object."
-msgstr ""
+msgstr "Provee un objeto."
 
 #: ../plugins/paint/templates/templatetool.cc:346
 msgid "Please give a name."
-msgstr ""
+msgstr "Provee un nombre."
 
 #: ../plugins/paint/templates/templatetool.cc:348
 msgid "Please choose a category."
-msgstr ""
+msgstr "Escoja una categoría."
 
 #: ../plugins/paint/text/fontsel.ui.h:1
 msgid "Double"
-msgstr ""
+msgstr "Doble"
 
 #: ../plugins/paint/text/fontsel.ui.h:2
 #: ../programs/table/gchemtable-elt.cc:310
 msgid "Low"
-msgstr ""
+msgstr "Bajo"
 
 #: ../plugins/paint/text/fontsel.ui.h:3
 #: ../programs/table/gchemtable-data-allocator.cc:210
 #, fuzzy
 msgid "None"
-msgstr "Nouveau"
+msgstr "Ninguno"
 
 #: ../plugins/paint/text/fontsel.ui.h:4
 #, fuzzy
 msgid "Si_ze:"
-msgstr "_Tamaño"
+msgstr "_Tamaño:"
 
 #: ../plugins/paint/text/fontsel.ui.h:5 ../programs/crystal/linesdlg.cc:175
 #, fuzzy
 msgid "Single"
-msgstr "Tamaño"
+msgstr "Simple"
 
 #: ../plugins/paint/text/fontsel.ui.h:6
 msgid "Stri_kethrough"
-msgstr ""
+msgstr "Tachar"
 
 #: ../plugins/paint/text/fontsel.ui.h:7
 #, fuzzy
@@ -2867,268 +2897,272 @@ msgstr "Color:"
 #: ../plugins/paint/text/fontsel.ui.h:8
 #, fuzzy
 msgid "_Family:"
-msgstr "Archivo nuevo"
+msgstr "_Familia:"
 
 #: ../plugins/paint/text/fontsel.ui.h:9
 msgid "_Position:"
-msgstr ""
+msgstr "_Posición:"
 
 #: ../plugins/paint/text/fontsel.ui.h:10
 msgid "_Style:"
-msgstr ""
+msgstr "E_stilo:"
 
 #: ../plugins/paint/text/fontsel.ui.h:11
 msgid "_Underline:"
-msgstr ""
+msgstr "Subrayar:"
 
 #: ../plugins/paint/text/fragmenttool.cc:457
 #, fuzzy
 msgid "Mode: "
-msgstr "_Modificar"
+msgstr "_Modo: "
 
 #: ../plugins/paint/text/fragmenttool.cc:460
 #, fuzzy
 msgid "auto"
-msgstr "Átomos"
+msgstr "auto"
 
 #: ../plugins/paint/text/fragmenttool.cc:463
 #, fuzzy
 msgid "normal"
-msgstr "Gnome Cristal"
+msgstr "normal"
 
 #: ../plugins/paint/text/fragmenttool.cc:466
 msgid "subscript"
-msgstr ""
+msgstr "subíndice"
 
 #: ../plugins/paint/text/fragmenttool.cc:469
 msgid "superscript"
-msgstr ""
+msgstr "superíndice"
 
 #: ../plugins/paint/text/fragmenttool.cc:472
 msgid "charge"
-msgstr ""
+msgstr "carga"
 
 #: ../plugins/paint/text/fragmenttool.cc:475
 msgid "stoichiometry"
-msgstr ""
+msgstr "estequiometría"
 
 #: ../plugins/paint/text/plugin.cc:53
 #, fuzzy
 msgid "Add or modify a text"
-msgstr "Agregar átomos"
+msgstr "Agregar o modificar un texto"
 
 #: ../plugins/paint/text/plugin.cc:56
 #, fuzzy
 msgid "Add or modify a group of atoms"
-msgstr "Agregar átomos"
+msgstr "Agregar o modificar un grupo de átomos"
 
 #: ../plugins/paint/wikipedia/plugin.cc:52
 msgid "Wikipedia export"
-msgstr ""
+msgstr "Exportación Wikipedia"
 
 #: ../plugins/paint/wikipedia/plugin.cc:53
 msgid "Export for Wikipedia publication"
-msgstr ""
+msgstr "Exportar para publicación en Wikipedia"
 
 #: ../plugins/paint/wikipedia/plugin.cc:99
 msgid "Generate Wikipedia conformant PNG image"
-msgstr ""
+msgstr "Generar imagen PNG, apropiado para Wikipedia"
 
 #: ../plugins/paint/wikipedia/wikipediatool.cc:170
 msgid "Unable to save image file: "
-msgstr ""
+msgstr "No se puede guardar imagen: "
 
 #: ../programs/3d/application.cc:40 ../programs/3d/application.cc:77
 #: ../programs/3d/application.cc:84
 msgid "GChem3D Viewer"
-msgstr ""
+msgstr "GChem3D Viewer"
 
 #: ../programs/3d/application.cc:155
 msgid "Sorry, format not supported!"
-msgstr ""
+msgstr "¡No hay soporte para el formato!"
 
 #: ../programs/3d/main.cc:38
 msgid "GChem3d Viewer version: "
-msgstr ""
+msgstr "Versión de GChem3D Viewer: "
 
 #: ../programs/3d/main.cc:49
 msgid "Prints GChem3d Viewer version"
-msgstr ""
+msgstr "Muestra la versión de GChem3D Viewer"
 
 #: ../programs/3d/main.cc:50
 msgid "Background color: white, black or #rrggbb (default is black)"
-msgstr ""
+msgstr "Color de fondo: blanco, negro o #rrggbb (el predeterminado es negro)"
 
 #: ../programs/3d/main.cc:51
 msgid ""
 "How molecules are displayed; possible values are BallnStick (the default), "
 "SpaceFill, Cylinders, and Wireframe"
 msgstr ""
+"Cómo se visualizan las moléculas; los valores posibles son Bolas y Varillas "
+"(predeterminado), Relleno, Cilindros y Alambre"
 
 #: ../programs/3d/main.cc:92 ../programs/spectra/gspectrum.cc:41
 #, fuzzy
 msgid " [file]"
-msgstr "Archivo nuevo"
+msgstr "[archivo]"
 
 #: ../programs/3d/main.cc:113 ../programs/crystal/main.cc:125
 #: ../programs/paint/main.cc:82 ../programs/spectra/gspectrum.cc:62
 #, c-format
 msgid "Invalid or misplaced argument: %s\n"
-msgstr ""
+msgstr "Argumento inválido o trasladado: %s\n"
 
 #: ../programs/3d/window.cc:126
 msgid "GChem3D is a molecular structures viewer for Gnome"
-msgstr ""
+msgstr "GChem3D es un visualizador de estructuras moleculares para Gnome"
 
 #. const gchar * documentors[] = {NULL};
 #: ../programs/3d/window.cc:128
 #, fuzzy
 msgid "Copyright © 2004-2010 Jean Bréfort\n"
-msgstr "(C) 1999-2001 por Jean Bréfort"
+msgstr "Copyright © 2004-2010 por Jean Bréfort\n"
 
 #: ../programs/3d/window.cc:178
 msgid "Print the current scene"
-msgstr ""
+msgstr "Imprimir la escena actual"
 
 #: ../programs/3d/window.cc:182
 msgid "Quit GChem3D"
-msgstr ""
+msgstr "Salir de GChem3D"
 
 #: ../programs/3d/window.cc:186
 msgid "View help for the Molecules Viewer"
-msgstr ""
+msgstr "Ver ayuda para el visualizador de moléculas"
 
 #: ../programs/3d/window.cc:187 ../programs/calc/gchemcalc.cc:612
 #: ../programs/crystal/window.cc:329 ../programs/spectra/window.cc:217
 #: ../programs/table/gchemtable-app.cc:199
 #: ../programs/table/gchemtable-curve.cc:230
 msgid "Gnome Chemistry Utils on the _web"
-msgstr ""
+msgstr "Gnome Chemistry Utils en la _web"
 
 #: ../programs/3d/window.cc:188 ../programs/calc/gchemcalc.cc:613
 #: ../programs/crystal/window.cc:330 ../programs/spectra/window.cc:218
 #: ../programs/table/gchemtable-app.cc:200
 #: ../programs/table/gchemtable-curve.cc:231
 msgid "Browse the Gnome Chemistry Utils's web site"
-msgstr ""
+msgstr "Navegar la página web de Gnome Chemistry Utils"
 
 #: ../programs/3d/window.cc:192 ../programs/calc/gchemcalc.cc:617
 #: ../programs/crystal/window.cc:334 ../programs/spectra/window.cc:222
 #: ../programs/table/gchemtable-app.cc:204
 #: ../programs/table/gchemtable-curve.cc:235
 msgid "Ask a question about the Gnome Chemistry Utils"
-msgstr ""
+msgstr "Haz una pregunta sobre Gnome Chemistry Utils"
+
 
 #: ../programs/3d/window.cc:194 ../programs/calc/gchemcalc.cc:619
 #: ../programs/crystal/window.cc:336 ../programs/spectra/window.cc:224
 #: ../programs/table/gchemtable-app.cc:206
 #: ../programs/table/gchemtable-curve.cc:237
 msgid "Submit a bug report for the Gnome Chemistry Utils"
-msgstr ""
+msgstr "Informa de un error en Gnome Chemistry Utils"
 
 #: ../programs/3d/window.cc:196
 msgid "About GChem3D"
-msgstr ""
+msgstr "Acerca de GChem3D"
 
 #: ../programs/3d/window.cc:200
 msgid "Balls and sticks"
-msgstr ""
+msgstr "Bolas y Varillas"
 
 #: ../programs/3d/window.cc:201
 msgid "Display a balls and sticks model"
-msgstr ""
+msgstr "Visualizar un modelo de bolas y varillas"
 
 #: ../programs/3d/window.cc:203
 msgid "Space filling"
-msgstr ""
+msgstr "Relleno"
 
 #: ../programs/3d/window.cc:204
 msgid "Display a space filling model"
-msgstr ""
+msgstr "Visualizar un modelo de relleno"
 
 #: ../programs/3d/window.cc:206
 msgid "Cylinders"
-msgstr ""
+msgstr "Cilindros"
 
 #: ../programs/3d/window.cc:207
 msgid "Display a cylinders model"
-msgstr ""
+msgstr "Visualizar un modelo de cilindros"
 
 #: ../programs/3d/window.cc:209
 msgid "Wireframe"
-msgstr ""
+msgstr "Alambre"
 
 #: ../programs/3d/window.cc:210
 msgid "Display a wireframe model"
-msgstr ""
+
+msgstr "Visualizar un modelo de alambre"
 
 #: ../programs/3d/window.cc:269
 #, fuzzy
 msgid "Background color"
-msgstr "Color de fondo:"
+msgstr "Color de fondo"
 
 #: ../programs/3d/window.cc:270
 #, fuzzy
 msgid "Choose a new background color"
-msgstr "Color de fondo:"
+msgstr "Elegir un nuevo color de fondo"
 
 #: ../programs/3d/window.cc:293 ../programs/crystal/window.cc:445
 #: ../programs/spectra/window.cc:288
 #, fuzzy
 msgid "Open recent"
-msgstr "Abrir archivo"
+msgstr "Abrir recientes"
 
 #: ../programs/3d/gchem3d.desktop.in.h:1
 msgid "Display chemical 3D structures"
-msgstr ""
+msgstr "Visualizar estructuras químicas 3D"
 
 #: ../programs/3d/gchem3d.desktop.in.h:2
 msgid "Molecules Viewer"
-msgstr ""
+msgstr "Visualizador de Moléculas"
 
 #: ../programs/calc/gchemcalc.cc:286
 msgid "GChemCalc is a simple calculator for chemists"
-msgstr ""
+msgstr "GChemCalc es una sencilla calculadora para químicos"
 
 #. const gchar * documentors[] = {NULL};
 #: ../programs/calc/gchemcalc.cc:288 ../programs/table/gchemtable-app.cc:401
 #, fuzzy
 msgid "Copyright © 2005-2010 Jean Bréfort"
-msgstr "(C) 1999-2001 por Jean Bréfort"
+msgstr "Copyright © 2005-2010 por Jean Bréfort"
 
 #: ../programs/calc/gchemcalc.cc:326 ../ui/calc/gchemcalc.ui.h:3
 msgid "Formula:"
-msgstr ""
+msgstr "Formula:"
 
 #: ../programs/calc/gchemcalc.cc:329 ../ui/calc/gchemcalc.ui.h:7
 msgid "Raw formula:"
-msgstr ""
+msgstr "Fórmula en bruto:"
 
 #: ../programs/calc/gchemcalc.cc:604
 #, fuzzy
 msgid "Quit GChemCalc"
-msgstr "Gnome Cristal"
+msgstr "Salir de GChemCalc"
 
 #: ../programs/calc/gchemcalc.cc:608
 #, fuzzy
 msgid "_Mode"
-msgstr "_Modificar"
+msgstr "_Modo"
 
 #: ../programs/calc/gchemcalc.cc:611
 msgid "View help for the Chemical Calculator"
-msgstr ""
+msgstr "Ver ayuda de la Calculadora Química"
 
 #: ../programs/calc/gchemcalc.cc:621
 msgid "About GChemCalc"
-msgstr ""
+msgstr "Acerca de GChemCalc"
 
 #: ../programs/calc/gchemcalc.cc:625
 msgid "_Guess"
-msgstr ""
+msgstr "_Adivinar"
 
 #: ../programs/calc/gchemcalc.cc:626
 msgid "Try to guess what is correct when interpreting ambiguous symbols"
-msgstr ""
+msgstr "Intenta adivinar qué es correcto al interpretar símbolos ambiguos"
 
 #: ../programs/calc/gchemcalc.cc:628
 #, fuzzy
@@ -3137,32 +3171,33 @@ msgstr "_Atomos"
 
 #: ../programs/calc/gchemcalc.cc:629
 msgid "Interpreting ambiguous symbols as atoms"
-msgstr ""
+msgstr "Interpretar símbolos ambiguos como átomos"
 
 #: ../programs/calc/gchemcalc.cc:631
 #, fuzzy
 msgid "_Nickname"
-msgstr "Nouveau"
+msgstr "Sobrenombre"
 
 #: ../programs/calc/gchemcalc.cc:632
 msgid "Interpret ambiguous symbols as atoms groups nicknames"
-msgstr ""
+msgstr "Interpretar símbolos ambiguos como sobrenombres de grupos de átomos"
 
 #: ../programs/calc/gchemcalc.cc:634
 msgid "As_k"
-msgstr ""
+msgstr "Preguntar"
 
 #: ../programs/calc/gchemcalc.cc:635
 msgid "Ask user for the correct interpretation of ambiguous symbols"
-msgstr ""
+msgstr "Preguntar al usuario acerca de la correcta interpretación de"
+"símbolos ambiguos"
 
 #: ../programs/calc/gchemcalc.cc:673
 msgid "GChemCalc Calculator version: "
-msgstr ""
+msgstr "Versión de la Calculadora GChemCalc: "
 
 #: ../programs/calc/gchemcalc.cc:693
 msgid " [formula]"
-msgstr ""
+msgstr " [fórmula]"
 
 #: ../programs/calc/gchemcalc.cc:709
 msgid "For usage see: gchemcalc [-?|--help]"
@@ -3175,104 +3210,110 @@ msgstr "Elemento:"
 
 #: ../programs/calc/gchemcalc.cc:763
 msgid "Mass %"
-msgstr ""
+msgstr "% de masa"
 
 #: ../programs/calc/gchemcalc.desktop.in.h:1
 msgid "A simple calculator for chemistry"
-msgstr ""
+msgstr "Una sencilla calculadora para química"
 
 #: ../programs/calc/gchemcalc.desktop.in.h:2 ../ui/calc/gchemcalc.ui.h:1
 msgid "Chemical calculator"
-msgstr ""
+msgstr "Calculadora química"
 
 #: ../programs/crystal/gcrystal.desktop.in.h:1
 msgid "Edit and display crystalline structures"
-msgstr ""
+msgstr "Editar y visualizar estructuras cristalinas"
 
 #: ../programs/crystal/gcrystal.desktop.in.h:2
 #, fuzzy
 msgid "Gnome Crystal Crystalline Structures Viewer"
-msgstr "C_ristal"
+msgstr "Gnome Crystal Visualizador de Estructuras Cristalinas"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:1
 #, fuzzy
 msgid "Background color blue value"
-msgstr "Color de fondo:"
+msgstr "Valor de azul para el color de fondo"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:2
 #, fuzzy
 msgid "Background color green value"
-msgstr "Color de fondo:"
+msgstr "Valor de verde para el color de fondo"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:3
 #, fuzzy
 msgid "Background color red value"
-msgstr "Color de fondo:"
+msgstr "Valor de rojo para el color de fondo"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:4
 msgid ""
 "Blue value for the default background color. Acceptable values are 0. to 1."
 msgstr ""
+"Valor de azul para el color de fondo predeterminado. Valores aceptables de 0 a 1."
 
 #: ../programs/crystal/gcrystal.schemas.in.h:5
 msgid ""
 "Default Euler's nutation angle for model display. Acceptable values are 0. "
 "to + 180."
-msgstr ""
+msgstr "Ángulo de nutación de Euler predeterminado. Valores aceptables son de "
+"0 a +180."
 
 #: ../programs/crystal/gcrystal.schemas.in.h:6
 msgid ""
 "Default Euler's precession angle for model display. Acceptable values are "
 "-180. to + 180."
-msgstr ""
+msgstr "Ángulo de precesión de Euler predeterminado. Valores aceptables son de "
+"-180 a +180."
 
 #: ../programs/crystal/gcrystal.schemas.in.h:7
 msgid ""
 "Default Euler's spin angle for model display. Acceptable values are -180. to "
 "+ 180."
-msgstr ""
+msgstr "Ángulo de espín de Euler predeterminado. Valores aceptables son de "
+"-180 a +180."
 
 #: ../programs/crystal/gcrystal.schemas.in.h:8
 msgid "Default field of view"
-msgstr ""
+msgstr "Campo de visión predeterminado"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:9
 #, fuzzy
 msgid "Default nutation"
-msgstr "Vista predeterminada"
+msgstr "Nutación predeterminada"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:10
 #, fuzzy
 msgid "Default precession"
-msgstr "Vista predeterminada"
+msgstr "Precesión predeterminada"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:11
 #, fuzzy
 msgid "Default spin"
-msgstr "Vista predeterminada"
+msgstr "Espín predeterminado"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:12
 msgid "Field of view used by default for the model display."
-msgstr ""
+msgstr "Campo de visión predeterminado para la visualización del modelo."
 
 #: ../programs/crystal/gcrystal.schemas.in.h:13
 msgid ""
 "Green value for the default background color. Acceptable values are 0. to 1."
 msgstr ""
+"Valor de verde para el color de fondo rpedeterminado. Valores aceptables de 0 a 1."
 
 #: ../programs/crystal/gcrystal.schemas.in.h:14
 #, fuzzy
 msgid "Printing resolution"
-msgstr "Resolución de la impresora:"
+msgstr "Resolución de impresión"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:15
 msgid "Printing resolution if not automatically detected."
-msgstr ""
+msgstr "Resolución de impresión, si no es detectada automáticamente."
 
 #: ../programs/crystal/gcrystal.schemas.in.h:16
 msgid ""
 "Red value for the default background color. Acceptable values are 0. to 1."
 msgstr ""
+"Valor de rojo para el color de fondo predeterminado. Valores aceptables de 0 a 1."
 
 #: ../programs/crystal/application.cc:82
 #, c-format
@@ -3290,33 +3331,33 @@ msgstr ""
 
 #: ../programs/crystal/atomsdlg.cc:139 ../ui/crystal/size.ui.h:6
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: ../programs/crystal/atomsdlg.cc:149 ../ui/crystal/size.ui.h:7
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: ../programs/crystal/atomsdlg.cc:159 ../ui/crystal/size.ui.h:8
 msgid "z"
-msgstr ""
+msgstr "z"
 
 #. Note for translators: c.n. is for coordination number
 #: ../programs/crystal/atomsdlg.cc:619
 msgid " c.n.="
-msgstr ""
+msgstr "n.c.="
 
 #: ../programs/crystal/atomsdlg.cc:625
 #, fuzzy
 msgid "low spin"
-msgstr "Vista predeterminada"
+msgstr "espín bajo"
 
 #: ../programs/crystal/atomsdlg.cc:625
 msgid "high spin"
-msgstr ""
+msgstr "espín alto"
 
 #: ../programs/crystal/atomsdlg.cc:627
 msgid "Database"
-msgstr ""
+msgstr "Base de datos"
 
 #: ../programs/crystal/celldlg.cc:154
 #, fuzzy
@@ -3325,20 +3366,20 @@ msgstr "La suma de los tres ángulos debe ser menor a 360°"
 
 #: ../programs/crystal/cleavagesdlg.cc:93
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #: ../programs/crystal/cleavagesdlg.cc:103
 msgid "k"
-msgstr ""
+msgstr "k"
 
 #: ../programs/crystal/cleavagesdlg.cc:113
 msgid "l"
-msgstr ""
+msgstr "l"
 
 #: ../programs/crystal/cleavagesdlg.cc:123
 #, fuzzy
 msgid "Planes cleaved"
-msgstr "Planos escindidos:"
+msgstr ""
 
 #: ../programs/crystal/document.cc:326
 #, c-format
@@ -3346,40 +3387,40 @@ msgid ""
 "Could not save file\n"
 "%s"
 msgstr ""
-"No pudo guardar archivo\n"
+"No se ha podido guardar archivo\n"
 "%s"
 
 #: ../programs/crystal/linesdlg.cc:116
 msgid "x1"
-msgstr ""
+msgstr "x1"
 
 #: ../programs/crystal/linesdlg.cc:126
 msgid "y1"
-msgstr ""
+msgstr "y1"
 
 #: ../programs/crystal/linesdlg.cc:136
 msgid "z1"
-msgstr ""
+msgstr "z1"
 
 #: ../programs/crystal/linesdlg.cc:146
 msgid "x2"
-msgstr ""
+msgstr "x2"
 
 #: ../programs/crystal/linesdlg.cc:156
 msgid "y2"
-msgstr ""
+msgstr "y2"
 
 #: ../programs/crystal/linesdlg.cc:166
 msgid "z2"
-msgstr ""
+msgstr "z2"
 
 #: ../programs/crystal/main.cc:68
 msgid "Gnome Chemistry Utils version: "
-msgstr ""
+msgstr "Versión de Gnome Chemistry Utils: "
 
 #: ../programs/crystal/main.cc:91 ../programs/paint/main.cc:64
 msgid " [file...]"
-msgstr ""
+msgstr " [archivo...]"
 
 #: ../programs/crystal/window.cc:149 ../programs/crystal/window.cc:405
 msgid "Gnome Crystal"
@@ -3387,22 +3428,22 @@ msgstr "Gnome Cristal"
 
 #: ../programs/crystal/window.cc:152
 msgid "Gnome Crystal is a lightweight crystal structures viewer for Gnome"
-msgstr ""
+msgstr "Gnome Crystal es un visualizador ligero de estructuras cristalinas para Gnome"
 
 #: ../programs/crystal/window.cc:153
 #, fuzzy
 msgid "Copyright © 1999-2010 by Jean Bréfort"
-msgstr "(C) 1999-2001 por Jean Bréfort"
+msgstr "Copyright © 1999-2010 por Jean Bréfort"
 
 #: ../programs/crystal/window.cc:303
 #, fuzzy
 msgid "Quit Gnome Crystal"
-msgstr "Gnome Cristal"
+msgstr "Salir de Gnome Cristal"
 
 #: ../programs/crystal/window.cc:305
 #, fuzzy
 msgid "Prefere_nces..."
-msgstr "Preferencias"
+msgstr "Prefere_ncias..."
 
 #: ../programs/crystal/window.cc:307
 msgid "_Crystal"
@@ -3411,7 +3452,7 @@ msgstr "C_ristal"
 #: ../programs/crystal/window.cc:308
 #, fuzzy
 msgid "_Lattice..."
-msgstr "_Red"
+msgstr "_Red..."
 
 #: ../programs/crystal/window.cc:309
 msgid "Define the lattice"
@@ -3420,27 +3461,27 @@ msgstr "Definir la red"
 #: ../programs/crystal/window.cc:310
 #, fuzzy
 msgid "_Atoms..."
-msgstr "_Atomos"
+msgstr "_Atomos..."
 
 #: ../programs/crystal/window.cc:311
 #, fuzzy
 msgid "Add or edit atoms"
-msgstr "Agregar átomos"
+msgstr "Añadir o editar átomos"
 
 #: ../programs/crystal/window.cc:312
 #, fuzzy
 msgid "_Bonds and lines..."
-msgstr "_Enlaces y líneas"
+msgstr "_Enlaces y líneas..."
 
 #: ../programs/crystal/window.cc:313
 #, fuzzy
 msgid "Add or edit bonds and lines"
-msgstr "Enlaces y líneas"
+msgstr "Añadir o editar enlaces y líneas"
 
 #: ../programs/crystal/window.cc:314
 #, fuzzy
 msgid "_Size..."
-msgstr "_Tamaño"
+msgstr "_Tamaño..."
 
 #: ../programs/crystal/window.cc:315
 msgid "Define size"
@@ -3449,101 +3490,105 @@ msgstr "Definir tamaño"
 #: ../programs/crystal/window.cc:316
 #, fuzzy
 msgid "_Cleavages..."
-msgstr "_Clivajes"
+msgstr ""
 
 #: ../programs/crystal/window.cc:317
 #, fuzzy
 msgid "Add or edit cleavages to remove some planes"
-msgstr "Agregar clivajes para remover planos"
+msgstr ""
 
 #: ../programs/crystal/window.cc:319
 msgid "View _settings..."
-msgstr "_Configuración de la vista"
+msgstr "Ver las _preferencias..."
 
 #: ../programs/crystal/window.cc:320
 msgid "Choose background color and model position"
-msgstr "Color de fondo y posición del modelo"
+msgstr "Escoje color de fondo y posición del modelo"
 
 #: ../programs/crystal/window.cc:322
 #, fuzzy
 msgid "Create new _window"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Crear nueva _ventana"
 
 #: ../programs/crystal/window.cc:323
 #, fuzzy
 msgid "Create a new window"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Crear nueva ventana"
 
 #: ../programs/crystal/window.cc:324
 msgid "_Close this window"
-msgstr ""
+msgstr "_Cerrar ésta ventana"
 
 #: ../programs/crystal/window.cc:325
 msgid "Close the current window"
-msgstr ""
+msgstr "Cerrar la ventana actual"
 
 #: ../programs/crystal/window.cc:328
 #, fuzzy
 msgid "View help for Gnome Crystal"
-msgstr "Gnome Cristal"
+msgstr "Ver la ayuda de Gnome Cristal"
 
 #: ../programs/crystal/window.cc:338
 #, fuzzy
 msgid "About Gnome Crystal"
-msgstr "Gnome Cristal"
+msgstr "Acerca de Gnome Cristal"
 
 #: ../programs/crystal/window.cc:482
 #, c-format
 msgid "Space group: %u"
-msgstr ""
+msgstr "Grupo espacial: %u"
 
 #: ../programs/paint/gchempaint.desktop.in.h:1
 msgid "Edit chemical 2D structures"
-msgstr ""
+msgstr "Editar estructuras químicas 2D"
 
 #: ../programs/paint/gchempaint.desktop.in.h:2
 msgid "GChemPaint Chemical Structures Editor"
-msgstr ""
+msgstr "GChemPaint - Editor de Estructuras Químicas"
 
 #: ../programs/paint/gchempaint.schemas.in.h:1
 msgid "Chemical formula font family."
-msgstr ""
+msgstr "Tipo de letra para fórmulas químicas."
 
 #: ../programs/paint/gchempaint.schemas.in.h:2
 msgid "Chemical formula font size."
-msgstr ""
+msgstr "Tamaño de letra para fórmulas químicas."
 
 #: ../programs/paint/gchempaint.schemas.in.h:3
 msgid "Chemical formula font stretch."
-msgstr ""
+msgstr "Ancho de tipografía para fórmulas químicas."
 
 #: ../programs/paint/gchempaint.schemas.in.h:4
 msgid "Chemical formula font style."
-msgstr ""
+msgstr "Estilo de letra para fórmulas químicas."
 
 #: ../programs/paint/gchempaint.schemas.in.h:5
 msgid "Chemical formula font variant."
-msgstr ""
+msgstr "Variante de letra para fórmulas químicas."
 
 #: ../programs/paint/gchempaint.schemas.in.h:6
 msgid "Chemical formula font weight."
-msgstr ""
+msgstr "Grosor de letra para fórmulas químicas."
 
 #: ../programs/paint/gchempaint.schemas.in.h:7
 msgid ""
 "Compression factor when saving files. Acceptable values are 0 (no "
 "compression) to 9."
 msgstr ""
+"Factor de compresión al guardar. Valores aceptables de 0 (sin "
+"compresión) a 9."
 
 #: ../programs/paint/gchempaint.schemas.in.h:8
 msgid "Default angle between two bonds."
-msgstr ""
+msgstr "Ángulo predeterminado entre dos enlaces"
 
 #: ../programs/paint/gchempaint.schemas.in.h:9
 msgid ""
 "Default angle between two consecutive bonds in a chain in degrees. Used in "
 "the default theme."
 msgstr ""
+"Ángulo predeterminado entre dos enlaces consecutivos en una cadena, en grados."
+"Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:10
 #, fuzzy
@@ -3552,48 +3597,51 @@ msgstr "Vista predeterminada"
 
 #: ../programs/paint/gchempaint.schemas.in.h:11
 msgid "Default arrow length in picometers. Used in the default theme."
-msgstr ""
+msgstr "Longitud de flecha predeterminada, en picometros. Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:13
 #, no-c-format
 msgid ""
 "Default arrow line width in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
+"Grosor de línea de flecha predeterminado (zoom al 100%). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:14
 msgid "Default arrow line width."
-msgstr ""
+msgstr "Grosor de línea de flecha predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:15
 msgid "Default bond length"
-msgstr ""
+msgstr "Longitud predeterminada de enlace"
 
 #: ../programs/paint/gchempaint.schemas.in.h:16
 msgid "Default bond length in picometers. Used in the default theme."
-msgstr ""
+msgstr "Longitud de enlace predeterminada en picometros. Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:18
 #, no-c-format
 msgid ""
 "Default bond line width in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
+"Grosor predeterminado de la línea de enlace en píxeles (zoom al 100%). Usado "
+"en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:19
 msgid "Default bond line width."
-msgstr ""
+msgstr "Grosor predeterminado de la línea de enlace."
 
 #: ../programs/paint/gchempaint.schemas.in.h:20
 #, fuzzy
 msgid "Default charge sign size."
-msgstr "Vista predeterminada"
+msgstr "Tamaño predeterminado del signo de carga."
 
 #: ../programs/paint/gchempaint.schemas.in.h:21
 msgid "Default distance between two lines for double arrows."
-msgstr ""
+msgstr "Distancia predeterminada entre dos líneas en las flechas dobles."
 
 #: ../programs/paint/gchempaint.schemas.in.h:22
 msgid "Default distance between two lines in a multiple bond."
-msgstr ""
+msgstr "Distancia predeterminada entre dos líneas en un enlace múltiple."
 
 #: ../programs/paint/gchempaint.schemas.in.h:24
 #, no-c-format
@@ -3601,6 +3649,8 @@ msgid ""
 "Default distance between two lines in pixels (at 100% zoom) for double "
 "arrows or for retrosynthesis arrows. Used in the default theme."
 msgstr ""
+"Distancia predeterminada entre dos líneas, en píxeles (zoom al 100%) para "
+"flechas dobles o de retrosíntesis. Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:26
 #, no-c-format
@@ -3608,6 +3658,8 @@ msgid ""
 "Default distance between two lines in pixels (at 100% zoom) in a multiple "
 "bond. Used in the default theme."
 msgstr ""
+"Distancia predeterminada entre dos líneas, en píxeles (zoom al 100%) en un enlace "
+"múltiple. Usado en el tema principal."
 
 #: ../programs/paint/gchempaint.schemas.in.h:28
 #, no-c-format
@@ -3622,10 +3674,12 @@ msgid ""
 "Default distance from tip of arrowhead to center in pixels (at 100% zoom). "
 "Used in the default theme."
 msgstr ""
+"Distancia predeterminada desde la punta de la flecha al centro, en píxeles "
+"(zoom al 100%). Usado en el tema principal."
 
 #: ../programs/paint/gchempaint.schemas.in.h:31
 msgid "Default distance from tip of arrowhead to center."
-msgstr ""
+msgstr "Distancia predeterminada desde la punta de la flecha ahsta el centro."
 
 #: ../programs/paint/gchempaint.schemas.in.h:33
 #, no-c-format
@@ -3654,7 +3708,7 @@ msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:38
 msgid "Default extra padding after a stoichiometric coefficient."
-msgstr ""
+msgstr "Relleno extra predeterminado después de un coeficiente esteqiométrico."
 
 #: ../programs/paint/gchempaint.schemas.in.h:40
 #, no-c-format
@@ -3662,10 +3716,12 @@ msgid ""
 "Default extra padding between a stoichiometric coefficient and its "
 "associated molecule in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
+"Relleno extra predeterminado entre un coeficiente estequiométrico y su "
+"molécula asociada, en píxeles (zoom al 100%). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:41
 msgid "Default font family used for texts. Used in the default theme."
-msgstr ""
+msgstr "Tipo de letra de los textos. Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:42
 msgid ""
@@ -3674,18 +3730,25 @@ msgid ""
 "6 = expanded; 7 = extra-expanded; 8 = ultra-expanded). Used in the default "
 "theme."
 msgstr ""
+"Ancho predeterminado de la tipografía en textos (0 = ultra-condensado; 1 = extra-"
+"condensado; 2 = condensado; 3 = semi-condensado; 4 = normal; 5 = semi-expandido; "
+"6 = expandido; 7 = extra-expandido; 8 = ultra-expandido). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:43
 msgid ""
 "Default font style used for texts (0 = normal; 1 = oblique; 2 = italic). "
 "Used in the default theme."
 msgstr ""
+"Estilo de letra predeterminado para textos. (0 = normal; 1 = oblícuo; 2 = cursiva). "
+"Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:44
 msgid ""
 "Default font variant used for texts (0 = normal; 1 = small caps). Used in "
 "the default theme."
 msgstr ""
+"Variante de letra predeterminada para textos (0 = normal; 1 = versalitas). "
+"Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:45
 msgid ""
@@ -3693,16 +3756,18 @@ msgid ""
 "6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = heavy). Used in the default "
 "theme."
 msgstr ""
+"Grosor de letra predeterminado para textos (2 = ultra-fino; 3 = fino; 4 = normal; "
+"6 = semi-negrita; 7 = negrita; 8 = ultra-negrita; 9 = máximo). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:46
 #, fuzzy
 msgid "Default hash line width."
-msgstr "Vista predeterminada"
+msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:47
 #, fuzzy
 msgid "Default hash lines distance."
-msgstr "Vista predeterminada"
+msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:49
 #, no-c-format
@@ -3724,7 +3789,7 @@ msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:53
 msgid "Default padding around arrows."
-msgstr ""
+msgstr "Relleno predeterminado alrededor de las flechas."
 
 #: ../programs/paint/gchempaint.schemas.in.h:55
 #, no-c-format
@@ -3732,16 +3797,19 @@ msgid ""
 "Default padding between a '+' sign in a reaction equation and reactants "
 "symbols in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
+"Relleno predeterminado entre un signo '+' y los reactivos en una reacción; "
+"en píxeles (zoom al 100%). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:56
 msgid ""
 "Default padding between a '+' sign in a reaction equation and reactants "
 "symbols."
 msgstr ""
+"Relleno predeterminado entre un signo '+' y los símbolos de los reactivos en una reacción."
 
 #: ../programs/paint/gchempaint.schemas.in.h:57
 msgid "Default padding between aligned objects."
-msgstr ""
+msgstr "Relleno predeterminado entre objetos alineados."
 
 #: ../programs/paint/gchempaint.schemas.in.h:59
 #, no-c-format
@@ -3749,10 +3817,12 @@ msgid ""
 "Default padding between arrows and associated objects in pixels (at 100% "
 "zoom). Used in the default theme."
 msgstr ""
+"Relleno predeterminado entre flechas y objetos asociados, en píxeles (zoom al 100%): "
+"Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:60
 msgid "Default padding for texts."
-msgstr ""
+msgstr "Relleno predeterminado para textos."
 
 #: ../programs/paint/gchempaint.schemas.in.h:62
 #, no-c-format
@@ -3760,6 +3830,8 @@ msgid ""
 "Default padding in pixels added between consecutive objects during an "
 "alignment operation (at 100% zoom). Used in the default theme."
 msgstr ""
+"Relleno predeterminado añadido entre objetos consecutivos en una operación "
+"de alineamiento (en píxeles, zoom al 100%). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:64
 #, no-c-format
@@ -3767,62 +3839,68 @@ msgid ""
 "Default size of the charge sign in pixels (at 100% zoom). Used in the "
 "default theme."
 msgstr ""
+"Tamaño predeterminado del signo de carga, en píxeles (zoom al 100%). Usado "
+"en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:65
 msgid "Default text font family."
-msgstr ""
+msgstr "Tipo de letra predeterminado para textos."
 
 #: ../programs/paint/gchempaint.schemas.in.h:66
 #, fuzzy
 msgid "Default text font size."
-msgstr "Vista predeterminada"
+msgstr "Tamaño predeterminado de la letra de texto."
 
 #: ../programs/paint/gchempaint.schemas.in.h:67
 msgid "Default text font stretch."
-msgstr ""
+msgstr "Ancho predeterminado de la tipografía del texto"
 
 #: ../programs/paint/gchempaint.schemas.in.h:68
 #, fuzzy
 msgid "Default text font style."
-msgstr "Vista predeterminada"
+msgstr "Estilo predeterminado de la letra de texto."
 
 #: ../programs/paint/gchempaint.schemas.in.h:69
 #, fuzzy
 msgid "Default text font variant."
-msgstr "Vista predeterminada"
+msgstr "Variante predeterminada de la letra de texto."
 
 #: ../programs/paint/gchempaint.schemas.in.h:70
 msgid "Default text font weight."
-msgstr ""
+msgstr "Grosor predeterminado de la letra de texto."
 
 #: ../programs/paint/gchempaint.schemas.in.h:71
 msgid "Default theme used when creating a new file."
-msgstr ""
+msgstr "Tema predeterminado usado al crear un nuevo archivo."
 
 #: ../programs/paint/gchempaint.schemas.in.h:72
 #, fuzzy
 msgid "Default theme."
-msgstr "Vista predeterminada"
+msgstr "Tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:73
 msgid "File compression factor."
-msgstr ""
+msgstr "Factor de compresión del archivo."
 
 #: ../programs/paint/gchempaint.schemas.in.h:74
 msgid ""
 "Font family used for chemical formula such as atoms and fragments. Used in "
 "the default theme."
 msgstr ""
+"Tipo de letra para fórmulas químicas como átomos y fragmentos. Usado "
+"en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:75
 msgid ""
 "Font size used for chemical formula such as atoms and fragments. Used in the "
 "default theme."
 msgstr ""
+"Tamaño de letra para fórmulas químicas como átomos y fragmentos. Usado "
+"en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:76
 msgid "Font size used for texts. Used in the default theme."
-msgstr ""
+msgstr "Tamaño de letra de texto. Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:77
 msgid ""
@@ -3831,18 +3909,26 @@ msgid ""
 "normal; 5 = semi-expanded; 6 = expanded; 7 = extra-expanded; 8 = ultra-"
 "expanded). Used in the default theme."
 msgstr ""
+"Ancho de la tipografía para fórmulas químicas como átomos y fragmentos (0 = "
+"ultra-condensado; 1 = extra-condensado; 2 = condensado; 3 = semi-condensado; 4 = "
+"normal; 5 = semi-expandido; 6 = expandido; 7 = extra-expandido; 8 = ultra-"
+"expandido). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:78
 msgid ""
 "Font style used for chemical formula such as atoms and fragments (0 = "
 "normal; 1 = oblique; 2 = italic). Used in the default theme."
 msgstr ""
+"Estilo de letra para fórmulas químicas como átomos y fragmentos (0 = "
+"normal; 1 = oblícua; 2 = cursiva). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:79
 msgid ""
 "Font variant used for chemical formula such as atoms and fragments (0 = "
 "normal; 1 = small caps). Used in the default theme."
 msgstr ""
+"Variante de letra usada para fórmulas químicas como átomos y fragmentos "
+"0 = normal; 1 = versalitas). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:80
 msgid ""
@@ -3850,6 +3936,9 @@ msgid ""
 "light; 3 = light; 4 = normal; 6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = "
 "heavy). Used in the default theme."
 msgstr ""
+"Grosor de letra predeterminado para fórmulas químicas como átomos y fragmentos "
+"(2 = ultra-fino; 3 = fino; 4 = normal; 6 = semi-negrita; 7 = negrita; 8 = ultra-negrita; "
+"9 = máximo). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:81
 msgid ""
@@ -3868,10 +3957,12 @@ msgid ""
 "Padding used around text objects such as atoms, texts and other typographic "
 "signs in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
+"Relleno usado alrededor de objetos de texto como átomos, textos y otros signos "
+"tipográficos (en píxeles, zoom al 100%). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:85
 msgid "Scale (pm per pixel)."
-msgstr ""
+msgstr "Escala (pm por píxel)."
 
 #: ../programs/paint/gchempaint.schemas.in.h:87
 #, no-c-format
@@ -3879,6 +3970,8 @@ msgid ""
 "Scale used to convert real distance to canvas distance expressed in pm per "
 "pixel (at 100% zoom). Used in the default theme."
 msgstr ""
+"Escala utilizada para convertir de distancia real a distancia en el "
+"lienzo, expresada en pm por píxel (al 100% de zoom). Usado en el tema predeterminado."
 
 #: ../programs/paint/gchempaint.schemas.in.h:88
 msgid "Whether the hashed wedge bonds should be inverted."
@@ -3886,257 +3979,257 @@ msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:89
 msgid "Whether to export simple text when copying."
-msgstr ""
+msgstr "Si se exporta texto simple al copiar."
 
 #: ../programs/paint/main.cc:41
 msgid "GChemPaint version: "
-msgstr ""
+msgstr "Versión de GChemPaint:"
 
 #: ../programs/spectra/application.cc:38 ../programs/spectra/application.cc:50
 msgid "GSpectrum"
-msgstr ""
+msgstr "GSpectrum"
 
 #: ../programs/spectra/gspectrum.desktop.in.h:1
 msgid "A spectrum viewer for the GNOME desktop"
-msgstr ""
+msgstr "Un visualizador de espectros para el escritorio Gnome"
 
 #: ../programs/spectra/gspectrum.desktop.in.h:2
 msgid "Spectrum viewer"
-msgstr ""
+msgstr "Visualizador de espectros"
 
 #: ../programs/spectra/window.cc:117
 msgid "GSpectrum is a spectrum viewer for Gnome"
-msgstr ""
+msgstr "GSpectrum es un visualizador de espectros para Gnome"
 
 #. const gchar * documentors[] = {NULL};
 #: ../programs/spectra/window.cc:119
 #, fuzzy
 msgid "Copyright © 2007-2010 Jean Bréfort\n"
-msgstr "(C) 1999-2001 por Jean Bréfort"
+msgstr "Copyright © 2007-2010 por Jean Bréfort\n"
 
 #: ../programs/spectra/window.cc:210
 msgid "Quit GSpectrum"
-msgstr ""
+msgstr "Salir de GSpectrum"
 
 #: ../programs/spectra/window.cc:216
 #, fuzzy
 msgid "View help for the Spectra Viewer"
-msgstr "Gnome Cristal"
+msgstr "Ver ayuda del Visualizador de Espectros"
 
 #: ../programs/spectra/window.cc:226
 msgid "About GSpectrum"
-msgstr ""
+msgstr "Acerca de GSpectrum"
 
 #: ../programs/table/gchemtable-app.cc:148
 #: ../programs/table/gchemtable-curve.cc:221
 msgid "Quit GChemTable"
-msgstr ""
+msgstr "Salir de GChemTable"
 
 #: ../programs/table/gchemtable-app.cc:150
 msgid "Color scheme"
-msgstr ""
+msgstr "Esquema de color"
 
 #: ../programs/table/gchemtable-app.cc:151
 #, fuzzy
 msgid "No colors"
-msgstr "Color:"
+msgstr "Sin color"
 
 #: ../programs/table/gchemtable-app.cc:152
 msgid "Use default Gtk theme colors"
-msgstr ""
+msgstr "Usar los colores del tema Gtk predeterminado"
 
 #: ../programs/table/gchemtable-app.cc:154
 msgid "Use default symbolic element colors"
-msgstr ""
+msgstr "Usar los colores símbolicos predeterminados"
 
 #: ../programs/table/gchemtable-app.cc:155
 msgid "Physical states"
-msgstr ""
+msgstr "Estados físicos"
 
 #: ../programs/table/gchemtable-app.cc:156
 msgid "Use colors to display physical state at a given temperature"
-msgstr ""
+msgstr "Usar colores para visualizar el estado físico a una temperatura dada"
 
 #: ../programs/table/gchemtable-app.cc:159
 msgid "Use colors to display the family grouping of the elements"
-msgstr ""
+msgstr "Usar colores para visualizar la agrupación de los elementos por familias"
 
 #: ../programs/table/gchemtable-app.cc:161
 msgid "Acidity"
-msgstr ""
+msgstr "Acidez"
 
 #: ../programs/table/gchemtable-app.cc:162
 #, fuzzy
 msgid "Use colors to display the acidity of the elements"
-msgstr "Tabla periódica de los elementos"
+msgstr "Usar colores para visualizar la acidez de los elementos"
 
 #: ../programs/table/gchemtable-app.cc:164
 msgid "Electronegativity"
-msgstr ""
+msgstr "Electronegatividad"
 
 #: ../programs/table/gchemtable-app.cc:165
 msgid "Use colors to display the electronegativity of the elements"
-msgstr ""
+msgstr "Usar colores para visualizar la electronegatividad de los elementos"
 
 #: ../programs/table/gchemtable-app.cc:167
 msgid "Atomic radius"
-msgstr ""
+msgstr "Radio atómico"
 
 #: ../programs/table/gchemtable-app.cc:168
 #, fuzzy
 msgid "Use colors to display the covalent radii of the elements"
-msgstr "Tabla periódica de los elementos"
+msgstr "Usar colores para visualizar los radios covalentes de los elementos"
 
 #: ../programs/table/gchemtable-app.cc:170
 msgid "Block"
-msgstr ""
+msgstr "Bloque"
 
 #: ../programs/table/gchemtable-app.cc:171
 msgid "Use colors to display the blocks elements belong to"
-msgstr ""
+msgstr "Usar colores para visualizar los elementos por los bloques a los que pertenecen"
 
 #: ../programs/table/gchemtable-app.cc:173
 #, fuzzy
 msgid "Element charts "
-msgstr "Elemento:"
+msgstr "Gráfico de elementos "
 
 #: ../programs/table/gchemtable-app.cc:174
 msgid "Electronegativty "
-msgstr ""
+msgstr "Electronegatividad "
 
 #: ../programs/table/gchemtable-app.cc:175
 #, fuzzy
 msgid "Create an electronegativity chart"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Crear un gráfico de electronegatividad"
 
 #: ../programs/table/gchemtable-app.cc:176
 msgid "Electon affinity"
-msgstr ""
+msgstr "Afinidad electrónica"
 
 #: ../programs/table/gchemtable-app.cc:177
 #, fuzzy
 msgid "Create an electronic affinity chart"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Crear un gráfico de afinidad electrónica"
 
 #: ../programs/table/gchemtable-app.cc:178
 #: ../programs/table/gchemtable-curve.cc:343
 #: ../programs/table/gchemtable-data.cc:529
 msgid "First ionization energy"
-msgstr ""
+msgstr "Primera energía de ionización"
 
 #: ../programs/table/gchemtable-app.cc:179
 msgid "Create an first ionization energy chart"
-msgstr ""
+msgstr "Crear un gráfico de primera energía de ionización"
 
 #: ../programs/table/gchemtable-app.cc:180
 #: ../programs/table/gchemtable-curve.cc:347
 #: ../programs/table/gchemtable-data.cc:530
 msgid "Second ionization energy"
-msgstr ""
+msgstr "Segunda energía de ionización"
 
 #: ../programs/table/gchemtable-app.cc:181
 msgid "Create an second ionization energy chart"
-msgstr ""
+msgstr "Crear un gráfico de segunda energía de ionización"
 
 #: ../programs/table/gchemtable-app.cc:182
 #: ../programs/table/gchemtable-curve.cc:351
 #: ../programs/table/gchemtable-data.cc:531
 msgid "Third ionization energy"
-msgstr ""
+msgstr "Tercera energía de ionización"
 
 #: ../programs/table/gchemtable-app.cc:183
 msgid "Create an third ionization energy chart"
-msgstr ""
+msgstr "Crear un gráfico de tercera energía de ionización"
 
 #: ../programs/table/gchemtable-app.cc:184
 #: ../programs/table/gchemtable-curve.cc:373
 #: ../programs/table/gchemtable-data.cc:533
 msgid "Covalent radius"
-msgstr ""
+msgstr "Radio covalente"
 
 #: ../programs/table/gchemtable-app.cc:185
 msgid "Create an atomic covalent radius chart"
-msgstr ""
+msgstr "Crear un gráfico de radio covalente"
 
 #: ../programs/table/gchemtable-app.cc:186
 #: ../programs/table/gchemtable-curve.cc:382
 #: ../programs/table/gchemtable-data.cc:534
 msgid "Van der Waals radius"
-msgstr ""
+msgstr "Radio de Van der Waals"
 
 #: ../programs/table/gchemtable-app.cc:187
 msgid "Create an atomic van der Waals radius chart"
-msgstr ""
+msgstr "Crear un gráfico de radio de Van der Waals"
 
 #: ../programs/table/gchemtable-app.cc:188
 #: ../programs/table/gchemtable-curve.cc:391
 #: ../programs/table/gchemtable-data.cc:535
 msgid "Metallic radius"
-msgstr ""
+msgstr "Radio metálico"
 
 #: ../programs/table/gchemtable-app.cc:189
 msgid "Create an atomic metallic radius chart"
-msgstr ""
+msgstr "Crear un gráfico de radio metálico"
 
 #: ../programs/table/gchemtable-app.cc:190
 msgid "Melting temperature"
-msgstr ""
+msgstr "Temperatura de fusión"
 
 #: ../programs/table/gchemtable-app.cc:191
 #, fuzzy
 msgid "Create an melting temperature chart"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Crear un gráfico de temperatura de fusión"
 
 #: ../programs/table/gchemtable-app.cc:192
 #: ../programs/table/gchemtable-curve.cc:409
 #: ../programs/table/gchemtable-data.cc:537
 msgid "Ebullition temperature"
-msgstr ""
+msgstr "Temperatura de ebullición"
 
 #: ../programs/table/gchemtable-app.cc:193
 #, fuzzy
 msgid "Create an ebullition temperature chart"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Crear un gráfico de la temperatura de ebullición"
 
 #: ../programs/table/gchemtable-app.cc:194 ../ui/crystal/atoms.ui.h:6
 #, fuzzy
 msgid "Custom"
-msgstr "Color:"
+msgstr "Personalizado"
 
 #: ../programs/table/gchemtable-app.cc:195
 #, fuzzy
 msgid "Create a custom chart"
-msgstr "O_uvrir dans une nouvelle fenêtre..."
+msgstr "Crear un gráfico personalizado"
 
 #: ../programs/table/gchemtable-app.cc:198
 #: ../programs/table/gchemtable-curve.cc:227
 #, fuzzy
 msgid "View help for the Periodic Table"
-msgstr "Gnome Cristal"
+msgstr "Ver ayuda de la Tabla Periódica"
 
 #: ../programs/table/gchemtable-app.cc:208
 #: ../programs/table/gchemtable-curve.cc:239
 msgid "About GChemTable"
-msgstr ""
+msgstr "Acerca de GChemTable"
 
 #: ../programs/table/gchemtable-app.cc:399
 msgid "GChemTable is a chemical periodic table of the elements application"
-msgstr ""
+msgstr "GChemTable es una aplicación de la tabla periódica de los elementos"
 
 #. The <sup> </sup> markup at the end of the chain is there to ensure that
 #. things will be correcly aligned, add the same to the translated string
 #: ../programs/table/gchemtable-elt.cc:61
 msgid "Electronic configuration:<sup> </sup>"
-msgstr ""
+msgstr "Configuración electrónica:<sup> </sup>"
 
 #: ../programs/table/gchemtable-elt.cc:73
 msgid "Lang"
-msgstr ""
+msgstr "Idioma"
 
 #: ../programs/table/gchemtable-elt.cc:80
 #, fuzzy
 msgid "Name"
-msgstr "Nouveau"
+msgstr "Nombre"
 
 #: ../programs/table/gchemtable-elt.cc:106
 #: ../programs/table/gchemtable-elt.cc:150
@@ -4152,103 +4245,103 @@ msgstr ""
 #: ../programs/table/gchemtable-elt.cc:160
 #, c-format
 msgid "%d:"
-msgstr ""
+msgstr "%d:"
 
 #: ../programs/table/gchemtable-elt.cc:130 ../ui/table/eltpage.ui.h:16
 msgid "Show curve"
-msgstr ""
+msgstr "Mostrar curva"
 
 #: ../programs/table/gchemtable-elt.cc:271
 msgid "Ion"
-msgstr ""
+msgstr "Ión"
 
 #. C.N. stands for coordination number
 #: ../programs/table/gchemtable-elt.cc:278
 msgid "C.N."
-msgstr ""
+msgstr "N.C."
 
 #: ../programs/table/gchemtable-elt.cc:283
 #, fuzzy
 msgid "Spin"
-msgstr "Taille"
+msgstr "Espín"
 
 #: ../programs/table/gchemtable-elt.cc:290
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 #: ../programs/table/gchemtable-elt.cc:313
 #, fuzzy
 msgid "High"
-msgstr "Alto:"
+msgstr "Alto"
 
 #: ../programs/table/gchemtable-curve.cc:217
 msgid "Modify the graph properties"
-msgstr ""
+msgstr "Modificar las propiedades del gráfico"
 
 #: ../programs/table/gchemtable-curve.cc:229
 #, fuzzy
 msgid "View help for the Curve Window"
-msgstr "Gnome Cristal"
+msgstr ""
 
 #: ../programs/table/gchemtable-curve.cc:321
 #: ../programs/table/gchemtable-curve.cc:324
 #: ../programs/table/gchemtable-curve.cc:328
 #: ../programs/table/gchemtable-data.cc:528
 msgid "Pauling electronegativity"
-msgstr ""
+msgstr "Electronegatividad de Pauling"
 
 #: ../programs/table/gchemtable-curve.cc:330
 #: ../programs/table/gchemtable-data.cc:532
 msgid "Electronic affinity"
-msgstr ""
+msgstr "Afinidad electrónica"
 
 #: ../programs/table/gchemtable-curve.cc:333
 msgid "Electron affinity (kJ/mol)"
-msgstr ""
+msgstr "Afinidad electrónica (kJ/mol)"
 
 #: ../programs/table/gchemtable-curve.cc:337
 msgid "Electron affinity"
-msgstr ""
+msgstr "Afinidad electrónica"
 
 #: ../programs/table/gchemtable-curve.cc:344
 msgid "1st. "
-msgstr ""
+msgstr "1ª"
 
 #: ../programs/table/gchemtable-curve.cc:348
 msgid "2nd. "
-msgstr ""
+msgstr "2ª"
 
 #: ../programs/table/gchemtable-curve.cc:352
 msgid "3rd. "
-msgstr ""
+msgstr "4ª"
 
 #: ../programs/table/gchemtable-curve.cc:355
 #, c-format
 msgid "%dth. "
-msgstr ""
+msgstr "%dª"
 
 #: ../programs/table/gchemtable-curve.cc:361
 msgid "ionization energy (MJ/mol)"
-msgstr ""
+msgstr "energía de ionización (MJ/mol)"
 
 #: ../programs/table/gchemtable-curve.cc:368
 msgid "ionization energy"
-msgstr ""
+msgstr "energía de ionización"
 
 #: ../programs/table/gchemtable-curve.cc:376
 #: ../programs/table/gchemtable-curve.cc:380
 msgid "Covalent radii"
-msgstr ""
+msgstr "Radios covalentes"
 
 #: ../programs/table/gchemtable-curve.cc:385
 #: ../programs/table/gchemtable-curve.cc:389
 msgid "Van der Waals radii"
-msgstr ""
+msgstr "Radios de Van der Waals"
 
 #: ../programs/table/gchemtable-curve.cc:394
 #: ../programs/table/gchemtable-curve.cc:398
 msgid "Metallic radii"
-msgstr ""
+msgstr "Radios metálicos"
 
 #: ../programs/table/gchemtable-curve.cc:400
 #: ../programs/table/gchemtable-data.cc:536
@@ -4258,287 +4351,287 @@ msgstr ""
 #: ../programs/table/gchemtable-curve.cc:403
 #: ../programs/table/gchemtable-curve.cc:407
 msgid "Melting point"
-msgstr ""
+msgstr "Punto de fusión"
 
 #: ../programs/table/gchemtable-curve.cc:412
 #: ../programs/table/gchemtable-curve.cc:416
 msgid "Boiling point"
-msgstr ""
+msgstr "Punto de ebullición"
 
 #: ../programs/table/gchemtable-curve.cc:432
 #: ../programs/table/gchemtable-data.cc:526
 msgid "Atomic number"
-msgstr ""
+msgstr "Nº atómico"
 
 #: ../programs/table/gchemtable-data-allocator.cc:157
 msgid "Invalid data"
-msgstr ""
+msgstr "Datos inválidos"
 
 #. FIXME: we might know the errors
 #: ../programs/table/gchemtable-data-allocator.cc:201
 msgid "Not supported"
-msgstr ""
+msgstr "No implementado"
 
 #: ../programs/table/gchemtable-data.cc:527
 #, fuzzy
 msgid "Atomic mass"
-msgstr "Átomos"
+msgstr "Masa atómica"
 
 #: ../programs/table/gchemtable.desktop.in.h:1
 #, fuzzy
 msgid "A Mendeleiev table of the chemical elements"
-msgstr "Tabla periódica de los elementos"
+msgstr "Una tabla periódica de los elementos de Mendeleiev"
 
 #: ../templates/paint/haworth.xml.in.h:1
 #, fuzzy
 msgid "Saccharides"
-msgstr "Lantánidos"
+msgstr "Sacáridos"
 
 #: ../templates/paint/haworth.xml.in.h:2
 msgid "α-D-deoxyribofuranose"
-msgstr ""
+msgstr "α-D-deoxyribofuranosa"
 
 #: ../templates/paint/haworth.xml.in.h:3
 msgid "α-D-fructofuranose"
-msgstr ""
+msgstr "α-D-fructofuranosa"
 
 #: ../templates/paint/haworth.xml.in.h:4
 msgid "α-D-galactopyranose"
-msgstr ""
+msgstr "α-D-galactopyranosa"
 
 #: ../templates/paint/haworth.xml.in.h:5
 msgid "α-D-glucopyranose"
-msgstr ""
+msgstr "α-D-glucopyranosa"
 
 #: ../templates/paint/haworth.xml.in.h:6
 msgid "α-D-ribofuranose"
-msgstr ""
+msgstr "α-D-ribofuranosa"
 
 #: ../templates/paint/haworth.xml.in.h:7
 msgid "β-D-deoxyribofuranose"
-msgstr ""
+msgstr "β-D-deoxyribofuranosa"
 
 #: ../templates/paint/haworth.xml.in.h:8
 msgid "β-D-fructofuranose"
-msgstr ""
+msgstr "β-D-fructofuranosa"
 
 #: ../templates/paint/haworth.xml.in.h:9
 msgid "β-D-galactopyranose"
-msgstr ""
+msgstr "β-D-galactopyranosa"
 
 #: ../templates/paint/haworth.xml.in.h:10
 msgid "β-D-glucopyranose"
-msgstr ""
+msgstr "β-D-glucopyranosa"
 
 #: ../templates/paint/haworth.xml.in.h:11
 msgid "β-D-ribofuranose"
-msgstr ""
+msgstr "β-D-ribofuranosa"
 
 #: ../templates/paint/templates.xml.in.h:1
 msgid "Adenine"
-msgstr ""
+msgstr "Adenina"
 
 #: ../templates/paint/templates.xml.in.h:2
 msgid "Adenosine"
-msgstr ""
+msgstr "Adenosina"
 
 #: ../templates/paint/templates.xml.in.h:3
 msgid "Alanine"
-msgstr ""
+msgstr "Alanina"
 
 #: ../templates/paint/templates.xml.in.h:4
 #, fuzzy
 msgid "Amino acids"
-msgstr "Actínidos"
+msgstr "Aminoácidos"
 
 #: ../templates/paint/templates.xml.in.h:5
 msgid "Anthracene"
-msgstr ""
+msgstr "Antraceno"
 
 #: ../templates/paint/templates.xml.in.h:6
 #, fuzzy
 msgid "Arginine"
-msgstr "Impresión"
+msgstr "Arginina"
 
 #: ../templates/paint/templates.xml.in.h:7
 msgid "Aromatic hydrocarbons"
-msgstr ""
+msgstr "Hidrocarburos aromáticos"
 
 #: ../templates/paint/templates.xml.in.h:8
 msgid "Asparagine"
-msgstr ""
+msgstr "Asparagina"
 
 #: ../templates/paint/templates.xml.in.h:9
 msgid "Aspartic acid"
-msgstr ""
+msgstr "Ácido aspártico"
 
 #: ../templates/paint/templates.xml.in.h:10
 msgid "Azulene"
-msgstr ""
+msgstr "Azuleno"
 
 #: ../templates/paint/templates.xml.in.h:11
 msgid "Benzene"
-msgstr ""
+msgstr "Benceno"
 
 #: ../templates/paint/templates.xml.in.h:12
 #, fuzzy
 msgid "Cysteine"
-msgstr "C_ristal"
+msgstr "Cisteína"
 
 #: ../templates/paint/templates.xml.in.h:13
 msgid "Cytidine"
-msgstr ""
+msgstr "Citidina"
 
 #: ../templates/paint/templates.xml.in.h:14
 #, fuzzy
 msgid "Cytosine"
-msgstr "Coordenadas"
+msgstr "Citosina"
 
 #: ../templates/paint/templates.xml.in.h:15
 msgid "Deoxyadenosine"
-msgstr ""
+msgstr "Desoxiadenosina"
 
 #: ../templates/paint/templates.xml.in.h:16
 msgid "Deoxycytidine"
-msgstr ""
+msgstr "Desoxicitidina"
 
 #: ../templates/paint/templates.xml.in.h:17
 msgid "Deoxyguanosine"
-msgstr ""
+msgstr "Desoxyguanocina"
 
 #: ../templates/paint/templates.xml.in.h:18
 msgid "Deoxythymidine"
-msgstr ""
+msgstr "Desoxitimidina"
 
 #: ../templates/paint/templates.xml.in.h:19
 msgid "Glutamic acid"
-msgstr ""
+msgstr "Ácido glutámico"
 
 #: ../templates/paint/templates.xml.in.h:20
 msgid "Glutamine"
-msgstr ""
+msgstr "Glutamina"
 
 #: ../templates/paint/templates.xml.in.h:21
 msgid "Glycine"
-msgstr ""
+msgstr "Glicina"
 
 #: ../templates/paint/templates.xml.in.h:22
 msgid "Guanine"
-msgstr ""
+msgstr "Guanina"
 
 #: ../templates/paint/templates.xml.in.h:23
 msgid "Guanosine"
-msgstr ""
+msgstr "Guanosina"
 
 #: ../templates/paint/templates.xml.in.h:24
 msgid "Histidine"
-msgstr ""
+msgstr "Histidina"
 
 #: ../templates/paint/templates.xml.in.h:25
 msgid "Isoleucine"
-msgstr ""
+msgstr "Isoleucina"
 
 #: ../templates/paint/templates.xml.in.h:26
 msgid "Leucine"
-msgstr ""
+msgstr "Leucina"
 
 #: ../templates/paint/templates.xml.in.h:27
 msgid "Lysine"
-msgstr ""
+msgstr "Lisina"
 
 #: ../templates/paint/templates.xml.in.h:28
 msgid "Methionine"
-msgstr ""
+msgstr "Metionina"
 
 #: ../templates/paint/templates.xml.in.h:29
 msgid "Naphtalene"
-msgstr ""
+msgstr "Naftaleno"
 
 #: ../templates/paint/templates.xml.in.h:30
 msgid "Nucleic bases"
-msgstr ""
+msgstr "Bases nucléicas"
 
 #: ../templates/paint/templates.xml.in.h:31
 msgid "Nucleosides"
-msgstr ""
+msgstr "Nucleósidos"
 
 #: ../templates/paint/templates.xml.in.h:32
 msgid "Phenanthrene"
-msgstr ""
+msgstr "Fenantreno"
 
 #: ../templates/paint/templates.xml.in.h:33
 msgid "Phenylalanine"
-msgstr ""
+msgstr "Fenilalanina"
 
 #: ../templates/paint/templates.xml.in.h:34
 msgid "Proline"
-msgstr ""
+msgstr "Prolina"
 
 #: ../templates/paint/templates.xml.in.h:35
 #, fuzzy
 msgid "Pyrene"
-msgstr "Previsualizar"
+msgstr "Pireno"
 
 #: ../templates/paint/templates.xml.in.h:36
 #, fuzzy
 msgid "Serine"
-msgstr "Tamaño"
+msgstr "Serina"
 
 #: ../templates/paint/templates.xml.in.h:37
 msgid "Threonine"
-msgstr ""
+msgstr "Treonina"
 
 #: ../templates/paint/templates.xml.in.h:38
 msgid "Thymine"
-msgstr ""
+msgstr "Timina"
 
 #: ../templates/paint/templates.xml.in.h:39
 msgid "Tryptophan"
-msgstr ""
+msgstr "Triptófano"
 
 #: ../templates/paint/templates.xml.in.h:40
 msgid "Tyrosine"
-msgstr ""
+msgstr "Tirosina"
 
 #: ../templates/paint/templates.xml.in.h:41
 msgid "Uracil"
-msgstr ""
+msgstr "Uracilo"
 
 #: ../templates/paint/templates.xml.in.h:42
 msgid "Uridine"
-msgstr ""
+msgstr "Uridina"
 
 #: ../templates/paint/templates.xml.in.h:43
 msgid "Valine"
-msgstr ""
+msgstr "Valina"
 
 #: ../ui/calc/gchemcalc.ui.h:2
 msgid "Composition"
-msgstr ""
+msgstr "Composición"
 
 #: ../ui/calc/gchemcalc.ui.h:4
 msgid "Isotopic Pattern"
-msgstr ""
+msgstr "Patrón isotópico"
 
 #: ../ui/calc/gchemcalc.ui.h:5
 msgid "Molecular weight:"
-msgstr ""
+msgstr "Peso molecular:"
 
 #: ../ui/calc/gchemcalc.ui.h:6
 msgid "Monoisotopic mass:"
-msgstr ""
+msgstr "Masa monoisotópica:"
 
 #: ../ui/crystal/cell.ui.h:1
 msgid "&#x3B1; (&#xB0;):"
-msgstr ""
+msgstr "&#x3B1; (&#xB0;):"
 
 #: ../ui/crystal/cell.ui.h:2
 msgid "&#x3B2; (&#xB0;):"
-msgstr ""
+msgstr "&#x3B2; (&#xB0;):"
 
 #: ../ui/crystal/cell.ui.h:3
 msgid "&#x3B3; (&#xB0;):"
-msgstr ""
+msgstr "&#x3B3; (&#xB0;):"
 
 #: ../ui/crystal/cell.ui.h:5
 msgid "Base-centered monoclinic"
@@ -4546,7 +4639,7 @@ msgstr "Monoclínica centrada en la base"
 
 #: ../ui/crystal/cell.ui.h:6
 msgid "Base-centered orthorhombic"
-msgstr "Ortorómbica centrada en la base"
+msgstr "Ortorrómbica centrada en la base"
 
 #: ../ui/crystal/cell.ui.h:7
 msgid "Body-centered cubic"
@@ -4554,7 +4647,7 @@ msgstr "Cúbica centrada en el cuerpo"
 
 #: ../ui/crystal/cell.ui.h:8
 msgid "Body-centered orthorhombic"
-msgstr "Ortorómbica centrada en el cuerpo"
+msgstr "Ortorrómbica centrada en el cuerpo"
 
 #: ../ui/crystal/cell.ui.h:9
 msgid "Body-centered tetragonal"
@@ -4580,7 +4673,7 @@ msgstr "Ortorómbica centrada en las caras"
 #: ../ui/crystal/cell.ui.h:14
 #, fuzzy
 msgid "Hexagonal"
-msgstr "Diagonales"
+msgstr "Hexagonal"
 
 #: ../ui/crystal/cell.ui.h:15
 msgid "Lattice:"
@@ -4596,7 +4689,7 @@ msgstr "Ortorómbica"
 
 #: ../ui/crystal/cell.ui.h:18
 msgid "Rhombohedral"
-msgstr "Romboedral"
+msgstr "Romboédrica"
 
 #: ../ui/crystal/cell.ui.h:19
 msgid "Simple cubic"
@@ -4604,12 +4697,12 @@ msgstr "Cúbica simple"
 
 #: ../ui/crystal/cell.ui.h:20
 msgid "Space group:"
-msgstr ""
+msgstr "Grupo espacial:"
 
 #: ../ui/crystal/cell.ui.h:21
 #, fuzzy
 msgid "Tetragonal"
-msgstr "Diagonales"
+msgstr "Tetragonal"
 
 #: ../ui/crystal/cell.ui.h:22
 msgid "Triclinic"
@@ -4617,104 +4710,106 @@ msgstr "Triclínica"
 
 #: ../ui/crystal/cell.ui.h:23
 msgid "a (pm): "
-msgstr ""
+msgstr "a (pm): "
 
 #: ../ui/crystal/cell.ui.h:24
 msgid "b (pm):"
-msgstr ""
+msgstr "b (pm):"
 
 #: ../ui/crystal/cell.ui.h:25
 msgid "c (pm):"
-msgstr ""
+msgstr "c (pm):"
 
 #: ../ui/crystal/docprop.ui.h:1 ../ui/paint/docprop.ui.h:1
 msgid "<b>Author:</b>"
-msgstr ""
+msgstr "<b>Autor:</b>"
 
 #: ../ui/crystal/docprop.ui.h:2 ../ui/paint/docprop.ui.h:2
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>Historia</b>"
 
 #: ../ui/crystal/docprop.ui.h:3 ../ui/paint/docprop.ui.h:4
 msgid "<b>_Comments:</b>"
-msgstr ""
+msgstr "<b>_Comentarios:</b>"
 
 #: ../ui/crystal/docprop.ui.h:4 ../ui/paint/docprop.ui.h:5
 msgid "Creation date:"
-msgstr ""
+msgstr "Fecha de creación:"
 
 #: ../ui/crystal/docprop.ui.h:5 ../ui/paint/docprop.ui.h:6
 #, fuzzy
 msgid "Document properties"
-msgstr "Documentos"
+msgstr "Propiedades del documento"
 
 #: ../ui/crystal/docprop.ui.h:6 ../ui/paint/docprop.ui.h:7
 msgid "E-_mail:"
-msgstr ""
+msgstr "E-_mail:"
 
 #: ../ui/crystal/docprop.ui.h:7 ../ui/paint/docprop.ui.h:8
 msgid "Revision date:"
-msgstr ""
+msgstr "Fecha de revisión:"
 
 #: ../ui/crystal/docprop.ui.h:8 ../ui/paint/docprop.ui.h:10
 #, fuzzy
 msgid "_Name:"
-msgstr "Nouveau"
+msgstr "_Nombre:"
 
 #: ../ui/crystal/docprop.ui.h:9 ../ui/paint/docprop.ui.h:11
 #, fuzzy
 msgid "_Title:"
-msgstr "Archivo nuevo"
+msgstr "_Título:"
 
 #: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:1
 msgid "&#x3B8; (&#xB0;):"
-msgstr ""
+msgstr "&#x3B8; (&#xB0;):"
 
 #: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:2
 msgid "&#x3C6; (&#xB0;):"
-msgstr ""
+msgstr "&#x3C6; (&#xB0;):"
 
 #: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:3
 msgid "&#x3C8; (&#xB0;):"
-msgstr ""
+msgstr "&#x3C8; (&#xB0;):"
 
 #: ../ui/crystal/prefs.ui.h:4
 msgid "1200"
-msgstr ""
+msgstr "1200"
 
 #: ../ui/crystal/prefs.ui.h:5
 msgid "1440"
-msgstr ""
+msgstr "1440"
 
 #: ../ui/crystal/prefs.ui.h:6
 msgid "2400"
-msgstr ""
+msgstr "2400"
 
 #: ../ui/crystal/prefs.ui.h:7
 msgid "2880"
-msgstr ""
+msgstr "2880"
 
 #: ../ui/crystal/prefs.ui.h:8
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: ../ui/crystal/prefs.ui.h:9
 msgid "360"
-msgstr ""
+msgstr "360"
 
 #: ../ui/crystal/prefs.ui.h:10
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: ../ui/crystal/prefs.ui.h:11
 msgid "720"
-msgstr ""
+msgstr "720"
 
 #: ../ui/crystal/prefs.ui.h:12
 msgid ""
 "A printer resolution of 300 dpi generally gives a quite acceptable result. "
 "Changing to a higher value can lead to a much longer processing time."
 msgstr ""
+"Una resolución de impresión de 300 dpi generalmente da resultados bastante aceptables. "
+"Cambiar a un valor más alto puede llevar a un tiempo de procesamiento más largo."
 
 #: ../ui/crystal/prefs.ui.h:13 ../ui/crystal/view-settings.ui.h:4
 msgid "Background color:"
@@ -4722,7 +4817,7 @@ msgstr "Color de fondo:"
 
 #: ../ui/crystal/prefs.ui.h:14
 msgid "Default views settings"
-msgstr "Vista predeterminada"
+msgstr ""
 
 #: ../ui/crystal/prefs.ui.h:15 ../ui/crystal/view-settings.ui.h:5
 msgid "Euler's angles"
@@ -4736,6 +4831,7 @@ msgstr "Ángulo del campo visual (entre 1 y 45°):"
 #: ../ui/crystal/prefs.ui.h:17 ../ui/crystal/view-settings.ui.h:7
 msgid "Model orientation in space:"
 msgstr "Orientación del modelo en el espacio:"
+
 
 #: ../ui/crystal/prefs.ui.h:19
 msgid "Printer resolution:"
@@ -4753,25 +4849,25 @@ msgstr "Ángulo del campo visual (entre 1 y 45°):"
 #: ../ui/crystal/atoms.ui.h:1
 #, fuzzy
 msgid "All atoms"
-msgstr "Átomos"
+msgstr "Todos los átomos"
 
 #: ../ui/crystal/atoms.ui.h:2
 msgid "Apply changes to:"
-msgstr ""
+msgstr "Aplicar cambios a:"
 
 #: ../ui/crystal/atoms.ui.h:4
 msgid "Charge: "
-msgstr ""
+msgstr "Carga: "
 
 #: ../ui/crystal/atoms.ui.h:5
 #, fuzzy
 msgid "Covalent"
-msgstr "Tamaño"
+msgstr "Covalente"
 
 #: ../ui/crystal/atoms.ui.h:7
 #, fuzzy
 msgid "Custom color:"
-msgstr "Color:"
+msgstr "Color personalizado:"
 
 #: ../ui/crystal/atoms.ui.h:8 ../ui/crystal/cleavages.ui.h:2
 #: ../ui/crystal/lines.ui.h:2
@@ -4780,44 +4876,44 @@ msgstr "Borrar _todo"
 
 #: ../ui/crystal/atoms.ui.h:9
 msgid "Ionic"
-msgstr ""
+msgstr "Iónico"
 
 #: ../ui/crystal/atoms.ui.h:10
 msgid "Metallic"
-msgstr ""
+msgstr "Metálico"
 
 #: ../ui/crystal/atoms.ui.h:12
 #, fuzzy
 msgid "Radius"
-msgstr "Radio (pm) :"
+msgstr "Radio"
 
 #: ../ui/crystal/atoms.ui.h:13
 msgid "Scale factor:"
-msgstr ""
+msgstr "Factor de escala:"
 
 #: ../ui/crystal/atoms.ui.h:14
 #, fuzzy
 msgid "Selected atom"
-msgstr "Elegir un color"
+msgstr "Átomo seleccionado"
 
 #: ../ui/crystal/atoms.ui.h:15
 #, fuzzy
 msgid "Selected element"
-msgstr "Elegir un color"
+msgstr "Elemento seleccionado"
 
 #: ../ui/crystal/atoms.ui.h:16
 #, fuzzy
 msgid "Type:"
-msgstr "Tipo"
+msgstr "Tipo:"
 
 #: ../ui/crystal/atoms.ui.h:18
 #, fuzzy
 msgid "Value (pm):"
-msgstr "Radio (pm) :"
+msgstr "Valor (pm):"
 
 #: ../ui/crystal/atoms.ui.h:19
 msgid "Van der Waals"
-msgstr ""
+msgstr "Van der Waals"
 
 #: ../ui/crystal/atoms.ui.h:20 ../ui/crystal/cleavages.ui.h:5
 #: ../ui/crystal/lines.ui.h:7
@@ -4831,7 +4927,7 @@ msgstr "_Borrar"
 
 #: ../ui/crystal/cleavages.ui.h:1
 msgid "Cleavages"
-msgstr "Clivajes"
+msgstr ""
 
 #: ../ui/crystal/cleavages.ui.h:3
 msgid "Fixed model size"
@@ -4840,6 +4936,7 @@ msgstr "Tamaño del modelo fijo"
 #: ../ui/crystal/cleavages.ui.h:4
 msgid "List of defined cleavages (h, k, and l are the Miller indices)"
 msgstr ""
+
 
 #: ../ui/crystal/lines.ui.h:1
 msgid "Cell edges"
@@ -4851,7 +4948,7 @@ msgstr "Diagonales"
 
 #: ../ui/crystal/lines.ui.h:4
 msgid "Lines"
-msgstr ""
+msgstr "Líneas"
 
 #: ../ui/crystal/lines.ui.h:5
 msgid "Medians"
@@ -4860,22 +4957,22 @@ msgstr "Medianas"
 #: ../ui/crystal/lines.ui.h:6
 #, fuzzy
 msgid "Other lines"
-msgstr "Otro"
+msgstr "Otras líneas"
 
 #: ../ui/crystal/lines.ui.h:9
 #, fuzzy
 msgid "color:"
-msgstr "Color:"
+msgstr "color:"
 
 #: ../ui/crystal/lines.ui.h:10
 #, fuzzy
 msgid "radius (pm):"
-msgstr "Radio (pm) :"
+msgstr "Radio (pm):"
 
 #: ../ui/crystal/size.ui.h:2
 #, fuzzy
 msgid "Crystal size"
-msgstr "C_ristal"
+msgstr "Tamaño del cristal"
 
 #: ../ui/crystal/size.ui.h:3
 msgid "Give minimum and maximum coordinates in cell units"
@@ -4909,127 +5006,127 @@ msgstr "Ancho:"
 #: ../ui/libgcu/image-resolution.ui.h:1
 #, fuzzy
 msgid "Image _resolution:"
-msgstr "Resolución de la impresora:"
+msgstr "Resolución de la imagen:"
 
 #: ../ui/libgcu/image-resolution.ui.h:2
 msgid "Tr_ansparent background"
-msgstr ""
+msgstr "Fondo tr_ansparente"
 
 #: ../ui/libgcu/print-setup.ui.h:2
 #, no-c-format
 msgid "% of normal size"
-msgstr ""
+msgstr "% del tamaño normal"
 
 #: ../ui/libgcu/print-setup.ui.h:3
 msgid "<b>Center on page:</b>"
-msgstr ""
+msgstr "<b>Centrar en página:</b>"
 
 #: ../ui/libgcu/print-setup.ui.h:4
 msgid "<b>O_rientation:</b>"
-msgstr ""
+msgstr "<b>O_rientación</b>"
 
 #: ../ui/libgcu/print-setup.ui.h:5
 msgid "<b>Paper:</b>"
-msgstr ""
+msgstr "<b>Papel:</b>"
 
 #: ../ui/libgcu/print-setup.ui.h:6
 msgid "<b>Scale</b>"
-msgstr ""
+msgstr "<b>Escala</b>"
 
 #: ../ui/libgcu/print-setup.ui.h:7
 #, fuzzy
 msgid "Bottom margin:"
-msgstr "Abajo"
+msgstr "Margen inferior:"
 
 #: ../ui/libgcu/print-setup.ui.h:8
 msgid "Change Paper Type"
-msgstr ""
+msgstr "Cambiar tipo de papel"
 
 #: ../ui/libgcu/print-setup.ui.h:9
 msgid "Configure"
-msgstr ""
+msgstr "Configurar"
 
 #: ../ui/libgcu/print-setup.ui.h:10
 msgid "Fi_rst page number:"
-msgstr ""
+msgstr "P_rimer número de página:"
 
 #: ../ui/libgcu/print-setup.ui.h:11
 #, fuzzy
 msgid "Footer:"
-msgstr "Color:"
+msgstr "Pie de página:"
 
 #: ../ui/libgcu/print-setup.ui.h:12
 msgid "Header:"
-msgstr ""
+msgstr "Encabezado:"
 
 #: ../ui/libgcu/print-setup.ui.h:13
 msgid "Headers and Footers"
-msgstr ""
+msgstr "Encabezados y pie de página"
 
 #: ../ui/libgcu/print-setup.ui.h:14
 msgid "Landscape"
-msgstr ""
+msgstr "Horizontal"
 
 #: ../ui/libgcu/print-setup.ui.h:15
 msgid "Left margin:"
-msgstr ""
+msgstr "Margen izquierdo:"
 
 #: ../ui/libgcu/print-setup.ui.h:16
 msgid "Page"
-msgstr ""
+msgstr "Página"
 
 #: ../ui/libgcu/print-setup.ui.h:17
 msgid "Page Setup"
-msgstr ""
+msgstr "Configuración de página"
 
 #: ../ui/libgcu/print-setup.ui.h:18
 msgid "Portrait"
-msgstr ""
+msgstr "Vertical"
 
 #: ../ui/libgcu/print-setup.ui.h:19
 msgid "Reload defaults"
-msgstr ""
+msgstr "Reecargar predeterminados"
 
 #: ../ui/libgcu/print-setup.ui.h:20
 msgid "Reverse landscape"
-msgstr ""
+msgstr "Horizontal invertido"
 
 #: ../ui/libgcu/print-setup.ui.h:21
 msgid "Reverse portrait"
-msgstr ""
+msgstr "Vertical invertido"
 
 #: ../ui/libgcu/print-setup.ui.h:22
 msgid "Right margin:"
-msgstr ""
+msgstr "Margen derecho:"
 
 #: ../ui/libgcu/print-setup.ui.h:23
 msgid "Save as defaults"
-msgstr ""
+msgstr "Guardar como predeterminados"
 
 #: ../ui/libgcu/print-setup.ui.h:24
 #, fuzzy
 msgid "Scale"
-msgstr "Salvar"
+msgstr "Escalar"
 
 #: ../ui/libgcu/print-setup.ui.h:25
 msgid "Scale to fit _horizontally on"
-msgstr ""
+msgstr "Escalar para ajustar _horizontalmente a"
 
 #: ../ui/libgcu/print-setup.ui.h:26
 msgid "Scale to fit _vertically on"
-msgstr ""
+msgstr "Escalar para ajustar _verticalmente a"
 
 #: ../ui/libgcu/print-setup.ui.h:27
 msgid "Top margin:"
-msgstr ""
+msgstr "Margen superior:"
 
 #: ../ui/libgcu/print-setup.ui.h:28
 msgid "Unit:"
-msgstr ""
+msgstr "Unidad:"
 
 #: ../ui/libgcu/print-setup.ui.h:29
 msgid "_Automatic scaling:"
-msgstr ""
+msgstr "Escala _automática:"
 
 #: ../ui/libgcu/print-setup.ui.h:30
 msgid "_Fixed scaling:"
@@ -5037,35 +5134,35 @@ msgstr ""
 
 #: ../ui/libgcu/print-setup.ui.h:31
 msgid "_Footer:"
-msgstr ""
+msgstr "_Pie de página:"
 
 #: ../ui/libgcu/print-setup.ui.h:32
 msgid "_Header:"
-msgstr ""
+msgstr "_Encabezados:"
 
 #: ../ui/libgcu/print-setup.ui.h:33
 msgid "_Horizontally"
-msgstr ""
+msgstr "_Horizontalmente"
 
 #: ../ui/libgcu/print-setup.ui.h:34
 msgid "_No scaling"
-msgstr ""
+msgstr "Sin escalar"
 
 #: ../ui/libgcu/print-setup.ui.h:35
 msgid "_Vertically"
-msgstr ""
+msgstr "_Verticalmente"
 
 #: ../ui/libgcu/print-setup.ui.h:36
 msgid "page(s)"
-msgstr ""
+msgstr "página(s)"
 
 #: ../ui/paint/arrow-object.ui.h:1
 msgid "Arrow associated object"
-msgstr ""
+msgstr "Objeto asociado a flecha"
 
 #: ../ui/paint/arrow-object.ui.h:2
 msgid "_Role:"
-msgstr ""
+msgstr "_Rol:"
 
 #: ../ui/paint/arrow-object.ui.h:3
 msgid "gtk-close"
@@ -5077,20 +5174,20 @@ msgstr ""
 
 #: ../ui/paint/docprop.ui.h:3
 msgid "<b>Theme</b>"
-msgstr ""
+msgstr "<b>Tema</b>"
 
 #: ../ui/paint/docprop.ui.h:9 ../ui/paint/newfiledlg.ui.h:2
 msgid "Theme:"
-msgstr ""
+msgstr "Tema:"
 
 #: ../ui/paint/H-pos.ui.h:1
 #, fuzzy
 msgid "Auto"
-msgstr "Átomos"
+msgstr "Auto"
 
 #: ../ui/paint/newfiledlg.ui.h:1
 msgid "New file with theme"
-msgstr ""
+msgstr "Nuevo archivo con tema"
 
 #: ../ui/paint/newfiledlg.ui.h:3
 msgid "gtk-apply"
@@ -5102,74 +5199,76 @@ msgstr ""
 
 #: ../ui/paint/preferences.ui.h:1
 msgid "<b>Arrow heads</b>"
-msgstr ""
+msgstr "<b> Cabezas de las flechas</b>"
 
 #: ../ui/paint/preferences.ui.h:2
 msgid "<b>Normal bonds</b>"
-msgstr ""
+msgstr "<b>Enlaces normales</b>"
 
 #: ../ui/paint/preferences.ui.h:3
 msgid "<b>Stereochemical bonds</b>"
-msgstr ""
+msgstr "<b>Enlaces estereoquímicos</b>"
 
 #: ../ui/paint/preferences.ui.h:4
 msgid "<b>Themes</b>"
-msgstr ""
+msgstr "<b>Temas</b>"
 
 #: ../ui/paint/preferences.ui.h:5
 msgid "A:"
-msgstr ""
+msgstr "A:"
 
 #: ../ui/paint/preferences.ui.h:6
 #, fuzzy
 msgid "Angl_e:"
-msgstr "Tamaño"
+msgstr "Ángulo:"
 
 #: ../ui/paint/preferences.ui.h:7
 msgid "Arrow line width (in pixels)."
-msgstr ""
+msgstr "Grosor de la línea de flecha (en píxeles)."
 
 #: ../ui/paint/preferences.ui.h:8
 msgid "B:"
-msgstr ""
+msgstr "B:"
 
 #: ../ui/paint/preferences.ui.h:9
 msgid "Bond line width (in pixels)."
-msgstr ""
+msgstr "Grosor de la línea de enlace (en píxeles)."
 
 #: ../ui/paint/preferences.ui.h:10
 msgid "C:"
-msgstr ""
+msgstr "C:"
 
 #: ../ui/paint/preferences.ui.h:11
 msgid "Charge _sign size:"
-msgstr ""
+msgstr "Tamaño del signo de carga:"
 
 #: ../ui/paint/preferences.ui.h:12
 msgid "Default Compression _Level For GChemPaint Files:"
-msgstr ""
+msgstr "Nivel de compresión predeterminado para archivos de GChemPaint:"
 
 #: ../ui/paint/preferences.ui.h:13
 msgid "Default angle between two consecutive bonds in a chain."
-msgstr ""
+msgstr "Ángulo predeterminado entre dos enlaces consecutivos en una cadena."
 
 #: ../ui/paint/preferences.ui.h:14
 msgid "Default arrow length (in pm just like bond lengths)."
-msgstr ""
+msgstr "Longitud de flecha predeterminada (en pm, como los enlaces)."
 
 #: ../ui/paint/preferences.ui.h:15
 msgid "Default bond length (pm)."
-msgstr ""
+msgstr "Longitud de enlace predeterminada (pm)."
 
 #: ../ui/paint/preferences.ui.h:16
 msgid ""
 "Default padding in pixels added between consecutive objects during an "
 "alignment operation."
 msgstr ""
+"Relleno predeterminado entre objetos consecutivos en una operación "
+"de alineación, en píxeles."
 
 #: ../ui/paint/preferences.ui.h:17
 msgid "Dist_ance:"
-msgstr ""
+msgstr "Dist_ancia:"
 
 #: ../ui/paint/preferences.ui.h:18
 msgid "Distance between hashes in pixels."
@@ -5177,17 +5276,19 @@ msgstr ""
 
 #: ../ui/paint/preferences.ui.h:19
 msgid "Distance in pixels between two lines representing a multiple bond."
-msgstr ""
+msgstr "Distancia en píxeles entre dos líneas que representan un enlace múltiple."
 
 #: ../ui/paint/preferences.ui.h:20
 msgid ""
 "Distance in pixels between two parallel lines (either two arrows or one "
 "arrow with two lines)."
 msgstr ""
+"Distancia en píxeles entre dos líneas paralelas (tanto dos flechas como "
+"una flecha con dos líneas)."
 
 #: ../ui/paint/preferences.ui.h:21
 msgid "Distance in pixels from tip of arrowhead to center."
-msgstr ""
+msgstr "Distancia en píxeles desde la punta de la flecha hasta el centro."
 
 #: ../ui/paint/preferences.ui.h:22
 msgid ""
@@ -5205,15 +5306,17 @@ msgid ""
 "Extra padding between a stoichiometric coefficient and its associated "
 "molecule in pixels."
 msgstr ""
+"Relleno extra entre un coeficiente estequiométrico y su molécula "
+"asociada, en píxeles."
 
 #: ../ui/paint/preferences.ui.h:25
 #, fuzzy
 msgid "GChemPaint Preferences"
-msgstr "Preferencias"
+msgstr "Preferencias de GChemPaint"
 
 #: ../ui/paint/preferences.ui.h:26
 msgid "General _padding:"
-msgstr ""
+msgstr "Relleno general:"
 
 #: ../ui/paint/preferences.ui.h:27
 msgid "Ha_sh width:"
@@ -5228,50 +5331,54 @@ msgstr ""
 
 #: ../ui/paint/preferences.ui.h:29
 msgid "Len_gth:"
-msgstr ""
+msgstr "Longitud:"
 
 #: ../ui/paint/preferences.ui.h:31
 msgid "Padding added at each end of an arrow (in pixels)."
-msgstr ""
+msgstr "Relleno añadido a ambos extremos de una flecha (en píxeles)."
 
 #: ../ui/paint/preferences.ui.h:32
 msgid ""
 "Padding between a '+' sign in a reaction equation and reactants symbols in "
 "pixels."
-msgstr ""
+msgstr "Relleno entre un signo '+' y los reactivos en una reacción (en píxeles)."
 
 #: ../ui/paint/preferences.ui.h:33
 msgid ""
 "Padding used around text objects such as atoms, texts and other typographic "
 "signs in pixels."
 msgstr ""
+"Relleno usado alrededor de onjetos de texto como átomos, textos y otros signos "
+"tipográficos, en píxeles."
 
 #: ../ui/paint/preferences.ui.h:34
 msgid ""
 "Scale used to convert real distance to canvas distance expressed in pm per "
 "pixel."
 msgstr ""
+"Escala usada para convertir distancia real a distancia del lienzo, en pm por "
+"píxel."
 
 #: ../ui/paint/preferences.ui.h:35
 msgid "Si_gn padding:"
-msgstr ""
+msgstr "Relleno del signo:"
 
 #: ../ui/paint/preferences.ui.h:36
 msgid "Size of the charge sign in pixels."
-msgstr ""
+msgstr "Tamaño del signo de la carga en píxeles."
 
 #: ../ui/paint/preferences.ui.h:37
 msgid "Stoichio_metry padding:"
-msgstr ""
+msgstr "Relleno de la estequiometría:"
 
 #: ../ui/paint/preferences.ui.h:38
 #, fuzzy
 msgid "Wid_th"
-msgstr "Ancho:"
+msgstr "Ancho"
 
 #: ../ui/paint/preferences.ui.h:39
 msgid "Width in pixels at the largest end."
-msgstr ""
+msgstr "Anchura en píxeles del extremo mán ancho."
 
 #: ../ui/paint/preferences.ui.h:40
 msgid "Width of hashes in pixels."
@@ -5280,11 +5387,11 @@ msgstr ""
 #: ../ui/paint/preferences.ui.h:41
 #, fuzzy
 msgid "_Default theme:"
-msgstr "Vista predeterminada"
+msgstr "Tema predeterminado:"
 
 #: ../ui/paint/preferences.ui.h:42
 msgid "_Distance:"
-msgstr ""
+msgstr "_Distancia:"
 
 #: ../ui/paint/preferences.ui.h:43
 msgid "_Invert wedge hashes"
@@ -5292,16 +5399,16 @@ msgstr ""
 
 #: ../ui/paint/preferences.ui.h:44
 msgid "_Object padding:"
-msgstr ""
+msgstr "Relleno de _objeto:"
 
 #: ../ui/paint/preferences.ui.h:45
 msgid "_Padding:"
-msgstr ""
+msgstr "_Relleno:"
 
 #: ../ui/paint/preferences.ui.h:46
 #, fuzzy
 msgid "_Scale:"
-msgstr "Salvar"
+msgstr "E_scala:"
 
 #: ../ui/paint/preferences.ui.h:47
 #, fuzzy
@@ -5310,196 +5417,202 @@ msgstr "Ancho:"
 
 #: ../ui/paint/tools.ui.h:1
 msgid "_Current element:"
-msgstr ""
+msgstr "Elemento actual:"
 
 #: ../ui/paint/zoom.ui.h:1
 #, fuzzy
 msgid "Zoom"
-msgstr "Abajo"
+msgstr "Zoom"
 
 #: ../ui/paint/zoom.ui.h:3
 #, no-c-format
 msgid "Zoom factor (%):"
-msgstr ""
+msgstr "Factor de zoom (%):"
 
 #: ../ui/table/acidity.ui.h:1
 msgid "<span background=\"blue\"><b>Basic</b></span>"
-msgstr ""
+msgstr "<span background=\"blue\"><b>Básico</b></span>"
 
 #: ../ui/table/acidity.ui.h:2
 msgid "<span background=\"green\"><b>Neutral</b></span>"
-msgstr ""
+msgstr "<span background=\"green\"><b>Neutro</b></span>"
 
 #: ../ui/table/acidity.ui.h:3
 msgid "<span background=\"magenta\"><b>Amphoteric</b></span>"
-msgstr ""
+msgstr "<span background=\"magenta\"><b>Amfotérico</b></span>"
 
 #: ../ui/table/acidity.ui.h:4
 msgid "<span background=\"red\"><b>Acidic</b></span>"
-msgstr ""
+msgstr "<span background=\"red\"><b>Ácido</b></span>"
 
 #: ../ui/table/eltpage.ui.h:1
 msgid "1:"
-msgstr ""
+msgstr "1:"
 
 #: ../ui/table/eltpage.ui.h:2
 msgid "Atomic number:"
-msgstr ""
+msgstr "Número atómico:"
 
 #: ../ui/table/eltpage.ui.h:3
 msgid "Atomic weight:"
-msgstr ""
+msgstr "Peso atómico:"
 
 #: ../ui/table/eltpage.ui.h:4
 msgid "Boiling point:"
-msgstr ""
+msgstr "Punto de ebullición:"
 
 #: ../ui/table/eltpage.ui.h:5
 msgid "Covalent:"
-msgstr ""
+msgstr "Covalente"
 
 #: ../ui/table/eltpage.ui.h:6
 msgid "Electronic affinities:"
-msgstr ""
+msgstr "Afinidades electrónicas:"
 
 #: ../ui/table/eltpage.ui.h:7
 msgid "Electronic properties"
-msgstr ""
+msgstr "Propiedades electrónicas"
 
 #: ../ui/table/eltpage.ui.h:8
 msgid "Ionic radii (Shannon and Prewitt):"
-msgstr ""
+msgstr "Radios iónicos (Shannon y Prewitt):"
 
 #: ../ui/table/eltpage.ui.h:9
 msgid "Ionization energies:"
-msgstr ""
+msgstr "Energías de ionización:"
 
 #: ../ui/table/eltpage.ui.h:10
 msgid "Isotopes"
-msgstr ""
+msgstr "Isótopos"
 
 #: ../ui/table/eltpage.ui.h:11
 msgid "Main"
-msgstr ""
+msgstr "Princal"
 
 #: ../ui/table/eltpage.ui.h:12
 msgid "Melting point:"
-msgstr ""
+msgstr "Punto de fusión:"
 
 #: ../ui/table/eltpage.ui.h:13
 msgid "Metallic:"
-msgstr ""
+msgstr "Metálico:"
 
 #: ../ui/table/eltpage.ui.h:14
 msgid "Pauling electronegativity:"
-msgstr ""
+msgstr "Electronegatividad de Pauling:"
 
 #: ../ui/table/eltpage.ui.h:15
 #, fuzzy
 msgid "Radii"
-msgstr "Radio (pm) :"
+msgstr "Radios"
 
 #: ../ui/table/eltpage.ui.h:17
 msgid "Thermodynamics"
-msgstr ""
+msgstr "Termodinámica"
 
 #: ../ui/table/eltpage.ui.h:18
 msgid "Van der Waals:"
-msgstr ""
+msgstr "Van der Waals:"
 
 #: ../ui/table/state-thermometer.ui.h:1
 msgid "<span background=\"blue\"> <b>Solid</b> </span>"
-msgstr ""
+msgstr "<span background=\"blue\"> <b>Sólido</b> </span>"
 
 #: ../ui/table/state-thermometer.ui.h:2
 msgid "<span background=\"green\"> <b>Liquid</b> </span>"
-msgstr ""
+msgstr "<span background=\"green\"> <b>Líquido</b> </span>"
 
 #: ../ui/table/state-thermometer.ui.h:3
 msgid "<span background=\"red\"> <b>Gas</b> </span>"
-msgstr ""
+msgstr "<span background=\"red\"> <b>Gas</b> </span>"
 
 #: ../ui/table/state-thermometer.ui.h:4
 msgid "Temperature (K):"
-msgstr ""
+msgstr "Temperatura (K):"
 
 #: ../ui/table/curve.ui.h:1
 msgid "GChemTable Graph"
-msgstr ""
+msgstr "Gráfico GChemPaint"
 
 #: ../ui/table/family.ui.h:1
 msgid "Alkali Metals"
-msgstr ""
+msgstr "Metales alcalinos"
 
 #: ../ui/table/family.ui.h:2
 msgid "Alkaline Earths Metals"
-msgstr ""
+msgstr "Alcalinotérreos"
 
 #: ../ui/table/family.ui.h:3
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: ../ui/table/family.ui.h:4
 msgid "Halogenes"
-msgstr ""
+msgstr "Halógenos"
 
 #: ../ui/table/family.ui.h:5
 msgid "Metalloids"
-msgstr ""
+msgstr "Metaloides"
 
 #: ../ui/table/family.ui.h:6
 msgid "Noble Gases"
-msgstr ""
+msgstr "Gases nobles"
 
 #: ../ui/table/family.ui.h:7
 msgid "Non-Metals"
-msgstr ""
+msgstr "No metales"
 
 #: ../ui/table/family.ui.h:8
 #, fuzzy
 msgid "Other Metals"
-msgstr "Otro"
+msgstr "Otros metales"
 
 #: ../ui/table/family.ui.h:9
 msgid "Rare Earths Metals"
-msgstr ""
+msgstr "Tierras raras"
 
 #: ../ui/table/family.ui.h:10
 #, fuzzy
 msgid "Selected Family:"
-msgstr "Elegir un color"
+msgstr "Familia seleccionada:"
 
 #: ../ui/table/family.ui.h:11
 msgid "Transition Metals"
-msgstr ""
+msgstr "Metales de transición"
 
 #: ../ui/table/block.ui.h:1
 msgid ""
 "<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> s block </span>"
 msgstr ""
+"<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight="
+"\"bold\"> bloque s </span>"
 
 #: ../ui/table/block.ui.h:2
 msgid ""
 "<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> d block </span>"
 msgstr ""
+"<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight="
+"\"bold\"> bloque d </span>"
 
 #: ../ui/table/block.ui.h:3
 msgid ""
 "<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> p block </span>"
-msgstr ""
+msgstr "<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight="
+"\"bold\"> bloque p </span>"
 
 #: ../ui/table/block.ui.h:4
 msgid ""
 "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> f block </span>"
-msgstr ""
+msgstr "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight="
+"\"bold\"> bloque f </span>"
 
 #, fuzzy
 #~ msgid "Custom "
-#~ msgstr "Color:"
+#~ msgstr "Personalizado"
 
 #, fuzzy
 #~ msgid "Periodic table of the elements "
@@ -5507,7 +5620,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Name:"
-#~ msgstr "Nouveau"
+#~ msgstr "Nombre:"
 
 #, fuzzy
 #~ msgid "Ha_ve a tearable table of the elements"
@@ -5527,11 +5640,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Copyright © 2005-2007 Jean Bréfort\n"
-#~ msgstr "(C) 1999-2001 por Jean Bréfort"
+#~ msgstr "Copyright © 2005-2007 por Jean Bréfort"
 
 #, fuzzy
 #~ msgid "Copyright © 2007 Jean Bréfort\n"
-#~ msgstr "(C) 1999-2001 por Jean Bréfort"
+#~ msgstr "Copyright © 2007 por Jean Bréfort"
 
 #, fuzzy
 #~ msgid "Periodic table of the elements @STABILITY_POSTFIX@"
@@ -5563,7 +5676,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Open a file in a new window"
-#~ msgstr "O_uvrir dans une nouvelle fenêtre..."
+#~ msgstr "A_brir un archivo en ventana nueva"
 
 #~ msgid "_Export"
 #~ msgstr "_Exportar"
@@ -5592,11 +5705,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Gnome Crystal component"
-#~ msgstr "Manual de Gnome Cristal"
+#~ msgstr "Componente de Gnome Cristal"
 
 #, fuzzy
 #~ msgid "Gnome Crystal embeddable factory"
-#~ msgstr "Manual de Gnome Cristal"
+#~ msgstr ""
 
 #, fuzzy
 #~ msgid "Gnome Crystal object factory"
@@ -5617,7 +5730,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Gnome Crystal help contents"
-#~ msgstr "Manual de Gnome Cristal"
+#~ msgstr "Componentes de ayuda de Gnome Cristal"
 
 #, fuzzy
 #~ msgid "Choisissez une couleur"
@@ -5636,7 +5749,7 @@ msgstr ""
 #~ msgstr "C_ristal"
 
 #~ msgid "_Cleavages"
-#~ msgstr "_Clivajes"
+#~ msgstr ""
 
 #~ msgid "_Lattice"
 #~ msgstr "_Red"
@@ -5679,7 +5792,7 @@ msgstr ""
 #~ msgstr "Sin líneas duplicadas"
 
 #~ msgid "Cleavage plane Miller indices"
-#~ msgstr "Índices de Miller de planos de clivaje"
+#~ msgstr ""
 
 #~ msgid "Printing window"
 #~ msgstr "Ventana de impresión"
