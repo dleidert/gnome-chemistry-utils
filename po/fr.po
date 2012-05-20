@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-14 20:20+0100\n"
-"PO-Revision-Date: 2012-02-16 15:18+0100\n"
+"POT-Creation-Date: 2012-05-20 09:28+0200\n"
+"PO-Revision-Date: 2012-05-20 09:35+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
@@ -16,569 +16,570 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../gchemutils.xml.in.h:1 ../programs/paint/x-gchempaint.desktop.in.h:1
-msgid "2D Chemical structure"
-msgstr "Structure Chimique 2D"
-
-#: ../gchemutils.xml.in.h:2 ../programs/crystal/x-gcrystal.desktop.in.h:1
+#: ../gchemutils.xml.in.h:1 ../programs/crystal/x-gcrystal.desktop.in.h:1
 msgid "Crystalline structure model"
 msgstr "Modèle de structure cristalline"
+
+#: ../gchemutils.xml.in.h:2 ../programs/paint/x-gchempaint.desktop.in.h:1
+msgid "2D Chemical structure"
+msgstr "Structure Chimique 2D"
 
 #: ../gchemutils.xml.in.h:3
 msgid "NUTS file format"
 msgstr "format de fichier NUTS."
 
 #: ../database/residues.xml.in.h:1
-msgid "Acetyl"
-msgstr "Acétyle"
-
-#: ../database/residues.xml.in.h:2
 msgid "Alkyl"
 msgstr "Alkyle"
 
-#: ../database/residues.xml.in.h:3
+#: ../database/residues.xml.in.h:2
 msgid "Aryl"
 msgstr "Aryle"
 
-#: ../database/residues.xml.in.h:4
-msgid "Benzoyl"
-msgstr "Benzoyle"
-
-#: ../database/residues.xml.in.h:5
-msgid "Benzyl"
-msgstr "Benzyle"
-
-#: ../database/residues.xml.in.h:6
-msgid "Butyl"
-msgstr "Butyle"
-
-#: ../database/residues.xml.in.h:7
-msgid "Ethyl"
-msgstr "Ethyle"
-
-#: ../database/residues.xml.in.h:8
+#: ../database/residues.xml.in.h:3
 msgid "Halogen"
 msgstr "Halogène"
 
-#: ../database/residues.xml.in.h:9
-msgid "Isobutyl"
-msgstr "Isobutyle"
-
-#: ../database/residues.xml.in.h:10
-msgid "Isopropyl"
-msgstr "Isopropyle"
-
-#: ../database/residues.xml.in.h:11
-msgid "Mesyl"
-msgstr "Mésyle"
-
-#: ../database/residues.xml.in.h:12
+#: ../database/residues.xml.in.h:4
 msgid "Metal"
 msgstr "Métal"
 
-#: ../database/residues.xml.in.h:13
+#: ../database/residues.xml.in.h:5
 msgid "Methyl"
 msgstr "Méthyle"
 
-#: ../database/residues.xml.in.h:14
-msgid "Phenyl"
-msgstr "Phényle"
+#: ../database/residues.xml.in.h:6
+msgid "Ethyl"
+msgstr "Ethyle"
 
-#: ../database/residues.xml.in.h:15
+#: ../database/residues.xml.in.h:7
 msgid "Propyl"
 msgstr "Propyle"
 
+#: ../database/residues.xml.in.h:8
+msgid "Isopropyl"
+msgstr "Isopropyle"
+
+#: ../database/residues.xml.in.h:9
+msgid "Butyl"
+msgstr "Butyle"
+
+#: ../database/residues.xml.in.h:10
+msgid "sec-Butyl"
+msgstr "sec-Butyle"
+
+#: ../database/residues.xml.in.h:11
+msgid "Isobutyl"
+msgstr "Isobutyle"
+
+#: ../database/residues.xml.in.h:12
+msgid "Phenyl"
+msgstr "Phényle"
+
+#: ../database/residues.xml.in.h:13
+msgid "Acetyl"
+msgstr "Acétyle"
+
+#: ../database/residues.xml.in.h:14
+msgid "Benzyl"
+msgstr "Benzyle"
+
+#: ../database/residues.xml.in.h:15
+msgid "Benzoyl"
+msgstr "Benzoyle"
+
 #: ../database/residues.xml.in.h:16
-msgid "Tosyl"
-msgstr "Tosyle"
+msgid "Mesyl"
+msgstr "Mésyle"
 
 #: ../database/residues.xml.in.h:17
 msgid "Triflyl"
 msgstr "Triflyle"
 
 #: ../database/residues.xml.in.h:18
-msgid "sec-Butyl"
-msgstr "sec-Butyle"
+msgid "Tosyl"
+msgstr "Tosyle"
 
 #: ../database/elements.xml.in.h:1
-msgid "Actinium"
-msgstr "Actinium"
-
-#: ../database/elements.xml.in.h:2
-msgid "Aluminum"
-msgstr "Aluminium"
-
-#: ../database/elements.xml.in.h:3
-msgid "Americium"
-msgstr "Américium"
-
-#: ../database/elements.xml.in.h:4
-msgid "Antimony"
-msgstr "Antimoine"
-
-#: ../database/elements.xml.in.h:5
-msgid "Argon"
-msgstr "Argon"
-
-#: ../database/elements.xml.in.h:6
-msgid "Arsenic"
-msgstr "Arsenic"
-
-#: ../database/elements.xml.in.h:7
-msgid "Astatine"
-msgstr "Astate"
-
-#: ../database/elements.xml.in.h:8
-msgid "Barium"
-msgstr "Baryum"
-
-#: ../database/elements.xml.in.h:9
-msgid "Berkelium"
-msgstr "Berkélium"
-
-#: ../database/elements.xml.in.h:10
-msgid "Beryllium"
-msgstr "Béryllium"
-
-#: ../database/elements.xml.in.h:11
-msgid "Bismuth"
-msgstr "Bismuth"
-
-#: ../database/elements.xml.in.h:12
-msgid "Bohrium"
-msgstr "Bohrium"
-
-#: ../database/elements.xml.in.h:13
-msgid "Boron"
-msgstr "Bore"
-
-#: ../database/elements.xml.in.h:14
-msgid "Bromine"
-msgstr "Brome"
-
-#: ../database/elements.xml.in.h:15
-msgid "Cadmium"
-msgstr "Cadmium"
-
-#: ../database/elements.xml.in.h:16
-msgid "Caesium"
-msgstr "Césium"
-
-#: ../database/elements.xml.in.h:17
-msgid "Calcium"
-msgstr "Calcium"
-
-#: ../database/elements.xml.in.h:18
-msgid "Californium"
-msgstr "Californium"
-
-#: ../database/elements.xml.in.h:19
-msgid "Carbon"
-msgstr "Carbone"
-
-#: ../database/elements.xml.in.h:20
-msgid "Cerium"
-msgstr "Cérium"
-
-#: ../database/elements.xml.in.h:21
-msgid "Chlorine"
-msgstr "Chlore"
-
-#: ../database/elements.xml.in.h:22
-msgid "Chromium"
-msgstr "Chrome"
-
-#: ../database/elements.xml.in.h:23
-msgid "Cobalt"
-msgstr "Cobalt"
-
-#: ../database/elements.xml.in.h:24
-msgid "Copernicium"
-msgstr "Copernicium"
-
-#: ../database/elements.xml.in.h:25
-msgid "Copper"
-msgstr "Cuivre"
-
-#: ../database/elements.xml.in.h:26
-msgid "Curium"
-msgstr "Curium"
-
-#: ../database/elements.xml.in.h:27
-msgid "Darmstadtium"
-msgstr "Darmstadtium"
-
-#: ../database/elements.xml.in.h:28
-msgid "Dubnium"
-msgstr "Dubnium"
-
-#: ../database/elements.xml.in.h:29
-msgid "Dysprosium"
-msgstr "Dysprosium"
-
-#: ../database/elements.xml.in.h:30
-msgid "Einsteinium"
-msgstr "Einsteinium"
-
-#: ../database/elements.xml.in.h:31
-msgid "Erbium"
-msgstr "Erbium"
-
-#: ../database/elements.xml.in.h:32
-msgid "Europium"
-msgstr "Europium"
-
-#: ../database/elements.xml.in.h:33
-msgid "Fermium"
-msgstr "Fermium"
-
-#: ../database/elements.xml.in.h:34
-msgid "Fluorine"
-msgstr "Fluor"
-
-#: ../database/elements.xml.in.h:35
-msgid "Francium"
-msgstr "Francium"
-
-#: ../database/elements.xml.in.h:36
-msgid "Gadolinium"
-msgstr "Gadolinium"
-
-#: ../database/elements.xml.in.h:37
-msgid "Gallium"
-msgstr "Gallium"
-
-#: ../database/elements.xml.in.h:38
-msgid "Germanium"
-msgstr "Germanium"
-
-#: ../database/elements.xml.in.h:39
-msgid "Gold"
-msgstr "Or"
-
-#: ../database/elements.xml.in.h:40
-msgid "Hafnium"
-msgstr "Hafnium"
-
-#: ../database/elements.xml.in.h:41
-msgid "Hassium"
-msgstr "Hassium"
-
-#: ../database/elements.xml.in.h:42
-msgid "Helium"
-msgstr "Hélium"
-
-#: ../database/elements.xml.in.h:43
-msgid "Holmium"
-msgstr "Holmium"
-
-#: ../database/elements.xml.in.h:44
 msgid "Hydrogen"
 msgstr "Hydrogène"
 
-#: ../database/elements.xml.in.h:45
-msgid "Indium"
-msgstr "Indium"
+#: ../database/elements.xml.in.h:2
+msgid "Helium"
+msgstr "Hélium"
 
-#: ../database/elements.xml.in.h:46
-msgid "Iodine"
-msgstr "Iode"
-
-#: ../database/elements.xml.in.h:47
-msgid "Iridium"
-msgstr "Iridium"
-
-#: ../database/elements.xml.in.h:48
-msgid "Iron"
-msgstr "Fer"
-
-#: ../database/elements.xml.in.h:49
-msgid "Krypton"
-msgstr "Krypton"
-
-#: ../database/elements.xml.in.h:50
-msgid "Lanthanum"
-msgstr "Lanthane"
-
-#: ../database/elements.xml.in.h:51
-msgid "Lawrencium"
-msgstr "Lawrencium"
-
-#: ../database/elements.xml.in.h:52
-msgid "Lead"
-msgstr "Plomb"
-
-#: ../database/elements.xml.in.h:53
+#: ../database/elements.xml.in.h:3
 msgid "Lithium"
 msgstr "Lithium"
 
-#: ../database/elements.xml.in.h:54
-msgid "Lutetium"
-msgstr "Lutécium"
+#: ../database/elements.xml.in.h:4
+msgid "Beryllium"
+msgstr "Béryllium"
 
-#: ../database/elements.xml.in.h:55
-msgid "Magnesium"
-msgstr "Magnésium"
+#: ../database/elements.xml.in.h:5
+msgid "Boron"
+msgstr "Bore"
 
-#: ../database/elements.xml.in.h:56
-msgid "Manganese"
-msgstr "Manganèse"
+#: ../database/elements.xml.in.h:6
+msgid "Carbon"
+msgstr "Carbone"
 
-#: ../database/elements.xml.in.h:57
-msgid "Meitnerium"
-msgstr "Meitnérium"
-
-#: ../database/elements.xml.in.h:58
-msgid "Mendelevium"
-msgstr "Mendélévium"
-
-#: ../database/elements.xml.in.h:59
-msgid "Mercury"
-msgstr "Mercure"
-
-#: ../database/elements.xml.in.h:60
-msgid "Molybdenum"
-msgstr "Molybdène"
-
-#: ../database/elements.xml.in.h:61
-msgid "Neodymium"
-msgstr "Néodyme"
-
-#: ../database/elements.xml.in.h:62
-msgid "Neon"
-msgstr "Néon"
-
-#: ../database/elements.xml.in.h:63
-msgid "Neptunium"
-msgstr "Neptunium"
-
-#: ../database/elements.xml.in.h:64
-msgid "Nickel"
-msgstr "Nickel"
-
-#: ../database/elements.xml.in.h:65
-msgid "Niobium"
-msgstr "Niobium"
-
-#: ../database/elements.xml.in.h:66
+#: ../database/elements.xml.in.h:7
 msgid "Nitrogen"
 msgstr "Azote"
 
-#: ../database/elements.xml.in.h:67
-msgid "Nobelium"
-msgstr "Nobélium"
-
-#: ../database/elements.xml.in.h:68
-msgid "Osmium"
-msgstr "Osmium"
-
-#: ../database/elements.xml.in.h:69
+#: ../database/elements.xml.in.h:8
 msgid "Oxygen"
 msgstr "Oxygène"
 
-#: ../database/elements.xml.in.h:70
-msgid "Palladium"
-msgstr "Palladium"
+#: ../database/elements.xml.in.h:9
+msgid "Fluorine"
+msgstr "Fluor"
 
-#: ../database/elements.xml.in.h:71
-msgid "Phosphorus"
-msgstr "Phosphore"
+#: ../database/elements.xml.in.h:10
+msgid "Neon"
+msgstr "Néon"
 
-#: ../database/elements.xml.in.h:72
-msgid "Platinum"
-msgstr "Platine"
-
-#: ../database/elements.xml.in.h:73
-msgid "Plutonium"
-msgstr "Plutonium"
-
-#: ../database/elements.xml.in.h:74
-msgid "Polonium"
-msgstr "Polonium"
-
-#: ../database/elements.xml.in.h:75
-msgid "Potassium"
-msgstr "Potassium"
-
-#: ../database/elements.xml.in.h:76
-msgid "Praseodymium"
-msgstr "Praséodyme"
-
-#: ../database/elements.xml.in.h:77
-msgid "Promethium"
-msgstr "Prométhéum"
-
-#: ../database/elements.xml.in.h:78
-msgid "Protactinium"
-msgstr "Protactinium"
-
-#: ../database/elements.xml.in.h:79
-msgid "Radium"
-msgstr "Radium"
-
-#: ../database/elements.xml.in.h:80
-msgid "Radon"
-msgstr "Radon"
-
-#: ../database/elements.xml.in.h:81
-msgid "Rhenium"
-msgstr "Rhénium"
-
-#: ../database/elements.xml.in.h:82
-msgid "Rhodium"
-msgstr "Rhodium"
-
-#: ../database/elements.xml.in.h:83
-msgid "Roentgenium"
-msgstr "Röntgenium"
-
-#: ../database/elements.xml.in.h:84
-msgid "Rubidium"
-msgstr "Rubidium"
-
-#: ../database/elements.xml.in.h:85
-msgid "Ruthenium"
-msgstr "Ruthénium"
-
-#: ../database/elements.xml.in.h:86
-msgid "Rutherfordium"
-msgstr "Rutherfordium"
-
-#: ../database/elements.xml.in.h:87
-msgid "Samarium"
-msgstr "Samarium"
-
-#: ../database/elements.xml.in.h:88
-msgid "Scandium"
-msgstr "Scandium"
-
-#: ../database/elements.xml.in.h:89
-msgid "Seaborgium"
-msgstr "Seaborgium"
-
-#: ../database/elements.xml.in.h:90
-msgid "Selenium"
-msgstr "Sélénium"
-
-#: ../database/elements.xml.in.h:91
-msgid "Silicon"
-msgstr "Silicium"
-
-#: ../database/elements.xml.in.h:92
-msgid "Silver"
-msgstr "Argent"
-
-#: ../database/elements.xml.in.h:93
+#: ../database/elements.xml.in.h:11
 msgid "Sodium"
 msgstr "Sodium"
 
-#: ../database/elements.xml.in.h:94
-msgid "Strontium"
-msgstr "Strontium"
+#: ../database/elements.xml.in.h:12
+msgid "Magnesium"
+msgstr "Magnésium"
 
-#: ../database/elements.xml.in.h:95
+#: ../database/elements.xml.in.h:13
+msgid "Aluminum"
+msgstr "Aluminium"
+
+#: ../database/elements.xml.in.h:14
+msgid "Silicon"
+msgstr "Silicium"
+
+#: ../database/elements.xml.in.h:15
+msgid "Phosphorus"
+msgstr "Phosphore"
+
+#: ../database/elements.xml.in.h:16
 msgid "Sulfur"
 msgstr "Soufre"
 
-#: ../database/elements.xml.in.h:96
-msgid "Tantalum"
-msgstr "Tantale"
+#: ../database/elements.xml.in.h:17
+msgid "Chlorine"
+msgstr "Chlore"
 
-#: ../database/elements.xml.in.h:97
-msgid "Technetium"
-msgstr "Technétium"
+#: ../database/elements.xml.in.h:18
+msgid "Argon"
+msgstr "Argon"
 
-#: ../database/elements.xml.in.h:98
-msgid "Tellurium"
-msgstr "Tellure"
+#: ../database/elements.xml.in.h:19
+msgid "Potassium"
+msgstr "Potassium"
 
-#: ../database/elements.xml.in.h:99
-msgid "Terbium"
-msgstr "Terbium"
+#: ../database/elements.xml.in.h:20
+msgid "Calcium"
+msgstr "Calcium"
 
-#: ../database/elements.xml.in.h:100
-msgid "Thallium"
-msgstr "Thallium"
+#: ../database/elements.xml.in.h:21
+msgid "Scandium"
+msgstr "Scandium"
 
-#: ../database/elements.xml.in.h:101
-msgid "Thorium"
-msgstr "Thorium"
-
-#: ../database/elements.xml.in.h:102
-msgid "Thulium"
-msgstr "Thulium"
-
-#: ../database/elements.xml.in.h:103
-msgid "Tin"
-msgstr "Étain"
-
-#: ../database/elements.xml.in.h:104
+#: ../database/elements.xml.in.h:22
 msgid "Titanium"
 msgstr "Titane"
 
-#: ../database/elements.xml.in.h:105
-msgid "Tungsten"
-msgstr "Tungsten"
-
-#: ../database/elements.xml.in.h:106
-msgid "Ununhexium"
-msgstr "Ununhexium"
-
-#: ../database/elements.xml.in.h:107
-msgid "Ununoctium"
-msgstr "Ununoctium"
-
-#: ../database/elements.xml.in.h:108
-msgid "Ununpentium"
-msgstr "Ununpentium"
-
-#: ../database/elements.xml.in.h:109
-msgid "Ununquadium"
-msgstr "Ununquadium"
-
-#: ../database/elements.xml.in.h:110
-msgid "Ununseptium"
-msgstr "Ununseptium"
-
-#: ../database/elements.xml.in.h:111
-msgid "Ununtrium"
-msgstr "Ununtrium"
-
-#: ../database/elements.xml.in.h:112
-msgid "Uranium"
-msgstr "Uranium"
-
-#: ../database/elements.xml.in.h:113
+#: ../database/elements.xml.in.h:23
 msgid "Vanadium"
 msgstr "Vanadium"
 
-#: ../database/elements.xml.in.h:114
-msgid "Xenon"
-msgstr "Xénon"
+#: ../database/elements.xml.in.h:24
+msgid "Chromium"
+msgstr "Chrome"
 
-#: ../database/elements.xml.in.h:115
-msgid "Ytterbium"
-msgstr "Ytterbium"
+#: ../database/elements.xml.in.h:25
+msgid "Manganese"
+msgstr "Manganèse"
 
-#: ../database/elements.xml.in.h:116
-msgid "Yttrium"
-msgstr "Yttrium"
+#: ../database/elements.xml.in.h:26
+msgid "Iron"
+msgstr "Fer"
 
-#: ../database/elements.xml.in.h:117
+#: ../database/elements.xml.in.h:27
+msgid "Cobalt"
+msgstr "Cobalt"
+
+#: ../database/elements.xml.in.h:28
+msgid "Nickel"
+msgstr "Nickel"
+
+#: ../database/elements.xml.in.h:29
+msgid "Copper"
+msgstr "Cuivre"
+
+#: ../database/elements.xml.in.h:30
 msgid "Zinc"
 msgstr "Zinc"
 
-#: ../database/elements.xml.in.h:118
+#: ../database/elements.xml.in.h:31
+msgid "Gallium"
+msgstr "Gallium"
+
+#: ../database/elements.xml.in.h:32
+msgid "Germanium"
+msgstr "Germanium"
+
+#: ../database/elements.xml.in.h:33
+msgid "Arsenic"
+msgstr "Arsenic"
+
+#: ../database/elements.xml.in.h:34
+msgid "Selenium"
+msgstr "Sélénium"
+
+#: ../database/elements.xml.in.h:35
+msgid "Bromine"
+msgstr "Brome"
+
+#: ../database/elements.xml.in.h:36
+msgid "Krypton"
+msgstr "Krypton"
+
+#: ../database/elements.xml.in.h:37
+msgid "Rubidium"
+msgstr "Rubidium"
+
+#: ../database/elements.xml.in.h:38
+msgid "Strontium"
+msgstr "Strontium"
+
+#: ../database/elements.xml.in.h:39
+msgid "Yttrium"
+msgstr "Yttrium"
+
+#: ../database/elements.xml.in.h:40
 msgid "Zirconium"
 msgstr "Zirconium"
 
-#: ../database/isotopes.xml.in.h:1
-msgid "deuterium"
-msgstr "deutérium"
+#: ../database/elements.xml.in.h:41
+msgid "Niobium"
+msgstr "Niobium"
 
-#: ../database/isotopes.xml.in.h:2
+#: ../database/elements.xml.in.h:42
+msgid "Molybdenum"
+msgstr "Molybdène"
+
+#: ../database/elements.xml.in.h:43
+msgid "Technetium"
+msgstr "Technétium"
+
+#: ../database/elements.xml.in.h:44
+msgid "Ruthenium"
+msgstr "Ruthénium"
+
+#: ../database/elements.xml.in.h:45
+msgid "Rhodium"
+msgstr "Rhodium"
+
+#: ../database/elements.xml.in.h:46
+msgid "Palladium"
+msgstr "Palladium"
+
+#: ../database/elements.xml.in.h:47
+msgid "Silver"
+msgstr "Argent"
+
+#: ../database/elements.xml.in.h:48
+msgid "Cadmium"
+msgstr "Cadmium"
+
+#: ../database/elements.xml.in.h:49
+msgid "Indium"
+msgstr "Indium"
+
+#: ../database/elements.xml.in.h:50
+msgid "Tin"
+msgstr "Étain"
+
+#: ../database/elements.xml.in.h:51
+msgid "Antimony"
+msgstr "Antimoine"
+
+#: ../database/elements.xml.in.h:52
+msgid "Tellurium"
+msgstr "Tellure"
+
+#: ../database/elements.xml.in.h:53
+msgid "Iodine"
+msgstr "Iode"
+
+#: ../database/elements.xml.in.h:54
+msgid "Xenon"
+msgstr "Xénon"
+
+#: ../database/elements.xml.in.h:55
+msgid "Caesium"
+msgstr "Césium"
+
+#: ../database/elements.xml.in.h:56
+msgid "Barium"
+msgstr "Baryum"
+
+#: ../database/elements.xml.in.h:57
+msgid "Lanthanum"
+msgstr "Lanthane"
+
+#: ../database/elements.xml.in.h:58
+msgid "Cerium"
+msgstr "Cérium"
+
+#: ../database/elements.xml.in.h:59
+msgid "Praseodymium"
+msgstr "Praséodyme"
+
+#: ../database/elements.xml.in.h:60
+msgid "Neodymium"
+msgstr "Néodyme"
+
+#: ../database/elements.xml.in.h:61
+msgid "Promethium"
+msgstr "Prométhéum"
+
+#: ../database/elements.xml.in.h:62
+msgid "Samarium"
+msgstr "Samarium"
+
+#: ../database/elements.xml.in.h:63
+msgid "Europium"
+msgstr "Europium"
+
+#: ../database/elements.xml.in.h:64
+msgid "Gadolinium"
+msgstr "Gadolinium"
+
+#: ../database/elements.xml.in.h:65
+msgid "Terbium"
+msgstr "Terbium"
+
+#: ../database/elements.xml.in.h:66
+msgid "Dysprosium"
+msgstr "Dysprosium"
+
+#: ../database/elements.xml.in.h:67
+msgid "Holmium"
+msgstr "Holmium"
+
+#: ../database/elements.xml.in.h:68
+msgid "Erbium"
+msgstr "Erbium"
+
+#: ../database/elements.xml.in.h:69
+msgid "Thulium"
+msgstr "Thulium"
+
+#: ../database/elements.xml.in.h:70
+msgid "Ytterbium"
+msgstr "Ytterbium"
+
+#: ../database/elements.xml.in.h:71
+msgid "Lutetium"
+msgstr "Lutécium"
+
+#: ../database/elements.xml.in.h:72
+msgid "Hafnium"
+msgstr "Hafnium"
+
+#: ../database/elements.xml.in.h:73
+msgid "Tantalum"
+msgstr "Tantale"
+
+#: ../database/elements.xml.in.h:74
+msgid "Tungsten"
+msgstr "Tungsten"
+
+#: ../database/elements.xml.in.h:75
+msgid "Rhenium"
+msgstr "Rhénium"
+
+#: ../database/elements.xml.in.h:76
+msgid "Osmium"
+msgstr "Osmium"
+
+#: ../database/elements.xml.in.h:77
+msgid "Iridium"
+msgstr "Iridium"
+
+#: ../database/elements.xml.in.h:78
+msgid "Platinum"
+msgstr "Platine"
+
+#: ../database/elements.xml.in.h:79
+msgid "Gold"
+msgstr "Or"
+
+#: ../database/elements.xml.in.h:80
+msgid "Mercury"
+msgstr "Mercure"
+
+#: ../database/elements.xml.in.h:81
+msgid "Thallium"
+msgstr "Thallium"
+
+#: ../database/elements.xml.in.h:82
+msgid "Lead"
+msgstr "Plomb"
+
+#: ../database/elements.xml.in.h:83
+msgid "Bismuth"
+msgstr "Bismuth"
+
+#: ../database/elements.xml.in.h:84
+msgid "Polonium"
+msgstr "Polonium"
+
+#: ../database/elements.xml.in.h:85
+msgid "Astatine"
+msgstr "Astate"
+
+#: ../database/elements.xml.in.h:86
+msgid "Radon"
+msgstr "Radon"
+
+#: ../database/elements.xml.in.h:87
+msgid "Francium"
+msgstr "Francium"
+
+#: ../database/elements.xml.in.h:88
+msgid "Radium"
+msgstr "Radium"
+
+#: ../database/elements.xml.in.h:89
+msgid "Actinium"
+msgstr "Actinium"
+
+#: ../database/elements.xml.in.h:90
+msgid "Thorium"
+msgstr "Thorium"
+
+#: ../database/elements.xml.in.h:91
+msgid "Protactinium"
+msgstr "Protactinium"
+
+#: ../database/elements.xml.in.h:92
+msgid "Uranium"
+msgstr "Uranium"
+
+#: ../database/elements.xml.in.h:93
+msgid "Neptunium"
+msgstr "Neptunium"
+
+#: ../database/elements.xml.in.h:94
+msgid "Plutonium"
+msgstr "Plutonium"
+
+#: ../database/elements.xml.in.h:95
+msgid "Americium"
+msgstr "Américium"
+
+#: ../database/elements.xml.in.h:96
+msgid "Curium"
+msgstr "Curium"
+
+#: ../database/elements.xml.in.h:97
+msgid "Berkelium"
+msgstr "Berkélium"
+
+#: ../database/elements.xml.in.h:98
+msgid "Californium"
+msgstr "Californium"
+
+#: ../database/elements.xml.in.h:99
+msgid "Einsteinium"
+msgstr "Einsteinium"
+
+#: ../database/elements.xml.in.h:100
+msgid "Fermium"
+msgstr "Fermium"
+
+#: ../database/elements.xml.in.h:101
+msgid "Mendelevium"
+msgstr "Mendélévium"
+
+#: ../database/elements.xml.in.h:102
+msgid "Nobelium"
+msgstr "Nobélium"
+
+#: ../database/elements.xml.in.h:103
+msgid "Lawrencium"
+msgstr "Lawrencium"
+
+#: ../database/elements.xml.in.h:104
+msgid "Rutherfordium"
+msgstr "Rutherfordium"
+
+#: ../database/elements.xml.in.h:105
+msgid "Dubnium"
+msgstr "Dubnium"
+
+#: ../database/elements.xml.in.h:106
+msgid "Seaborgium"
+msgstr "Seaborgium"
+
+#: ../database/elements.xml.in.h:107
+msgid "Bohrium"
+msgstr "Bohrium"
+
+#: ../database/elements.xml.in.h:108
+msgid "Hassium"
+msgstr "Hassium"
+
+#: ../database/elements.xml.in.h:109
+msgid "Meitnerium"
+msgstr "Meitnérium"
+
+#: ../database/elements.xml.in.h:110
+msgid "Darmstadtium"
+msgstr "Darmstadtium"
+
+#: ../database/elements.xml.in.h:111
+msgid "Roentgenium"
+msgstr "Röntgenium"
+
+#: ../database/elements.xml.in.h:112
+msgid "Copernicium"
+msgstr "Copernicium"
+
+#: ../database/elements.xml.in.h:113
+msgid "Ununtrium"
+msgstr "Ununtrium"
+
+#: ../database/elements.xml.in.h:114
+#, fuzzy
+msgid "Flerovium"
+msgstr "Flérovium"
+
+#: ../database/elements.xml.in.h:115
+msgid "Ununpentium"
+msgstr "Ununpentium"
+
+#: ../database/elements.xml.in.h:116
+msgid "Livermorium"
+msgstr "Livermorium"
+
+#: ../database/elements.xml.in.h:117
+msgid "Ununseptium"
+msgstr "Ununseptium"
+
+#: ../database/elements.xml.in.h:118
+msgid "Ununoctium"
+msgstr "Ununoctium"
+
+#: ../database/isotopes.xml.in.h:1
 msgid "protium"
 msgstr "protium"
+
+#: ../database/isotopes.xml.in.h:2
+msgid "deuterium"
+msgstr "deutérium"
 
 #: ../database/isotopes.xml.in.h:3
 msgid "tritium"
@@ -606,44 +607,44 @@ msgid "molarmass"
 msgstr "molarmass"
 
 #: ../gnumeric/plugin.xml.in.h:1
-msgid "Chemical Formula Functions"
-msgstr "Fonctions relatives aux formules chimiques."
-
-#: ../gnumeric/plugin.xml.in.h:2
 msgid "Chemical Functions"
 msgstr "Fonctions chimiques"
+
+#: ../gnumeric/plugin.xml.in.h:2
+msgid "Chemical Formula Functions"
+msgstr "Fonctions relatives aux formules chimiques."
 
 #: ../gnumeric/plugin.xml.in.h:3
 msgid "Chemistry"
 msgstr "Chimie"
 
 #: ../goffice/plugin.xml.in.h:1
+msgid "Component : GChemPaint"
+msgstr "Composant : GChemPaint"
+
+#: ../goffice/plugin.xml.in.h:2
 msgid "2D Chemical Structures Viewer/Editor"
 msgstr "Éditeur/Visonneuse de structures chimiques 2D"
 
-#: ../goffice/plugin.xml.in.h:2
-msgid "3D chemical structures"
-msgstr "Structure Chimique 3D"
-
 #: ../goffice/plugin.xml.in.h:3
-msgid "CIF file"
-msgstr "fichier CIF"
+msgid "Chemical structures component engine"
+msgstr "Moteur du composant Structures Chimiques"
 
 #: ../goffice/plugin.xml.in.h:4
 msgid "Chemical structures"
 msgstr "Structures Chimiques"
 
 #: ../goffice/plugin.xml.in.h:5
-msgid "Chemical structures component engine"
-msgstr "Moteur du composant Structures Chimiques"
-
-#: ../goffice/plugin.xml.in.h:6
-msgid "Component : GChemPaint"
-msgstr "Composant : GChemPaint"
-
-#: ../goffice/plugin.xml.in.h:7
 msgid "Crystal structures"
 msgstr "Structures Cristalliness"
+
+#: ../goffice/plugin.xml.in.h:6
+msgid "CIF file"
+msgstr "fichier CIF"
+
+#: ../goffice/plugin.xml.in.h:7
+msgid "3D chemical structures"
+msgstr "Structure Chimique 3D"
 
 #: ../goffice/gchemutils.cc:346
 msgid "Content type"
@@ -877,21 +878,21 @@ msgstr "Propriétés"
 msgid "Object properties"
 msgstr "Propriétés de l'objet"
 
-#: ../libs/gcp/bond.cc:836 ../libs/gcu/bond.cc:334
+#: ../libs/gcp/bond.cc:838 ../libs/gcu/bond.cc:334
 #: ../plugins/paint/bonds/plugin.cc:64
 msgid "Bond"
 msgstr "Liaison"
 
-#: ../libs/gcp/bond.cc:840
+#: ../libs/gcp/bond.cc:842
 msgid "Move to back"
 msgstr "Mettre à l'arrière plan"
 
-#: ../libs/gcp/bond.cc:847
+#: ../libs/gcp/bond.cc:849
 msgid "Bring to front"
 msgstr "Mettre à l'avant plan"
 
 #: ../libs/gcp/brackets.cc:347 ../libs/gcp/brackets.cc:361
-#: ../plugins/paint/selection/brackets.ui.h:1
+#: ../plugins/paint/selection/brackets.ui.h:6
 #: ../plugins/paint/selection/plugin.cc:78
 #: ../plugins/paint/selection/plugin.cc:79
 msgid "Brackets"
@@ -998,9 +999,13 @@ msgstr "Fragment"
 msgid "Mechanism arrow"
 msgstr "Flèche de mécanisme"
 
-#: ../libs/gcp/mechanism-step.cc:54
+#: ../libs/gcp/mechanism-step.cc:67 ../libs/gcp/mechanism-step.cc:187
 msgid "Mechanism step"
 msgstr "Étape de mécanisme"
+
+#: ../libs/gcp/mechanism-step.cc:190
+msgid "Align using this molecule"
+msgstr "Alinger sur cette molécule"
 
 #: ../libs/gcp/mesomer.cc:114
 msgid "NULL argument to Mesomer constructor!"
@@ -1109,12 +1114,12 @@ msgid "Atoms"
 msgstr "Atomes"
 
 #: ../libs/gcp/preferences.cc:420 ../libs/gcp/preferences.cc:494
-#: ../libs/gcp/preferences.cc:549 ../plugins/paint/selection/brackets.ui.h:3
+#: ../libs/gcp/preferences.cc:549 ../plugins/paint/selection/brackets.ui.h:7
 msgid "Font"
 msgstr "Police"
 
 #: ../libs/gcp/preferences.cc:424 ../libs/gcp/preferences.cc:498
-#: ../libs/gcp/preferences.cc:551
+#: ../libs/gcp/preferences.cc:551 ../ui/crystal/prefs.ui.h:19
 msgid "Other"
 msgstr "Autre"
 
@@ -1174,6 +1179,7 @@ msgstr "Opérateur de réaction"
 #: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:96
 #: ../libs/gcr/atomsdlg.cc:234 ../libs/gcr/atomsdlg.cc:436
 #: ../libs/gcr/atomsdlg.cc:534 ../programs/table/gchemtable-elt.cc:58
+#: ../ui/crystal/atoms.ui.h:11
 msgid "Unknown"
 msgstr "Inconnu"
 
@@ -1739,7 +1745,7 @@ msgstr "y2"
 msgid "z2"
 msgstr "z2"
 
-#: ../libs/gcr/linesdlg.cc:349
+#: ../libs/gcr/linesdlg.cc:349 ../plugins/paint/text/fontsel.ui.h:4
 msgid "Single"
 msgstr "Unique"
 
@@ -1879,10 +1885,9 @@ msgstr "Récemment ouverts"
 msgid "Space group: %u"
 msgstr "Groupe d'espace : %u"
 
-#: ../libs/gcu/application.cc:292
+#: ../libs/gcu/application.cc:277
 msgid "Error while processing "
-msgstr ""
-"Erreur pendant le traitement "
+msgstr "Erreur pendant le traitement "
 
 #: ../libs/gcu/chain.cc:301 ../plugins/paint/bonds/plugin.cc:67
 msgid "Chain"
@@ -2224,7 +2229,7 @@ msgstr "Ouvrir"
 msgid "File _type:"
 msgstr "_Type de fichier :"
 
-#: ../libs/gcugtk/filechooser.cc:66 ../ui/crystal/cell.ui.h:4
+#: ../libs/gcugtk/filechooser.cc:66 ../ui/crystal/cell.ui.h:17
 msgid "Automatic"
 msgstr "Automatique"
 
@@ -2238,6 +2243,7 @@ msgstr "Couleur utilisée pour peindre le fond"
 
 #: ../libs/gcugtk/gcucomboperiodic.c:95
 #: ../programs/table/gchemtable-app.cc:298
+#: ../programs/table/gchemtable.desktop.in.h:1
 msgid "Periodic table of the elements"
 msgstr "Tableau périodique des éléments"
 
@@ -2250,16 +2256,16 @@ msgstr ""
 "La valeur %d n'est pas dans la plage valide pour la propriété \"color-style"
 "\" pour l'instance de GcuPeriodic %p\n"
 
-#: ../libs/gcugtk/molecule.cc:170
+#: ../libs/gcugtk/molecule.cc:172
 msgid "Find in databases"
 msgstr "Trouver dans les bases de données"
 
-#: ../libs/gcugtk/print-setup-dlg.cc:339
+#: ../libs/gcugtk/print-setup-dlg.cc:112
 #, c-format
 msgid "%.1f %s wide by %.1f %s tall"
 msgstr "%.1f %s de largeur par %.1f %s de hauteur"
 
-#: ../libs/gcugtk/print-setup-dlg.cc:339
+#: ../libs/gcugtk/print-setup-dlg.cc:112
 #, c-format
 msgid "%.0f %s wide by %.0f %s tall"
 msgstr "%.0f %s de largeur par %.0f %s de hauteur"
@@ -2473,16 +2479,16 @@ msgid "failed for %s\n"
 msgstr "échec pour %s\n"
 
 #: ../plugins/loaders/cdx/plugin.xml.in.h:1
-msgid "Chemdraw cdx files loader"
-msgstr "Filtre de fichiers Chemdraw cdx"
+msgid "Loader : cdx"
+msgstr "Filtre : cdx"
 
 #: ../plugins/loaders/cdx/plugin.xml.in.h:2
 msgid "Chemdraw cdx files loader."
 msgstr "Filtre de fichiers Chemdraw cdx."
 
 #: ../plugins/loaders/cdx/plugin.xml.in.h:3
-msgid "Loader : cdx"
-msgstr "Filtre : cdx"
+msgid "Chemdraw cdx files loader"
+msgstr "Filtre de fichiers Chemdraw cdx"
 
 #: ../plugins/loaders/cdxml/cdxml.cc:765 ../plugins/loaders/cdxml/cdxml.cc:780
 #: ../plugins/loaders/cml/cml.cc:540
@@ -2491,69 +2497,69 @@ msgid "'%s' is corrupt!"
 msgstr "'%s' est corrompu !"
 
 #: ../plugins/loaders/cdxml/plugin.xml.in.h:1
-msgid "Chemdraw XML files loader"
-msgstr "Filtre de fichiers Chemdraw XML"
+msgid "Loader : cdxml"
+msgstr "Filtre : cdxml"
 
 #: ../plugins/loaders/cdxml/plugin.xml.in.h:2
 msgid "Chemdraw XML files loader."
 msgstr "Filtre de fichiers Chemdraw XML."
 
 #: ../plugins/loaders/cdxml/plugin.xml.in.h:3
-msgid "Loader : cdxml"
-msgstr "Filtre : cdxml"
+msgid "Chemdraw XML files loader"
+msgstr "Filtre de fichiers Chemdraw XML"
 
-#: ../plugins/loaders/cif/cif.cc:177
+#: ../plugins/loaders/cif/cif.cc:181
 msgid "Invalid loop in data."
 msgstr "Boucle invalide dans les données"
 
-#: ../plugins/loaders/cif/cif.cc:444
+#: ../plugins/loaders/cif/cif.cc:455
 msgid "Invalid symmetry group."
 msgstr "Groupe de symétrie invalide."
 
 #: ../plugins/loaders/cif/plugin.xml.in.h:1
+msgid "Loader : cif"
+msgstr "Filtre : cif"
+
+#: ../plugins/loaders/cif/plugin.xml.in.h:2
 msgid "CIF files loader."
 msgstr "Filtre de fichiers CIF."
 
-#: ../plugins/loaders/cif/plugin.xml.in.h:2
-#: ../plugins/loaders/cml/plugin.xml.in.h:1
+#: ../plugins/loaders/cif/plugin.xml.in.h:3
+#: ../plugins/loaders/cml/plugin.xml.in.h:3
 msgid "CML files loader"
 msgstr "Filtre de fichiers CML"
 
-#: ../plugins/loaders/cif/plugin.xml.in.h:3
-msgid "Loader : cif"
-msgstr "Filtre : cif"
+#: ../plugins/loaders/cml/plugin.xml.in.h:1
+msgid "Loader : cml"
+msgstr "Filtre : cml"
 
 #: ../plugins/loaders/cml/plugin.xml.in.h:2
 msgid "CML files loader."
 msgstr "Filtre de fichiers CML."
 
-#: ../plugins/loaders/cml/plugin.xml.in.h:3
-msgid "Loader : cml"
-msgstr "Filtre : cml"
-
 #: ../plugins/loaders/ctfiles/plugin.xml.in.h:1
-msgid "CTfiles loader"
-msgstr "Filtre de fichiers CTfiles"
+msgid "Loader : CTfiles"
+msgstr "Filtre : CTFiles"
 
 #: ../plugins/loaders/ctfiles/plugin.xml.in.h:2
 msgid "CTfiles loader."
 msgstr "Filtre de fichiers CTfiles."
 
 #: ../plugins/loaders/ctfiles/plugin.xml.in.h:3
-msgid "Loader : CTfiles"
-msgstr "Filtre : CTFiles"
+msgid "CTfiles loader"
+msgstr "Filtre de fichiers CTfiles"
 
 #: ../plugins/loaders/nuts/plugin.xml.in.h:1
 msgid "Loader : nuts"
 msgstr "Filtre : nuts"
 
 #: ../plugins/loaders/nuts/plugin.xml.in.h:2
-msgid "NUTS files loader"
-msgstr "Filtre de fichiers NUTS"
-
-#: ../plugins/loaders/nuts/plugin.xml.in.h:3
 msgid "NUTS files loader."
 msgstr "Filtre de fichiers NUTS."
+
+#: ../plugins/loaders/nuts/plugin.xml.in.h:3
+msgid "NUTS files loader"
+msgstr "Filtre de fichiers NUTS"
 
 #: ../plugins/paint/arrows/arrowtool.cc:201
 #: ../plugins/paint/atoms/chargetool.cc:141
@@ -2578,13 +2584,13 @@ msgid "H_alf heads"
 msgstr "_Demi pointes"
 
 #: ../plugins/paint/arrows/arrowtool.ui.h:3
+msgid "_Full heads"
+msgstr "Pointes _entières"
+
+#: ../plugins/paint/arrows/arrowtool.ui.h:4
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:3
 msgid "Set _default"
 msgstr "_Par défaut"
-
-#: ../plugins/paint/arrows/arrowtool.ui.h:4
-msgid "_Full heads"
-msgstr "Pointes _entières"
 
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:1
 msgid "End arrow at center of new bond."
@@ -2599,8 +2605,8 @@ msgstr ""
 "liaison, sinon elle se terminera sur l'autre atome."
 
 #: ../plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in.h:1
-msgid "End mechanism arrows at center of new bonds"
-msgstr "Terminer les flèches de mécanisme au centre des nouvelles liaisons"
+msgid "Use full arrows heads for reversible reactions"
+msgstr "Utiliser des têtes de flèches entières pour les réactions réversibles"
 
 #: ../plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in.h:2
 msgid ""
@@ -2611,16 +2617,16 @@ msgstr ""
 "entières par défaut au lieur de demi-têtes."
 
 #: ../plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in.h:3
+msgid "End mechanism arrows at center of new bonds"
+msgstr "Terminer les flèches de mécanisme au centre des nouvelles liaisons"
+
+#: ../plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in.h:4
 msgid ""
 "If true, a curved arrow corresponding to a new bond will end at center of "
 "the new bond, otherwise, the arrow will end at the other atom."
 msgstr ""
 "Si l'option est activée, la flèche se terminera au centre de la nouvelle "
 "liaison, sinon elle se terminera sur l'autre atome."
-
-#: ../plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in.h:4
-msgid "Use full arrows heads for reversible reactions"
-msgstr "Utiliser des têtes de flèches entières pour les réactions réversibles"
 
 #: ../plugins/paint/arrows/plugin.cc:72
 msgid "Simple arrow"
@@ -2704,32 +2710,37 @@ msgid "Orbital"
 msgstr "Orbitale"
 
 #: ../plugins/paint/atoms/orbital.cc:413
-#: ../plugins/paint/atoms/orbital-prop.ui.h:4
+#: ../plugins/paint/atoms/orbital-prop.ui.h:1
 msgid "Orbital properties"
 msgstr "Propriétés de l'orbitale"
 
 #: ../plugins/paint/atoms/orbital.ui.h:1
-#: ../plugins/paint/atoms/orbital-prop.ui.h:1
-#: ../plugins/paint/bonds/bond.ui.h:1 ../plugins/paint/bonds/chain.ui.h:2
-#: ../plugins/paint/bonds/newman.ui.h:2 ../plugins/paint/cycles/cycle.ui.h:1
+#: ../plugins/paint/atoms/orbital-prop.ui.h:2
+#: ../plugins/paint/bonds/bond.ui.h:1 ../plugins/paint/bonds/chain.ui.h:1
+#: ../plugins/paint/bonds/newman.ui.h:1 ../plugins/paint/cycles/cycle.ui.h:1
 #: ../plugins/paint/cycles/cyclen.ui.h:1
 msgid "<b>Property</b>"
 msgstr "<b>Propriété</b>"
 
 #: ../plugins/paint/atoms/orbital.ui.h:2
-#: ../plugins/paint/atoms/orbital-prop.ui.h:2 ../ui/crystal/atoms.ui.h:6
-msgid "<b>Type:</b>"
-msgstr "<b>Type :</b>"
-
-#: ../plugins/paint/atoms/orbital.ui.h:3
-#: ../plugins/paint/atoms/orbital-prop.ui.h:3
+#: ../plugins/paint/atoms/orbital-prop.ui.h:6
 #: ../plugins/paint/bonds/bond.ui.h:2 ../plugins/paint/bonds/chain.ui.h:3
-#: ../plugins/paint/bonds/newman.ui.h:4 ../plugins/paint/cycles/cycle.ui.h:2
+#: ../plugins/paint/bonds/newman.ui.h:2 ../plugins/paint/cycles/cycle.ui.h:2
 #: ../plugins/paint/cycles/cyclen.ui.h:2
 msgid "<b>Value</b>"
 msgstr "<b>Valeur</b>"
 
+#: ../plugins/paint/atoms/orbital.ui.h:3
+#: ../plugins/paint/atoms/orbital-prop.ui.h:3
+msgid "_Coefficient:"
+msgstr "_Coefficient :"
+
 #: ../plugins/paint/atoms/orbital.ui.h:4
+#: ../plugins/paint/atoms/orbital-prop.ui.h:4
+msgid "_Rotation:"
+msgstr "_Rotation :"
+
+#: ../plugins/paint/atoms/orbital.ui.h:5
 msgid ""
 "Orbital coefficient for the current atom. The size of the representation of "
 "the orbital will be proportional to this coefficient."
@@ -2737,35 +2748,30 @@ msgstr ""
 "Coefficient de l'orbitale sur l'atome. La taille de la représentation de "
 "l'orbitale sera proportionnelle à ce coefficient."
 
-#: ../plugins/paint/atoms/orbital.ui.h:5
-#: ../plugins/paint/atoms/orbital-prop.ui.h:5
-msgid "_Coefficient:"
-msgstr "_Coefficient :"
-
 #: ../plugins/paint/atoms/orbital.ui.h:6
-#: ../plugins/paint/atoms/orbital-prop.ui.h:6
-msgid "_Rotation:"
-msgstr "_Rotation :"
+#: ../plugins/paint/atoms/orbital-prop.ui.h:5 ../ui/crystal/atoms.ui.h:7
+msgid "<b>Type:</b>"
+msgstr "<b>Type :</b>"
 
 #: ../plugins/paint/atoms/orbital.ui.h:7
 #: ../plugins/paint/atoms/orbital-prop.ui.h:7
-msgid "d<sub>xy</sub>"
-msgstr "d<sub>xy</sub>"
+msgid "s"
+msgstr "s"
 
 #: ../plugins/paint/atoms/orbital.ui.h:8
 #: ../plugins/paint/atoms/orbital-prop.ui.h:8
-msgid "d<sub>z<span size=\"smaller\" rise=\"0\">2</span></sub>"
-msgstr "d<sub>z<span size=\"smaller\" rise=\"0\">2</span></sub>"
-
-#: ../plugins/paint/atoms/orbital.ui.h:9
-#: ../plugins/paint/atoms/orbital-prop.ui.h:9
 msgid "p"
 msgstr "p"
 
+#: ../plugins/paint/atoms/orbital.ui.h:9
+#: ../plugins/paint/atoms/orbital-prop.ui.h:9
+msgid "d<sub>xy</sub>"
+msgstr "d<sub>xy</sub>"
+
 #: ../plugins/paint/atoms/orbital.ui.h:10
 #: ../plugins/paint/atoms/orbital-prop.ui.h:10
-msgid "s"
-msgstr "s"
+msgid "d<sub>z<span size=\"smaller\" rise=\"0\">2</span></sub>"
+msgstr "d<sub>z<span size=\"smaller\" rise=\"0\">2</span></sub>"
 
 #: ../plugins/paint/atoms/plugin.cc:64
 msgid "Add or modify an atom"
@@ -2808,13 +2814,13 @@ msgid "Add or modify an atomic orbital"
 msgstr "Ajoute ou modifie une orbitale atomique"
 
 #: ../plugins/paint/bonds/bond.ui.h:3 ../plugins/paint/bonds/chain.ui.h:4
-msgid "Bond _angle:"
-msgstr "Angl_e de liaison :"
-
-#: ../plugins/paint/bonds/bond.ui.h:4 ../plugins/paint/bonds/chain.ui.h:5
 #: ../plugins/paint/cycles/cycle.ui.h:3 ../plugins/paint/cycles/cyclen.ui.h:3
 msgid "Bond len_gth:"
 msgstr "_Longueur de liaison :"
+
+#: ../plugins/paint/bonds/bond.ui.h:4 ../plugins/paint/bonds/chain.ui.h:5
+msgid "Bond _angle:"
+msgstr "Angl_e de liaison :"
 
 #: ../plugins/paint/bonds/bond.ui.h:5 ../plugins/paint/bonds/chain.ui.h:7
 #: ../plugins/paint/cycles/cycle.ui.h:4 ../plugins/paint/cycles/cyclen.ui.h:5
@@ -2827,7 +2833,7 @@ msgstr ""
 "L'arbre du document n'est pas valide,\n"
 "veuillez faire un rapport de bogue."
 
-#: ../plugins/paint/bonds/chain.ui.h:1
+#: ../plugins/paint/bonds/chain.ui.h:2
 msgid "<b>Auto</b>"
 msgstr "<b>Auto</b>"
 
@@ -2841,33 +2847,33 @@ msgstr "_Nombre de liaisons :"
 msgid "Bonds: %d, Orientation: %g"
 msgstr "Liaisons: %d, Orientation : %g"
 
-#: ../plugins/paint/bonds/newman.ui.h:1
-msgid "<b>Fore</b>"
-msgstr "<b>Avant</b>"
-
 #: ../plugins/paint/bonds/newman.ui.h:3
-msgid "<b>Rear</b>"
-msgstr "<b>Arrière</b>"
-
-#: ../plugins/paint/bonds/newman.ui.h:5
-msgid "Angle between bonds:"
-msgstr "Angle entre deux liaisons."
-
-#: ../plugins/paint/bonds/newman.ui.h:6
-msgid "Bond length:"
-msgstr "Longueur de liaison :"
-
-#: ../plugins/paint/bonds/newman.ui.h:7
-msgid "Bond order:"
-msgstr "Ordre de liaison :"
-
-#: ../plugins/paint/bonds/newman.ui.h:8
 msgid "Bonds number:"
 msgstr "Nombre de liaisons :"
 
-#: ../plugins/paint/bonds/newman.ui.h:9
+#: ../plugins/paint/bonds/newman.ui.h:4
+msgid "Bond length:"
+msgstr "Longueur de liaison :"
+
+#: ../plugins/paint/bonds/newman.ui.h:5
+msgid "<b>Fore</b>"
+msgstr "<b>Avant</b>"
+
+#: ../plugins/paint/bonds/newman.ui.h:6
+msgid "Angle between bonds:"
+msgstr "Angle entre deux liaisons."
+
+#: ../plugins/paint/bonds/newman.ui.h:7
 msgid "First bond angle:"
 msgstr "Angl_e de la première liaison :"
+
+#: ../plugins/paint/bonds/newman.ui.h:8
+msgid "<b>Rear</b>"
+msgstr "<b>Arrière</b>"
+
+#: ../plugins/paint/bonds/newman.ui.h:9
+msgid "Bond order:"
+msgstr "Ordre de liaison :"
 
 #: ../plugins/paint/bonds/plugin.cc:65
 msgid "Add a bond or change the multiplicity of an existing one"
@@ -3008,7 +3014,7 @@ msgstr "Le symboles de plus de huit caractères ne sont pas autorisés."
 
 #: ../plugins/paint/residues/residues-dlg.cc:261
 #: ../plugins/paint/residues/residues-dlg.cc:413
-#: ../plugins/paint/residues/residues.ui.h:4
+#: ../plugins/paint/residues/residues.ui.h:1
 msgid "New"
 msgstr "Nouveau"
 
@@ -3033,42 +3039,54 @@ msgstr ""
 "La formule est vide, cela ne devrait jamais arriver.\n"
 "Merci de faire un rapport de bogue."
 
-#: ../plugins/paint/residues/residues.ui.h:1
-msgid "Formula"
-msgstr "Formule"
-
 #: ../plugins/paint/residues/residues.ui.h:2
-msgid "Identity"
-msgstr "Identité"
-
-#: ../plugins/paint/residues/residues.ui.h:3 ../ui/paint/preferences.ui.h:30
-msgid "N_ame:"
-msgstr "N_om :"
-
-#: ../plugins/paint/residues/residues.ui.h:5
 msgid "Residues"
 msgstr "Résidus"
 
-#: ../plugins/paint/residues/residues.ui.h:6
+#: ../plugins/paint/residues/residues.ui.h:3
 msgid "_Generic"
 msgstr "_Générique"
 
-#: ../plugins/paint/residues/residues.ui.h:7
+#: ../plugins/paint/residues/residues.ui.h:4
 msgid "_Symbol(s):"
 msgstr "_Symbole(s) :"
+
+#: ../plugins/paint/residues/residues.ui.h:5 ../ui/paint/preferences.ui.h:8
+msgid "N_ame:"
+msgstr "N_om :"
+
+#: ../plugins/paint/residues/residues.ui.h:6
+msgid "Identity"
+msgstr "Identité"
+
+#: ../plugins/paint/residues/residues.ui.h:7
+msgid "Formula"
+msgstr "Formule"
 
 #: ../plugins/paint/selection/bracketstool.cc:202
 msgid "Error loading the properties widget description:\n"
 msgstr ""
 "Erreur lors du chargement de la description de la fenêtre des propriétés :\n"
 
-#: ../plugins/paint/selection/brackets.ui.h:2
+#: ../plugins/paint/selection/brackets.ui.h:1
 msgid "Brackets type:"
 msgstr "Type de parenthèses :"
 
-#: ../plugins/paint/selection/brackets.ui.h:4
+#: ../plugins/paint/selection/brackets.ui.h:2
 msgid "Used brakets:"
 msgstr "Parenthèses utilisées :"
+
+#: ../plugins/paint/selection/brackets.ui.h:3
+msgid "Opening"
+msgstr "Ouvrir"
+
+#: ../plugins/paint/selection/brackets.ui.h:4
+msgid "Closing"
+msgstr "Cytosine"
+
+#: ../plugins/paint/selection/brackets.ui.h:5
+msgid "Both"
+msgstr "Les deux"
 
 #: ../plugins/paint/selection/group.cc:67
 msgid "Group properties..."
@@ -3079,20 +3097,48 @@ msgid "Group"
 msgstr "Groupe"
 
 #: ../plugins/paint/selection/group.ui.h:1
-msgid "A_lign"
-msgstr "A_ligner"
+msgid "Normal"
+msgstr "Normal"
 
-#: ../plugins/paint/selection/group.ui.h:2
-msgid "Distance:"
-msgstr "Distance :"
+#: ../plugins/paint/selection/group.ui.h:2 ../ui/paint/H-pos.ui.h:4
+msgid "Top"
+msgstr "Haut"
 
 #: ../plugins/paint/selection/group.ui.h:3
+msgid "Mid-height"
+msgstr "Mi-hauteur"
+
+#: ../plugins/paint/selection/group.ui.h:4 ../ui/paint/H-pos.ui.h:5
+msgid "Bottom"
+msgstr "Bas"
+
+#: ../plugins/paint/selection/group.ui.h:5 ../ui/paint/H-pos.ui.h:2
+msgid "Left"
+msgstr "Gauche"
+
+#: ../plugins/paint/selection/group.ui.h:6
+msgid "Center"
+msgstr "Centrer"
+
+#: ../plugins/paint/selection/group.ui.h:7 ../ui/paint/H-pos.ui.h:3
+msgid "Right"
+msgstr "Droite"
+
+#: ../plugins/paint/selection/group.ui.h:8
 msgid "_Group"
 msgstr "_Grouper"
 
-#: ../plugins/paint/selection/group.ui.h:4
+#: ../plugins/paint/selection/group.ui.h:9
+msgid "A_lign"
+msgstr "A_ligner"
+
+#: ../plugins/paint/selection/group.ui.h:10
 msgid "_Space evenly"
 msgstr "E_spacer régulièrement"
+
+#: ../plugins/paint/selection/group.ui.h:11
+msgid "Distance:"
+msgstr "Distance :"
 
 #: ../plugins/paint/selection/lassotool.cc:389
 #: ../plugins/paint/selection/selectiontool.cc:454
@@ -3158,12 +3204,12 @@ msgid "Merge two molecules"
 msgstr "Fusionner deux molécules"
 
 #: ../plugins/paint/templates/new-template.ui.h:1
-msgid "_Category:"
-msgstr "_Catégorie :"
-
-#: ../plugins/paint/templates/new-template.ui.h:2
 msgid "_Name"
 msgstr "_Nom"
+
+#: ../plugins/paint/templates/new-template.ui.h:2
+msgid "_Category:"
+msgstr "_Catégorie :"
 
 #: ../plugins/paint/templates/plugin.cc:47
 msgid "Templates"
@@ -3179,12 +3225,12 @@ msgid "Miscellaneous"
 msgstr "Divers"
 
 #: ../plugins/paint/templates/templates.ui.h:1
-msgid "No selected template"
-msgstr "Aucun modèle sélectionné"
-
-#: ../plugins/paint/templates/templates.ui.h:2
 msgid "_Templates"
 msgstr "_Modèles"
+
+#: ../plugins/paint/templates/templates.ui.h:2
+msgid "No selected template"
+msgstr "Aucun modèle sélectionné"
 
 #: ../plugins/paint/templates/templates.ui.h:3
 msgid "category"
@@ -3203,32 +3249,46 @@ msgid "Please choose a category."
 msgstr "Veuillez choisir une catégorie."
 
 #: ../plugins/paint/text/fontsel.ui.h:1
-msgid "Si_ze:"
-msgstr "_Taille"
-
-#: ../plugins/paint/text/fontsel.ui.h:2
-msgid "Stri_kethrough"
-msgstr "_Barré"
-
-#: ../plugins/paint/text/fontsel.ui.h:3
-msgid "_Color:"
-msgstr "_Couleur :"
-
-#: ../plugins/paint/text/fontsel.ui.h:4
 msgid "_Family:"
 msgstr "_Famille"
 
+#: ../plugins/paint/text/fontsel.ui.h:2
+msgid "_Underline:"
+msgstr "So_uligné"
+
+#: ../plugins/paint/text/fontsel.ui.h:3
+#: ../programs/table/gchemtable-data-allocator.cc:193
+msgid "None"
+msgstr "Aucun"
+
 #: ../plugins/paint/text/fontsel.ui.h:5
+msgid "Double"
+msgstr "Double"
+
+#: ../plugins/paint/text/fontsel.ui.h:6
+#: ../programs/table/gchemtable-elt.cc:300
+msgid "Low"
+msgstr "Bas"
+
+#: ../plugins/paint/text/fontsel.ui.h:7
+msgid "_Color:"
+msgstr "_Couleur :"
+
+#: ../plugins/paint/text/fontsel.ui.h:8
+msgid "Stri_kethrough"
+msgstr "_Barré"
+
+#: ../plugins/paint/text/fontsel.ui.h:9
 msgid "_Position:"
 msgstr "_Position :"
 
-#: ../plugins/paint/text/fontsel.ui.h:6
+#: ../plugins/paint/text/fontsel.ui.h:10
 msgid "_Style:"
 msgstr "_Style :"
 
-#: ../plugins/paint/text/fontsel.ui.h:7
-msgid "_Underline:"
-msgstr "So_uligné"
+#: ../plugins/paint/text/fontsel.ui.h:11
+msgid "Si_ze:"
+msgstr "_Taille"
 
 #: ../plugins/paint/text/fragmenttool.cc:458
 msgid "Mode: "
@@ -3297,13 +3357,12 @@ msgid "Invalid or misplaced argument: %s\n"
 msgstr "Argument invalide ou mal placé : %s\n"
 
 #: ../programs/3d/gchem3d.desktop.in.h:1
-msgid "Display chemical 3D structures"
-msgstr "Affiche des structures moléculaires en trois dimensions"
+msgid "Molecules Viewer"
+msgstr "Visionneuse de molécules"
 
 #: ../programs/3d/gchem3d.desktop.in.h:2
-#, fuzzy
-msgid "Molecules Viewer (0.14 unstable)"
-msgstr "Visionneuse de molécules"
+msgid "Display chemical 3D structures"
+msgstr "Affiche des structures moléculaires en trois dimensions"
 
 #: ../programs/calc/gchemcalc.cc:281
 msgid "GChemCalc is a simple calculator for chemists"
@@ -3314,11 +3373,11 @@ msgstr "GChemCalc est une calculatrice simple pour chimiste"
 msgid "Copyright © 2005-2010 Jean Bréfort"
 msgstr "Copyright © 2005-2010 par Jean Bréfort"
 
-#: ../programs/calc/gchemcalc.cc:324 ../ui/calc/gchemcalc.ui.h:3
+#: ../programs/calc/gchemcalc.cc:324 ../ui/calc/gchemcalc.ui.h:2
 msgid "Formula:"
 msgstr "Formule :"
 
-#: ../programs/calc/gchemcalc.cc:327 ../ui/calc/gchemcalc.ui.h:7
+#: ../programs/calc/gchemcalc.cc:327 ../ui/calc/gchemcalc.ui.h:3
 msgid "Raw formula:"
 msgstr "Formule brute :"
 
@@ -3390,23 +3449,21 @@ msgstr "Élément"
 msgid "Mass %"
 msgstr "% Masse"
 
-#: ../programs/calc/gchemcalc.desktop.in.h:1
+#: ../programs/calc/gchemcalc.desktop.in.h:1 ../ui/calc/gchemcalc.ui.h:1
+msgid "Chemical calculator"
+msgstr "Calculatrice chimique"
+
+#: ../programs/calc/gchemcalc.desktop.in.h:2
 msgid "A simple calculator for chemistry"
 msgstr "Une calculatrice simple pour chimiste"
 
-#: ../programs/calc/gchemcalc.desktop.in.h:2
-#, fuzzy
-msgid "Chemical calculator (0.14 unstable)"
-msgstr "Calculatrice chimique"
-
 #: ../programs/crystal/gcrystal.desktop.in.h:1
-msgid "Edit and display crystalline structures"
-msgstr "Édite et représente des structures cristallines"
+msgid "Gnome Crystal Crystalline Structures Viewer"
+msgstr "Visionneuse de structures cristallines Gnome Cristal"
 
 #: ../programs/crystal/gcrystal.desktop.in.h:2
-#, fuzzy
-msgid "Gnome Crystal Crystalline Structures Viewer (0.14 unstable)"
-msgstr "Visionneuse de structures cristallines Gnome Cristal"
+msgid "Edit and display crystalline structures"
+msgstr "Édite et représente des structures cristallines"
 
 #: ../programs/crystal/application.cc:53
 #, c-format
@@ -3422,13 +3479,12 @@ msgid " [file...]"
 msgstr " [fichier...]"
 
 #: ../programs/paint/gchempaint.desktop.in.h:1
-msgid "Edit chemical 2D structures"
-msgstr "Édite des structures chimiques 2D"
+msgid "GChemPaint Chemical Structures Editor"
+msgstr "Éditeur de structures chimiques GChemPaint"
 
 #: ../programs/paint/gchempaint.desktop.in.h:2
-#, fuzzy
-msgid "GChemPaint Chemical Structures Editor (0.14 unstable)"
-msgstr "Éditeur de structures chimiques GChemPaint"
+msgid "Edit chemical 2D structures"
+msgstr "Édite des structures chimiques 2D"
 
 #: ../programs/paint/main.cc:42
 msgid "GChemPaint version: "
@@ -3439,13 +3495,12 @@ msgid "GSpectrum"
 msgstr "GSpectrum"
 
 #: ../programs/spectra/gspectrum.desktop.in.h:1
-msgid "A spectrum viewer for the GNOME desktop"
-msgstr "Une visionneuse de spectre pour le bureau de GNOME"
+msgid "Spectrum viewer"
+msgstr "Visionneuse de spectres"
 
 #: ../programs/spectra/gspectrum.desktop.in.h:2
-#, fuzzy
-msgid "Spectrum viewer (0.14 unstable)"
-msgstr "Visionneuse de spectres"
+msgid "A spectrum viewer for the GNOME desktop"
+msgstr "Une visionneuse de spectre pour le bureau de GNOME"
 
 #: ../programs/spectra/window.cc:112
 msgid "GSpectrum is a spectrum viewer for Gnome"
@@ -3635,7 +3690,7 @@ msgstr "Température d'ébullition"
 msgid "Create an ebullition temperature chart"
 msgstr "Crée un graphique des variations de la température d'ébullition"
 
-#: ../programs/table/gchemtable-app.cc:185
+#: ../programs/table/gchemtable-app.cc:185 ../ui/crystal/atoms.ui.h:10
 msgid "Custom"
 msgstr "Personnalisé"
 
@@ -3687,7 +3742,7 @@ msgstr "n.d."
 msgid "%d:"
 msgstr "%d :"
 
-#: ../programs/table/gchemtable-elt.cc:126 ../ui/table/eltpage.ui.h:16
+#: ../programs/table/gchemtable-elt.cc:126 ../ui/table/eltpage.ui.h:5
 msgid "Show curve"
 msgstr "Courbe"
 
@@ -3707,10 +3762,6 @@ msgstr "Spin"
 #: ../programs/table/gchemtable-elt.cc:280
 msgid "Value"
 msgstr "Valeur"
-
-#: ../programs/table/gchemtable-elt.cc:300
-msgid "Low"
-msgstr "Bas"
 
 #: ../programs/table/gchemtable-elt.cc:303
 msgid "High"
@@ -3809,49 +3860,35 @@ msgstr "Numéro atomique"
 msgid "Not supported"
 msgstr "Non supporté"
 
-#: ../programs/table/gchemtable-data-allocator.cc:193
-msgid "None"
-msgstr "Aucun"
-
 #: ../programs/table/gchemtable-data.cc:527
 msgid "Atomic mass"
 msgstr "Masse atomique"
 
-#: ../programs/table/gchemtable.desktop.in.h:1
+#: ../programs/table/gchemtable.desktop.in.h:2
 msgid "A Mendeleiev table of the chemical elements"
 msgstr "Tableau de Mendeleiev des éléments chimiques"
 
-#: ../programs/table/gchemtable.desktop.in.h:2
-#, fuzzy
-msgid "Periodic table of the elements (0.14 unstable)"
-msgstr "Tableau périodique des éléments"
-
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:1
-msgid "Background color blue value"
-msgstr "Composante bleue de la couleur de l'arrière-plan"
+msgid "Printing resolution"
+msgstr "Résolution de l'imprimante"
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:2
-msgid "Background color green value"
-msgstr "Composante verte de la couleur de l'arrière-plan"
+msgid "Printing resolution if not automatically detected."
+msgstr ""
+"Résolution de l'imprimante dans le cas où celle-ci n'est pas détectée "
+"automatiquement."
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:3
-msgid "Background color red value"
-msgstr "Composante rouge de la couleur de l'arrière-plan"
+msgid "Default field of view"
+msgstr "Angle de vue par défaut"
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:4
-msgid ""
-"Blue value for the default background color. Acceptable values are 0. to 1."
-msgstr ""
-"Valeur par défaut de la composante bleue de la couleur d'arrière-plan. Les "
-"valeurs acceptables sont comprises entre 0 et 1."
+msgid "Field of view used by default for the model display."
+msgstr "Angle de vue utilisé par défaut pour la représentation du modèle."
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:5
-msgid ""
-"Default Euler's nutation angle for model display. Acceptable values are 0. "
-"to + 180."
-msgstr ""
-"Valeur par défaut de l'angle d'Euler de nutation θ. Les valeurs acceptables "
-"sont comprises entre 0 et 180."
+msgid "Default precession"
+msgstr "Valeur par défaut de la précession"
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:6
 msgid ""
@@ -3862,6 +3899,22 @@ msgstr ""
 "acceptables sont comprises entre -180 et 180."
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:7
+msgid "Default nutation"
+msgstr "Valeur par défaut de la nutation"
+
+#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:8
+msgid ""
+"Default Euler's nutation angle for model display. Acceptable values are 0. "
+"to + 180."
+msgstr ""
+"Valeur par défaut de l'angle d'Euler de nutation θ. Les valeurs acceptables "
+"sont comprises entre 0 et 180."
+
+#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:9
+msgid "Default spin"
+msgstr "Valeur par défaut de la rotation propre"
+
+#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:10
 msgid ""
 "Default Euler's spin angle for model display. Acceptable values are -180. to "
 "+ 180."
@@ -3869,128 +3922,53 @@ msgstr ""
 "Valeur par défaut de l'angle d'Euler de rotaton propre φ. Les valeurs "
 "acceptables sont comprises entre -180 et 180"
 
-#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:8
-msgid "Default field of view"
-msgstr "Angle de vue par défaut"
-
-#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:9
-msgid "Default nutation"
-msgstr "Valeur par défaut de la nutation"
-
-#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:10
-msgid "Default precession"
-msgstr "Valeur par défaut de la précession"
-
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:11
-msgid "Default spin"
-msgstr "Valeur par défaut de la rotation propre"
+msgid "Background color red value"
+msgstr "Composante rouge de la couleur de l'arrière-plan"
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:12
-msgid "Field of view used by default for the model display."
-msgstr "Angle de vue utilisé par défaut pour la représentation du modèle."
-
-#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:13
-msgid ""
-"Green value for the default background color. Acceptable values are 0. to 1."
-msgstr ""
-"Valeur par défaut de la composante verte de la couleur d'arrière-plan. Les "
-"valeurs acceptables sont comprises entre 0 et 1."
-
-#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:14
-msgid "Printing resolution"
-msgstr "Résolution de l'imprimante"
-
-#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:15
-msgid "Printing resolution if not automatically detected."
-msgstr ""
-"Résolution de l'imprimante dans le cas où celle-ci n'est pas détectée "
-"automatiquement."
-
-#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:16
 msgid ""
 "Red value for the default background color. Acceptable values are 0. to 1."
 msgstr ""
 "Valeur par défaut de la composante rouge de la couleur d'arrière-plan. Les "
 "valeurs acceptables sont comprises entre 0 et 1."
 
+#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:13
+msgid "Background color green value"
+msgstr "Composante verte de la couleur de l'arrière-plan"
+
+#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:14
+msgid ""
+"Green value for the default background color. Acceptable values are 0. to 1."
+msgstr ""
+"Valeur par défaut de la composante verte de la couleur d'arrière-plan. Les "
+"valeurs acceptables sont comprises entre 0 et 1."
+
+#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:15
+msgid "Background color blue value"
+msgstr "Composante bleue de la couleur de l'arrière-plan"
+
+#: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:16
+msgid ""
+"Blue value for the default background color. Acceptable values are 0. to 1."
+msgstr ""
+"Valeur par défaut de la composante bleue de la couleur d'arrière-plan. Les "
+"valeurs acceptables sont comprises entre 0 et 1."
+
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:1
-msgid "Default Bottom Margin"
-msgstr "Valeur par défaut de la marge droite."
+msgid "Preferred Display Unit"
+msgstr "Unité de mesure par défaut."
 
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:2
-msgid "Default Left Margin"
-msgstr "Valeur par défaut de la marge gauche."
+msgid "This string gives the default unit to be used in the page setup dialog."
+msgstr ""
+"Unité par défaut utilisée dans la page de configuration de l'impression."
 
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:3
 msgid "Default Top Margin"
 msgstr "Valeur par défaut de la marge haute."
 
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:4
-msgid "Default Top Outside Margin"
-msgstr "Valeur par défaut de la marge haute externe."
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:5
-msgid "Footer height"
-msgstr "Hauteur du pied de page."
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:6
-msgid "Paper"
-msgstr "Feuille"
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:7
-msgid "Preferred Display Unit"
-msgstr "Unité de mesure par défaut."
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:8
-msgid "This is the default paper orientation."
-msgstr "Orientation par défaut de la page."
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:9
-msgid ""
-"This is the default paper specification like iso_a4 or na_letter, i.e. a PWG "
-"5101.1-2002 paper name."
-msgstr ""
-"Taille de feuille de papier par défaut comme iso_a4 ou na_letter, selon la "
-"norme PWG 5101.1-2002"
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:10
-msgid "This string gives the default unit to be used in the page setup dialog."
-msgstr ""
-"Unité par défaut utilisée dans la page de configuration de l'impression."
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:11
-msgid "This value gives the default footer height number of points."
-msgstr "Valeur par défaut de la hauteur du pied de page en points."
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:12
-msgid "This value gives the default header height number of points."
-msgstr "Valeur par défaut de la hauteur d'en-tête de page en points"
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:13
-msgid ""
-"This value gives the default number of points from the bottom of a page to "
-"the end of the body."
-msgstr ""
-"Valeur par défaut de la distance en pôints entre le bas de la pageet le bas "
-"du corps."
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:14
-msgid ""
-"This value gives the default number of points from the left of a page to the "
-"left of the body."
-msgstr ""
-"Valeur par défaut de la distance en pôints entre la gauche de la pageet la "
-"gauche du corps."
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:15
-msgid ""
-"This value gives the default number of points from the right of a page to "
-"the right of the body."
-msgstr ""
-"Valeur par défaut de la distance en pôints entre la droite de la pageet la "
-"droite du corps."
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:16
 msgid ""
 "This value gives the default number of points from the top of a page to the "
 "start of the body."
@@ -3998,43 +3976,85 @@ msgstr ""
 "Valeur par défaut de la distance en pôints entre le haut de la pageet le "
 "haut du corps."
 
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:5
+msgid "Default Bottom Margin"
+msgstr "Valeur par défaut de la marge droite."
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:6
+msgid ""
+"This value gives the default number of points from the bottom of a page to "
+"the end of the body."
+msgstr ""
+"Valeur par défaut de la distance en pôints entre le bas de la pageet le bas "
+"du corps."
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:7
+msgid "Footer height"
+msgstr "Hauteur du pied de page."
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:8
+msgid "This value gives the default footer height number of points."
+msgstr "Valeur par défaut de la hauteur du pied de page en points."
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:9
+msgid "Default Top Outside Margin"
+msgstr "Valeur par défaut de la marge haute externe."
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:10
+msgid "This value gives the default header height number of points."
+msgstr "Valeur par défaut de la hauteur d'en-tête de page en points"
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:11
+msgid "Default Left Margin"
+msgstr "Valeur par défaut de la marge gauche."
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:12
+msgid ""
+"This value gives the default number of points from the left of a page to the "
+"left of the body."
+msgstr ""
+"Valeur par défaut de la distance en pôints entre la gauche de la pageet la "
+"gauche du corps."
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:13
+msgid ""
+"This value gives the default number of points from the right of a page to "
+"the right of the body."
+msgstr ""
+"Valeur par défaut de la distance en pôints entre la droite de la pageet la "
+"droite du corps."
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:14
+msgid "Paper"
+msgstr "Feuille"
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:15
+msgid ""
+"This is the default paper specification like iso_a4 or na_letter, i.e. a PWG "
+"5101.1-2002 paper name."
+msgstr ""
+"Taille de feuille de papier par défaut comme iso_a4 ou na_letter, selon la "
+"norme PWG 5101.1-2002"
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:16
+msgid "This is the default paper orientation."
+msgstr "Orientation par défaut de la page."
+
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:1
-msgid "Chemical formula font family."
-msgstr "Famille de la police utilisée par les formules chimiques."
+msgid "Default bond length"
+msgstr "Longueur par défaut des liaisons"
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:2
-msgid "Chemical formula font size."
-msgstr "Taille de la police utilisée par les formules chimiques."
+msgid "Default bond length in picometers. Used in the default theme."
+msgstr ""
+"Longueur par défaut des liaisons en picomètres. Valeur utilisée dans le "
+"thème par défaut."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:3
-msgid "Chemical formula font stretch."
-msgstr "Étirement de la police utilisée par les formules chimiques."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:4
-msgid "Chemical formula font style."
-msgstr "Style de la police utilisée par les formules chimiques."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:5
-msgid "Chemical formula font variant."
-msgstr "Variante de la police utilisée par les formules chimiques."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:6
-msgid "Chemical formula font weight."
-msgstr "Graisse de la police utilisée par les formules chimiques."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:7
-msgid ""
-"Compression factor when saving files. Acceptable values are 0 (no "
-"compression) to 9."
-msgstr ""
-"Facteur de compression des fichiers sauvegardés. Les valeurs acceptables "
-"vont de 0 (pas de compression) à 9."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:8
 msgid "Default angle between two bonds."
 msgstr "Angle par défaut entre deux liaisons."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:9
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:4
 msgid ""
 "Default angle between two consecutive bonds in a chain in degrees. Used in "
 "the default theme."
@@ -4042,39 +4062,24 @@ msgstr ""
 "Angle par défaut entre deux liaisons consécutives dans une chaîne en degrés. "
 "Valeur utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:10
-msgid "Default arrow length"
-msgstr "Longueur par défaut des flèches."
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:5
+msgid "Default distance between two lines in a multiple bond."
+msgstr "Distance par défaut entre deux lignes d'une liaison multiple."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:11
-msgid "Default arrow length in picometers. Used in the default theme."
-msgstr ""
-"Longueur par défaut des flèches en picomètres. Valeur utilisée dans le thème "
-"par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:13
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:7
 #, no-c-format
 msgid ""
-"Default arrow line width in pixels (at 100% zoom). Used in the default theme."
+"Default distance between two lines in pixels (at 100% zoom) in a multiple "
+"bond. Used in the default theme."
 msgstr ""
-"Largeur par défaut de la queue d'une flèche (à 100% d'agrandissement). "
-"Valeur utilisée dans le thème par défaut."
+"Distance par défaut entre deux lignes (à 100% d'agrandissement) d'une "
+"liaison multiple. Valeur utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:14
-msgid "Default arrow line width."
-msgstr "Largeur par défaut de la queue d'une flèche."
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:8
+msgid "Default bond line width."
+msgstr "Largeur par défaut de la ligne représentant une liaison."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:15
-msgid "Default bond length"
-msgstr "Longueur par défaut des liaisons"
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:16
-msgid "Default bond length in picometers. Used in the default theme."
-msgstr ""
-"Longueur par défaut des liaisons en picomètres. Valeur utilisée dans le "
-"thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:18
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:10
 #, no-c-format
 msgid ""
 "Default bond line width in pixels (at 100% zoom). Used in the default theme."
@@ -4082,23 +4087,21 @@ msgstr ""
 "Largeur par défaut de la ligne représentant une liaison (à 100% "
 "d'agrandissement). Valeur utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:19
-msgid "Default bond line width."
-msgstr "Largeur par défaut de la ligne représentant une liaison."
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:11
+msgid "Default arrow length"
+msgstr "Longueur par défaut des flèches."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:20
-msgid "Default charge sign size."
-msgstr "Taille par défaut d'un signe de charge."
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:12
+msgid "Default arrow length in picometers. Used in the default theme."
+msgstr ""
+"Longueur par défaut des flèches en picomètres. Valeur utilisée dans le thème "
+"par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:21
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:13
 msgid "Default distance between two lines for double arrows."
 msgstr "Distance par défaut entre deux lignes d'une double flèche."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:22
-msgid "Default distance between two lines in a multiple bond."
-msgstr "Distance par défaut entre deux lignes d'une liaison multiple."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:24
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:15
 #, no-c-format
 msgid ""
 "Default distance between two lines in pixels (at 100% zoom) for double "
@@ -4108,25 +4111,23 @@ msgstr ""
 "flèche ou d'une flèche de rétrosynthèse. Valeur utilisée dans le thème par "
 "défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:26
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:16
+msgid "Default arrow line width."
+msgstr "Largeur par défaut de la queue d'une flèche."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:18
 #, no-c-format
 msgid ""
-"Default distance between two lines in pixels (at 100% zoom) in a multiple "
-"bond. Used in the default theme."
+"Default arrow line width in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
-"Distance par défaut entre deux lignes (à 100% d'agrandissement) d'une "
-"liaison multiple. Valeur utilisée dans le thème par défaut."
+"Largeur par défaut de la queue d'une flèche (à 100% d'agrandissement). "
+"Valeur utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:28
-#, no-c-format
-msgid ""
-"Default distance between two lines in pixels for hash bonds (at 100% zoom). "
-"Used in the default theme."
-msgstr ""
-"Distance par défaut entre deux hachures (à 100% d'agrandissement) d'une "
-"liaison. Valeur utilisée dans le thème par défaut."
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:19
+msgid "Default distance from tip of arrowhead to center."
+msgstr "Distance par défaut en pixels de la pointe de la flèche au centre."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:30
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:21
 #, no-c-format
 msgid ""
 "Default distance from tip of arrowhead to center in pixels (at 100% zoom). "
@@ -4135,11 +4136,15 @@ msgstr ""
 "Distance par défaut en pixels de la pointe de la flèche au centre (à 100% "
 "d'agrandissement). Valeur utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:31
-msgid "Default distance from tip of arrowhead to center."
-msgstr "Distance par défaut en pixels de la pointe de la flèche au centre."
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:22
+msgid ""
+"Default distance from tip of arrowhead to trailing point, measured along "
+"shaft."
+msgstr ""
+"Distance par défaut entre la pointe de la flèche et son point de fuite, "
+"mesurée parallèlement à la queue."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:33
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:24
 #, no-c-format
 msgid ""
 "Default distance from tip of arrowhead to trailing point, measured along "
@@ -4149,15 +4154,14 @@ msgstr ""
 "mesurée parallèlement à la queue, en pixels (à 100% d'agrandissement). "
 "Valeur utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:34
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:25
 msgid ""
-"Default distance from tip of arrowhead to trailing point, measured along "
-"shaft."
+"Default distance of arrowhead trailing points from outside edge of shaft."
 msgstr ""
-"Distance par défaut entre la pointe de la flèche et son point de fuite, "
-"mesurée parallèlement à la queue."
+"Distance par défaut entre le point de fuite de la tête de la flèche et la "
+"queue."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:36
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:27
 #, no-c-format
 msgid ""
 "Default distance of arrowhead trailing points from outside edge of shaft in "
@@ -4166,18 +4170,103 @@ msgstr ""
 "Distance par défaut entre le point de fuite de la tête de la flèche et la "
 "queue (à 100% d'agrandissement). Valeur utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:37
-msgid ""
-"Default distance of arrowhead trailing points from outside edge of shaft."
-msgstr ""
-"Distance par défaut entre le point de fuite de la tête de la flèche et la "
-"queue."
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:28
+msgid "Default hash line width."
+msgstr "Largeur par défaut des hachures."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:38
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:30
+#, no-c-format
+msgid ""
+"Default line width in pixels for hash bonds (at 100% zoom). Used in the "
+"default theme."
+msgstr ""
+"Largeur par défaut des hachures (à 100% d'agrandissement). Valeur utilisée "
+"dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:31
+msgid "Default hash lines distance."
+msgstr "Distance par défaut entre deux hachures."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:33
+#, no-c-format
+msgid ""
+"Default distance between two lines in pixels for hash bonds (at 100% zoom). "
+"Used in the default theme."
+msgstr ""
+"Distance par défaut entre deux hachures (à 100% d'agrandissement) d'une "
+"liaison. Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:34
+msgid "Default largest width for hash or wedge bonds."
+msgstr "Largeur par défaut des liaisons stéréochimiques."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:36
+#, no-c-format
+msgid ""
+"Default largest width for hash or wedge bonds (at 100% zoom). Used in the "
+"default theme."
+msgstr ""
+"Largeur par défaut des liaisons stéréochimiques à l'extrémité la plus large "
+"(à 100% d'agrandissement). Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:37
+msgid "Scale (pm per pixel)."
+msgstr "Échelle (pm par pixel)."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:39
+#, no-c-format
+msgid ""
+"Scale used to convert real distance to canvas distance expressed in pm per "
+"pixel (at 100% zoom). Used in the default theme."
+msgstr ""
+"Échelle utilisée pour convertir les distances réelles en distances dans le "
+"dessin, exprimée en pm par pixel.Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:40
+msgid "Default padding for texts."
+msgstr "Espace par défaut autour des textes."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:42
+#, no-c-format
+msgid ""
+"Padding used around text objects such as atoms, texts and other typographic "
+"signs in pixels (at 100% zoom). Used in the default theme."
+msgstr ""
+"Espace en pixels ajouté autour des objets de texte comme les symboles "
+"chimiques, les textes et autres signes typographiques (à 100% "
+"d'agrandissement). Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:43
+msgid "Default padding around arrows."
+msgstr "Espace par défaut autour des flèches."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:45
+#, no-c-format
+msgid ""
+"Default padding between arrows and associated objects in pixels (at 100% "
+"zoom). Used in the default theme."
+msgstr ""
+"Espace par défaut entre les flèches et les objets associés (à 100% "
+"d'agrandissement). Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:46
+msgid "Default padding between a reaction arrow and an attached object."
+msgstr "Espace par défaut entre une flèche de réaction et un object attaché."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:48
+#, no-c-format
+msgid ""
+"Default padding between reaction arrows and attached objects in pixels (at "
+"100% zoom). Used in the default theme."
+msgstr ""
+"Espace par défaut entre les flèches et les objets attachés (à 100% "
+"d'agrandissement). Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:49
 msgid "Default extra padding after a stoichiometric coefficient."
 msgstr "Espace supplémentaire par défaut après un coefficient stœchiométrique."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:40
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:51
 #, no-c-format
 msgid ""
 "Default extra padding between a stoichiometric coefficient and its "
@@ -4187,130 +4276,11 @@ msgstr ""
 "molécule associée (à 100% d'agrandissement). Valeur utilisée dans le thème "
 "par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:41
-msgid "Default font family used for texts. Used in the default theme."
-msgstr ""
-"Famille par défaut de la police utilisée pour le texte. Valeur utilisée dans "
-"le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:42
-msgid ""
-"Default font stretch used for texts (0 = ultra-condensed; 1 = extra-"
-"condensed; 2 = condensed; 3 = semi-condensed; 4 = normal; 5 = semi-expanded; "
-"6 = expanded; 7 = extra-expanded; 8 = ultra-expanded). Used in the default "
-"theme."
-msgstr ""
-"Étirement de la police utilisée par le texte (0 = ultra-condensé ; 1 = extra-"
-"condensé ; 2 = condensé ; 3 = semi-condensé ; 4 = normal ; 5 = semi-étiré ; "
-"6 = étiré ; 7 = extra-étiré ; 8 = ultra-étiré). Valeur utilisée dans le "
-"thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:43
-msgid ""
-"Default font style used for texts (0 = normal; 1 = oblique; 2 = italic). "
-"Used in the default theme."
-msgstr ""
-"Style par défaut de la police utilisée pour le texte (0 = normal ; 1 = "
-"oblique ; 2 =italique). Valeur utilisée dans le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:44
-msgid ""
-"Default font variant used for texts (0 = normal; 1 = small caps). Used in "
-"the default theme."
-msgstr ""
-"Variante par défaut de la police utilisée pour le texte (0 = normal ; 1 = "
-"petites capitales). Valeur utilisée dans le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:45
-msgid ""
-"Default font weight used for texts (2 = ultra-light; 3 = light; 4 = normal; "
-"6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = heavy). Used in the default "
-"theme."
-msgstr ""
-"Graisse par défaut de la police utilisée pour le texte (2 = ultra-fine ; 3 = "
-"fine ; 4 =normale 6 = semi-grasse ; 7 = grasse ; 8 = ultra-grasse ; 9 = "
-"lourde). Valeur utilisée dans le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:46
-msgid "Default hash line width."
-msgstr "Largeur par défaut des hachures."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:47
-msgid "Default hash lines distance."
-msgstr "Distance par défaut entre deux hachures."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:49
-#, no-c-format
-msgid ""
-"Default largest width for hash or wedge bonds (at 100% zoom). Used in the "
-"default theme."
-msgstr ""
-"Largeur par défaut des liaisons stéréochimiques à l'extrémité la plus large "
-"(à 100% d'agrandissement). Valeur utilisée dans le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:50
-msgid "Default largest width for hash or wedge bonds."
-msgstr "Largeur par défaut des liaisons stéréochimiques."
-
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:52
-#, no-c-format
-msgid ""
-"Default line width in pixels for hash bonds (at 100% zoom). Used in the "
-"default theme."
-msgstr ""
-"Largeur par défaut des hachures (à 100% d'agrandissement). Valeur utilisée "
-"dans le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:53
-msgid "Default padding around arrows."
-msgstr "Espace par défaut autour des flèches."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:55
-#, no-c-format
-msgid ""
-"Default padding between a '+' sign in a reaction equation and reactants "
-"symbols in pixels (at 100% zoom). Used in the default theme."
-msgstr ""
-"Espace par défaut avant et après un signe '+' dans une réaction chimique (à "
-"100% d'agrandissement). Valeur utilisée dans le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:56
-msgid ""
-"Default padding between a '+' sign in a reaction equation and reactants "
-"symbols."
-msgstr "Espace par défaut avant et après un signe '+' dans une réaction."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:57
-msgid "Default padding between a reaction arrow and an attached object."
-msgstr "Espace par défaut entre une flèche de réaction et un object attaché."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:58
 msgid "Default padding between aligned objects."
 msgstr "Espace par défaut entre des objets alignés."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:60
-#, no-c-format
-msgid ""
-"Default padding between arrows and associated objects in pixels (at 100% "
-"zoom). Used in the default theme."
-msgstr ""
-"Espace par défaut entre les flèches et les objets associés (à 100% "
-"d'agrandissement). Valeur utilisée dans le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:62
-#, no-c-format
-msgid ""
-"Default padding between reaction arrows and attached objects in pixels (at "
-"100% zoom). Used in the default theme."
-msgstr ""
-"Espace par défaut entre les flèches et les objets attachés (à 100% "
-"d'agrandissement). Valeur utilisée dans le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:63
-msgid "Default padding for texts."
-msgstr "Espace par défaut autour des textes."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:65
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:54
 #, no-c-format
 msgid ""
 "Default padding in pixels added between consecutive objects during an "
@@ -4320,7 +4290,26 @@ msgstr ""
 "opération d'alignement (à 100% d'agrandissement). Valeur utilisée dans le "
 "thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:67
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:55
+msgid ""
+"Default padding between a '+' sign in a reaction equation and reactants "
+"symbols."
+msgstr "Espace par défaut avant et après un signe '+' dans une réaction."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:57
+#, no-c-format
+msgid ""
+"Default padding between a '+' sign in a reaction equation and reactants "
+"symbols in pixels (at 100% zoom). Used in the default theme."
+msgstr ""
+"Espace par défaut avant et après un signe '+' dans une réaction chimique (à "
+"100% d'agrandissement). Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:58
+msgid "Default charge sign size."
+msgstr "Taille par défaut d'un signe de charge."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:60
 #, no-c-format
 msgid ""
 "Default size of the charge sign in pixels (at 100% zoom). Used in the "
@@ -4329,43 +4318,11 @@ msgstr ""
 "Taille par défaut en pixels d'un signe de charge (à 100% d'agrandissement). "
 "Valeur utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:68
-msgid "Default text font family."
-msgstr "Famille par défaut de la police utilisée pour le texte."
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:61
+msgid "Chemical formula font family."
+msgstr "Famille de la police utilisée par les formules chimiques."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:69
-msgid "Default text font size."
-msgstr "Taille par défaut de la police utilisée pour le texte."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:70
-msgid "Default text font stretch."
-msgstr "Étirement par défaut de la police utilisée pour le texte."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:71
-msgid "Default text font style."
-msgstr "Style par défaut de la police utilisée pour le texte."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:72
-msgid "Default text font variant."
-msgstr "Variante par défaut de la police utilisée pour le texte."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:73
-msgid "Default text font weight."
-msgstr "Graisse par défaut de la police utilisée pour le texte."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:74
-msgid "Default theme used when creating a new file."
-msgstr "Thème par défaut utilisé lors de la cration d'un nouveau fichier."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:75
-msgid "Default theme."
-msgstr "Thème par défaut"
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:76
-msgid "File compression factor."
-msgstr "Facteur de compression des fichiers."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:77
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:62
 msgid ""
 "Font family used for chemical formula such as atoms and fragments. Used in "
 "the default theme."
@@ -4373,21 +4330,50 @@ msgstr ""
 "Famille par défaut de la police utilisée pour les formules chimiques Valeur "
 "utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:78
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:63
+msgid "Chemical formula font style."
+msgstr "Style de la police utilisée par les formules chimiques."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:64
 msgid ""
-"Font size used for chemical formula such as atoms and fragments. Used in the "
-"default theme."
+"Font style used for chemical formula such as atoms and fragments (0 = "
+"normal; 1 = oblique; 2 = italic). Used in the default theme."
 msgstr ""
-"Taille par défaut de la police utilisée pour les formules chimiques. Valeur "
-"utilisée dans le thème par défaut."
+"Style par défaut de la police utilisée pour les formules chimiques (0 = "
+"normal ; 1 = oblique ; 2 =italique). Valeur utilisée dans le thème par "
+"défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:79
-msgid "Font size used for texts. Used in the default theme."
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:65
+msgid "Chemical formula font weight."
+msgstr "Graisse de la police utilisée par les formules chimiques."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:66
+msgid ""
+"Font weight used for chemical formula such as atoms and fragments (2 = ultra-"
+"light; 3 = light; 4 = normal; 6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = "
+"heavy). Used in the default theme."
 msgstr ""
-"Taille par défaut de la police utilisée pour le texte. Valeur utilisée dans "
-"le thème par défaut."
+"Graisse par défaut de la police utilisée pour les formules chimiques (2 = "
+"ultra-fine ; 3 = fine ; 4 =normale 6 = semi-grasse ; 7 = grasse ; 8 = ultra-"
+"grasse ; 9 = lourde). Valeur utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:80
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:67
+msgid "Chemical formula font variant."
+msgstr "Variante de la police utilisée par les formules chimiques."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:68
+msgid ""
+"Font variant used for chemical formula such as atoms and fragments (0 = "
+"normal; 1 = small caps). Used in the default theme."
+msgstr ""
+"Variante par défaut de la police utilisée pour les formules chimiques (0 = "
+"normal ; 1 = petites capitales). Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:69
+msgid "Chemical formula font stretch."
+msgstr "Étirement de la police utilisée par les formules chimiques."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:70
 msgid ""
 "Font stretch used for chemical formula such as atoms and fragments (0 = "
 "ultra-condensed; 1 = extra-condensed; 2 = condensed; 3 = semi-condensed; 4 = "
@@ -4399,43 +4385,127 @@ msgstr ""
 "normal ; 5 = semi-étiré ; 6 = étiré ; 7 = extra-étiré ; 8 = ultra-étiré). "
 "Valeur utilisée dans le thème par défaut."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:81
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:71
+msgid "Chemical formula font size."
+msgstr "Taille de la police utilisée par les formules chimiques."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:72
 msgid ""
-"Font style used for chemical formula such as atoms and fragments (0 = "
-"normal; 1 = oblique; 2 = italic). Used in the default theme."
+"Font size used for chemical formula such as atoms and fragments. Used in the "
+"default theme."
 msgstr ""
-"Style par défaut de la police utilisée pour les formules chimiques (0 = "
-"normal ; 1 = oblique ; 2 =italique). Valeur utilisée dans le thème par "
-"défaut."
+"Taille par défaut de la police utilisée pour les formules chimiques. Valeur "
+"utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:73
+msgid "Default text font family."
+msgstr "Famille par défaut de la police utilisée pour le texte."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:74
+msgid "Default font family used for texts. Used in the default theme."
+msgstr ""
+"Famille par défaut de la police utilisée pour le texte. Valeur utilisée dans "
+"le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:75
+msgid "Default text font style."
+msgstr "Style par défaut de la police utilisée pour le texte."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:76
+msgid ""
+"Default font style used for texts (0 = normal; 1 = oblique; 2 = italic). "
+"Used in the default theme."
+msgstr ""
+"Style par défaut de la police utilisée pour le texte (0 = normal ; 1 = "
+"oblique ; 2 =italique). Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:77
+msgid "Default text font weight."
+msgstr "Graisse par défaut de la police utilisée pour le texte."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:78
+msgid ""
+"Default font weight used for texts (2 = ultra-light; 3 = light; 4 = normal; "
+"6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = heavy). Used in the default "
+"theme."
+msgstr ""
+"Graisse par défaut de la police utilisée pour le texte (2 = ultra-fine ; 3 = "
+"fine ; 4 =normale 6 = semi-grasse ; 7 = grasse ; 8 = ultra-grasse ; 9 = "
+"lourde). Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:79
+msgid "Default text font variant."
+msgstr "Variante par défaut de la police utilisée pour le texte."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:80
+msgid ""
+"Default font variant used for texts (0 = normal; 1 = small caps). Used in "
+"the default theme."
+msgstr ""
+"Variante par défaut de la police utilisée pour le texte (0 = normal ; 1 = "
+"petites capitales). Valeur utilisée dans le thème par défaut."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:81
+msgid "Default text font stretch."
+msgstr "Étirement par défaut de la police utilisée pour le texte."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:82
 msgid ""
-"Font variant used for chemical formula such as atoms and fragments (0 = "
-"normal; 1 = small caps). Used in the default theme."
+"Default font stretch used for texts (0 = ultra-condensed; 1 = extra-"
+"condensed; 2 = condensed; 3 = semi-condensed; 4 = normal; 5 = semi-expanded; "
+"6 = expanded; 7 = extra-expanded; 8 = ultra-expanded). Used in the default "
+"theme."
 msgstr ""
-"Variante par défaut de la police utilisée pour les formules chimiques (0 = "
-"normal ; 1 = petites capitales). Valeur utilisée dans le thème par défaut."
+"Étirement de la police utilisée par le texte (0 = ultra-condensé ; 1 = extra-"
+"condensé ; 2 = condensé ; 3 = semi-condensé ; 4 = normal ; 5 = semi-étiré ; "
+"6 = étiré ; 7 = extra-étiré ; 8 = ultra-étiré). Valeur utilisée dans le "
+"thème par défaut."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:83
-msgid ""
-"Font weight used for chemical formula such as atoms and fragments (2 = ultra-"
-"light; 3 = light; 4 = normal; 6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = "
-"heavy). Used in the default theme."
-msgstr ""
-"Graisse par défaut de la police utilisée pour les formules chimiques (2 = "
-"ultra-fine ; 3 = fine ; 4 =normale 6 = semi-grasse ; 7 = grasse ; 8 = ultra-"
-"grasse ; 9 = lourde). Valeur utilisée dans le thème par défaut."
+msgid "Default text font size."
+msgstr "Taille par défaut de la police utilisée pour le texte."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:84
-msgid ""
-"GChempaint displays black atomic symbols by default. When this key is set "
-"TRUE, atoms in new documents will be displayed using symbolic colors."
+msgid "Font size used for texts. Used in the default theme."
 msgstr ""
-"ChemPaint affiche des symboles atomiques noirs par défaut. Quand cette "
-"option est activée, les symboles utilisent les couleurs conventionnelles des "
-"éléments."
+"Taille par défaut de la police utilisée pour le texte. Valeur utilisée dans "
+"le thème par défaut."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:85
+msgid "File compression factor."
+msgstr "Facteur de compression des fichiers."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:86
+msgid ""
+"Compression factor when saving files. Acceptable values are 0 (no "
+"compression) to 9."
+msgstr ""
+"Facteur de compression des fichiers sauvegardés. Les valeurs acceptables "
+"vont de 0 (pas de compression) à 9."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:87
+msgid "Whether to export simple text when copying."
+msgstr "Exporter du texte simple ou non lors d'une copie."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:88
+msgid "If TRUE, STRING_UTF8 and STRING are added to the clipboard formats."
+msgstr ""
+"Si la valeur est ``TRUE'', STRING_UTF8 and STRING sont ajoutés dans les "
+"formats du presse-papier."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:89
+msgid "Default theme."
+msgstr "Thème par défaut"
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:90
+msgid "Default theme used when creating a new file."
+msgstr "Thème par défaut utilisé lors de la cration d'un nouveau fichier."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:91
+msgid "Whether the hashed wedge bonds should be inverted."
+msgstr "Inverer on non le sens des liaisons hachurées."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:92
 msgid ""
 "Hashed bonds are normally represented with the large side nearest, which is "
 "the opposite of what many people want. Setting this key to TRUE will change "
@@ -4446,357 +4516,364 @@ msgstr ""
 "Positionner cette clé sur VRAI inversera ce comportement. La valeur par "
 "défaut est FAUX."
 
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:86
-msgid "If TRUE, STRING_UTF8 and STRING are added to the clipboard formats."
-msgstr ""
-"Si la valeur est ``TRUE'', STRING_UTF8 and STRING sont ajoutés dans les "
-"formats du presse-papier."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:88
-#, no-c-format
-msgid ""
-"Padding used around text objects such as atoms, texts and other typographic "
-"signs in pixels (at 100% zoom). Used in the default theme."
-msgstr ""
-"Espace en pixels ajouté autour des objets de texte comme les symboles "
-"chimiques, les textes et autres signes typographiques (à 100% "
-"d'agrandissement). Valeur utilisée dans le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:89
-msgid "Scale (pm per pixel)."
-msgstr "Échelle (pm par pixel)."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:91
-#, no-c-format
-msgid ""
-"Scale used to convert real distance to canvas distance expressed in pm per "
-"pixel (at 100% zoom). Used in the default theme."
-msgstr ""
-"Échelle utilisée pour convertir les distances réelles en distances dans le "
-"dessin, exprimée en pm par pixel.Valeur utilisée dans le thème par défaut."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:92
-msgid "Whether the hashed wedge bonds should be inverted."
-msgstr "Inverer on non le sens des liaisons hachurées."
-
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:93
-msgid "Whether to export simple text when copying."
-msgstr "Exporter du texte simple ou non lors d'une copie."
-
-#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:94
 msgid "Whether to use colored atomic symbols."
 msgstr "Utiliser ou non des symboles atomiques en couleur."
+
+#: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:94
+msgid ""
+"GChempaint displays black atomic symbols by default. When this key is set "
+"TRUE, atoms in new documents will be displayed using symbolic colors."
+msgstr ""
+"ChemPaint affiche des symboles atomiques noirs par défaut. Quand cette "
+"option est activée, les symboles utilisent les couleurs conventionnelles des "
+"éléments."
 
 #: ../templates/paint/haworth.xml.in.h:1
 msgid "Saccharides"
 msgstr "Saccharides"
 
 #: ../templates/paint/haworth.xml.in.h:2
-msgid "α-D-deoxyribofuranose"
-msgstr "α-D-désoxyribofuranose"
-
-#: ../templates/paint/haworth.xml.in.h:3
 msgid "α-D-fructofuranose"
 msgstr "α-D-fructofuranose"
 
-#: ../templates/paint/haworth.xml.in.h:4
+#: ../templates/paint/haworth.xml.in.h:3
 msgid "α-D-galactopyranose"
 msgstr "α-D-galactopyranose"
 
-#: ../templates/paint/haworth.xml.in.h:5
+#: ../templates/paint/haworth.xml.in.h:4
 msgid "α-D-glucopyranose"
 msgstr "α-D-glucopyranose"
 
-#: ../templates/paint/haworth.xml.in.h:6
+#: ../templates/paint/haworth.xml.in.h:5
 msgid "α-D-ribofuranose"
 msgstr "α-D-ribofuranose"
 
-#: ../templates/paint/haworth.xml.in.h:7
-msgid "β-D-deoxyribofuranose"
-msgstr "β-D-désoxyribofuranose"
+#: ../templates/paint/haworth.xml.in.h:6
+msgid "α-D-deoxyribofuranose"
+msgstr "α-D-désoxyribofuranose"
 
-#: ../templates/paint/haworth.xml.in.h:8
+#: ../templates/paint/haworth.xml.in.h:7
 msgid "β-D-fructofuranose"
 msgstr "β-D-fructofuranose"
 
-#: ../templates/paint/haworth.xml.in.h:9
+#: ../templates/paint/haworth.xml.in.h:8
 msgid "β-D-galactopyranose"
 msgstr "β-D-galactopyranose"
 
-#: ../templates/paint/haworth.xml.in.h:10
+#: ../templates/paint/haworth.xml.in.h:9
 msgid "β-D-glucopyranose"
 msgstr "β-D-glucopyranose"
 
-#: ../templates/paint/haworth.xml.in.h:11
+#: ../templates/paint/haworth.xml.in.h:10
 msgid "β-D-ribofuranose"
 msgstr "β-D-ribofuranose"
 
+#: ../templates/paint/haworth.xml.in.h:11
+msgid "β-D-deoxyribofuranose"
+msgstr "β-D-désoxyribofuranose"
+
 #: ../templates/paint/templates.xml.in.h:1
-msgid "Adenine"
-msgstr "Adénine"
-
-#: ../templates/paint/templates.xml.in.h:2
-msgid "Adenosine"
-msgstr "Adénosine"
-
-#: ../templates/paint/templates.xml.in.h:3
-msgid "Alanine"
-msgstr "Alanine"
-
-#: ../templates/paint/templates.xml.in.h:4
-msgid "Amino acids"
-msgstr "Acides aminés"
-
-#: ../templates/paint/templates.xml.in.h:5
-msgid "Anthracene"
-msgstr "Anthracène"
-
-#: ../templates/paint/templates.xml.in.h:6
-msgid "Arginine"
-msgstr "Arginine"
-
-#: ../templates/paint/templates.xml.in.h:7
-msgid "Aromatic hydrocarbons"
-msgstr "Hydrocarbures aromatiques"
-
-#: ../templates/paint/templates.xml.in.h:8
-msgid "Asparagine"
-msgstr "Asparagine"
-
-#: ../templates/paint/templates.xml.in.h:9
-msgid "Aspartic acid"
-msgstr "Acide aspartique"
-
-#: ../templates/paint/templates.xml.in.h:10
-msgid "Azulene"
-msgstr "Azulène"
-
-#: ../templates/paint/templates.xml.in.h:11
 msgid "Benzene"
 msgstr "Benzène"
 
-#: ../templates/paint/templates.xml.in.h:12
-msgid "Cysteine"
-msgstr "Cystéine"
+#: ../templates/paint/templates.xml.in.h:2
+msgid "Aromatic hydrocarbons"
+msgstr "Hydrocarbures aromatiques"
 
-#: ../templates/paint/templates.xml.in.h:13
-msgid "Cytidine"
-msgstr "Cytidine"
-
-#: ../templates/paint/templates.xml.in.h:14
-msgid "Cytosine"
-msgstr "Cytosine"
-
-#: ../templates/paint/templates.xml.in.h:15
-msgid "Deoxyadenosine"
-msgstr "Désoxyadénosine"
-
-#: ../templates/paint/templates.xml.in.h:16
-msgid "Deoxycytidine"
-msgstr "Désoxycytidine"
-
-#: ../templates/paint/templates.xml.in.h:17
-msgid "Deoxyguanosine"
-msgstr "Désoxyguanosine"
-
-#: ../templates/paint/templates.xml.in.h:18
-msgid "Deoxythymidine"
-msgstr "Désoxythymidine"
-
-#: ../templates/paint/templates.xml.in.h:19
-msgid "Glutamic acid"
-msgstr "Acide glutamique"
-
-#: ../templates/paint/templates.xml.in.h:20
-msgid "Glutamine"
-msgstr "Glutamine"
-
-#: ../templates/paint/templates.xml.in.h:21
-msgid "Glycine"
-msgstr "Glycine"
-
-#: ../templates/paint/templates.xml.in.h:22
-msgid "Guanine"
-msgstr "Guanine"
-
-#: ../templates/paint/templates.xml.in.h:23
-msgid "Guanosine"
-msgstr "Guanosine"
-
-#: ../templates/paint/templates.xml.in.h:24
-msgid "Histidine"
-msgstr "Histidine"
-
-#: ../templates/paint/templates.xml.in.h:25
-msgid "Isoleucine"
-msgstr "Isoleucine"
-
-#: ../templates/paint/templates.xml.in.h:26
-msgid "Leucine"
-msgstr "Leucine"
-
-#: ../templates/paint/templates.xml.in.h:27
-msgid "Lysine"
-msgstr "Lysine"
-
-#: ../templates/paint/templates.xml.in.h:28
-msgid "Methionine"
-msgstr "Méthionine"
-
-#: ../templates/paint/templates.xml.in.h:29
+#: ../templates/paint/templates.xml.in.h:3
 msgid "Naphtalene"
 msgstr "Naphtalène"
 
-#: ../templates/paint/templates.xml.in.h:30
-msgid "Nucleic bases"
-msgstr "Bases nucléiques"
+#: ../templates/paint/templates.xml.in.h:4
+msgid "Anthracene"
+msgstr "Anthracène"
 
-#: ../templates/paint/templates.xml.in.h:31
-msgid "Nucleosides"
-msgstr "Nucléosides"
-
-#: ../templates/paint/templates.xml.in.h:32
+#: ../templates/paint/templates.xml.in.h:5
 msgid "Phenanthrene"
 msgstr "Phénanthrène"
 
-#: ../templates/paint/templates.xml.in.h:33
-msgid "Phenylalanine"
-msgstr "Phénylalanine"
-
-#: ../templates/paint/templates.xml.in.h:34
-msgid "Proline"
-msgstr "Proline"
-
-#: ../templates/paint/templates.xml.in.h:35
+#: ../templates/paint/templates.xml.in.h:6
 msgid "Pyrene"
 msgstr "Pyrène"
 
-#: ../templates/paint/templates.xml.in.h:36
+#: ../templates/paint/templates.xml.in.h:7
+msgid "Azulene"
+msgstr "Azulène"
+
+#: ../templates/paint/templates.xml.in.h:8
+msgid "Amino acids"
+msgstr "Acides aminés"
+
+#: ../templates/paint/templates.xml.in.h:9
+msgid "Glycine"
+msgstr "Glycine"
+
+#: ../templates/paint/templates.xml.in.h:10
+msgid "Alanine"
+msgstr "Alanine"
+
+#: ../templates/paint/templates.xml.in.h:11
 msgid "Serine"
 msgstr "Sérine"
 
-#: ../templates/paint/templates.xml.in.h:37
-msgid "Threonine"
-msgstr "Thréonine"
+#: ../templates/paint/templates.xml.in.h:12
+msgid "Leucine"
+msgstr "Leucine"
 
-#: ../templates/paint/templates.xml.in.h:38
-msgid "Thymine"
-msgstr "Thymine"
-
-#: ../templates/paint/templates.xml.in.h:39
-msgid "Tryptophan"
-msgstr "Tryptophane"
-
-#: ../templates/paint/templates.xml.in.h:40
-msgid "Tyrosine"
-msgstr "Tyrosine"
-
-#: ../templates/paint/templates.xml.in.h:41
-msgid "Uracil"
-msgstr "Uracile"
-
-#: ../templates/paint/templates.xml.in.h:42
-msgid "Uridine"
-msgstr "Uridine"
-
-#: ../templates/paint/templates.xml.in.h:43
+#: ../templates/paint/templates.xml.in.h:13
 msgid "Valine"
 msgstr "Valine"
 
-#: ../ui/calc/gchemcalc.ui.h:1
-msgid "Chemical calculator"
-msgstr "Calculatrice chimique"
+#: ../templates/paint/templates.xml.in.h:14
+msgid "Isoleucine"
+msgstr "Isoleucine"
 
-#: ../ui/calc/gchemcalc.ui.h:2
-msgid "Composition"
-msgstr "Composition"
+#: ../templates/paint/templates.xml.in.h:15
+msgid "Methionine"
+msgstr "Méthionine"
+
+#: ../templates/paint/templates.xml.in.h:16
+msgid "Proline"
+msgstr "Proline"
+
+#: ../templates/paint/templates.xml.in.h:17
+msgid "Phenylalanine"
+msgstr "Phénylalanine"
+
+#: ../templates/paint/templates.xml.in.h:18
+msgid "Tryptophan"
+msgstr "Tryptophane"
+
+#: ../templates/paint/templates.xml.in.h:19
+msgid "Threonine"
+msgstr "Thréonine"
+
+#: ../templates/paint/templates.xml.in.h:20
+msgid "Asparagine"
+msgstr "Asparagine"
+
+#: ../templates/paint/templates.xml.in.h:21
+msgid "Glutamine"
+msgstr "Glutamine"
+
+#: ../templates/paint/templates.xml.in.h:22
+msgid "Tyrosine"
+msgstr "Tyrosine"
+
+#: ../templates/paint/templates.xml.in.h:23
+msgid "Cysteine"
+msgstr "Cystéine"
+
+#: ../templates/paint/templates.xml.in.h:24
+msgid "Aspartic acid"
+msgstr "Acide aspartique"
+
+#: ../templates/paint/templates.xml.in.h:25
+msgid "Lysine"
+msgstr "Lysine"
+
+#: ../templates/paint/templates.xml.in.h:26
+msgid "Arginine"
+msgstr "Arginine"
+
+#: ../templates/paint/templates.xml.in.h:27
+msgid "Histidine"
+msgstr "Histidine"
+
+#: ../templates/paint/templates.xml.in.h:28
+msgid "Glutamic acid"
+msgstr "Acide glutamique"
+
+#: ../templates/paint/templates.xml.in.h:29
+msgid "Nucleic bases"
+msgstr "Bases nucléiques"
+
+#: ../templates/paint/templates.xml.in.h:30
+msgid "Thymine"
+msgstr "Thymine"
+
+#: ../templates/paint/templates.xml.in.h:31
+msgid "Uracil"
+msgstr "Uracile"
+
+#: ../templates/paint/templates.xml.in.h:32
+msgid "Cytosine"
+msgstr "Cytosine"
+
+#: ../templates/paint/templates.xml.in.h:33
+msgid "Adenine"
+msgstr "Adénine"
+
+#: ../templates/paint/templates.xml.in.h:34
+msgid "Guanine"
+msgstr "Guanine"
+
+#: ../templates/paint/templates.xml.in.h:35
+msgid "Nucleosides"
+msgstr "Nucléosides"
+
+#: ../templates/paint/templates.xml.in.h:36
+msgid "Uridine"
+msgstr "Uridine"
+
+#: ../templates/paint/templates.xml.in.h:37
+msgid "Cytidine"
+msgstr "Cytidine"
+
+#: ../templates/paint/templates.xml.in.h:38
+msgid "Deoxythymidine"
+msgstr "Désoxythymidine"
+
+#: ../templates/paint/templates.xml.in.h:39
+msgid "Deoxycytidine"
+msgstr "Désoxycytidine"
+
+#: ../templates/paint/templates.xml.in.h:40
+msgid "Adenosine"
+msgstr "Adénosine"
+
+#: ../templates/paint/templates.xml.in.h:41
+msgid "Guanosine"
+msgstr "Guanosine"
+
+#: ../templates/paint/templates.xml.in.h:42
+msgid "Deoxyadenosine"
+msgstr "Désoxyadénosine"
+
+#: ../templates/paint/templates.xml.in.h:43
+msgid "Deoxyguanosine"
+msgstr "Désoxyguanosine"
 
 #: ../ui/calc/gchemcalc.ui.h:4
-msgid "Isotopic Pattern"
-msgstr "Motif Isotopique"
-
-#: ../ui/calc/gchemcalc.ui.h:5
 msgid "Molecular weight:"
 msgstr "Masse molaire :"
+
+#: ../ui/calc/gchemcalc.ui.h:5
+msgid "Composition"
+msgstr "Composition"
 
 #: ../ui/calc/gchemcalc.ui.h:6
 msgid "Monoisotopic mass:"
 msgstr "Masse monoisotopique :"
 
-#: ../ui/crystal/cell.ui.h:1
-msgid "<b>Cell parameters</b>"
-msgstr "<b>Paramètres de la maille</b>"
+#: ../ui/calc/gchemcalc.ui.h:7
+msgid "Isotopic Pattern"
+msgstr "Motif Isotopique"
 
-#: ../ui/crystal/cell.ui.h:2
+#: ../ui/crystal/cell.ui.h:1
 msgid "<b>Lattice:</b>"
 msgstr "<b>Réseau :</b>"
 
+#: ../ui/crystal/cell.ui.h:2
+msgid "Simple cubic"
+msgstr "Cubique"
+
 #: ../ui/crystal/cell.ui.h:3
+msgid "Body-centered cubic"
+msgstr "Cubique centré"
+
+#: ../ui/crystal/cell.ui.h:4
+msgid "Face-centered-cubic"
+msgstr "Cubique à faces centrées"
+
+#: ../ui/crystal/cell.ui.h:5
+msgid "Hexagonal"
+msgstr "Hexagonal"
+
+#: ../ui/crystal/cell.ui.h:6
+msgid "Tetragonal"
+msgstr "Tétragonal"
+
+#: ../ui/crystal/cell.ui.h:7
+msgid "Body-centered tetragonal"
+msgstr "Tétragonal centré"
+
+#: ../ui/crystal/cell.ui.h:8
+msgid "Orthorhombic"
+msgstr "Orthorhombique"
+
+#: ../ui/crystal/cell.ui.h:9
+msgid "Base-centered orthorhombic"
+msgstr "Orthorhombique à base centrée"
+
+#: ../ui/crystal/cell.ui.h:10
+msgid "Body-centered orthorhombic"
+msgstr "Orthorhombique centré"
+
+#: ../ui/crystal/cell.ui.h:11
+msgid "Face-centered orthorhombic"
+msgstr "Orthorhombique à faces centrées"
+
+#: ../ui/crystal/cell.ui.h:12
+msgid "Rhombohedral"
+msgstr "Rhomboédrique"
+
+#: ../ui/crystal/cell.ui.h:13
+msgid "Monoclinic"
+msgstr "Monoclinique"
+
+#: ../ui/crystal/cell.ui.h:14
+msgid "Base-centered monoclinic"
+msgstr "Monoclinique à base centrée"
+
+#: ../ui/crystal/cell.ui.h:15
+msgid "Triclinic"
+msgstr "Triclinique"
+
+#: ../ui/crystal/cell.ui.h:16
 msgid "<b>Space group:</b>"
 msgstr "<b>Groupe d'espace :</b>"
 
-#: ../ui/crystal/cell.ui.h:5
+#: ../ui/crystal/cell.ui.h:18
+msgid "<b>Cell parameters</b>"
+msgstr "<b>Paramètres de la maille</b>"
+
+#: ../ui/crystal/cell.ui.h:19
 msgid "a (pm): "
 msgstr "a (pm) :"
 
-#: ../ui/crystal/cell.ui.h:6
+#: ../ui/crystal/cell.ui.h:20
 msgid "b (pm):"
 msgstr "b (pm) :"
 
-#: ../ui/crystal/cell.ui.h:7
+#: ../ui/crystal/cell.ui.h:21
 msgid "c (pm):"
 msgstr "c (pm) :"
 
-#: ../ui/crystal/cell.ui.h:8
+#: ../ui/crystal/cell.ui.h:22
 msgid "α (°):"
 msgstr "α (°) :"
 
-#: ../ui/crystal/cell.ui.h:9
+#: ../ui/crystal/cell.ui.h:23
 msgid "β (°):"
 msgstr "β (°) :"
 
-#: ../ui/crystal/cell.ui.h:10
+#: ../ui/crystal/cell.ui.h:24
 msgid "γ (°):"
 msgstr "γ (°) :"
 
 #: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:1
-msgid "<b><i>θ</i> (°):</b>"
-msgstr "<b><i>θ</i> (°) :</b>"
-
-#: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:2
-msgid "<b><i>φ</i> (°):</b>"
-msgstr "<b><i>φ</i> (°) :</b>"
-
-#: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:3
 msgid "<b><i>ψ</i> (°):</b>"
 msgstr "<b><i>ψ</i> (°) :</b>"
 
+#: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:2
+msgid "<b><i>θ</i> (°):</b>"
+msgstr "<b><i>θ</i> (°) :</b>"
+
+#: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:3
+msgid "<b><i>φ</i> (°):</b>"
+msgstr "<b><i>φ</i> (°) :</b>"
+
 #: ../ui/crystal/prefs.ui.h:4 ../ui/crystal/view-settings.ui.h:4
-msgid "<b>Background color:</b>"
-msgstr "<b>Couleur du fond :</b>"
+msgid "<b>Model orientation in space (Euler's angles):</b>"
+msgstr "<b>Orientation du modèle dans l'espace (angles d'Euler) :</b>"
 
 #: ../ui/crystal/prefs.ui.h:5 ../ui/crystal/view-settings.ui.h:5
 msgid "<b>Field of view (°):</b>"
 msgstr "<b>Angle du cône de vision (°):</b>"
 
 #: ../ui/crystal/prefs.ui.h:6 ../ui/crystal/view-settings.ui.h:6
-msgid "<b>Model orientation in space (Euler's angles):</b>"
-msgstr "<b>Orientation du modèle dans l'espace (angles d'Euler) :</b>"
-
-#: ../ui/crystal/prefs.ui.h:7
-msgid "<b>Printer resolution:</b>"
-msgstr "<b>Résolution de l'imprimante</b>"
-
-#: ../ui/crystal/prefs.ui.h:8
-msgid ""
-"A printer resolution of 300 dpi generally gives a quite acceptable result. "
-"Changing to a higher value can lead to a much longer processing time."
-msgstr ""
-"Une résolution pour l'imprimante de 300 ppp donne généralement un résultat "
-"acceptable. Changer pour une résolution plus importante peut demander un "
-"temps d'exécution nettement plus important."
-
-#: ../ui/crystal/prefs.ui.h:9 ../ui/crystal/view-settings.ui.h:7
 msgid ""
 "Acceptable values for the field of view are in the range from 0° to 45°. If "
 "0, no perspective effect will be used."
@@ -4805,321 +4882,387 @@ msgstr ""
 "l'intervalle de 0° à 45°. Si la valeur est nulle, il n'y aura aucun effet de "
 "perspective."
 
-#: ../ui/crystal/prefs.ui.h:10
+#: ../ui/crystal/prefs.ui.h:7 ../ui/crystal/view-settings.ui.h:7
+msgid "<b>Background color:</b>"
+msgstr "<b>Couleur du fond :</b>"
+
+#: ../ui/crystal/prefs.ui.h:8
 msgid "Default views settings"
 msgstr "Paramètres par défaut des vues"
 
+#: ../ui/crystal/prefs.ui.h:9
+msgid "<b>Printer resolution:</b>"
+msgstr "<b>Résolution de l'imprimante</b>"
+
+#: ../ui/crystal/prefs.ui.h:10
+msgid ""
+"A printer resolution of 300 dpi generally gives a quite acceptable result. "
+"Changing to a higher value can lead to a much longer processing time."
+msgstr ""
+"Une résolution pour l'imprimante de 300 ppp donne généralement un résultat "
+"acceptable. Changer pour une résolution plus importante peut demander un "
+"temps d'exécution nettement plus important."
+
 #: ../ui/crystal/prefs.ui.h:11
+msgid "300"
+msgstr "300"
+
+#: ../ui/crystal/prefs.ui.h:12
+msgid "360"
+msgstr "360"
+
+#: ../ui/crystal/prefs.ui.h:13
+msgid "600"
+msgstr "600"
+
+#: ../ui/crystal/prefs.ui.h:14
+msgid "720"
+msgstr "720"
+
+#: ../ui/crystal/prefs.ui.h:15
+msgid "1200"
+msgstr "1200"
+
+#: ../ui/crystal/prefs.ui.h:16
+msgid "1440"
+msgstr "1440"
+
+#: ../ui/crystal/prefs.ui.h:17
+msgid "2400"
+msgstr "2400"
+
+#: ../ui/crystal/prefs.ui.h:18
+msgid "2880"
+msgstr "2880"
+
+#: ../ui/crystal/prefs.ui.h:20
 msgid "Printing"
 msgstr "Impression"
 
-#: ../ui/crystal/atoms.ui.h:1
-msgid "<b>Charge: </b>"
-msgstr "<b>Charge :</b>"
-
-#: ../ui/crystal/atoms.ui.h:2
-msgid "<b>Custom color:</b>"
-msgstr "<b>Couleur personnalisée :</b>"
-
-#: ../ui/crystal/atoms.ui.h:3
-msgid "<b>Periodic table of the elements</b>"
-msgstr "<b>Tableau périodique des éléments</b>"
-
-#: ../ui/crystal/atoms.ui.h:4
-msgid "<b>Radius</b>"
-msgstr "<b>Rayon</b>"
-
-#: ../ui/crystal/atoms.ui.h:5
-msgid "<b>Scale factor:</b>"
-msgstr "<b>Facteur d'échelle :</b>"
-
-#: ../ui/crystal/atoms.ui.h:7
-msgid "<b>Value (pm):</b>"
-msgstr "<b>Valeur (pm) :</b>"
-
-#: ../ui/crystal/atoms.ui.h:8 ../ui/crystal/cleavages.ui.h:2
-#: ../ui/crystal/lines.ui.h:3
-msgid "Dele_te all"
-msgstr "Supprimer _tout"
-
-#: ../ui/crystal/atoms.ui.h:9 ../ui/crystal/lines.ui.h:6
-msgid "Select _all"
-msgstr "_Tout sélectionner"
-
-#: ../ui/crystal/atoms.ui.h:10
-msgid "Select _element"
-msgstr "Sélectionner l'élément"
-
-#: ../ui/crystal/atoms.ui.h:11 ../ui/crystal/cleavages.ui.h:5
-#: ../ui/crystal/lines.ui.h:7
+#: ../ui/crystal/atoms.ui.h:1 ../ui/crystal/cleavages.ui.h:4
+#: ../ui/crystal/lines.ui.h:4
 msgid "_Add"
 msgstr "_Ajouter"
 
-#: ../ui/crystal/atoms.ui.h:12 ../ui/crystal/cleavages.ui.h:6
-#: ../ui/crystal/lines.ui.h:8
+#: ../ui/crystal/atoms.ui.h:2 ../ui/crystal/cleavages.ui.h:3
+#: ../ui/crystal/lines.ui.h:5
 msgid "_Delete"
 msgstr "_Supprimer"
+
+#: ../ui/crystal/atoms.ui.h:3 ../ui/crystal/cleavages.ui.h:6
+#: ../ui/crystal/lines.ui.h:6
+msgid "Dele_te all"
+msgstr "Supprimer _tout"
+
+#: ../ui/crystal/atoms.ui.h:4 ../ui/crystal/lines.ui.h:7
+msgid "Select _all"
+msgstr "_Tout sélectionner"
+
+#: ../ui/crystal/atoms.ui.h:5
+msgid "Select _element"
+msgstr "Sélectionner l'élément"
+
+#: ../ui/crystal/atoms.ui.h:6
+msgid "<b>Charge: </b>"
+msgstr "<b>Charge :</b>"
+
+#: ../ui/crystal/atoms.ui.h:8
+msgid "<b>Scale factor:</b>"
+msgstr "<b>Facteur d'échelle :</b>"
+
+#: ../ui/crystal/atoms.ui.h:9
+msgid "<b>Value (pm):</b>"
+msgstr "<b>Valeur (pm) :</b>"
+
+#: ../ui/crystal/atoms.ui.h:12
+msgid "Ionic"
+msgstr "Ionique"
+
+#: ../ui/crystal/atoms.ui.h:13
+msgid "Metallic"
+msgstr "Métallique"
+
+#: ../ui/crystal/atoms.ui.h:14
+msgid "Covalent"
+msgstr "Covalent"
+
+#: ../ui/crystal/atoms.ui.h:15
+msgid "Van der Waals"
+msgstr "Van der Waals"
+
+#: ../ui/crystal/atoms.ui.h:16
+msgid "<b>Radius</b>"
+msgstr "<b>Rayon</b>"
+
+#: ../ui/crystal/atoms.ui.h:17
+msgid "<b>Custom color:</b>"
+msgstr "<b>Couleur personnalisée :</b>"
+
+#: ../ui/crystal/atoms.ui.h:18
+msgid "<b>Periodic table of the elements</b>"
+msgstr "<b>Tableau périodique des éléments</b>"
 
 #: ../ui/crystal/cleavages.ui.h:1
 msgid "Cleavages"
 msgstr "Clivages"
 
-#: ../ui/crystal/cleavages.ui.h:3
-msgid "Fixed model size"
-msgstr "Taille du modèle fixe"
-
-#: ../ui/crystal/cleavages.ui.h:4
+#: ../ui/crystal/cleavages.ui.h:2
 msgid "List of defined cleavages (h, k, and l are the Miller indices)"
 msgstr "Liste des clivages définis (h, k et l sont les indices de Miller)"
 
+#: ../ui/crystal/cleavages.ui.h:5
+msgid "Fixed model size"
+msgstr "Taille du modèle fixe"
+
 #: ../ui/crystal/docprop.ui.h:1 ../ui/paint/docprop.ui.h:1
-msgid "<b>Author:</b>"
-msgstr "<b>Auteur :</b>"
-
-#: ../ui/crystal/docprop.ui.h:2 ../ui/paint/docprop.ui.h:2
-msgid "<b>History</b>"
-msgstr "<b>Historique</b>"
-
-#: ../ui/crystal/docprop.ui.h:3 ../ui/paint/docprop.ui.h:4
-msgid "<b>_Comments:</b>"
-msgstr "<b>_Commentaires :</b>"
-
-#: ../ui/crystal/docprop.ui.h:4 ../ui/paint/docprop.ui.h:5
-msgid "Creation date:"
-msgstr "Date de création :"
-
-#: ../ui/crystal/docprop.ui.h:5 ../ui/paint/docprop.ui.h:6
 msgid "Document properties"
 msgstr "Propriétés du document"
 
+#: ../ui/crystal/docprop.ui.h:2 ../ui/paint/docprop.ui.h:2
+msgid "_Title:"
+msgstr "_Titre :"
+
+#: ../ui/crystal/docprop.ui.h:3 ../ui/paint/docprop.ui.h:12
+msgid "<b>_Comments:</b>"
+msgstr "<b>_Commentaires :</b>"
+
+#: ../ui/crystal/docprop.ui.h:4 ../ui/paint/docprop.ui.h:6
+msgid "<b>History</b>"
+msgstr "<b>Historique</b>"
+
+#: ../ui/crystal/docprop.ui.h:5 ../ui/paint/docprop.ui.h:3
+msgid "<b>Author:</b>"
+msgstr "<b>Auteur :</b>"
+
 #: ../ui/crystal/docprop.ui.h:6 ../ui/paint/docprop.ui.h:7
-msgid "E-_mail:"
-msgstr "Cou_rriel :"
+msgid "Creation date:"
+msgstr "Date de création :"
 
 #: ../ui/crystal/docprop.ui.h:7 ../ui/paint/docprop.ui.h:8
 msgid "Revision date:"
 msgstr "Date de révision :"
 
-#: ../ui/crystal/docprop.ui.h:8 ../ui/paint/docprop.ui.h:10
+#: ../ui/crystal/docprop.ui.h:8 ../ui/paint/docprop.ui.h:5
+msgid "E-_mail:"
+msgstr "Cou_rriel :"
+
+#: ../ui/crystal/docprop.ui.h:9 ../ui/paint/docprop.ui.h:4
 msgid "_Name:"
 msgstr "_Nom :"
 
-#: ../ui/crystal/docprop.ui.h:9 ../ui/paint/docprop.ui.h:11
-msgid "_Title:"
-msgstr "_Titre :"
-
 #: ../ui/crystal/lines.ui.h:1
-msgid "<b>Other lines</b>"
-msgstr "<b>Autres lignes</b>"
-
-#: ../ui/crystal/lines.ui.h:2
 msgid "Cell edges"
 msgstr "Contours de la maille"
 
-#: ../ui/crystal/lines.ui.h:4
+#: ../ui/crystal/lines.ui.h:2
 msgid "Diagonals"
 msgstr "Diagonales"
 
-#: ../ui/crystal/lines.ui.h:5
+#: ../ui/crystal/lines.ui.h:3
 msgid "Medians"
 msgstr "Médianes"
+
+#: ../ui/crystal/lines.ui.h:8
+msgid "radius (pm):"
+msgstr "Rayon (pm) :"
 
 #: ../ui/crystal/lines.ui.h:9
 msgid "color:"
 msgstr "Couleur :"
 
 #: ../ui/crystal/lines.ui.h:10
-msgid "radius (pm):"
-msgstr "Rayon (pm) :"
+msgid "<b>Other lines</b>"
+msgstr "<b>Autres lignes</b>"
 
 #: ../ui/crystal/size.ui.h:1
-msgid "<b><i>x</i></b>"
-msgstr "<b><i>x</i></b>"
-
-#: ../ui/crystal/size.ui.h:2
-msgid "<b><i>y</i></b>"
-msgstr "<b><i>y</i></b>"
-
-#: ../ui/crystal/size.ui.h:3
-msgid "<b><i>z</i></b>"
-msgstr "<b><i>z</i></b>"
-
-#: ../ui/crystal/size.ui.h:4
-msgid "<b>Give minimum and maximum coordinates in cell units</b>"
-msgstr "<b>Indiquez les coordonnées minimales et maximales en nombre de cellules</b>"
-
-#: ../ui/crystal/size.ui.h:5
-msgid "<b>Maximum</b>"
-msgstr "<b>Maximum</b>"
-
-#: ../ui/crystal/size.ui.h:6
-msgid "<b>Minimum</b>"
-msgstr "<b>Minimum</b>"
-
-#: ../ui/crystal/size.ui.h:7
 msgid "Crystal size"
 msgstr "Taille du cristal"
 
+#: ../ui/crystal/size.ui.h:2
+msgid "<b>Give minimum and maximum coordinates in cell units</b>"
+msgstr ""
+"<b>Indiquez les coordonnées minimales et maximales en nombre de cellules</b>"
+
+#: ../ui/crystal/size.ui.h:3
+msgid "<b>Minimum</b>"
+msgstr "<b>Minimum</b>"
+
+#: ../ui/crystal/size.ui.h:4
+msgid "<b>Maximum</b>"
+msgstr "<b>Maximum</b>"
+
+#: ../ui/crystal/size.ui.h:5
+msgid "<b><i>x</i></b>"
+msgstr "<b><i>x</i></b>"
+
+#: ../ui/crystal/size.ui.h:6
+msgid "<b><i>y</i></b>"
+msgstr "<b><i>y</i></b>"
+
+#: ../ui/crystal/size.ui.h:7
+msgid "<b><i>z</i></b>"
+msgstr "<b><i>z</i></b>"
+
 #: ../ui/libgcu/gcuperiodic.ui.h:1
-msgid "Actinides"
-msgstr "Actinides"
-
-#: ../ui/libgcu/gcuperiodic.ui.h:2
-msgid "Lanthanides"
-msgstr "Lanthanides"
-
-#: ../ui/libgcu/gcuperiodic.ui.h:3
-msgid "Uuo"
-msgstr "UUo"
-
-#: ../ui/libgcu/gcuperiodic.ui.h:4
 msgid "Uus"
 msgstr "UUs"
 
+#: ../ui/libgcu/gcuperiodic.ui.h:2
+msgid "Uuo"
+msgstr "UUo"
+
+#: ../ui/libgcu/gcuperiodic.ui.h:3
+msgid "Lanthanides"
+msgstr "Lanthanides"
+
+#: ../ui/libgcu/gcuperiodic.ui.h:4
+msgid "Actinides"
+msgstr "Actinides"
+
 #: ../ui/libgcu/image-size.ui.h:1
-msgid "Height:"
-msgstr "Hauteur :"
-
-#: ../ui/libgcu/image-size.ui.h:2 ../ui/libgcu/image-resolution.ui.h:2
-msgid "Tr_ansparent background"
-msgstr "Arrière plan _transparent"
-
-#: ../ui/libgcu/image-size.ui.h:3
 msgid "Width:"
 msgstr "Largeur :"
 
-#: ../ui/libgcu/image-resolution.ui.h:1
+#: ../ui/libgcu/image-size.ui.h:2
+msgid "Height:"
+msgstr "Hauteur :"
+
+#: ../ui/libgcu/image-size.ui.h:3 ../ui/libgcu/image-resolution.ui.h:1
+msgid "Tr_ansparent background"
+msgstr "Arrière plan _transparent"
+
+#: ../ui/libgcu/image-resolution.ui.h:2
 msgid "Image _resolution:"
 msgstr "_Résolution de l'image : "
 
+#: ../ui/libgcu/print-setup.ui.h:1
+msgid "Page Setup"
+msgstr "Configuration de la page"
+
 #: ../ui/libgcu/print-setup.ui.h:2
-#, no-c-format
-msgid "% of normal size"
-msgstr "% de la taille normale"
+msgid "Reload defaults"
+msgstr "Recharger les valeurs pas défaut"
 
 #: ../ui/libgcu/print-setup.ui.h:3
-msgid "<b>Center on page:</b>"
-msgstr "<b>Centrer sur la page :</b>"
+msgid "Save as defaults"
+msgstr "Sauver comme valeurs par défaut"
 
 #: ../ui/libgcu/print-setup.ui.h:4
-msgid "<b>O_rientation:</b>"
-msgstr "<b>O_rientation :</b>"
-
-#: ../ui/libgcu/print-setup.ui.h:5
 msgid "<b>Paper:</b>"
 msgstr "<b>Papier :</b>"
 
-#: ../ui/libgcu/print-setup.ui.h:6
-msgid "<b>Scale</b>"
-msgstr "<b>Échelle</b>"
-
-#: ../ui/libgcu/print-setup.ui.h:7
-msgid "Bottom margin:"
-msgstr "Marge basse :"
-
-#: ../ui/libgcu/print-setup.ui.h:8
+#: ../ui/libgcu/print-setup.ui.h:5
 msgid "Change Paper Type"
 msgstr "Changer le type de papier"
 
-#: ../ui/libgcu/print-setup.ui.h:9
-msgid "Configure"
-msgstr "Configurer"
+#: ../ui/libgcu/print-setup.ui.h:6
+msgid "Top margin:"
+msgstr "Marge haute :"
 
-#: ../ui/libgcu/print-setup.ui.h:10
-msgid "Fi_rst page number:"
-msgstr "Numé_ro de la première page :"
-
-#: ../ui/libgcu/print-setup.ui.h:11
-msgid "Footer:"
-msgstr "Pied de page :"
-
-#: ../ui/libgcu/print-setup.ui.h:12
+#: ../ui/libgcu/print-setup.ui.h:7
 msgid "Header:"
 msgstr "En-tête :"
 
-#: ../ui/libgcu/print-setup.ui.h:13
-msgid "Headers and Footers"
-msgstr "En-têtes et pieds de page"
-
-#: ../ui/libgcu/print-setup.ui.h:14
+#: ../ui/libgcu/print-setup.ui.h:8
 msgid "Left margin:"
 msgstr "Marge gauche :"
 
+#: ../ui/libgcu/print-setup.ui.h:9
+msgid "Right margin:"
+msgstr "Marge droite :"
+
+#: ../ui/libgcu/print-setup.ui.h:10
+msgid "Footer:"
+msgstr "Pied de page :"
+
+#: ../ui/libgcu/print-setup.ui.h:11
+msgid "Bottom margin:"
+msgstr "Marge basse :"
+
+#: ../ui/libgcu/print-setup.ui.h:12
+msgid "Unit:"
+msgstr "Unité :"
+
+#: ../ui/libgcu/print-setup.ui.h:13
+msgid "<b>Center on page:</b>"
+msgstr "<b>Centrer sur la page :</b>"
+
+#: ../ui/libgcu/print-setup.ui.h:14
+msgid "<b>O_rientation:</b>"
+msgstr "<b>O_rientation :</b>"
+
 #: ../ui/libgcu/print-setup.ui.h:15
-msgid "Page"
-msgstr "Page"
+msgid "_Horizontally"
+msgstr "_Horizontalement"
 
 #: ../ui/libgcu/print-setup.ui.h:16
-msgid "Page Setup"
-msgstr "Configuration de la page"
+msgid "_Vertically"
+msgstr "Verticalement"
 
 #: ../ui/libgcu/print-setup.ui.h:17
 msgid "Print background"
 msgstr "Imprimer l'arrière plan"
 
 #: ../ui/libgcu/print-setup.ui.h:18
-msgid "Reload defaults"
-msgstr "Recharger les valeurs pas défaut"
+msgid "Page"
+msgstr "Page"
 
 #: ../ui/libgcu/print-setup.ui.h:19
-msgid "Right margin:"
-msgstr "Marge droite :"
+msgid "<b>Scale</b>"
+msgstr "<b>Échelle</b>"
 
 #: ../ui/libgcu/print-setup.ui.h:20
-msgid "Save as defaults"
-msgstr "Sauver comme valeurs par défaut"
+msgid "_No scaling"
+msgstr "Taille _naturelle"
 
 #: ../ui/libgcu/print-setup.ui.h:21
-msgid "Scale"
-msgstr "Échelle"
-
-#: ../ui/libgcu/print-setup.ui.h:22
-msgid "Scale to fit _horizontally on"
-msgstr "Remplit horizontalement"
-
-#: ../ui/libgcu/print-setup.ui.h:23
-msgid "Scale to fit _vertically on"
-msgstr "Remplit _verticalement"
-
-#: ../ui/libgcu/print-setup.ui.h:24
-msgid "Top margin:"
-msgstr "Marge haute :"
-
-#: ../ui/libgcu/print-setup.ui.h:25
-msgid "Unit:"
-msgstr "Unité :"
-
-#: ../ui/libgcu/print-setup.ui.h:26
-msgid "_Automatic scaling:"
-msgstr "Échelle _automatique"
-
-#: ../ui/libgcu/print-setup.ui.h:27
 msgid "_Fixed scaling:"
 msgstr "Échelle fi_xe :"
 
+#: ../ui/libgcu/print-setup.ui.h:22
+msgid "_Automatic scaling:"
+msgstr "Échelle _automatique"
+
+#: ../ui/libgcu/print-setup.ui.h:23
+msgid "Scale to fit _horizontally on"
+msgstr "Remplit horizontalement"
+
+#: ../ui/libgcu/print-setup.ui.h:24
+msgid "Scale to fit _vertically on"
+msgstr "Remplit _verticalement"
+
+#: ../ui/libgcu/print-setup.ui.h:26
+#, no-c-format
+msgid "% of normal size"
+msgstr "% de la taille normale"
+
+#: ../ui/libgcu/print-setup.ui.h:27
+msgid "page(s)"
+msgstr "page(s)"
+
 #: ../ui/libgcu/print-setup.ui.h:28
-msgid "_Footer:"
-msgstr "_Pied de page :"
+msgid "Scale"
+msgstr "Échelle"
 
 #: ../ui/libgcu/print-setup.ui.h:29
 msgid "_Header:"
 msgstr "_En-tête :"
 
 #: ../ui/libgcu/print-setup.ui.h:30
-msgid "_Horizontally"
-msgstr "_Horizontalement"
+msgid "_Footer:"
+msgstr "_Pied de page :"
 
 #: ../ui/libgcu/print-setup.ui.h:31
-msgid "_No scaling"
-msgstr "Taille _naturelle"
+msgid "Fi_rst page number:"
+msgstr "Numé_ro de la première page :"
 
 #: ../ui/libgcu/print-setup.ui.h:32
-msgid "_Vertically"
-msgstr "Verticalement"
+msgid "Configure"
+msgstr "Configurer"
 
 #: ../ui/libgcu/print-setup.ui.h:33
-msgid "page(s)"
-msgstr "page(s)"
+msgid "Headers and Footers"
+msgstr "En-têtes et pieds de page"
 
 #: ../ui/libgcu/stringinputdlg.ui.h:1
 msgid "Type InChI or SMILES"
@@ -5133,81 +5276,95 @@ msgstr "Objet associé à la flèche"
 msgid "_Role:"
 msgstr "_Role"
 
-#: ../ui/paint/docprop.ui.h:3
+#: ../ui/paint/docprop.ui.h:9
 msgid "<b>Theme</b>"
 msgstr "<b>Thème</b>"
 
-#: ../ui/paint/docprop.ui.h:9 ../ui/paint/newfiledlg.ui.h:2
+#: ../ui/paint/docprop.ui.h:10 ../ui/paint/newfiledlg.ui.h:2
 msgid "Theme:"
 msgstr "Thème :"
 
-#: ../ui/paint/docprop.ui.h:12
+#: ../ui/paint/docprop.ui.h:11
 msgid "_Use colored atomic symbols"
 msgstr "_Utiliser des symboles atomiques colorés"
+
+#: ../ui/paint/H-pos.ui.h:6
+msgid "Auto"
+msgstr "Auto"
 
 #: ../ui/paint/newfiledlg.ui.h:1
 msgid "New file with theme"
 msgstr "Nouveau fichier avec thème"
 
 #: ../ui/paint/preferences.ui.h:1
-msgid "<b>Arrow heads</b>"
-msgstr "<b>Têtes des flèches</b>"
+msgid "GChemPaint Preferences"
+msgstr "Préférences de GChemPaint"
 
 #: ../ui/paint/preferences.ui.h:2
-msgid "<b>Normal bonds</b>"
-msgstr "<b>Liaisons normales</b>"
+msgid "Default compression _level for GChemPaint files:"
+msgstr "Niveau de _compression par défaut des fichiers de GChemPaint :"
 
 #: ../ui/paint/preferences.ui.h:3
-msgid "<b>Stereochemical bonds</b>"
-msgstr "<b>Liaisons de stéréochimie</b>"
+msgid "_Invert wedge hashes"
+msgstr "Inverser les liaisons hachurées."
 
 #: ../ui/paint/preferences.ui.h:4
+msgid ""
+"Hashed bonds are normally represented with the large side nearest, which is "
+"the opposite of what many people want. If checked, this behavior will be "
+"reversed."
+msgstr ""
+"Les liaisons hachurées sont normalement représentées avec l'extrêmité large "
+"au plus près, ce qui est à l'opposé de la convention la plus courante. Si la "
+"case est cochée, ce comportement sera inversé."
+
+#: ../ui/paint/preferences.ui.h:5
+msgid "_Use colored atomic symbols in new documents"
+msgstr "_Utiliser des symboles atoimiques colorés dans les nouveaux documents"
+
+#: ../ui/paint/preferences.ui.h:6
+msgid "_Default theme:"
+msgstr "Thème par _défaut :"
+
+#: ../ui/paint/preferences.ui.h:7
 msgid "<b>Themes</b>"
 msgstr "<b>Thèmes</b>"
 
-#: ../ui/paint/preferences.ui.h:5
-msgid "A:"
-msgstr "A :"
-
-#: ../ui/paint/preferences.ui.h:6
-msgid "Angl_e:"
-msgstr "An_gle:"
-
-#: ../ui/paint/preferences.ui.h:7
-msgid "Arrow line width (in pixels)."
-msgstr "Largeur de la queue d'une flèche (en pixels)."
-
-#: ../ui/paint/preferences.ui.h:8
-msgid "B:"
-msgstr "B :"
-
 #: ../ui/paint/preferences.ui.h:9
-msgid "Bond line width (in pixels)."
-msgstr "Largeur de ligne d'une liaison (en pixels)."
+msgid "_Scale:"
+msgstr "Éch_elle :"
 
 #: ../ui/paint/preferences.ui.h:10
-msgid "C:"
-msgstr "C :"
+msgid "General _padding:"
+msgstr "Bourrage _général :"
 
 #: ../ui/paint/preferences.ui.h:11
-msgid "Charge _sign size:"
-msgstr "_Taille d'un signe de charge :"
+msgid "_Object padding:"
+msgstr "Bourrage d'aligne_ment :"
 
 #: ../ui/paint/preferences.ui.h:12
-msgid "Default angle between two consecutive bonds in a chain."
-msgstr "Angle par défaut entre deux liaisons consécutives dans une chaîne."
+msgid "Stoichio_metry padding:"
+msgstr "Bourrage de stœc_hiométrie :"
 
 #: ../ui/paint/preferences.ui.h:13
-msgid "Default arrow length (in pm just like bond lengths)."
-msgstr "Longueur par défaut d'une flèche (en pm comme pour les liaisons)"
+msgid "Si_gn padding:"
+msgstr "Bourrage de _signe :"
 
 #: ../ui/paint/preferences.ui.h:14
-msgid "Default bond length (pm)."
-msgstr "Longueur par défaut d'une liaison (pm)."
+msgid ""
+"Scale used to convert real distance to canvas distance expressed in pm per "
+"pixel."
+msgstr ""
+"Échelle utilisée pour convertir une distance réelle en distance dans le "
+"dessin exprimée en pm par pixel."
 
 #: ../ui/paint/preferences.ui.h:15
-msgid "Default compression _level for GChemPaint files:"
-msgstr "Niveau de _compression par défaut des fichiers de GChemPaint :"
+msgid ""
+"Padding used around text objects such as atoms, texts and other typographic "
+"signs in pixels."
+msgstr ""
+"Espace en pixels ajouté autour des objets de texte comme les symboles "
+"chimiques, les textes et autres signes typographiques."
 
 #: ../ui/paint/preferences.ui.h:16
 msgid ""
@@ -5218,44 +5375,6 @@ msgstr ""
 "opération d'alignement."
 
 #: ../ui/paint/preferences.ui.h:17
-msgid "Dist_ance:"
-msgstr "Distanc_e :"
-
-#: ../ui/paint/preferences.ui.h:18
-msgid "Distance between hashes in pixels."
-msgstr "Distance entre les hachures en pixels"
-
-#: ../ui/paint/preferences.ui.h:19
-msgid "Distance in pixels between two lines representing a multiple bond."
-msgstr ""
-"Distance en pixels entre deux lignes représentant une liaison multiple."
-
-#: ../ui/paint/preferences.ui.h:20
-msgid ""
-"Distance in pixels between two parallel lines (either two arrows or one "
-"arrow with two lines)."
-msgstr ""
-"Distance en pixels entre deux lignes parallèles (soit deux flèches, soit une "
-"flèche avec deux lignes)."
-
-#: ../ui/paint/preferences.ui.h:21
-msgid "Distance in pixels from tip of arrowhead to center."
-msgstr "Distance en pixels de la pointe de la flèche au centre."
-
-#: ../ui/paint/preferences.ui.h:22
-msgid ""
-"Distance in pixels from tip of arrowhead to trailing point, measured along "
-"shaft."
-msgstr ""
-"Distance entre la pointe de la flèche et son point de fuite, mesurée "
-"parallèlement à la queue."
-
-#: ../ui/paint/preferences.ui.h:23
-msgid ""
-"Distance in pixels of arrowhead trailing points from outside edge of shaft."
-msgstr "Distance entre le point de fuite de la tête de la flèche et la queue."
-
-#: ../ui/paint/preferences.ui.h:24
 msgid ""
 "Extra padding between a stoichiometric coefficient and its associated "
 "molecule in pixels."
@@ -5263,45 +5382,15 @@ msgstr ""
 "Espace supplémentaire entre un coefficient stœchiométrique et sa molécule "
 "associée en pixels."
 
-#: ../ui/paint/preferences.ui.h:25
-msgid "GChemPaint Preferences"
-msgstr "Préférences de GChemPaint"
-
-#: ../ui/paint/preferences.ui.h:26
-msgid "General _padding:"
-msgstr "Bourrage _général :"
-
-#: ../ui/paint/preferences.ui.h:27
-msgid "Ha_sh width:"
-msgstr "Largeur de _hachure :"
-
-#: ../ui/paint/preferences.ui.h:28
-msgid ""
-"Hashed bonds are normally represented with the large side nearest, which is "
-"the opposite of what many people want. If checked, this behavior will be "
-"reversed."
-msgstr ""
-"Les liaisons hachurées sont normalement représentées avec l'extrêmité large "
-"au plus près, ce qui est à l'opposé de la convention la plus courante. Si la "
-"case est cochée, ce comportement sera inversé."
-
-#: ../ui/paint/preferences.ui.h:29
-msgid "Len_gth:"
-msgstr "_Longueur :"
-
-#: ../ui/paint/preferences.ui.h:31
-msgid "Padding added at each end of an arrow (in pixels)."
-msgstr "Espace ajouté à chaque extrémité d'une flèche (en pixels)."
-
-#: ../ui/paint/preferences.ui.h:32
+#: ../ui/paint/preferences.ui.h:18
 msgid ""
 "Padding between a &apos;+&apos; sign in a reaction equation and reactants "
 "symbols in pixels."
 msgstr ""
-"Espace en pixels entre un signe &apos;+&apos; et les symboles des réactifs dans une "
-"réction chimique."
+"Espace en pixels entre un signe &apos;+&apos; et les symboles des réactifs "
+"dans une réction chimique."
 
-#: ../ui/paint/preferences.ui.h:33
+#: ../ui/paint/preferences.ui.h:19
 msgid ""
 "Padding between a '+' sign in a reaction equation and reactants symbols in "
 "pixels."
@@ -5309,77 +5398,135 @@ msgstr ""
 "Espace en pixels entre un signe '+' et les symboles des réactifs dans une "
 "réction chimique."
 
-#: ../ui/paint/preferences.ui.h:34
-msgid ""
-"Padding used around text objects such as atoms, texts and other typographic "
-"signs in pixels."
-msgstr ""
-"Espace en pixels ajouté autour des objets de texte comme les symboles "
-"chimiques, les textes et autres signes typographiques."
+#: ../ui/paint/preferences.ui.h:20
+msgid "<b>Normal bonds</b>"
+msgstr "<b>Liaisons normales</b>"
 
-#: ../ui/paint/preferences.ui.h:35
-msgid ""
-"Scale used to convert real distance to canvas distance expressed in pm per "
-"pixel."
-msgstr ""
-"Échelle utilisée pour convertir une distance réelle en distance dans le "
-"dessin exprimée en pm par pixel."
+#: ../ui/paint/preferences.ui.h:21
+msgid "<b>Stereochemical bonds</b>"
+msgstr "<b>Liaisons de stéréochimie</b>"
 
-#: ../ui/paint/preferences.ui.h:36
-msgid "Si_gn padding:"
-msgstr "Bourrage de _signe :"
+#: ../ui/paint/preferences.ui.h:22
+msgid "Len_gth:"
+msgstr "_Longueur :"
 
-#: ../ui/paint/preferences.ui.h:37
-msgid "Size of the charge sign in pixels."
-msgstr "Taille du signe d'une charge en pixels."
+#: ../ui/paint/preferences.ui.h:23
+msgid "Angl_e:"
+msgstr "An_gle:"
 
-#: ../ui/paint/preferences.ui.h:38
-msgid "Stoichio_metry padding:"
-msgstr "Bourrage de stœc_hiométrie :"
+#: ../ui/paint/preferences.ui.h:24
+msgid "_Width:"
+msgstr "La_rgeur"
 
-#: ../ui/paint/preferences.ui.h:39
-msgid "Wid_th"
-msgstr "Large_ur"
-
-#: ../ui/paint/preferences.ui.h:40
-msgid "Width in pixels at the largest end."
-msgstr "Largeur en pixels à l'extrémité la plus large."
-
-#: ../ui/paint/preferences.ui.h:41
-msgid "Width of hashes in pixels."
-msgstr "Largeur des hachures en pixels."
-
-#: ../ui/paint/preferences.ui.h:42
-msgid "_Default theme:"
-msgstr "Thème par _défaut :"
-
-#: ../ui/paint/preferences.ui.h:43
+#: ../ui/paint/preferences.ui.h:25
 msgid "_Distance:"
 msgstr "Di_stance :"
 
-#: ../ui/paint/preferences.ui.h:44
-msgid "_Invert wedge hashes"
-msgstr "Inverser les liaisons hachurées."
+#: ../ui/paint/preferences.ui.h:26
+msgid "Wid_th"
+msgstr "Large_ur"
 
-#: ../ui/paint/preferences.ui.h:45
-msgid "_Object padding:"
-msgstr "Bourrage d'aligne_ment :"
+#: ../ui/paint/preferences.ui.h:27
+msgid "Ha_sh width:"
+msgstr "Largeur de _hachure :"
 
-#: ../ui/paint/preferences.ui.h:46
+#: ../ui/paint/preferences.ui.h:28
+msgid "Dist_ance:"
+msgstr "Distanc_e :"
+
+#: ../ui/paint/preferences.ui.h:29
+msgid "Default bond length (pm)."
+msgstr "Longueur par défaut d'une liaison (pm)."
+
+#: ../ui/paint/preferences.ui.h:30
+msgid "Default angle between two consecutive bonds in a chain."
+msgstr "Angle par défaut entre deux liaisons consécutives dans une chaîne."
+
+#: ../ui/paint/preferences.ui.h:31
+msgid "Bond line width (in pixels)."
+msgstr "Largeur de ligne d'une liaison (en pixels)."
+
+#: ../ui/paint/preferences.ui.h:32
+msgid "Distance in pixels between two lines representing a multiple bond."
+msgstr ""
+"Distance en pixels entre deux lignes représentant une liaison multiple."
+
+#: ../ui/paint/preferences.ui.h:33
+msgid "Width in pixels at the largest end."
+msgstr "Largeur en pixels à l'extrémité la plus large."
+
+#: ../ui/paint/preferences.ui.h:34
+msgid "Width of hashes in pixels."
+msgstr "Largeur des hachures en pixels."
+
+#: ../ui/paint/preferences.ui.h:35
+msgid "Distance between hashes in pixels."
+msgstr "Distance entre les hachures en pixels"
+
+#: ../ui/paint/preferences.ui.h:36
 msgid "_Padding:"
 msgstr "_Bourrage :"
 
+#: ../ui/paint/preferences.ui.h:37
+msgid "A:"
+msgstr "A :"
+
+#: ../ui/paint/preferences.ui.h:38
+msgid "<b>Arrow heads</b>"
+msgstr "<b>Têtes des flèches</b>"
+
+#: ../ui/paint/preferences.ui.h:39
+msgid "B:"
+msgstr "B :"
+
+#: ../ui/paint/preferences.ui.h:40
+msgid "C:"
+msgstr "C :"
+
+#: ../ui/paint/preferences.ui.h:41
+msgid "Default arrow length (in pm just like bond lengths)."
+msgstr "Longueur par défaut d'une flèche (en pm comme pour les liaisons)"
+
+#: ../ui/paint/preferences.ui.h:42
+msgid "Arrow line width (in pixels)."
+msgstr "Largeur de la queue d'une flèche (en pixels)."
+
+#: ../ui/paint/preferences.ui.h:43
+msgid ""
+"Distance in pixels between two parallel lines (either two arrows or one "
+"arrow with two lines)."
+msgstr ""
+"Distance en pixels entre deux lignes parallèles (soit deux flèches, soit une "
+"flèche avec deux lignes)."
+
+#: ../ui/paint/preferences.ui.h:44
+msgid "Padding added at each end of an arrow (in pixels)."
+msgstr "Espace ajouté à chaque extrémité d'une flèche (en pixels)."
+
+#: ../ui/paint/preferences.ui.h:45
+msgid "Distance in pixels from tip of arrowhead to center."
+msgstr "Distance en pixels de la pointe de la flèche au centre."
+
+#: ../ui/paint/preferences.ui.h:46
+msgid ""
+"Distance in pixels from tip of arrowhead to trailing point, measured along "
+"shaft."
+msgstr ""
+"Distance entre la pointe de la flèche et son point de fuite, mesurée "
+"parallèlement à la queue."
+
 #: ../ui/paint/preferences.ui.h:47
-msgid "_Scale:"
-msgstr "Éch_elle :"
+msgid ""
+"Distance in pixels of arrowhead trailing points from outside edge of shaft."
+msgstr "Distance entre le point de fuite de la tête de la flèche et la queue."
 
 #: ../ui/paint/preferences.ui.h:48
-msgid "_Use colored atomic symbols in new documents"
-msgstr "_Utiliser des symboles atoimiques colorés dans les nouveaux documents"
+msgid "Charge _sign size:"
+msgstr "_Taille d'un signe de charge :"
 
 #: ../ui/paint/preferences.ui.h:49
-msgid "_Width:"
-msgstr "La_rgeur"
+msgid "Size of the charge sign in pixels."
+msgstr "Taille du signe d'une charge en pixels."
 
 #: ../ui/paint/tools.ui.h:1
 msgid "_Current element:"
@@ -5395,152 +5542,152 @@ msgid "Zoom factor (%):"
 msgstr "Facteur de zoom (%) :"
 
 #: ../ui/table/acidity.ui.h:1
-msgid "<span background=\"blue\"><b>Basic</b></span>"
-msgstr "<span background=\"blue\"> <b>Basique</b> </span>"
+msgid "<span background=\"red\"><b>Acidic</b></span>"
+msgstr "<span background=\"red\"> <b>Acide</b> </span>"
 
 #: ../ui/table/acidity.ui.h:2
 msgid "<span background=\"green\"><b>Neutral</b></span>"
 msgstr "<span background=\"green\"> <b>Neutre</b> </span>"
 
 #: ../ui/table/acidity.ui.h:3
+msgid "<span background=\"blue\"><b>Basic</b></span>"
+msgstr "<span background=\"blue\"> <b>Basique</b> </span>"
+
+#: ../ui/table/acidity.ui.h:4
 msgid "<span background=\"magenta\"><b>Amphoteric</b></span>"
 msgstr "<span background=\"green\"> <b>Amphotère</b> </span>"
 
-#: ../ui/table/acidity.ui.h:4
-msgid "<span background=\"red\"><b>Acidic</b></span>"
-msgstr "<span background=\"red\"> <b>Acide</b> </span>"
-
 #: ../ui/table/eltpage.ui.h:1
-msgid "1:"
-msgstr "1 :"
-
-#: ../ui/table/eltpage.ui.h:2
 msgid "Atomic number:"
 msgstr "Numéro atomique :"
 
-#: ../ui/table/eltpage.ui.h:3
+#: ../ui/table/eltpage.ui.h:2
 msgid "Atomic weight:"
 msgstr "Masse atomique :"
 
-#: ../ui/table/eltpage.ui.h:4
-msgid "Boiling point:"
-msgstr "Température d'ébullition :"
+#: ../ui/table/eltpage.ui.h:3
+msgid "Main"
+msgstr "Accueil"
 
-#: ../ui/table/eltpage.ui.h:5
-msgid "Covalent:"
-msgstr "Covalent :"
+#: ../ui/table/eltpage.ui.h:4
+msgid "Pauling electronegativity:"
+msgstr "Électronégativité de Pauling :"
 
 #: ../ui/table/eltpage.ui.h:6
+msgid "Ionization energies:"
+msgstr "Énergies d'ionisations :"
+
+#: ../ui/table/eltpage.ui.h:7
+msgid "1:"
+msgstr "1 :"
+
+#: ../ui/table/eltpage.ui.h:8
 msgid "Electronic affinities:"
 msgstr "Affinités électroniques :"
 
-#: ../ui/table/eltpage.ui.h:7
+#: ../ui/table/eltpage.ui.h:9
 msgid "Electronic properties"
 msgstr "Propriétés électroniques"
-
-#: ../ui/table/eltpage.ui.h:8
-msgid "Ionic radii (Shannon and Prewitt):"
-msgstr "Rayons ioniques (Shannon and Prewitt) :"
-
-#: ../ui/table/eltpage.ui.h:9
-msgid "Ionization energies:"
-msgstr "Énergies d'ionisations :"
 
 #: ../ui/table/eltpage.ui.h:10
 msgid "Isotopes"
 msgstr "Isotopes"
 
 #: ../ui/table/eltpage.ui.h:11
-msgid "Main"
-msgstr "Accueil"
+msgid "Covalent:"
+msgstr "Covalent :"
 
 #: ../ui/table/eltpage.ui.h:12
-msgid "Melting point:"
-msgstr "Température de fusion :"
+msgid "Van der Waals:"
+msgstr "Van der Waals :"
 
 #: ../ui/table/eltpage.ui.h:13
 msgid "Metallic:"
 msgstr "Métallique :"
 
 #: ../ui/table/eltpage.ui.h:14
-msgid "Pauling electronegativity:"
-msgstr "Électronégativité de Pauling :"
+msgid "Ionic radii (Shannon and Prewitt):"
+msgstr "Rayons ioniques (Shannon and Prewitt) :"
 
 #: ../ui/table/eltpage.ui.h:15
 msgid "Radii"
 msgstr "Rayons"
 
+#: ../ui/table/eltpage.ui.h:16
+msgid "Melting point:"
+msgstr "Température de fusion :"
+
 #: ../ui/table/eltpage.ui.h:17
+msgid "Boiling point:"
+msgstr "Température d'ébullition :"
+
+#: ../ui/table/eltpage.ui.h:18
 msgid "Thermodynamics"
 msgstr "Thermodynamique"
 
-#: ../ui/table/eltpage.ui.h:18
-msgid "Van der Waals:"
-msgstr "Van der Waals :"
-
 #: ../ui/table/state-thermometer.ui.h:1
+msgid "Temperature (K):"
+msgstr "Température (K) :"
+
+#: ../ui/table/state-thermometer.ui.h:2
 msgid "<span background=\"blue\"> <b>Solid</b> </span>"
 msgstr "<span background=\"blue\"> <b>Solide</b> </span>"
 
-#: ../ui/table/state-thermometer.ui.h:2
+#: ../ui/table/state-thermometer.ui.h:3
 msgid "<span background=\"green\"> <b>Liquid</b> </span>"
 msgstr "<span background=\"green\"> <b>Liquide</b> </span>"
 
-#: ../ui/table/state-thermometer.ui.h:3
+#: ../ui/table/state-thermometer.ui.h:4
 msgid "<span background=\"red\"> <b>Gas</b> </span>"
 msgstr "<span background=\"red\"> <b>Gaz</b> </span>"
-
-#: ../ui/table/state-thermometer.ui.h:4
-msgid "Temperature (K):"
-msgstr "Température (K) :"
 
 #: ../ui/table/curve.ui.h:1
 msgid "GChemTable Graph"
 msgstr "Graphique GChemTable"
 
 #: ../ui/table/family.ui.h:1
-msgid "Alkali Metals"
-msgstr "Métaux alcalins"
+msgid "Selected Family:"
+msgstr "Famille sélectionnée :"
 
 #: ../ui/table/family.ui.h:2
-msgid "Alkaline Earths Metals"
-msgstr "Métaux alcalino-terreux"
-
-#: ../ui/table/family.ui.h:3
 msgid "All"
 msgstr "Tous"
 
+#: ../ui/table/family.ui.h:3
+msgid "Alkali Metals"
+msgstr "Métaux alcalins"
+
 #: ../ui/table/family.ui.h:4
+msgid "Alkaline Earths Metals"
+msgstr "Métaux alcalino-terreux"
+
+#: ../ui/table/family.ui.h:5
 msgid "Halogenes"
 msgstr "Halogènes"
 
-#: ../ui/table/family.ui.h:5
+#: ../ui/table/family.ui.h:6
 msgid "Metalloids"
 msgstr "Métalloïdes"
 
-#: ../ui/table/family.ui.h:6
+#: ../ui/table/family.ui.h:7
 msgid "Noble Gases"
 msgstr "Gaz Nobles"
 
-#: ../ui/table/family.ui.h:7
+#: ../ui/table/family.ui.h:8
 msgid "Non-Metals"
 msgstr "Non-Métaux"
-
-#: ../ui/table/family.ui.h:8
-msgid "Other Metals"
-msgstr "Autres Métaux"
 
 #: ../ui/table/family.ui.h:9
 msgid "Rare Earths Metals"
 msgstr "Métaux des Terres Rares"
 
 #: ../ui/table/family.ui.h:10
-msgid "Selected Family:"
-msgstr "Famille sélectionnée :"
-
-#: ../ui/table/family.ui.h:11
 msgid "Transition Metals"
 msgstr "Métaux de Transition"
+
+#: ../ui/table/family.ui.h:11
+msgid "Other Metals"
+msgstr "Autres Métaux"
 
 #: ../ui/table/block.ui.h:1
 msgid ""
@@ -5574,278 +5721,8 @@ msgstr ""
 "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> block f </span>"
 
-#~ msgid "Off screen rendering"
-#~ msgstr "Rendu hors écran"
-
-#~ msgid ""
-#~ "Whether to use off-screen rendering when printing or exporting as an "
-#~ "image. Setting it to true might lead to a crash with some video cards "
-#~ "drivers."
-#~ msgstr ""
-#~ "Indique si le rendu doit-il s'effectuer hors écran lors de l'impression "
-#~ "ou l'export vers une image. Donner la valeur \"vrai\" à cette variable "
-#~ "peut conduire à un arrêt prématuré du pogramme aveccertains pilotes de "
-#~ "carte vidéo."
-
-#~ msgid ""
-#~ "Could not open file\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Impossible d'ouvrir le fichier\n"
-#~ "%s"
-
-#~ msgid "Export molecule to Ghemical"
-#~ msgstr "Exporter la molécule vers Ghemical"
-
-#~ msgid "NIST WebBook page for this molecule"
-#~ msgstr "La page du NIST WebBook pour cette molécule"
-
-#~ msgid ""
-#~ "Error could not build a reaction\n"
-#~ "from the selected objects."
-#~ msgstr ""
-#~ "Erreur, il n'est pas possible de construire une réaction à partir des "
-#~ "objets sélectionnés."
-
-#~ msgid "h"
-#~ msgstr "h"
-
-#~ msgid "k"
-#~ msgstr "k"
-
-#~ msgid "l"
-#~ msgstr "l"
-
-#~ msgid "Wave number (1/cm)"
-#~ msgstr "Nombre d'ondes (1/cm)"
-
-#~ msgid "gtk-delete"
-#~ msgstr "gtk-delete"
-
-#~ msgid "gtk-save"
-#~ msgstr "gtk-save"
-
-#~ msgid "Closing"
-#~ msgstr "Cytosine"
-
-#~ msgid "Opening"
-#~ msgstr "Ouvrir"
-
-#~ msgid "Bottom"
-#~ msgstr "Bas"
-
-#~ msgid "Center"
-#~ msgstr "Centrer"
-
-#~ msgid "Group and/or align selected objects"
-#~ msgstr "Grouper et/ou aligner les objets sélectionnés"
-
-#~ msgid "Left"
-#~ msgstr "Gauche"
-
-#~ msgid "Mid-height"
-#~ msgstr "Mi-hauteur"
-
-#~ msgid "Normal"
-#~ msgstr "Normal"
-
-#~ msgid "Right"
-#~ msgstr "Droite"
-
-#~ msgid "Top"
-#~ msgstr "Haut"
-
-#~ msgid "*"
-#~ msgstr "*"
-
-#~ msgid "New template"
-#~ msgstr "Nouveau modèle"
-
-#~ msgid "Double"
-#~ msgstr "Double"
-
-#~ msgid "Wikipedia export"
-#~ msgstr "Exporter au format Wikipedia"
-
-#~ msgid "Export for Wikipedia publication"
-#~ msgstr "Exporter en vue d'une publication dans Wikipedia"
-
-#~ msgid "Generate Wikipedia conformant PNG image"
-#~ msgstr "Générer une image PNG conforme aux exigences de Wikipedia"
-
-#~ msgid "Unable to save image file: "
-#~ msgstr "Impossible de sauvegarder l'image : "
-
-#~ msgid "&#x3B1; (&#xB0;):"
-#~ msgstr "&#x3B1; (&#xB0;) :"
-
-#~ msgid "&#x3B2; (&#xB0;):"
-#~ msgstr "&#x3B2; (&#xB0;) :"
-
-#~ msgid "&#x3B3; (&#xB0;):"
-#~ msgstr "&#x3B3; (&#xB0;) :"
-
-#~ msgid "Base-centered monoclinic"
-#~ msgstr "Monoclinique à base centrée"
-
-#~ msgid "Base-centered orthorhombic"
-#~ msgstr "Orthorhombique à base centrée"
-
-#~ msgid "Body-centered cubic"
-#~ msgstr "Cubique centré"
-
-#~ msgid "Body-centered orthorhombic"
-#~ msgstr "Orthorhombique centré"
-
-#~ msgid "Body-centered tetragonal"
-#~ msgstr "Tétragonal centré"
-
-#~ msgid "Cell"
-#~ msgstr "Maille"
-
-#~ msgid "Face-centered cubic"
-#~ msgstr "Cubique à faces centrées"
-
-#~ msgid "Face-centered orthorhombic"
-#~ msgstr "Orthorhombique à faces centrées"
-
-#~ msgid "Hexagonal"
-#~ msgstr "Hexagonal"
-
-#~ msgid "Lattice:"
-#~ msgstr "_Réseau :"
-
-#~ msgid "Monoclinic"
-#~ msgstr "Monoclinique"
-
-#~ msgid "Orthorhombic"
-#~ msgstr "Orthorhombique"
-
-#~ msgid "Rhombohedral"
-#~ msgstr "Rhomboédrique"
-
-#~ msgid "Simple cubic"
-#~ msgstr "Cubique"
-
-#~ msgid "Tetragonal"
-#~ msgstr "Tétragonal"
-
-#~ msgid "Triclinic"
-#~ msgstr "Triclinique"
-
-#~ msgid "&#x3B8; (&#xB0;):"
-#~ msgstr "&#x3B8; (&#xB0;) :"
-
-#~ msgid "&#x3C6; (&#xB0;):"
-#~ msgstr "&#x3C6; (&#xB0;) :"
-
-#~ msgid "&#x3C8; (&#xB0;):"
-#~ msgstr "&#x3C8; (&#xB0;) :"
-
-#~ msgid "1200"
-#~ msgstr "1200"
-
-#~ msgid "1440"
-#~ msgstr "1440"
-
-#~ msgid "2400"
-#~ msgstr "2400"
-
-#~ msgid "2880"
-#~ msgstr "2880"
-
-#~ msgid "300"
-#~ msgstr "300"
-
-#~ msgid "360"
-#~ msgstr "360"
-
-#~ msgid "600"
-#~ msgstr "600"
-
-#~ msgid "720"
-#~ msgstr "720"
-
-#~ msgid "Field of view (between 1 and 45&#xB0;):"
-#~ msgstr "Angle du cône de vision (entre 1 et 45&#xB0;) :"
-
-#~ msgid "Field of view (between 0 and 45&#xB0;):"
-#~ msgstr "Angle du cône de vision (entre 1 et 45&#xB0;) :"
-
-#~ msgid "All atoms"
-#~ msgstr "Tous les atomes"
-
-#~ msgid "Apply changes to:"
-#~ msgstr "Appliquer les changements à :"
-
-#~ msgid "Charge: "
-#~ msgstr "Charge : "
-
-#~ msgid "Covalent"
-#~ msgstr "Covalent"
-
-#~ msgid "Ionic"
-#~ msgstr "Ionique"
-
-#~ msgid "Metallic"
-#~ msgstr "Métallique"
-
-#~ msgid "Radius"
-#~ msgstr "Rayon"
-
-#~ msgid "Selected atom"
-#~ msgstr "Atome sélectionné"
-
-#~ msgid "Type:"
-#~ msgstr "Type :"
-
-#~ msgid "Value (pm):"
-#~ msgstr "valeur (pm) :"
-
-#~ msgid "Van der Waals"
-#~ msgstr "Van der Waals"
-
-#~ msgid "Lines"
-#~ msgstr "Lignes"
-
-#~ msgid "Maximum"
-#~ msgstr "Maximum"
-
-#~ msgid "Landscape"
-#~ msgstr "Paysage"
-
-#~ msgid "Portrait"
-#~ msgstr "Portrait"
-
-#~ msgid "Reverse landscape"
-#~ msgstr "Paysage renversé"
-
-#~ msgid "Reverse portrait"
-#~ msgstr "Portrait renversé"
-
-#~ msgid "gtk-close"
-#~ msgstr "gtk-close"
-
-#~ msgid "gtk-help"
-#~ msgstr "gtk-help"
-
-#~ msgid "Auto"
-#~ msgstr "Auto"
-
-#~ msgid "gtk-apply"
-#~ msgstr "gtk-apply"
-
-#~ msgid "gtk-cancel"
-#~ msgstr "gtk-cancel"
-
-#~ msgid "Type a number greater than or equal %g and lower than to %g"
-#~ msgstr "Entrez un nombre plus grand ou égal à %g et plus petit que %g"
-
-#~ msgid "Type a number greater than %g and lower than or equal to %g"
-#~ msgstr "Entrez un nombre plus grand que %g et plus petit ou égal à %g"
-
-#~ msgid "Type a number between %g and %g, the limits are valid."
-#~ msgstr "Entrez un nombre entre %g et %g, les limites sont valides"
-
-#~ msgid "Type a number greater than %g and lower than %g"
-#~ msgstr "Entrez un nombre plus grand que %g et plus petit que %g"
+#~ msgid "Ununquadium"
+#~ msgstr "Ununquadium"
+
+#~ msgid "Ununhexium"
+#~ msgstr "Ununhexium"

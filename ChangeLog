@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2012-05-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.13.90).
+	* database/elements.xml.in: added flerovium and livermorium.
+	* ui/libgcu/gcuperiodic.ui: ditto.
+
 2012-04-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/document.h: API documentation.
 	* libs/gcr/gcrcrystalviewer.h: ditto.

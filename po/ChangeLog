@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2012-05-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* fr.po: updated French translation.
+
+2012-05-20  Ibon Santisteban
+	* es.po: updated Spanish translation.
+
 2012-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* LINGUAS: add eu to linguas.
 	* eu.po: fixed a few typos.

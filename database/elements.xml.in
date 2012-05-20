@@ -566,8 +566,8 @@
 	<color red="0.96" green="0.00" blue="0.10"/>
 </element>
 
-<element Z="114" symbol="Uuq" max_bonds="6">
-	<_name>Ununquadium</_name>
+<element Z="114" symbol="Fl" max_bonds="6">
+	<_name>Flerovium</_name>
 	<color red="0.97" green="0.00" blue="0.10"/>
 </element>
 
@@ -576,8 +576,8 @@
 	<color red="0.98" green="0.00" blue="0.10"/>
 </element>
 
-<element Z="116" symbol="Uuh" max_bonds="6">
-	<_name>Ununhexium</_name>
+<element Z="116" symbol="Lv" max_bonds="6">
+	<_name>Livermorium</_name>
 	<color red="0.99" green="0.00" blue="0.10"/>
 </element>
 
