@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-06-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cml/cml.cc: don't free a static string. [#36582]
+
 2012-05-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.13.90).
 	* database/elements.xml.in: added flerovium and livermorium.

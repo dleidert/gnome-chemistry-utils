@@ -276,7 +276,6 @@ cml_scalar_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		char buf[G_ASCII_DTOSTR_BUF_SIZE];
 		g_ascii_dtostr (buf, G_ASCII_DTOSTR_BUF_SIZE, val);
 		state->doc->SetProperty (state->cur_prop, buf);
-		g_free (buf);
 	} else if (state->proptype == "xsd:string")
 		state->doc->SetProperty (state->cur_prop, xin->content->str);
 };
