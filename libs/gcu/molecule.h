@@ -133,12 +133,14 @@ Clears cycles and chains and call gcu::Object::Clear().
 @return the first atom of the molecule.
 */
 	Atom const *GetFirstAtom (std::list<Atom*>::const_iterator &i) const;
+	Atom *GetFirstAtom (std::list<Atom*>::iterator &i);
 /*!
 @param i an iterator initialized by a call to GetFirstAtom().
 
 @return the next atom of the molecule or NULL if all atoms have been previously returned.
 */
 	Atom const *GetNextAtom (std::list<Atom*>::const_iterator &i) const;
+	Atom *GetNextAtom (std::list<Atom*>::iterator &i);
 /*!
 @param i an uninitialized iterator.
 

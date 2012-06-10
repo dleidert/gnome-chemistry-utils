@@ -30,6 +30,7 @@
 #include "cylinder.h"
 #include "glview.h"
 #include "loader.h"
+#include "objprops.h"
 #include "sphere.h"
 #include "vector.h"
 #include <gcu/chemistry.h>
@@ -153,6 +154,27 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	string filename = uri;
 	Clear ();
 	ContentType type = app->Load (filename, mime_type, this);
+	if (type == ContentTypeCrystal) {
+		// convert atoms coordinates using the cell parameters
+		std::map<std::string, Object*>::iterator it;
+		obj =  GetFirstChild (it);
+		while (obj) {
+			m_Mol = dynamic_cast <Molecule *> (obj);
+			if (m_Mol)
+				break;
+			obj = GetNextChild (it);
+		}
+		if (m_Mol) {
+			std::list<Atom*>::iterator a;
+			Atom *atom = m_Mol->GetFirstAtom (a);
+			double alpha = m_alpha * M_PI / 180;
+			double beta = m_beta * M_PI / 180;
+			double gamma = m_gamma * M_PI / 180;
+			for (; atom; atom = m_Mol->GetNextAtom (a))
+				atom->NetToCartesian (m_a, m_b, m_c, alpha, beta, gamma);
+			type = ContentType3D;
+		}
+	}
 	Loaded ();
 	if (type == ContentType3D) {
 		// center the scene around 0,0,0
@@ -577,6 +599,33 @@ void Chem3dDoc::ChangedDisplay3D ()
 		}
 		atom = m_Mol->GetNextAtom (i);
 	}
+}
+
+bool Chem3dDoc::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_CELL_A:
+		m_a = g_ascii_strtod (value, NULL) * GetScale ();
+		break;
+	case GCU_PROP_CELL_B:
+		m_b = g_ascii_strtod (value, NULL) * GetScale ();
+		break;
+	case GCU_PROP_CELL_C:
+		m_c = g_ascii_strtod (value, NULL) * GetScale ();
+		break;
+	case GCU_PROP_CELL_ALPHA:
+		m_alpha = g_ascii_strtod (value, NULL);
+		break;
+	case GCU_PROP_CELL_BETA:
+		m_beta = g_ascii_strtod (value, NULL);
+		break;
+	case GCU_PROP_CELL_GAMMA:
+		m_gamma = g_ascii_strtod (value, NULL);
+		break;
+	default:
+		return false;
+	}
+	return true;
 }
 
 }	//	namespace gcu

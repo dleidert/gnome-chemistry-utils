@@ -186,16 +186,6 @@ double Atom::Distance (double dx, double dy, double dz, bool bFixed)
 	return sqrt(dx * dx + dy * dy + dz * dz) + m_Radius.value.value ;
 }
 
-void Atom::NetToCartesian (double a, double b, double c, double alpha, double beta, double gamma)
-{
-	double dx = x() * a ;
-	double dy = y() * b ;
-	double dz = z() * c ;
-	SetCoords(dx * sqrt(1-square(cos(beta)) - square((cos(gamma) - cos(beta)*cos(alpha))/sin(alpha))),
-		dx * (cos(gamma) - cos(beta)*cos(alpha))/sin(alpha) + dy * sin(alpha),
-		(dx * cos(beta) + dy * cos(alpha) + dz));
-}
-
 bool Atom::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
 {
 	if (!gcu::WriteRadius (xml, node, m_Radius))

@@ -1,3 +1,7 @@
+Version 0.13.90
+	3d viewer:
+		* Fix import from pdb files. [#36582]
+
 Version 0.13.7
 	GChemPaint:
 		* Fixed crash when selecting the alignment item inside a mechanism

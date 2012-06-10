@@ -141,6 +141,15 @@ Converts a string to an actual display mode. Supported names are: "ball&stick",
 */
 	static char const *Display3DModeAsString (Display3DMode mode);
 
+/*!
+@param property the property id as defined in objprops.h
+@param value the property value as a string
+
+Used when loading to set properties to the document
+@return true if the property could be set, or if the property is not relevant, false otherwise.
+*/
+	bool SetProperty (unsigned property, char const *value);
+
 /*!\fn SetDisplay3D(Display3DMode mode)
 @param mode: the new mode.
 
@@ -154,6 +163,10 @@ GCU_PROP_EX (Display3DMode, Display3D)
 @return the molecule dispayed inside the document.
 */
 GCU_RO_PROP (Molecule *, Mol)
+
+private:
+	/* cell parameters to support molecule loaded from a crystal structure */
+	gdouble m_a, m_b, m_c, m_alpha, m_beta, m_gamma;
 };
 
 }	// namespace gcu

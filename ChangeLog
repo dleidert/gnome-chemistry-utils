@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2012-06-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/man/gchem3d.1: change license to GFDL-1.3+
+	* docs/man/gchemcalc.1: ditto.
+	* docs/man/gchempaint.1: ditto.
+	* docs/man/gchemtable.1: ditto.
+	* docs/man/gcrystal.1: ditto.
+	* docs/man/gspectrum.1: ditto.
+	* libs/gcr/atom.cc: move some code to gcu.
+	* libs/gcr/atom.h: ditto.
+	* libs/gcu/atom.cc: fix import from pdb files. [#36582]
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/chem3ddoc.cc: ditto.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/molecule.h: ditto.
+
 2012-06-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cml/cml.cc: don't free a static string. [#36582]
 

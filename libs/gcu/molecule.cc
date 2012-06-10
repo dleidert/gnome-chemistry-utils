@@ -355,13 +355,25 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 	return mol;
 }
 
-Atom const *Molecule::GetFirstAtom (std::list<Atom*>::const_iterator &i) const
+Atom *Molecule::GetFirstAtom (std::list < Atom * >::iterator &i)
 {
 	i = m_Atoms.begin ();
 	return (i == m_Atoms.end ())? NULL: *i;
 }
 
-Atom const *Molecule::GetNextAtom (std::list<Atom*>::const_iterator &i) const
+Atom const *Molecule::GetFirstAtom (std::list < Atom * >::const_iterator &i) const
+{
+	i = m_Atoms.begin ();
+	return (i == m_Atoms.end ())? NULL: *i;
+}
+
+Atom  *Molecule::GetNextAtom (std::list < Atom* >::iterator &i)
+{
+	i++;
+	return (i == m_Atoms.end ())? NULL: *i;
+}
+
+Atom const *Molecule::GetNextAtom (std::list < Atom * >::const_iterator &i) const
 {
 	i++;
 	return (i == m_Atoms.end ())? NULL: *i;

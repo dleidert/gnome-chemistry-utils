@@ -270,6 +270,15 @@ bool Atom::SetProperty (unsigned property, char const *value)
 	case GCU_PROP_Z:
 		m_z = g_ascii_strtod (value, NULL) * GetDocument ()->GetScale ();
 		break;
+	case GCU_PROP_XFRACT:
+		m_x = g_ascii_strtod (value, NULL);
+		break;
+	case GCU_PROP_YFRACT:
+		m_y = g_ascii_strtod (value, NULL);
+		break;
+	case GCU_PROP_ZFRACT:
+		m_z = g_ascii_strtod (value, NULL);
+		break;
 	case GCU_PROP_ID: {
 		char *Id = (*value == 'a')? g_strdup (value): g_strdup_printf ("a%s", value);
 		SetId (Id);
@@ -379,6 +388,16 @@ Vector Atom::GetVector () const
 std::string Atom::Name ()
 {
 	return _("Atom");
+}
+
+void Atom::NetToCartesian (double a, double b, double c, double alpha, double beta, double gamma)
+{
+	double dx = x() * a ;
+	double dy = y() * b ;
+	double dz = z() * c ;
+	SetCoords (dx * sqrt (1 - square (cos (beta)) - square ((cos (gamma) - cos (beta) * cos (alpha)) / sin (alpha))),
+		dx * (cos (gamma) - cos (beta) * cos (alpha)) / sin (alpha) + dy * sin (alpha),
+		(dx * cos (beta) + dy * cos (alpha) + dz));
 }
 
 }	//	namespace gcu

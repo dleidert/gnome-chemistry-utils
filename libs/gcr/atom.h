@@ -135,19 +135,6 @@ are related to the net and are not the cartesian coordinates. This method should
 */
 	double ScalProd (int h, int k, int l);
 /*!
-@param a: the a parameter of the unit cell.
-@param b: the b parameter of the unit cell.
-@param c: the c parameter of the unit cell.
-@param alpha: the alpha angle of the unit cell.
-@param beta: the beta angle of the unit cell.
-@param gamma: the gamma angle of the unit cell.
-
-Converts the coordinates of the atom from net related ones to cartesian. Initially, atoms are defined by their
-position relative to the unit cell and the coordinates must be transformed to the cartesian ones before
-displaying the atom.
-*/
-	void NetToCartesian (double a, double b, double c, double alpha, double beta, double gamma);
-/*!
 @param x: the x coordinate of the center.
 @param y: the y coordinate of the center.
 @param z: the z coordinate of the center.
