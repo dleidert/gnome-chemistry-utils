@@ -1127,6 +1127,7 @@ end_loop:;
 		a = new Atom (**i);
 		v = a->GetVector ();
 		std::list <gcu::Vector> vv = res->Transform (v);
+		jend = vv.end ();
 		for (j = vv.begin (); j != jend; j++) {
 			x = (*j).GetX ();
 			y = (*j).GetY ();
@@ -1382,7 +1383,7 @@ bool Document::VerifySaved()
 	int res;
 	do
 	{
-		mbox = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("\"%s\" has been modified.  Do you wish to save it?"), m_Label);
+		mbox = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("\"%s\" has been modified.  Do you wish to save it?"), GetLabel ());
 		gtk_dialog_add_button(GTK_DIALOG(mbox),  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 		res = gtk_dialog_run(GTK_DIALOG(mbox));
 		gtk_widget_destroy(mbox);

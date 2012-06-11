@@ -551,7 +551,7 @@ int Application::OpenBabelSocket ()
 	adr_serv.sun_family = AF_UNIX;
 	strcpy (adr_serv.sun_path, socket_path.c_str ());
 	if (connect (res, (const struct sockaddr*) &adr_serv, sizeof (struct sockaddr_un)) == -1) {
-		perror ("Connexion failed");
+		perror (_("Connection failed"));
 		return -1;
 	}
 	return res;

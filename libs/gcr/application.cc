@@ -85,6 +85,8 @@ Application::Application (): gcugtk::Application ("gcrystal")
 		}
 		found = gcu::Loader::GetNextLoader (it);
 	}
+	// Add format files supported by OpenBabel
+	m_SupportedMimeTypes.push_back ("chemical/x-pdb");
 	m_pActiveDoc = NULL;
 }
 
@@ -326,13 +328,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			}
 			}
 	} else {
-		if (!strcmp (mime_type, "application/x-gcrystal"));
-		else if (!strcmp (mime_type, "chemical/x-cif"))
-			type = CIF;
-		else if (!strcmp (mime_type, "chemical/x-cml"))
-			type = CML;
-		else
-			return true;
+		bool loaded = false;
 		m_bFileOpening = true; // force creation of new document if current one is not empty or is dirty
 		Document *xDoc = GetDocument (filename);
 		m_bFileOpening = false;
@@ -353,59 +349,62 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 					return true;
 			}
 		}
-		gcu::ContentType ctype = Load (filename, mime_type, Doc);
-		if (ctype == gcu::ContentTypeCrystal) {
-			Doc->Loaded ();
-			Doc->SetReadOnly (true);
-			Doc->UpdateAllViews ();
-			GtkRecentData data;
-			data.display_name = (char*) Doc->GetTitle ();
-			if (!(*data.display_name))
-				data.display_name = (char*) Doc->GetLabel ();
-			data.description = NULL;
-			data.mime_type = const_cast<char*> (mime_type);
-			data.app_name = const_cast<char*> ("gcrystal");
-			data.app_exec = const_cast<char*> ("gcrystal %u");
-			data.groups = NULL;
-			data.is_private =  FALSE;
-			gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
-			goto normal_exit;
-		} else if (ctype != gcu::ContentTypeUnknown) {
-			// FIXME: open using the appropriate program.
-			return false;
-		}
-		if ((type == GCRYSTAL)? Doc->Load (filename): false) {
-normal_exit:
-			GtkRecentData data;
-			data.display_name = (char*) Doc->GetTitle ();
-			if (!(*data.display_name))
-				data.display_name = (char*) Doc->GetLabel ();
-			data.description = NULL;
-			data.mime_type = const_cast<char*> (mime_type);
-			data.app_name = const_cast<char*> ("gcrystal");
-			data.app_exec = const_cast<char*> ("gcrystal %u");
-			data.groups = NULL;
-			data.is_private =  FALSE;
-			gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
-			// change titles in every window and bring to front
-			std::list <gcr::View *> *Views = Doc->GetViews ();
-			std::list <gcr::View *>::iterator i, iend = Views->end ();
-			int n = 1, max = Views->size ();
-			Doc->RenameViews ();
-			char const *title = Doc->GetLabel ();
-			for (i = Views->begin (); i != iend; i++) {
-				Window *window = dynamic_cast <View*> (*i)->GetWindow ();
-				GtkWindow *w = window->GetWindow ();
-				gtk_window_present (w);
-				if (max > 1) {
-					char *t = g_strdup_printf ("%s (%i)", title, n++);
-					gtk_window_set_title (w, t);
-					g_free (t);
-				} else
-					gtk_window_set_title (w, title);
-				window->ActivateActionWidget ("ui/MainMenu/FileMenu/Save", !Doc->GetReadOnly ());
-				window->ActivateActionWidget ("ui/MainToolbar/Save", !Doc->GetReadOnly ());
+		if (!strcmp (mime_type, "application/x-gcrystal"))
+			loaded = Doc->Load (filename);
+		if (!loaded) {
+			gcu::ContentType ctype = Load (filename, mime_type, Doc);
+			if (ctype == gcu::ContentTypeCrystal) {
+				Doc->Loaded ();
+				Doc->SetReadOnly (true);
+				Doc->UpdateAllViews ();
+				GtkRecentData data;
+				data.display_name = (char*) Doc->GetTitle ();
+				if (!(*data.display_name))
+					data.display_name = (char*) Doc->GetLabel ();
+				data.description = NULL;
+				data.mime_type = const_cast<char*> (mime_type);
+				data.app_name = const_cast<char*> ("gcrystal");
+				data.app_exec = const_cast<char*> ("gcrystal %u");
+				data.groups = NULL;
+				data.is_private =  FALSE;
+				gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
+				loaded = true;
+			} else if (ctype != gcu::ContentTypeUnknown) {
+				// FIXME: open using the appropriate program.
+				return false;
 			}
+		}
+		if (!loaded)
+			return false;
+		GtkRecentData data;
+		data.display_name = (char*) Doc->GetTitle ();
+		if (!(*data.display_name))
+			data.display_name = (char*) Doc->GetLabel ();
+		data.description = NULL;
+		data.mime_type = const_cast<char*> (mime_type);
+		data.app_name = const_cast<char*> ("gcrystal");
+		data.app_exec = const_cast<char*> ("gcrystal %u");
+		data.groups = NULL;
+		data.is_private =  FALSE;
+		gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
+		// change titles in every window and bring to front
+		std::list <gcr::View *> *Views = Doc->GetViews ();
+		std::list <gcr::View *>::iterator i, iend = Views->end ();
+		int n = 1, max = Views->size ();
+		Doc->RenameViews ();
+		char const *title = Doc->GetLabel ();
+		for (i = Views->begin (); i != iend; i++) {
+			Window *window = dynamic_cast <View*> (*i)->GetWindow ();
+			GtkWindow *w = window->GetWindow ();
+			gtk_window_present (w);
+			if (max > 1) {
+				char *t = g_strdup_printf ("%s (%i)", title, n++);
+				gtk_window_set_title (w, t);
+				g_free (t);
+			} else
+				gtk_window_set_title (w, title);
+			window->ActivateActionWidget ("ui/MainMenu/FileMenu/Save", !Doc->GetReadOnly ());
+			window->ActivateActionWidget ("ui/MainToolbar/Save", !Doc->GetReadOnly ());
 		}
 	}
 	return false;

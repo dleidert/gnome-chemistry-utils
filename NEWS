@@ -1,6 +1,8 @@
 Version 0.13.90
 	3d viewer:
 		* Fix import from pdb files. [#36582]
+	GCrystal:
+		* Fix infinite loop condition. [#36583]
 
 Version 0.13.7
 	GChemPaint:

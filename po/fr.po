@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-20 09:28+0200\n"
-"PO-Revision-Date: 2012-05-20 09:35+0200\n"
+"POT-Creation-Date: 2012-06-10 16:06+0200\n"
+"PO-Revision-Date: 2012-06-11 09:35+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
@@ -553,7 +553,6 @@ msgid "Ununtrium"
 msgstr "Ununtrium"
 
 #: ../database/elements.xml.in.h:114
-#, fuzzy
 msgid "Flerovium"
 msgstr "Flérovium"
 
@@ -793,7 +792,7 @@ msgstr " :\n"
 msgid "No filename"
 msgstr "Pas nom de fichier"
 
-#: ../libs/gcp/application.cc:890 ../libs/gcr/document.cc:1652
+#: ../libs/gcp/application.cc:890 ../libs/gcr/document.cc:1653
 #, c-format
 msgid ""
 "Could not load file\n"
@@ -802,7 +801,7 @@ msgstr ""
 "Erreur lors du chargement du fichier\n"
 "%s"
 
-#: ../libs/gcp/application.cc:893 ../libs/gcr/document.cc:1655
+#: ../libs/gcp/application.cc:893 ../libs/gcr/document.cc:1656
 #, c-format
 msgid ""
 "%s: invalid xml file.\n"
@@ -811,7 +810,7 @@ msgstr ""
 "%s: fichier xml incorrect.\n"
 "L'arborescence est vide ?"
 
-#: ../libs/gcp/application.cc:896 ../libs/gcr/document.cc:1658
+#: ../libs/gcp/application.cc:896 ../libs/gcr/document.cc:1659
 #, c-format
 msgid "%s: invalid file format."
 msgstr "%s: format de fichier incorrect."
@@ -829,7 +828,7 @@ msgid "Save as image"
 msgstr "Sauvegarder en tant qu'image"
 
 #: ../libs/gcp/atom.cc:1186 ../libs/gcp/atom.cc:1200 ../libs/gcp/atom.cc:1213
-#: ../libs/gcr/atomsdlg.cc:423 ../libs/gcu/atom.cc:381
+#: ../libs/gcr/atomsdlg.cc:423 ../libs/gcu/atom.cc:390
 #: ../plugins/paint/atoms/plugin.cc:63
 msgid "Atom"
 msgstr "Atome"
@@ -1057,7 +1056,7 @@ msgstr "Mésomérie"
 msgid "Mesomery arrow"
 msgstr "Flèche de mésomérie"
 
-#: ../libs/gcp/molecule.cc:576 ../libs/gcu/molecule.cc:401
+#: ../libs/gcp/molecule.cc:576 ../libs/gcu/molecule.cc:413
 msgid "Molecule"
 msgstr "Molécule"
 
@@ -1653,18 +1652,18 @@ msgstr "Prêt"
 msgid "GChemPaint"
 msgstr "GChemPaint"
 
-#: ../libs/gcp/window.cc:786 ../libs/gcr/document.cc:1385
+#: ../libs/gcp/window.cc:786 ../libs/gcr/document.cc:1386
 #, c-format
 msgid "\"%s\" has been modified.  Do you wish to save it?"
-msgstr "``%s'' a été modifié? Voulez-vous le sauvegarder ?"
+msgstr "« %s » a été modifié. Voulez-vous le sauvegarder ?"
 
-#: ../libs/gcr/application.cc:350
+#: ../libs/gcr/application.cc:351
 #, c-format
 msgid ""
 "\"%s\" has been modified since last saving. Do you wish to come back to "
 "saved version?"
 msgstr ""
-"``%s'' a été modifié depuis la dernière sauvegarde.\n"
+"« %s » a été modifié depuis la dernière sauvegarde.\n"
 " Voulez-vous revenir à la version enregistrée ?"
 
 #: ../libs/gcr/atomsdlg.cc:423
@@ -1708,7 +1707,7 @@ msgstr "Plans clivés"
 msgid "Everything has been cleaved"
 msgstr "Tout a été clivé"
 
-#: ../libs/gcr/document.cc:1649
+#: ../libs/gcr/document.cc:1650
 #, c-format
 msgid ""
 "Could not save file\n"
@@ -1888,6 +1887,10 @@ msgstr "Groupe d'espace : %u"
 #: ../libs/gcu/application.cc:277
 msgid "Error while processing "
 msgstr "Erreur pendant le traitement "
+
+#: ../libs/gcu/application.cc:554
+msgid "Connection failed"
+msgstr "La connexion a échoué !"
 
 #: ../libs/gcu/chain.cc:301 ../plugins/paint/bonds/plugin.cc:67
 msgid "Chain"
@@ -2491,7 +2494,7 @@ msgid "Chemdraw cdx files loader"
 msgstr "Filtre de fichiers Chemdraw cdx"
 
 #: ../plugins/loaders/cdxml/cdxml.cc:765 ../plugins/loaders/cdxml/cdxml.cc:780
-#: ../plugins/loaders/cml/cml.cc:540
+#: ../plugins/loaders/cml/cml.cc:539
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "'%s' est corrompu !"
@@ -3020,7 +3023,7 @@ msgstr "Nouveau"
 
 #: ../plugins/paint/residues/residues-dlg.cc:262
 msgid "\"New\" is not a valid symbol"
-msgstr "``Nouveau'' n'est pas un symbole valide."
+msgstr "« Nouveau » n'est pas un symbole valide."
 
 #: ../plugins/paint/residues/residues-dlg.cc:271
 msgid "Please provide at least one symbol"
@@ -4490,7 +4493,7 @@ msgstr "Exporter du texte simple ou non lors d'une copie."
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:88
 msgid "If TRUE, STRING_UTF8 and STRING are added to the clipboard formats."
 msgstr ""
-"Si la valeur est ``TRUE'', STRING_UTF8 and STRING sont ajoutés dans les "
+"Si la valeur est « TRUE », STRING_UTF8 and STRING sont ajoutés dans les "
 "formats du presse-papier."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:89
