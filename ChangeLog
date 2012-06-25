@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2012-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystaldoc.cc: fixed atoms loading and an infinite loop
+	condition. [#36583]
+
 2012-02-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-step.cc: don't crash when selecting an alignment item.
 	[#35626]

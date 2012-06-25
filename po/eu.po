@@ -1120,8 +1120,8 @@ msgstr "Erreaktiboa"
 msgid ""
 "Error could not build a reaction\n"
 "from the selected objects."
-msgstr "Errorea. Ezin izan da hautatutako objektuetatik"
-"erreakzio bat sortu\n"
+msgstr "Errorea. Ezin izan da hautatutako\n"
+"objektuetatik erreakzio bat sortu"
 
 #: ../libs/gcp/reaction.cc:378
 msgid "Destroy the reaction"
@@ -2058,7 +2058,7 @@ msgstr "Ezaugarri hau ez dago sostengatua"
 #: ../plugins/loaders/cdx/cdx.cc:867 ../plugins/loaders/cdxml/cdxml.cc:494
 #, c-format
 msgid "failed for %s\n"
-msgstr "%s\n-rako akatsa"
+msgstr "%s-rako akatsa\n"
 
 #: ../plugins/loaders/cdx/plugin.xml.in.h:1
 msgid "Loader : cdx"
@@ -5114,7 +5114,7 @@ msgstr "Koefiziente estekiometriko baten eta honi elkartutako molekularen"
 msgid ""
 "Padding between a '+' sign in a reaction equation and reactants symbols in "
 "pixels."
-msgstr ""+" zeinuaren eta erreaktiboen arteko tarte betegarria, pixeletan."
+msgstr "'+' zeinuaren eta erreaktiboen arteko tarte betegarria, pixeletan."
 
 #: ../ui/paint/preferences.ui.h:13
 msgid "_Scale:"

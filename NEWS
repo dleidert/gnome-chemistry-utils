@@ -1,3 +1,8 @@
+Version 0.12.12
+	GCrystal:
+		* Fix atoms loading.
+		* Fix infinite loop condition. [#36583]
+
 Version 0.12.11
 	GChemPaint:
 		* fixed text position serialization. [#34947]

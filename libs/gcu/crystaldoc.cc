@@ -238,12 +238,11 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 			}
 		} else if (!strcmp ((gchar*) node->name, "atom")) {
 			CrystalAtom *pAtom = CreateNewAtom ();
-			if (pAtom->Load (node)) {
-				AddChild (pAtom);
+			AddChild (pAtom);
+			if (!pAtom->Load (node)) {
 				AtomDef.remove (pAtom);
-			}
-			else
 				delete pAtom;
+			}
 		} else if (!strcmp ((gchar*) node->name, "line")) {
 			CrystalLine *pLine = CreateNewLine ();
 			if (pLine->Load (node))
@@ -1127,6 +1126,7 @@ end_loop:;
 		a = new CrystalAtom (**i);
 		v = a->GetVector ();
 		std::list <Vector> vv = res->Transform (v);
+		jend = vv.end ();
 		for (j = vv.begin (); j != jend; j++) {
 			x = (*j).GetX ();
 			y = (*j).GetY ();
