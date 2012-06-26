@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-06-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: updated version (0.12.12).
+
 2012-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystaldoc.cc: fixed atoms loading and an infinite loop
 	condition. [#36583]
