@@ -151,8 +151,7 @@ bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type
 			}
 		}
 		if (!supported) {
-			GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
-														_("Sorry, format not supported!"));
+			GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Sorry, format not supported!"));
 			gtk_dialog_run (GTK_DIALOG (message));
 			gtk_widget_destroy (message);
 			return true;
@@ -166,7 +165,7 @@ bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type
 			char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
-			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", message));
 			result = gtk_dialog_run (Box);
 			gtk_widget_destroy (GTK_WIDGET (Box));
 			g_free (message);
@@ -186,7 +185,7 @@ bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type
 				GsfOutput *output = gsf_output_gio_new_for_uri (filename, &error);
 				if (error) {
 					gchar * mess = g_strdup_printf (_("Could not create stream!\n%s"), error->message);
-					GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
+					GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", mess);
 					g_free (mess);
 					gtk_dialog_run (GTK_DIALOG (message));
 					gtk_widget_destroy (message);

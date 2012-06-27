@@ -208,7 +208,7 @@ bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool
 			char *unescaped = g_uri_unescape_string (filename, NULL);
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
-			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", message));
 			gtk_window_set_icon_name (GTK_WINDOW (Box), "gchemcalc");
 			result = gtk_dialog_run (Box);
 			gtk_widget_destroy (GTK_WIDGET (Box));
@@ -462,6 +462,7 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 							GTK_DIALOG_DESTROY_WITH_PARENT,
 							GTK_MESSAGE_ERROR,
 							GTK_BUTTONS_OK,
+							"%s",
 							mess);
 		g_signal_connect_swapped (G_OBJECT (w), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (w));
 		gtk_widget_show (w);

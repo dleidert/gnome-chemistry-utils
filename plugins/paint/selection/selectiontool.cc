@@ -393,7 +393,7 @@ void gcpSelectionTool::CreateGroup ()
 			pDoc->AbortOperation ();
 			delete pObj;
 			GtkWidget* message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0,
-								GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, e.what ());
+								GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", e.what ());
 			gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
 			g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
 			gtk_widget_show (message);

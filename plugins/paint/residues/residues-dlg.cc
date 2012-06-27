@@ -274,7 +274,7 @@ void gcpResiduesDlg::Add ()
 		r = static_cast<gcp::Residue const *> (gcp::Residue::GetResidue ((*i).c_str ()));
 		if (r && r != m_Residue) {
 			char *mess = g_strdup_printf (_("%s is already used by another residue."), (*i).c_str ());
-			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,mess));
+			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", mess));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
 			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
 				gtk_widget_destroy (GTK_WIDGET (box));

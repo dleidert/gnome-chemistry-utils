@@ -346,8 +346,7 @@ bool gcpNewTemplateToolDlg::Apply ()
 			msg = _("Please give a name.");
 		else
 			msg = _("Please choose a category.");
-		GtkWidget* message = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
-															msg);
+		GtkWidget* message = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", msg);
 		g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
 		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
 		gtk_widget_show (message);

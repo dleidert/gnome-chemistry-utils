@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2012-06-27  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* libs/gcp/stringdlg.cc: Fixed errors by -Werror=format-security.
+	* libs/gcp/window.cc: Ditto.
+	* libs/gcp/application.cc: Ditto.
+	* libs/gcu/dialog.cc: Ditto.
+	* programs/3d/application.cc: Ditto.
+	* programs/table/gchemtable-app.cc: Ditto.
+	* programs/spectra/application.cc: Ditto.
+	* programs/calc/gchemcalc.cc: Ditto.
+	* plugins/paint/residues/residues-dlg.cc: Ditto.
+	* plugins/paint/selection/selectiontool.cc: Ditto.
+	* plugins/paint/templates/templatetool.cc: Ditto.
+
 2012-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.12.13).
 

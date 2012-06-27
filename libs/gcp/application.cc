@@ -572,7 +572,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		char *mess = g_strdup_printf (_("Sorry, format %s not supported!\nFailed to load %s."), mime_type, unescaped);
 		g_free (unescaped);
 		GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
-													mess);
+													"%s", mess);
 		gtk_dialog_run (GTK_DIALOG (message));
 		g_free (mess);
 		gtk_widget_destroy (message);
@@ -602,7 +602,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
-			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", message));
 			gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
 			result = gtk_dialog_run (Box);
 			gtk_widget_destroy (GTK_WIDGET (Box));
@@ -618,7 +618,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 					gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
 					g_free (unescaped);
 					g_error_free (error);
-					GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+					GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", message));
 					gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
 					result = gtk_dialog_run (Box);
 					gtk_widget_destroy (GTK_WIDGET (Box));
