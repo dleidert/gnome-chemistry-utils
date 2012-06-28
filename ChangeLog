@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2012-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add -Werror=format-security to CFLAGS.
+	* docs/reference/Makefile.am: add missing files.
+
 2012-06-27  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* libs/gcp/stringdlg.cc: Fixed errors by -Werror=format-security.
 	* libs/gcp/window.cc: Ditto.

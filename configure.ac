@@ -177,9 +177,9 @@ bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`
 AC_DEFINE_UNQUOTED([BODR_PKGDATADIR], ["$bodr_pkgdatadir"], [Path to Blue Obelisk Data Repository])
 
 if test "x$gcu_is_stable" = "xyes"; then
-	GCU_CFLAGS="-Wall -Wextra"
+	GCU_CFLAGS="-Wall -Wextra -Werror=format-security"
 else
-	GCU_CFLAGS="-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE -Wall -Wextra"
+	GCU_CFLAGS="-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE -Wall -Wextra -Werror=format-security"
 fi
 AC_SUBST([GCU_CFLAGS])
 

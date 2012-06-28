@@ -6,6 +6,8 @@ DISTCLEANFILES = Doxyfile
 
 MAINTAINERCLEANFILES = Makefile.in
 
+EXTRA_DIST = images/*.png
+
 # better use the docdir/htmldir variable, configurable via --docdir|--htmldir?
 # htmldir = $(datadir)/doc/gchemutils/@GCU_API_VER@/reference
 # html_DATA = html/*.*
