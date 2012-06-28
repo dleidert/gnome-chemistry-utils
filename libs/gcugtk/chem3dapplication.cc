@@ -27,6 +27,7 @@
 #include "chem3ddoc.h"
 #include "chem3dview.h"
 #include "chem3dwindow.h"
+#include "message.h"
 #include <gcugtk/filechooser.h>
 #include <gsf/gsf-output-gio.h>
 #include <cairo-pdf.h>
@@ -171,9 +172,8 @@ bool Chem3dApplication::FileProcess (const gchar* filename, const gchar* mime_ty
 			char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
-			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
-			result = gtk_dialog_run (Box);
-			gtk_widget_destroy (GTK_WIDGET (Box));
+			Message *box = new Message (this, message, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, window);
+			result = box->Run ();
 			g_free (message);
 			if (result == GTK_RESPONSE_YES) {
 				g_file_delete (file, NULL, &error);
@@ -191,10 +191,9 @@ bool Chem3dApplication::FileProcess (const gchar* filename, const gchar* mime_ty
 				GsfOutput *output = gsf_output_gio_new_for_uri (filename, &error);
 				if (error) {
 					gchar * mess = g_strdup_printf (_("Could not create stream!\n%s"), error->message);
-					GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
+					Message *box = new Message (this, mess, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, window);
 					g_free (mess);
-					gtk_dialog_run (GTK_DIALOG (message));
-					gtk_widget_destroy (message);
+					box->Run ();
 					g_error_free (error);
 					return true;
 				}

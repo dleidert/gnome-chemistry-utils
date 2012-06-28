@@ -143,7 +143,11 @@ static bool on_delete_event (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GdkE
 
 static void on_file_open (G_GNUC_UNUSED GtkWidget *widget, Chem3dWindow *Win)
 {
-	static_cast < Chem3dApplication * > (Win->GetApplication ())->OnFileOpen (Win->GetDocument ());
+	Chem3dDoc *doc = Win->GetDocument ();
+	static_cast < Chem3dApplication * > (Win->GetApplication ())->OnFileOpen (doc);
+	Molecule *mol = static_cast < gcugtk::Molecule * > (doc->GetMol ());
+	if (mol && mol->GetChildrenNumber ())
+		Win->AddMoleculeMenus (mol);
 }
 
 static void on_file_save_as_image(G_GNUC_UNUSED GtkWidget *widget, Chem3dWindow *Win)
@@ -256,9 +260,13 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED Chem3dWindo
 static void on_recent (GtkRecentChooser *widget, Chem3dWindow *Win)
 {
 	Chem3dApplication *App = static_cast < Chem3dApplication * > (Win->GetApplication ());
+	Chem3dDoc *doc = Win->GetDocument ();
 	GtkRecentInfo *info = gtk_recent_chooser_get_current_item (widget);
-	App->FileProcess (gtk_recent_info_get_uri (info), gtk_recent_info_get_mime_type (info), false, NULL, Win->GetDocument ());
+	App->FileProcess (gtk_recent_info_get_uri (info), gtk_recent_info_get_mime_type (info), false, NULL, doc);
 	gtk_recent_info_unref(info);
+	Molecule *mol = static_cast < gcugtk::Molecule * > (doc->GetMol ());
+	if (mol && mol->GetChildrenNumber ())
+		Win->AddMoleculeMenus (mol);
 }
 
 static GtkActionEntry entries[] = {

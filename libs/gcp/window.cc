@@ -33,6 +33,7 @@
 #include "zoomdlg.h"
 #include <gcugtk/dialog.h>
 #include <gcugtk/filechooser.h>
+#include <gcugtk/message.h>
 #include <gcugtk/print-setup-dlg.h>
 #include <gcugtk/ui-manager.h>
 #include <gcugtk/stringinputdlg.h>
@@ -781,14 +782,13 @@ bool Window::VerifySaved ()
 	if (!m_Document->GetDirty ())
 		return true;
 	int res;
-	GtkWidget* mbox;
 	do {
 		gchar* str = g_strdup_printf (_("\"%s\" has been modified.  Do you wish to save it?"), m_Document->GetTitle ());
-		mbox = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, str);
+		gcugtk::Message *box = new gcugtk::Message (static_cast < gcugtk::Application * > (GetApplication ()),
+		                                            str, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, GetWindow ());
+		gtk_dialog_add_button (GTK_DIALOG (box->GetWindow ()),  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		res = box->Run ();
 		g_free (str);
-		gtk_dialog_add_button (GTK_DIALOG (mbox),  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-		res = gtk_dialog_run (GTK_DIALOG (mbox));
-		gtk_widget_destroy (mbox);
 		if (res == GTK_RESPONSE_YES)
 			OnSave ();
 		while (gtk_events_pending ()) // no idea why this is needed

@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.12.0">
-  <!ENTITY manrevision "0.3">
-  <!ENTITY date "April 2010">
+  <!ENTITY appversion "0.14.0">
+  <!ENTITY manrevision "0.4">
+  <!ENTITY date "June 2012">
   <!ENTITY app "GChem3d">
 ]>
 <!-- 
@@ -22,7 +22,7 @@
   <bookinfo> 
 	 <title>&app; Manual V&manrevision;</title>
 	 <copyright> 
-       <year>2006-2010</year>
+       <year>2006-2012</year>
        <holder>Jean Br&#233;fort</holder>
      </copyright>
 
@@ -71,6 +71,15 @@
    		<revision> 
 		  <revnumber>&app; Manual V&manrevision;</revnumber>
 		  <date>&date;</date> 
+		  <revdescription> 
+			 <para role="author">Jean Br&#233;fort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+   		<revision> 
+		  <revnumber>&app; Manual V0.3</revnumber>
+		  <date>April 2010</date> 
 		  <revdescription> 
 			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
@@ -135,7 +144,7 @@
     		<menuchoice>
     		<guisubmenu>Science</guisubmenu>
     		<guimenuitem>Molecules Viewer</guimenuitem>
-    		</menuchoice>. </para>
+    		</menuchoice>.</para>
     		</listitem>
     		</varlistentry>
     		<varlistentry>
@@ -203,13 +212,16 @@
 	  The application displays each file in its own window.</para>
 	  <para>Recently opened file appear in the <menuchoice> <guimenu>File</guimenu>
 	   <guimenu>Open recent</guimenu></menuchoice> sub-menu.</para>
+      <para>A molecule can also be loaded from it's InChI or a SMILES representation as described
+      in the <link linkend="gchem3d-load-from-string">
+		To Load a Molecule from a String</link> section.</para>
 	</sect1>
 	<sect1 id="gchem3d-run-from-cmd-line">
 		<title>To Open Multiple Files from a Command Line</title>
 		<para>You can run <application>&app;</application> from a command line
 		  and open a single file or multiple files. To open multiple files from a command
 		  line, type the following command, then press <keycap>Return</keycap>:</para>
-		<para><command>gchem3d-viewer-unstable <replaceable>file1 file2 file3</replaceable></command></para>
+		<para><command>gchem3d <replaceable>file1 file2 file3</replaceable></command></para>
 	</sect1>
 </chapter>
 

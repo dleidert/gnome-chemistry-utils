@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcugtk/glview.cc
  *
- * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -111,13 +111,13 @@ bool GLViewPrivate::OnDraw (GLView* View, G_GNUC_UNUSED cairo_t *cr)
 	return true;
 }
 
-bool GLViewPrivate::OnMotion (G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *event, GLView* View)
+bool GLViewPrivate::OnMotion (GtkWidget *, GdkEventMotion *event, GLView* View)
 {
 	gint x, y;
 	GdkModifierType state;
 
 	if (event->is_hint)
-		gdk_window_get_pointer (event->window, &x, &y, &state);
+		gdk_window_get_device_position (event->window, event->device, &x, &y, &state);
 	else {
 	    x = (gint) event->x;
 	    y = (gint) event->y;
@@ -130,12 +130,12 @@ bool GLViewPrivate::OnMotion (G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *e
 		View->Rotate (x - View->m_Lastx, y - View->m_Lasty);
 		View->m_Lastx = x;
 		View->m_Lasty = y;
-		gtk_widget_queue_draw_area(View->m_Widget, 0, 0, View->m_WindowWidth, View->m_WindowHeight);
+		gtk_widget_queue_draw_area (View->m_Widget, 0, 0, View->m_WindowWidth, View->m_WindowHeight);
 	}
 	return true;
 }
 
-bool GLViewPrivate::OnPressed (G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event, GLView* View)
+bool GLViewPrivate::OnPressed (GtkWidget *, GdkEventButton *event, GLView* View)
 {
   if (event->button == 1) {
     // beginning of drag, reset mouse position

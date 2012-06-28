@@ -4,7 +4,7 @@
  * GChemPaint library
  * application.cc
  *
- * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -506,7 +506,7 @@ Application::~Application ()
 #endif
 	// unref cursors
 	for (int i = 0; i < CursorMax; i++)
-		gdk_cursor_unref (m_Cursors[i]);
+		g_object_unref (m_Cursors[i]);
 	if (m_entries)
 		g_free (RadioActions);
 	g_object_unref (IconFactory);

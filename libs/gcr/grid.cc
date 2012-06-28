@@ -1338,7 +1338,7 @@ void gcr_grid_delete_row (GcrGrid *grid, unsigned row)
 	std::set < int > decreased;
 	std::set < int >::iterator i, end = grid->selected_rows->end ();
 	for (i = grid->selected_rows->begin (); i != end; i++)
-		if ((*i) > row)
+		if ((*i) > static_cast < int > (row))
 			decreased.insert (*i);
 	grid->selected_rows->erase (row);
 	end = decreased.end ();

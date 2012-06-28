@@ -48,7 +48,7 @@ void MessagePrivate::Destroyed (Message *message)
 Message::Message (Application *app, std::string &message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent, bool modal)
 {
 	GtkDialogFlags flags = static_cast <GtkDialogFlags> (((parent)? GTK_DIALOG_DESTROY_WITH_PARENT: 0) | ((modal)? GTK_DIALOG_MODAL: 0));
-	m_Window = GTK_DIALOG (gtk_message_dialog_new (parent, flags, type, buttons, message.c_str (), NULL));
+	m_Window = GTK_DIALOG (gtk_message_dialog_new (parent, flags, type, buttons, "%s", message.c_str ()));
 	gtk_window_set_icon_name (GTK_WINDOW (m_Window), app->GetIconName ().c_str ());
 	gtk_widget_show (GTK_WIDGET (m_Window));
 	m_delete_sgn = g_signal_connect_swapped (G_OBJECT (m_Window), "delete-event", G_CALLBACK (MessagePrivate::Destroyed), this);
@@ -59,7 +59,7 @@ Message::Message (Application *app, std::string &message, GtkMessageType type, G
 Message::Message (Application *app, char const *message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent, bool modal)
 {
 	GtkDialogFlags flags = static_cast <GtkDialogFlags> (((parent)? GTK_DIALOG_DESTROY_WITH_PARENT: 0) | ((modal)? GTK_DIALOG_MODAL: 0));
-	m_Window = GTK_DIALOG (gtk_message_dialog_new (parent, flags, type, buttons, message, NULL));
+	m_Window = GTK_DIALOG (gtk_message_dialog_new (parent, flags, type, buttons, "%s", message));
 	gtk_window_set_icon_name (GTK_WINDOW (m_Window), app->GetIconName ().c_str ());
 	gtk_widget_show (GTK_WIDGET (m_Window));
 	m_delete_sgn = g_signal_connect_swapped (G_OBJECT (m_Window), "delete-event", G_CALLBACK (MessagePrivate::Destroyed), this);

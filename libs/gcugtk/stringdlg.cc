@@ -25,6 +25,7 @@
 #include "config.h"
 #include "stringdlg.h"
 #include "application.h"
+#include "message.h"
 #include "window.h"
 #include <gcu/document.h>
 #include <gio/gio.h>
@@ -129,10 +130,9 @@ bool StringDlg::Apply ()
 			char *unescaped = g_uri_unescape_string (filename2, NULL);
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
-			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
-			gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
-			result = gtk_dialog_run (Box);
-			gtk_widget_destroy (GTK_WIDGET (Box));
+			Message *box = new Message (static_cast < gcugtk::Application * > (GetApp ()),
+			                            message, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, GetWindow ());
+			result = box->Run ();
 			g_free (message);
 		}
 		if (result == GTK_RESPONSE_YES)
@@ -146,10 +146,9 @@ bool StringDlg::Apply ()
 					gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
 					g_free (unescaped);
 					g_error_free (error);
-					GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
-					gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
-					result = gtk_dialog_run (Box);
-					gtk_widget_destroy (GTK_WIDGET (Box));
+					Message *box = new Message (static_cast < gcugtk::Application * > (GetApp ()),
+					                            message, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, GetWindow ());
+					result = box->Run ();
 					g_free (message);
 					g_object_unref (file);
 					continue;
@@ -161,10 +160,9 @@ bool StringDlg::Apply ()
 				char *unescaped = g_uri_unescape_string (filename2, NULL);
 				gchar * message = g_strdup_printf (_("Could not open file %s, error was:\n%s"), unescaped, error->message);
 				g_free (unescaped);
-				GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, message));
-				gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
-				gtk_dialog_run (Box);
-				gtk_widget_destroy (GTK_WIDGET (Box));
+				Message *box = new Message (static_cast < gcugtk::Application * > (GetApp ()),
+				                            message, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, GetWindow ());
+				box->Run ();
 				g_free (message);
 				g_error_free (error);
 				g_object_unref (file);
@@ -179,10 +177,9 @@ bool StringDlg::Apply ()
 					char *unescaped = g_uri_unescape_string (filename2, NULL);
 					gchar * message = g_strdup_printf (_("Could not write to file %s, error was:\n%s."), unescaped, error->message);
 					g_free (unescaped);
-					GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, message));
-					gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
-					gtk_dialog_run (Box);
-					gtk_widget_destroy (GTK_WIDGET (Box));
+					Message *box = new Message (static_cast < gcugtk::Application * > (GetApp ()),
+						                        message, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, GetWindow ());
+					box->Run ();
 					g_free (message);
 					g_error_free (error);
 					g_object_unref (file);
@@ -195,10 +192,9 @@ bool StringDlg::Apply ()
 				char *unescaped = g_uri_unescape_string (filename2, NULL);
 				gchar * message = g_strdup_printf (_("Could not close file %s, error was:\n%s"), unescaped, error->message);
 				g_free (unescaped);
-				GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, message));
-				gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
-				gtk_dialog_run (Box);
-				gtk_widget_destroy (GTK_WIDGET (Box));
+				Message *box = new Message (static_cast < gcugtk::Application * > (GetApp ()),
+				                            message, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, GetWindow ());
+				box->Run ();
 				g_free (message);
 				g_error_free (error);
 				continue;

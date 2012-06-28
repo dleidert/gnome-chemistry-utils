@@ -33,6 +33,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <gcugtk/message.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 #include <sstream>
@@ -268,10 +269,9 @@ void gcpResiduesDlg::Add ()
 			sl.push_back (buf);
 	}
 	if (sl.size () == 0) {
-		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Please provide at least one symbol")));
-		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-			gtk_widget_destroy (GTK_WIDGET (box));
+		gcugtk::Message *box = new gcugtk::Message (static_cast < gcp::Application * > (m_App),
+		                                            _("Please provide at least one symbol"), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+		box->Run ();
 		return;
 	}
 	std::list<string>::reverse_iterator i, iend = sl.rend ();
@@ -279,21 +279,18 @@ void gcpResiduesDlg::Add ()
 		r = static_cast<gcp::Residue const *> (gcp::Residue::GetResidue ((*i).c_str ()));
 		if (r && r != m_Residue) {
 			char *mess = g_strdup_printf (_("%s is already used by another residue."), (*i).c_str ());
-			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,mess));
-			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-				gtk_widget_destroy (GTK_WIDGET (box));
-			g_free (mess);
+			gcugtk::Message *box = new gcugtk::Message (static_cast < gcp::Application * > (m_App),
+			                                            mess, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+			box->Run ();
 			return;
 		}
 	}
 	gcp::Molecule *mol = dynamic_cast<gcp::Molecule*> (m_Atom->GetMolecule ());
 	string raw = mol->GetRawFormula ();
 	if (raw.length () == 0) {
-		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Empty formula, this should never happen.\nPlease file a bug report")));
-		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-			gtk_widget_destroy (GTK_WIDGET (box));
+		gcugtk::Message *box = new gcugtk::Message (static_cast < gcp::Application * > (m_App),
+		                                            _("Empty formula, this should never happen.\nPlease file a bug report"), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+		box->Run ();
 		return;
 	}
 	// If we are there, everything is OK.

@@ -33,6 +33,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/window.h>
+#include <gcugtk/message.h>
 #include <gcugtk/ui-manager.h>
 #include <gccv/canvas.h>
 #include <gccv/group.h>
@@ -400,11 +401,9 @@ void gcpSelectionTool::CreateGroup ()
 	catch (invalid_argument& e) {
 			pDoc->AbortOperation ();
 			delete pObj;
-			GtkWidget* message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0,
-								GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, e.what ());
-			gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
-			g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
-			gtk_widget_show (message);
+			gcugtk::Message *box = new gcugtk::Message (static_cast < gcugtk::Application * > (pDoc->GetApp ()),
+			                                            e.what (), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, pDoc->GetGtkWindow ());
+			box->Show ();
 	}
 }
 

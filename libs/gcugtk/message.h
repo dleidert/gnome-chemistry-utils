@@ -79,8 +79,12 @@ Displays a non modal message box.
 	void Show ();
 
 private:
-	GtkDialog *m_Window;
 	unsigned m_delete_sgn, m_destroy_sgn, m_response_sgn;
+
+/*!\fn GetWindow ()
+@return the embedded GtkDialog instance.
+*/
+GCU_RO_PROP (GtkDialog *, Window)
 };
 
 }

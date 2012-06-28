@@ -1,5 +1,24 @@
 ##Text encoding: utf-8
 
+2012-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add -Werror=format-security to CFLAGS.
+	* docs/reference/Makefile.am: add missing files.
+	* libs/gcp/application.cc: fixed errors by -Werror=format-security.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcr/grid.cc: ditto.
+	* libs/gcugtk/chem3dapplication.cc: ditto.
+	* libs/gcugtk/chem3dwindow.cc: ditto.
+	* libs/gcugtk/glview.cc: ditto.
+	* libs/gcugtk/message.cc: ditto.
+	* libs/gcugtk/message.h: ditto.
+	* libs/gcugtk/stringdlg.cc: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/selection/selectiontool.cc: ditto.
+	* plugins/paint/templates/templatetool.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/spectra/application.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+
 2012-06-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/application.cc: allow pdb files in gcrystal.
 	* libs/gcr/document.cc: fix infinite loop condition. [#36583]

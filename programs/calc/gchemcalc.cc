@@ -25,6 +25,7 @@
 #include "config.h"
 #include <gcugtk/application.h>
 #include <gcugtk/filechooser.h>
+#include <gcugtk/message.h>
 #include <gcugtk/printable.h>
 #include <gcugtk/print-setup-dlg.h>
 #include <gcugtk/ui-builder.h>
@@ -198,6 +199,8 @@ void GChemCalc::OnSaveAsImage ()
 	gcugtk::FileChooser (this, true, l, NULL, _("Save as image"), GetImageSizeWidget ());
 }
 
+GChemCalc *App;
+
 bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, G_GNUC_UNUSED Document *pDoc)
 {
 	if(bSave) {
@@ -208,10 +211,9 @@ bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool
 			char *unescaped = g_uri_unescape_string (filename, NULL);
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
-			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
-			gtk_window_set_icon_name (GTK_WINDOW (Box), "gchemcalc");
-			result = gtk_dialog_run (Box);
-			gtk_widget_destroy (GTK_WIDGET (Box));
+			gcugtk::Message *box = new gcugtk::Message (static_cast < gcugtk::Application * > (App),
+			                                            message, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, App->GetGtkWindow ());
+			box->Run ();
 			g_free (message);
 		}
 		if (result == GTK_RESPONSE_YES) {
@@ -242,8 +244,6 @@ void GChemCalc::OnSize (GChemCalc *calc, GtkAllocation *allocation)
 	calc->m_GraphWidth = allocation->width;
 	calc->m_GraphHeight = allocation->height;
 }
-
-GChemCalc *App;
 
 static void on_quit (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 {
@@ -315,7 +315,7 @@ static void clear_values (double *values)
 	delete [] values;
 }
 
-static void cb_entry_active (GtkEntry *entry, gpointer data)
+static void cb_entry_active (GtkEntry *entry, gpointer)
 {
 	GError *error;
 	try {
@@ -456,13 +456,9 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		int start, length;
 		char const *mess = error.what (start, length);
 		gtk_editable_select_region (GTK_EDITABLE (entry), start, start + length);
-		GtkWidget *w = gtk_message_dialog_new (GTK_WINDOW (data),
-							GTK_DIALOG_DESTROY_WITH_PARENT,
-							GTK_MESSAGE_ERROR,
-							GTK_BUTTONS_OK,
-							mess);
-		g_signal_connect_swapped (G_OBJECT (w), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (w));
-		gtk_widget_show (w);
+		gcugtk::Message *box = new gcugtk::Message (static_cast < gcugtk::Application * > (App),
+		                                            mess, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, App->GetGtkWindow ());
+		box->Show ();
 	}
 }
 

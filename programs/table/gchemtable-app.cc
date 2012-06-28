@@ -28,6 +28,7 @@
 #include "gchemtable-data.h"
 #include "gchemtable-elt.h"
 #include <gcugtk/filechooser.h>
+#include <gcugtk/message.h>
 #include <gcugtk/ui-builder.h>
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
@@ -727,10 +728,9 @@ bool GChemTableApp::FileProcess (const gchar* filename, const gchar* mime_type, 
 			char *unescaped = g_uri_unescape_string (filename, NULL);
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
-			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
-			gtk_window_set_icon_name (GTK_WINDOW (Box), "gspectrum");
-			result = gtk_dialog_run (Box);
-			gtk_widget_destroy (GTK_WIDGET (Box));
+			gcugtk::Message *box = new gcugtk::Message (this, message, GTK_MESSAGE_QUESTION,
+			                                            GTK_BUTTONS_YES_NO, window);
+			result = box->Run ();
 			g_free (message);
 		}
 		if (result == GTK_RESPONSE_YES) {
