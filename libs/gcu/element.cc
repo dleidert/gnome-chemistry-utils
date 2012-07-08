@@ -73,6 +73,7 @@ public:
 	Element* operator [] (string Symbol);
 
 	void AddElement(Element* Elt);
+	void Init ();
 
 private:
 	vector<Element*> Elements;
@@ -83,8 +84,14 @@ EltTable Table;
 
 EltTable::EltTable()
 {
-	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+}
+
+void EltTable::Init ()
+{
+	static bool inited = false;
+	if (inited)
+		return;
+	inited = true;
 	xmlDocPtr xml;
 	char* DefaultName;
 	char *lang = getenv ("LANG");
@@ -92,6 +99,8 @@ EltTable::EltTable()
 	unsigned char Z;
 	map <string, string> Langs;
 	Langs["de"] = _("German");
+	Langs["es"] = _("Spanisch");
+	Langs["eu"] = _("Basque");
 	Langs["fr"] = _("French");
 	Langs["it"] = _("Italian");
 	Langs["pl"] = _("Polish");
@@ -512,6 +521,7 @@ void Element::LoadElectronicProps ()
 	static bool loaded = false;
 	if (loaded)
 		return;
+	Table.Init ();
 	if (!(xml = xmlParseFile (PKGDATADIR"/elecprops.xml"))) {
 		g_error (_("Can't find and read elecprops.xml"));
 	}
@@ -670,6 +680,7 @@ void Element::LoadIsotopes ()
 	static bool loaded = false;
 	if (loaded)
 		return;
+	Table.Init ();
 	if (!(xml = xmlParseFile (PKGDATADIR"/isotopes.xml"))) {
 		g_error (_("Can't find and read isotopes.xml"));
 	}
@@ -814,6 +825,7 @@ void Element::LoadBODR ()
 	static bool loaded = false;
 	if (loaded)
 		return;
+	Table.Init ();
 	loaded = true;
 	xmlDocPtr xml = xmlParseFile (BODR_PKGDATADIR"/elements.xml");
 	if (!xml)

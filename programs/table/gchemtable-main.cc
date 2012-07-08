@@ -31,6 +31,7 @@ using namespace gcu;
 int main (int argc, char *argv[])
 {
 	textdomain (GETTEXT_PACKAGE);
+	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	gtk_init (&argc, &argv);
 
 	new GChemTableApp ();

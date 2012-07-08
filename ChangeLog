@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2012-07-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/element.cc: don't load data before main execution, fixes a weird
+	localization issue.
+	* programs/table/Makefile.am: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable-main.cc: ditto.
+
 2012-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add -Werror=format-security to CFLAGS.
 	* docs/reference/Makefile.am: add missing files.

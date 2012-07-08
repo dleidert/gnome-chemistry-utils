@@ -295,6 +295,7 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 {
 	GtkWidget *grid;
 
+	gcu::Element::LoadAllData ();
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (GTK_WINDOW (window), _("Periodic table of the elements"));
 	gtk_window_set_icon_name (GTK_WINDOW (window), GetIconName ().c_str ());
@@ -335,7 +336,6 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 	for (int i = 0; i < 118; i++)
 		Pages[i] = NULL;
 
-	gcu::Element::LoadAllData ();
 	gcu_periodic_set_tips (periodic, GCU_PERIODIC_TIP_STANDARD);
 	colorschemes["none"] = GCU_PERIODIC_COLOR_NONE;
 	colorschemes["default"] = GCU_PERIODIC_COLOR_DEFAULT;

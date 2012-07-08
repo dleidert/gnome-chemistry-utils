@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-07-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* *.po: updated string list for 0.14.
+
 2012-06-11  Jean Brefort  <jean.brefort@normalesup.org>
 	* fr.po: updated French translation.
 
