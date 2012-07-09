@@ -374,13 +374,11 @@ void AtomsDlgPrivate::SetRadius (unsigned i, AtomsDlg *pBox)
 
 bool AtomsDlgPrivate::RadiusEdited (AtomsDlg *pBox)
 {
-	if (pBox->m_Radius.type != GCU_RADIUS_UNKNOWN)
-		return false; // don't care
 	g_signal_handler_block (pBox->AtomR, pBox->m_EntryFocusOutSignalID);
 	if (pBox->GetNumber (pBox->AtomR, &(pBox->m_Radius.value.value), gcugtk::Min, 0) && pBox->m_AtomSelected >= 0) {
-/*		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetRadius), pBox);
+		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetRadius), pBox);
 		pBox->m_pDoc->Update ();
-		pBox->m_pDoc->SetDirty (true);*/
+		pBox->m_pDoc->SetDirty (true);
 	}
 	g_signal_handler_unblock (pBox->AtomR, pBox->m_EntryFocusOutSignalID);
 	return false;
@@ -510,9 +508,9 @@ void AtomsDlg::PopulateRadiiMenu ()
 			j++;
 			radius++;
 		}
+	g_signal_handler_unblock (RadiusMenu, m_RadiiSignalID);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (RadiusMenu), selected);
 	gtk_widget_set_sensitive (SelectEltBtn, m_nElt > 0);
-	g_signal_handler_unblock (RadiusMenu, m_RadiiSignalID);
 	m_Radius.charge = m_Charge;
 }
 

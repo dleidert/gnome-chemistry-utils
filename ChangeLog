@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-07-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/atomsdlg.cc: fixed radius changes behavior.
+
 2012-07-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/element.cc: don't load data before main execution, fixes a weird
 	localization issue.
