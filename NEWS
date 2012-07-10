@@ -3,6 +3,9 @@ Version 0.13.90
 		* Fix import from pdb files. [#36582]
 	GCrystal:
 		* Fix infinite loop condition. [#36583]
+		* Fix atomic radius change issue.
+	GChemTable:
+		* Fix languages translation.
 
 Version 0.13.7
 	GChemPaint:
