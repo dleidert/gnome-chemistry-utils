@@ -35,6 +35,7 @@ int main (int argc, char *argv[])
 	GOptionContext *context;
 
 	textdomain (GETTEXT_PACKAGE);
+	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	gtk_init (&argc, &argv);
 
 	if (argc > 1 && argv[1][0] == '-') {

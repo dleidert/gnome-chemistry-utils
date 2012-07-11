@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * element.cc
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -91,6 +91,8 @@ void EltTable::Init ()
 	static bool inited = false;
 	if (inited)
 		return;
+	textdomain (GETTEXT_PACKAGE);
+	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	inited = true;
 	xmlDocPtr xml;
 	char* DefaultName;
@@ -818,6 +820,11 @@ GcuDimensionalValue const *Element::GetIonizationEnergy (unsigned rank)
 GcuDimensionalValue const *Element::GetElectronAffinity (unsigned rank)
 {
 	return (rank <= m_ae.size ())? &m_ae[rank - 1]: NULL;
+}
+
+void Element::Init ()
+{
+	Table.Init ();
 }
 
 void Element::LoadBODR ()

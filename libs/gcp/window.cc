@@ -406,7 +406,7 @@ static GtkActionEntry entries[] = {
 		  { "Zoom", NULL, N_("_Zoom to...%"), "<control>M",
 			  N_("Open Zoom Dialog Box"), G_CALLBACK (on_zoom) },
   { "ToolsMenu", NULL, N_("_Tools"), NULL, NULL, NULL },
-	  { "ImportMol", NULL, N_("_Import molecule"), NULL,
+	  { "ImportMol", NULL, N_("_Import molecule..."), NULL,
 		  N_("Import a molecule either from InChI or SMILES"), G_CALLBACK (WindowPrivate::ImportMolecule) },
   { "WindowsMenu", NULL, N_("_Windows"), NULL, NULL, NULL },
   { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },

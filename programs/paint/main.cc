@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "standaloneapp.h"
+#include <gcu/element.h>
 #include <gcu/loader.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
@@ -74,6 +75,7 @@ int main(int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 
 	gtk_init (&argc, &argv);
+	gcu::Element::Init ();
 	App = new gcpStandaloneApp();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file...]"));

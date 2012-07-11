@@ -28,6 +28,7 @@
 #include "chem3dview.h"
 #include "chem3dwindow.h"
 #include "message.h"
+#include "molecule.h"
 #include <gcugtk/filechooser.h>
 #include <gsf/gsf-output-gio.h>
 #include <cairo-pdf.h>
@@ -226,6 +227,10 @@ bool Chem3dApplication::FileProcess (const gchar* filename, const gchar* mime_ty
 		if (!pDoc)
 			pDoc = OnFileNew ();
 		pDoc->Load (filename, mime_type);
+		Molecule *mol = static_cast < gcugtk::Molecule * > (pDoc->GetMol ());
+		if (mol && mol->GetChildrenNumber ())
+			static_cast < gcugtk::Chem3dWindow * > (pDoc->GetWindow ())->AddMoleculeMenus (mol);
+
 		GtkRecentData data;
 		data.display_name = const_cast <char*> (pDoc->GetTitle ().c_str ());
 		data.description = NULL;

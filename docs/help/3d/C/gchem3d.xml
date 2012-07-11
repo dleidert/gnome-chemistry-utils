@@ -213,7 +213,7 @@
 	  <para>Recently opened file appear in the <menuchoice> <guimenu>File</guimenu>
 	   <guimenu>Open recent</guimenu></menuchoice> sub-menu.</para>
       <para>A molecule can also be loaded from it's InChI or a SMILES representation as described
-      in the <link linkend="gchem3d-load-from-string">
+      in the <link linkend="gchem3d-string-input">
 		To Load a Molecule from a String</link> section.</para>
 	</sect1>
 	<sect1 id="gchem3d-run-from-cmd-line">
@@ -247,9 +247,11 @@
 		  <para>PostScript and PDF files can also be obtained with the <link
  		  linkend="gchem3d-print">Print command</link>.</para>
 	</sect1>
-	<sect1 id="gchem3d-load-from-string">
+	<sect1 id="gchem3d-string-input">
 		<title>To Load a molecule from an InChI or a SMILES</title>
-        <para></para>
+        <para>To import a molecule from a string, choose 
+		  <menuchoice> <guimenu>Tools</guimenu> <guimenuitem>Import molecule...
+          </guimenuitem></menuchoice>.</para>
 	</sect1>
 	<sect1 id="gchem3d-print">
 		<title>To Print the View</title>

@@ -63,8 +63,6 @@ int main(int argc, char *argv[])
 	GOptionContext *context;
 	GError *error = NULL;
 
-	textdomain(GETTEXT_PACKAGE);
-
 	gtk_init (&argc, &argv);
 	Element::LoadRadii ();
 	if (argc > 1 && argv[1][0] == '-') {

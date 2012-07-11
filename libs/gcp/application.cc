@@ -1040,13 +1040,8 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 	if (ui_description)
 		UiDescs.push_back (ui_description);
 	if (icons) {
-		GtkCssProvider *provider = gtk_css_provider_get_default ();
-		GtkStyleContext *ctxt = gtk_style_context_new ();
-		GtkWidgetPath *path = gtk_widget_path_new ();
-		gtk_widget_path_append_type (path, GTK_TYPE_BUTTON);
-		gtk_style_context_set_path (ctxt, path);
-		gtk_widget_path_free (path);
-		gtk_style_context_add_provider (ctxt, GTK_STYLE_PROVIDER (provider), 1);
+		GtkWidget *w = gtk_button_new ();
+		GtkStyleContext *ctxt = gtk_widget_get_style_context (w);
 		GtkIconSet *set;
 		GtkIconSource *src;
 		while (icons->name) {
@@ -1060,13 +1055,39 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 				gtk_icon_source_set_direction_wildcarded (src, true);
 
 				for (int c = 0; c < 5; c++) {
-				icon = gdk_pixbuf_copy (pixbuf);
-#if 0
+					GtkStateFlags state;
+					switch (c) {
+					default:
+					case 0:
+						state = GTK_STATE_FLAG_NORMAL;
+						break;
+					case 1:
+						state = GTK_STATE_FLAG_ACTIVE;
+						break;
+					case 2:
+						state = GTK_STATE_FLAG_PRELIGHT;
+						break;
+					case 3:
+						state = GTK_STATE_FLAG_SELECTED;
+						break;
+					case 4:
+						state = GTK_STATE_FLAG_INSENSITIVE;
+						break;
+					case 5:
+						state = GTK_STATE_FLAG_INCONSISTENT;
+						break;
+					case 6:
+						state = GTK_STATE_FLAG_FOCUSED;
+						break;
+					}
+					GdkRGBA rgba;
+					gtk_style_context_get_color (ctxt, state, &rgba);
+					icon = gdk_pixbuf_copy (pixbuf);
 					// set the pixbuf color to the corresponding style for the style
 					unsigned char red, blue, green;
-					red = m_Style->fg[c].red >> 8;
-					green = m_Style->fg[c].green >> 8;
-					blue = m_Style->fg[c].blue >> 8;
+					red = rgba.red * 255;
+					green = rgba.green * 255;
+					blue = rgba.blue * 255;
 					unsigned char *line, *cur;
 					line = gdk_pixbuf_get_pixels (icon);
 					int i, j, rows, cols, rowstride;
@@ -1083,7 +1104,6 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 							cur += 4;
 						}
 					}
-#endif
 					gtk_icon_source_set_pixbuf (src, icon);
 					gtk_icon_source_set_state (src, static_cast <GtkStateType> (c));
 					gtk_icon_set_add_source (set, src);	/* copies the src */
@@ -1148,6 +1168,7 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 			icons++;
 		}
 		g_object_unref (ctxt);
+		gtk_widget_destroy (w);
 	}
 }
 

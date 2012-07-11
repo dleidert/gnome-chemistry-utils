@@ -1,5 +1,23 @@
 ##Text encoding: utf-8
 
+2012-07-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.13.91).
+	* libs/gcp/application.cc: fixed theme issues in toolbox.
+	* libs/gcp/window.cc: fix menu item label.
+	* libs/gcu/atom.cc: fix crasher on exit.
+	* libs/gcu/bond.cc: ditto.
+	* libs/gcu/element.cc: fix localization.
+	* libs/gcu/element.h: ditto.
+	* libs/gcugtk/chem3dapplication.cc: always show the tools menu items when
+	a molecule has been loaded.
+	* libs/gcugtk/chem3dwindow.cc: fix menu item label.
+	* programs/3d/main.cc: fix localization.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/paint/main.cc: ditto.
+	* programs/spectra/Makefile.am: ditto.
+	* programs/spectra/gspectrum.cc: ditto.
+
 2012-07-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/atomsdlg.cc: fixed radius changes behavior.
 

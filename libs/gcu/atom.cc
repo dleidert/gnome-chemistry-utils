@@ -27,6 +27,7 @@
 #include "atom.h"
 #include "bond.h"
 #include "document.h"
+#include "molecule.h"
 #include "objprops.h"
 #include "vector.h"
 #include "xml-utils.h"
@@ -50,6 +51,9 @@ Atom::Atom (): Object (AtomType)
 Atom::~Atom ()
 {
 	m_Bonds.clear ();
+	Molecule *mol = static_cast < Molecule * > (GetMolecule ());
+	if (mol)
+		mol->Remove (this);
 }
 
 Atom::Atom (int Z, double x, double y, double z):

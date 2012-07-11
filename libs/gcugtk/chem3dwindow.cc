@@ -143,11 +143,7 @@ static bool on_delete_event (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GdkE
 
 static void on_file_open (G_GNUC_UNUSED GtkWidget *widget, Chem3dWindow *Win)
 {
-	Chem3dDoc *doc = Win->GetDocument ();
-	static_cast < Chem3dApplication * > (Win->GetApplication ())->OnFileOpen (doc);
-	Molecule *mol = static_cast < gcugtk::Molecule * > (doc->GetMol ());
-	if (mol && mol->GetChildrenNumber ())
-		Win->AddMoleculeMenus (mol);
+	static_cast < Chem3dApplication * > (Win->GetApplication ())->OnFileOpen (Win->GetDocument ());
 }
 
 static void on_file_save_as_image(G_GNUC_UNUSED GtkWidget *widget, Chem3dWindow *Win)
@@ -289,7 +285,7 @@ static GtkActionEntry entries[] = {
 		  N_("Quit GChem3D"), G_CALLBACK (on_quit) },
   { "ViewMenu", NULL, N_("_View"), NULL, NULL, NULL },
   { "ToolsMenu", NULL, N_("_Tools"), NULL, NULL, NULL },
-	  { "ImportMol", NULL, N_("_Import molecule"), NULL,
+	  { "ImportMol", NULL, N_("_Import molecule..."), NULL,
 		  N_("Import a molecule either from InChI or SMILES"), G_CALLBACK (Chem3dWindowPrivate::ImportMolecule) },
 	  { "GChemPaint", NULL, N_("Open in GChemPaint"), NULL,
 		  N_("Open a 2D model for this molecule using GChemPaint"), G_CALLBACK (Chem3dWindowPrivate::OnOpen2D) },

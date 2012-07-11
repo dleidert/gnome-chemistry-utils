@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * element.h
  *
- * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -163,6 +163,11 @@ public:
 	Loads all databases.
 	*/
 	static void LoadAllData ();
+	/*!
+	Intialize the element database. There is no need to call this method if
+	any of the Load*() method is called.
+	*/
+	static void Init ();
 
 	/*!
 	\return The atomic number of the chemical element.

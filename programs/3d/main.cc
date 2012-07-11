@@ -58,7 +58,6 @@ int main(int argc, char *argv[])
 	GError *error = NULL;
 	GOptionContext *context;
 
-	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
 	gcu::Element::LoadBODR ();
 

@@ -27,6 +27,7 @@
 #include "atom.h"
 #include "objprops.h"
 #include "document.h"
+#include "molecule.h"
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <sstream>
@@ -56,6 +57,9 @@ Bond::Bond(Atom* first, Atom* last, unsigned char order): Object(BondType)
 
 Bond::~Bond()
 {
+	Molecule *mol = static_cast < Molecule * > (GetMolecule ());
+	if (mol)
+		mol->Remove (this);
 }
 
 Atom* Bond::GetAtom(int which) const

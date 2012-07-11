@@ -680,8 +680,9 @@ int main (int argc, char *argv[])
 {
 	GOptionContext *context;
 	GError *error = NULL;
-	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
+	gcu_element_load_databases ("isotopes", NULL);
+	Element::LoadBODR ();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [formula]"));
 		g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
@@ -791,8 +792,6 @@ int main (int argc, char *argv[])
 	g_signal_connect (G_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),
 		 App->window);
-	gcu_element_load_databases ("isotopes", NULL);
-	Element::LoadBODR ();
 	if (argc == 1){
 		gtk_entry_set_text (GTK_ENTRY (w), argv[0]);
 		cb_entry_active (GTK_ENTRY (w), App->window);

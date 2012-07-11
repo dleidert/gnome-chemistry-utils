@@ -16,7 +16,8 @@ INCLUDES = \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
-	-DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui\"
+		-DLOCALEDIR=\"$(localedir)\" \
+		-DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui\"
 
 bin_PROGRAMS = gspectrum-@GCU_API_VER@
 
