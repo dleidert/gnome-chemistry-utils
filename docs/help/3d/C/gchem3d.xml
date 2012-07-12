@@ -138,13 +138,11 @@
 		<para>You can start <application>&app;</application> in the following ways:</para>
 		<variablelist>
     		<varlistentry>
-    		<term><guimenu>Applications</guimenu> menu</term>
+    		<term>Applications list</term>
     		<listitem>
     		<para>Choose 
-    		<menuchoice>
-    		<guisubmenu>Science</guisubmenu>
-    		<guimenuitem>Molecules Viewer</guimenuitem>
-    		</menuchoice>.</para>
+    		"Molecules Viewer". It might be listed either in the Education or
+            Science category.</para>
     		</listitem>
     		</varlistentry>
     		<varlistentry>
@@ -252,6 +250,102 @@
         <para>To import a molecule from a string, choose 
 		  <menuchoice> <guimenu>Tools</guimenu> <guimenuitem>Import molecule...
           </guimenuitem></menuchoice>.</para>
+	</sect1>
+	<sect1 id="gchem3d-tools-menu">
+		<title>To Use the Tools Menu with a molecule.</title>
+        <para>When a molecule is displayed, several menu items appear in the
+        <guimenu>Tools menu</guimenu>:</para>
+		<variablelist>
+		  <varlistentry> <term>Open in GChemPaint</term> 
+			 <listitem> 
+				<para>Opens the 2D editor <ulink type="help" url="ghelp:gchempaint-0.14"><application>GChemPaint</application></ulink> with a copy of the molecule.
+				The molecule has been converted to a 2D representation using the
+				<ulink type="http" url="http://openbabel.sourceforge.net/"><application>OpenBabel</application></ulink> library.</para>
+				<para>With the <emphasis>trans</emphasis>-1,2-dimethylcyclohexane molecule, you get:</para>
+					<figure id="gchem3d-3dview"> 
+					  <title>Initial view in GChem3D.</title>
+					  <screenshot> 
+							<mediaobject>
+								<imageobject>
+									<objectinfo> <abstract><para>Screenshot of the initial view in GChem3D.</para></abstract>
+									</objectinfo> 
+									<imagedata fileref="figures/gchempaint1.png"/>
+								</imageobject>
+							</mediaobject>
+						</screenshot>
+					</figure>
+				<para>And after conversion in GChemPaint:</para>
+					<figure id="gchem3d-2dview"> 
+					  <title>The molecule in GChemPaint.</title>
+					  <screenshot> 
+							<mediaobject>
+								<imageobject>
+									<objectinfo> <abstract><para>Screenshot of the 2D-model of
+									trans-1,2-cyclohexane molecule after conversion.</para></abstract>
+									</objectinfo> 
+									<imagedata fileref="figures/gchempaint2.png"/>
+								</imageobject>
+							</mediaobject>
+						</screenshot>
+					</figure>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Open in GChemCalc</term> 
+			 <listitem> 
+				<para>Opens the chemical calculator <ulink type="help" url="ghelp:gchemcalc-0.14"><application>GChemCalc</application></ulink>
+				with a copy of the molecule formula and performs the available calculations.
+				With the same molecule as above, you get:</para>
+					<figure id="gchem3d-calc"> 
+					  <title>The molecule in GChemCalc.</title>
+					  <screenshot> 
+							<mediaobject>
+								<imageobject>
+									<objectinfo> <abstract><para>Screenshot of
+									trans-1,2-cyclohexane molecule in GChemCalc.</para></abstract>
+									</objectinfo> 
+									<imagedata fileref="figures/gchemcalc.png"/>
+								</imageobject>
+							</mediaobject>
+						</screenshot>
+					</figure>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Generate InChI</term> 
+			 <listitem> 
+				<para>Generates the InChI for the molecule and displays it in a popup window.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Generate InChIKey</term> 
+			 <listitem> 
+				<para>Generates the InChIKey for the molecule and displays it in a popup window.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Generate SMILES</term> 
+			 <listitem> 
+				<para>Generates the SMILES for the molecule and displays it in a popup window.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Search in an online database</term> 
+			 <listitem> 
+				<para>The molecule can be searched for in online databases, either
+				predefined or user defined.</para>
+				<para>To add custom databases, you need to create an xml file listing them.
+				The file must be named .gchemutils/databases.xml in you home directory.</para>
+				<para>Entries inside the file must be inside a databases top node, each entry being a database node
+				with children name, uri, and class, like for the NIST webbook (which is predefined):</para>
+				<para><literallayout>
+  &lt;database&gt;
+    &lt;name&gt;NIST webbook&lt;/name&gt;
+    &lt;uri&gt;http://webbook.nist.gov/cgi/cbook.cgi?Name=%K&amp;Units=SI"&lt;/uri&gt;
+    &lt;class&gt;molecule&lt;/class&gt;
+  &lt;/database&gt;
+				</literallayout></para>
+				<para>where %K will be replaced by the InChIKey. Tou use the InChI, the
+				code is %I and for the SMILES, %S.</para>
+				<para>The class node is for future usages and must contain <quote>molecule</quote>.</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist> 
 	</sect1>
 	<sect1 id="gchem3d-print">
 		<title>To Print the View</title>
