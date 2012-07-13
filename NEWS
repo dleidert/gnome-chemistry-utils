@@ -1,10 +1,12 @@
 Version 0.13.91
 	3d viewer:
 		* Show all menu items when a molecule is loaded from the command line.
+		* Updated user documentation.
 	GChemPaint:
 		* Don't crash on startup.
 	All:
 		* Fix localization issues.
+		* Fixed modal message boxes behavior.
 
 Version 0.13.90
 	3d viewer:

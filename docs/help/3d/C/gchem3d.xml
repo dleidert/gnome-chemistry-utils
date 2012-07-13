@@ -249,7 +249,51 @@
 		<title>To Load a molecule from an InChI or a SMILES</title>
         <para>To import a molecule from a string, choose 
 		  <menuchoice> <guimenu>Tools</guimenu> <guimenuitem>Import molecule...
-          </guimenuitem></menuchoice>.</para>
+          </guimenuitem></menuchoice>. A dialog box pops up:</para>
+			<figure id="gchem3d-smiles1"> 
+			  <title>The string input dialog box.</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the empty
+							string input dialog box.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/smiles1.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+			<para>You need to input a valid string such as this SMILES:</para>
+			<figure id="gchem3d-smiles2"> 
+			  <title>The string input dialog box with a SMILES inside.</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the
+							string input dialog box with the SMILES for toluene.
+							</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/smiles2.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+			<para>Please note that if you use an InChI as input, you must not skip
+			the <quote>InChI=</quote> prefix.</para>
+			<para>After activating the <guibutton>Apply</guibutton> button you get:</para>
+			<figure id="gchem3d-smiles3"> 
+			  <title>The 3D View.</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the 3d view
+							corresponding to the input SIMLES.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/smiles3.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
 	</sect1>
 	<sect1 id="gchem3d-tools-menu">
 		<title>To Use the Tools Menu with a molecule.</title>

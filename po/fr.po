@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-08 17:28+0200\n"
-"PO-Revision-Date: 2012-07-08 17:28+0200\n"
+"POT-Creation-Date: 2012-07-13 16:04+0200\n"
+"PO-Revision-Date: 2012-07-13 16:05+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
@@ -691,7 +691,7 @@ msgstr ""
 "Le mode d'affichage pour la molécule : \"ball&stick\", \"spacefill\", "
 "\"cylinders\" ou \"wireframe\""
 
-#: ../goffice/gogchem3dapp.cc:32 ../libs/gcugtk/chem3dapplication.cc:40
+#: ../goffice/gogchem3dapp.cc:32 ../libs/gcugtk/chem3dapplication.cc:41
 #: ../programs/3d/application.cc:47 ../programs/3d/application.cc:54
 msgid "GChem3D Viewer"
 msgstr "Visionneuse de molécules GChem3D"
@@ -715,7 +715,7 @@ msgstr "Objet GCristal encapsulé"
 
 #. Note to translators: replace the following string with the appropriate credits for you lang
 #: ../libs/gcp/about.cc:49 ../libs/gcr/window.cc:147
-#: ../libs/gcugtk/chem3dwindow.cc:247 ../programs/calc/gchemcalc.cc:299
+#: ../libs/gcugtk/chem3dwindow.cc:243 ../programs/calc/gchemcalc.cc:299
 #: ../programs/spectra/window.cc:130 ../programs/table/gchemtable-app.cc:411
 msgid "translator_credits"
 msgstr "Jean Bréfort"
@@ -758,7 +758,7 @@ msgstr ""
 "%s n'a pas pu être chargé."
 
 #: ../libs/gcp/application.cc:652 ../libs/gcr/application.cc:233
-#: ../libs/gcugtk/chem3dapplication.cc:173 ../libs/gcugtk/stringdlg.cc:131
+#: ../libs/gcugtk/chem3dapplication.cc:174 ../libs/gcugtk/stringdlg.cc:131
 #: ../programs/calc/gchemcalc.cc:212 ../programs/spectra/application.cc:95
 #: ../programs/table/gchemtable-app.cc:729
 #, c-format
@@ -821,14 +821,14 @@ msgid "%s: parse error."
 msgstr "%s: erreur d'analyse."
 
 #: ../libs/gcp/application.cc:934 ../libs/gcr/application.cc:140
-#: ../libs/gcugtk/chem3dapplication.cc:96 ../programs/calc/gchemcalc.cc:199
+#: ../libs/gcugtk/chem3dapplication.cc:97 ../programs/calc/gchemcalc.cc:199
 #: ../programs/spectra/application.cc:161
 #: ../programs/table/gchemtable-app.cc:717
 msgid "Save as image"
 msgstr "Sauvegarder en tant qu'image"
 
 #: ../libs/gcp/atom.cc:1186 ../libs/gcp/atom.cc:1200 ../libs/gcp/atom.cc:1213
-#: ../libs/gcr/atomsdlg.cc:423 ../libs/gcu/atom.cc:390
+#: ../libs/gcr/atomsdlg.cc:421 ../libs/gcu/atom.cc:394
 #: ../plugins/paint/atoms/plugin.cc:63
 msgid "Atom"
 msgstr "Atome"
@@ -877,7 +877,7 @@ msgstr "Propriétés"
 msgid "Object properties"
 msgstr "Propriétés de l'objet"
 
-#: ../libs/gcp/bond.cc:838 ../libs/gcu/bond.cc:334
+#: ../libs/gcp/bond.cc:838 ../libs/gcu/bond.cc:338
 #: ../plugins/paint/bonds/plugin.cc:64
 msgid "Bond"
 msgstr "Liaison"
@@ -1176,8 +1176,8 @@ msgstr "Opérateur de réaction"
 
 #: ../libs/gcp/reaction-prop.cc:39 ../libs/gcp/theme.cc:526
 #: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:96
-#: ../libs/gcr/atomsdlg.cc:234 ../libs/gcr/atomsdlg.cc:436
-#: ../libs/gcr/atomsdlg.cc:534 ../programs/table/gchemtable-elt.cc:58
+#: ../libs/gcr/atomsdlg.cc:234 ../libs/gcr/atomsdlg.cc:434
+#: ../libs/gcr/atomsdlg.cc:532 ../programs/table/gchemtable-elt.cc:58
 #: ../ui/crystal/atoms.ui.h:11
 msgid "Unknown"
 msgstr "Inconnu"
@@ -1241,7 +1241,7 @@ msgid "NewTheme%d"
 msgstr "NouveauThème%d"
 
 #: ../libs/gcp/view.cc:755 ../libs/gcp/view.cc:781
-#: ../libs/gcr/application.cc:302 ../libs/gcugtk/chem3dapplication.cc:193
+#: ../libs/gcr/application.cc:302 ../libs/gcugtk/chem3dapplication.cc:194
 #, c-format
 msgid ""
 "Could not create stream!\n"
@@ -1260,7 +1260,7 @@ msgid "Import molecule from InChI or SMILES"
 msgstr "Importer une molécule depuis un  identifiant InChI ou SMILES"
 
 #: ../libs/gcp/window.cc:346 ../libs/gcr/window.cc:282
-#: ../libs/gcugtk/chem3dwindow.cc:273 ../programs/calc/gchemcalc.cc:587
+#: ../libs/gcugtk/chem3dwindow.cc:269 ../programs/calc/gchemcalc.cc:587
 #: ../programs/spectra/window.cc:192 ../programs/table/gchemtable-app.cc:138
 #: ../programs/table/gchemtable-curve.cc:207
 msgid "_File"
@@ -1283,17 +1283,17 @@ msgid "Create a new file using a theme"
 msgstr "Créer un nouveau fichier utilisant un thème"
 
 #: ../libs/gcp/window.cc:351 ../libs/gcr/window.cc:285
-#: ../libs/gcugtk/chem3dwindow.cc:274 ../programs/spectra/window.cc:193
+#: ../libs/gcugtk/chem3dwindow.cc:270 ../programs/spectra/window.cc:193
 msgid "_Open..."
 msgstr "_Ouvrir..."
 
 #: ../libs/gcp/window.cc:352 ../libs/gcr/window.cc:286
-#: ../libs/gcugtk/chem3dwindow.cc:275 ../programs/spectra/window.cc:194
+#: ../libs/gcugtk/chem3dwindow.cc:271 ../programs/spectra/window.cc:194
 msgid "Open a file"
 msgstr "Ouvrir un fichier"
 
 #: ../libs/gcp/window.cc:353 ../libs/gcr/window.cc:287
-#: ../libs/gcugtk/chem3dwindow.cc:276
+#: ../libs/gcugtk/chem3dwindow.cc:272
 msgid "_Save"
 msgstr "_Enregistrer"
 
@@ -1310,43 +1310,43 @@ msgid "Save the current file with a different name"
 msgstr "Enregistrer le fichier actif sous un nouveau nom"
 
 #: ../libs/gcp/window.cc:357 ../libs/gcr/window.cc:291
-#: ../libs/gcugtk/chem3dwindow.cc:278 ../programs/calc/gchemcalc.cc:588
+#: ../libs/gcugtk/chem3dwindow.cc:274 ../programs/calc/gchemcalc.cc:588
 #: ../programs/spectra/window.cc:195 ../programs/table/gchemtable-curve.cc:208
 msgid "Save As _Image..."
 msgstr "Enregistrer en tant qu'_Image..."
 
 #: ../libs/gcp/window.cc:358 ../libs/gcr/window.cc:292
-#: ../libs/gcugtk/chem3dwindow.cc:279 ../programs/calc/gchemcalc.cc:589
+#: ../libs/gcugtk/chem3dwindow.cc:275 ../programs/calc/gchemcalc.cc:589
 #: ../programs/spectra/window.cc:196 ../programs/table/gchemtable-curve.cc:209
 msgid "Save the current file as an image"
 msgstr "Enregistrer le fichier actif en tant qu'image"
 
 #: ../libs/gcp/window.cc:359 ../libs/gcr/window.cc:293
-#: ../libs/gcugtk/chem3dwindow.cc:280 ../programs/calc/gchemcalc.cc:590
+#: ../libs/gcugtk/chem3dwindow.cc:276 ../programs/calc/gchemcalc.cc:590
 #: ../programs/spectra/window.cc:197 ../programs/table/gchemtable-curve.cc:210
 msgid "Page Set_up..."
 msgstr "_Configuration de l'impression..."
 
 #: ../libs/gcp/window.cc:360 ../libs/gcr/window.cc:294
-#: ../libs/gcugtk/chem3dwindow.cc:281 ../programs/calc/gchemcalc.cc:591
+#: ../libs/gcugtk/chem3dwindow.cc:277 ../programs/calc/gchemcalc.cc:591
 #: ../programs/spectra/window.cc:198 ../programs/table/gchemtable-curve.cc:211
 msgid "Setup the page settings for your current printer"
 msgstr "Configure la mise en page pour votre imprimante"
 
 #: ../libs/gcp/window.cc:361 ../libs/gcr/window.cc:295
-#: ../libs/gcugtk/chem3dwindow.cc:282 ../programs/calc/gchemcalc.cc:592
+#: ../libs/gcugtk/chem3dwindow.cc:278 ../programs/calc/gchemcalc.cc:592
 #: ../programs/spectra/window.cc:199 ../programs/table/gchemtable-curve.cc:212
 msgid "Print Pre_view"
 msgstr "_Aperçu avant impression"
 
 #: ../libs/gcp/window.cc:362 ../libs/gcr/window.cc:296
-#: ../libs/gcugtk/chem3dwindow.cc:283 ../programs/calc/gchemcalc.cc:593
+#: ../libs/gcugtk/chem3dwindow.cc:279 ../programs/calc/gchemcalc.cc:593
 #: ../programs/spectra/window.cc:200 ../programs/table/gchemtable-curve.cc:213
 msgid "Print preview"
 msgstr "Aperçu avant impression"
 
 #: ../libs/gcp/window.cc:363 ../libs/gcr/window.cc:297
-#: ../libs/gcugtk/chem3dwindow.cc:284 ../programs/calc/gchemcalc.cc:594
+#: ../libs/gcugtk/chem3dwindow.cc:280 ../programs/calc/gchemcalc.cc:594
 #: ../programs/spectra/window.cc:201 ../programs/table/gchemtable-curve.cc:214
 msgid "_Print..."
 msgstr "Im_primer..."
@@ -1367,19 +1367,19 @@ msgid "Modify the file's properties"
 msgstr "Édite les propriétés du fichier"
 
 #: ../libs/gcp/window.cc:367 ../libs/gcr/window.cc:301
-#: ../libs/gcugtk/chem3dwindow.cc:286 ../programs/spectra/window.cc:203
+#: ../libs/gcugtk/chem3dwindow.cc:282 ../programs/spectra/window.cc:203
 #: ../programs/table/gchemtable-curve.cc:218
 msgid "_Close"
 msgstr "_Fermer"
 
 #: ../libs/gcp/window.cc:368 ../libs/gcr/window.cc:302
-#: ../libs/gcugtk/chem3dwindow.cc:287 ../programs/spectra/window.cc:204
+#: ../libs/gcugtk/chem3dwindow.cc:283 ../programs/spectra/window.cc:204
 #: ../programs/table/gchemtable-curve.cc:219
 msgid "Close the current file"
 msgstr "Fermer le fichier actif"
 
 #: ../libs/gcp/window.cc:369 ../libs/gcr/window.cc:303
-#: ../libs/gcugtk/chem3dwindow.cc:288 ../programs/calc/gchemcalc.cc:596
+#: ../libs/gcugtk/chem3dwindow.cc:284 ../programs/calc/gchemcalc.cc:596
 #: ../programs/spectra/window.cc:205 ../programs/table/gchemtable-app.cc:139
 #: ../programs/table/gchemtable-curve.cc:220
 msgid "_Quit"
@@ -1462,7 +1462,7 @@ msgid "Configure the application"
 msgstr "Configurer l'application"
 
 #: ../libs/gcp/window.cc:388 ../libs/gcr/window.cc:319
-#: ../libs/gcugtk/chem3dwindow.cc:290 ../programs/table/gchemtable-app.cc:141
+#: ../libs/gcugtk/chem3dwindow.cc:286 ../programs/table/gchemtable-app.cc:141
 msgid "_View"
 msgstr "_Vue"
 
@@ -1542,15 +1542,15 @@ msgstr "_Zoom à...%"
 msgid "Open Zoom Dialog Box"
 msgstr "Ouvrir la boite de dialogue de zoom"
 
-#: ../libs/gcp/window.cc:408 ../libs/gcugtk/chem3dwindow.cc:291
+#: ../libs/gcp/window.cc:408 ../libs/gcugtk/chem3dwindow.cc:287
 msgid "_Tools"
 msgstr "_Outils"
 
-#: ../libs/gcp/window.cc:409 ../libs/gcugtk/chem3dwindow.cc:292
-msgid "_Import molecule"
-msgstr "_Importer une molécule"
+#: ../libs/gcp/window.cc:409 ../libs/gcugtk/chem3dwindow.cc:288
+msgid "_Import molecule..."
+msgstr "_Importer une molécule..."
 
-#: ../libs/gcp/window.cc:410 ../libs/gcugtk/chem3dwindow.cc:293
+#: ../libs/gcp/window.cc:410 ../libs/gcugtk/chem3dwindow.cc:289
 msgid "Import a molecule either from InChI or SMILES"
 msgstr "Importer une molécule depuis un InChI ou un SMILES"
 
@@ -1559,7 +1559,7 @@ msgid "_Windows"
 msgstr "Fe_nêtres"
 
 #: ../libs/gcp/window.cc:412 ../libs/gcr/window.cc:327
-#: ../libs/gcugtk/chem3dwindow.cc:304 ../programs/calc/gchemcalc.cc:602
+#: ../libs/gcugtk/chem3dwindow.cc:300 ../programs/calc/gchemcalc.cc:602
 #: ../programs/spectra/window.cc:210 ../programs/table/gchemtable-app.cc:188
 #: ../programs/table/gchemtable-curve.cc:225
 #: ../programs/table/gchemtable-curve.cc:228
@@ -1567,7 +1567,7 @@ msgid "_Help"
 msgstr "_Aide"
 
 #: ../libs/gcp/window.cc:413 ../libs/gcr/window.cc:328
-#: ../libs/gcugtk/chem3dwindow.cc:305 ../programs/calc/gchemcalc.cc:603
+#: ../libs/gcugtk/chem3dwindow.cc:301 ../programs/calc/gchemcalc.cc:603
 #: ../programs/spectra/window.cc:211 ../programs/table/gchemtable-app.cc:189
 #: ../programs/table/gchemtable-curve.cc:226
 msgid "_Contents"
@@ -1586,21 +1586,21 @@ msgid "Browse GChemPaint's web site"
 msgstr "Ouvre un navigateur internet à la page de GChemPaint"
 
 #: ../libs/gcp/window.cc:417 ../libs/gcr/window.cc:332
-#: ../libs/gcugtk/chem3dwindow.cc:309 ../programs/calc/gchemcalc.cc:607
+#: ../libs/gcugtk/chem3dwindow.cc:305 ../programs/calc/gchemcalc.cc:607
 #: ../programs/spectra/window.cc:215 ../programs/table/gchemtable-app.cc:193
 #: ../programs/table/gchemtable-curve.cc:232
 msgid "Live assistance"
 msgstr "_Assistance en ligne"
 
 #: ../libs/gcp/window.cc:418 ../libs/gcr/window.cc:333
-#: ../libs/gcugtk/chem3dwindow.cc:310 ../programs/calc/gchemcalc.cc:608
+#: ../libs/gcugtk/chem3dwindow.cc:306 ../programs/calc/gchemcalc.cc:608
 #: ../programs/spectra/window.cc:216 ../programs/table/gchemtable-app.cc:194
 #: ../programs/table/gchemtable-curve.cc:233
 msgid "Open the Gnome Chemistry Utils IRC channel"
 msgstr "Ouvrir le cannal IRC des Gnome Chemistry Utils"
 
 #: ../libs/gcp/window.cc:419 ../libs/gcr/window.cc:334
-#: ../libs/gcugtk/chem3dwindow.cc:311 ../programs/calc/gchemcalc.cc:609
+#: ../libs/gcugtk/chem3dwindow.cc:307 ../programs/calc/gchemcalc.cc:609
 #: ../programs/spectra/window.cc:217 ../programs/table/gchemtable-app.cc:195
 #: ../programs/table/gchemtable-curve.cc:234
 msgid "_Ask a question"
@@ -1611,7 +1611,7 @@ msgid "Ask a question about GChemPaint"
 msgstr "Envoie un message sur la liste de diffusion de GChemPaint"
 
 #: ../libs/gcp/window.cc:421 ../libs/gcr/window.cc:336
-#: ../libs/gcugtk/chem3dwindow.cc:313 ../programs/calc/gchemcalc.cc:611
+#: ../libs/gcugtk/chem3dwindow.cc:309 ../programs/calc/gchemcalc.cc:611
 #: ../programs/spectra/window.cc:219 ../programs/table/gchemtable-app.cc:197
 #: ../programs/table/gchemtable-curve.cc:236
 msgid "Report _Bugs"
@@ -1622,7 +1622,7 @@ msgid "Submit a bug report for GChemPaint"
 msgstr "Ouvre un navigateur internet pour signaler un problème via Bugzilla"
 
 #: ../libs/gcp/window.cc:423 ../libs/gcr/window.cc:338
-#: ../libs/gcugtk/chem3dwindow.cc:315 ../programs/calc/gchemcalc.cc:613
+#: ../libs/gcugtk/chem3dwindow.cc:311 ../programs/calc/gchemcalc.cc:613
 #: ../programs/spectra/window.cc:221 ../programs/table/gchemtable-app.cc:199
 #: ../programs/table/gchemtable-curve.cc:238
 msgid "_About"
@@ -1666,32 +1666,32 @@ msgstr ""
 "« %s » a été modifié depuis la dernière sauvegarde.\n"
 " Voulez-vous revenir à la version enregistrée ?"
 
-#: ../libs/gcr/atomsdlg.cc:423
+#: ../libs/gcr/atomsdlg.cc:421
 msgid "x"
 msgstr "x"
 
-#: ../libs/gcr/atomsdlg.cc:423
+#: ../libs/gcr/atomsdlg.cc:421
 msgid "y"
 msgstr "y"
 
-#: ../libs/gcr/atomsdlg.cc:423
+#: ../libs/gcr/atomsdlg.cc:421
 msgid "z"
 msgstr "z"
 
 #. Note for translators: c.n. is for coordination number
-#: ../libs/gcr/atomsdlg.cc:495
+#: ../libs/gcr/atomsdlg.cc:493
 msgid " c.n.="
 msgstr " i.c. ="
 
-#: ../libs/gcr/atomsdlg.cc:501
+#: ../libs/gcr/atomsdlg.cc:499
 msgid "low spin"
 msgstr "bas spin"
 
-#: ../libs/gcr/atomsdlg.cc:501
+#: ../libs/gcr/atomsdlg.cc:499
 msgid "high spin"
 msgstr "haut spin"
 
-#: ../libs/gcr/atomsdlg.cc:503
+#: ../libs/gcr/atomsdlg.cc:501
 msgid "Database"
 msgstr "Base de données"
 
@@ -1842,28 +1842,28 @@ msgstr "Ferme la fenêtre active"
 msgid "View help for Gnome Crystal"
 msgstr "Consulter l'aide de Gnome Cristal"
 
-#: ../libs/gcr/window.cc:330 ../libs/gcugtk/chem3dwindow.cc:307
+#: ../libs/gcr/window.cc:330 ../libs/gcugtk/chem3dwindow.cc:303
 #: ../programs/calc/gchemcalc.cc:605 ../programs/spectra/window.cc:213
 #: ../programs/table/gchemtable-app.cc:191
 #: ../programs/table/gchemtable-curve.cc:230
 msgid "Gnome Chemistry Utils on the _web"
 msgstr "Gnome Chemistry Utils sur la _Toile"
 
-#: ../libs/gcr/window.cc:331 ../libs/gcugtk/chem3dwindow.cc:308
+#: ../libs/gcr/window.cc:331 ../libs/gcugtk/chem3dwindow.cc:304
 #: ../programs/calc/gchemcalc.cc:606 ../programs/spectra/window.cc:214
 #: ../programs/table/gchemtable-app.cc:192
 #: ../programs/table/gchemtable-curve.cc:231
 msgid "Browse the Gnome Chemistry Utils's web site"
 msgstr "Parcourir le site internet des Gnome Chemistry Utils"
 
-#: ../libs/gcr/window.cc:335 ../libs/gcugtk/chem3dwindow.cc:312
+#: ../libs/gcr/window.cc:335 ../libs/gcugtk/chem3dwindow.cc:308
 #: ../programs/calc/gchemcalc.cc:610 ../programs/spectra/window.cc:218
 #: ../programs/table/gchemtable-app.cc:196
 #: ../programs/table/gchemtable-curve.cc:235
 msgid "Ask a question about the Gnome Chemistry Utils"
 msgstr "Poser une question sur les Gnome Chemistry Utils"
 
-#: ../libs/gcr/window.cc:337 ../libs/gcugtk/chem3dwindow.cc:314
+#: ../libs/gcr/window.cc:337 ../libs/gcugtk/chem3dwindow.cc:310
 #: ../programs/calc/gchemcalc.cc:612 ../programs/spectra/window.cc:220
 #: ../programs/table/gchemtable-app.cc:198
 #: ../programs/table/gchemtable-curve.cc:237
@@ -1874,7 +1874,7 @@ msgstr "Rapporter une anomalie concernant les Gnome Chemistry Utils"
 msgid "About Gnome Crystal"
 msgstr "À propos de Gnome Cristal"
 
-#: ../libs/gcr/window.cc:450 ../libs/gcugtk/chem3dwindow.cc:426
+#: ../libs/gcr/window.cc:450 ../libs/gcugtk/chem3dwindow.cc:422
 #: ../programs/spectra/window.cc:288
 msgid "Open recent"
 msgstr "Récemment ouverts"
@@ -1918,75 +1918,75 @@ msgstr "\" mais aucun objet n'existe avec cette identité."
 msgid "Document"
 msgstr "Document"
 
-#: ../libs/gcu/element.cc:101
+#: ../libs/gcu/element.cc:103
 msgid "German"
 msgstr "Allemand"
 
-#: ../libs/gcu/element.cc:102
+#: ../libs/gcu/element.cc:104
 msgid "Spanisch"
 msgstr "Espagnol"
 
-#: ../libs/gcu/element.cc:103
+#: ../libs/gcu/element.cc:105
 msgid "Basque"
 msgstr "Basque"
 
-#: ../libs/gcu/element.cc:104
+#: ../libs/gcu/element.cc:106
 msgid "French"
 msgstr "Français"
 
-#: ../libs/gcu/element.cc:105
+#: ../libs/gcu/element.cc:107
 msgid "Italian"
 msgstr "Italien"
 
-#: ../libs/gcu/element.cc:106
+#: ../libs/gcu/element.cc:108
 msgid "Polish"
 msgstr "Polonais"
 
-#: ../libs/gcu/element.cc:107
+#: ../libs/gcu/element.cc:109
 msgid "Brazilian"
 msgstr "Brézilien"
 
-#: ../libs/gcu/element.cc:108
+#: ../libs/gcu/element.cc:110
 msgid "Russian"
 msgstr "Russe"
 
-#: ../libs/gcu/element.cc:109
+#: ../libs/gcu/element.cc:111
 msgid "Chinese (TW)"
 msgstr "Chinois (TW)"
 
-#: ../libs/gcu/element.cc:111
+#: ../libs/gcu/element.cc:113
 msgid "Can't find and read elements.xml"
 msgstr "Impossible de trouver et lire elements.xml"
 
-#: ../libs/gcu/element.cc:115 ../libs/gcu/element.cc:124
+#: ../libs/gcu/element.cc:117 ../libs/gcu/element.cc:126
 msgid "Incorrect file format: elements.xml"
 msgstr "Format de fichier incorrect : elements.xml"
 
-#: ../libs/gcu/element.cc:160
+#: ../libs/gcu/element.cc:162
 msgid "English"
 msgstr "Anglais"
 
-#: ../libs/gcu/element.cc:420
+#: ../libs/gcu/element.cc:422
 msgid "Can't find and read radii.xml"
 msgstr "Impossible de trouver et lire radii.xml"
 
-#: ../libs/gcu/element.cc:424 ../libs/gcu/element.cc:437
+#: ../libs/gcu/element.cc:426 ../libs/gcu/element.cc:439
 msgid "Incorrect file format: radii.xml"
 msgstr "Format de fichier incorrect : radii.xml"
 
-#: ../libs/gcu/element.cc:526
+#: ../libs/gcu/element.cc:528
 msgid "Can't find and read elecprops.xml"
 msgstr "Impossible de trouver et lire elecprops.xml"
 
-#: ../libs/gcu/element.cc:530 ../libs/gcu/element.cc:537
+#: ../libs/gcu/element.cc:532 ../libs/gcu/element.cc:539
 msgid "Incorrect file format: elecprops.xml"
 msgstr "Format de fichier incorrect : elecprops.xml"
 
-#: ../libs/gcu/element.cc:685
+#: ../libs/gcu/element.cc:687
 msgid "Can't find and read isotopes.xml"
 msgstr "Impossible de trouver et lire isotopes.xml"
 
-#: ../libs/gcu/element.cc:689 ../libs/gcu/element.cc:698
+#: ../libs/gcu/element.cc:691 ../libs/gcu/element.cc:700
 msgid "Incorrect file format: isotopes.xml"
 msgstr "Format de fichier incorrect : isotopes.xml"
 
@@ -2074,116 +2074,116 @@ msgstr "Maximiser les nouvelles fenêtres"
 msgid "(screen resolution is %u)"
 msgstr "(la résolution de l'écran est %u)"
 
-#: ../libs/gcugtk/chem3dapplication.cc:161
+#: ../libs/gcugtk/chem3dapplication.cc:162
 msgid "Sorry, format not supported!"
 msgstr "Désolé, format non supporté !"
 
-#: ../libs/gcugtk/chem3dwindow.cc:229
+#: ../libs/gcugtk/chem3dwindow.cc:225
 msgid "GChem3D is a molecular structures viewer for Gnome"
 msgstr "GChem3D est une visionneuse de structures moléculaires pour Gnome"
 
 #. const gchar * documentors[] = {NULL};
-#: ../libs/gcugtk/chem3dwindow.cc:231
+#: ../libs/gcugtk/chem3dwindow.cc:227
 msgid "Copyright © 2004-2010 Jean Bréfort\n"
 msgstr "Copyright © 2004-2010 par Jean Bréfort\n"
 
-#: ../libs/gcugtk/chem3dwindow.cc:277
+#: ../libs/gcugtk/chem3dwindow.cc:273
 msgid "Save the current settings"
 msgstr "Enregistrer la configuration courante"
 
-#: ../libs/gcugtk/chem3dwindow.cc:285
+#: ../libs/gcugtk/chem3dwindow.cc:281
 msgid "Print the current scene"
 msgstr "Imprimer la scène courante"
 
-#: ../libs/gcugtk/chem3dwindow.cc:289
+#: ../libs/gcugtk/chem3dwindow.cc:285
 msgid "Quit GChem3D"
 msgstr "Quiiter GChem3D"
 
-#: ../libs/gcugtk/chem3dwindow.cc:294
+#: ../libs/gcugtk/chem3dwindow.cc:290
 msgid "Open in GChemPaint"
 msgstr "Ouvrir dans GChemPaint"
 
-#: ../libs/gcugtk/chem3dwindow.cc:295
+#: ../libs/gcugtk/chem3dwindow.cc:291
 msgid "Open a 2D model for this molecule using GChemPaint"
 msgstr "Ouvrir un modèle 2D de cette molécule dans GChemPaint"
 
-#: ../libs/gcugtk/chem3dwindow.cc:296
+#: ../libs/gcugtk/chem3dwindow.cc:292
 msgid "Open in GChemCalc"
 msgstr "Ouvrir dans GChemCalc"
 
-#: ../libs/gcugtk/chem3dwindow.cc:297
+#: ../libs/gcugtk/chem3dwindow.cc:293
 msgid "Open the raw formula in the chemical calculator"
 msgstr "Ouvrir la formule brute dans la calculatrice chimique"
 
-#: ../libs/gcugtk/chem3dwindow.cc:298
+#: ../libs/gcugtk/chem3dwindow.cc:294
 msgid "Show InChI"
 msgstr "Montrer l'InChI"
 
-#: ../libs/gcugtk/chem3dwindow.cc:299
+#: ../libs/gcugtk/chem3dwindow.cc:295
 msgid "Show the InChI for this molecule"
 msgstr "Montrer l'InChI pour cette molécule"
 
-#: ../libs/gcugtk/chem3dwindow.cc:300
+#: ../libs/gcugtk/chem3dwindow.cc:296
 msgid "Show InChiKey"
 msgstr "Montrer l'InChIKey"
 
-#: ../libs/gcugtk/chem3dwindow.cc:301
+#: ../libs/gcugtk/chem3dwindow.cc:297
 msgid "Show the InChIKey for this molecule"
 msgstr "Montrer l'InChIKey pour cette molécule"
 
-#: ../libs/gcugtk/chem3dwindow.cc:302
+#: ../libs/gcugtk/chem3dwindow.cc:298
 msgid "Show SMILES"
 msgstr "Montrer le SMILES"
 
-#: ../libs/gcugtk/chem3dwindow.cc:303
+#: ../libs/gcugtk/chem3dwindow.cc:299
 msgid "Show the SMILES for this molecule"
 msgstr "Montrer le SMILES pour cette molécule"
 
-#: ../libs/gcugtk/chem3dwindow.cc:306
+#: ../libs/gcugtk/chem3dwindow.cc:302
 msgid "View help for the Molecules Viewer"
 msgstr "Voir l'aide pour la Visionneuse de Molécules"
 
-#: ../libs/gcugtk/chem3dwindow.cc:316
+#: ../libs/gcugtk/chem3dwindow.cc:312
 msgid "About GChem3D"
 msgstr "À propos de GChem3D"
 
-#: ../libs/gcugtk/chem3dwindow.cc:320
+#: ../libs/gcugtk/chem3dwindow.cc:316
 msgid "Balls and sticks"
 msgstr "Éclaté"
 
-#: ../libs/gcugtk/chem3dwindow.cc:321
+#: ../libs/gcugtk/chem3dwindow.cc:317
 msgid "Display a balls and sticks model"
 msgstr "Affiche un modèle éclaté"
 
-#: ../libs/gcugtk/chem3dwindow.cc:323
+#: ../libs/gcugtk/chem3dwindow.cc:319
 msgid "Space filling"
 msgstr "Compact"
 
-#: ../libs/gcugtk/chem3dwindow.cc:324
+#: ../libs/gcugtk/chem3dwindow.cc:320
 msgid "Display a space filling model"
 msgstr "Affiche un modèle compact"
 
-#: ../libs/gcugtk/chem3dwindow.cc:326
+#: ../libs/gcugtk/chem3dwindow.cc:322
 msgid "Cylinders"
 msgstr "Cylindres"
 
-#: ../libs/gcugtk/chem3dwindow.cc:327
+#: ../libs/gcugtk/chem3dwindow.cc:323
 msgid "Display a cylinders model"
 msgstr "Affiche un modèle en cylindres"
 
-#: ../libs/gcugtk/chem3dwindow.cc:329
+#: ../libs/gcugtk/chem3dwindow.cc:325
 msgid "Wireframe"
 msgstr "Fil de fer"
 
-#: ../libs/gcugtk/chem3dwindow.cc:330
+#: ../libs/gcugtk/chem3dwindow.cc:326
 msgid "Display a wireframe model"
 msgstr "Affiche un modèle en fil de fer"
 
-#: ../libs/gcugtk/chem3dwindow.cc:397
+#: ../libs/gcugtk/chem3dwindow.cc:393
 msgid "Background color"
 msgstr "Couleur de fond"
 
-#: ../libs/gcugtk/chem3dwindow.cc:398
+#: ../libs/gcugtk/chem3dwindow.cc:394
 msgid "Choose a new background color"
 msgstr "Choisir un nouvelle couleur de fond"
 
@@ -3357,12 +3357,12 @@ msgstr ""
 "Comment les molécules sont dessinées ; les valeurs possibles sont BallnStick "
 "(la valeur par défaut), SpaceFill, Cylinders et Wireframe"
 
-#: ../programs/3d/main.cc:66 ../programs/spectra/gspectrum.cc:41
+#: ../programs/3d/main.cc:65 ../programs/spectra/gspectrum.cc:42
 msgid " [file]"
 msgstr " [fichier]"
 
-#: ../programs/3d/main.cc:87 ../programs/crystal/main.cc:94
-#: ../programs/paint/main.cc:97 ../programs/spectra/gspectrum.cc:60
+#: ../programs/3d/main.cc:86 ../programs/crystal/main.cc:92
+#: ../programs/paint/main.cc:99 ../programs/spectra/gspectrum.cc:61
 #, c-format
 msgid "Invalid or misplaced argument: %s\n"
 msgstr "Argument invalide ou mal placé : %s\n"
@@ -3444,19 +3444,19 @@ msgstr "Demander à l'utilisateur la signification des symboles ambigus"
 msgid "GChemCalc Calculator version: "
 msgstr "Version de la Calculatrice Chimique :"
 
-#: ../programs/calc/gchemcalc.cc:686
+#: ../programs/calc/gchemcalc.cc:687
 msgid " [formula]"
 msgstr "[formule]"
 
-#: ../programs/calc/gchemcalc.cc:702
+#: ../programs/calc/gchemcalc.cc:703
 msgid "For usage see: gchemcalc [-?|--help]"
 msgstr "Pour l'utilisation, voir : gchemcalc [-?|--help]"
 
-#: ../programs/calc/gchemcalc.cc:748
+#: ../programs/calc/gchemcalc.cc:749
 msgid "Element"
 msgstr "Élément"
 
-#: ../programs/calc/gchemcalc.cc:755
+#: ../programs/calc/gchemcalc.cc:756
 msgid "Mass %"
 msgstr "% Masse"
 
@@ -3485,7 +3485,7 @@ msgstr "SansTitre%d"
 msgid "Gnome Chemistry Utils version: "
 msgstr "Version de Gnome Chemistry Utils :"
 
-#: ../programs/crystal/main.cc:71 ../programs/paint/main.cc:79
+#: ../programs/crystal/main.cc:69 ../programs/paint/main.cc:81
 msgid " [file...]"
 msgstr " [fichier...]"
 
@@ -3497,7 +3497,7 @@ msgstr "Éditeur de structures chimiques GChemPaint"
 msgid "Edit chemical 2D structures"
 msgstr "Édite des structures chimiques 2D"
 
-#: ../programs/paint/main.cc:42
+#: ../programs/paint/main.cc:43
 msgid "GChemPaint version: "
 msgstr "Version de GChemPaint : "
 

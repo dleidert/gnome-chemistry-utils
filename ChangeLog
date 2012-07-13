@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2012-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/C/3d/C/gchem3d.xml: updated user doc for 0.14.
+	* libs/gcp/window.cc: force a message box to be modal.
+	* libs/gcugtk/message.cc: make the message box modal when Run() is called.
+
 2012-07-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.13.91).
 	* libs/gcp/application.cc: fixed theme issues in toolbox.

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gchemutils 0.13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-08 17:28+0200\n"
+"POT-Creation-Date: 2012-07-13 16:04+0200\n"
 "PO-Revision-Date: 2010-09-12 11:33+0800\n"
 "Last-Translator: I-Yuan Chiang (江易原) <iychiang1809@gmail.com>\n"
 "Language-Team: Tryneeds in Tawian <tryneeds@gmail.com>\n"
@@ -699,7 +699,7 @@ msgid ""
 "\", or \"wireframe\""
 msgstr ""
 
-#: ../goffice/gogchem3dapp.cc:32 ../libs/gcugtk/chem3dapplication.cc:40
+#: ../goffice/gogchem3dapp.cc:32 ../libs/gcugtk/chem3dapplication.cc:41
 #: ../programs/3d/application.cc:47 ../programs/3d/application.cc:54
 msgid "GChem3D Viewer"
 msgstr "GChem3D 立體分子展示軟體"
@@ -725,7 +725,7 @@ msgstr "嵌入的 GChemPaint 物件"
 
 #. Note to translators: replace the following string with the appropriate credits for you lang
 #: ../libs/gcp/about.cc:49 ../libs/gcr/window.cc:147
-#: ../libs/gcugtk/chem3dwindow.cc:247 ../programs/calc/gchemcalc.cc:299
+#: ../libs/gcugtk/chem3dwindow.cc:243 ../programs/calc/gchemcalc.cc:299
 #: ../programs/spectra/window.cc:130 ../programs/table/gchemtable-app.cc:411
 msgid "translator_credits"
 msgstr "翻譯者貢獻"
@@ -768,7 +768,7 @@ msgstr ""
 "無法載入 %s."
 
 #: ../libs/gcp/application.cc:652 ../libs/gcr/application.cc:233
-#: ../libs/gcugtk/chem3dapplication.cc:173 ../libs/gcugtk/stringdlg.cc:131
+#: ../libs/gcugtk/chem3dapplication.cc:174 ../libs/gcugtk/stringdlg.cc:131
 #: ../programs/calc/gchemcalc.cc:212 ../programs/spectra/application.cc:95
 #: ../programs/table/gchemtable-app.cc:729
 #, c-format
@@ -831,14 +831,14 @@ msgid "%s: parse error."
 msgstr "%s: 語法錯誤"
 
 #: ../libs/gcp/application.cc:934 ../libs/gcr/application.cc:140
-#: ../libs/gcugtk/chem3dapplication.cc:96 ../programs/calc/gchemcalc.cc:199
+#: ../libs/gcugtk/chem3dapplication.cc:97 ../programs/calc/gchemcalc.cc:199
 #: ../programs/spectra/application.cc:161
 #: ../programs/table/gchemtable-app.cc:717
 msgid "Save as image"
 msgstr "存成影像檔"
 
 #: ../libs/gcp/atom.cc:1186 ../libs/gcp/atom.cc:1200 ../libs/gcp/atom.cc:1213
-#: ../libs/gcr/atomsdlg.cc:423 ../libs/gcu/atom.cc:390
+#: ../libs/gcr/atomsdlg.cc:421 ../libs/gcu/atom.cc:394
 #: ../plugins/paint/atoms/plugin.cc:63
 msgid "Atom"
 msgstr "原子"
@@ -887,7 +887,7 @@ msgstr "屬性"
 msgid "Object properties"
 msgstr "物件屬性"
 
-#: ../libs/gcp/bond.cc:838 ../libs/gcu/bond.cc:334
+#: ../libs/gcp/bond.cc:838 ../libs/gcu/bond.cc:338
 #: ../plugins/paint/bonds/plugin.cc:64
 msgid "Bond"
 msgstr "鍵"
@@ -1189,8 +1189,8 @@ msgstr "反應操作器"
 
 #: ../libs/gcp/reaction-prop.cc:39 ../libs/gcp/theme.cc:526
 #: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:96
-#: ../libs/gcr/atomsdlg.cc:234 ../libs/gcr/atomsdlg.cc:436
-#: ../libs/gcr/atomsdlg.cc:534 ../programs/table/gchemtable-elt.cc:58
+#: ../libs/gcr/atomsdlg.cc:234 ../libs/gcr/atomsdlg.cc:434
+#: ../libs/gcr/atomsdlg.cc:532 ../programs/table/gchemtable-elt.cc:58
 #: ../ui/crystal/atoms.ui.h:11
 msgid "Unknown"
 msgstr "未知"
@@ -1253,7 +1253,7 @@ msgid "NewTheme%d"
 msgstr "新主題 %d"
 
 #: ../libs/gcp/view.cc:755 ../libs/gcp/view.cc:781
-#: ../libs/gcr/application.cc:302 ../libs/gcugtk/chem3dapplication.cc:193
+#: ../libs/gcr/application.cc:302 ../libs/gcugtk/chem3dapplication.cc:194
 #, c-format
 msgid ""
 "Could not create stream!\n"
@@ -1272,7 +1272,7 @@ msgid "Import molecule from InChI or SMILES"
 msgstr ""
 
 #: ../libs/gcp/window.cc:346 ../libs/gcr/window.cc:282
-#: ../libs/gcugtk/chem3dwindow.cc:273 ../programs/calc/gchemcalc.cc:587
+#: ../libs/gcugtk/chem3dwindow.cc:269 ../programs/calc/gchemcalc.cc:587
 #: ../programs/spectra/window.cc:192 ../programs/table/gchemtable-app.cc:138
 #: ../programs/table/gchemtable-curve.cc:207
 msgid "_File"
@@ -1295,17 +1295,17 @@ msgid "Create a new file using a theme"
 msgstr "以此主題新增一個檔案"
 
 #: ../libs/gcp/window.cc:351 ../libs/gcr/window.cc:285
-#: ../libs/gcugtk/chem3dwindow.cc:274 ../programs/spectra/window.cc:193
+#: ../libs/gcugtk/chem3dwindow.cc:270 ../programs/spectra/window.cc:193
 msgid "_Open..."
 msgstr "開啟"
 
 #: ../libs/gcp/window.cc:352 ../libs/gcr/window.cc:286
-#: ../libs/gcugtk/chem3dwindow.cc:275 ../programs/spectra/window.cc:194
+#: ../libs/gcugtk/chem3dwindow.cc:271 ../programs/spectra/window.cc:194
 msgid "Open a file"
 msgstr "開啟檔案"
 
 #: ../libs/gcp/window.cc:353 ../libs/gcr/window.cc:287
-#: ../libs/gcugtk/chem3dwindow.cc:276
+#: ../libs/gcugtk/chem3dwindow.cc:272
 msgid "_Save"
 msgstr "存檔"
 
@@ -1322,43 +1322,43 @@ msgid "Save the current file with a different name"
 msgstr "將目前的檔案存成不同檔名"
 
 #: ../libs/gcp/window.cc:357 ../libs/gcr/window.cc:291
-#: ../libs/gcugtk/chem3dwindow.cc:278 ../programs/calc/gchemcalc.cc:588
+#: ../libs/gcugtk/chem3dwindow.cc:274 ../programs/calc/gchemcalc.cc:588
 #: ../programs/spectra/window.cc:195 ../programs/table/gchemtable-curve.cc:208
 msgid "Save As _Image..."
 msgstr "存成影像..."
 
 #: ../libs/gcp/window.cc:358 ../libs/gcr/window.cc:292
-#: ../libs/gcugtk/chem3dwindow.cc:279 ../programs/calc/gchemcalc.cc:589
+#: ../libs/gcugtk/chem3dwindow.cc:275 ../programs/calc/gchemcalc.cc:589
 #: ../programs/spectra/window.cc:196 ../programs/table/gchemtable-curve.cc:209
 msgid "Save the current file as an image"
 msgstr "將目前的檔案存成影像"
 
 #: ../libs/gcp/window.cc:359 ../libs/gcr/window.cc:293
-#: ../libs/gcugtk/chem3dwindow.cc:280 ../programs/calc/gchemcalc.cc:590
+#: ../libs/gcugtk/chem3dwindow.cc:276 ../programs/calc/gchemcalc.cc:590
 #: ../programs/spectra/window.cc:197 ../programs/table/gchemtable-curve.cc:210
 msgid "Page Set_up..."
 msgstr "頁面設定"
 
 #: ../libs/gcp/window.cc:360 ../libs/gcr/window.cc:294
-#: ../libs/gcugtk/chem3dwindow.cc:281 ../programs/calc/gchemcalc.cc:591
+#: ../libs/gcugtk/chem3dwindow.cc:277 ../programs/calc/gchemcalc.cc:591
 #: ../programs/spectra/window.cc:198 ../programs/table/gchemtable-curve.cc:211
 msgid "Setup the page settings for your current printer"
 msgstr "為您目前的印表機進行頁面設定"
 
 #: ../libs/gcp/window.cc:361 ../libs/gcr/window.cc:295
-#: ../libs/gcugtk/chem3dwindow.cc:282 ../programs/calc/gchemcalc.cc:592
+#: ../libs/gcugtk/chem3dwindow.cc:278 ../programs/calc/gchemcalc.cc:592
 #: ../programs/spectra/window.cc:199 ../programs/table/gchemtable-curve.cc:212
 msgid "Print Pre_view"
 msgstr "預覽列印"
 
 #: ../libs/gcp/window.cc:362 ../libs/gcr/window.cc:296
-#: ../libs/gcugtk/chem3dwindow.cc:283 ../programs/calc/gchemcalc.cc:593
+#: ../libs/gcugtk/chem3dwindow.cc:279 ../programs/calc/gchemcalc.cc:593
 #: ../programs/spectra/window.cc:200 ../programs/table/gchemtable-curve.cc:213
 msgid "Print preview"
 msgstr "預覽列印"
 
 #: ../libs/gcp/window.cc:363 ../libs/gcr/window.cc:297
-#: ../libs/gcugtk/chem3dwindow.cc:284 ../programs/calc/gchemcalc.cc:594
+#: ../libs/gcugtk/chem3dwindow.cc:280 ../programs/calc/gchemcalc.cc:594
 #: ../programs/spectra/window.cc:201 ../programs/table/gchemtable-curve.cc:214
 msgid "_Print..."
 msgstr "列印..."
@@ -1379,19 +1379,19 @@ msgid "Modify the file's properties"
 msgstr "修改檔案的屬性"
 
 #: ../libs/gcp/window.cc:367 ../libs/gcr/window.cc:301
-#: ../libs/gcugtk/chem3dwindow.cc:286 ../programs/spectra/window.cc:203
+#: ../libs/gcugtk/chem3dwindow.cc:282 ../programs/spectra/window.cc:203
 #: ../programs/table/gchemtable-curve.cc:218
 msgid "_Close"
 msgstr "關閉"
 
 #: ../libs/gcp/window.cc:368 ../libs/gcr/window.cc:302
-#: ../libs/gcugtk/chem3dwindow.cc:287 ../programs/spectra/window.cc:204
+#: ../libs/gcugtk/chem3dwindow.cc:283 ../programs/spectra/window.cc:204
 #: ../programs/table/gchemtable-curve.cc:219
 msgid "Close the current file"
 msgstr "關閉目前的檔案"
 
 #: ../libs/gcp/window.cc:369 ../libs/gcr/window.cc:303
-#: ../libs/gcugtk/chem3dwindow.cc:288 ../programs/calc/gchemcalc.cc:596
+#: ../libs/gcugtk/chem3dwindow.cc:284 ../programs/calc/gchemcalc.cc:596
 #: ../programs/spectra/window.cc:205 ../programs/table/gchemtable-app.cc:139
 #: ../programs/table/gchemtable-curve.cc:220
 msgid "_Quit"
@@ -1474,7 +1474,7 @@ msgid "Configure the application"
 msgstr "設定應用"
 
 #: ../libs/gcp/window.cc:388 ../libs/gcr/window.cc:319
-#: ../libs/gcugtk/chem3dwindow.cc:290 ../programs/table/gchemtable-app.cc:141
+#: ../libs/gcugtk/chem3dwindow.cc:286 ../programs/table/gchemtable-app.cc:141
 msgid "_View"
 msgstr "檢視"
 
@@ -1554,16 +1554,16 @@ msgstr "縮放到 ...%"
 msgid "Open Zoom Dialog Box"
 msgstr "開啟縮放對話方塊"
 
-#: ../libs/gcp/window.cc:408 ../libs/gcugtk/chem3dwindow.cc:291
+#: ../libs/gcp/window.cc:408 ../libs/gcugtk/chem3dwindow.cc:287
 msgid "_Tools"
 msgstr "工具"
 
-#: ../libs/gcp/window.cc:409 ../libs/gcugtk/chem3dwindow.cc:292
+#: ../libs/gcp/window.cc:409 ../libs/gcugtk/chem3dwindow.cc:288
 #, fuzzy
-msgid "_Import molecule"
+msgid "_Import molecule..."
 msgstr "沒有目標分子!"
 
-#: ../libs/gcp/window.cc:410 ../libs/gcugtk/chem3dwindow.cc:293
+#: ../libs/gcp/window.cc:410 ../libs/gcugtk/chem3dwindow.cc:289
 msgid "Import a molecule either from InChI or SMILES"
 msgstr ""
 
@@ -1572,7 +1572,7 @@ msgid "_Windows"
 msgstr "視窗"
 
 #: ../libs/gcp/window.cc:412 ../libs/gcr/window.cc:327
-#: ../libs/gcugtk/chem3dwindow.cc:304 ../programs/calc/gchemcalc.cc:602
+#: ../libs/gcugtk/chem3dwindow.cc:300 ../programs/calc/gchemcalc.cc:602
 #: ../programs/spectra/window.cc:210 ../programs/table/gchemtable-app.cc:188
 #: ../programs/table/gchemtable-curve.cc:225
 #: ../programs/table/gchemtable-curve.cc:228
@@ -1580,7 +1580,7 @@ msgid "_Help"
 msgstr "求助"
 
 #: ../libs/gcp/window.cc:413 ../libs/gcr/window.cc:328
-#: ../libs/gcugtk/chem3dwindow.cc:305 ../programs/calc/gchemcalc.cc:603
+#: ../libs/gcugtk/chem3dwindow.cc:301 ../programs/calc/gchemcalc.cc:603
 #: ../programs/spectra/window.cc:211 ../programs/table/gchemtable-app.cc:189
 #: ../programs/table/gchemtable-curve.cc:226
 msgid "_Contents"
@@ -1599,21 +1599,21 @@ msgid "Browse GChemPaint's web site"
 msgstr " 瀏覽 GChemPaint 網頁"
 
 #: ../libs/gcp/window.cc:417 ../libs/gcr/window.cc:332
-#: ../libs/gcugtk/chem3dwindow.cc:309 ../programs/calc/gchemcalc.cc:607
+#: ../libs/gcugtk/chem3dwindow.cc:305 ../programs/calc/gchemcalc.cc:607
 #: ../programs/spectra/window.cc:215 ../programs/table/gchemtable-app.cc:193
 #: ../programs/table/gchemtable-curve.cc:232
 msgid "Live assistance"
 msgstr "線上協助"
 
 #: ../libs/gcp/window.cc:418 ../libs/gcr/window.cc:333
-#: ../libs/gcugtk/chem3dwindow.cc:310 ../programs/calc/gchemcalc.cc:608
+#: ../libs/gcugtk/chem3dwindow.cc:306 ../programs/calc/gchemcalc.cc:608
 #: ../programs/spectra/window.cc:216 ../programs/table/gchemtable-app.cc:194
 #: ../programs/table/gchemtable-curve.cc:233
 msgid "Open the Gnome Chemistry Utils IRC channel"
 msgstr "開啟 Gnome Chemistry Utils IRC 頻道"
 
 #: ../libs/gcp/window.cc:419 ../libs/gcr/window.cc:334
-#: ../libs/gcugtk/chem3dwindow.cc:311 ../programs/calc/gchemcalc.cc:609
+#: ../libs/gcugtk/chem3dwindow.cc:307 ../programs/calc/gchemcalc.cc:609
 #: ../programs/spectra/window.cc:217 ../programs/table/gchemtable-app.cc:195
 #: ../programs/table/gchemtable-curve.cc:234
 msgid "_Ask a question"
@@ -1624,7 +1624,7 @@ msgid "Ask a question about GChemPaint"
 msgstr "詢問有關 GChenPaint 的問題"
 
 #: ../libs/gcp/window.cc:421 ../libs/gcr/window.cc:336
-#: ../libs/gcugtk/chem3dwindow.cc:313 ../programs/calc/gchemcalc.cc:611
+#: ../libs/gcugtk/chem3dwindow.cc:309 ../programs/calc/gchemcalc.cc:611
 #: ../programs/spectra/window.cc:219 ../programs/table/gchemtable-app.cc:197
 #: ../programs/table/gchemtable-curve.cc:236
 msgid "Report _Bugs"
@@ -1635,7 +1635,7 @@ msgid "Submit a bug report for GChemPaint"
 msgstr "提交 GChemPaint 的臭蟲報告"
 
 #: ../libs/gcp/window.cc:423 ../libs/gcr/window.cc:338
-#: ../libs/gcugtk/chem3dwindow.cc:315 ../programs/calc/gchemcalc.cc:613
+#: ../libs/gcugtk/chem3dwindow.cc:311 ../programs/calc/gchemcalc.cc:613
 #: ../programs/spectra/window.cc:221 ../programs/table/gchemtable-app.cc:199
 #: ../programs/table/gchemtable-curve.cc:238
 msgid "_About"
@@ -1677,32 +1677,32 @@ msgid ""
 "saved version?"
 msgstr "自上次存檔後, \"%s\" 已經修改過了. 您希望回到前一個儲存的版本嗎?"
 
-#: ../libs/gcr/atomsdlg.cc:423
+#: ../libs/gcr/atomsdlg.cc:421
 msgid "x"
 msgstr "x"
 
-#: ../libs/gcr/atomsdlg.cc:423
+#: ../libs/gcr/atomsdlg.cc:421
 msgid "y"
 msgstr "y"
 
-#: ../libs/gcr/atomsdlg.cc:423
+#: ../libs/gcr/atomsdlg.cc:421
 msgid "z"
 msgstr "z"
 
 #. Note for translators: c.n. is for coordination number
-#: ../libs/gcr/atomsdlg.cc:495
+#: ../libs/gcr/atomsdlg.cc:493
 msgid " c.n.="
 msgstr "c.n.="
 
-#: ../libs/gcr/atomsdlg.cc:501
+#: ../libs/gcr/atomsdlg.cc:499
 msgid "low spin"
 msgstr "低自旋"
 
-#: ../libs/gcr/atomsdlg.cc:501
+#: ../libs/gcr/atomsdlg.cc:499
 msgid "high spin"
 msgstr "高自旋"
 
-#: ../libs/gcr/atomsdlg.cc:503
+#: ../libs/gcr/atomsdlg.cc:501
 msgid "Database"
 msgstr "資料庫"
 
@@ -1851,28 +1851,28 @@ msgstr "關閉現在的視窗"
 msgid "View help for Gnome Crystal"
 msgstr "檢視 Gnome Crystal 的說明"
 
-#: ../libs/gcr/window.cc:330 ../libs/gcugtk/chem3dwindow.cc:307
+#: ../libs/gcr/window.cc:330 ../libs/gcugtk/chem3dwindow.cc:303
 #: ../programs/calc/gchemcalc.cc:605 ../programs/spectra/window.cc:213
 #: ../programs/table/gchemtable-app.cc:191
 #: ../programs/table/gchemtable-curve.cc:230
 msgid "Gnome Chemistry Utils on the _web"
 msgstr "Gnome Chemistry Utils 網頁"
 
-#: ../libs/gcr/window.cc:331 ../libs/gcugtk/chem3dwindow.cc:308
+#: ../libs/gcr/window.cc:331 ../libs/gcugtk/chem3dwindow.cc:304
 #: ../programs/calc/gchemcalc.cc:606 ../programs/spectra/window.cc:214
 #: ../programs/table/gchemtable-app.cc:192
 #: ../programs/table/gchemtable-curve.cc:231
 msgid "Browse the Gnome Chemistry Utils's web site"
 msgstr "瀏覽 Gnome Chemistry Utils 網頁"
 
-#: ../libs/gcr/window.cc:335 ../libs/gcugtk/chem3dwindow.cc:312
+#: ../libs/gcr/window.cc:335 ../libs/gcugtk/chem3dwindow.cc:308
 #: ../programs/calc/gchemcalc.cc:610 ../programs/spectra/window.cc:218
 #: ../programs/table/gchemtable-app.cc:196
 #: ../programs/table/gchemtable-curve.cc:235
 msgid "Ask a question about the Gnome Chemistry Utils"
 msgstr "我有 Gnome Chemistry Utils 的問題"
 
-#: ../libs/gcr/window.cc:337 ../libs/gcugtk/chem3dwindow.cc:314
+#: ../libs/gcr/window.cc:337 ../libs/gcugtk/chem3dwindow.cc:310
 #: ../programs/calc/gchemcalc.cc:612 ../programs/spectra/window.cc:220
 #: ../programs/table/gchemtable-app.cc:198
 #: ../programs/table/gchemtable-curve.cc:237
@@ -1883,7 +1883,7 @@ msgstr "提報 Gnome Chemistry Utils 的臭蟲"
 msgid "About Gnome Crystal"
 msgstr "有關 Gnome Crystal"
 
-#: ../libs/gcr/window.cc:450 ../libs/gcugtk/chem3dwindow.cc:426
+#: ../libs/gcr/window.cc:450 ../libs/gcugtk/chem3dwindow.cc:422
 #: ../programs/spectra/window.cc:288
 msgid "Open recent"
 msgstr "最近開啟的"
@@ -1931,75 +1931,75 @@ msgstr "\" 但未提到有這 Id  的物件."
 msgid "Document"
 msgstr "文件"
 
-#: ../libs/gcu/element.cc:101
+#: ../libs/gcu/element.cc:103
 msgid "German"
 msgstr "德語"
 
-#: ../libs/gcu/element.cc:102
+#: ../libs/gcu/element.cc:104
 msgid "Spanisch"
 msgstr ""
 
-#: ../libs/gcu/element.cc:103
+#: ../libs/gcu/element.cc:105
 msgid "Basque"
 msgstr ""
 
-#: ../libs/gcu/element.cc:104
+#: ../libs/gcu/element.cc:106
 msgid "French"
 msgstr "法語"
 
-#: ../libs/gcu/element.cc:105
+#: ../libs/gcu/element.cc:107
 msgid "Italian"
 msgstr "義大利語"
 
-#: ../libs/gcu/element.cc:106
+#: ../libs/gcu/element.cc:108
 msgid "Polish"
 msgstr "波蘭語"
 
-#: ../libs/gcu/element.cc:107
+#: ../libs/gcu/element.cc:109
 msgid "Brazilian"
 msgstr "巴西語"
 
-#: ../libs/gcu/element.cc:108
+#: ../libs/gcu/element.cc:110
 msgid "Russian"
 msgstr "俄語"
 
-#: ../libs/gcu/element.cc:109
+#: ../libs/gcu/element.cc:111
 msgid "Chinese (TW)"
 msgstr "中文 (台灣)"
 
-#: ../libs/gcu/element.cc:111
+#: ../libs/gcu/element.cc:113
 msgid "Can't find and read elements.xml"
 msgstr "無法找到及讀取 elements.xml"
 
-#: ../libs/gcu/element.cc:115 ../libs/gcu/element.cc:124
+#: ../libs/gcu/element.cc:117 ../libs/gcu/element.cc:126
 msgid "Incorrect file format: elements.xml"
 msgstr "錯誤的檔案格式: elements.xml"
 
-#: ../libs/gcu/element.cc:160
+#: ../libs/gcu/element.cc:162
 msgid "English"
 msgstr "英語"
 
-#: ../libs/gcu/element.cc:420
+#: ../libs/gcu/element.cc:422
 msgid "Can't find and read radii.xml"
 msgstr "無法找到及讀取 radii.xml"
 
-#: ../libs/gcu/element.cc:424 ../libs/gcu/element.cc:437
+#: ../libs/gcu/element.cc:426 ../libs/gcu/element.cc:439
 msgid "Incorrect file format: radii.xml"
 msgstr "錯誤的檔案格式: radii.xml"
 
-#: ../libs/gcu/element.cc:526
+#: ../libs/gcu/element.cc:528
 msgid "Can't find and read elecprops.xml"
 msgstr "無法找到及讀取 elecprops.xml"
 
-#: ../libs/gcu/element.cc:530 ../libs/gcu/element.cc:537
+#: ../libs/gcu/element.cc:532 ../libs/gcu/element.cc:539
 msgid "Incorrect file format: elecprops.xml"
 msgstr "錯誤的檔案格式: elecprops.xml"
 
-#: ../libs/gcu/element.cc:685
+#: ../libs/gcu/element.cc:687
 msgid "Can't find and read isotopes.xml"
 msgstr "無法找到及讀取 isotopes.xml"
 
-#: ../libs/gcu/element.cc:689 ../libs/gcu/element.cc:698
+#: ../libs/gcu/element.cc:691 ../libs/gcu/element.cc:700
 msgid "Incorrect file format: isotopes.xml"
 msgstr "錯誤的檔案格式: isotopes.xml"
 
@@ -2086,123 +2086,123 @@ msgstr "新視窗最大化"
 msgid "(screen resolution is %u)"
 msgstr "(螢幕解析度 %u)"
 
-#: ../libs/gcugtk/chem3dapplication.cc:161
+#: ../libs/gcugtk/chem3dapplication.cc:162
 msgid "Sorry, format not supported!"
 msgstr "抱歉, 不支援此格式"
 
-#: ../libs/gcugtk/chem3dwindow.cc:229
+#: ../libs/gcugtk/chem3dwindow.cc:225
 msgid "GChem3D is a molecular structures viewer for Gnome"
 msgstr "GChem3D 是 Gnome 的分子結構看圖軟體"
 
 #. const gchar * documentors[] = {NULL};
-#: ../libs/gcugtk/chem3dwindow.cc:231
+#: ../libs/gcugtk/chem3dwindow.cc:227
 msgid "Copyright © 2004-2010 Jean Bréfort\n"
 msgstr "Copyright © 2004-2010 Jean Bréfort\n"
 
-#: ../libs/gcugtk/chem3dwindow.cc:277
+#: ../libs/gcugtk/chem3dwindow.cc:273
 #, fuzzy
 msgid "Save the current settings"
 msgstr "儲存目前的檔案"
 
-#: ../libs/gcugtk/chem3dwindow.cc:285
+#: ../libs/gcugtk/chem3dwindow.cc:281
 msgid "Print the current scene"
 msgstr "列印目前的畫面"
 
-#: ../libs/gcugtk/chem3dwindow.cc:289
+#: ../libs/gcugtk/chem3dwindow.cc:285
 msgid "Quit GChem3D"
 msgstr "結束 GChen3D"
 
-#: ../libs/gcugtk/chem3dwindow.cc:294
+#: ../libs/gcugtk/chem3dwindow.cc:290
 #, fuzzy
 msgid "Open in GChemPaint"
 msgstr "Component : GChemPaint"
 
-#: ../libs/gcugtk/chem3dwindow.cc:295
+#: ../libs/gcugtk/chem3dwindow.cc:291
 msgid "Open a 2D model for this molecule using GChemPaint"
 msgstr ""
 
-#: ../libs/gcugtk/chem3dwindow.cc:296
+#: ../libs/gcugtk/chem3dwindow.cc:292
 #, fuzzy
 msgid "Open in GChemCalc"
 msgstr "關閉 GChemCalc"
 
-#: ../libs/gcugtk/chem3dwindow.cc:297
+#: ../libs/gcugtk/chem3dwindow.cc:293
 #, fuzzy
 msgid "Open the raw formula in the chemical calculator"
 msgstr "檢視 Chemical Calculator 求助訊息"
 
-#: ../libs/gcugtk/chem3dwindow.cc:298
+#: ../libs/gcugtk/chem3dwindow.cc:294
 msgid "Show InChI"
 msgstr ""
 
-#: ../libs/gcugtk/chem3dwindow.cc:299
+#: ../libs/gcugtk/chem3dwindow.cc:295
 #, fuzzy
 msgid "Show the InChI for this molecule"
 msgstr "有關此分子在 PubChem 的網頁"
 
-#: ../libs/gcugtk/chem3dwindow.cc:300
+#: ../libs/gcugtk/chem3dwindow.cc:296
 msgid "Show InChiKey"
 msgstr ""
 
-#: ../libs/gcugtk/chem3dwindow.cc:301
+#: ../libs/gcugtk/chem3dwindow.cc:297
 #, fuzzy
 msgid "Show the InChIKey for this molecule"
 msgstr "有關此分子在 PubChem 的網頁"
 
-#: ../libs/gcugtk/chem3dwindow.cc:302
+#: ../libs/gcugtk/chem3dwindow.cc:298
 msgid "Show SMILES"
 msgstr ""
 
-#: ../libs/gcugtk/chem3dwindow.cc:303
+#: ../libs/gcugtk/chem3dwindow.cc:299
 #, fuzzy
 msgid "Show the SMILES for this molecule"
 msgstr "有關此分子在 PubChem 的網頁"
 
-#: ../libs/gcugtk/chem3dwindow.cc:306
+#: ../libs/gcugtk/chem3dwindow.cc:302
 msgid "View help for the Molecules Viewer"
 msgstr "分子看圖軟體求助"
 
-#: ../libs/gcugtk/chem3dwindow.cc:316
+#: ../libs/gcugtk/chem3dwindow.cc:312
 msgid "About GChem3D"
 msgstr "有關 GChem3D"
 
-#: ../libs/gcugtk/chem3dwindow.cc:320
+#: ../libs/gcugtk/chem3dwindow.cc:316
 msgid "Balls and sticks"
 msgstr "球與棒的模式"
 
-#: ../libs/gcugtk/chem3dwindow.cc:321
+#: ../libs/gcugtk/chem3dwindow.cc:317
 msgid "Display a balls and sticks model"
 msgstr "顯示球與棒的模型"
 
-#: ../libs/gcugtk/chem3dwindow.cc:323
+#: ../libs/gcugtk/chem3dwindow.cc:319
 msgid "Space filling"
 msgstr "填滿空間模式"
 
-#: ../libs/gcugtk/chem3dwindow.cc:324
+#: ../libs/gcugtk/chem3dwindow.cc:320
 msgid "Display a space filling model"
 msgstr "顯示填滿空間的模型"
 
-#: ../libs/gcugtk/chem3dwindow.cc:326
+#: ../libs/gcugtk/chem3dwindow.cc:322
 msgid "Cylinders"
 msgstr "柱狀"
 
-#: ../libs/gcugtk/chem3dwindow.cc:327
+#: ../libs/gcugtk/chem3dwindow.cc:323
 msgid "Display a cylinders model"
 msgstr "顯示柱狀模式"
 
-#: ../libs/gcugtk/chem3dwindow.cc:329
+#: ../libs/gcugtk/chem3dwindow.cc:325
 msgid "Wireframe"
 msgstr "線圖"
 
-#: ../libs/gcugtk/chem3dwindow.cc:330
+#: ../libs/gcugtk/chem3dwindow.cc:326
 msgid "Display a wireframe model"
 msgstr "顯示線圖模式"
 
-#: ../libs/gcugtk/chem3dwindow.cc:397
+#: ../libs/gcugtk/chem3dwindow.cc:393
 msgid "Background color"
 msgstr "背景顏色"
 
-#: ../libs/gcugtk/chem3dwindow.cc:398
+#: ../libs/gcugtk/chem3dwindow.cc:394
 msgid "Choose a new background color"
 msgstr "選個新的背景顏色"
 
@@ -3383,12 +3383,12 @@ msgid ""
 "SpaceFill, Cylinders, and Wireframe"
 msgstr "該如何呈現分子; 可能的方式是球與棒 (這是預設的), 空間填充, 柱狀, 線圖"
 
-#: ../programs/3d/main.cc:66 ../programs/spectra/gspectrum.cc:41
+#: ../programs/3d/main.cc:65 ../programs/spectra/gspectrum.cc:42
 msgid " [file]"
 msgstr "[檔案]"
 
-#: ../programs/3d/main.cc:87 ../programs/crystal/main.cc:94
-#: ../programs/paint/main.cc:97 ../programs/spectra/gspectrum.cc:60
+#: ../programs/3d/main.cc:86 ../programs/crystal/main.cc:92
+#: ../programs/paint/main.cc:99 ../programs/spectra/gspectrum.cc:61
 #, c-format
 msgid "Invalid or misplaced argument: %s\n"
 msgstr "無效或是放錯參數: %s\n"
@@ -3471,19 +3471,19 @@ msgstr "詢問使用者有關模稜兩可符號之正確意義"
 msgid "GChemCalc Calculator version: "
 msgstr "GChemCalc Calculator 版本:"
 
-#: ../programs/calc/gchemcalc.cc:686
+#: ../programs/calc/gchemcalc.cc:687
 msgid " [formula]"
 msgstr "[化學式]"
 
-#: ../programs/calc/gchemcalc.cc:702
+#: ../programs/calc/gchemcalc.cc:703
 msgid "For usage see: gchemcalc [-?|--help]"
 msgstr "使用上請見: gchemcalc [-?|--help]"
 
-#: ../programs/calc/gchemcalc.cc:748
+#: ../programs/calc/gchemcalc.cc:749
 msgid "Element"
 msgstr "元素"
 
-#: ../programs/calc/gchemcalc.cc:755
+#: ../programs/calc/gchemcalc.cc:756
 msgid "Mass %"
 msgstr "質量 %"
 
@@ -3513,7 +3513,7 @@ msgstr "未命名 %d"
 msgid "Gnome Chemistry Utils version: "
 msgstr "Gnome Chemistry Utils 版本:"
 
-#: ../programs/crystal/main.cc:71 ../programs/paint/main.cc:79
+#: ../programs/crystal/main.cc:69 ../programs/paint/main.cc:81
 msgid " [file...]"
 msgstr " [檔案...]"
 
@@ -3526,7 +3526,7 @@ msgstr "GChempaint 化學結構編輯軟體"
 msgid "Edit chemical 2D structures"
 msgstr "編輯 2D 化學結構"
 
-#: ../programs/paint/main.cc:42
+#: ../programs/paint/main.cc:43
 msgid "GChemPaint version: "
 msgstr "GChemPaint 版本:"
 
