@@ -1,3 +1,8 @@
+Version 0.12.13
+	GChemPaint:
+		* Fix View::BuildSVG() and View::BuildEPS() which were missing the
+		trailing 0.
+
 Version 0.12.12
 	GCrystal:
 		* Fix atoms loading.

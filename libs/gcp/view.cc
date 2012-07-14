@@ -794,6 +794,7 @@ char *View::BuildSVG ()
 	Render (cr);
 	cairo_destroy (cr);
 	m_pData->ShowSelection (true);
+	gsf_output_write (output, 1, reinterpret_cast < guint8 const * > (""));
 	char *m = g_strdup (reinterpret_cast <char const*> (gsf_output_memory_get_bytes (reinterpret_cast <GsfOutputMemory *> (output))));
 	g_object_unref (output);
 	return m;
@@ -813,6 +814,7 @@ char *View::BuildEPS ()
 	Render (cr);
 	cairo_destroy (cr);
 	m_pData->ShowSelection (true);
+	gsf_output_write (output, 1, reinterpret_cast < guint8 const * > (""));
 	char *m = g_strdup (reinterpret_cast <char const*> (gsf_output_memory_get_bytes (reinterpret_cast <GsfOutputMemory *> (output))));
 	g_object_unref (output);
 	return m;

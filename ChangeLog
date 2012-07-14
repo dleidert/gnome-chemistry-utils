@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2012-07-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/view.cc: fixed BuildSVG() and BuildEPS() which were missing
+	the trailing 0.
+
 2012-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add -Werror=format-security to CFLAGS.
 	* docs/reference/Makefile.am: add missing files.
