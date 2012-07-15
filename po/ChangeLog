@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-07-15  Julian Sikorski  <belegdol@gmail.com>
+	* pl.po: updated Polish translation.
+
 2012-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* *.po: updated string list after a string update.
 

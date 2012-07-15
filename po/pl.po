@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-13 16:04+0200\n"
-"PO-Revision-Date: 2012-06-03 12:34+0200\n"
+"PO-Revision-Date: 2012-07-15 21:24+0200\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -1554,9 +1554,8 @@ msgid "_Tools"
 msgstr "_Narzędzia"
 
 #: ../libs/gcp/window.cc:409 ../libs/gcugtk/chem3dwindow.cc:288
-#, fuzzy
 msgid "_Import molecule..."
-msgstr "Za_importuj cząsteczkę"
+msgstr "Za_importuj cząsteczkę..."
 
 #: ../libs/gcp/window.cc:410 ../libs/gcugtk/chem3dwindow.cc:289
 msgid "Import a molecule either from InChI or SMILES"
@@ -1895,9 +1894,8 @@ msgid "Error while processing "
 msgstr "Błąd podczas przetwarzania "
 
 #: ../libs/gcu/application.cc:554
-#, fuzzy
 msgid "Connection failed"
-msgstr "Tworzenie się nie powiodło!"
+msgstr "Próba połączenia nieudana"
 
 #: ../libs/gcu/chain.cc:301 ../plugins/paint/bonds/plugin.cc:67
 msgid "Chain"
@@ -1931,11 +1929,11 @@ msgstr "Niemiecki"
 
 #: ../libs/gcu/element.cc:104
 msgid "Spanisch"
-msgstr ""
+msgstr "Hiszpański"
 
 #: ../libs/gcu/element.cc:105
 msgid "Basque"
-msgstr ""
+msgstr "Baskijski"
 
 #: ../libs/gcu/element.cc:106
 msgid "French"
@@ -4958,7 +4956,6 @@ msgid "Select _all"
 msgstr "Z_aznacz wszystko"
 
 #: ../ui/crystal/atoms.ui.h:5
-#, fuzzy
 msgid "Select _element"
 msgstr "Wybierz _pierwiastek"
 
