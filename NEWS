@@ -1,3 +1,11 @@
+Version 0.13.92
+	GChemCalc
+		* Updated the documentation.
+	GChemPaint:
+		* Fix View::BuildSVG() and View::BuildEPS() which were missing the
+		trailing 0.
+		* Fix misleading error message while saving.
+
 Version 0.13.91
 	3d viewer:
 		* Show all menu items when a molecule is loaded from the command line.

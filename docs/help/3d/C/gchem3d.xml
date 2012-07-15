@@ -4,7 +4,7 @@
   <!ENTITY legal SYSTEM "legal.xml">
   <!ENTITY appversion "0.14.0">
   <!ENTITY manrevision "0.4">
-  <!ENTITY date "June 2012">
+  <!ENTITY date "July 2012">
   <!ENTITY app "GChem3d">
 ]>
 <!-- 
@@ -141,7 +141,7 @@
     		<term>Applications list</term>
     		<listitem>
     		<para>Choose 
-    		"Molecules Viewer". It might be listed either in the Education or
+    		<quote>Molecules Viewer</quote>. It might be listed either in the Education or
             Science category.</para>
     		</listitem>
     		</varlistentry>

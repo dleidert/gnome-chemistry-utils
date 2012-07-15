@@ -621,7 +621,9 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 	}
 	if (file_type < 0 || (!bSave && (file_type > CHEMISTRY))) {
 		char *unescaped = g_uri_unescape_string (filename, NULL);
-		char *mess = g_strdup_printf (_("Sorry, format %s not supported!\nFailed to load %s."), mime_type, unescaped);
+		char *mess = bSave?
+					 g_strdup_printf (_("Sorry, format %s not supported!\nFailed to save %s."), mime_type, unescaped):
+					 g_strdup_printf (_("Sorry, format %s not supported!\nFailed to load %s."), mime_type, unescaped);
 		g_free (unescaped);
 		GetCmdContext ()->Message (mess, CmdContext::SeverityError, true);
 		g_free (mess);
