@@ -85,6 +85,7 @@
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
+		</revision>
    		<revision> 
 		  <revnumber>&app; Manual V0.2</revnumber>
 		  <date>September 2008</date> 

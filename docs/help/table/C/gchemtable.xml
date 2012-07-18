@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.12.0">
-  <!ENTITY manrevision "0.12.0">
-  <!ENTITY date "April 2010">
+  <!ENTITY appversion "0.14.0">
+  <!ENTITY manrevision "0.14.0">
+  <!ENTITY date "July 2012">
   <!ENTITY app "GChemTable">
 ]>
 <!-- 
@@ -78,6 +78,15 @@
 		  </revdescription>
 		</revision>
   		<revision> 
+		  <revnumber>&app; Manual V0.12.0</revnumber>
+		  <date>April 2010</date> 
+		  <revdescription> 
+			 <para role="author">Jean Br&#233;fort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+  		<revision> 
 		  <revnumber>&app; Manual V0.10.0</revnumber>
 		  <date>October 2008</date> 
 		  <revdescription> 
@@ -129,13 +138,11 @@
 		<para>You can start <application>&app;</application> in the following ways:</para>
 		<variablelist>
     		<varlistentry>
-    		<term><guimenu>Applications</guimenu> menu</term>
+    		<term>Applications list</term>
     		<listitem>
     		<para>Choose 
-    		<menuchoice>
-    		<guisubmenu>Education</guisubmenu>
-    		<guimenuitem>Periodic table of the elements</guimenuitem>
-    		</menuchoice>. </para>
+    		<quote>Periodic table of the elements</quote>. It might be listed either in the Education or
+            Science category.</para>
     		</listitem>
     		</varlistentry>
     		<varlistentry>
@@ -181,6 +188,20 @@
 			 </listitem>
 		  </varlistentry>
 		</variablelist>
+		<para>When the mouse is moved over an element button, a popup window appears
+		with some data about the element:</para>
+ 			<figure id="gchemtable-tip"> 
+			  <title>&app; window with an element tip.</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the <application>&app;</application>window with an application tip.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/tip.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
 	</sect1>
 </chapter>
 
@@ -402,7 +423,7 @@
 			</screenshot>
 		</figure>
 		<para>Some charts can also be displayed by selecting one of the items in
-		<guimenu>Edit</guimenu><guimenu>Element charts</guimenu>, except
+		<guimenu><guimenuitem>Edit</guimenuitem><guimenuitem>Element charts</guimenuitem></guimenu>, except
 		<guimenuitem>Custom</guimenuitem> which creates a
 		<link linkend="gchemtable-user-curve">custom chart</link>.</para>
 		<para>Consecutive points are joined by a segment. The absence of a segment
