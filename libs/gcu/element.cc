@@ -101,6 +101,7 @@ void EltTable::Init ()
 	unsigned char Z;
 	map <string, string> Langs;
 	Langs["de"] = _("German");
+	Langs["el"] = _("Greek");
 	Langs["es"] = _("Spanisch");
 	Langs["eu"] = _("Basque");
 	Langs["fr"] = _("French");

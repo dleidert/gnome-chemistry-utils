@@ -151,26 +151,8 @@ PKG_CHECK_MODULES(x11, [x11 >= 1.0.0])
 dnl Not sure we need to test for glx.h
 AC_CHECK_HEADER(GL/glx.h,,[AC_MSG_ERROR([Error, GL/glx.h not found.])])
 
-dnl The following 4 lines were borrowed from gnumeric
-dnl The following conditional is set in AM_GCONF_SOURCE_2.
-dnl Because we may skip its execution, we have to set a default here.
-m4_pattern_allow([^AM_GCONF_SOURCE_2$])
-AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
-
 dnl GSettings related stuff
 GLIB_GSETTINGS
-
-use_gconf="no"
-if test ! -z "`echo $goffice_CFLAGS|grep gconf`"; then
-AC_PATH_PROG([GCONFTOOL], [gconftool-2], [no])
-if test "x$GCONFTOOL" = "xno"; then
-	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
-else
-	use_gconf="yes"
-fi
-AM_GCONF_SOURCE_2
-fi
-AM_CONDITIONAL([USE_GCONF], [test "x$use_gconf" = "xyes"] )
 
 dnl retrieve BODR data directory
 bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`

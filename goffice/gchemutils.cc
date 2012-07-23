@@ -25,6 +25,7 @@
 #include "gogcpapp.h"
 #include "gogcrystalapp.h"
 #include "gogchem3dapp.h"
+#include <gcu/element.h>
 #include <gcu/glview.h>
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/app/module-plugin-defs.h>
@@ -380,6 +381,7 @@ go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 	go_components_set_mime_suffix ("chemical/x-xyz", "*.xyz");
 	go_components_set_mime_suffix ("application/x-gchempaint", "*.gchempaint");
 	go_components_set_mime_suffix ("application/x-gcrystal", "*.gcrystal");
+	gcu::Element::Init ();
 	Apps["2d"] = Apps["application/x-gchempaint"] = new GOGcpApplication ();
 	Apps["crystal"] = Apps["chemical/x-cif"] = Apps["application/x-gcrystal"] = new GOGCrystalApplication ();
 	Apps["3d"] = Apps["chemical/x-xyz"] = new GOGChem3dApplication ();

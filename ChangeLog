@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2012-07-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: remove old gconf related code.
+	* gnumeric/functions.cc: call gcu::Element::Init().
+	* goffice/gchemutils.cc: ditto.
+	* libs/gcu/element.cc: add Greek language.
+	* mozilla-plugin/chem-viewer.cc: call gcu::Element::Init().
+
 2012-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/C/table/C/gchemtable.xml: updated user doc for 0.14.
 
