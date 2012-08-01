@@ -101,7 +101,7 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 	              "margin-right", 6,
 	              NULL);
 	GtkGrid *grid = GTK_GRID (m_OptionBox);
-	if (gtk_check_version (3, 2, 0)) {
+	if (!gtk_check_version (3, 2, 0)) {
 		gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
 		gtk_grid_set_row_spacing (grid, 6);
 	} else {

@@ -135,6 +135,10 @@ Relative abundance.
 */
 	GCU_SPECTRUM_UNIT_REL_ABUNDANCE,
 /*!
+M/Z (for mass spectra).
+*/
+	GCU_SPECTRUM_UNIT_RESPONSE_FACTOR,
+/*!
 Last known value. This value does not represent a valid unit, but is
 equal to the number of supported units.
 */

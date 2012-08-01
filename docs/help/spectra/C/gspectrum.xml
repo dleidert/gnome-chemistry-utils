@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.12.0">
-  <!ENTITY manrevision "0.2">
-  <!ENTITY date "April 2010">
+  <!ENTITY appversion "0.14.0">
+  <!ENTITY manrevision "0.3">
+  <!ENTITY date "August 2012">
   <!ENTITY app "GSpectrum">
 ]>
 <!-- 
@@ -22,7 +22,7 @@
   <bookinfo> 
 	 <title>&app; Manual V&manrevision;</title>
 	 <copyright> 
-       <year>2008-2010</year>
+       <year>2008-2012</year>
        <holder>Jean Br&#233;fort</holder>
      </copyright>
 
@@ -78,6 +78,15 @@
 		  </revdescription>
 		</revision>
    		<revision> 
+		  <revnumber>&app; Manual V0.2</revnumber>
+		  <date>April 2010</date> 
+		  <revdescription> 
+			 <para role="author">Jean Br&#233;fort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+   		<revision> 
 		  <revnumber>&app; Manual V0.1</revnumber>
 		  <date>October 2008</date> 
 		  <revdescription> 
@@ -108,7 +117,8 @@
  <preface id="gspectrum-intro">
     <title>Introduction</title>
 	<para>The <application>&app;</application> application is a spectrum viewer. It can
-	load a variety of files in the JCAMP-DX format.</para>
+	load a variety of files in the JCAMP-DX format. It can also load NMR data from
+	the NUTS format.</para>
 	<para>Supported spectra include UV-visible, IR, Raman, NMR (both spectra and FIDs),
 	and Mass.</para>
  </preface>
@@ -121,13 +131,11 @@
 		<para>You can start <application>&app;</application> in the following ways:</para>
 		<variablelist>
     		<varlistentry>
-    		<term><guimenu>Applications</guimenu> menu</term>
+    		<term>Applications list</term>
     		<listitem>
     		<para>Choose 
-    		<menuchoice>
-    		<guisubmenu>Education</guisubmenu>
-    		<guimenuitem>Spectrum viewer</guimenuitem>
-    		</menuchoice>. </para>
+    		<quote>Spectrum viewer</quote>. It might be listed either in the Education or
+            Science category.</para>
     		</listitem>
     		</varlistentry>
     		<varlistentry>
@@ -258,15 +266,27 @@
 				</screenshot>
 			</figure>
 			<para>The abscissa units available for NMR spectra are ppm and Hz.
-			The intergation curve can also been displayed or hidden:</para>
+			The integration curve can also been displayed or hidden:</para>
 			<figure id="gspectrum-nmr-toolbar"> 
 			  <title>toolbar for NMR spectra</title>
 			  <screenshot> 
 					<mediaobject>
 						<imageobject>
-							<objectinfo> <abstract><para>Screenshot of the GSpectrum toolbar for nmr spectra.</para></abstract>
+							<objectinfo> <abstract><para>Screenshot of the GSpectrum toolbar for NMR spectra.</para></abstract>
 							</objectinfo> 
 							<imagedata fileref="figures/nmr-tools.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+			<para>An NMR FID can be transformed to the spectrum unless some parameters are missing in the source file:</para>
+			  <title>toolbar for NMR FID</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the GSpectrum toolbar for NMR FID.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/fid-tools.png"/>
 						</imageobject>
 					</mediaobject>
 				</screenshot>

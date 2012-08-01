@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2012-08-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/spectra/C/gspectrum.xml: updated user doc for 0.14.
+	* libs/gcugtk/spectrumdoc.cc: add "response factor" as unit, widgets
+	spacing,and support non UTF-8 titles.
+	* libs/gcugtk/spectrumdoc.h: ditto.
+	* libs/gcugtk/spectrumview.cc: fix widgets spacing.
+
 2012-07-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: remove old gconf related code.
 	* gnumeric/functions.cc: call gcu::Element::Init().

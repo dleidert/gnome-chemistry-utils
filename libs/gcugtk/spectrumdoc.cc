@@ -231,7 +231,12 @@ char const *Units[] = {
 	"SECONDS",
 	"HZ",
 	"M/Z",
-	"RELATIVE ABUNDANCE"
+	"RELATIVE ABUNDANCE",
+	"RF"
+};
+
+static struct {char const *name; SpectrumUnitType unit;} OtherUnits[] = {
+	{"NM", GCU_SPECTRUM_UNIT_NANOMETERS}
 };
 
 char const *UnitNames[] = {
@@ -244,7 +249,8 @@ char const *UnitNames[] = {
 	N_("Time (s)"),
 	N_("Frequency (Hz)"),
 	N_("Mass/charge ratio"),
-	N_("Relative abundance")
+	N_("Relative abundance"),
+	N_("Response factor")
 };
 
 char const *VarTypes[] = {
@@ -655,13 +661,20 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 	var.Format = GCU_SPECTRUM_FORMAT_MAX;
 	var.First = var.Last = var.Min = var.Max = var.Factor = 0.;
 	var.Values = NULL;
+	GString *utf8_str = NULL;
 	while (!s.eof ()) {
 		s.getline (line, 300);
 parse_line:
 		n = ReadField (line, key, buf);
 		switch (n) {
 		case JCAMP_TITLE:
-			SetTitle (buf);
+			go_guess_encoding (buf, strlen (buf), "ASCII", &utf8_str, NULL);
+			if (utf8_str) {
+				SetTitle (utf8_str->str);
+				g_string_free (utf8_str, TRUE);
+				utf8_str = NULL;
+			} else
+				SetTitle (buf);
 			break;
 		case JCAMP_JCAMP_DX:
 			break;
@@ -751,9 +764,23 @@ parse_line:
 			break;
 		case JCAMP_XUNITS:
 			m_XUnit = (SpectrumUnitType) get_spectrum_data_from_string (buf, Units, GCU_SPECTRUM_UNIT_MAX);
+			if (m_XUnit == GCU_SPECTRUM_UNIT_MAX) {
+				for (unsigned i = 0; i < G_N_ELEMENTS (OtherUnits); i++)
+					if (!strcmp (buf, OtherUnits[i].name)) {
+						m_XUnit = OtherUnits[i].unit;
+						break;
+					}
+			}
 			break;
 		case JCAMP_YUNITS:
 			m_YUnit = (SpectrumUnitType) get_spectrum_data_from_string (buf, Units, GCU_SPECTRUM_UNIT_MAX);
+			if (m_YUnit == GCU_SPECTRUM_UNIT_MAX) {
+				for (unsigned i = 0; i < G_N_ELEMENTS (OtherUnits); i++)
+					if (!strcmp (buf, OtherUnits[i].name)) {
+						m_YUnit = OtherUnits[i].unit;
+						break;
+					}
+			}
 			if (m_YUnit == GCU_SPECTRUM_UNIT_TRANSMITTANCE)
 				m_View->SetAxisBounds (GOG_AXIS_Y, 0., 1., false);
 			break;
@@ -1509,6 +1536,14 @@ void SpectrumDocument::ReadDataTable (istream &s, double *x, double *y)
 		}
 		l.clear ();
 	}
+	if (!go_finite (minx))
+		go_range_min (x, read, &minx);
+	if (!go_finite (maxx))
+		go_range_max (x, read, &maxx);
+	if (!go_finite (miny))
+		go_range_min (y, read, &miny);
+	if (!go_finite (maxy))
+		go_range_max (y, read, &maxy);
 	while (npoints > read) {
 		// this should never occur, fill missing y values with nan
 		x[read] = minx + deltax * read;
@@ -2190,7 +2225,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	m_View->DestroyExtraWidget ();
 	// now add the widgets appropriate for an NMR spectrum
 	GtkWidget *grid = gtk_grid_new (), *w;
-	if (gtk_check_version (3, 2, 0))
+	if (!gtk_check_version (3, 2, 0))
 		gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
 	else
 		gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
@@ -2290,7 +2325,7 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 		}
 		// add some widgets to the option box
 		GtkWidget *grid = gtk_grid_new (), *w;
-		if (gtk_check_version (3, 2, 0))
+		if (!gtk_check_version (3, 2, 0))
 			gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
 		else
 			gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
@@ -2326,7 +2361,7 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 		}
 		if (R >= 0 && I >= 0) {
 			GtkWidget *grid = gtk_grid_new ();
-			if (gtk_check_version (3, 2, 0))
+			if (!gtk_check_version (3, 2, 0))
 				gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
 			else
 				gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
@@ -2355,7 +2390,7 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 				unit = GCU_SPECTRUM_UNIT_NANOMETERS;
 			// add some widgets to the option box
 			GtkWidget *grid = gtk_grid_new (), *w;
-			if (gtk_check_version (3, 2, 0))
+			if (!gtk_check_version (3, 2, 0))
 				gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
 			else
 				gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
@@ -2380,17 +2415,19 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			m_XAxisInvertBtn = gtk_check_button_new_with_label (_("Invert X Axis"));
 			m_XAxisInvertSgn = g_signal_connect (m_XAxisInvertBtn, "toggled", G_CALLBACK (on_xaxis_invert), this);
 			gtk_container_add (GTK_CONTAINER (grid), m_XAxisInvertBtn);
-			w = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-			gtk_container_add (GTK_CONTAINER (grid), w);
-			w = gtk_label_new (_("Y unit:"));
-			gtk_container_add (GTK_CONTAINER (grid), w);
-			w = gtk_combo_box_text_new ();
-			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Absorbance"));
-			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Transmittance"));
 			unit = (Y >= 0)? variables[Y].Unit: m_YUnit;
-			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_ABSORBANCE)? 0: 1));
-			g_signal_connect (w, "changed", G_CALLBACK (on_yunit_changed), this);
-			gtk_container_add (GTK_CONTAINER (grid), w);
+			if (unit == GCU_SPECTRUM_UNIT_ABSORBANCE || unit == GCU_SPECTRUM_UNIT_TRANSMITTANCE) {
+				w = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+				gtk_container_add (GTK_CONTAINER (grid), w);
+				w = gtk_label_new (_("Y unit:"));
+				gtk_container_add (GTK_CONTAINER (grid), w);
+				w = gtk_combo_box_text_new ();
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Absorbance"));
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Transmittance"));
+				gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_ABSORBANCE)? 0: 1));
+				g_signal_connect (w, "changed", G_CALLBACK (on_yunit_changed), this);
+				gtk_container_add (GTK_CONTAINER (grid), w);
+			}
 			gtk_widget_show_all (grid);
 			m_View->AddToOptionBox (grid);
 		}
