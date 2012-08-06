@@ -2,6 +2,7 @@ Version 0.12.13
 	GChemPaint:
 		* Fix View::BuildSVG() and View::BuildEPS() which were missing the
 		trailing 0.
+		* Fix loading of arrows inside a group. [#27032]
 
 Version 0.12.12
 	GCrystal:
