@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2012-08-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mesomery-arrow.cc: do not save inside a dummy object.
+	* libs/gcp/reaction-arrow.cc: ditto.
+	* libs/gcu/object.cc: fix loading. [#37032]
+	* libs/gcugtk/cmd-context-gtk.cc: fix crasher.
+	* plugins/paint/arrows/retrosynthesisarrow.cc: do not save inside a dummy
+	object.
+
 2012-08-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/spectra/C/gspectrum.xml: updated user doc for 0.14.
 	* libs/gcugtk/spectrumdoc.cc: add "response factor" as unit, widgets

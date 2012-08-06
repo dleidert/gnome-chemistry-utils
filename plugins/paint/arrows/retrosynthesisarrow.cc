@@ -60,7 +60,7 @@ gcpRetrosynthesisArrow::~gcpRetrosynthesisArrow ()
 
 xmlNodePtr gcpRetrosynthesisArrow::Save (xmlDocPtr xml) const
 {
-	xmlNodePtr parent, node;
+	xmlNodePtr node;
 	node = xmlNewDocNode (xml, NULL, (xmlChar*) "retrosynthesis-arrow", NULL);
 	if (!node) return NULL;
 	if (!gcp::Arrow::Save (xml, node)) {
@@ -71,19 +71,7 @@ xmlNodePtr gcpRetrosynthesisArrow::Save (xmlDocPtr xml) const
 		xmlNewProp (node, (xmlChar*) "start",  (xmlChar*) m_Start->GetId ());
 	if (m_End)
 		xmlNewProp (node, (xmlChar*) "end",  (xmlChar*) m_End->GetId ());
-	gcpRetrosynthesis* r = (gcpRetrosynthesis*) GetParentOfType (RetrosynthesisType);
-	if (!r) {
-		//save the arrow as an object
-		parent = xmlNewDocNode (xml, NULL, (xmlChar*)"object", NULL);
-		if (node && parent)
-			xmlAddChild (parent, node);
-		else {
-			xmlFreeNode (node);
-			return NULL;
-		}
-	}
-	else parent = node;
-	return parent;
+	return node;
 }
 
 bool gcpRetrosynthesisArrow::Load (xmlNodePtr node)

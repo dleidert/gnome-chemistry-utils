@@ -63,7 +63,7 @@ ReactionArrow::~ReactionArrow ()
 
 xmlNodePtr ReactionArrow::Save (xmlDocPtr xml) const
 {
-	xmlNodePtr parent, node;
+	xmlNodePtr node;
 	node = xmlNewDocNode (xml, NULL, (xmlChar*) "reaction-arrow", NULL);
 	if (!node)
 		return NULL;
@@ -78,21 +78,8 @@ xmlNodePtr ReactionArrow::Save (xmlDocPtr xml) const
 		xmlNewProp (node, (xmlChar*) "start",  (xmlChar*) GetStartStep ()->GetId ());
 	if (GetEndStep ())
 		xmlNewProp (node, (xmlChar*) "end",  (xmlChar*) GetEndStep ()->GetId ());
-	Reaction* r = (Reaction*) GetReaction();
-	if (!r) {
-		//save the arrow as an object (this is NOT safe)
-		parent = xmlNewDocNode (xml, NULL, (xmlChar*) "object", NULL);
-		if (node && parent)
-			xmlAddChild (parent, node);
-		else {
-			xmlFreeNode(node);
-			return NULL;
-		}
-	}
-	else
-		parent = node;
 	SaveChildren (xml, node);
-	return parent;
+	return node;
 }
 
 bool ReactionArrow::Load (xmlNodePtr node)

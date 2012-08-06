@@ -5,6 +5,7 @@ Version 0.13.92
 		* Fix View::BuildSVG() and View::BuildEPS() which were missing the
 		trailing 0.
 		* Fix misleading error message while saving.
+		* Fix loading of arrows inside a group. [#27032]
 
 Version 0.13.91
 	3d viewer:

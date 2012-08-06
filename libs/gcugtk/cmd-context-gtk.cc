@@ -63,7 +63,6 @@ gcu::CmdContext::Response CmdContextGtk::GetResponse (char const *message, int r
 		buttons |= GTK_BUTTONS_CLOSE;
 	gcugtk::Message *Box = new gcugtk::Message (static_cast < Application * > (m_App), message, GTK_MESSAGE_QUESTION, static_cast < GtkButtonsType > (buttons), static_cast < Application * > (m_App)->GetWindow (), true);
 	buttons = Box->Run ();
-	delete Box;
 	switch (buttons) {
 	case GTK_RESPONSE_OK:
 		return ResponseOK;

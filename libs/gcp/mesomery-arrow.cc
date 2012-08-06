@@ -59,7 +59,7 @@ MesomeryArrow::~MesomeryArrow ()
 
 xmlNodePtr MesomeryArrow::Save (xmlDocPtr xml) const
 {
-	xmlNodePtr parent, node;
+	xmlNodePtr node;
 	node = xmlNewDocNode (xml, NULL, (xmlChar*) "mesomery-arrow", NULL);
 	if (!node)
 		return NULL;
@@ -71,20 +71,7 @@ xmlNodePtr MesomeryArrow::Save (xmlDocPtr xml) const
 		xmlNewProp (node, (xmlChar*) "start",  (xmlChar*) m_Start->GetId ());
 	if (m_End)
 		xmlNewProp (node, (xmlChar*) "end",  (xmlChar*) m_End->GetId ());
-	Mesomery* m = (Mesomery*) GetParentOfType (MesomeryType);
-	if (!m)
-	{
-		//save the arrow as an object
-		parent = xmlNewDocNode (xml, NULL, (xmlChar*) "object", NULL);
-		if (node && parent)
-			xmlAddChild (parent, node);
-		else {
-			xmlFreeNode (node);
-			return NULL;
-			}
-	}
-	else parent = node;
-	return parent;
+	return node;
 }
 
 bool MesomeryArrow::Load (xmlNodePtr node)

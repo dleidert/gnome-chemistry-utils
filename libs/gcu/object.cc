@@ -327,8 +327,21 @@ bool Object::Load (xmlNodePtr node)
 		node = (strcmp ((const char*) child->name, "object"))? child: child->children;
 		pObject = CreateObject ((const char*) node->name, this);
 		if (pObject) {
-			if (!pObject->Load (node))
+			if (!pObject->Load (node)) {
 				delete pObject;
+				if (node != child) {
+					for (node = node->next; node; node = node->next) {
+						pObject = CreateObject ((const char*) node->name, this);
+						if (pObject) {
+							if (!pObject->Load (node))
+								delete pObject;
+						} else {
+							m_Locked--;
+							return false;
+						}
+					}
+				}
+			}
 		} else {
 			m_Locked--;
 			return false;
