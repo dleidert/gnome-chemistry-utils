@@ -1,5 +1,7 @@
-
 ##Text encoding: utf-8
+
+2012-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+	* *.po: updated string list after a string update.
 
 2012-07-23  Dimitris Spingos <dmtrs32@gmail.com>
 	* el.po: updated Greek translation.

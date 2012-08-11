@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.12.0">
-  <!ENTITY manrevision "0.12.0">
-  <!ENTITY date "April 2010">
+  <!ENTITY appversion "0.14.0">
+  <!ENTITY manrevision "0.14.0">
+  <!ENTITY date "August 2012">
   <!ENTITY app "Gnome Crystal">
 ]>
 <!-- 
@@ -22,7 +22,7 @@
   <bookinfo> 
 	 <title>&app; Manual V&manrevision;</title>
 	 <copyright> 
-       <year>2006-2010</year>
+       <year>2006-2012</year>
        <holder>Jean Br&#233;fort</holder>
      </copyright>
 
@@ -78,6 +78,15 @@
 		  </revdescription>
 		</revision>
   		<revision> 
+		  <revnumber>&app; Manual V0.12.0</revnumber>
+		  <date>April 2010</date> 
+		  <revdescription> 
+			 <para role="author">Jean Br&#233;fort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+  		<revision> 
 		  <revnumber>&app; Manual V0.10.0</revnumber>
 		  <date>September 2008</date> 
 		  <revdescription> 
@@ -120,7 +129,7 @@
 		<title>Feedback</title>
 		<para>To report a bug or make a suggestion regarding the <application>&app;</application> application or
 		this manual, go to the
-		<ulink url="http://savannah.nongnu.org/projects/gchempaint" type="html"><application>&app;</application> home page</ulink>. 
+		<ulink url="http://savannah.nongnu.org/projects/gchemutils" type="html"><application>&app;</application> home page</ulink>. 
       </para>
 <!-- Translators may also add here feedback address for translations -->
 	 </legalnotice>
@@ -153,13 +162,11 @@
 		<para>You can start <application>&app;</application> in the following ways:</para>
 		<variablelist>
     		<varlistentry>
-    		<term><guimenu>Applications</guimenu> menu</term>
+    		<term>Applications list</term>
     		<listitem>
     		<para>Choose 
-    		<menuchoice>
-    		<guisubmenu>Education</guisubmenu>
-    		<guimenuitem>Gnome Crystal Crystalline Structures Viewer</guimenuitem>
-    		</menuchoice>. </para>
+    		<quote>Gnome Crystal Crystalline Structures Viewer</quote>.
+			It might be listed either in the Education or Science category.</para>
     		</listitem>
     		</varlistentry>
     		<varlistentry>
@@ -298,8 +305,7 @@
 		<title>To Print the Current View</title>
 			<para>To print the contents of the current view, use <menuchoice> <guimenu>File</guimenu> <guimenuitem>Print</guimenuitem> </menuchoice>.</para>
 			<para><application>&app;</application> uses OpenGL to print the image. The color depth will be for this reason the one used
-			by the X server. As the printer resolution is much larger than the screen resolution and the buffer used has the same size as the view, the
-			scene is splitted in as many parts as necessary to build the whole image sent to the printer. The resolution used for printing can be
+			by the X server. The resolution used for printing can be
 			changed in the Settings Dialog choose <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Preferences</guimenuitem>
 			 </menuchoice>. The Preferences dialog box opens (see <xref linkend="gcrystal-prefs"/>). Printing can be a lengthy operation
 			even with a 300 dpi resolution; higher resolutions might be unpracticable.</para>
@@ -483,11 +489,6 @@
 		A scaling factor can be applied to the radius so that the diplayed atom might appear
 		smaller. Acceptable scaling factors are from 1% to 100%.
 	   </para>
-	   <para>
-		Changes to the radius can apply to only the currently selected atom, all atoms of the current element
-		or all atoms, at least when an appropriate radius can be found according to the selected
-		item in the list.
-	   </para>
 	  </listitem>
 	 </varlistentry>
 	 <varlistentry>
@@ -500,6 +501,10 @@
 	  </listitem>
 	 </varlistentry>
 	</variablelist>
+	<para>
+	  Changes to the element, the color or the radius are applied to every
+	  selected atoms in the list.
+	</para>
 	<para>The number of visible atoms depends on the model size (see <xref linkend="gcrystal-size"/>) and on cleavages
 	(see <xref linkend="gcrystal-cleavages"/>).</para>
 	<para>
@@ -514,12 +519,22 @@
 	 </listitem>
 	 <listitem>
 	  <para>
-	   Button <guibutton>Delete</guibutton> deletes the selected atom from the list.
+	   Button <guibutton>Delete</guibutton> deletes the selected atoms from the list.
 	  </para>
 	 </listitem>
 	 <listitem>
 	  <para>
 	   Button <guibutton>Delete all</guibutton> removes every atom from the list.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Select all</guibutton> selects all atoms.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Select element</guibutton> selects all atoms of the current element.
 	  </para>
 	 </listitem>
 	</itemizedlist>
@@ -591,6 +606,10 @@
 	  </listitem>
 	 </varlistentry>
 	</variablelist>
+	<para>
+	  Changes to the color or the radius are applied to every
+	  selected line in the list.
+	</para>
 	<para>In the screenshot above (got from the diamond sample provided
 	with the sources), cell edges defined with grey color, a 10 pm radius, and some
 	bonds with the same radius, are added and will
@@ -611,12 +630,17 @@
 	 </listitem>
 	 <listitem>
 	  <para>
-	   Button <guibutton>Delete</guibutton> deletes the selected item from the list.
+	   Button <guibutton>Delete</guibutton> deletes the selected items from the list.
 	  </para>
 	 </listitem>
 	 <listitem>
 	  <para>
 	   Button <guibutton>Delete all</guibutton> removes every item from the list.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Select all</guibutton> selects all items.
 	  </para>
 	 </listitem>
 	</itemizedlist>

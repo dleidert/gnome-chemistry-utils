@@ -65,6 +65,7 @@ public:
 	static void ValueChanged (AtomsDlg *pBox, unsigned row, unsigned column);
 	static void RowSelected (AtomsDlg *pBox, int row);
 	static void ElementChanged (AtomsDlg *pBox, unsigned Z);
+	static void SetElement (unsigned i, AtomsDlg *pBox);
 	static void ColorSet (GtkColorButton *btn, AtomsDlg *pBox);
 	static void SetColor (unsigned i, AtomsDlg *pBox);
 	static void ColorToggled (GtkToggleButton *btn, AtomsDlg *pBox);
@@ -207,9 +208,16 @@ void AtomsDlgPrivate::RowSelected (AtomsDlg *pBox, int row)
 	}
 }
 
+void AtomsDlgPrivate::SetElement (unsigned i, AtomsDlg *pBox)
+{
+	pBox->m_Atoms[i]->SetZ (pBox->m_nElt);
+	gcr_grid_set_string (pBox->m_Grid, i, 0, pBox->m_nElt > 0? Element::GetElement (pBox->m_nElt)->GetSymbol (): _("Unknown"));
+	pBox->m_Atoms[i]->SetRadius (pBox->m_Radius);
+	pBox->m_Atoms[i]->SetColor (pBox->m_RGBA.red, pBox->m_RGBA.green, pBox->m_RGBA.blue, pBox->m_RGBA.alpha);
+}
+
 void AtomsDlgPrivate::ElementChanged (AtomsDlg *pBox, unsigned Z)
 {
-	GdkRGBA color;
 	if ((pBox->m_nElt = Z)) {
 		pBox->m_Radii = Element::GetElement (Z)->GetRadii ();
 		if ((pBox->m_RadiusType == GCU_IONIC) && (pBox->m_Charge == 0)) {
@@ -219,21 +227,17 @@ void AtomsDlgPrivate::ElementChanged (AtomsDlg *pBox, unsigned Z)
 			pBox->PopulateRadiiMenu ();
 		gtk_toggle_button_set_active (pBox->CustomColor, false);
 		double *Colors = Element::GetElement (Z)->GetDefaultColor ();
-		color.red = Colors[0];
-		color.green = Colors[1];
-		color.blue = Colors[2];
-		color.alpha = 1.;
-		gtk_color_button_set_rgba (pBox->AtomColor, &color);
+		pBox->m_RGBA.red = Colors[0];
+		pBox->m_RGBA.green = Colors[1];
+		pBox->m_RGBA.blue = Colors[2];
+		pBox->m_RGBA.alpha = 1.;
+		gtk_color_button_set_rgba (pBox->AtomColor, &pBox->m_RGBA);
 	} else {
 		pBox->m_Radii = NULL;
 		gtk_toggle_button_set_active (pBox->CustomColor, true);
-		gtk_color_button_get_rgba (pBox->AtomColor, &color);
 	}
 	if (pBox->m_AtomSelected >= 0) {
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetZ (Z);
-		gcr_grid_set_string (pBox->m_Grid, pBox->m_AtomSelected, 0, Z > 0? Element::GetElement (Z)->GetSymbol (): _("Unknown"));
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetRadius (pBox->m_Radius);
-		pBox->m_Atoms[pBox->m_AtomSelected]->SetColor (color.red, color.green, color.blue, color.alpha);
+		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetElement), pBox);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
 	}
@@ -241,7 +245,7 @@ void AtomsDlgPrivate::ElementChanged (AtomsDlg *pBox, unsigned Z)
 
 void AtomsDlgPrivate::SetColor (unsigned i, AtomsDlg *pBox)
 {
-		pBox->m_Atoms[i]->SetColor (pBox->m_RGBA.red, pBox->m_RGBA.green, pBox->m_RGBA.blue, pBox->m_RGBA.alpha);
+	pBox->m_Atoms[i]->SetColor (pBox->m_RGBA.red, pBox->m_RGBA.green, pBox->m_RGBA.blue, pBox->m_RGBA.alpha);
 }
 
 void AtomsDlgPrivate::ColorSet (GtkColorButton *btn, AtomsDlg *pBox)

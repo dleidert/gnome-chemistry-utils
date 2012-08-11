@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.12.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-13 16:04+0200\n"
+"POT-Creation-Date: 2012-08-11 14:26+0200\n"
 "PO-Revision-Date: 2002-02-25 15:53-0600\n"
 "Last-Translator: Ibon Santisteban <obibon@gmx.com>\n"
 "Language-Team: \n"
@@ -670,48 +670,48 @@ msgstr "[archivo]"
 msgid "3D chemical structures"
 msgstr "Estructura química 2D"
 
-#: ../goffice/gchemutils.cc:346
+#: ../goffice/gchemutils.cc:347
 #, fuzzy
 msgid "Content type"
 msgstr "_Contenidos"
 
-#: ../goffice/gchemutils.cc:347
+#: ../goffice/gchemutils.cc:348
 msgid "Whether the model should be represented in 2d, 3d, or as a crystal cell"
 msgstr ""
 
-#: ../goffice/gchemutils.cc:350
+#: ../goffice/gchemutils.cc:351
 msgid "Psi"
 msgstr ""
 
-#: ../goffice/gchemutils.cc:351
+#: ../goffice/gchemutils.cc:352
 #, fuzzy
 msgid "Value of Euler's Ψ angle"
 msgstr "Ángulos de Euler"
 
-#: ../goffice/gchemutils.cc:354
+#: ../goffice/gchemutils.cc:355
 msgid "Theta"
 msgstr ""
 
-#: ../goffice/gchemutils.cc:355
+#: ../goffice/gchemutils.cc:356
 #, fuzzy
 msgid "Value of Euler's Θ angle"
 msgstr "Ángulos de Euler"
 
-#: ../goffice/gchemutils.cc:358
+#: ../goffice/gchemutils.cc:359
 msgid "Phi"
 msgstr ""
 
-#: ../goffice/gchemutils.cc:359
+#: ../goffice/gchemutils.cc:360
 #, fuzzy
 msgid "Value of Euler's Φ angle"
 msgstr "Ángulos de Euler"
 
-#: ../goffice/gchemutils.cc:362
+#: ../goffice/gchemutils.cc:363
 #, fuzzy
 msgid "Display mode"
 msgstr "Mostrar símbolo"
 
-#: ../goffice/gchemutils.cc:363
+#: ../goffice/gchemutils.cc:364
 msgid ""
 "The display mode for the molecule: \"ball&stick\", \"spacefill\", \"cylinders"
 "\", or \"wireframe\""
@@ -757,7 +757,7 @@ msgstr "GChemPaint es un editor de estructuras químicas 2D para Gnome"
 msgid "Copyright © 2001-2010 by Jean Bréfort"
 msgstr "Copyright © 2001-2010 por Jean Bréfort"
 
-#: ../libs/gcp/arrow.cc:221 ../libs/gcp/reaction-arrow.cc:268
+#: ../libs/gcp/arrow.cc:221 ../libs/gcp/reaction-arrow.cc:255
 msgid "Arrow"
 msgstr "Flecha"
 
@@ -778,7 +778,16 @@ msgstr ""
 "Introduzca un nombre de archivo,\n"
 "no un directorio"
 
-#: ../libs/gcp/application.cc:624
+#: ../libs/gcp/application.cc:625
+#, fuzzy, c-format
+msgid ""
+"Sorry, format %s not supported!\n"
+"Failed to save %s."
+msgstr ""
+"¡No hay soporte para el formato %s!\n"
+"Error al cargar %s."
+
+#: ../libs/gcp/application.cc:626
 #, c-format
 msgid ""
 "Sorry, format %s not supported!\n"
@@ -787,7 +796,7 @@ msgstr ""
 "¡No hay soporte para el formato %s!\n"
 "Error al cargar %s."
 
-#: ../libs/gcp/application.cc:652 ../libs/gcr/application.cc:233
+#: ../libs/gcp/application.cc:654 ../libs/gcr/application.cc:233
 #: ../libs/gcugtk/chem3dapplication.cc:174 ../libs/gcugtk/stringdlg.cc:131
 #: ../programs/calc/gchemcalc.cc:212 ../programs/spectra/application.cc:95
 #: ../programs/table/gchemtable-app.cc:729
@@ -799,7 +808,7 @@ msgstr ""
 "El archivo %s\n"
 "ya existe, sobreescribir?"
 
-#: ../libs/gcp/application.cc:664 ../libs/gcr/application.cc:245
+#: ../libs/gcp/application.cc:666 ../libs/gcr/application.cc:245
 #: ../libs/gcugtk/stringdlg.cc:146
 #, c-format
 msgid ""
@@ -809,20 +818,20 @@ msgstr ""
 "Error al procesar %s:\n"
 "%s"
 
-#: ../libs/gcp/application.cc:773
+#: ../libs/gcp/application.cc:775
 msgid "Error in "
 msgstr "Error en"
 
 #. Note to translator: add a space if needed before the semicolon
-#: ../libs/gcp/application.cc:776
+#: ../libs/gcp/application.cc:778
 msgid ":\n"
 msgstr ":\n"
 
-#: ../libs/gcp/application.cc:887
+#: ../libs/gcp/application.cc:889
 msgid "No filename"
 msgstr "No hay nombre de archivo"
 
-#: ../libs/gcp/application.cc:890 ../libs/gcr/document.cc:1653
+#: ../libs/gcp/application.cc:892 ../libs/gcr/document.cc:1653
 #, c-format
 msgid ""
 "Could not load file\n"
@@ -831,7 +840,7 @@ msgstr ""
 "No se ha podido cargar archivo\n"
 "%s"
 
-#: ../libs/gcp/application.cc:893 ../libs/gcr/document.cc:1656
+#: ../libs/gcp/application.cc:895 ../libs/gcr/document.cc:1656
 #, c-format
 msgid ""
 "%s: invalid xml file.\n"
@@ -840,17 +849,17 @@ msgstr ""
 "%s: archivo XML inválido.\n"
 "¿Quizá el árbol está vació?"
 
-#: ../libs/gcp/application.cc:896 ../libs/gcr/document.cc:1659
+#: ../libs/gcp/application.cc:898 ../libs/gcr/document.cc:1659
 #, c-format
 msgid "%s: invalid file format."
 msgstr "%s: formato de archivo inválido"
 
-#: ../libs/gcp/application.cc:899
+#: ../libs/gcp/application.cc:901
 #, c-format
 msgid "%s: parse error."
 msgstr "%s: error de analísis."
 
-#: ../libs/gcp/application.cc:934 ../libs/gcr/application.cc:140
+#: ../libs/gcp/application.cc:936 ../libs/gcr/application.cc:140
 #: ../libs/gcugtk/chem3dapplication.cc:97 ../programs/calc/gchemcalc.cc:199
 #: ../programs/spectra/application.cc:161
 #: ../programs/table/gchemtable-app.cc:717
@@ -859,7 +868,7 @@ msgid "Save as image"
 msgstr "Guardar como imagen"
 
 #: ../libs/gcp/atom.cc:1186 ../libs/gcp/atom.cc:1200 ../libs/gcp/atom.cc:1213
-#: ../libs/gcr/atomsdlg.cc:421 ../libs/gcu/atom.cc:394
+#: ../libs/gcr/atomsdlg.cc:425 ../libs/gcu/atom.cc:394
 #: ../plugins/paint/atoms/plugin.cc:63
 #, fuzzy
 msgid "Atom"
@@ -1094,7 +1103,7 @@ msgstr "Destruir la relación de mesomería"
 msgid "Mesomery"
 msgstr "Mesomería"
 
-#: ../libs/gcp/mesomery-arrow.cc:165 ../plugins/paint/arrows/plugin.cc:81
+#: ../libs/gcp/mesomery-arrow.cc:152 ../plugins/paint/arrows/plugin.cc:81
 msgid "Mesomery arrow"
 msgstr "Flecha de mesomería"
 
@@ -1208,11 +1217,11 @@ msgstr "Destruir la reacción"
 msgid "Reaction"
 msgstr "Reacción"
 
-#: ../libs/gcp/reaction-arrow.cc:274
+#: ../libs/gcp/reaction-arrow.cc:261
 msgid "Attach selection to arrow..."
 msgstr "Añadir selección a flecha..."
 
-#: ../libs/gcp/reaction-arrow.cc:407
+#: ../libs/gcp/reaction-arrow.cc:394
 msgid "Reaction arrow"
 msgstr "Flecha de reacción"
 
@@ -1221,9 +1230,9 @@ msgid "Reaction operator"
 msgstr "Operador de reacción"
 
 #: ../libs/gcp/reaction-prop.cc:39 ../libs/gcp/theme.cc:526
-#: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:96
-#: ../libs/gcr/atomsdlg.cc:234 ../libs/gcr/atomsdlg.cc:434
-#: ../libs/gcr/atomsdlg.cc:532 ../programs/table/gchemtable-elt.cc:58
+#: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:97
+#: ../libs/gcr/atomsdlg.cc:214 ../libs/gcr/atomsdlg.cc:438
+#: ../libs/gcr/atomsdlg.cc:536 ../programs/table/gchemtable-elt.cc:58
 #: ../ui/crystal/atoms.ui.h:11
 msgid "Unknown"
 msgstr "Desconocido"
@@ -1738,33 +1747,33 @@ msgstr ""
 "``%s'' ha sido modificado sin guardar.\n"
 "Desea volver a la última versión guardada ?"
 
-#: ../libs/gcr/atomsdlg.cc:421
+#: ../libs/gcr/atomsdlg.cc:425
 msgid "x"
 msgstr "x"
 
-#: ../libs/gcr/atomsdlg.cc:421
+#: ../libs/gcr/atomsdlg.cc:425
 msgid "y"
 msgstr "y"
 
-#: ../libs/gcr/atomsdlg.cc:421
+#: ../libs/gcr/atomsdlg.cc:425
 msgid "z"
 msgstr "z"
 
 #. Note for translators: c.n. is for coordination number
-#: ../libs/gcr/atomsdlg.cc:493
+#: ../libs/gcr/atomsdlg.cc:497
 msgid " c.n.="
 msgstr "n.c.="
 
-#: ../libs/gcr/atomsdlg.cc:499
+#: ../libs/gcr/atomsdlg.cc:503
 #, fuzzy
 msgid "low spin"
 msgstr "espín bajo"
 
-#: ../libs/gcr/atomsdlg.cc:499
+#: ../libs/gcr/atomsdlg.cc:503
 msgid "high spin"
 msgstr "espín alto"
 
-#: ../libs/gcr/atomsdlg.cc:501
+#: ../libs/gcr/atomsdlg.cc:505
 msgid "Database"
 msgstr "Base de datos"
 
@@ -2018,70 +2027,74 @@ msgid "German"
 msgstr "Alemán"
 
 #: ../libs/gcu/element.cc:104
-msgid "Spanisch"
+msgid "Greek"
 msgstr ""
 
 #: ../libs/gcu/element.cc:105
-msgid "Basque"
+msgid "Spanisch"
 msgstr ""
 
 #: ../libs/gcu/element.cc:106
+msgid "Basque"
+msgstr ""
+
+#: ../libs/gcu/element.cc:107
 msgid "French"
 msgstr "Francés"
 
-#: ../libs/gcu/element.cc:107
+#: ../libs/gcu/element.cc:108
 msgid "Italian"
 msgstr "Italiano"
 
-#: ../libs/gcu/element.cc:108
+#: ../libs/gcu/element.cc:109
 msgid "Polish"
 msgstr "Polaco"
 
-#: ../libs/gcu/element.cc:109
+#: ../libs/gcu/element.cc:110
 msgid "Brazilian"
 msgstr "Portugués (Brasil)"
 
-#: ../libs/gcu/element.cc:110
+#: ../libs/gcu/element.cc:111
 msgid "Russian"
 msgstr "Ruso"
 
-#: ../libs/gcu/element.cc:111
+#: ../libs/gcu/element.cc:112
 msgid "Chinese (TW)"
 msgstr "Chino (TW)"
 
-#: ../libs/gcu/element.cc:113
+#: ../libs/gcu/element.cc:114
 msgid "Can't find and read elements.xml"
 msgstr "No se puede encontrar y leer elements.xml"
 
-#: ../libs/gcu/element.cc:117 ../libs/gcu/element.cc:126
+#: ../libs/gcu/element.cc:118 ../libs/gcu/element.cc:127
 msgid "Incorrect file format: elements.xml"
 msgstr "Formato de archivo incorrecto: elements.xml"
 
-#: ../libs/gcu/element.cc:162
+#: ../libs/gcu/element.cc:163
 msgid "English"
 msgstr "Inglés"
 
-#: ../libs/gcu/element.cc:422
+#: ../libs/gcu/element.cc:423
 msgid "Can't find and read radii.xml"
 msgstr "No se puede encontrar y leer radii.xml"
 
-#: ../libs/gcu/element.cc:426 ../libs/gcu/element.cc:439
+#: ../libs/gcu/element.cc:427 ../libs/gcu/element.cc:440
 msgid "Incorrect file format: radii.xml"
 msgstr "Formato de archivo incorrecto: radii.xml"
 
-#: ../libs/gcu/element.cc:528
+#: ../libs/gcu/element.cc:529
 msgid "Can't find and read elecprops.xml"
 msgstr "No se puede encontrar y leer elecprops.xml"
 
-#: ../libs/gcu/element.cc:532 ../libs/gcu/element.cc:539
+#: ../libs/gcu/element.cc:533 ../libs/gcu/element.cc:540
 msgid "Incorrect file format: elecprops.xml"
 msgstr "Formato de archivo incorrecto: elecprops.xml"
 
-#: ../libs/gcu/element.cc:687
+#: ../libs/gcu/element.cc:688
 msgid "Can't find and read isotopes.xml"
 msgstr "No se puede encontrar y leer isotopes.xml"
 
-#: ../libs/gcu/element.cc:691 ../libs/gcu/element.cc:700
+#: ../libs/gcu/element.cc:692 ../libs/gcu/element.cc:701
 msgid "Incorrect file format: isotopes.xml"
 msgstr "Formato de archivo incorrecto: isotopes.xml"
 
@@ -2105,7 +2118,7 @@ msgstr "Caracter inválido"
 msgid "Chemical file loader type."
 msgstr ""
 
-#: ../libs/gcu/object.cc:643
+#: ../libs/gcu/object.cc:656
 msgid "Object"
 msgstr "Objeto"
 
@@ -2411,135 +2424,139 @@ msgstr "pulgadas"
 msgid "mm"
 msgstr "mm"
 
-#: ../libs/gcugtk/spectrumdoc.cc:238 ../libs/gcugtk/spectrumdoc.cc:2375
+#: ../libs/gcugtk/spectrumdoc.cc:243 ../libs/gcugtk/spectrumdoc.cc:2410
 #, fuzzy
 msgid "Wavenumber (cm<sup>−1</sup>)"
 msgstr "Número de onda (1/cm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:239 ../libs/gcugtk/spectrumdoc.cc:2389
+#: ../libs/gcugtk/spectrumdoc.cc:244 ../libs/gcugtk/spectrumdoc.cc:2426
 msgid "Transmittance"
 msgstr "Transmitancia"
 
-#: ../libs/gcugtk/spectrumdoc.cc:240 ../libs/gcugtk/spectrumdoc.cc:2388
+#: ../libs/gcugtk/spectrumdoc.cc:245 ../libs/gcugtk/spectrumdoc.cc:2425
 msgid "Absorbance"
 msgstr "Absorbancia"
 
-#: ../libs/gcugtk/spectrumdoc.cc:241 ../libs/gcugtk/spectrumdoc.cc:2201
-#: ../libs/gcugtk/spectrumdoc.cc:2301
+#: ../libs/gcugtk/spectrumdoc.cc:246 ../libs/gcugtk/spectrumdoc.cc:2236
+#: ../libs/gcugtk/spectrumdoc.cc:2336
 msgid "Chemical shift (ppm)"
 msgstr "Desplazamiento químico (ppm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:242
+#: ../libs/gcugtk/spectrumdoc.cc:247
 msgid "Wavelength (nm)"
 msgstr "Longitud de onda (nm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:243
+#: ../libs/gcugtk/spectrumdoc.cc:248
 msgid "Wavelength (µm)"
 msgstr "Longitud de onda (µm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:244
+#: ../libs/gcugtk/spectrumdoc.cc:249
 msgid "Time (s)"
 msgstr "Tiempo (s)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:245 ../libs/gcugtk/spectrumdoc.cc:2202
-#: ../libs/gcugtk/spectrumdoc.cc:2302
+#: ../libs/gcugtk/spectrumdoc.cc:250 ../libs/gcugtk/spectrumdoc.cc:2237
+#: ../libs/gcugtk/spectrumdoc.cc:2337
 msgid "Frequency (Hz)"
 msgstr "Frecuencia (Hz)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:246
+#: ../libs/gcugtk/spectrumdoc.cc:251
 msgid "Mass/charge ratio"
 msgstr "Relación masa/carga"
 
-#: ../libs/gcugtk/spectrumdoc.cc:247
+#: ../libs/gcugtk/spectrumdoc.cc:252
 msgid "Relative abundance"
 msgstr "Abundancia relativa"
 
-#: ../libs/gcugtk/spectrumdoc.cc:617 ../libs/gcugtk/spectrumdoc.cc:2208
-#: ../libs/gcugtk/spectrumdoc.cc:2308
+#: ../libs/gcugtk/spectrumdoc.cc:253
+msgid "Response factor"
+msgstr ""
+
+#: ../libs/gcugtk/spectrumdoc.cc:623 ../libs/gcugtk/spectrumdoc.cc:2243
+#: ../libs/gcugtk/spectrumdoc.cc:2343
 msgid "Show integral"
 msgstr "Mostrar integral"
 
-#: ../libs/gcugtk/spectrumdoc.cc:617
+#: ../libs/gcugtk/spectrumdoc.cc:623
 msgid "Hide integral"
 msgstr "Ocultar integral"
 
-#: ../libs/gcugtk/spectrumdoc.cc:719 ../libs/gcugtk/spectrumdoc.cc:1456
+#: ../libs/gcugtk/spectrumdoc.cc:732 ../libs/gcugtk/spectrumdoc.cc:1483
 msgid "Found too many data!"
 msgstr "¡Demasiados datos!"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1352 ../libs/gcugtk/spectrumdoc.cc:1382
+#: ../libs/gcugtk/spectrumdoc.cc:1379 ../libs/gcugtk/spectrumdoc.cc:1409
 msgid "Constant too long"
 msgstr "Constante demasiado larga"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1375
+#: ../libs/gcugtk/spectrumdoc.cc:1402
 msgid "Invalid character in data block"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:1478
+#: ../libs/gcugtk/spectrumdoc.cc:1505
 msgid "Data check failed!"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:1495
+#: ../libs/gcugtk/spectrumdoc.cc:1522
 msgid "Data check failed: FIRSTX!"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:1500
+#: ../libs/gcugtk/spectrumdoc.cc:1527
 msgid "Data check failed: FIRSTY!"
 msgstr ""
 
 #. FIXME: Throw an exception
-#: ../libs/gcugtk/spectrumdoc.cc:1504
+#: ../libs/gcugtk/spectrumdoc.cc:1531
 msgid "Found too many data"
 msgstr "Demasiados datos"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1815
+#: ../libs/gcugtk/spectrumdoc.cc:1850
 msgid "Integral"
 msgstr "Integral"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1938
+#: ../libs/gcugtk/spectrumdoc.cc:1973
 msgid "Real transformed data"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:1946
+#: ../libs/gcugtk/spectrumdoc.cc:1981
 msgid "Imaginary transformed data"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:2167 ../libs/gcugtk/spectrumdoc.cc:2242
+#: ../libs/gcugtk/spectrumdoc.cc:2202 ../libs/gcugtk/spectrumdoc.cc:2277
 #, fuzzy
 msgid "Chemical shift"
 msgstr "Desplazamiento químico (ppm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2198 ../libs/gcugtk/spectrumdoc.cc:2298
-#: ../libs/gcugtk/spectrumdoc.cc:2362
+#: ../libs/gcugtk/spectrumdoc.cc:2233 ../libs/gcugtk/spectrumdoc.cc:2333
+#: ../libs/gcugtk/spectrumdoc.cc:2397
 msgid "X unit:"
 msgstr "Unidades de X:"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2333
+#: ../libs/gcugtk/spectrumdoc.cc:2368
 msgid "Transform to spectrum"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:2372
+#: ../libs/gcugtk/spectrumdoc.cc:2407
 msgid "Wave length (nm)"
 msgstr "Longitud de onda (nm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2374
+#: ../libs/gcugtk/spectrumdoc.cc:2409
 msgid "Wave length (µm)"
 msgstr "Longitud de onda (µm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2380
+#: ../libs/gcugtk/spectrumdoc.cc:2415
 msgid "Invert X Axis"
 msgstr "Eje X invertido"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2385
+#: ../libs/gcugtk/spectrumdoc.cc:2422
 msgid "Y unit:"
 msgstr "Unidades de Y:"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2476
+#: ../libs/gcugtk/spectrumdoc.cc:2513
 #, fuzzy
 msgid "Real data"
 msgstr "Datos inválidos"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2499
+#: ../libs/gcugtk/spectrumdoc.cc:2536
 #, fuzzy
 msgid "Imaginary data"
 msgstr "Datos inválidos"
@@ -2781,7 +2798,7 @@ msgid "Add a pair of arrows for a reversible reaction"
 msgstr "Añadir un par de flechas para una reacción reversible"
 
 #: ../plugins/paint/arrows/plugin.cc:78
-#: ../plugins/paint/arrows/retrosynthesisarrow.cc:211
+#: ../plugins/paint/arrows/retrosynthesisarrow.cc:199
 msgid "Retrosynthesis arrow"
 msgstr "Flecha de retrosíntesis"
 
@@ -5047,34 +5064,34 @@ msgstr ""
 msgid "γ (°):"
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:1
+#: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:2
 msgid "<b><i>ψ</i> (°):</b>"
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:2
+#: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:3
 msgid "<b><i>θ</i> (°):</b>"
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:3
+#: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:4
 msgid "<b><i>φ</i> (°):</b>"
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:4 ../ui/crystal/view-settings.ui.h:4
+#: ../ui/crystal/prefs.ui.h:4 ../ui/crystal/view-settings.ui.h:5
 #, fuzzy
 msgid "<b>Model orientation in space (Euler's angles):</b>"
 msgstr "Orientación del modelo en el espacio:"
 
-#: ../ui/crystal/prefs.ui.h:5 ../ui/crystal/view-settings.ui.h:5
+#: ../ui/crystal/prefs.ui.h:5 ../ui/crystal/view-settings.ui.h:6
 msgid "<b>Field of view (°):</b>"
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:6 ../ui/crystal/view-settings.ui.h:6
+#: ../ui/crystal/prefs.ui.h:6 ../ui/crystal/view-settings.ui.h:7
 msgid ""
 "Acceptable values for the field of view are in the range from 0° to 45°. If "
 "0, no perspective effect will be used."
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:7 ../ui/crystal/view-settings.ui.h:7
+#: ../ui/crystal/prefs.ui.h:7 ../ui/crystal/view-settings.ui.h:8
 #, fuzzy
 msgid "<b>Background color:</b>"
 msgstr "Color de fondo:"
@@ -5132,6 +5149,10 @@ msgstr "2880"
 #: ../ui/crystal/prefs.ui.h:20
 msgid "Printing"
 msgstr "Impresión"
+
+#: ../ui/crystal/view-settings.ui.h:1
+msgid "View settings"
+msgstr "Vista"
 
 #: ../ui/crystal/atoms.ui.h:1 ../ui/crystal/cleavages.ui.h:4
 #: ../ui/crystal/lines.ui.h:4
@@ -6147,9 +6168,6 @@ msgstr ""
 
 #~ msgid "Notebook tab position:"
 #~ msgstr "Posición de las pestañas"
-
-#~ msgid "View settings"
-#~ msgstr "Vista"
 
 #, fuzzy
 #~ msgid "Choose a color"

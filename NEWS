@@ -6,6 +6,15 @@ Version 0.13.92
 		trailing 0.
 		* Fix misleading error message while saving.
 		* Fix loading of arrows inside a group. [#27032]
+	GCrystal:
+		* Apply element change to all slected atoms.
+		* Updated the documentation.
+	GSpectrum:
+		* Add "Response factor" as supported unit.
+		* Fixed widgets spacing.
+		* Updated the documentation.
+	GChemTable:
+		* Updated the documentation.
 
 Version 0.13.91
 	3d viewer:

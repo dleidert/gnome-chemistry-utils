@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.12.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-13 16:04+0200\n"
+"POT-Creation-Date: 2012-08-11 14:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ibon Santisteban <obibon@gmx.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -654,48 +654,48 @@ msgstr "[fitxategia]"
 msgid "3D chemical structures"
 msgstr "Egitura kimiko 2D"
 
-#: ../goffice/gchemutils.cc:346
+#: ../goffice/gchemutils.cc:347
 #, fuzzy
 msgid "Content type"
 msgstr "_Edukia"
 
-#: ../goffice/gchemutils.cc:347
+#: ../goffice/gchemutils.cc:348
 msgid "Whether the model should be represented in 2d, 3d, or as a crystal cell"
 msgstr ""
 
-#: ../goffice/gchemutils.cc:350
+#: ../goffice/gchemutils.cc:351
 msgid "Psi"
 msgstr ""
 
-#: ../goffice/gchemutils.cc:351
+#: ../goffice/gchemutils.cc:352
 #, fuzzy
 msgid "Value of Euler's Ψ angle"
 msgstr "Euler-en angeluak"
 
-#: ../goffice/gchemutils.cc:354
+#: ../goffice/gchemutils.cc:355
 msgid "Theta"
 msgstr ""
 
-#: ../goffice/gchemutils.cc:355
+#: ../goffice/gchemutils.cc:356
 #, fuzzy
 msgid "Value of Euler's Θ angle"
 msgstr "Euler-en angeluak"
 
-#: ../goffice/gchemutils.cc:358
+#: ../goffice/gchemutils.cc:359
 msgid "Phi"
 msgstr ""
 
-#: ../goffice/gchemutils.cc:359
+#: ../goffice/gchemutils.cc:360
 #, fuzzy
 msgid "Value of Euler's Φ angle"
 msgstr "Euler-en angeluak"
 
-#: ../goffice/gchemutils.cc:362
+#: ../goffice/gchemutils.cc:363
 #, fuzzy
 msgid "Display mode"
 msgstr "Sinboloa bistaratu"
 
-#: ../goffice/gchemutils.cc:363
+#: ../goffice/gchemutils.cc:364
 msgid ""
 "The display mode for the molecule: \"ball&stick\", \"spacefill\", \"cylinders"
 "\", or \"wireframe\""
@@ -740,7 +740,7 @@ msgstr "GChemPaint Gnomerentzako egitura kimikoen 2D editorea da."
 msgid "Copyright © 2001-2010 by Jean Bréfort"
 msgstr "Copyright © 2001-2010 Jean Bréfort-ena"
 
-#: ../libs/gcp/arrow.cc:221 ../libs/gcp/reaction-arrow.cc:268
+#: ../libs/gcp/arrow.cc:221 ../libs/gcp/reaction-arrow.cc:255
 msgid "Arrow"
 msgstr "Gezia"
 
@@ -760,7 +760,16 @@ msgstr ""
 "Sartu fitxategi izen bat, \n"
 "ez direktorio bat"
 
-#: ../libs/gcp/application.cc:624
+#: ../libs/gcp/application.cc:625
+#, fuzzy, c-format
+msgid ""
+"Sorry, format %s not supported!\n"
+"Failed to save %s."
+msgstr ""
+"Ez dago euskarririk %s formatuarentzat!\n"
+"Errorea %s kargatzean."
+
+#: ../libs/gcp/application.cc:626
 #, c-format
 msgid ""
 "Sorry, format %s not supported!\n"
@@ -769,7 +778,7 @@ msgstr ""
 "Ez dago euskarririk %s formatuarentzat!\n"
 "Errorea %s kargatzean."
 
-#: ../libs/gcp/application.cc:652 ../libs/gcr/application.cc:233
+#: ../libs/gcp/application.cc:654 ../libs/gcr/application.cc:233
 #: ../libs/gcugtk/chem3dapplication.cc:174 ../libs/gcugtk/stringdlg.cc:131
 #: ../programs/calc/gchemcalc.cc:212 ../programs/spectra/application.cc:95
 #: ../programs/table/gchemtable-app.cc:729
@@ -781,7 +790,7 @@ msgstr ""
 "%s\n"
 " fitxategiabadago lehendik, gainidatzi?"
 
-#: ../libs/gcp/application.cc:664 ../libs/gcr/application.cc:245
+#: ../libs/gcp/application.cc:666 ../libs/gcr/application.cc:245
 #: ../libs/gcugtk/stringdlg.cc:146
 #, c-format
 msgid ""
@@ -791,20 +800,20 @@ msgstr ""
 "Errorea %s:\n"
 " prozesatzean%s"
 
-#: ../libs/gcp/application.cc:773
+#: ../libs/gcp/application.cc:775
 msgid "Error in "
 msgstr "Errorea honetan"
 
 #. Note to translator: add a space if needed before the semicolon
-#: ../libs/gcp/application.cc:776
+#: ../libs/gcp/application.cc:778
 msgid ":\n"
 msgstr ":\n"
 
-#: ../libs/gcp/application.cc:887
+#: ../libs/gcp/application.cc:889
 msgid "No filename"
 msgstr "Ez dago fitxategi izenik"
 
-#: ../libs/gcp/application.cc:890 ../libs/gcr/document.cc:1653
+#: ../libs/gcp/application.cc:892 ../libs/gcr/document.cc:1653
 #, c-format
 msgid ""
 "Could not load file\n"
@@ -813,7 +822,7 @@ msgstr ""
 "ezin izan da \n"
 " fitxategia kargatu%s"
 
-#: ../libs/gcp/application.cc:893 ../libs/gcr/document.cc:1656
+#: ../libs/gcp/application.cc:895 ../libs/gcr/document.cc:1656
 #, c-format
 msgid ""
 "%s: invalid xml file.\n"
@@ -822,17 +831,17 @@ msgstr ""
 "%s: baliogabeko xml fitxategia.\n"
 "Zuhaitza hutsik dago?"
 
-#: ../libs/gcp/application.cc:896 ../libs/gcr/document.cc:1659
+#: ../libs/gcp/application.cc:898 ../libs/gcr/document.cc:1659
 #, c-format
 msgid "%s: invalid file format."
 msgstr "%s: fitxategi formatu okerra"
 
-#: ../libs/gcp/application.cc:899
+#: ../libs/gcp/application.cc:901
 #, c-format
 msgid "%s: parse error."
 msgstr "%s: analizatzaile sintaktikoaren errorea."
 
-#: ../libs/gcp/application.cc:934 ../libs/gcr/application.cc:140
+#: ../libs/gcp/application.cc:936 ../libs/gcr/application.cc:140
 #: ../libs/gcugtk/chem3dapplication.cc:97 ../programs/calc/gchemcalc.cc:199
 #: ../programs/spectra/application.cc:161
 #: ../programs/table/gchemtable-app.cc:717
@@ -840,7 +849,7 @@ msgid "Save as image"
 msgstr "Gorde irudi gisa"
 
 #: ../libs/gcp/atom.cc:1186 ../libs/gcp/atom.cc:1200 ../libs/gcp/atom.cc:1213
-#: ../libs/gcr/atomsdlg.cc:421 ../libs/gcu/atom.cc:394
+#: ../libs/gcr/atomsdlg.cc:425 ../libs/gcu/atom.cc:394
 #: ../plugins/paint/atoms/plugin.cc:63
 msgid "Atom"
 msgstr "Atomoa"
@@ -1065,7 +1074,7 @@ msgstr "Mesomeria erlazioa suntsitu"
 msgid "Mesomery"
 msgstr "Mesomeria"
 
-#: ../libs/gcp/mesomery-arrow.cc:165 ../plugins/paint/arrows/plugin.cc:81
+#: ../libs/gcp/mesomery-arrow.cc:152 ../plugins/paint/arrows/plugin.cc:81
 msgid "Mesomery arrow"
 msgstr "Mesomeria gezia"
 
@@ -1177,11 +1186,11 @@ msgstr "Erreakzioa suntsitu"
 msgid "Reaction"
 msgstr "Erreakzioa"
 
-#: ../libs/gcp/reaction-arrow.cc:274
+#: ../libs/gcp/reaction-arrow.cc:261
 msgid "Attach selection to arrow..."
 msgstr ""
 
-#: ../libs/gcp/reaction-arrow.cc:407
+#: ../libs/gcp/reaction-arrow.cc:394
 msgid "Reaction arrow"
 msgstr "Erreakzio gezia"
 
@@ -1190,9 +1199,9 @@ msgid "Reaction operator"
 msgstr "Erreakzio eragilea"
 
 #: ../libs/gcp/reaction-prop.cc:39 ../libs/gcp/theme.cc:526
-#: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:96
-#: ../libs/gcr/atomsdlg.cc:234 ../libs/gcr/atomsdlg.cc:434
-#: ../libs/gcr/atomsdlg.cc:532 ../programs/table/gchemtable-elt.cc:58
+#: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:97
+#: ../libs/gcr/atomsdlg.cc:214 ../libs/gcr/atomsdlg.cc:438
+#: ../libs/gcr/atomsdlg.cc:536 ../programs/table/gchemtable-elt.cc:58
 #: ../ui/crystal/atoms.ui.h:11
 msgid "Unknown"
 msgstr "Ezezaguna"
@@ -1681,32 +1690,32 @@ msgstr ""
 "Gorde den azken alditik \"%s\"mofifikatua izan da. Gordetako bertsiora "
 "itzuli nahi duzu?"
 
-#: ../libs/gcr/atomsdlg.cc:421
+#: ../libs/gcr/atomsdlg.cc:425
 msgid "x"
 msgstr "x"
 
-#: ../libs/gcr/atomsdlg.cc:421
+#: ../libs/gcr/atomsdlg.cc:425
 msgid "y"
 msgstr "y"
 
-#: ../libs/gcr/atomsdlg.cc:421
+#: ../libs/gcr/atomsdlg.cc:425
 msgid "z"
 msgstr "z"
 
 #. Note for translators: c.n. is for coordination number
-#: ../libs/gcr/atomsdlg.cc:493
+#: ../libs/gcr/atomsdlg.cc:497
 msgid " c.n.="
 msgstr "k.z.="
 
-#: ../libs/gcr/atomsdlg.cc:499
+#: ../libs/gcr/atomsdlg.cc:503
 msgid "low spin"
 msgstr "espin baxua"
 
-#: ../libs/gcr/atomsdlg.cc:499
+#: ../libs/gcr/atomsdlg.cc:503
 msgid "high spin"
 msgstr "espin altua"
 
-#: ../libs/gcr/atomsdlg.cc:501
+#: ../libs/gcr/atomsdlg.cc:505
 msgid "Database"
 msgstr "Datu basea"
 
@@ -1941,70 +1950,74 @@ msgid "German"
 msgstr "Alemaniera"
 
 #: ../libs/gcu/element.cc:104
-msgid "Spanisch"
+msgid "Greek"
 msgstr ""
 
 #: ../libs/gcu/element.cc:105
-msgid "Basque"
+msgid "Spanisch"
 msgstr ""
 
 #: ../libs/gcu/element.cc:106
+msgid "Basque"
+msgstr ""
+
+#: ../libs/gcu/element.cc:107
 msgid "French"
 msgstr "Frantziera"
 
-#: ../libs/gcu/element.cc:107
+#: ../libs/gcu/element.cc:108
 msgid "Italian"
 msgstr "Italiera"
 
-#: ../libs/gcu/element.cc:108
+#: ../libs/gcu/element.cc:109
 msgid "Polish"
 msgstr "Poloniera"
 
-#: ../libs/gcu/element.cc:109
+#: ../libs/gcu/element.cc:110
 msgid "Brazilian"
 msgstr "Portugaldarra (Br)"
 
-#: ../libs/gcu/element.cc:110
+#: ../libs/gcu/element.cc:111
 msgid "Russian"
 msgstr "Errusiera"
 
-#: ../libs/gcu/element.cc:111
+#: ../libs/gcu/element.cc:112
 msgid "Chinese (TW)"
 msgstr "Txinatarra (TW)"
 
-#: ../libs/gcu/element.cc:113
+#: ../libs/gcu/element.cc:114
 msgid "Can't find and read elements.xml"
 msgstr "Ezin da elements.xml aurkitu eta irakurri"
 
-#: ../libs/gcu/element.cc:117 ../libs/gcu/element.cc:126
+#: ../libs/gcu/element.cc:118 ../libs/gcu/element.cc:127
 msgid "Incorrect file format: elements.xml"
 msgstr "Baliogabeko fitxategi formatua: elements.xml"
 
-#: ../libs/gcu/element.cc:162
+#: ../libs/gcu/element.cc:163
 msgid "English"
 msgstr "Ingelera"
 
-#: ../libs/gcu/element.cc:422
+#: ../libs/gcu/element.cc:423
 msgid "Can't find and read radii.xml"
 msgstr "Ezin da radii.xml aurkitu eta irakurri"
 
-#: ../libs/gcu/element.cc:426 ../libs/gcu/element.cc:439
+#: ../libs/gcu/element.cc:427 ../libs/gcu/element.cc:440
 msgid "Incorrect file format: radii.xml"
 msgstr "Fitxategi formatu okerra: radii.xml"
 
-#: ../libs/gcu/element.cc:528
+#: ../libs/gcu/element.cc:529
 msgid "Can't find and read elecprops.xml"
 msgstr "Ezin da elecprops.xml aurkitu eta irakurri"
 
-#: ../libs/gcu/element.cc:532 ../libs/gcu/element.cc:539
+#: ../libs/gcu/element.cc:533 ../libs/gcu/element.cc:540
 msgid "Incorrect file format: elecprops.xml"
 msgstr "Fitxategi formatu okerra: elecprops.xml"
 
-#: ../libs/gcu/element.cc:687
+#: ../libs/gcu/element.cc:688
 msgid "Can't find and read isotopes.xml"
 msgstr "Ezin da isotopes.xml aurkitu eta irakurri"
 
-#: ../libs/gcu/element.cc:691 ../libs/gcu/element.cc:700
+#: ../libs/gcu/element.cc:692 ../libs/gcu/element.cc:701
 msgid "Incorrect file format: isotopes.xml"
 msgstr "Fitxategi formatu okerra: isotopes.xml"
 
@@ -2028,7 +2041,7 @@ msgstr "Karaktere baliogabea"
 msgid "Chemical file loader type."
 msgstr ""
 
-#: ../libs/gcu/object.cc:643
+#: ../libs/gcu/object.cc:656
 msgid "Object"
 msgstr "Objektua"
 
@@ -2326,135 +2339,139 @@ msgstr "hatzak"
 msgid "mm"
 msgstr "mm"
 
-#: ../libs/gcugtk/spectrumdoc.cc:238 ../libs/gcugtk/spectrumdoc.cc:2375
+#: ../libs/gcugtk/spectrumdoc.cc:243 ../libs/gcugtk/spectrumdoc.cc:2410
 #, fuzzy
 msgid "Wavenumber (cm<sup>−1</sup>)"
 msgstr "Uhin zenbakia (1/cm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:239 ../libs/gcugtk/spectrumdoc.cc:2389
+#: ../libs/gcugtk/spectrumdoc.cc:244 ../libs/gcugtk/spectrumdoc.cc:2426
 msgid "Transmittance"
 msgstr "Transmitantzia"
 
-#: ../libs/gcugtk/spectrumdoc.cc:240 ../libs/gcugtk/spectrumdoc.cc:2388
+#: ../libs/gcugtk/spectrumdoc.cc:245 ../libs/gcugtk/spectrumdoc.cc:2425
 msgid "Absorbance"
 msgstr "Absorbantzia"
 
-#: ../libs/gcugtk/spectrumdoc.cc:241 ../libs/gcugtk/spectrumdoc.cc:2201
-#: ../libs/gcugtk/spectrumdoc.cc:2301
+#: ../libs/gcugtk/spectrumdoc.cc:246 ../libs/gcugtk/spectrumdoc.cc:2236
+#: ../libs/gcugtk/spectrumdoc.cc:2336
 msgid "Chemical shift (ppm)"
 msgstr "Lerrokuntza kimikoa (ppm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:242
+#: ../libs/gcugtk/spectrumdoc.cc:247
 msgid "Wavelength (nm)"
 msgstr "Uhin luzera (nm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:243
+#: ../libs/gcugtk/spectrumdoc.cc:248
 msgid "Wavelength (µm)"
 msgstr "Uhin luzera (µm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:244
+#: ../libs/gcugtk/spectrumdoc.cc:249
 msgid "Time (s)"
 msgstr "Denbora (s)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:245 ../libs/gcugtk/spectrumdoc.cc:2202
-#: ../libs/gcugtk/spectrumdoc.cc:2302
+#: ../libs/gcugtk/spectrumdoc.cc:250 ../libs/gcugtk/spectrumdoc.cc:2237
+#: ../libs/gcugtk/spectrumdoc.cc:2337
 msgid "Frequency (Hz)"
 msgstr "Maiztasuna (Hz)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:246
+#: ../libs/gcugtk/spectrumdoc.cc:251
 msgid "Mass/charge ratio"
 msgstr "Masa/karga erlazioa"
 
-#: ../libs/gcugtk/spectrumdoc.cc:247
+#: ../libs/gcugtk/spectrumdoc.cc:252
 msgid "Relative abundance"
 msgstr "Ugaritasun erlatiboa"
 
-#: ../libs/gcugtk/spectrumdoc.cc:617 ../libs/gcugtk/spectrumdoc.cc:2208
-#: ../libs/gcugtk/spectrumdoc.cc:2308
+#: ../libs/gcugtk/spectrumdoc.cc:253
+msgid "Response factor"
+msgstr ""
+
+#: ../libs/gcugtk/spectrumdoc.cc:623 ../libs/gcugtk/spectrumdoc.cc:2243
+#: ../libs/gcugtk/spectrumdoc.cc:2343
 msgid "Show integral"
 msgstr "Erakutsi integrala"
 
-#: ../libs/gcugtk/spectrumdoc.cc:617
+#: ../libs/gcugtk/spectrumdoc.cc:623
 msgid "Hide integral"
 msgstr "Ezkutatu integrala"
 
-#: ../libs/gcugtk/spectrumdoc.cc:719 ../libs/gcugtk/spectrumdoc.cc:1456
+#: ../libs/gcugtk/spectrumdoc.cc:732 ../libs/gcugtk/spectrumdoc.cc:1483
 msgid "Found too many data!"
 msgstr "Datu gehiegi aurkitu dira!"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1352 ../libs/gcugtk/spectrumdoc.cc:1382
+#: ../libs/gcugtk/spectrumdoc.cc:1379 ../libs/gcugtk/spectrumdoc.cc:1409
 msgid "Constant too long"
 msgstr "Konstantea luzeegia"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1375
+#: ../libs/gcugtk/spectrumdoc.cc:1402
 msgid "Invalid character in data block"
 msgstr "Baliogabeko karakterea datu blokean"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1478
+#: ../libs/gcugtk/spectrumdoc.cc:1505
 msgid "Data check failed!"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:1495
+#: ../libs/gcugtk/spectrumdoc.cc:1522
 msgid "Data check failed: FIRSTX!"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:1500
+#: ../libs/gcugtk/spectrumdoc.cc:1527
 msgid "Data check failed: FIRSTY!"
 msgstr ""
 
 #. FIXME: Throw an exception
-#: ../libs/gcugtk/spectrumdoc.cc:1504
+#: ../libs/gcugtk/spectrumdoc.cc:1531
 msgid "Found too many data"
 msgstr "Datu gehiegi aurkitu da"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1815
+#: ../libs/gcugtk/spectrumdoc.cc:1850
 msgid "Integral"
 msgstr "Integrala"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1938
+#: ../libs/gcugtk/spectrumdoc.cc:1973
 msgid "Real transformed data"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:1946
+#: ../libs/gcugtk/spectrumdoc.cc:1981
 msgid "Imaginary transformed data"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:2167 ../libs/gcugtk/spectrumdoc.cc:2242
+#: ../libs/gcugtk/spectrumdoc.cc:2202 ../libs/gcugtk/spectrumdoc.cc:2277
 #, fuzzy
 msgid "Chemical shift"
 msgstr "Lerrokuntza kimikoa (ppm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2198 ../libs/gcugtk/spectrumdoc.cc:2298
-#: ../libs/gcugtk/spectrumdoc.cc:2362
+#: ../libs/gcugtk/spectrumdoc.cc:2233 ../libs/gcugtk/spectrumdoc.cc:2333
+#: ../libs/gcugtk/spectrumdoc.cc:2397
 msgid "X unit:"
 msgstr "X unitatea:"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2333
+#: ../libs/gcugtk/spectrumdoc.cc:2368
 msgid "Transform to spectrum"
 msgstr ""
 
-#: ../libs/gcugtk/spectrumdoc.cc:2372
+#: ../libs/gcugtk/spectrumdoc.cc:2407
 msgid "Wave length (nm)"
 msgstr "Uhin luzera (nm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2374
+#: ../libs/gcugtk/spectrumdoc.cc:2409
 msgid "Wave length (µm)"
 msgstr "Uhin luzera (µm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2380
+#: ../libs/gcugtk/spectrumdoc.cc:2415
 msgid "Invert X Axis"
 msgstr "X ardatza alderantzikatu"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2385
+#: ../libs/gcugtk/spectrumdoc.cc:2422
 msgid "Y unit:"
 msgstr "Y unitatea:"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2476
+#: ../libs/gcugtk/spectrumdoc.cc:2513
 #, fuzzy
 msgid "Real data"
 msgstr "Baliogabeko datu-sorta"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2499
+#: ../libs/gcugtk/spectrumdoc.cc:2536
 #, fuzzy
 msgid "Imaginary data"
 msgstr "Baliogabeko datu-sorta"
@@ -2690,7 +2707,7 @@ msgid "Add a pair of arrows for a reversible reaction"
 msgstr "Erreakzio itzulgarri baterako geziak gehitu"
 
 #: ../plugins/paint/arrows/plugin.cc:78
-#: ../plugins/paint/arrows/retrosynthesisarrow.cc:211
+#: ../plugins/paint/arrows/retrosynthesisarrow.cc:199
 msgid "Retrosynthesis arrow"
 msgstr "Erretrosintesiaren gezia"
 
@@ -4857,34 +4874,34 @@ msgstr ""
 msgid "γ (°):"
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:1
+#: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:2
 msgid "<b><i>ψ</i> (°):</b>"
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:2
+#: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:3
 msgid "<b><i>θ</i> (°):</b>"
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:3
+#: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:4
 msgid "<b><i>φ</i> (°):</b>"
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:4 ../ui/crystal/view-settings.ui.h:4
+#: ../ui/crystal/prefs.ui.h:4 ../ui/crystal/view-settings.ui.h:5
 #, fuzzy
 msgid "<b>Model orientation in space (Euler's angles):</b>"
 msgstr "Ereduaren orientazioa espazioan:"
 
-#: ../ui/crystal/prefs.ui.h:5 ../ui/crystal/view-settings.ui.h:5
+#: ../ui/crystal/prefs.ui.h:5 ../ui/crystal/view-settings.ui.h:6
 msgid "<b>Field of view (°):</b>"
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:6 ../ui/crystal/view-settings.ui.h:6
+#: ../ui/crystal/prefs.ui.h:6 ../ui/crystal/view-settings.ui.h:7
 msgid ""
 "Acceptable values for the field of view are in the range from 0° to 45°. If "
 "0, no perspective effect will be used."
 msgstr ""
 
-#: ../ui/crystal/prefs.ui.h:7 ../ui/crystal/view-settings.ui.h:7
+#: ../ui/crystal/prefs.ui.h:7 ../ui/crystal/view-settings.ui.h:8
 #, fuzzy
 msgid "<b>Background color:</b>"
 msgstr "Atzealdeko kolorea:"
@@ -4941,6 +4958,11 @@ msgstr "2880"
 #: ../ui/crystal/prefs.ui.h:20
 msgid "Printing"
 msgstr "Inprimatzen"
+
+#: ../ui/crystal/view-settings.ui.h:1
+#, fuzzy
+msgid "View settings"
+msgstr "Iku_si ezarpenak..."
 
 #: ../ui/crystal/atoms.ui.h:1 ../ui/crystal/cleavages.ui.h:4
 #: ../ui/crystal/lines.ui.h:4

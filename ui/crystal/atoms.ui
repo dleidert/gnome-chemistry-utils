@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <!-- interface-requires gtk+ 2.12 -->
+  <!-- interface-requires gtk+ 3.4 -->
   <object class="GtkAdjustment" id="charge-adj">
     <property name="lower">-8</property>
     <property name="upper">8</property>

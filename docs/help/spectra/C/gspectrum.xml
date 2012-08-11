@@ -280,6 +280,7 @@
 				</screenshot>
 			</figure>
 			<para>An NMR FID can be transformed to the spectrum unless some parameters are missing in the source file:</para>
+			<figure id="gspectrum-fid-toolbar"> 
 			  <title>toolbar for NMR FID</title>
 			  <screenshot> 
 					<mediaobject>

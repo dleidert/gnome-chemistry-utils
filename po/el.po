@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils 0.12.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-13 16:04+0200\n"
+"POT-Creation-Date: 2012-08-11 14:26+0200\n"
 "PO-Revision-Date: 2012-07-17 06:15+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
@@ -649,43 +649,43 @@ msgstr "Αρχείο CIF"
 msgid "3D chemical structures"
 msgstr "3Δ χημική δομή"
 
-#: ../goffice/gchemutils.cc:346
+#: ../goffice/gchemutils.cc:347
 msgid "Content type"
 msgstr "Τύπος περιεχομένου"
 
-#: ../goffice/gchemutils.cc:347
+#: ../goffice/gchemutils.cc:348
 msgid "Whether the model should be represented in 2d, 3d, or as a crystal cell"
 msgstr "Εάν το πρότυπο πρέπει να αναπαρασταθεί σε 2δ, 3δ ή κρυσταλλικό κελί"
 
-#: ../goffice/gchemutils.cc:350
+#: ../goffice/gchemutils.cc:351
 msgid "Psi"
 msgstr "Ψι"
 
-#: ../goffice/gchemutils.cc:351
+#: ../goffice/gchemutils.cc:352
 msgid "Value of Euler's Ψ angle"
 msgstr "Γωνία Ψ της τιμής του Όιλερ"
 
-#: ../goffice/gchemutils.cc:354
+#: ../goffice/gchemutils.cc:355
 msgid "Theta"
 msgstr "Θήτα"
 
-#: ../goffice/gchemutils.cc:355
+#: ../goffice/gchemutils.cc:356
 msgid "Value of Euler's Θ angle"
 msgstr "Γωνία Θ της τιμής του Όιλερ"
 
-#: ../goffice/gchemutils.cc:358
+#: ../goffice/gchemutils.cc:359
 msgid "Phi"
 msgstr "Φι"
 
-#: ../goffice/gchemutils.cc:359
+#: ../goffice/gchemutils.cc:360
 msgid "Value of Euler's Φ angle"
 msgstr "Γωνία Φ της τιμής του Όιλερ"
 
-#: ../goffice/gchemutils.cc:362
+#: ../goffice/gchemutils.cc:363
 msgid "Display mode"
 msgstr "Κατάσταση εμφάνισης"
 
-#: ../goffice/gchemutils.cc:363
+#: ../goffice/gchemutils.cc:364
 msgid ""
 "The display mode for the molecule: \"ball&stick\", \"spacefill\", \"cylinders"
 "\", or \"wireframe\""
@@ -732,7 +732,7 @@ msgstr "Το GChemPaint είναι ένας επεξεργαστής 2Δ χημ�
 msgid "Copyright © 2001-2010 by Jean Bréfort"
 msgstr "Πνευματικά δικαιώματα © 2001-2010 Jean Bréfort"
 
-#: ../libs/gcp/arrow.cc:221 ../libs/gcp/reaction-arrow.cc:268
+#: ../libs/gcp/arrow.cc:221 ../libs/gcp/reaction-arrow.cc:255
 msgid "Arrow"
 msgstr "Βέλος"
 
@@ -752,7 +752,16 @@ msgstr ""
 "Παρακαλώ εισάγετε ένα όνομα αρχείου,\n"
 "όχι ενός καταλόγου"
 
-#: ../libs/gcp/application.cc:624
+#: ../libs/gcp/application.cc:625
+#, fuzzy, c-format
+msgid ""
+"Sorry, format %s not supported!\n"
+"Failed to save %s."
+msgstr ""
+"Συγγνώμη, ο τύπος %s δεν υποστηρίζεται!\n"
+"Αποτυχία φόρτωσης %s."
+
+#: ../libs/gcp/application.cc:626
 #, c-format
 msgid ""
 "Sorry, format %s not supported!\n"
@@ -761,7 +770,7 @@ msgstr ""
 "Συγγνώμη, ο τύπος %s δεν υποστηρίζεται!\n"
 "Αποτυχία φόρτωσης %s."
 
-#: ../libs/gcp/application.cc:652 ../libs/gcr/application.cc:233
+#: ../libs/gcp/application.cc:654 ../libs/gcr/application.cc:233
 #: ../libs/gcugtk/chem3dapplication.cc:174 ../libs/gcugtk/stringdlg.cc:131
 #: ../programs/calc/gchemcalc.cc:212 ../programs/spectra/application.cc:95
 #: ../programs/table/gchemtable-app.cc:729
@@ -773,7 +782,7 @@ msgstr ""
 "Το αρχείο %s\n"
 "υπάρχει ήδη, να αντικατασταθεί;"
 
-#: ../libs/gcp/application.cc:664 ../libs/gcr/application.cc:245
+#: ../libs/gcp/application.cc:666 ../libs/gcr/application.cc:245
 #: ../libs/gcugtk/stringdlg.cc:146
 #, c-format
 msgid ""
@@ -783,20 +792,20 @@ msgstr ""
 "Σφάλμα κατά τη διαδικασία %s:\n"
 "%s"
 
-#: ../libs/gcp/application.cc:773
+#: ../libs/gcp/application.cc:775
 msgid "Error in "
 msgstr "Σφάλμα στο "
 
 #. Note to translator: add a space if needed before the semicolon
-#: ../libs/gcp/application.cc:776
+#: ../libs/gcp/application.cc:778
 msgid ":\n"
 msgstr ":\n"
 
-#: ../libs/gcp/application.cc:887
+#: ../libs/gcp/application.cc:889
 msgid "No filename"
 msgstr "Δεν υπάρχει όνομα αρχείου"
 
-#: ../libs/gcp/application.cc:890 ../libs/gcr/document.cc:1653
+#: ../libs/gcp/application.cc:892 ../libs/gcr/document.cc:1653
 #, c-format
 msgid ""
 "Could not load file\n"
@@ -805,7 +814,7 @@ msgstr ""
 "Αδυναμία φόρτωσης του αρχείου\n"
 "%s"
 
-#: ../libs/gcp/application.cc:893 ../libs/gcr/document.cc:1656
+#: ../libs/gcp/application.cc:895 ../libs/gcr/document.cc:1656
 #, c-format
 msgid ""
 "%s: invalid xml file.\n"
@@ -814,17 +823,17 @@ msgstr ""
 "%s: άκυρο αρχείο xml.\n"
 "Το δένδρο είναι άδειο;"
 
-#: ../libs/gcp/application.cc:896 ../libs/gcr/document.cc:1659
+#: ../libs/gcp/application.cc:898 ../libs/gcr/document.cc:1659
 #, c-format
 msgid "%s: invalid file format."
 msgstr "%s: άκυρος τύπος αρχείου."
 
-#: ../libs/gcp/application.cc:899
+#: ../libs/gcp/application.cc:901
 #, c-format
 msgid "%s: parse error."
 msgstr "%s: σφάλμα ανάλυσης."
 
-#: ../libs/gcp/application.cc:934 ../libs/gcr/application.cc:140
+#: ../libs/gcp/application.cc:936 ../libs/gcr/application.cc:140
 #: ../libs/gcugtk/chem3dapplication.cc:97 ../programs/calc/gchemcalc.cc:199
 #: ../programs/spectra/application.cc:161
 #: ../programs/table/gchemtable-app.cc:717
@@ -832,7 +841,7 @@ msgid "Save as image"
 msgstr "Αποθήκευση ως εικόνα"
 
 #: ../libs/gcp/atom.cc:1186 ../libs/gcp/atom.cc:1200 ../libs/gcp/atom.cc:1213
-#: ../libs/gcr/atomsdlg.cc:421 ../libs/gcu/atom.cc:394
+#: ../libs/gcr/atomsdlg.cc:425 ../libs/gcu/atom.cc:394
 #: ../plugins/paint/atoms/plugin.cc:63
 msgid "Atom"
 msgstr "Άτομο"
@@ -1055,7 +1064,7 @@ msgstr "Καταστροφή της σχέσης μεσομέρειας"
 msgid "Mesomery"
 msgstr "Μεσομέρεια"
 
-#: ../libs/gcp/mesomery-arrow.cc:165 ../plugins/paint/arrows/plugin.cc:81
+#: ../libs/gcp/mesomery-arrow.cc:152 ../plugins/paint/arrows/plugin.cc:81
 msgid "Mesomery arrow"
 msgstr "Βέλος μεσομέρειας"
 
@@ -1165,11 +1174,11 @@ msgstr "Καταστροφή αντίδρασης"
 msgid "Reaction"
 msgstr "Αντίδραση"
 
-#: ../libs/gcp/reaction-arrow.cc:274
+#: ../libs/gcp/reaction-arrow.cc:261
 msgid "Attach selection to arrow..."
 msgstr "Επισύναψη επιλογής στο βέλος..."
 
-#: ../libs/gcp/reaction-arrow.cc:407
+#: ../libs/gcp/reaction-arrow.cc:394
 msgid "Reaction arrow"
 msgstr "Βέλος αντίδρασης"
 
@@ -1178,9 +1187,9 @@ msgid "Reaction operator"
 msgstr "Τελεστής αντίδρασης"
 
 #: ../libs/gcp/reaction-prop.cc:39 ../libs/gcp/theme.cc:526
-#: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:96
-#: ../libs/gcr/atomsdlg.cc:234 ../libs/gcr/atomsdlg.cc:434
-#: ../libs/gcr/atomsdlg.cc:532 ../programs/table/gchemtable-elt.cc:58
+#: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:97
+#: ../libs/gcr/atomsdlg.cc:214 ../libs/gcr/atomsdlg.cc:438
+#: ../libs/gcr/atomsdlg.cc:536 ../programs/table/gchemtable-elt.cc:58
 #: ../ui/crystal/atoms.ui.h:11
 msgid "Unknown"
 msgstr "Άγνωστο"
@@ -1233,7 +1242,8 @@ msgstr "Μόνο ένα βέλος μπορεί να συνδέσει δύο δ�
 
 #: ../libs/gcp/text.cc:130 ../libs/gcp/text.cc:136
 msgid "This should not have occured, please file a bug record."
-msgstr "Αυτό δεν έπρεπε να συμβεί, παρακαλώ δημιουργήστε μία αναφορά σφάλματος."
+msgstr ""
+"Αυτό δεν έπρεπε να συμβεί, παρακαλώ δημιουργήστε μία αναφορά σφάλματος."
 
 #: ../libs/gcp/theme.cc:423
 msgid "NewTheme1"
@@ -1670,32 +1680,32 @@ msgstr ""
 "Το \"%s\" έχει τροποποιηθεί μετά την τελευταία αποθήκευση. Θέλετε να "
 "επιστρέψετε στην αποθηκευμένη έκδοση;"
 
-#: ../libs/gcr/atomsdlg.cc:421
+#: ../libs/gcr/atomsdlg.cc:425
 msgid "x"
 msgstr "x"
 
-#: ../libs/gcr/atomsdlg.cc:421
+#: ../libs/gcr/atomsdlg.cc:425
 msgid "y"
 msgstr "y"
 
-#: ../libs/gcr/atomsdlg.cc:421
+#: ../libs/gcr/atomsdlg.cc:425
 msgid "z"
 msgstr "z"
 
 #. Note for translators: c.n. is for coordination number
-#: ../libs/gcr/atomsdlg.cc:493
+#: ../libs/gcr/atomsdlg.cc:497
 msgid " c.n.="
 msgstr " αριθμός συνδιάταξης="
 
-#: ../libs/gcr/atomsdlg.cc:499
+#: ../libs/gcr/atomsdlg.cc:503
 msgid "low spin"
 msgstr "χαμηλή ιδιοστροφορμή"
 
-#: ../libs/gcr/atomsdlg.cc:499
+#: ../libs/gcr/atomsdlg.cc:503
 msgid "high spin"
 msgstr "υψηλή ιδιοστροφορμή"
 
-#: ../libs/gcr/atomsdlg.cc:501
+#: ../libs/gcr/atomsdlg.cc:505
 msgid "Database"
 msgstr "Βάση δεδομένων"
 
@@ -1872,7 +1882,8 @@ msgstr "Υποβολή ερώτησης για τα βοηθητικά προγ�
 #: ../programs/table/gchemtable-app.cc:198
 #: ../programs/table/gchemtable-curve.cc:237
 msgid "Submit a bug report for the Gnome Chemistry Utils"
-msgstr "Υποβολή αναφοράς σφάλματος για τα βοηθητικά προγράμματα Gnome Chemistry"
+msgstr ""
+"Υποβολή αναφοράς σφάλματος για τα βοηθητικά προγράμματα Gnome Chemistry"
 
 #: ../libs/gcr/window.cc:339
 msgid "About Gnome Crystal"
@@ -1927,70 +1938,74 @@ msgid "German"
 msgstr "Γερμανικά"
 
 #: ../libs/gcu/element.cc:104
+msgid "Greek"
+msgstr ""
+
+#: ../libs/gcu/element.cc:105
 msgid "Spanisch"
 msgstr "Ισπανικά"
 
-#: ../libs/gcu/element.cc:105
+#: ../libs/gcu/element.cc:106
 msgid "Basque"
 msgstr "Βασκικά"
 
-#: ../libs/gcu/element.cc:106
+#: ../libs/gcu/element.cc:107
 msgid "French"
 msgstr "Γαλλικά"
 
-#: ../libs/gcu/element.cc:107
+#: ../libs/gcu/element.cc:108
 msgid "Italian"
 msgstr "Ιταλικά"
 
-#: ../libs/gcu/element.cc:108
+#: ../libs/gcu/element.cc:109
 msgid "Polish"
 msgstr "Πολωνικά"
 
-#: ../libs/gcu/element.cc:109
+#: ../libs/gcu/element.cc:110
 msgid "Brazilian"
 msgstr "Βραζιλιάνικα"
 
-#: ../libs/gcu/element.cc:110
+#: ../libs/gcu/element.cc:111
 msgid "Russian"
 msgstr "Ρώσικα"
 
-#: ../libs/gcu/element.cc:111
+#: ../libs/gcu/element.cc:112
 msgid "Chinese (TW)"
 msgstr "Κινέζικα (TW)"
 
-#: ../libs/gcu/element.cc:113
+#: ../libs/gcu/element.cc:114
 msgid "Can't find and read elements.xml"
 msgstr "Αδυναμία εύρεσης και ανάγνωσης αρχείου elements.xml"
 
-#: ../libs/gcu/element.cc:117 ../libs/gcu/element.cc:126
+#: ../libs/gcu/element.cc:118 ../libs/gcu/element.cc:127
 msgid "Incorrect file format: elements.xml"
 msgstr "Λανθασμένος τύπος αρχείου: elements.xml"
 
-#: ../libs/gcu/element.cc:162
+#: ../libs/gcu/element.cc:163
 msgid "English"
 msgstr "Αγγλικά"
 
-#: ../libs/gcu/element.cc:422
+#: ../libs/gcu/element.cc:423
 msgid "Can't find and read radii.xml"
 msgstr "Αδυναμία εύρεσης και ανάγνωσης αρχείου radii.xml"
 
-#: ../libs/gcu/element.cc:426 ../libs/gcu/element.cc:439
+#: ../libs/gcu/element.cc:427 ../libs/gcu/element.cc:440
 msgid "Incorrect file format: radii.xml"
 msgstr "Λανθασμένος τύπος αρχείου: radii.xml"
 
-#: ../libs/gcu/element.cc:528
+#: ../libs/gcu/element.cc:529
 msgid "Can't find and read elecprops.xml"
 msgstr "Αδυναμία εύρεσης και ανάγνωσης αρχείου elecprops.xml"
 
-#: ../libs/gcu/element.cc:532 ../libs/gcu/element.cc:539
+#: ../libs/gcu/element.cc:533 ../libs/gcu/element.cc:540
 msgid "Incorrect file format: elecprops.xml"
 msgstr "Λανθασμένος τύπος αρχείου: elecprops.xml"
 
-#: ../libs/gcu/element.cc:687
+#: ../libs/gcu/element.cc:688
 msgid "Can't find and read isotopes.xml"
 msgstr "Αδυναμία εύρεσης και ανάγνωσης αρχείου isotopes.xml"
 
-#: ../libs/gcu/element.cc:691 ../libs/gcu/element.cc:700
+#: ../libs/gcu/element.cc:692 ../libs/gcu/element.cc:701
 msgid "Incorrect file format: isotopes.xml"
 msgstr "Λανθασμένος τύπος αρχείου: isotopes.xml"
 
@@ -2014,7 +2029,7 @@ msgstr "Άκυρος χαρακτήρας"
 msgid "Chemical file loader type."
 msgstr "Τύπος φορτωτή χημικού αρχείου."
 
-#: ../libs/gcu/object.cc:643
+#: ../libs/gcu/object.cc:656
 msgid "Object"
 msgstr "Αντικείμενο"
 
@@ -2267,8 +2282,9 @@ msgstr "Περιοδικός πίνακας των στοιχείων"
 msgid ""
 "Out of range value %d for property \"color-style\" for GcuPeriodic instance "
 "%p\n"
-msgstr "Τιμή %d εκτός ορίων για την ιδιότητα \"τεχνοτροπία-χρώματος\" στην περίπτωση %"
-"p της εφαρμογής GcuPeriodic\n"
+msgstr ""
+"Τιμή %d εκτός ορίων για την ιδιότητα \"τεχνοτροπία-χρώματος\" στην περίπτωση "
+"%p της εφαρμογής GcuPeriodic\n"
 
 #: ../libs/gcugtk/molecule.cc:172
 msgid "Find in databases"
@@ -2300,132 +2316,136 @@ msgstr "ίντσες"
 msgid "mm"
 msgstr "χιλιοστά"
 
-#: ../libs/gcugtk/spectrumdoc.cc:238 ../libs/gcugtk/spectrumdoc.cc:2375
+#: ../libs/gcugtk/spectrumdoc.cc:243 ../libs/gcugtk/spectrumdoc.cc:2410
 msgid "Wavenumber (cm<sup>−1</sup>)"
 msgstr "Κυματαριθμός (cm<sup>−1</sup>)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:239 ../libs/gcugtk/spectrumdoc.cc:2389
+#: ../libs/gcugtk/spectrumdoc.cc:244 ../libs/gcugtk/spectrumdoc.cc:2426
 msgid "Transmittance"
 msgstr "Διαπερατότητα"
 
-#: ../libs/gcugtk/spectrumdoc.cc:240 ../libs/gcugtk/spectrumdoc.cc:2388
+#: ../libs/gcugtk/spectrumdoc.cc:245 ../libs/gcugtk/spectrumdoc.cc:2425
 msgid "Absorbance"
 msgstr "Απορρόφηση"
 
-#: ../libs/gcugtk/spectrumdoc.cc:241 ../libs/gcugtk/spectrumdoc.cc:2201
-#: ../libs/gcugtk/spectrumdoc.cc:2301
+#: ../libs/gcugtk/spectrumdoc.cc:246 ../libs/gcugtk/spectrumdoc.cc:2236
+#: ../libs/gcugtk/spectrumdoc.cc:2336
 msgid "Chemical shift (ppm)"
 msgstr "Χημική μετατόπιση (ppm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:242
+#: ../libs/gcugtk/spectrumdoc.cc:247
 msgid "Wavelength (nm)"
 msgstr "Μήκος κύματος (nm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:243
+#: ../libs/gcugtk/spectrumdoc.cc:248
 msgid "Wavelength (µm)"
 msgstr "Μήκος κύματος (nm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:244
+#: ../libs/gcugtk/spectrumdoc.cc:249
 msgid "Time (s)"
 msgstr "Χρόνος (s)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:245 ../libs/gcugtk/spectrumdoc.cc:2202
-#: ../libs/gcugtk/spectrumdoc.cc:2302
+#: ../libs/gcugtk/spectrumdoc.cc:250 ../libs/gcugtk/spectrumdoc.cc:2237
+#: ../libs/gcugtk/spectrumdoc.cc:2337
 msgid "Frequency (Hz)"
 msgstr "Συχνότητα (Hz)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:246
+#: ../libs/gcugtk/spectrumdoc.cc:251
 msgid "Mass/charge ratio"
 msgstr "Αναλογία μάζας/φορτίου"
 
-#: ../libs/gcugtk/spectrumdoc.cc:247
+#: ../libs/gcugtk/spectrumdoc.cc:252
 msgid "Relative abundance"
 msgstr "Σχετική αφθονία"
 
-#: ../libs/gcugtk/spectrumdoc.cc:617 ../libs/gcugtk/spectrumdoc.cc:2208
-#: ../libs/gcugtk/spectrumdoc.cc:2308
+#: ../libs/gcugtk/spectrumdoc.cc:253
+msgid "Response factor"
+msgstr ""
+
+#: ../libs/gcugtk/spectrumdoc.cc:623 ../libs/gcugtk/spectrumdoc.cc:2243
+#: ../libs/gcugtk/spectrumdoc.cc:2343
 msgid "Show integral"
 msgstr "Προβολή ακέραιου"
 
-#: ../libs/gcugtk/spectrumdoc.cc:617
+#: ../libs/gcugtk/spectrumdoc.cc:623
 msgid "Hide integral"
 msgstr "Απόκρυψη ακέραιου"
 
-#: ../libs/gcugtk/spectrumdoc.cc:719 ../libs/gcugtk/spectrumdoc.cc:1456
+#: ../libs/gcugtk/spectrumdoc.cc:732 ../libs/gcugtk/spectrumdoc.cc:1483
 msgid "Found too many data!"
 msgstr "Βρέθηκαν υπερβολικά πολλά δεδομένα!"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1352 ../libs/gcugtk/spectrumdoc.cc:1382
+#: ../libs/gcugtk/spectrumdoc.cc:1379 ../libs/gcugtk/spectrumdoc.cc:1409
 msgid "Constant too long"
 msgstr "Πολύ μεγάλο μήκος σταθεράς"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1375
+#: ../libs/gcugtk/spectrumdoc.cc:1402
 msgid "Invalid character in data block"
 msgstr "Άκυρος χαρακτήρας στην ομάδα δεδομένων"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1478
+#: ../libs/gcugtk/spectrumdoc.cc:1505
 msgid "Data check failed!"
 msgstr "Ο έλεγχος δεδομένων απέτυχε!"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1495
+#: ../libs/gcugtk/spectrumdoc.cc:1522
 msgid "Data check failed: FIRSTX!"
 msgstr "Αποτυχία ελέγχου δεδομένων: FIRSTX!"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1500
+#: ../libs/gcugtk/spectrumdoc.cc:1527
 msgid "Data check failed: FIRSTY!"
 msgstr "Αποτυχία ελέγχου δεδομένων: FIRSTY!"
 
 #. FIXME: Throw an exception
-#: ../libs/gcugtk/spectrumdoc.cc:1504
+#: ../libs/gcugtk/spectrumdoc.cc:1531
 msgid "Found too many data"
 msgstr "Βρέθηκαν υπερβολικά πολλά δεδομένα"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1815
+#: ../libs/gcugtk/spectrumdoc.cc:1850
 msgid "Integral"
 msgstr "Ακέραιο"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1938
+#: ../libs/gcugtk/spectrumdoc.cc:1973
 msgid "Real transformed data"
 msgstr "Πραγματικά μετασχηματισμένα δεδομένα"
 
-#: ../libs/gcugtk/spectrumdoc.cc:1946
+#: ../libs/gcugtk/spectrumdoc.cc:1981
 msgid "Imaginary transformed data"
 msgstr "Φανταστικά μετασχηματισμένα δεδομένα"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2167 ../libs/gcugtk/spectrumdoc.cc:2242
+#: ../libs/gcugtk/spectrumdoc.cc:2202 ../libs/gcugtk/spectrumdoc.cc:2277
 msgid "Chemical shift"
 msgstr "Χημική μετατόπιση"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2198 ../libs/gcugtk/spectrumdoc.cc:2298
-#: ../libs/gcugtk/spectrumdoc.cc:2362
+#: ../libs/gcugtk/spectrumdoc.cc:2233 ../libs/gcugtk/spectrumdoc.cc:2333
+#: ../libs/gcugtk/spectrumdoc.cc:2397
 msgid "X unit:"
 msgstr "Μονάδα άξονα Χ:"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2333
+#: ../libs/gcugtk/spectrumdoc.cc:2368
 msgid "Transform to spectrum"
 msgstr "Μετασχηματισμός σε φάσμα"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2372
+#: ../libs/gcugtk/spectrumdoc.cc:2407
 msgid "Wave length (nm)"
 msgstr "Μήκος κύματος (nm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2374
+#: ../libs/gcugtk/spectrumdoc.cc:2409
 msgid "Wave length (µm)"
 msgstr "Μήκος κύματος (μm)"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2380
+#: ../libs/gcugtk/spectrumdoc.cc:2415
 msgid "Invert X Axis"
 msgstr "Αντιστροφή του Άξονα των Χ"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2385
+#: ../libs/gcugtk/spectrumdoc.cc:2422
 msgid "Y unit:"
 msgstr "Μονάδα άξονα Υ:"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2476
+#: ../libs/gcugtk/spectrumdoc.cc:2513
 msgid "Real data"
 msgstr "Πραγματικά δεδομένα"
 
-#: ../libs/gcugtk/spectrumdoc.cc:2499
+#: ../libs/gcugtk/spectrumdoc.cc:2536
 msgid "Imaginary data"
 msgstr "Φανταστικά δεδομένα"
 
@@ -2654,7 +2674,7 @@ msgid "Add a pair of arrows for a reversible reaction"
 msgstr "Προσθήκη ζεύγους βελών για μια αντιστρέψιμη αντίδραση"
 
 #: ../plugins/paint/arrows/plugin.cc:78
-#: ../plugins/paint/arrows/retrosynthesisarrow.cc:211
+#: ../plugins/paint/arrows/retrosynthesisarrow.cc:199
 msgid "Retrosynthesis arrow"
 msgstr "Βέλος ρετροσύνθεσης"
 
@@ -2673,8 +2693,7 @@ msgstr "Βέλος μετακίνησης ζεύγους ηλεκτρονίων"
 #: ../plugins/paint/arrows/plugin.cc:85
 msgid "Add a curved arrow to represent an electron pair move"
 msgstr ""
-"Προσθήκη καμπύλου βέλους που αντιπροσωπεύει τη μετακίνηση ζεύγους "
-"ηλεκτρονίων"
+"Προσθήκη καμπύλου βέλους που αντιπροσωπεύει τη μετακίνηση ζεύγους ηλεκτρονίων"
 
 #: ../plugins/paint/arrows/plugin.cc:87
 msgid "Single electron move arrow"
@@ -4013,7 +4032,8 @@ msgstr "Προεπιλεγμένο επάνω εξωτερικό περιθώρ�
 
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:10
 msgid "This value gives the default header height number of points."
-msgstr "Αυτή η τιμή δίνει τον προεπιλεγμένο αριθμό σημείων του ύψους κεφαλίδας."
+msgstr ""
+"Αυτή η τιμή δίνει τον προεπιλεγμένο αριθμό σημείων του ύψους κεφαλίδας."
 
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:11
 msgid "Default Left Margin"
@@ -4376,8 +4396,8 @@ msgid ""
 "heavy). Used in the default theme."
 msgstr ""
 "Πάχος γραμματοσειράς που χρησιμοποιείται για χημικούς τύπους, όπως και για "
-"άτομα ή θραύσματα (2 = πολύ ελαφριά· 3 = ελαφριά· 4 = κανονική· 6 = "
-"ημι-έντονη· 7 = έντονη· 8 = πολύ έντονη· 9 = βαριά). Χρησιμοποιείται στο "
+"άτομα ή θραύσματα (2 = πολύ ελαφριά· 3 = ελαφριά· 4 = κανονική· 6 = ημι-"
+"έντονη· 7 = έντονη· 8 = πολύ έντονη· 9 = βαριά). Χρησιμοποιείται στο "
 "προεπιλεγμένο θέμα."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:67
@@ -4405,8 +4425,8 @@ msgid ""
 "expanded). Used in the default theme."
 msgstr ""
 "Έκταση γραμματοσειράς που χρησιμοποιείται για χημικούς τύπους, όπως και για "
-"άτομα ή θραύσματα (0 = πάρα πολύ στενή· 1 = πολύ στενή· 2 = στενή· 3 = "
-"ημι-στενή· 4 = κανονική; 5 = ημι-εκτεταμένη· 6 = εκτεταμένη· 7 = πολύ "
+"άτομα ή θραύσματα (0 = πάρα πολύ στενή· 1 = πολύ στενή· 2 = στενή· 3 = ημι-"
+"στενή· 4 = κανονική; 5 = ημι-εκτεταμένη· 6 = εκτεταμένη· 7 = πολύ "
 "εκτεταμένη· 8 = πάρα πολύ εκτεταμένη). Χρησιμοποιείται στο προεπιλεγμένο "
 "θέμα."
 
@@ -4880,27 +4900,27 @@ msgstr "β (°):"
 msgid "γ (°):"
 msgstr "γ (°):"
 
-#: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:1
+#: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:2
 msgid "<b><i>ψ</i> (°):</b>"
 msgstr "<b><i>ψ</i> (°):</b>"
 
-#: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:2
+#: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:3
 msgid "<b><i>θ</i> (°):</b>"
 msgstr "<b><i>θ</i> (°):</b>"
 
-#: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:3
+#: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:4
 msgid "<b><i>φ</i> (°):</b>"
 msgstr "<b><i>φ</i> (°):</b>"
 
-#: ../ui/crystal/prefs.ui.h:4 ../ui/crystal/view-settings.ui.h:4
+#: ../ui/crystal/prefs.ui.h:4 ../ui/crystal/view-settings.ui.h:5
 msgid "<b>Model orientation in space (Euler's angles):</b>"
 msgstr "<b>Προσανατολισμός προτύπου στον χώρο (γωνίες του Όιλερ):</b>"
 
-#: ../ui/crystal/prefs.ui.h:5 ../ui/crystal/view-settings.ui.h:5
+#: ../ui/crystal/prefs.ui.h:5 ../ui/crystal/view-settings.ui.h:6
 msgid "<b>Field of view (°):</b>"
 msgstr "<b>Οπτικό πεδίο (°):</b>"
 
-#: ../ui/crystal/prefs.ui.h:6 ../ui/crystal/view-settings.ui.h:6
+#: ../ui/crystal/prefs.ui.h:6 ../ui/crystal/view-settings.ui.h:7
 msgid ""
 "Acceptable values for the field of view are in the range from 0° to 45°. If "
 "0, no perspective effect will be used."
@@ -4908,7 +4928,7 @@ msgstr ""
 "Αποδεκτές τιμές για το οπτικό πεδίο είναι στην περιοχή από 0° έως 45°. Εάν "
 "είναι 0, δεν θα χρησιμοποιηθεί προοπτικό αποτέλεσμα."
 
-#: ../ui/crystal/prefs.ui.h:7 ../ui/crystal/view-settings.ui.h:7
+#: ../ui/crystal/prefs.ui.h:7 ../ui/crystal/view-settings.ui.h:8
 msgid "<b>Background color:</b>"
 msgstr "<b>Χρώμα παρασκηνίου:</b>"
 
@@ -4964,6 +4984,11 @@ msgstr "2880"
 #: ../ui/crystal/prefs.ui.h:20
 msgid "Printing"
 msgstr "Εκτύπωση"
+
+#: ../ui/crystal/view-settings.ui.h:1
+#, fuzzy
+msgid "View settings"
+msgstr "_Ρυθμίσεις προβολής..."
 
 #: ../ui/crystal/atoms.ui.h:1 ../ui/crystal/cleavages.ui.h:4
 #: ../ui/crystal/lines.ui.h:4
@@ -5724,32 +5749,32 @@ msgid ""
 "<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> s block </span>"
 msgstr ""
-"<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight=\"bold\"> "
-"ομάδα s </span>"
+"<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight="
+"\"bold\"> ομάδα s </span>"
 
 #: ../ui/table/block.ui.h:2
 msgid ""
 "<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> d block </span>"
 msgstr ""
-"<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight=\"bold\"> "
-"ομάδα d </span>"
+"<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight="
+"\"bold\"> ομάδα d </span>"
 
 #: ../ui/table/block.ui.h:3
 msgid ""
 "<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> p block </span>"
 msgstr ""
-"<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight=\"bold\"> "
-"όμαδα p </span>"
+"<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight="
+"\"bold\"> όμαδα p </span>"
 
 #: ../ui/table/block.ui.h:4
 msgid ""
 "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> f block </span>"
 msgstr ""
-"<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight=\"bold\"> "
-"ομάδα f </span>"
+"<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight="
+"\"bold\"> ομάδα f </span>"
 
 #~ msgid "Off screen rendering"
 #~ msgstr "Φωτοαπόδοση εκτός οθόνης"

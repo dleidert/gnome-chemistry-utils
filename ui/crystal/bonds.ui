@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <!--*- mode: xml -*-->
 <interface>
+  <!-- interface-requires gtk+ 3.4 -->
   <object class="GtkWindow" id="bonds">
     <property name="visible">True</property>
     <property name="title" translatable="yes">Bonds</property>

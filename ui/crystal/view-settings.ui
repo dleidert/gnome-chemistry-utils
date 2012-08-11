@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <!-- interface-requires gtk+ 2.12 -->
+  <!-- interface-requires gtk+ 3.4 -->
   <object class="GtkAdjustment" id="fov-adj">
     <property name="upper">45</property>
     <property name="value">10</property>
@@ -10,6 +10,7 @@
   <object class="GtkDialog" id="view-settings">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
+    <property name="title" translatable="yes">View settings</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
@@ -19,26 +20,10 @@
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="can_focus">False</property>
-            <property name="layout_style">edge</property>
-            <child>
-              <object class="GtkButton" id="help">
-                <property name="label">gtk-help</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
             <child>
               <object class="GtkButton" id="cancel">
                 <property name="label">gtk-close</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -50,6 +35,23 @@
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="help">
+                <property name="label">gtk-help</property>
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>
@@ -154,7 +156,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="xalign">0</property>
-                   <property name="label" translatable="yes">&lt;b&gt;Field of view (°):&lt;/b&gt;</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Field of view (°):&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                     <property name="justify">center</property>
                   </object>
@@ -197,11 +199,11 @@
                 <property name="column_spacing">12</property>
                 <child>
                   <object class="GtkColorButton" id="color">
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
-                    <property name="use_alpha">False</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>

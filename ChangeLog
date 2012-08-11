@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2012-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/spectra/C/gspectrum.xml: update GCrystal user documentation.
+	* libs/gcr/atomsdlg.cc: apply element change to all selected atoms.
+	* ui/crystal/atoms.ui: fixed needed Gtk+ version.
+	* ui/crystal/bonds.ui: ditto.
+	* ui/crystal/cell.ui: ditto.
+	* ui/crystal/cleavages.ui: ditto.
+	* ui/crystal/docprop.ui: ditto.
+	* ui/crystal/lines.ui: ditto.
+	* ui/crystal/prefs.ui: ditto.
+	* ui/crystal/size.ui: ditto.
+	* ui/crystal/view-settings.ui: ditto.
+
 2012-08-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mesomery-arrow.cc: do not save inside a dummy object.
 	* libs/gcp/reaction-arrow.cc: ditto.
