@@ -423,7 +423,7 @@
 			</screenshot>
 		</figure>
 		<para>Some charts can also be displayed by selecting one of the items in
-		<guimenu><guimenuitem>Edit</guimenuitem><guimenuitem>Element charts</guimenuitem></guimenu>, except
+		<menuchoice><guimenu>Edit</guimenu><guimenuitem>Element charts</guimenuitem></menuchoice>, except
 		<guimenuitem>Custom</guimenuitem> which creates a
 		<link linkend="gchemtable-user-curve">custom chart</link>.</para>
 		<para>Consecutive points are joined by a segment. The absence of a segment
