@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.12.14).
+
 2012-08-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/object.cc: fix loading. [#37032]
 
