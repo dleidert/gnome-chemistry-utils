@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-11 14:26+0200\n"
-"PO-Revision-Date: 2012-07-15 21:24+0200\n"
+"PO-Revision-Date: 2012-08-14 20:28+0200\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -758,13 +758,13 @@ msgstr ""
 "nie katalogu"
 
 #: ../libs/gcp/application.cc:625
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Sorry, format %s not supported!\n"
 "Failed to save %s."
 msgstr ""
 "Przykro mi, format %s nieobsługiwany!\n"
-"Nie udało się załadować %s."
+"Nie udało się zapisać %s."
 
 #: ../libs/gcp/application.cc:626
 #, c-format
@@ -1938,7 +1938,7 @@ msgstr "Niemiecki"
 
 #: ../libs/gcu/element.cc:104
 msgid "Greek"
-msgstr ""
+msgstr "Grecki"
 
 #: ../libs/gcu/element.cc:105
 msgid "Spanisch"
@@ -2358,7 +2358,7 @@ msgstr "Względna abundancja"
 
 #: ../libs/gcugtk/spectrumdoc.cc:253
 msgid "Response factor"
-msgstr ""
+msgstr "Współczynnik odpowiedzi"
 
 #: ../libs/gcugtk/spectrumdoc.cc:623 ../libs/gcugtk/spectrumdoc.cc:2243
 #: ../libs/gcugtk/spectrumdoc.cc:2343
@@ -4954,9 +4954,8 @@ msgid "Printing"
 msgstr "Drukowanie"
 
 #: ../ui/crystal/view-settings.ui.h:1
-#, fuzzy
 msgid "View settings"
-msgstr "_Ustawienia widoku..."
+msgstr "Ustawienia widoku"
 
 #: ../ui/crystal/atoms.ui.h:1 ../ui/crystal/cleavages.ui.h:4
 #: ../ui/crystal/lines.ui.h:4
