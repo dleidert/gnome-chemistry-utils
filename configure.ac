@@ -1,6 +1,6 @@
 AC_PREREQ(2.64)
 
-AC_INIT([gnome-chemistry-utils], [0.13.92], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
+AC_INIT([gnome-chemistry-utils], [0.13.93], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
 AC_CONFIG_SRCDIR([libs/gcugtk/gcuperiodic.c])
 AM_INIT_AUTOMAKE([1.11.1 tar-ustar no-dist-gzip dist-bzip2 dist-xz])
 AM_MAINTAINER_MODE([enable])
@@ -142,13 +142,14 @@ PKG_CHECK_MODULES(gdk_pixbuf, [gdk-pixbuf-2.0 >= 2.22.0])
 PKG_CHECK_MODULES(gtk, [gtk+-3.0 >= 3.0.0])
 PKG_CHECK_MODULES(xml, [libxml-2.0 >= 2.4.16])
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
-PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.9.3])
+PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.9.6])
 PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
 PKG_CHECK_MODULES(bodr, [bodr >= 5])
 PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.3.0])
 PKG_CHECK_MODULES(x11, [x11 >= 1.0.0])
 
-dnl Not sure we need to test for glx.h
+dnl Not sure we need to test for glu.h and glx.h
+AC_CHECK_HEADER(GL/glu.h,,[AC_MSG_ERROR([Error, GL/glu.h not found.])])
 AC_CHECK_HEADER(GL/glx.h,,[AC_MSG_ERROR([Error, GL/glx.h not found.])])
 
 dnl GSettings related stuff
@@ -281,7 +282,7 @@ if test "x$libspreadsheet" = x; then
   libspreadsheet=libspreadsheet-1.12
 fi
 
-PKG_CHECK_MODULES(gnumeric, [$libspreadsheet >= 1.11.3], [build_gnumeric_plugin=yes],
+PKG_CHECK_MODULES(gnumeric, [$libspreadsheet >= 1.11.6], [build_gnumeric_plugin=yes],
 		[build_gnumeric_plugin=no])
 dnl --without is not handled
 

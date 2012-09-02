@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2012-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: checks for GL/glu.h.
+	* plugins/paint/bonds/newman.cc: properly initialize the bond order.
+	* plugins/paint/bonds/newman.h: add the missing help tag.
+	* plugins/paint/selection/selectiontool.cc: fixed a freeze.
+
+2012-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.13.93).
+
 2012-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/spectra/C/gspectrum.xml: update GCrystal user documentation.
 	* libs/gcr/atomsdlg.cc: apply element change to all selected atoms.

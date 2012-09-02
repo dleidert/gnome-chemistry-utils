@@ -288,6 +288,10 @@ void gcpSelectionTool::AddSelection (gcp::WidgetData* data)
 				((*i++)->GetType () == MoleculeType) &&
 				((*i)->GetType () == MoleculeType)));
 		}
+	} else {
+		if (m_UIManager)
+			gtk_widget_set_sensitive (m_MergeBtn, false);
+		win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", false);
 	}
 }
 

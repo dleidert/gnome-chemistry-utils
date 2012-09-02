@@ -39,6 +39,7 @@ public:
 	void OnRelease ();
 	GtkWidget *GetPropertyPage ();
 	void Activate ();
+	char const *GetHelpTag () {return "newman";}
 
 private:
 	GtkSpinButton *m_LengthBtn, *m_OrderBtn, *m_ForeBondsBtn, *m_RearBondsBtn,

@@ -123,6 +123,7 @@ gcpNewmanTool::gcpNewmanTool (gcp::Application *App): gcp::Tool (App, "Newman")
 	m_ForeFirstAngle = M_PI / 2.;
 	m_RearFirstAngle = -M_PI / 2.;
 	m_ForeBondAngle = m_RearBondAngle = M_PI / 1.5;
+	m_Order = 1;
 }
 
 gcpNewmanTool::~gcpNewmanTool ()

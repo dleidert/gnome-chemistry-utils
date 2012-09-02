@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.5//EN"
                "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.12.0">
-  <!ENTITY manrevision "0.12.0">
-  <!ENTITY date "April 2010">
+  <!ENTITY appversion "0.14.0">
+  <!ENTITY manrevision "0.14.0">
+  <!ENTITY date "August 2012">
   <!ENTITY app "GChemPaint">
 ]>
 <!-- 
@@ -71,6 +71,15 @@
    		<revision> 
 		  <revnumber>&app; Manual V&manrevision;</revnumber>
 		  <date>&date;</date> 
+		  <revdescription> 
+			 <para role="author">Jean Br&#233;fort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+   		<revision> 
+		  <revnumber>&app; Manual V0.12.0</revnumber>
+		  <date>April 2010</date> 
 		  <revdescription> 
 			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
@@ -167,13 +176,11 @@
 		<para>You can start <application>&app;</application> in the following ways:</para>
 		<variablelist>
     		<varlistentry>
-    		<term><guimenu>Applications</guimenu> menu</term>
+    		<term>Applications list</term>
     		<listitem>
     		<para>Choose 
-    		<menuchoice>
-    		<guisubmenu>Science</guisubmenu>
-    		<guimenuitem>Chemical Structures Editor</guimenuitem>
-    		</menuchoice>. </para>
+    		<quote>Chemical Structures Editor</quote>. It might be listed either in the Education or
+            Science category.</para>
     		</listitem>
     		</varlistentry>
     		<varlistentry>
@@ -508,7 +515,7 @@
 			  </mediaobject>
 			</screenshot>
 		  </figure>
-		  <para>The second tab allows you tio choose the scale of the output. With  no scaling or
+		  <para>The second tab allows you to choose the scale of the output. With  no scaling or
 		  scaling at 100%, the output will have the same size in points as the size in pixels on
 		  the screen. If you choose automatic scaling, you can make the output fill the available
 		  space either horizontally, vertically, or both (none of the options is equivalent to no scaling).</para>
@@ -541,30 +548,8 @@
 		not recognize an extension, the exported file will be a SVG
 		file. <application>&app;</application> will add an extension
 		to the file name if needed.</para>
-		<para>If what you want is a molecule image for publication in Wikipedia,
-		you might read the <link linkend="gchempaint-export-wikipedia">next section.</link></para>
 	 </sect1>
-<!-- ============= To Save a File as an Image for Wikipedia================ -->
-	 <sect1 id="gchempaint-export-wikipedia"> 
-		<title>To Export an image suitable for Wikipedia publication.</title>
-		<para>To export the current file to an image, use the Wikepedia tool.</para>
-		<figure id="gchempaint-wikipedia-tool"> 
-		  <title>Wikipedia Tool</title>
-		  <screenshot> 
-				<mediaobject>
-					<imageobject>
-						<objectinfo> <abstract><para>Screenshot of the Wikipedia Tool button.</para></abstract>
-						</objectinfo> 
-						<imagedata fileref="figures/wikipedia.png"/>
-					</imageobject>
-				</mediaobject>
-			</screenshot>
-		</figure>
-		<para>When this tool is active, clicking on a molecule will export the molecule as a png
-		image using the Wikipedia theme, a transparent background, and containing the InChI for the molecule
-		embedded in the file. You'll have to choose a file name in the file chooser which pops up.</para>
-	 </sect1>
-<!-- ============= Document properties================ -->
+<!-- ============= Preferences ================ -->
 	<sect1 id="gchempaint-preferences">
 		<title>To Edit the Preferences</title>
 		<para>You can change the current settings using
@@ -600,6 +585,12 @@
 				is just the inverse, because it is more consistent with perspective
 				rules.See the <link linkend="gchempaint-stereobonds">Stereo bond tools</link>
 				section for more information.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Use colored atomic symbols in new documents</term> 
+			 <listitem> 
+				<para>Whether atomic symbol should use the element symbolic color when displayed.
+				Attached hydrogen atoms will use the same color.</para>
 			 </listitem>
 		  </varlistentry>
 		</variablelist>
@@ -855,7 +846,24 @@
 		</figure>
 		<para>This tool is used to select one or several molecules or objects. To select an object,
 		just click on it. Molecules and other groups of objects are considered single objects and
-		you cannot select only some part of a molecule. Otherwise, you can select
+		you cannot select only some part of a molecule with this tool. To selct only a portion of
+		an object, use the lasso tool:</para>
+		<figure id="selection-lasso-tool"> 
+		  <title>Lasso Tool</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the Lasso Tool button.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/lasso.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>The allowed  actions for a partial selection depend upon what is selected.
+		The main use it for <link linkend="gchempaint-lasso-tool">modifying a molecule</link>
+		by translating or rotating a portion of it.</para>
+		<para>Otherwise, you can select
 		all objects at least partially lying inside a rectangle by pressing the
 		left button, dragging the mouse from one corner of the rectangle to the opposite one
 		and releasing the button. Selected objects have their color changed from black to cyan.</para>
@@ -1875,6 +1883,121 @@
 			</variablelist> 
 		</sect2>
 	</sect1>
+<!-- ============= Add a Newman projection ================ -->
+	<sect1 id="gchempaint-newman">
+		<title>To Add a Newman Projection</title>
+		<para>To add a Newman projection, use the following tool:</para>
+		<figure id="molecule-newman-tool"> 
+		  <title>Newman Projection Tool</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the Newman Projection Tool button.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/newman.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>This tool allows to add a Newman projection. The changes become permanent only when the mouse button is released.</para>
+		<para>To add a Newman projection, click on the background. Contrarily to other tools existing atoms
+		are never used by this tool. It creates new atoms of the current element.</para>
+		<para></para>
+		<figure id="gchempaint-newman-window"> 
+		  <title><application>&app;</application> toolbox when the Newman projection tool is selected</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the <application>&app;</application> toolbox when the Newman projection tool is selected.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/newman-opt.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>The available options are:</para>
+		<para>For the main bond:</para>
+		<variablelist> 
+		  <varlistentry> <term>Bond length</term> 
+			 <listitem> 
+				<para>The default length of the new projected bond. This has no influence ion the drawing,
+				but might be important when exporting to a 3d model.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Bond order</term> 
+			 <listitem> 
+				<para>The bond order.</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist> 
+		<para>And for each atom:</para>
+		<variablelist> 
+		  <varlistentry> <term>Bonds number</term> 
+			 <listitem> 
+				<para>Number of other bonds for the atom.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>First bond angle</term> 
+			 <listitem> 
+				<para>The direction of the first bond. Angles are measured
+				counter clockwise from horizontal right.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Angle between bonds</term> 
+			 <listitem> 
+				<para>The angle between two consecutive bonds.</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist> 
+		<warning><para>This version of &app; does not correctly support Newman projections with eclipsed bonds.</para></warning>
+	</sect1>
+<!-- ============= Polymers ================ -->
+	<sect1 id="gchempaint-polymers">
+		<title>To Edit a Polymer Molecule</title>
+		<para>To edit a polymer molecule, use the brackates tool:</para>
+		<figure id="molecule-brackets"> 
+		  <title>Brackets Tool</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the Brackets Tool button.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/brackets.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<figure id="molecule-brackets-window"> 
+		  <title><application>&app;</application> toolbox when the brackets tool is selected</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the <application>&app;</application> toolbox when the brackets tool is selected.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/brackets-opt.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+	</sect1>
+
+<!-- ============= Modify molecules ================ -->
+	<sect1 id="gchempaint-lasso-tool">
+		<title>To Modify a Molecule using the Lasso Tool</title>
+		<figure id="molecule-lasso-tool"> 
+		  <title>Lasso Tool</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the Lasso Tool button.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/lasso.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+
+	</sect1>
 
 <!-- ============= Merge molecules ================ -->
 	<sect1 id="gchempaint-merge">
@@ -2601,6 +2724,35 @@
 			 </listitem>
 		  </varlistentry>
 		</variablelist> 
+	</sect1>
+<!-- ============= Add brackets ================ -->
+	<sect1 id="gchempaint-brackets">
+		<title>To Add Brackets around an Object</title>
+		<para>To add brackets around an object, ues this tool:</para>
+		<figure id="object-brackets"> 
+		  <title>Brackets Tool</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the Brackets Tool button.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/brackets.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<figure id="object-brackets-window"> 
+		  <title><application>&app;</application> toolbox when the brackets tool is selected</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the <application>&app;</application> toolbox when the brackets tool is selected.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/brackets-opt.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
 	</sect1>
 
  </chapter>

@@ -330,7 +330,7 @@
 		  </mediaobject>
 		</screenshot>
 	  </figure>
-	  <para>The second tab allows you tio choose the scale of the output. With  no scaling or
+	  <para>The second tab allows you to choose the scale of the output. With  no scaling or
 	  scaling at 100%, the output will have the same size in points as the size in pixels on
 	  the screen. If you choose automatic scaling, you can make the output fill the available
 	  space either horizontally, vertically, or both (none of the options is equivalent to no scaling).</para>

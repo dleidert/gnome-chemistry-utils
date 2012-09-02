@@ -230,7 +230,7 @@ io_func (GIOChannel *source, G_GNUC_UNUSED GIOCondition condition, G_GNUC_UNUSED
 	char *str;
 	gsize length;
 	g_io_channel_read_line (source, &str, &length, NULL, NULL);
-	str[length - 1] = 0;
+	str[length - 1] = 0;	
 	buf = str;
 	g_free (str);
 	str = NULL;
