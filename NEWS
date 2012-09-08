@@ -1,3 +1,9 @@
+Version 0.13.93
+	GChemPaint:
+		* Don't freeze after an aborted molecules merge.
+		* Initialize the bond order for the Newman projection tool.
+		* Don't crash when adding brackets around a fragment.
+
 Version 0.13.92
 	GChemCalc
 		* Updated the documentation.

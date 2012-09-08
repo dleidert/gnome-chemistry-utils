@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2012-09-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/selection/bracketstool.cc: don't crash when selecting a
+	fragment.
+
 2012-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: checks for GL/glu.h.
 	* plugins/paint/bonds/newman.cc: properly initialize the bond order.

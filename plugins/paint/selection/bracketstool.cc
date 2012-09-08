@@ -99,12 +99,13 @@ void gcpBracketsTool::OnDrag ()
 					y0 *= m_dZoomFactor;
 					if (x0 >= xmin && x0 <= xmax && y0 >= ymin && y0 <= ymax) {
 						m_pData->SetSelected (object);
-						gcp::Atom *atom;
+						gcp::Atom *atom = NULL;
 						switch (object->GetType ()) {
 						case gcu::FragmentType:
 							atom = static_cast <gcp::Fragment *> (object)->GetAtom ();
 						case gcu::AtomType: {
-							atom = static_cast <gcp::Atom *> (object);
+							if (atom == NULL)
+								atom = static_cast <gcp::Atom *> (object);
 							// go through the bonds and select them if both ends are selected
 							std::map<gcu::Atom*, gcu::Bond*>::iterator i;
 							gcu::Bond *bond = atom->GetFirstBond (i);

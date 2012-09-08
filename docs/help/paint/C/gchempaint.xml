@@ -1804,6 +1804,8 @@
 			the button if you want to draw the cycle on the other side. Pressing the Shift key and
 			moving the mouse to an adjacent bond will include this bond in the new cycle if the size of the
 			new cycle is large enough (at least two new bonds will be created).</para>
+			<para id="gchempaint-cycle-options">When one of the cycle tools
+			is active, the toolbox looks like:</para>
 			<figure id="gchempaint-cycle-window"> 
 			  <title><application>&app;</application> toolbox when a cycle tool is selected</title>
 			  <screenshot> 
@@ -1849,6 +1851,8 @@
 			<para>This tool works the same as the other cycle tools. The size or the new cycles can be changed
 			in the property box associated with this tool. The default size is nine and the largest possible
 			size is one hundred.</para>
+			<para id="gchempaint-cyclen-options">When the variable size cycle tool
+			is active, the toolbox looks like:</para>
 			<figure id="gchempaint-cyclen-window"> 
 			  <title><application>&app;</application> toolbox when the variable size cycle tool is selected</title>
 			  <screenshot> 
@@ -1902,7 +1906,8 @@
 		<para>This tool allows to add a Newman projection. The changes become permanent only when the mouse button is released.</para>
 		<para>To add a Newman projection, click on the background. Contrarily to other tools existing atoms
 		are never used by this tool. It creates new atoms of the current element.</para>
-		<para></para>
+		<para id="gchempaint-newman-options">When the Neman projection tool
+		is active, the toolbox looks like:</para>
 		<figure id="gchempaint-newman-window"> 
 		  <title><application>&app;</application> toolbox when the Newman projection tool is selected</title>
 		  <screenshot> 
@@ -1954,7 +1959,7 @@
 <!-- ============= Polymers ================ -->
 	<sect1 id="gchempaint-polymers">
 		<title>To Edit a Polymer Molecule</title>
-		<para>To edit a polymer molecule, use the brackates tool:</para>
+		<para>To edit a polymer molecule, use the brackets tool:</para>
 		<figure id="molecule-brackets"> 
 		  <title>Brackets Tool</title>
 		  <screenshot> 
@@ -1967,6 +1972,11 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
+		<para>Drag the mouse so as to select the polymer unit and release the
+		mouse button. You can then add a stoichiometric coefficient using the
+		contextual menu for the brackets.</para>
+		<para id="gchempaint-polymers-options">When the brackets tool
+		is active, the toolbox looks like:</para>
 		<figure id="molecule-brackets-window"> 
 		  <title><application>&app;</application> toolbox when the brackets tool is selected</title>
 		  <screenshot> 
@@ -1979,6 +1989,19 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
+		<para>The available options are:</para>
+		<variablelist> 
+		  <varlistentry> <term>Brackets type</term> 
+			 <listitem> 
+				<para>Choose between curved, square and curly brackets using the dropdown list.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Used brackets</term> 
+			 <listitem> 
+				<para>Choose whether to use opening, closing, or both brackets. For polymers both should be used.</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist> 
 	</sect1>
 
 <!-- ============= Modify molecules ================ -->
