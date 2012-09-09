@@ -233,8 +233,6 @@ Object* Object::GetDescendant (const gchar* Id) const
 	string sId = pDoc->GetTranslatedId (Id);
 	if (sId.size ())
 		Id = sId.c_str ();
-	else
-		pDoc->EraseTranslationId (Id);
 	return RealGetDescendant (Id);
 }
 

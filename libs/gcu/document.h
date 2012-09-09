@@ -95,7 +95,7 @@ When pasting, objects added to the document might have the same Id as objects al
 maintains a table to update links using Ids as identifiers. GetTranslatedId returns
 the translated id corresponding to the parameter id.
 */
-	std::string& GetTranslatedId (const char* id) {return m_TranslationTable[id];}
+	std::string& GetTranslatedId (const char* id);
 
 /*!
 @param Id the entry to remove

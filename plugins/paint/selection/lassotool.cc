@@ -336,26 +336,33 @@ void gcpLassoTool::OnFlip (bool horizontal)
 	m_pOp = pDoc-> GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 	std::set <gcu::Object *> dirty;
 	for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
-		m_pOp->AddObject (*i,0);
-		(*i)->Transform2D (m, m_cx / m_dZoomFactor, m_cy / m_dZoomFactor);
-		if ((*i)->GetParent ()->GetType () == gcu::MoleculeType) {
-			gcp::Molecule *mol = static_cast <gcp::Molecule *> ((*i)->GetParent ());
-			if (dirty.find (mol) == dirty.end ()) {
-				std::list <gcu::Bond*>::const_iterator i;
-				gcp::Bond const *bond = static_cast <gcp::Bond const *> (mol->GetFirstBond (i));
+		gcu::Object *group = (*i)->GetGroup ();
+		if (group) {
+			if (dirty.find (group) == dirty.end ()) {
+				m_pOp->AddObject (group, 0);
+				dirty.insert (group);
+			}
+			if ((*i)->GetType () == gcu::AtomType) {
+				gcp::Atom *atom = static_cast <gcp::Atom *> (*i);
+				std::map < gcu::Atom *, gcu::Bond * >::const_iterator i;
+				gcp::Bond const *bond = static_cast <gcp::Bond const *> (atom->GetFirstBond (i));
 				while (bond) {
 					const_cast <gcp::Bond *> (bond)->SetDirty ();
-					bond = static_cast <gcp::Bond const *> (mol->GetNextBond (i));
+					bond = static_cast <gcp::Bond const *> (atom->GetNextBond (i));
 				}
-				dirty.insert (mol);
 			}
 		} else
+			m_pOp->AddObject (*i, 0);
+		(*i)->Transform2D (m, m_cx / m_dZoomFactor, m_cy / m_dZoomFactor);
+		if (!group) {
 			m_pView->Update (*i);
-		m_pOp->AddObject (*i,1);
+			m_pOp->AddObject (*i, 1);
+		}
 	}
 	std::set <gcu::Object *>::iterator j;
 	while (!dirty.empty ()) {
 		j = dirty.begin ();
+		m_pOp->AddObject (*j, 1);
 		m_pView->Update (*j);
 		dirty.erase (j);
 	}

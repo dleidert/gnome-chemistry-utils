@@ -150,10 +150,12 @@ bool Bond::Load (xmlNodePtr node)
 		if (!tmp)
 			return false;
 	}
-	doc->SetTarget (tmp, reinterpret_cast <Object **> (&m_End), GetParent (), this, ActionDelete);
+	if (doc->SetTarget (tmp, reinterpret_cast <Object **> (&m_End), GetParent (), this, ActionDelete))
+		m_End->AddBond (this);
 	xmlFree (tmp);
 	bool result = LoadNode (node);
 	doc->ObjectLoaded (this);
+	OnLoaded ();
 	return result;
 }
 

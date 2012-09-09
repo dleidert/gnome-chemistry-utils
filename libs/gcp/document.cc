@@ -943,6 +943,7 @@ void Document::FinishOperation ()
 	}
 	Update ();
 	m_NewObjects.clear ();
+	EmptyTranslationTable ();
 }
 
 void Document::AbortOperation()
@@ -1025,7 +1026,8 @@ void Document::LoadObjects (xmlNodePtr node)
 		child = child->next;
 	}
 	//Now, add bonds
-	m_bIsLoading = true;
+	if (!m_bUndoRedo) /* this looks unsafe but needed at least when undoing partial selection ops */
+		m_bIsLoading = true;
 	child = GetNodeByName (node, "bond");
 	while (child) {
 		Bond* pBond = new Bond ();

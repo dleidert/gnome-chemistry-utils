@@ -58,7 +58,7 @@ void Operation::Delete (unsigned type)
 		Id = (strcmp ((const char*) node->name, "object"))?
 			 (char*) xmlGetProp (node, (xmlChar*) "id"):
 			 (char*) xmlGetProp (node->children, (xmlChar*) "id");
-		m_pDoc->Remove (Id);
+			m_pDoc->Remove (Id);
 		xmlFree (Id);
 		node = node->next;
 	}

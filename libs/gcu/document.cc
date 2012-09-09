@@ -95,6 +95,11 @@ bool Document::SetTarget (char const *id, Object **target, Object *parent, Objec
 {
 	if (target == NULL)
 	    throw std::runtime_error ("Can't set a NULL target.");
+	if (parent) {
+		*target = parent->GetDescendant (id);
+		if (*target)
+			return true;
+	}
 	PendingTarget pt;
 	pt.target = target;
 	pt.parent = parent;
@@ -167,6 +172,13 @@ void Document::ObjectLoaded (Object *obj)
 std::string Document::Name ()
 {
 	return _("Document");
+}
+
+std::string& Document::GetTranslatedId (const char* id)
+{
+	static std::string empty_string ("");
+	std::map < std::string, std::string >::iterator i = m_TranslationTable.find (id);
+	return (i != m_TranslationTable.end ())? (*i).second: empty_string;
 }
 
 }	//	namespace gcu
