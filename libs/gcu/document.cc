@@ -97,8 +97,11 @@ bool Document::SetTarget (char const *id, Object **target, Object *parent, Objec
 	    throw std::runtime_error ("Can't set a NULL target.");
 	if (parent) {
 		*target = parent->GetDescendant (id);
-		if (*target)
+		if (*target) {
+			if (owner)
+				owner->OnLoaded ();
 			return true;
+		}
 	}
 	PendingTarget pt;
 	pt.target = target;

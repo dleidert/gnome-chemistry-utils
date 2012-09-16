@@ -280,7 +280,7 @@ static void gcu_periodic_init (GcuPeriodic *periodic)
 	char name[8] = "elt";
 	GtkToggleButton* button;
 	int i;
-	xml = go_gtk_builder_new (UIDIR"/gcuperiodic.ui", GETTEXT_PACKAGE, NULL);
+	xml = go_gtk_builder_load (UIDIR"/gcuperiodic.ui", GETTEXT_PACKAGE, NULL);
 	g_return_if_fail (xml);
 	periodic->grid = GTK_GRID (gtk_builder_get_object (xml, "periodic-grid"));
 	periodic->book = GTK_NOTEBOOK (gtk_builder_get_object (xml, "book"));

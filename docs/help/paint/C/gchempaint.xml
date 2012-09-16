@@ -2019,7 +2019,50 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
-
+		<para>It is possible to select only part of a molecule using the lasso tool. You just need to
+		click and drag the mouse around the objects you want to select. Selected objects
+		will be highlighted. Actually, it is possible to select any objects collection using this tool.
+		In some cases, the result of transforming a complex selection might have unwanted effects.
+		</para>
+		<para>When a collection of objects has been selected, you can translate the selection by clicking
+		on one of the selectged objects and dragging with the mouse. When the objects are in an appropriate
+		position, release the mouse.
+		</para>
+		<para>It is also possible to use one of the buttons in the toolbox:
+		</para>
+		<figure id="molecule-lasso-window"> 
+		  <title><application>&app;</application> toolbox when the lasso tool is selected</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the <application>&app;</application> toolbox when the lasso tool is selected.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/lasso-opt.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>The property page of this tools contains three buttons:</para>
+		<variablelist> 
+		  <varlistentry><term>Horizontal flip button</term> 
+			 <listitem> 
+				<para>Use this button to <link linkend="gchempaint-rotate">flip</link> horizontally the current selection.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry><term>Vertical flip button</term> 
+			 <listitem> 
+				<para>Use this button to <link linkend="gchempaint-rotate">flip</link> vertically the current selection.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry><term>Rotate button</term> 
+			 <listitem> 
+				<para>When this toggle button is active, dragging the mouse over the
+				selecton will <link linkend="gchempaint-rotate">rotate</link> it
+				instead of moving it to a new position. The rotation center is the position
+				of the object at the click position. For a bond, it is actually the bond center.</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist> 
 	</sect1>
 
 <!-- ============= Merge molecules ================ -->
@@ -2101,51 +2144,57 @@
 			</screenshot>
 		</figure>
 		<para>The available commands are:</para>
-		<variablelist> 
-		  <varlistentry> <term>Export molecule to Ghemical</term> 
+		<variablelist>
+		  <varlistentry> <term>Open 3D model in</term> 
 			 <listitem> 
-				<para><ulink type="http" url="http://www.uku.fi/~thassine/projects/ghemical/"><application>Ghemical</application></ulink>
-				will be started with a copy of the molecule.
-				The stereochemistry should be retained as far as possible.</para>
-				<para>With the cyclohexane molecule, you get:</para>
-					<figure id="gchempaint-ghemical1"> 
-					  <title>Initial ghemical view.</title>
+				<para>This is a submenu containig items for opening the model in
+				one of <ulink type="http" url="http://avogadro.openmolecules.net"><application>Avogadro</application></ulink>,
+				<ulink type="http" url="http://www.uku.fi/~thassine/projects/ghemical/"><application>Ghemical</application></ulink>,
+				or  <ulink type="help" url="ghelp:gchem3d-0.14"><application>GChem3D</application></ulink>.
+				The actually present items correspond to the installed applications. If none
+				is available, the menu will be hidden. When all are present, this gives:</para>
+					<figure id="gchempaint-molecule-3dmenu"> 
+					  <title>Export to 3D menu.</title>
 					  <screenshot> 
 							<mediaobject>
 								<imageobject>
-									<objectinfo> <abstract><para>Screenshot of the initial ghemical view.</para></abstract>
+									<objectinfo> <abstract><para>Screenshot of the export to 3D menu.</para></abstract>
 									</objectinfo> 
-									<imagedata fileref="figures/ghemical1.png"/>
+									<imagedata fileref="figures/mol-menu3d.png"/>
 								</imageobject>
 							</mediaobject>
 						</screenshot>
 					</figure>
-				<para>And after adding hydrogens:</para>
-					<figure id="gchempaint-ghemical2"> 
-					  <title>After adding hydrogens</title>
+				<para>The model is converted to 3D using <application>OpenBabel</application>. This might fail with some
+				polycyclic molecules because of a 
+				<ulink type="html" url="http://sourceforge.net/tracker/?func=detail&amp;aid=3187084&amp;group_id=40728&amp;atid=428740">bug</ulink> in <application>OpenBabel</application>.</para>
+				<para>With the cyclohexane molecule, you get in <application>Ghemical</application>:</para>
+					<figure id="gchempaint-ghemical"> 
+					  <title>Cyclohexane ghemical view.</title>
 					  <screenshot> 
 							<mediaobject>
 								<imageobject>
-									<objectinfo> <abstract><para>Screenshot of the cyclohexane molecule before geometry optimization.</para></abstract>
+									<objectinfo> <abstract><para>Screenshot of the initial cyclohexane ghemical view.</para></abstract>
 									</objectinfo> 
-									<imagedata fileref="figures/ghemical2.png"/>
+									<imagedata fileref="figures/ghemical.png"/>
 								</imageobject>
 							</mediaobject>
 						</screenshot>
 					</figure>
-				<para>And, finally, after geometry optimization and changing the orientation:</para>
-					<figure id="gchempaint-ghemical3"> 
-					  <title>After geometry optimization.</title>
-					  <screenshot> 
-							<mediaobject>
-								<imageobject>
-									<objectinfo> <abstract><para>Screenshot of the cyclohexane molecule after geometry optimization.</para></abstract>
-									</objectinfo> 
-									<imagedata fileref="figures/ghemical3.png"/>
-								</imageobject>
-							</mediaobject>
-						</screenshot>
-					</figure>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Find in databases</term> 
+			 <listitem> 
+				<para>This is another submenu containing a list of databases where the molecule
+				might be searched for. This list can be extended by the user adding an entry to
+				<filename>$HOME/.gchemutils/databases.xml</filename>. This file needs to have a
+				<code>databases</code> root node, and each entry should look like the one for
+				ChemSpider in the predefined databases:</para>
+				<code language="xml">&lt;database&gt;&lt;name&gt;ChemSpider&lt;/name&gt;&lt;uri&gt;http://www.chemspider.com/InChIKey=%K&lt;/uri&gt;&lt;class&gt;molecule&lt;/class&gt;&lt;/database&gt;
+				</code>
+				<para>"<code>%K</code>" will be replaced by the InChiKey when querying. Other available
+				codes are "<code>%I</code>" to use the InChI, and "<code>%S</code>" to use the
+				canonical SMILES as generated by OpenBabel.</para>
 			 </listitem>
 		  </varlistentry>
 		  <varlistentry> <term>Generate InChI</term> 
@@ -2153,26 +2202,19 @@
 				<para>Generates the InChI for the molecule and displays it in a popup window.</para>
 			 </listitem>
 		  </varlistentry>
-		  <varlistentry> <term>NIST webbook page for this molecule</term> 
+		  <varlistentry> <term>Generate InChIKey</term> 
 			 <listitem> 
-				<para>Generates the InChI for the molecule and request the page from the NIST
-				Webbook if the page exists.</para>
-			 </listitem>
-		  </varlistentry>
-		  <varlistentry> <term>PubChem page for this molecule</term> 
-			 <listitem> 
-				<para>Generates the InChI for the molecule and request the page from PubChem
-				if the page exists.</para>
+				<para>Generates the InChIKey for the molecule and displays it in a popup window.</para>
 			 </listitem>
 		  </varlistentry>
 		  <varlistentry> <term>Generate SMILES</term> 
 			 <listitem> 
-				<para>Generates the InChI for the molecule and displays it in a popup window.</para>
+				<para>Generates the canonical SMILES for the molecule and displays it in a popup window.</para>
 			 </listitem>
 		  </varlistentry>
 		  <varlistentry> <term>Open in Calculator</term> 
 			 <listitem> 
-				<para>Opens the chemical calculator <ulink type="help" url="ghelp:gchemcalc-0.12"><application>GChemCalc</application></ulink> with a copy of the molecule
+				<para>Opens the chemical calculator <ulink type="help" url="ghelp:gchemcalc-0.14"><application>GChemCalc</application></ulink> with a copy of the molecule
 				formula and performs the available calculations</para>
 			 </listitem>
 		  </varlistentry>

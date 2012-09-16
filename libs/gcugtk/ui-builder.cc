@@ -32,7 +32,7 @@ namespace gcugtk
 
 UIBuilder::UIBuilder (char const *filename, char const *domain) throw (std::runtime_error)
 {
-	m_Builder = go_gtk_builder_new (filename, domain, NULL);
+	m_Builder = go_gtk_builder_load (filename, domain, NULL);
 	if (!m_Builder) {
 		char *buf = g_strdup_printf (_("Could not load %s."), filename);
 		std::string mess = buf;

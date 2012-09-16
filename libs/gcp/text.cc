@@ -926,6 +926,8 @@ void Text::AddItem ()
 
 void Text::UpdateItem ()
 {
+	if (!m_Item)
+		return;
 	Document *doc = static_cast <Document*> (GetDocument ());
 	Theme *theme = doc->GetTheme ();
 	reinterpret_cast <gccv::Text *> (m_Item)->SetPosition (m_x * theme->GetZoomFactor (), m_y * theme->GetZoomFactor ());
@@ -956,6 +958,8 @@ bool Text::OnChanged (bool save)
 
 void Text::SetSelected (int state)
 {
+	if (!m_Item)
+		return;
 	GOColor color;
 	switch (state) {
 	case SelStateUnselected:

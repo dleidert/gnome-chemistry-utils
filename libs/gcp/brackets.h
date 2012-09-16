@@ -169,6 +169,16 @@ connected atoms is not allowed.
 @return true if all atoms in the set are connected.
 */
 	static bool ConnectedAtoms (std::set < gcu::Object * > const &objects);
+/*!
+@param m the Matrix2D of the transformation.
+@param x the x component of the center of the transformation.
+@param y the y component of the center of the transformation.
+
+Used to move and/or transform brackets.
+Brackets rotation is not currently supported. Actually, this method does not
+do anything. The brackets are adjusted according to their content new position.
+*/
+	void Transform2D (gcu::Matrix2D& m, double x, double y);
 
 private:
 	std::set < gcu::Object * > m_EmbeddedObjects;

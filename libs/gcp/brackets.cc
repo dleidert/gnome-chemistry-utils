@@ -82,6 +82,7 @@ void Brackets::OnLoaded ()
 		m_EmbeddedObjects.insert (last_loaded);
 		last_loaded->Link (this);
 		last_loaded = NULL;
+		UpdateItem ();
 	}
 }
 
@@ -91,6 +92,9 @@ void Brackets::AddItem ()
 		return;
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
+	Theme *theme= doc->GetTheme ();
+	gcu::Object *child;
+	std::map < std::string, gcu::Object * >::iterator i;
 	if (!m_FontDesc.length ()) {
 		char *desc = pango_font_description_to_string (view->GetPangoFontDesc ());
 		m_FontDesc = desc;
@@ -98,9 +102,8 @@ void Brackets::AddItem ()
 	}
 	gccv::Rect rect;
 	if (m_EmbeddedObjects.size () == 1 && GetParent () == *m_EmbeddedObjects.begin ()) {
-		std::map < std::string, gcu::Object * >::iterator i;
 		rect.x0 = go_nan;
-		gcu::Object *parent = GetParent (), *child;
+		gcu::Object *parent = GetParent ();
 		for (child = parent->GetFirstChild (i); child; child = parent->GetNextChild (i)) {
 			if (child == this)
 				continue;
@@ -114,6 +117,17 @@ void Brackets::AddItem ()
 	gccv::Brackets *item = new gccv::Brackets (view->GetCanvas ()->GetRoot (), m_Type, m_Used, m_FontDesc.c_str (), rect.x0, rect.y0, rect.x1, rect.y1, this);
 	item->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
 	m_Item = item;
+	// force children update if any
+	item->GetBounds (rect.x0, rect.y0, rect.x1, rect.y1);
+	for (child = GetFirstChild (i); child; child = GetNextChild (i)) {
+		Text *text = dynamic_cast < Text * > (child);
+		if (text && text->GetGlobalTag () == StoichiometryTag) {
+			text->SetCoords (rect.x1 / theme->GetZoomFactor (),
+			                 (rect.y1 + theme->GetFontSize () / 3. / PANGO_SCALE) / theme->GetZoomFactor ());
+			if (text->GetItem ())
+				text->UpdateItem ();
+		}
+	}
 }
 
 bool Brackets::Load (xmlNodePtr node)
@@ -175,6 +189,8 @@ xmlNodePtr Brackets::Save (xmlDocPtr xml) const
 
 void Brackets::SetSelected (int state)
 {
+	if (!m_Item)
+		return;
 	GOColor color;
 	switch (state) {
 	case SelStateUnselected:
@@ -372,6 +388,10 @@ bool Brackets::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, d
 		}
 	}
 	return result || Object::BuildContextualMenu (UIManager, object, x, y);
+}
+
+void Brackets::Transform2D (gcu::Matrix2D&, double, double)
+{
 }
 
 }

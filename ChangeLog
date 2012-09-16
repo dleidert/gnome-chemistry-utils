@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2012-09-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: fixed implicit lone pairs count evaluation.
+	* libs/gcp/brackets.cc: fixed stoichiometry child position.
+	* libs/gcp/brackets.h: ditto.
+	* libs/gcp/text.cc: avoid crash if an Item is absent.
+	* libs/gcu/document.cc: use existing objects when loading.
+	* libs/gcugtk/gcuperiodic.c (gcu_periodic_init): don't use deprecated API.
+	* libs/gcugtk/ui-builder.cc: ditto.
+
 2012-09-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: enhance undo/redo system.
 	* libs/gcu/bond.cc: use existing atoms when loading.

@@ -4,6 +4,8 @@ Version 0.13.93
 		* Initialize the bond order for the Newman projection tool.
 		* Don't crash when adding brackets around a fragment.
 		* Fix undoing a molecule partial flip.
+		* Fix bracket stoichiometry index position after a transform.
+		* Fix explicit lone pairs count evaluation.
 
 Version 0.13.92
 	GChemCalc
