@@ -2308,7 +2308,7 @@
 		<para>Objects such as text and molecules can be attached to reaction arrows to give more
 		information about the reaction. In the current version of <application>&app;</application>, only one object can
 		be attached to a given reaction arrow. Attaching the object to the arrow ensures
-		that the object will be correctly aligned, and the arrow length is lrge enough.</para>
+		that the object will be correctly aligned, and the arrow length is large enough.</para>
 		<para>To attach an object to a reaction arrow, fiorst select the object.</para>
 		<figure id="gchempaint-reaction-object1"> 
 		  <title>Object selection.</title>
@@ -2441,7 +2441,7 @@
 		<para>Curved arrows can be edited to some extents. Only the intermediate control points can
 		be moved. In order to do that, select the appropriate tool, click on the arrow
 		that you wish to edit, the control points will be displayed, drag the mouse until
-		it reaches one of the conrol points. When you are there, the control point
+		it reaches one of the control points. When you are there, the control point
 		will follow any further mouse move. When done, release the mouse button.</para>
 		<para>Curved arrows can be created inside a reaction or a mesomery. It is also possible
 		to add the curved arrow to the molecule before creating the reaction or the mesomery.
@@ -2536,13 +2536,39 @@
 				</mediaobject>
 			</screenshot>
 		</informalfigure>
-		<para>When inside a reaction, molecules and arrows cannot be selecte
-		indidually, except for operations availabe in the contextual menu.</para>
+		<para>When inside a reaction, molecules and arrows cannot be selected
+		indidually, except for operations available in the contextual menu.</para>
 		<para>You can destroy the reaction by selecting the
 		<menuchoice><guimenuitem>Destroy the reaction</guimenuitem></menuchoice>
 		in the popup menu. The "+" signs and the stoichiometry coefficients
 		will be deleted, and the molecules and arrows will be ungrouped.</para>
 		<para>Reactions cannot be flipped or rotated.</para>
+		<para>&app; also supports reactions with several steps and unsing any
+		string to symbolize a molecule like the following samples:</para>
+		<formalfigure id="gchempaint-multiple-reaction1"> 
+		  <title>A linear reaction scheme.</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>A multiple steps reaction scheme.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/linear-scheme.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</formalfigure>
+		<formalfigure id="gchempaint-multiple-reaction2"> 
+		  <title>A cyclic reaction scheme.</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>A cyclic multiple steps reaction scheme.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/cyclic-scheme.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</formalfigure>
 	</sect1>
 <!-- ============= Add or edit a mesomery relationship ================ -->
 	<sect1 id="gchempaint-mesomery">
@@ -2691,7 +2717,7 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
-		<para>In the sample, one of the vertical bond of the cycle has been selected.</para>
+		<para>In the sample, one of the vertical bonds of the cycle has been selected.</para>
 		<figure id="gchempaint-retrosynthesis4"> 
 		  <title>Custom aligned retrosynthesis path.</title>
 		  <screenshot> 
@@ -2793,7 +2819,7 @@
 <!-- ============= Add brackets ================ -->
 	<sect1 id="gchempaint-brackets">
 		<title>To Add Brackets around an Object</title>
-		<para>To add brackets around an object, ues this tool:</para>
+		<para>To add brackets around an object, use this tool:</para>
 		<figure id="object-brackets"> 
 		  <title>Brackets Tool</title>
 		  <screenshot> 
@@ -2806,6 +2832,12 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
+		<para>To add brackets around an object, choose the appropriate brackets
+		using the toolbox, click and drag the mouse so as to select the whole object.
+		When the mouse button is released the brackets appear around the object.</para>
+		<para>The brackets don't modify the nature of the embedded object which can be
+		used with the same logic as withiout the brackets. A bracketted molecule
+		can be inserted inside a reaction, a retrosynthesis, or a mesomery relationship</para>
 		<figure id="object-brackets-window"> 
 		  <title><application>&app;</application> toolbox when the brackets tool is selected</title>
 		  <screenshot> 
@@ -2818,6 +2850,19 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
+		<para>The available options are:</para>
+		<variablelist> 
+		  <varlistentry> <term>Brackets type</term> 
+			 <listitem> 
+				<para>Choose between curved, square and curly brackets using the dropdown list.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Used brackets</term> 
+			 <listitem> 
+				<para>Choose whether to use opening, closing, or both brackets. For polymers both should be used.</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist> 
 	</sect1>
 
  </chapter>
