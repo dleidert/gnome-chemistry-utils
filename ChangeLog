@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-09-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/fontsel.ui: fixed layout.
+
 2012-09-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: fixed implicit lone pairs count evaluation.
 	* libs/gcp/brackets.cc: fixed stoichiometry child position.
