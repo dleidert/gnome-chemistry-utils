@@ -1,6 +1,6 @@
 AC_PREREQ(2.64)
 
-AC_INIT([gnome-chemistry-utils], [0.13.93], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
+AC_INIT([gnome-chemistry-utils], [0.13.98], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
 AC_CONFIG_SRCDIR([libs/gcugtk/gcuperiodic.c])
 AM_INIT_AUTOMAKE([1.11.1 tar-ustar no-dist-gzip dist-bzip2 dist-xz])
 AM_MAINTAINER_MODE([enable])

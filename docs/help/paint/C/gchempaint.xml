@@ -1170,7 +1170,7 @@
 		</figure>
 		<para>When the template tool is activated, the tools box looks like:</para>
 		  <figure id="gchempaint-templates-dialog"> 
-		    <title><application>&app;</application> toolbox when the templates tool is selected</title>
+		    <title><application>&app;</application>Toolbox when the templates tool is selected</title>
 		    <screenshot> 
 				<mediaobject>
 					<imageobject>
@@ -2740,11 +2740,11 @@
 		<title>To Add or Edit some Text</title>
 		<para>To add or edit text, use the text tool:</para>
 		<figure id="gchempaint-text-tool"> 
-		  <title><application>&app;</application> toolbox when the text tool is selected</title>
+		  <title>Text tool</title>
 		  <screenshot> 
 				<mediaobject>
 					<imageobject>
-						<objectinfo> <abstract><para>Screenshot of the <application>&app;</application> toolbox when the text tool is selected.</para></abstract>
+						<objectinfo> <abstract><para>Screenshot of the text tool button.</para></abstract>
 						</objectinfo> 
 						<imagedata fileref="figures/text.png"/>
 					</imageobject>
@@ -2755,13 +2755,13 @@
 		by clicking on the background.</para>
 		<para>The text tool property page looks like:</para>
 		<figure id="gchempaint-text-tools-bar"> 
-		  <title>Text Tools Bar</title>
+		  <title>Toolbox when the templates tool is selected</title>
 		  <screenshot> 
 				<mediaobject>
 					<imageobject>
-						<objectinfo> <abstract><para>Screenshot of the Text Tools Bar.</para></abstract>
+						<objectinfo> <abstract><para>Screenshot of the <application>&app;</application> toolbox when the text tool is selected.</para></abstract>
 						</objectinfo> 
-						<imagedata fileref="figures/texttools-bar.png"/>
+						<imagedata fileref="figures/text-opt.png"/>
 					</imageobject>
 				</mediaobject>
 			</screenshot>

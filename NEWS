@@ -1,4 +1,4 @@
-Version 0.13.93
+Version 0.13.98
 	GChemPaint:
 		* Don't freeze after an aborted molecules merge.
 		* Initialize the bond order for the Newman projection tool.
