@@ -370,7 +370,6 @@ plugins/loaders/cdx/Makefile
 plugins/loaders/cdxml/Makefile
 plugins/loaders/cif/Makefile
 plugins/loaders/cml/Makefile
-plugins/loaders/ctfiles/Makefile
 plugins/loaders/nuts/Makefile
 plugins/paint/Makefile
 plugins/paint/arrows/Makefile
