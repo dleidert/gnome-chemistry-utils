@@ -3,8 +3,6 @@
 2012-09-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: update version to 0.13.98 (0.14 beta 1).
 	* docs/help/C/paint/C/gchempaint.xml: updated user doc for 0.14.
-	* plugins/loaders/Makefile.am: don't build the ctfiles plugin which is not
-	implemented.
 
 2012-09-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/text/fontsel.ui: fixed layout.
