@@ -976,7 +976,7 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 	m_StrikethroughSignal = g_signal_connect (G_OBJECT (m_StrikethroughBtn), "toggled", G_CALLBACK (on_strikethrough_toggled), this);
 	m_RiseButton = GTK_SPIN_BUTTON (builder->GetWidget ("rise"));
 	m_RiseSignal = g_signal_connect (G_OBJECT (m_RiseButton), "value-changed", G_CALLBACK (on_rise_changed), this);
-	m_ColorSelector = GO_SELECTOR (go_color_selector_new (GO_COLOR_BLACK, GO_COLOR_BLACK, "fore"));
+	m_ColorSelector = GO_SELECTOR (go_selector_new_color (GO_COLOR_BLACK, GO_COLOR_BLACK, "fore"));
 	go_color_selector_set_allow_alpha (m_ColorSelector, false);
 	m_ForeSignal = g_signal_connect (G_OBJECT (m_ColorSelector), "activate", G_CALLBACK (on_fore_color_changed), this);
 	gtk_widget_show (GTK_WIDGET (m_ColorSelector));

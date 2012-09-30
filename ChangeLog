@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-09-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/texttool.cc: don't use deprecated goffice function.
+
 2012-09-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: update version to 0.13.98 (0.14 beta 1).
 	* docs/help/C/paint/C/gchempaint.xml: updated user doc for 0.14.
