@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2012-10-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: removed unimplemented CTFiles plugin.
+	* plugins/loaders/Makefile.am: ditto.
+	* plugins/loaders/ctfiles/Makefile.am: ditto.
+	* plugins/loaders/ctfiles/ctfiles.cc: ditto.
+	* plugins/loaders/ctfiles/plugin.xml.in: ditto.
+
 2012-09-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/text/texttool.cc: don't use deprecated goffice function.
 

@@ -1,3 +1,3 @@
-SUBDIRS = cdx cdxml cif cml ctfiles nuts
+SUBDIRS = cdx cdxml cif cml nuts
 
 MAINTAINERCLEANFILES = Makefile.in
