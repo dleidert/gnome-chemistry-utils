@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-10-22  Ibon Santisteban
+	* eu.po: updated Basque translation.
+
 2012-10-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: remove CTFiles plugin files.
 

@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Ibon Santisteban <obibon@gmx.com>, 2012.
 # 
-#, fuzzy
+#, 
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.12.7\n"
+"Project-Id-Version: 0.13.98\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-11 14:26+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2012-10-21\n"
 "Last-Translator: Ibon Santisteban <obibon@gmx.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: Euskera\n"
@@ -26,9 +26,9 @@ msgid "2D Chemical structure"
 msgstr "Egitura kimiko 2D"
 
 #: ../gchemutils.xml.in.h:3
-#, fuzzy
+#, 
 msgid "NUTS file format"
-msgstr "%s: fitxategi formatu okerra"
+msgstr "NUTS fitxategi formatua"
 
 #: ../database/residues.xml.in.h:1
 msgid "Alkyl"
@@ -555,9 +555,9 @@ msgid "Ununtrium"
 msgstr "Ununtrioa"
 
 #: ../database/elements.xml.in.h:114
-#, fuzzy
+
 msgid "Flerovium"
-msgstr "Mendelebioa"
+msgstr "Flerobioa"
 
 #: ../database/elements.xml.in.h:115
 msgid "Ununpentium"
@@ -565,17 +565,17 @@ msgstr "Ununpentioa"
 
 #: ../database/elements.xml.in.h:116
 msgid "Livermorium"
-msgstr ""
+msgstr "Libermorioa"
 
 #: ../database/elements.xml.in.h:117
-#, fuzzy
+
 msgid "Ununseptium"
-msgstr "Ununpentioa"
+msgstr "Ununseptioa"
 
 #: ../database/elements.xml.in.h:118
-#, fuzzy
+#, 
 msgid "Ununoctium"
-msgstr "Ununtrioa"
+msgstr "Ununoktioa"
 
 #: ../database/isotopes.xml.in.h:1
 msgid "protium"
@@ -590,7 +590,7 @@ msgid "tritium"
 msgstr "tritioa"
 
 #: ../gnumeric/functions.cc:52
-#, fuzzy
+#, 
 msgid "MOLARMASS:molar mass of a chemical entity"
 msgstr "MOLARMASS: entitate kimiko baten masa molarra"
 
@@ -600,8 +600,7 @@ msgstr "formula: \"CCl4\" bezalako formula baten datu-sartzea"
 
 #: ../gnumeric/functions.cc:54
 msgid "MOLARMASS calculates a molar mass associated with the given @{formula}."
-msgstr ""
-"MOLARMASS-ek @(formula)-n adierazitakoarekin masa molarra kalkulatzen du."
+msgstr "MOLARMASS-ek @{formula}-n adierazitakoarekin masa molarra kalkulatzen du."
 
 #: ../gnumeric/functions.cc:55
 msgid "=molarmass(\"CCl4\")"
@@ -640,66 +639,67 @@ msgid "Chemical structures"
 msgstr "Egitura kimikoak"
 
 #: ../goffice/plugin.xml.in.h:5
-#, fuzzy
+#, 
 msgid "Crystal structures"
-msgstr "Egitura kimikoak"
+msgstr "Kristal egiturak"
 
 #: ../goffice/plugin.xml.in.h:6
-#, fuzzy
+#, 
 msgid "CIF file"
-msgstr "[fitxategia]"
+msgstr "CIF fitxategia"
 
 #: ../goffice/plugin.xml.in.h:7
-#, fuzzy
+#, 
 msgid "3D chemical structures"
-msgstr "Egitura kimiko 2D"
+msgstr "Egitura kimikoak 3D-tan"
 
 #: ../goffice/gchemutils.cc:347
-#, fuzzy
+#, 
 msgid "Content type"
-msgstr "_Edukia"
+msgstr "Eduki mota"
 
 #: ../goffice/gchemutils.cc:348
 msgid "Whether the model should be represented in 2d, 3d, or as a crystal cell"
-msgstr ""
+msgstr "Eredua 2D-an, 3D-an edo kristal gelaxka eran errepresentatzen den."
 
 #: ../goffice/gchemutils.cc:351
 msgid "Psi"
-msgstr ""
+msgstr "Psi"
 
 #: ../goffice/gchemutils.cc:352
-#, fuzzy
+#, 
 msgid "Value of Euler's Ψ angle"
-msgstr "Euler-en angeluak"
+msgstr "Euler-en Ψ angeluaren balioa"
 
 #: ../goffice/gchemutils.cc:355
 msgid "Theta"
-msgstr ""
+msgstr "Theta"
 
 #: ../goffice/gchemutils.cc:356
-#, fuzzy
+#, 
 msgid "Value of Euler's Θ angle"
-msgstr "Euler-en angeluak"
+msgstr "Euler-en Θ angeluaren balioa"
 
 #: ../goffice/gchemutils.cc:359
 msgid "Phi"
-msgstr ""
+msgstr "Phi"
 
 #: ../goffice/gchemutils.cc:360
-#, fuzzy
+#, 
 msgid "Value of Euler's Φ angle"
-msgstr "Euler-en angeluak"
+msgstr "Euler-en Φ angeluaren balioa"
 
 #: ../goffice/gchemutils.cc:363
-#, fuzzy
+#, 
 msgid "Display mode"
-msgstr "Sinboloa bistaratu"
+msgstr "Bistaratze modua"
 
 #: ../goffice/gchemutils.cc:364
 msgid ""
 "The display mode for the molecule: \"ball&stick\", \"spacefill\", \"cylinders"
 "\", or \"wireframe\""
 msgstr ""
+"Molekula bistaratzeko eredua: \"bolak eta ziriak\", \"espazio betegarria\", \"zilindroak"\, edo \"burdinharia\""
 
 #: ../goffice/gogchem3dapp.cc:32 ../libs/gcugtk/chem3dapplication.cc:41
 #: ../programs/3d/application.cc:47 ../programs/3d/application.cc:54
@@ -707,23 +707,23 @@ msgid "GChem3D Viewer"
 msgstr "GChem3D Viewer"
 
 #: ../goffice/gogchem3dwin.cc:73
-#, fuzzy
+#, 
 msgid "Embedded GChem3d Object"
-msgstr "Tinkatutako GChemPaint Objektua"
+msgstr "Tinkatutako GChem3D Objektua"
 
 #: ../goffice/gogcpapp.cc:178 ../programs/paint/standaloneapp.cc:46
 #, c-format
 msgid "Untitled %d"
-msgstr "Izenik gabekoa %d"
+msgstr "Izengabea %d"
 
 #: ../goffice/gogcpwin.cc:90
 msgid "Embedded GChemPaint Object"
 msgstr "Tinkatutako GChemPaint Objektua"
 
 #: ../goffice/gogcrystalwin.cc:95
-#, fuzzy
+#, 
 msgid "Embedded GCrystal Object"
-msgstr "Tinkatutako GChemPaint Objektua"
+msgstr "Tinkatutako GCrystal Objektua"
 
 #. Note to translators: replace the following string with the appropriate credits for you lang
 #: ../libs/gcp/about.cc:49 ../libs/gcr/window.cc:147
@@ -734,7 +734,7 @@ msgstr "Euskarazko itzulpena: OBIBON."
 
 #: ../libs/gcp/about.cc:55
 msgid "GChemPaint is a 2D chemical structures editor for Gnome"
-msgstr "GChemPaint Gnomerentzako egitura kimikoen 2D editorea da."
+msgstr "GChemPaint Gnomerako egitura kimikoen 2D editorea da."
 
 #: ../libs/gcp/about.cc:56
 msgid "Copyright © 2001-2010 by Jean Bréfort"
@@ -788,7 +788,7 @@ msgid ""
 "exists, overwrite?"
 msgstr ""
 "%s\n"
-" fitxategiabadago lehendik, gainidatzi?"
+" fitxategia badago lehendik, gainidatzi?"
 
 #: ../libs/gcp/application.cc:666 ../libs/gcr/application.cc:245
 #: ../libs/gcugtk/stringdlg.cc:146
@@ -797,12 +797,12 @@ msgid ""
 "Error while processing %s:\n"
 "%s"
 msgstr ""
-"Errorea %s:\n"
-" prozesatzean%s"
+"Errorea %s prozesatzean:\n"
+" %s"
 
 #: ../libs/gcp/application.cc:775
 msgid "Error in "
-msgstr "Errorea honetan"
+msgstr "Errorea honetan "
 
 #. Note to translator: add a space if needed before the semicolon
 #: ../libs/gcp/application.cc:778
@@ -819,8 +819,8 @@ msgid ""
 "Could not load file\n"
 "%s"
 msgstr ""
-"ezin izan da \n"
-" fitxategia kargatu%s"
+"ezin izan da fitxategia kargatu\n"
+"%s"
 
 #: ../libs/gcp/application.cc:895 ../libs/gcr/document.cc:1656
 #, c-format
@@ -905,7 +905,7 @@ msgstr "Lotura"
 
 #: ../libs/gcp/bond.cc:842
 msgid "Move to back"
-msgstr "Atzerantz mugitu"
+msgstr "Atzerantz eraman"
 
 #: ../libs/gcp/bond.cc:849
 msgid "Bring to front"
@@ -916,17 +916,17 @@ msgstr "Aurrerantz ekarri"
 #: ../plugins/paint/selection/plugin.cc:78
 #: ../plugins/paint/selection/plugin.cc:79
 msgid "Brackets"
-msgstr ""
+msgstr "Kortxeteak"
 
 #: ../libs/gcp/brackets.cc:350
-#, fuzzy
+#, 
 msgid "Add stoichiometry"
-msgstr "estekiometria"
+msgstr "Estekiometria gehitu"
 
 #: ../libs/gcp/brackets.cc:364
-#, fuzzy
+#, 
 msgid "Add superscript"
-msgstr "goi-indizea"
+msgstr "Goi-indizea gehitu"
 
 #: ../libs/gcp/docprop.cc:128 ../libs/gcp/docprop.cc:135
 #: ../libs/gcr/docprop.cc:131 ../libs/gcr/docprop.cc:138
@@ -959,11 +959,11 @@ msgstr "Letra estiloa (arrunta, zehiarra edo etzana)"
 
 #: ../libs/gcp/fontsel.cc:365
 msgid "Weight"
-msgstr "Pisua"
+msgstr "Lodiera"
 
 #: ../libs/gcp/fontsel.cc:366
 msgid "The font weight"
-msgstr "Letraren pisua"
+msgstr "Letraren lodiera"
 
 #: ../libs/gcp/fontsel.cc:370
 msgid "Variant"
@@ -999,11 +999,11 @@ msgstr ""
 
 #: ../libs/gcp/fontsel.cc:389
 msgid "Label"
-msgstr ""
+msgstr "Etiketa"
 
 #: ../libs/gcp/fontsel.cc:390
 msgid "Preview label"
-msgstr ""
+msgstr "Aurreikuspenaren etiketa"
 
 #: ../libs/gcp/fragment.cc:1347
 msgid "Invalid symbol."
@@ -1027,11 +1027,11 @@ msgstr "Mekanismo pausua"
 
 #: ../libs/gcp/mechanism-step.cc:190
 msgid "Align using this molecule"
-msgstr ""
+msgstr "Honako molekula erabiliz lerrokatu"
 
 #: ../libs/gcp/mesomer.cc:114
 msgid "NULL argument to Mesomer constructor!"
-msgstr ""
+msgstr "Mesomeroaren eraketarako NULL argumentua!"
 
 #: ../libs/gcp/mesomer.cc:129
 msgid "Only one arrow can link two given mesomers."
@@ -1084,29 +1084,29 @@ msgstr "Molekula"
 
 #: ../libs/gcp/molecule.cc:583
 msgid "Open 3D model in"
-msgstr ""
+msgstr "3D eredua honetan ireki"
 
 #: ../libs/gcp/molecule.cc:587
 msgid "Ghemical"
-msgstr ""
+msgstr "Ghemical"
 
 #: ../libs/gcp/molecule.cc:594
-#, fuzzy
+#, 
 msgid "GChem3D"
-msgstr "GChem3D-tik irten"
+msgstr "GChem3D"
 
 #: ../libs/gcp/molecule.cc:601
 msgid "Avogadro"
-msgstr ""
+msgstr "Avogadro"
 
 #: ../libs/gcp/molecule.cc:609
 msgid "Generate InChI"
 msgstr "Sortu InChI"
 
 #: ../libs/gcp/molecule.cc:614
-#, fuzzy
+#, 
 msgid "Generate InChIKey"
-msgstr "Sortu InChI"
+msgstr "Sortu InChIKey"
 
 #: ../libs/gcp/molecule.cc:619
 msgid "Generate SMILES"
@@ -1172,11 +1172,11 @@ msgstr "Erreaktiboa"
 
 #: ../libs/gcp/reaction.cc:162 ../libs/gcp/reaction.cc:171
 msgid "Error: arrow without a reactant or product."
-msgstr ""
+msgstr "Errorea: erreaktibo edo produkturik gabeko gezia."
 
 #: ../libs/gcp/reaction.cc:184
 msgid "Error: isolated molecules."
-msgstr ""
+msgstr "Errorea: molekula isolatuak."
 
 #: ../libs/gcp/reaction.cc:364
 msgid "Destroy the reaction"
@@ -1188,7 +1188,7 @@ msgstr "Erreakzioa"
 
 #: ../libs/gcp/reaction-arrow.cc:261
 msgid "Attach selection to arrow..."
-msgstr ""
+msgstr "Hautapena geziari atxikitu..."
 
 #: ../libs/gcp/reaction-arrow.cc:394
 msgid "Reaction arrow"
@@ -1248,7 +1248,7 @@ msgstr "Erreakzio pausua"
 
 #: ../libs/gcp/step.cc:43 ../plugins/paint/arrows/retrosynthesisstep.cc:76
 msgid "Only one arrow can link two given steps."
-msgstr "Bi pausu soilik gezi baten bidez lotu daitezke"
+msgstr "Bi pausu gezi bakar baten bidez baino ezin da lotu."
 
 #: ../libs/gcp/text.cc:130 ../libs/gcp/text.cc:136
 msgid "This should not have occured, please file a bug record."
@@ -1280,7 +1280,7 @@ msgstr "Ezin da irudia gorde: %s\n"
 
 #: ../libs/gcp/window.cc:61 ../libs/gcugtk/chem3dwindow.cc:60
 msgid "Import molecule from InChI or SMILES"
-msgstr ""
+msgstr "Molekula InChI edo SMILES-etik inportatu"
 
 #: ../libs/gcp/window.cc:346 ../libs/gcr/window.cc:282
 #: ../libs/gcugtk/chem3dwindow.cc:269 ../programs/calc/gchemcalc.cc:587
@@ -1406,7 +1406,7 @@ msgstr "Uneko fitxategia itxi"
 #: ../programs/spectra/window.cc:205 ../programs/table/gchemtable-app.cc:139
 #: ../programs/table/gchemtable-curve.cc:220
 msgid "_Quit"
-msgstr "I_rten"
+msgstr "Ir_ten"
 
 #: ../libs/gcp/window.cc:370
 msgid "Quit GChemPaint"
@@ -1478,7 +1478,7 @@ msgstr "Guztia hautatu"
 
 #: ../libs/gcp/window.cc:386
 msgid "Pr_eferences..."
-msgstr "Hobespenak..."
+msgstr "_Hobespenak..."
 
 #: ../libs/gcp/window.cc:387 ../libs/gcr/window.cc:307
 msgid "Configure the application"
@@ -1559,7 +1559,7 @@ msgstr "%25-eko zooma"
 
 #: ../libs/gcp/window.cc:406
 msgid "_Zoom to...%"
-msgstr "Zooma %..."
+msgstr "_Zooma %..."
 
 #: ../libs/gcp/window.cc:407
 msgid "Open Zoom Dialog Box"
@@ -1570,13 +1570,13 @@ msgid "_Tools"
 msgstr "_Tresnak"
 
 #: ../libs/gcp/window.cc:409 ../libs/gcugtk/chem3dwindow.cc:288
-#, fuzzy
+#, 
 msgid "_Import molecule..."
-msgstr "Ez dago helburuko molekularik!"
+msgstr "Molekula inportatu..."
 
 #: ../libs/gcp/window.cc:410 ../libs/gcugtk/chem3dwindow.cc:289
 msgid "Import a molecule either from InChI or SMILES"
-msgstr ""
+msgstr "Molekula bat bai InChI-tik zein SMILES-etik inportatu"
 
 #: ../libs/gcp/window.cc:411 ../libs/gcr/window.cc:322
 msgid "_Windows"
@@ -1737,8 +1737,8 @@ msgid ""
 "Could not save file\n"
 "%s"
 msgstr ""
-"Ezin izan da \n"
-" fitxategia gorde%s"
+"Ezin izan da fitxategia gorde\n"
+"%s"
 
 #: ../libs/gcr/grid.cc:179 ../programs/table/gchemtable-data-allocator.cc:140
 msgid "Invalid data"
@@ -1778,8 +1778,7 @@ msgstr "Gnome Crystal"
 
 #: ../libs/gcr/window.cc:153
 msgid "Gnome Crystal is a lightweight crystal structures viewer for Gnome"
-msgstr ""
-"Gnome Crystal Gnome-rentzako egitura kristalinoen ikukatzaile arina da."
+msgstr "Gnome Crystal Gnome-rako egitura kristalinoen ikuskatzaile arina da."
 
 #: ../libs/gcr/window.cc:154
 msgid "Copyright © 1999-2010 by Jean Bréfort"
@@ -1791,7 +1790,7 @@ msgstr "Gnome Crystal itxi"
 
 #: ../libs/gcr/window.cc:306
 msgid "Prefere_nces..."
-msgstr "Hobespenak"
+msgstr "_Hobespenak..."
 
 #: ../libs/gcr/window.cc:308
 msgid "_Crystal"
@@ -1831,7 +1830,7 @@ msgstr "Tamaina definitu"
 
 #: ../libs/gcr/window.cc:317
 msgid "_Cleavages..."
-msgstr "Segmentazioak..."
+msgstr "_Segmentazioak..."
 
 #: ../libs/gcr/window.cc:318
 msgid "Add or edit cleavages to remove some planes"
@@ -1908,16 +1907,14 @@ msgid "Space group: %u"
 msgstr "Talde puntuala: %u"
 
 #: ../libs/gcu/application.cc:277
-#, fuzzy
+#, 
 msgid "Error while processing "
-msgstr ""
-"Errorea %s:\n"
-" prozesatzean%s"
+msgstr "Errorea prozesatzean"
 
 #: ../libs/gcu/application.cc:554
-#, fuzzy
+#, 
 msgid "Connection failed"
-msgstr "Sorketak huts egin du!"
+msgstr "Konekzioak huts egin du!"
 
 #: ../libs/gcu/chain.cc:301 ../plugins/paint/bonds/plugin.cc:67
 msgid "Chain"
@@ -1939,7 +1936,7 @@ msgstr "Sarrerak \" objekturako erreferentzia bat du"
 
 #: ../libs/gcu/document.cc:128
 msgid "\" but no object with this Id is described."
-msgstr "baina ez dago Id hau duen objekturik deskribatuta."
+msgstr "\" baina ez dago Id hau duen objekturik deskribatuta."
 
 #: ../libs/gcu/document.cc:169
 msgid "Document"
@@ -1951,15 +1948,15 @@ msgstr "Alemaniera"
 
 #: ../libs/gcu/element.cc:104
 msgid "Greek"
-msgstr ""
+msgstr "Grekera"
 
 #: ../libs/gcu/element.cc:105
 msgid "Spanisch"
-msgstr ""
+msgstr "Gaztelera"
 
 #: ../libs/gcu/element.cc:106
 msgid "Basque"
-msgstr ""
+msgstr "Euskara"
 
 #: ../libs/gcu/element.cc:107
 msgid "French"
@@ -2118,9 +2115,9 @@ msgid "Copyright © 2004-2010 Jean Bréfort\n"
 msgstr "Copyright © 2004-2010 Jean Bréfort-ena\n"
 
 #: ../libs/gcugtk/chem3dwindow.cc:273
-#, fuzzy
+#, 
 msgid "Save the current settings"
-msgstr "Uneko fitxategia gorde"
+msgstr "Uneko konfiguazioak gorde"
 
 #: ../libs/gcugtk/chem3dwindow.cc:281
 msgid "Print the current scene"
@@ -2131,50 +2128,50 @@ msgid "Quit GChem3D"
 msgstr "GChem3D-tik irten"
 
 #: ../libs/gcugtk/chem3dwindow.cc:290
-#, fuzzy
+#, 
 msgid "Open in GChemPaint"
-msgstr "Osagaia: GChemPaint"
+msgstr "GChemPaint-en ireki"
 
 #: ../libs/gcugtk/chem3dwindow.cc:291
 msgid "Open a 2D model for this molecule using GChemPaint"
-msgstr ""
+msgstr "Molekula honetarako 2D eredua ireki GChemPaint bidez"
 
 #: ../libs/gcugtk/chem3dwindow.cc:292
-#, fuzzy
+#, 
 msgid "Open in GChemCalc"
-msgstr "GChemCalc-etik irten"
+msgstr "GChemCalc-en ireki"
 
 #: ../libs/gcugtk/chem3dwindow.cc:293
-#, fuzzy
+#, 
 msgid "Open the raw formula in the chemical calculator"
-msgstr "Kalkulagailu kimikoaren laguntza ikusi"
+msgstr "Ireki formula gordina kalkulagailu kimikoan"
 
 #: ../libs/gcugtk/chem3dwindow.cc:294
 msgid "Show InChI"
-msgstr ""
+msgstr "InChI erakutsi"
 
 #: ../libs/gcugtk/chem3dwindow.cc:295
-#, fuzzy
+#, 
 msgid "Show the InChI for this molecule"
-msgstr "Molekula honetako PubChem orria"
+msgstr "Molekula honetako InChI-a erakutsi"
 
 #: ../libs/gcugtk/chem3dwindow.cc:296
 msgid "Show InChiKey"
-msgstr ""
+msgstr "InChiKey erakutsi"
 
 #: ../libs/gcugtk/chem3dwindow.cc:297
-#, fuzzy
+#, 
 msgid "Show the InChIKey for this molecule"
-msgstr "Molekula honetako PubChem orria"
+msgstr "Molekula honetako InChiKey-a erakutsi"
 
 #: ../libs/gcugtk/chem3dwindow.cc:298
 msgid "Show SMILES"
-msgstr ""
+msgstr "SMILES-a erakutsi"
 
 #: ../libs/gcugtk/chem3dwindow.cc:299
-#, fuzzy
+#, 
 msgid "Show the SMILES for this molecule"
-msgstr "Molekula honetako PubChem orria"
+msgstr "Molekula honetako SMILES-a erakutsi"
 
 #: ../libs/gcugtk/chem3dwindow.cc:302
 msgid "View help for the Molecules Viewer"
@@ -2202,7 +2199,7 @@ msgstr "Espazioa betetzen duen eredua bistaratu"
 
 #: ../libs/gcugtk/chem3dwindow.cc:322
 msgid "Cylinders"
-msgstr "Zilindorak"
+msgstr "Zilindroak"
 
 #: ../libs/gcugtk/chem3dwindow.cc:323
 msgid "Display a cylinders model"
@@ -2256,11 +2253,11 @@ msgstr "Idatzi %g baino handiagoa den zenbaki bat"
 
 #: ../libs/gcugtk/dialog.cc:137
 msgid " and "
-msgstr ""
+msgstr "eta"
 
 #: ../libs/gcugtk/dialog.cc:137
 msgid ", the limits are valid."
-msgstr ""
+msgstr ", mugak onargarriak dira."
 
 #: ../libs/gcugtk/dialog.cc:157
 #, fuzzy
@@ -2311,7 +2308,7 @@ msgstr ""
 
 #: ../libs/gcugtk/molecule.cc:172
 msgid "Find in databases"
-msgstr ""
+msgstr "Datu baseetan aurkitu"
 
 #: ../libs/gcugtk/print-setup-dlg.cc:112
 #, c-format
@@ -2340,9 +2337,9 @@ msgid "mm"
 msgstr "mm"
 
 #: ../libs/gcugtk/spectrumdoc.cc:243 ../libs/gcugtk/spectrumdoc.cc:2410
-#, fuzzy
+#, 
 msgid "Wavenumber (cm<sup>−1</sup>)"
-msgstr "Uhin zenbakia (1/cm)"
+msgstr "Uhin zenbakia (cm<sup>−1</sup>)"
 
 #: ../libs/gcugtk/spectrumdoc.cc:244 ../libs/gcugtk/spectrumdoc.cc:2426
 msgid "Transmittance"
@@ -2355,7 +2352,7 @@ msgstr "Absorbantzia"
 #: ../libs/gcugtk/spectrumdoc.cc:246 ../libs/gcugtk/spectrumdoc.cc:2236
 #: ../libs/gcugtk/spectrumdoc.cc:2336
 msgid "Chemical shift (ppm)"
-msgstr "Lerrokuntza kimikoa (ppm)"
+msgstr "Lerrakuntza kimikoa (ppm)"
 
 #: ../libs/gcugtk/spectrumdoc.cc:247
 msgid "Wavelength (nm)"
@@ -2384,16 +2381,16 @@ msgstr "Ugaritasun erlatiboa"
 
 #: ../libs/gcugtk/spectrumdoc.cc:253
 msgid "Response factor"
-msgstr ""
+msgstr "Erantzun faktorea"
 
 #: ../libs/gcugtk/spectrumdoc.cc:623 ../libs/gcugtk/spectrumdoc.cc:2243
 #: ../libs/gcugtk/spectrumdoc.cc:2343
 msgid "Show integral"
-msgstr "Erakutsi integrala"
+msgstr "Integrala erakutsi"
 
 #: ../libs/gcugtk/spectrumdoc.cc:623
 msgid "Hide integral"
-msgstr "Ezkutatu integrala"
+msgstr "Integrala ezkutatu"
 
 #: ../libs/gcugtk/spectrumdoc.cc:732 ../libs/gcugtk/spectrumdoc.cc:1483
 msgid "Found too many data!"
@@ -2409,15 +2406,15 @@ msgstr "Baliogabeko karakterea datu blokean"
 
 #: ../libs/gcugtk/spectrumdoc.cc:1505
 msgid "Data check failed!"
-msgstr ""
+msgstr "Datuen egiztapenak huts egin du!"
 
 #: ../libs/gcugtk/spectrumdoc.cc:1522
 msgid "Data check failed: FIRSTX!"
-msgstr ""
+msgstr "Datuen egiztapenak huts egin du: FIRSTX!"
 
 #: ../libs/gcugtk/spectrumdoc.cc:1527
 msgid "Data check failed: FIRSTY!"
-msgstr ""
+msgstr "Datuen egiztapenak huts egin du: FIRSTY!"
 
 #. FIXME: Throw an exception
 #: ../libs/gcugtk/spectrumdoc.cc:1531
@@ -2437,9 +2434,9 @@ msgid "Imaginary transformed data"
 msgstr ""
 
 #: ../libs/gcugtk/spectrumdoc.cc:2202 ../libs/gcugtk/spectrumdoc.cc:2277
-#, fuzzy
+#, 
 msgid "Chemical shift"
-msgstr "Lerrokuntza kimikoa (ppm)"
+msgstr "Lerrakuntza kimikoa"
 
 #: ../libs/gcugtk/spectrumdoc.cc:2233 ../libs/gcugtk/spectrumdoc.cc:2333
 #: ../libs/gcugtk/spectrumdoc.cc:2397
@@ -2448,7 +2445,7 @@ msgstr "X unitatea:"
 
 #: ../libs/gcugtk/spectrumdoc.cc:2368
 msgid "Transform to spectrum"
-msgstr ""
+msgstr "Espektroan bihurtu"
 
 #: ../libs/gcugtk/spectrumdoc.cc:2407
 msgid "Wave length (nm)"
@@ -2460,37 +2457,37 @@ msgstr "Uhin luzera (µm)"
 
 #: ../libs/gcugtk/spectrumdoc.cc:2415
 msgid "Invert X Axis"
-msgstr "X ardatza alderantzikatu"
+msgstr "X ardatza alderantzizkatu"
 
 #: ../libs/gcugtk/spectrumdoc.cc:2422
 msgid "Y unit:"
 msgstr "Y unitatea:"
 
 #: ../libs/gcugtk/spectrumdoc.cc:2513
-#, fuzzy
+#, 
 msgid "Real data"
-msgstr "Baliogabeko datu-sorta"
+msgstr "Datu-sorta erreala"
 
 #: ../libs/gcugtk/spectrumdoc.cc:2536
-#, fuzzy
+#, 
 msgid "Imaginary data"
-msgstr "Baliogabeko datu-sorta"
+msgstr "Irudizko datu-sorta"
 
 #: ../libs/gcugtk/spectrumview.cc:111
 msgid "Minimum X value:"
-msgstr "X balio minimoa"
+msgstr "X balio minimoa:"
 
 #: ../libs/gcugtk/spectrumview.cc:116
 msgid "Maximum X value:"
-msgstr "X balio maximoa"
+msgstr "X balio maximoa:"
 
 #: ../libs/gcugtk/spectrumview.cc:126
 msgid "Minimum Y value:"
-msgstr "Y balio minimoa"
+msgstr "Y balio minimoa:"
 
 #: ../libs/gcugtk/spectrumview.cc:131
 msgid "Maximum Y value:"
-msgstr "Y balio maximoa"
+msgstr "Y balio maximoa:"
 
 #: ../libs/gcugtk/stringdlg.cc:161
 #, c-format
@@ -2507,8 +2504,8 @@ msgid ""
 "Could not write to file %s, error was:\n"
 "%s."
 msgstr ""
-"Ezin izan da %s fitxategian idatzi, errorea \n"
-" izan da%s."
+"Ezin izan da %s fitxategian idatzi; errorea:\n"
+"%s."
 
 #: ../libs/gcugtk/stringdlg.cc:193
 #, c-format
@@ -2516,13 +2513,13 @@ msgid ""
 "Could not close file %s, error was:\n"
 "%s"
 msgstr ""
-"Ezin izan da %s fitxategia itxi, errorea \n"
-" izan da%s."
+"Ezin izan da %s fitxategia itxi; errorea: \n"
+"%s."
 
 #: ../libs/gcugtk/ui-builder.cc:37
 #, c-format
 msgid "Could not load %s."
-msgstr "Ezin izan da %s kargatu"
+msgstr "Ezin izan da %s kargatu."
 
 #: ../plugins/loaders/cdx/cdx.cc:785 ../plugins/loaders/cdx/cdx.cc:789
 #: ../plugins/loaders/cdx/cdx.cc:917 ../plugins/loaders/cdx/cdx.cc:923
@@ -2566,7 +2563,7 @@ msgstr "Chemdraw XML fitxategi kargatzailea"
 
 #: ../plugins/loaders/cif/cif.cc:181
 msgid "Invalid loop in data."
-msgstr ""
+msgstr "Baliogabeko begizta datu-sortan."
 
 #: ../plugins/loaders/cif/cif.cc:455
 msgid "Invalid symmetry group."
@@ -2594,34 +2591,34 @@ msgid "CML files loader."
 msgstr "CML fitxategi kargatzailea"
 
 #: ../plugins/loaders/ctfiles/plugin.xml.in.h:1
-#, fuzzy
+#, 
 msgid "Loader : CTfiles"
-msgstr "Kargatzailea: cif"
+msgstr "Kargatzailea: CT fitxategiak"
 
 #: ../plugins/loaders/ctfiles/plugin.xml.in.h:2
-#, fuzzy
+#, 
 msgid "CTfiles loader."
-msgstr "CIF fitxategi kargatzailea"
+msgstr "CT fitxategi kargatzailea"
 
 #: ../plugins/loaders/ctfiles/plugin.xml.in.h:3
-#, fuzzy
+#, 
 msgid "CTfiles loader"
-msgstr "CML fitxategi kargatzailea"
+msgstr "CT fitxategi kargatzailea"
 
 #: ../plugins/loaders/nuts/plugin.xml.in.h:1
-#, fuzzy
+#, 
 msgid "Loader : nuts"
-msgstr "Kargatzailea: cdx"
+msgstr "Kargatzailea: nuts"
 
 #: ../plugins/loaders/nuts/plugin.xml.in.h:2
-#, fuzzy
+#, 
 msgid "NUTS files loader."
-msgstr "CIF fitxategi kargatzailea"
+msgstr "NUTS fitxategi kargatzailea"
 
 #: ../plugins/loaders/nuts/plugin.xml.in.h:3
-#, fuzzy
+#, 
 msgid "NUTS files loader"
-msgstr "CML fitxategi kargatzailea"
+msgstr "NUTS fitxategi kargatzailea"
 
 #: ../plugins/paint/arrows/arrowtool.cc:201
 #: ../plugins/paint/atoms/chargetool.cc:141
@@ -2652,7 +2649,7 @@ msgstr "Geziburu osoak"
 #: ../plugins/paint/arrows/arrowtool.ui.h:4
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:3
 msgid "Set _default"
-msgstr "Lehenetsia"
+msgstr "Lehenetsi bezala ezarri"
 
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:1
 msgid "End arrow at center of new bond."
@@ -2663,8 +2660,8 @@ msgid ""
 "If check, an arrow corresponding to a new bond will end at center of the new "
 "bond, otherwise, the arrow will end at the other atom."
 msgstr ""
-"Hau sakatuta lotura berri bati dagokion gezia lotura berri honen erdian "
-"bukatuko daosterantzean, gezia beste atomoan bukatuko da"
+"Hau sakatuta badago, lotura berri bati dagokion gezia lotura berri honen erdian "
+"bukatuko da; osterantzean, gezia beste atomoan bukatuko da"
 
 #: ../plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in.h:1
 msgid "Use full arrows heads for reversible reactions"
@@ -2676,7 +2673,7 @@ msgid ""
 "heads by default instead of half heads."
 msgstr ""
 "EGIAZKOA bada, erreakzio itzulgarrietarako geziek geziburu osoak "
-"izangodituzte, buru erdien ordez."
+"izango dituzte, buru erdien ordez."
 
 #: ../plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in.h:3
 msgid "End mechanism arrows at center of new bonds"
@@ -2687,8 +2684,8 @@ msgid ""
 "If true, a curved arrow corresponding to a new bond will end at center of "
 "the new bond, otherwise, the arrow will end at the other atom."
 msgstr ""
-"Hau sakatuta lotura berri bati dagokion gezi kurbatua lotura berri honen "
-"erdianbukatuko da, osterantzean, gezia beste atomoan bukatuko da"
+"Hau sakatuta badago, lotura berri bati dagokion gezi kurbatua lotura berri honen "
+"erdian bukatuko da, osterantzean, gezia beste atomoan bukatuko da."
 
 #: ../plugins/paint/arrows/plugin.cc:72
 msgid "Simple arrow"
@@ -2729,15 +2726,15 @@ msgstr "Elektroi bikoteen mugimendua adierazteko gezi kurbatua gehitu"
 
 #: ../plugins/paint/arrows/plugin.cc:87
 msgid "Single electron move arrow"
-msgstr "Elektroi bakarraren mugimendu gezia"
+msgstr "Elektroi bakarti baten mugimendu gezia"
 
 #: ../plugins/paint/arrows/plugin.cc:88
 msgid "Add a curved arrow to represent an single electron move"
-msgstr "Elektroi bakarraren mugimendua adierazteko gezi kurbatua gehitu"
+msgstr "Elektroi bakarti baten mugimendua adierazteko gezi kurbatua gehitu"
 
 #: ../plugins/paint/arrows/plugin.cc:107
 msgid "Create a new retrosynthesis pathway"
-msgstr "Sortu erretrosintesi bide berria"
+msgstr "Erretrosintesi bide berria sortu"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:241
 msgid "No target molecule!"
@@ -2749,7 +2746,7 @@ msgstr "Helburuko molekula anitzak edo geziak falta dira."
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:245
 msgid "Sorry, cyclic retrosynthesis paths are not supported."
-msgstr "Barkatu baina bide erretrosintetiko ziklikoak ez dira sostengatzen"
+msgstr "Barkatu baina bide erretrosintetiko ziklikoak ez daude sostengatuta."
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:417
 msgid "Destroy the retrosynthesis path"
@@ -2792,7 +2789,7 @@ msgstr "<b>Balioa</b>"
 #: ../plugins/paint/atoms/orbital.ui.h:3
 #: ../plugins/paint/atoms/orbital-prop.ui.h:3
 msgid "_Coefficient:"
-msgstr "_Koefizientea"
+msgstr "_Koefizientea:"
 
 #: ../plugins/paint/atoms/orbital.ui.h:4
 #: ../plugins/paint/atoms/orbital-prop.ui.h:4
@@ -2804,7 +2801,7 @@ msgid ""
 "Orbital coefficient for the current atom. The size of the representation of "
 "the orbital will be proportional to this coefficient."
 msgstr ""
-"Uneko atomorako orbital koefizienteak. Orbitalaren tamaina zenbakihonekiko "
+"Uneko atomorako orbital koefizienteak. Orbitalaren tamaina zenbaki honekiko "
 "zuzenki proportzionala izango da."
 
 #: ../plugins/paint/atoms/orbital.ui.h:6
@@ -2896,7 +2893,7 @@ msgstr "<b>Auto</b>"
 
 #: ../plugins/paint/bonds/chain.ui.h:6
 msgid "Bonds _number:"
-msgstr "Lotura ordena:"
+msgstr "Lotura _kopurua:"
 
 #: ../plugins/paint/bonds/chaintool.cc:131
 #: ../plugins/paint/bonds/chaintool.cc:244
@@ -2905,37 +2902,37 @@ msgid "Bonds: %d, Orientation: %g"
 msgstr "Loturak: %d, Orientazioa: %g"
 
 #: ../plugins/paint/bonds/newman.ui.h:3
-#, fuzzy
+#, 
 msgid "Bonds number:"
-msgstr "Lotura ordena:"
+msgstr "Lotura kopurua:"
 
 #: ../plugins/paint/bonds/newman.ui.h:4
-#, fuzzy
+#, 
 msgid "Bond length:"
 msgstr "Lotura luzera:"
 
 #: ../plugins/paint/bonds/newman.ui.h:5
-#, fuzzy
+#, 
 msgid "<b>Fore</b>"
-msgstr "<b>Auto</b>"
+msgstr "<b>Aurrekoa</b>"
 
 #: ../plugins/paint/bonds/newman.ui.h:6
-#, fuzzy
+#, 
 msgid "Angle between bonds:"
-msgstr "Bi loturen arteko angelu lehenetsia."
+msgstr "Loturen arteko angelua:"
 
 #: ../plugins/paint/bonds/newman.ui.h:7
-#, fuzzy
+#, 
 msgid "First bond angle:"
-msgstr "Lotura _angelua:"
+msgstr "Lehenengo lotura _angelua:"
 
 #: ../plugins/paint/bonds/newman.ui.h:8
-#, fuzzy
+#, 
 msgid "<b>Rear</b>"
-msgstr "<b>Papera:</b>"
+msgstr "<b>Atzekoa</b>"
 
 #: ../plugins/paint/bonds/newman.ui.h:9
-#, fuzzy
+#, 
 msgid "Bond order:"
 msgstr "Lotura ordena:"
 
@@ -2973,27 +2970,27 @@ msgstr "Zirrimarra lotura bat gehitu"
 
 #: ../plugins/paint/bonds/plugin.cc:79
 msgid "Fore bond tool"
-msgstr ""
+msgstr "Aurre loturaren tresna"
 
 #: ../plugins/paint/bonds/plugin.cc:80
 msgid "Add a fore bond"
-msgstr ""
+msgstr "Aurre-lotura bat gehitu"
 
 #: ../plugins/paint/bonds/plugin.cc:82
 msgid "Delocalized bond tool"
-msgstr "Lotura delokalizatuaren tresna"
+msgstr "Lotura ezlekutuaren tresna"
 
 #: ../plugins/paint/bonds/plugin.cc:83
 msgid "Add a delocalized bonds system"
-msgstr "Lotura delokalizatuen sistema bat gehitu"
+msgstr "Lotura ezlekutuen sistema bat gehitu"
 
 #: ../plugins/paint/bonds/plugin.cc:85
 msgid "Newman projection"
-msgstr ""
+msgstr "Newman projekzioa"
 
 #: ../plugins/paint/bonds/plugin.cc:86
 msgid "Add a bond in Newman projection"
-msgstr ""
+msgstr "Newman projekzio batean lotura bat gehitu"
 
 #: ../plugins/paint/cycles/cyclen.ui.h:4
 msgid "Cycle _Size"
@@ -3053,11 +3050,11 @@ msgstr "Tamaina aldakorreko zikloa"
 
 #: ../plugins/paint/cycles/plugin.cc:73
 msgid "Add a cycle"
-msgstr "Ziklo bat gehitu"
+msgstr "n atomoetako ziklo bat gehitu"
 
 #: ../plugins/paint/residues/plugin.cc:72
 msgid "_Edit residues..."
-msgstr "Hondarrak _editatu"
+msgstr "_Hondarrak editatu..."
 
 #: ../plugins/paint/residues/plugin.cc:73
 msgid "Create new abbreviations"
@@ -3065,7 +3062,7 @@ msgstr "Laburpen berriak sortu"
 
 #: ../plugins/paint/residues/residues-dlg.cc:223
 msgid "Please, provide only one molecule."
-msgstr "Bakarrik molekula bat eman."
+msgstr "Eman bakarrik molekula bat."
 
 #: ../plugins/paint/residues/residues-dlg.cc:239
 msgid "Please, provide a name for the residue"
@@ -3129,29 +3126,29 @@ msgstr "Formula"
 
 #: ../plugins/paint/selection/bracketstool.cc:202
 msgid "Error loading the properties widget description:\n"
-msgstr ""
+msgstr "Errorea propietateen lehioaren deskribapena kargatzerakoan:\n"
 
 #: ../plugins/paint/selection/brackets.ui.h:1
 msgid "Brackets type:"
-msgstr ""
+msgstr "Kortxete mota:"
 
 #: ../plugins/paint/selection/brackets.ui.h:2
 msgid "Used brakets:"
-msgstr ""
+msgstr "Erabilitako kortxeteak"
 
 #: ../plugins/paint/selection/brackets.ui.h:3
-#, fuzzy
+#, 
 msgid "Opening"
-msgstr "Ireki"
+msgstr "Irekitzen"
 
 #: ../plugins/paint/selection/brackets.ui.h:4
-#, fuzzy
+#, 
 msgid "Closing"
-msgstr "Zitosina"
+msgstr "Ixten"
 
 #: ../plugins/paint/selection/brackets.ui.h:5
 msgid "Both"
-msgstr ""
+msgstr "Biak"
 
 #: ../plugins/paint/selection/group.cc:67
 msgid "Group properties..."
@@ -3191,7 +3188,7 @@ msgstr "Eskuman"
 
 #: ../plugins/paint/selection/group.ui.h:8
 msgid "_Group"
-msgstr "Taldekatu"
+msgstr "_Taldekatu"
 
 #: ../plugins/paint/selection/group.ui.h:9
 msgid "A_lign"
@@ -3199,7 +3196,7 @@ msgstr "_Lerrokatu"
 
 #: ../plugins/paint/selection/group.ui.h:10
 msgid "_Space evenly"
-msgstr "Uniformeki banatu"
+msgstr "_Uniformeki banatu"
 
 #: ../plugins/paint/selection/group.ui.h:11
 msgid "Distance:"
@@ -3223,7 +3220,7 @@ msgstr "Irauli bertikalki"
 #: ../plugins/paint/selection/lassotool.cc:392
 #: ../plugins/paint/selection/selectiontool.cc:456
 msgid "Flip the selection vertically"
-msgstr "Heutaketa bertikalki irauli"
+msgstr "Hautaketa bertikalki irauli"
 
 #: ../plugins/paint/selection/lassotool.cc:396
 #: ../plugins/paint/selection/selectiontool.cc:462
@@ -3249,9 +3246,9 @@ msgstr "Borragoma"
 
 #: ../plugins/paint/selection/plugin.cc:75
 #: ../plugins/paint/selection/plugin.cc:76
-#, fuzzy
+#, 
 msgid "Area selection"
-msgstr "Hautaketa garbitu"
+msgstr "Hautapen librea"
 
 #: ../plugins/paint/selection/selectiontool.cc:387
 msgid "Creation failed!"
@@ -3320,7 +3317,7 @@ msgstr "_Familia:"
 
 #: ../plugins/paint/text/fontsel.ui.h:2
 msgid "_Underline:"
-msgstr "Azpimarratu:"
+msgstr "_Azpimarratu:"
 
 #: ../plugins/paint/text/fontsel.ui.h:3
 #: ../programs/table/gchemtable-data-allocator.cc:193
@@ -3342,11 +3339,11 @@ msgstr "_Kolorea:"
 
 #: ../plugins/paint/text/fontsel.ui.h:8
 msgid "Stri_kethrough"
-msgstr "Marratu"
+msgstr "_Marratu"
 
 #: ../plugins/paint/text/fontsel.ui.h:9
 msgid "_Position:"
-msgstr "Kokapena:"
+msgstr "_Kokapena:"
 
 #: ../plugins/paint/text/fontsel.ui.h:10
 msgid "_Style:"
@@ -3354,7 +3351,7 @@ msgstr "E_stiloa:"
 
 #: ../plugins/paint/text/fontsel.ui.h:11
 msgid "Si_ze:"
-msgstr "Tamaina"
+msgstr "_Tamaina:"
 
 #: ../plugins/paint/text/fragmenttool.cc:458
 msgid "Mode: "
@@ -3402,15 +3399,14 @@ msgstr "GChem3D Viewer-en bertsioa ematen du"
 
 #: ../programs/3d/main.cc:49
 msgid "Background color: white, black or #rrggbb (default is black)"
-msgstr ""
-"Atzealdeko kolorea: zuria, beltza edo #rrggbb (lehenetsitakoa beltza da)"
+msgstr "Atzealdeko kolorea: zuria, beltza edo #rrggbb (lehenetsitakoa beltza da)"
 
 #: ../programs/3d/main.cc:50
 msgid ""
 "How molecules are displayed; possible values are BallnStick (the default), "
 "SpaceFill, Cylinders, and Wireframe"
 msgstr ""
-"Molekulak bistaratzeko modua; balio posibleak Bolak eta ziriak(lehenetsia), "
+"Molekulak bistaratzeko modua; balio posibleak Bolak eta ziriak (lehenetsia), "
 "Espazio betegarria, Zilindroak eta Burdinharia dira"
 
 #: ../programs/3d/main.cc:65 ../programs/spectra/gspectrum.cc:42
@@ -3482,7 +3478,7 @@ msgstr "Zalantzazko sinboloak atomoak bezala ulertu"
 
 #: ../programs/calc/gchemcalc.cc:624
 msgid "_Nickname"
-msgstr "Ezizena"
+msgstr "_Ezizena"
 
 #: ../programs/calc/gchemcalc.cc:625
 msgid "Interpret ambiguous symbols as atoms groups nicknames"
@@ -3535,7 +3531,7 @@ msgstr "Egitura kristalinoak editatu eta bistaratu"
 #: ../programs/crystal/application.cc:53
 #, c-format
 msgid "Untitled%d"
-msgstr "Izenik gabekoa%d"
+msgstr "Izengabea%d"
 
 #: ../programs/crystal/main.cc:49
 msgid "Gnome Chemistry Utils version: "
@@ -3619,7 +3615,7 @@ msgstr "Egoera fisikoak"
 msgid "Use colors to display physical state at a given temperature"
 msgstr ""
 "Koloreak erabili elementuak ezberdintzeko egoera fisikoaren arabera "
-"tenperatura aldatuz"
+"tenperatura jakin batean"
 
 #: ../programs/table/gchemtable-app.cc:151
 msgid "Use colors to display the family grouping of the elements"
@@ -3968,7 +3964,8 @@ msgstr "Lehenetsitako nutazioa"
 msgid ""
 "Default Euler's nutation angle for model display. Acceptable values are 0. "
 "to + 180."
-msgstr "Euler-en nutazio angelu lehenetsia. Onartutako balioak 0-tik +180-ra"
+msgstr ""
+"Euler-en nutazio angelu lehenetsia. Onartutako balioak 0-tik +180-ra."
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:9
 msgid "Default spin"
@@ -3984,7 +3981,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:11
 msgid "Background color red value"
-msgstr "Atzealdeko kolorearen gorria balioa"
+msgstr "Atzealdeko kolorea; gorria"
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:12
 msgid ""
@@ -3995,7 +3992,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:13
 msgid "Background color green value"
-msgstr "Atzealdeko kolorearen berde balioa"
+msgstr "Atzealdeko kolorea; berdea"
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:14
 msgid ""
@@ -4006,7 +4003,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:15
 msgid "Background color blue value"
-msgstr "Atzealdeko kolorearen urdin balioa"
+msgstr "Atzealdeko kolorea; urdina"
 
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:16
 msgid ""
@@ -4021,8 +4018,7 @@ msgstr "Bistaratze unitate gogokoena"
 
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:2
 msgid "This string gives the default unit to be used in the page setup dialog."
-msgstr ""
-"Orriaren ezarpenetan erabiliko den lehenetsitako unitatea adierazten du."
+msgstr "Orriaren ezarpenetan erabiliko den lehenetsitako unitatea adierazten du."
 
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:3
 msgid "Default Top Margin"
@@ -4088,7 +4084,8 @@ msgstr "Papera"
 msgid ""
 "This is the default paper specification like iso_a4 or na_letter, i.e. a PWG "
 "5101.1-2002 paper name."
-msgstr "Lehenetsitako paper mota, iso den _A4 edo ipar ameriketako gutuna."
+msgstr ""
+"Lehenetsitako paper mota, iso den _A4 edo ipar ameriketako gutuna."
 
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:16
 msgid "This is the default paper orientation."
@@ -4158,7 +4155,7 @@ msgid ""
 "arrows or for retrosynthesis arrows. Used in the default theme."
 msgstr ""
 "Gezi bikoitzetan edo erretrosintesi gezietan, bi lerroen arteko "
-"distantzialehenetsia (pixeletan, %100-eko zoomean). Gai lehenetsian erabilia."
+"distantzia lehenetsia (pixeletan, %100-eko zoomean). Gai lehenetsian erabilia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:16
 msgid "Default arrow line width."
@@ -4182,7 +4179,7 @@ msgid ""
 "Default distance from tip of arrowhead to center in pixels (at 100% zoom). "
 "Used in the default theme."
 msgstr ""
-"Geziburuaren puntatik gezi erdirainoko distantzi lehenetsiapixeletan, %100-"
+"Geziburuaren puntatik gezi erdirainoko distantzia lehenetsia pixeletan, %100-"
 "eko zoomean). Gai lehenetsian erabilia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:22
@@ -4212,7 +4209,7 @@ msgstr ""
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:28
 msgid "Default hash line width."
-msgstr "Xerren lodiera lehenetsia."
+msgstr "Xerren lodiera lehenetsia (atzerantzako loturetan)."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:30
 #, no-c-format
@@ -4272,6 +4269,8 @@ msgid ""
 "Padding used around text objects such as atoms, texts and other typographic "
 "signs in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
+"Atomoak, testua eta halako zeinu tipografikoen inguruko "
+"tarte betegarria, pixeletan (%100-ko zooma). Gai lehenetsian erabilia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:43
 msgid "Default padding around arrows."
@@ -4283,10 +4282,12 @@ msgid ""
 "Default padding between arrows and associated objects in pixels (at 100% "
 "zoom). Used in the default theme."
 msgstr ""
+"Gezien eta hauen inguruko objektuen arteko tarte betegarri lehenetsia, "
+"pixeletan (%100-eko zooma). Gai lehenetsian erabilia,"
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:46
 msgid "Default padding between a reaction arrow and an attached object."
-msgstr ""
+msgstr "Gezien eta hauei atxikitutako objektuen arteko betegarri lehenetsia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:48
 #, no-c-format
@@ -4294,34 +4295,39 @@ msgid ""
 "Default padding between reaction arrows and attached objects in pixels (at "
 "100% zoom). Used in the default theme."
 msgstr ""
+"Gezien eta hauei atxikitutako objektuen arteko betegarri lehenetsia, pixeletan "
+"(%100-eko zooma). Gai lehenetsian erabilia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:49
 msgid "Default extra padding after a stoichiometric coefficient."
-msgstr ""
+msgstr "Koefiziente estekiometiko baten ondorengo tarte betegarri lehenetsia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:51
 #, no-c-format
 msgid ""
 "Default extra padding between a stoichiometric coefficient and its "
 "associated molecule in pixels (at 100% zoom). Used in the default theme."
-msgstr ""
+msgstr "Koefiziente estekiometriko baten eta honi elkartutako molekularen"
+"arteko tarte betegarri gehigarria, pixeletan (%100-eko zooma). Gai lehentsian "
+"erabilia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:52
 msgid "Default padding between aligned objects."
-msgstr ""
+msgstr "Lerrokatutako objektuen arteko tarte betegarri lehenetsia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:54
 #, no-c-format
 msgid ""
 "Default padding in pixels added between consecutive objects during an "
 "alignment operation (at 100% zoom). Used in the default theme."
-msgstr ""
+msgstr "Lerrokatze eragiketa batean, jarraikitako bi elementuren arteko"
+"tarte betegarria, pixeletan (%100-eko zooma). Gai lehenetsian erabilia,"
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:55
 msgid ""
 "Default padding between a '+' sign in a reaction equation and reactants "
 "symbols."
-msgstr ""
+msgstr ""+" zeinuaren eta erreaktiboen arteko tarte betegarri lehenetsia, pixeletan."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:57
 #, no-c-format
@@ -4329,6 +4335,8 @@ msgid ""
 "Default padding between a '+' sign in a reaction equation and reactants "
 "symbols in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
+""+" zeinuaren eta erreaktiboen arteko tarte betegarri lehenetsia, pixeletan "
+"(%100-eko zooma). Gai lehenetsian erabilia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:58
 msgid "Default charge sign size."
@@ -4352,7 +4360,7 @@ msgid ""
 "Font family used for chemical formula such as atoms and fragments. Used in "
 "the default theme."
 msgstr ""
-"Formula kimikoetarako (atomoak eta zatiak erabiliko den letra mota. Gai "
+"Formula kimikoetarako (atomoak eta zatiak) erabiliko den letra mota. Gai "
 "lehenetsian erabilia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:63
@@ -4510,7 +4518,7 @@ msgstr "Kopiatzerakoan textu arrunta esportatzen den."
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:88
 msgid "If TRUE, STRING_UTF8 and STRING are added to the clipboard formats."
 msgstr ""
-"Hau sakatuta badago, STRING_UTF8 eta STRING arbeleko formatuetaragehitzen "
+"Hau sakatuta badago, STRING_UTF8 eta STRING arbeleko formatuetara gehitzen "
 "dira."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:89
@@ -4531,8 +4539,8 @@ msgid ""
 "the opposite of what many people want. Setting this key to TRUE will change "
 "this behavior. Default is FALSE."
 msgstr ""
-"Hau sakatzean, atzerantzako loturetako alderik zabalena alde "
-"urruneneanirudikatuko da."
+"Hau sakatzean, atzerantzako loturetako mutur zabalena alde "
+"urrunenean irudikatuko da."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:93
 msgid "Whether to use colored atomic symbols."
@@ -4779,9 +4787,9 @@ msgid "Isotopic Pattern"
 msgstr "Patroi isotopikoa"
 
 #: ../ui/crystal/cell.ui.h:1
-#, fuzzy
+#, 
 msgid "<b>Lattice:</b>"
-msgstr "<b>Papera:</b>"
+msgstr "<b>Sarea:</b>"
 
 #: ../ui/crystal/cell.ui.h:2
 msgid "Simple cubic"
@@ -4792,7 +4800,7 @@ msgid "Body-centered cubic"
 msgstr "Gorputzan Zentraturiko Egitura"
 
 #: ../ui/crystal/cell.ui.h:4
-#, fuzzy
+#, 
 msgid "Face-centered-cubic"
 msgstr "Aurpegian zentraturiko kubikoa"
 
@@ -4841,14 +4849,14 @@ msgid "Triclinic"
 msgstr "Triklinikoa"
 
 #: ../ui/crystal/cell.ui.h:16
-#, fuzzy
+#, 
 msgid "<b>Space group:</b>"
-msgstr "Talde puntuala:"
+msgstr "<b>Talde espaziala:</b>"
 
 #: ../ui/crystal/cell.ui.h:18
-#, fuzzy
+#, 
 msgid "<b>Cell parameters</b>"
-msgstr "Gelaxkaren parametroak"
+msgstr "<b>Gelaxkaren parametroak</b>"
 
 #: ../ui/crystal/cell.ui.h:19
 msgid "a (pm): "
@@ -4864,56 +4872,57 @@ msgstr "c (pm):"
 
 #: ../ui/crystal/cell.ui.h:22
 msgid "α (°):"
-msgstr ""
+msgstr "α (°):"
 
 #: ../ui/crystal/cell.ui.h:23
 msgid "β (°):"
-msgstr ""
+msgstr "β (°):"
 
 #: ../ui/crystal/cell.ui.h:24
 msgid "γ (°):"
-msgstr ""
+msgstr "γ (°):"
 
 #: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:2
 msgid "<b><i>ψ</i> (°):</b>"
-msgstr ""
+msgstr "<b><i>ψ</i> (°):</b>"
 
 #: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:3
 msgid "<b><i>θ</i> (°):</b>"
-msgstr ""
+msgstr "<b><i>θ</i> (°):</b>"
 
 #: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:4
 msgid "<b><i>φ</i> (°):</b>"
-msgstr ""
+msgstr "<b><i>φ</i> (°):</b>"
 
 #: ../ui/crystal/prefs.ui.h:4 ../ui/crystal/view-settings.ui.h:5
-#, fuzzy
+#, 
 msgid "<b>Model orientation in space (Euler's angles):</b>"
-msgstr "Ereduaren orientazioa espazioan:"
+msgstr "<b>Ereduaren orientazioa espazioan (Euler-en angeluak):</b>"
 
 #: ../ui/crystal/prefs.ui.h:5 ../ui/crystal/view-settings.ui.h:6
 msgid "<b>Field of view (°):</b>"
-msgstr ""
+msgstr "<b> Ikusketa eremua (º):</b>"
 
 #: ../ui/crystal/prefs.ui.h:6 ../ui/crystal/view-settings.ui.h:7
 msgid ""
 "Acceptable values for the field of view are in the range from 0° to 45°. If "
 "0, no perspective effect will be used."
 msgstr ""
+"Balio onargarriak 0º-tik 45º-tara dira. 0 bada, ez da perspektiba efekturik erabiliko."
 
 #: ../ui/crystal/prefs.ui.h:7 ../ui/crystal/view-settings.ui.h:8
-#, fuzzy
+#, 
 msgid "<b>Background color:</b>"
-msgstr "Atzealdeko kolorea:"
+msgstr "<b>Atzealdeko kolorea:</b>"
 
 #: ../ui/crystal/prefs.ui.h:8
 msgid "Default views settings"
 msgstr "Ikusketaren ezarpen lehenetsiak"
 
 #: ../ui/crystal/prefs.ui.h:9
-#, fuzzy
+#, 
 msgid "<b>Printer resolution:</b>"
-msgstr "Inprimagailuaren erresoluzioa:"
+msgstr "<b>Inprimagailuaren erresoluzioa:</b>"
 
 #: ../ui/crystal/prefs.ui.h:10
 msgid ""
@@ -4921,7 +4930,7 @@ msgid ""
 "Changing to a higher value can lead to a much longer processing time."
 msgstr ""
 "300 dpi-tako inprimatze-erresoluzioak orokorrean emaitza onargarriak ematen "
-"dituErresoluzio handiago batera aldatzeak prozesatze denbora luzatu dezake."
+"ditu. Erresoluzio handiago batera aldatzeak prozesatze denbora luzatu dezake."
 
 #: ../ui/crystal/prefs.ui.h:11
 msgid "300"
@@ -4960,9 +4969,9 @@ msgid "Printing"
 msgstr "Inprimatzen"
 
 #: ../ui/crystal/view-settings.ui.h:1
-#, fuzzy
+#, 
 msgid "View settings"
-msgstr "Iku_si ezarpenak..."
+msgstr "Ikusi ezarpenak"
 
 #: ../ui/crystal/atoms.ui.h:1 ../ui/crystal/cleavages.ui.h:4
 #: ../ui/crystal/lines.ui.h:4
@@ -4980,29 +4989,29 @@ msgid "Dele_te all"
 msgstr "Guz_tiak ezabatu"
 
 #: ../ui/crystal/atoms.ui.h:4 ../ui/crystal/lines.ui.h:7
-#, fuzzy
+#, 
 msgid "Select _all"
 msgstr "Hautatu dena"
 
 #: ../ui/crystal/atoms.ui.h:5
-#, fuzzy
+#, 
 msgid "Select _element"
-msgstr "Hautatutako elementua"
+msgstr "Hautatutako _elementua"
 
 #: ../ui/crystal/atoms.ui.h:6
-#, fuzzy
+#, 
 msgid "<b>Charge: </b>"
-msgstr "<b>Papera:</b>"
+msgstr "<b>Karga:</b>"
 
 #: ../ui/crystal/atoms.ui.h:8
-#, fuzzy
+#, 
 msgid "<b>Scale factor:</b>"
-msgstr "Eskalatze faktorea:"
+msgstr "<b>Eskalatze faktorea:</b>"
 
 #: ../ui/crystal/atoms.ui.h:9
-#, fuzzy
+#, 
 msgid "<b>Value (pm):</b>"
-msgstr "<b>Balioa</b>"
+msgstr "<b>Balioa (pm):</b>"
 
 #: ../ui/crystal/atoms.ui.h:12
 msgid "Ionic"
@@ -5021,19 +5030,19 @@ msgid "Van der Waals"
 msgstr "Van der Waals"
 
 #: ../ui/crystal/atoms.ui.h:16
-#, fuzzy
+#, 
 msgid "<b>Radius</b>"
-msgstr "<b>Balioa</b>"
+msgstr "<b>Erradioa</b>"
 
 #: ../ui/crystal/atoms.ui.h:17
-#, fuzzy
+#, 
 msgid "<b>Custom color:</b>"
-msgstr "Lehenetsitako kolorea:"
+msgstr "<b>Kolore Pretsonalizatua:</b>"
 
 #: ../ui/crystal/atoms.ui.h:18
-#, fuzzy
+#, 
 msgid "<b>Periodic table of the elements</b>"
-msgstr "Elementuen taula periodikoa"
+msgstr "<b>Elementuen taula periodikoa</b>"
 
 #: ../ui/crystal/cleavages.ui.h:1
 msgid "Cleavages"
@@ -5053,7 +5062,7 @@ msgstr "Dokumentuaren propietateak"
 
 #: ../ui/crystal/docprop.ui.h:2 ../ui/paint/docprop.ui.h:2
 msgid "_Title:"
-msgstr "Izenburua:"
+msgstr "I_zenburua:"
 
 #: ../ui/crystal/docprop.ui.h:3 ../ui/paint/docprop.ui.h:12
 msgid "<b>_Comments:</b>"
@@ -5069,7 +5078,7 @@ msgstr "<b>Egilea:</b>"
 
 #: ../ui/crystal/docprop.ui.h:6 ../ui/paint/docprop.ui.h:7
 msgid "Creation date:"
-msgstr "Sortze data"
+msgstr "Sortze data:"
 
 #: ../ui/crystal/docprop.ui.h:7 ../ui/paint/docprop.ui.h:8
 msgid "Revision date:"
@@ -5081,7 +5090,7 @@ msgstr "E-_maila:"
 
 #: ../ui/crystal/docprop.ui.h:9 ../ui/paint/docprop.ui.h:4
 msgid "_Name:"
-msgstr "Izena:"
+msgstr "_Izena:"
 
 #: ../ui/crystal/lines.ui.h:1
 msgid "Cell edges"
@@ -5104,49 +5113,49 @@ msgid "color:"
 msgstr "kolorea:"
 
 #: ../ui/crystal/lines.ui.h:10
-#, fuzzy
+#, 
 msgid "<b>Other lines</b>"
-msgstr "Beste lerroak"
+msgstr "<b>Beste lerroak</b>"
 
 #: ../ui/crystal/size.ui.h:1
 msgid "Crystal size"
 msgstr "Kristalaren tamaina"
 
 #: ../ui/crystal/size.ui.h:2
-#, fuzzy
+#, 
 msgid "<b>Give minimum and maximum coordinates in cell units</b>"
-msgstr "Gelaxka unitatearen balio maximo eta minimoak eman"
+msgstr "<b>Eman itzazu gelaxka unitatearen koordinatu maximo eta minimoak</b>"
 
 #: ../ui/crystal/size.ui.h:3
-#, fuzzy
+#, 
 msgid "<b>Minimum</b>"
-msgstr "Gutxienez"
+msgstr "<b>Minimoa</b>"
 
 #: ../ui/crystal/size.ui.h:4
-#, fuzzy
+#, 
 msgid "<b>Maximum</b>"
-msgstr "<b>Balioa</b>"
+msgstr "<b>Maximoa</b>"
 
 #: ../ui/crystal/size.ui.h:5
 msgid "<b><i>x</i></b>"
-msgstr ""
+msgstr "<b><i>x</i></b>"
 
 #: ../ui/crystal/size.ui.h:6
-#, fuzzy
+#, 
 msgid "<b><i>y</i></b>"
-msgstr "<b>Historia</b>"
+msgstr "<b><i>y</i></b>"
 
 #: ../ui/crystal/size.ui.h:7
 msgid "<b><i>z</i></b>"
-msgstr ""
+msgstr "<b><i>z</i></b>"
 
 #: ../ui/libgcu/gcuperiodic.ui.h:1
 msgid "Uus"
-msgstr ""
+msgstr "Uus"
 
 #: ../ui/libgcu/gcuperiodic.ui.h:2
 msgid "Uuo"
-msgstr ""
+msgstr "Uuo"
 
 #: ../ui/libgcu/gcuperiodic.ui.h:3
 msgid "Lanthanides"
@@ -5166,7 +5175,7 @@ msgstr "Altuera:"
 
 #: ../ui/libgcu/image-size.ui.h:3 ../ui/libgcu/image-resolution.ui.h:1
 msgid "Tr_ansparent background"
-msgstr "_Atzealde gardena"
+msgstr "Atzealde _gardena"
 
 #: ../ui/libgcu/image-resolution.ui.h:2
 msgid "Image _resolution:"
@@ -5234,12 +5243,12 @@ msgstr "_Horizontalki"
 
 #: ../ui/libgcu/print-setup.ui.h:16
 msgid "_Vertically"
-msgstr "Bertikalki"
+msgstr "_Bertikalki"
 
 #: ../ui/libgcu/print-setup.ui.h:17
-#, fuzzy
+#, 
 msgid "Print background"
-msgstr "_Atzealde gardena"
+msgstr "Atzealdea inprimatu"
 
 #: ../ui/libgcu/print-setup.ui.h:18
 msgid "Page"
@@ -5251,7 +5260,7 @@ msgstr "<b>Eskala</b>"
 
 #: ../ui/libgcu/print-setup.ui.h:20
 msgid "_No scaling"
-msgstr "Eskalatzerik ez"
+msgstr "Eskalatzerik _ez"
 
 #: ../ui/libgcu/print-setup.ui.h:21
 msgid "_Fixed scaling:"
@@ -5259,20 +5268,20 @@ msgstr "_Finkatutako eskalatzea:"
 
 #: ../ui/libgcu/print-setup.ui.h:22
 msgid "_Automatic scaling:"
-msgstr "Eskalatze automatikoa:"
+msgstr "Eskalatze _automatikoa:"
 
 #: ../ui/libgcu/print-setup.ui.h:23
 msgid "Scale to fit _horizontally on"
-msgstr "Eskalatu honi horizontalki doitzeko"
+msgstr "Eskalatu honi _horizontalki doitzeko"
 
 #: ../ui/libgcu/print-setup.ui.h:24
 msgid "Scale to fit _vertically on"
-msgstr "Eskalatu honi bertikalki doitzeko"
+msgstr "Eskalatu honi _bertikalki doitzeko"
 
 #: ../ui/libgcu/print-setup.ui.h:26
 #, no-c-format
 msgid "% of normal size"
-msgstr "Tamaina normalaren %"
+msgstr "Tamaina normalaren %-a"
 
 #: ../ui/libgcu/print-setup.ui.h:27
 msgid "page(s)"
@@ -5284,15 +5293,15 @@ msgstr "Eskalatu"
 
 #: ../ui/libgcu/print-setup.ui.h:29
 msgid "_Header:"
-msgstr "Goiburua:"
+msgstr "_Goiburua:"
 
 #: ../ui/libgcu/print-setup.ui.h:30
 msgid "_Footer:"
-msgstr "Orri-oina:"
+msgstr "_Orri-oina:"
 
 #: ../ui/libgcu/print-setup.ui.h:31
 msgid "Fi_rst page number:"
-msgstr "Lehengo orriaren zenbakia:"
+msgstr "_Lehengo orriaren zenbakia:"
 
 #: ../ui/libgcu/print-setup.ui.h:32
 msgid "Configure"
@@ -5304,7 +5313,7 @@ msgstr "Goiburuak eta orri-oinak"
 
 #: ../ui/libgcu/stringinputdlg.ui.h:1
 msgid "Type InChI or SMILES"
-msgstr ""
+msgstr "InChI edo SMILES idatzi"
 
 #: ../ui/paint/arrow-object.ui.h:1
 msgid "Arrow associated object"
@@ -5312,20 +5321,20 @@ msgstr "Geziari elkartutako objektua"
 
 #: ../ui/paint/arrow-object.ui.h:2
 msgid "_Role:"
-msgstr ""
+msgstr "_Jokaera:"
 
 #: ../ui/paint/docprop.ui.h:9
 msgid "<b>Theme</b>"
-msgstr "<bGaia</b>"
+msgstr "<b>Gaia</b>"
 
 #: ../ui/paint/docprop.ui.h:10 ../ui/paint/newfiledlg.ui.h:2
 msgid "Theme:"
 msgstr "Gaia:"
 
 #: ../ui/paint/docprop.ui.h:11
-#, fuzzy
+#, 
 msgid "_Use colored atomic symbols"
-msgstr "Koloredun atomoak erabiltzen diren."
+msgstr "_Koloredun sinbolo atomikoak erabili."
 
 #: ../ui/paint/H-pos.ui.h:6
 msgid "Auto"
@@ -5340,13 +5349,13 @@ msgid "GChemPaint Preferences"
 msgstr "GChemPaint-en Hobespenak"
 
 #: ../ui/paint/preferences.ui.h:2
-#, fuzzy
+#, 
 msgid "Default compression _level for GChemPaint files:"
-msgstr "Konpresio maila lehenetsia GChemPaint fitxategietarako:"
+msgstr "Konpresio _maila lehenetsia GChemPaint fitxategietarako:"
 
 #: ../ui/paint/preferences.ui.h:3
 msgid "_Invert wedge hashes"
-msgstr "Atzerantzako loturak adelrantzizkatu"
+msgstr "Atzerantzako loturak alderantzizkatu"
 
 #: ../ui/paint/preferences.ui.h:4
 msgid ""
@@ -5354,13 +5363,13 @@ msgid ""
 "the opposite of what many people want. If checked, this behavior will be "
 "reversed."
 msgstr ""
-"Atzerantzako loturak alderik zabalena gertuen dutelarik irudikatzen dira.Hau "
+"Atzerantzako loturak alderik zabalena gertuen dutelarik irudikatzen dira. Hau "
 "sakatzean, jokaera alderantzizkoa izango da."
 
 #: ../ui/paint/preferences.ui.h:5
-#, fuzzy
+#, 
 msgid "_Use colored atomic symbols in new documents"
-msgstr "Koloredun atomoak erabiltzen diren."
+msgstr "Koloredun atomoak erabili dokumetu berrietan."
 
 #: ../ui/paint/preferences.ui.h:6
 msgid "_Default theme:"
@@ -5372,7 +5381,7 @@ msgstr "<b>Gaiak</b>"
 
 #: ../ui/paint/preferences.ui.h:9
 msgid "_Scale:"
-msgstr "E_scala:"
+msgstr "E_skala:"
 
 #: ../ui/paint/preferences.ui.h:10
 msgid "General _padding:"
@@ -5395,7 +5404,7 @@ msgid ""
 "Scale used to convert real distance to canvas distance expressed in pm per "
 "pixel."
 msgstr ""
-"Distantzia errealetatik pintura-oihalera bihurtzeko erabilitako eskalapm "
+"Distantzia errealetatik pintura-oihalera bihurtzeko erabilitako eskala, pm "
 "pixeleko adierazita."
 
 #: ../ui/paint/preferences.ui.h:15
@@ -5404,14 +5413,14 @@ msgid ""
 "signs in pixels."
 msgstr ""
 "Atomoak, testua eta halako zeinu tipografikoen inguruan "
-"erabilitakotartebetegarria, pixeletan."
+"erabilitako tarte betegarria, pixeletan."
 
 #: ../ui/paint/preferences.ui.h:16
 msgid ""
 "Default padding in pixels added between consecutive objects during an "
 "alignment operation."
 msgstr ""
-"Lerrokatze eragiketa batean, jarraikitako bi elementuren artekotarte "
+"Lerrokatze eragiketa batean, jarraikitako bi elementuren arteko tarte "
 "betegarria, pixeletan."
 
 #: ../ui/paint/preferences.ui.h:17
@@ -5419,15 +5428,16 @@ msgid ""
 "Extra padding between a stoichiometric coefficient and its associated "
 "molecule in pixels."
 msgstr ""
-"Koefiziente estekiometriko baten eta honi elkartutako molekularenarteko "
+"Koefiziente estekiometriko baten eta honi elkartutako molekularen arteko "
 "tarte betegarri gehigarria, pixeletan."
 
 #: ../ui/paint/preferences.ui.h:18
-#, fuzzy
+#, 
 msgid ""
 "Padding between a &apos;+&apos; sign in a reaction equation and reactants "
 "symbols in pixels."
-msgstr "'+' zeinuaren eta erreaktiboen arteko tarte betegarria, pixeletan."
+msgstr ""
+"Erreakzio ekuazio batean, &apos;+&apos; zeinu baten eta erreaktiboen arteko " "tarte betegarria, pixeletan."
 
 #: ../ui/paint/preferences.ui.h:19
 msgid ""
@@ -5445,7 +5455,7 @@ msgstr "<b>Lotura estereokimikoak</b>"
 
 #: ../ui/paint/preferences.ui.h:22
 msgid "Len_gth:"
-msgstr "Luzera:"
+msgstr "_Luzera:"
 
 #: ../ui/paint/preferences.ui.h:23
 msgid "Angl_e:"
@@ -5465,7 +5475,7 @@ msgstr "_Zabalera"
 
 #: ../ui/paint/preferences.ui.h:27
 msgid "Ha_sh width:"
-msgstr "Xerren zabalera"
+msgstr "_Xerren zabalera:"
 
 #: ../ui/paint/preferences.ui.h:28
 msgid "Dist_ance:"
@@ -5485,8 +5495,7 @@ msgstr "Lotura lerroaren zabalera (pixeletan)."
 
 #: ../ui/paint/preferences.ui.h:32
 msgid "Distance in pixels between two lines representing a multiple bond."
-msgstr ""
-"Lotura anizkoitza adierazten duten bi lerroen arteko distantzia (pixeletan)."
+msgstr "Lotura anizkoitza adierazten duten bi lerroen arteko distantzia (pixeletan)."
 
 #: ../ui/paint/preferences.ui.h:33
 msgid "Width in pixels at the largest end."
@@ -5494,7 +5503,7 @@ msgstr "Mutur zabaleneko zabalera pixeletan."
 
 #: ../ui/paint/preferences.ui.h:34
 msgid "Width of hashes in pixels."
-msgstr "Xerren zabalera pixeletan"
+msgstr "Xerren zabalera pixeletan."
 
 #: ../ui/paint/preferences.ui.h:35
 msgid "Distance between hashes in pixels."
@@ -5602,11 +5611,11 @@ msgstr "Pisu atomikoa:"
 
 #: ../ui/table/eltpage.ui.h:3
 msgid "Main"
-msgstr "Nagusia"
+msgstr "Orokorra"
 
 #: ../ui/table/eltpage.ui.h:4
 msgid "Pauling electronegativity:"
-msgstr "Pauling.en elektronegatibitatea:"
+msgstr "Pauling-en elektronegatibitatea:"
 
 #: ../ui/table/eltpage.ui.h:6
 msgid "Ionization energies:"
