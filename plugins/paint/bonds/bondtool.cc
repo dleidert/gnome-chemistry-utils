@@ -694,7 +694,7 @@ void gcpSquiggleBondTool::Draw ()
 		squiggle->SetLineColor (gcp::AddColor);
 		squiggle->SetLineWidth (pTheme->GetBondWidth ());
 		squiggle->SetWidth (pTheme->GetStereoBondWidth () - pTheme->GetBondWidth () / 2.);
-		squiggle->SetStep (pTheme->GetHashDist ());
+		squiggle->SetStep (pTheme->GetStereoBondWidth () / 2.);
 		m_Item = squiggle;
 	}
 }

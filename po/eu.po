@@ -699,7 +699,7 @@ msgid ""
 "The display mode for the molecule: \"ball&stick\", \"spacefill\", \"cylinders"
 "\", or \"wireframe\""
 msgstr ""
-"Molekula bistaratzeko eredua: \"bolak eta ziriak\", \"espazio betegarria\", \"zilindroak"\, edo \"burdinharia\""
+"Molekula bistaratzeko eredua: \"bolak eta ziriak\", \"espazio betegarria\", \"zilindroak\", edo \"burdinharia\""
 
 #: ../goffice/gogchem3dapp.cc:32 ../libs/gcugtk/chem3dapplication.cc:41
 #: ../programs/3d/application.cc:47 ../programs/3d/application.cc:54
@@ -4327,7 +4327,7 @@ msgstr "Lerrokatze eragiketa batean, jarraikitako bi elementuren arteko"
 msgid ""
 "Default padding between a '+' sign in a reaction equation and reactants "
 "symbols."
-msgstr ""+" zeinuaren eta erreaktiboen arteko tarte betegarri lehenetsia, pixeletan."
+msgstr "\"+\" zeinuaren eta erreaktiboen arteko tarte betegarri lehenetsia, pixeletan."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:57
 #, no-c-format
@@ -4335,7 +4335,7 @@ msgid ""
 "Default padding between a '+' sign in a reaction equation and reactants "
 "symbols in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
-""+" zeinuaren eta erreaktiboen arteko tarte betegarri lehenetsia, pixeletan "
+"\"+\" zeinuaren eta erreaktiboen arteko tarte betegarri lehenetsia, pixeletan "
 "(%100-eko zooma). Gai lehenetsian erabilia."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:58

@@ -665,7 +665,7 @@ void Bond::AddItem ()
 							this);
 		squiggle->SetLineWidth (theme->GetBondWidth ());
 		squiggle->SetWidth (theme->GetStereoBondWidth () - theme->GetBondWidth () / 2.);
-		squiggle->SetStep (theme->GetHashDist ());
+		squiggle->SetStep (theme->GetStereoBondWidth () / 2.);
 		squiggle->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
 		m_Item = squiggle;
 		break;
