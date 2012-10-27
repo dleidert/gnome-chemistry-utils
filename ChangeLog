@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2012-10-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: fix squiggle bonds period.
+	* plugins/paint/bonds/bondtool.cc: ditto.
+
 2012-10-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: removed unimplemented CTFiles plugin.
 	* plugins/loaders/Makefile.am: ditto.

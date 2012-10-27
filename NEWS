@@ -1,3 +1,7 @@
+Version 0.13.99
+	GChemPaint:
+		* Fix squiggle bonds period.
+
 Version 0.13.98
 	GChemPaint:
 		* Don't freeze after an aborted molecules merge.
