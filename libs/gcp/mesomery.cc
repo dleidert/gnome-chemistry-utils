@@ -27,6 +27,7 @@
 #include "mesomer.h"
 #include "mesomery.h"
 #include "mesomery-arrow.h"
+#include <brackets.h>
 #include "molecule.h"
 #include "theme.h"
 #include "view.h"
@@ -56,7 +57,7 @@ Mesomery::~Mesomery ()
 	MesomeryArrow *arrow;
 	Document *pDoc = reinterpret_cast<Document *> (GetDocument ());
 	Operation *pOp = pDoc->GetCurrentOperation ();
-	while ((pObj = GetFirstChild (i))) {
+	while ((pObj = GetFirstChild (i))) {		
 		if (pObj->GetType () == MesomeryArrowType) {
 			arrow = reinterpret_cast<MesomeryArrow*> (pObj);
 			arrow->SetStartMesomer (NULL);
@@ -274,15 +275,19 @@ static void BuildConnectivity ( set<Object *> &Objects, Mesomer* pMesomer)
 bool Mesomery::Validate (bool split)
 {
 	map<string, Object*>::iterator i;
+	int other_children = 0;
 	Object *pObj = GetFirstChild (i);
-	while (pObj && pObj->GetType () != MesomerType)
+	while (pObj && pObj->GetType () != MesomerType) {
+		if (pObj->GetType () == BracketsType)
+			other_children++;
 		pObj = GetNextChild (i);
+	}
 	if (pObj == NULL)
 		return false;
 	set<Object *> Objects;
 	Objects.insert (pObj);
 	BuildConnectivity (Objects, reinterpret_cast<Mesomer *> (pObj));
-	while (Objects.size () < GetChildrenNumber ()) {
+	while (Objects.size () + other_children < GetChildrenNumber ()) {
 		if (!split)
 			return 2;
 		pObj = GetFirstChild (i);

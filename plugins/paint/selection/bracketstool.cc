@@ -52,6 +52,10 @@ gcpBracketsTool::gcpBracketsTool (gcp::Application* App): gcp::Tool (App, "Brack
 	m_Type = gccv::BracketsTypeNormal;
 	m_Used = gccv::BracketsBoth;
 	m_FontDesc = pango_font_description_new ();
+	m_ActualBounds.x0 = 0.;
+	m_ActualBounds.y0 = 0.;
+	m_ActualBounds.x1 = 0.;
+	m_ActualBounds.y1 = 0.;
 }
 
 gcpBracketsTool::~gcpBracketsTool ()

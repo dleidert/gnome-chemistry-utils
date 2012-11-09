@@ -85,15 +85,17 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 	double zf = pTheme->GetZoomFactor ();
 	gccv::Rect *rect;
 	for (i = Children.begin (); i != iend; i++) {
+		unsigned type = (*i)->GetType();
 		// It might be better to use the objects coordinates there
 		pData->GetObjectBounds (*i, &Objects[*i]);
 		// Search arrows
-		if ((*i)->GetType() == ReactionArrowType)
+		if (type == ReactionArrowType)
 			Arrows.push_front ((ReactionArrow*) (*i));
-		else if ((*i)->GetType () == MoleculeType || (*i)->GetType () == MechanismStepType
-		         || (*i)->GetType () == TextType)
+		else if (type == MoleculeType || type == MechanismStepType
+		         || type == TextType || type == gcu::MesomeryType)
 			Others.insert (*i);
-		else return false;
+		else
+			return false;
 	}
 	/* sort objects according their position relative to each arrow, using string, with
 	 * one char per arrow, 't' means on tail side, 'h', header side, and 'o' other.

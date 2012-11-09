@@ -49,14 +49,16 @@ PolyLine::~PolyLine ()
 void PolyLine::SetPoints (list <Point> &points)
 {
 	Invalidate ();
+	m_Points = points;
 	BoundsChanged ();
 	Invalidate ();
-	m_Points = points;
 }
 
 double PolyLine::Distance (double x, double y, Item **item) const
 {
 	list <Point>::const_iterator i = m_Points.begin (), end = m_Points.end ();
+	if (i == end)
+		return G_MAXDOUBLE;
 	double x0 = (*i).x, y0 = (*i).y, x1, y1;
 	double lw = GetLineWidth () / 2.;
 	double result = G_MAXDOUBLE, d, dx, dy, dx1, dy1, xx, yy, length;
@@ -112,6 +114,8 @@ void PolyLine::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 	if (color != 0) {
 		cairo_set_line_width (cr, GetLineWidth ());
 		list <Point>::const_iterator i = m_Points.begin (), end = m_Points.end ();
+		if (i == end)
+			return;
 		cairo_move_to (cr, (*i).x, (*i).y);
 		for (i++; i != end; i++)
 			cairo_line_to (cr, (*i).x, (*i).y);
@@ -127,6 +131,8 @@ void PolyLine::UpdateBounds ()
 {
 	// This code might be off by a little thing because of miter limits.
 	list <Point>::const_iterator i = m_Points.begin (), end = m_Points.end ();
+	if (i == end)
+		return;
 	m_x0 = m_x1 = (*i).x;
 	m_y0 = m_y1 = (*i).y;
 	for (i++; i != end; i++) {
