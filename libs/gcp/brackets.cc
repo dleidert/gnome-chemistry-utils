@@ -31,6 +31,7 @@
 #include <gcp/document.h>
 #include <gcp/fragment.h>
 #include <gcp/mechanism-step.h>
+#include <gcp/mesomery.h>
 #include <gcp/reaction-step.h>
 #include <gcp/settings.h>
 #include <gcp/text.h>
@@ -228,7 +229,8 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 		gcu::TypeId type = obj->GetType ();
 		if (type == gcu::MoleculeType)
 			m_Content = BracketContentMolecule;
-		else if (type == gcp::ReactionStepType || type == gcp::MechanismStepType || rules.find (type) != rules.end ())
+		else if (type == gcp::ReactionStepType || type == gcp::MechanismStepType ||
+		         type == gcu::MesomeryType || rules.find (type) != rules.end ())
 			m_Content = BracketContentGroup;
 		else
 			ok = false;

@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2012-11-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/poly-line.cc: don't access invalid memory.
+	* libs/gcp/application.cc: allow a mesomery inside a reaction.
+	* libs/gcp/brackets.cc: allow brackets around a mesomery.
+	* libs/gcp/mesomery.cc: ditto.
+	* libs/gcp/reaction.cc: allow a mesomery inside a reaction.
+	* plugins/paint/selection/bracketstool.cc: fixed an uninitialized data
+	issue.
+
 2012-10-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: fix squiggle bonds period.
 	* plugins/paint/bonds/bondtool.cc: ditto.
