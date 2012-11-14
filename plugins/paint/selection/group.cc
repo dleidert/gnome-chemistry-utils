@@ -381,10 +381,7 @@ void gcpGroup::OnLoaded ()
 	for (child = GetFirstChild (i); child; child = GetNextChild (i))
 		if (child->GetType () != gcp::BracketsType)
 			nb++;
-	if (nb < 2)
-		delete this;
-	else
-		Align ();
+	Align ();
 }
 
 std::string gcpGroup::Name ()
