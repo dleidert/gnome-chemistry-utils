@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2012-11-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/selection/group.cc: don't crash when loading a group.
+
 2012-11-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/poly-line.cc: don't access invalid memory.
 	* libs/gcp/application.cc: allow a mesomery inside a reaction.
