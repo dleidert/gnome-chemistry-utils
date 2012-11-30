@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2012-11-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: fixed rules for mesomery.
+	* plugins/paint/selection/selectiontool.cc: fixed mesomery construction.
+
 2012-11-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/selection/group.cc: don't crash when loading a group.
 
