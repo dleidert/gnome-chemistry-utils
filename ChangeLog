@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2012-11-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/selection/groupdlg.cc: fixed gcrash when ungrouping.
+
+2012-11-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: fixed rules for mesomery.
 	* plugins/paint/selection/selectiontool.cc: fixed mesomery construction.
 
