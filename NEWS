@@ -6,6 +6,7 @@ Version 0.13.99
 		* Fixed some meomory access issues.
 		* Fixed crash when loading a group.
 		* Fixed mesomery construction.
+		* Fixed gcrash when ungrouping.
 
 Version 0.13.98
 	GChemPaint:

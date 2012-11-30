@@ -91,6 +91,12 @@ void gcpGroupDlg::SetAlignType (gcpAlignType type)
 	gtk_combo_box_set_active (align_box, type);
 }
 
+static bool delete_cb (gcpGroup *group)
+{
+	delete group;
+	return false;
+}
+
 bool gcpGroupDlg::Apply ()
 {
 	std::set < Object  *>::iterator i, end;
@@ -108,7 +114,7 @@ bool gcpGroupDlg::Apply ()
 			pOp->AddObject (*i, 0);
 	}
 
-	if (!m_Group) {
+	if (group && !m_Group) {
 		m_Group = new gcpGroup ();
 		m_Group->SetParent (m_Doc);
 		for (i = m_Data->SelectedObjects.begin (); i!= end; i++)
@@ -138,7 +144,8 @@ bool gcpGroupDlg::Apply ()
 			obj = m_Group->GetNextChild (j);
 		}
 		obj = m_Group->GetParent();
-		delete m_Group;
+		// deleting the group would delete the dialog as well, so...
+		g_idle_add ((GSourceFunc) delete_cb, m_Group);
 		obj->EmitSignal (gcp::OnChangedSignal);
 		m_Group = NULL;
 	}
