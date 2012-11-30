@@ -379,7 +379,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		AddRule ("reactant", RuleMayContain, "molecule");
 		AddRule ("reactant", RuleMayContain, "text");
 		AddRule ("reactant", RuleMayContain, "mesomery");
-		AddRule ("mesomer", RuleMustContain, "molecule");
+		AddRule ("mesomer", RuleMayContain, "molecule");
 		AddRule ("mesomer", RuleMustBeIn, "mesomery");
 		AddRule ("mesomery", RuleMustContain, "mesomer");
 		AddRule ("mesomery", RuleMustContain, "mesomery-arrow");
@@ -387,7 +387,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		MechanismArrowType = AddType ("mechanism-arrow", CreateMechanismArrow);
 		MechanismStepType = AddType ("mechanism-step", CreateMechanismStep);
 		AddRule ("reaction-step", RuleMayContain, "mechanism-step");
-		AddRule ("mesomery", RuleMayContain, "mechanism-step");
+		AddRule ("mesomer", RuleMayContain, "mechanism-step");
 
 		// Create global signal ids
 		OnChangedSignal = Object::CreateNewSignalId ();

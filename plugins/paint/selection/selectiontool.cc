@@ -420,12 +420,14 @@ bool gcpSelectionTool::OnRightButtonClicked (gcu::UIManager *UIManager)
 		gtk_action_group_add_action (group, action);
 		m_uiIds.push_front (gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menuitem action='group'/></popup></ui>", -1, NULL));
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (on_group), this);
-		set<TypeId> possible_types, types, wrong_types;
+		set<TypeId> possible_types, types, wrong_types, children_types;
 		set < Object * >::iterator  i = m_pData->SelectedObjects.begin (),
 												end = m_pData->SelectedObjects.end ();
+		children_types.insert ((*i)->GetType());
 		(*i)->GetPossibleAncestorTypes (possible_types);
-		set<TypeId>::iterator type;
+		set<TypeId>::iterator requested, end_requested, type, end_type;
 		for (i++; i != end; i++) {
+			children_types.insert ((*i)->GetType());
 			(*i)->GetPossibleAncestorTypes (types);
 			for (type = possible_types.begin(); type != possible_types.end (); type++)
 				if (types.find (*type) == types.end ())
@@ -435,6 +437,27 @@ bool gcpSelectionTool::OnRightButtonClicked (gcu::UIManager *UIManager)
 			wrong_types.clear ();
 			types.clear ();
 		}
+		/* verify that all requested children are there */
+		end_type = possible_types.end ();
+		for  (type = possible_types.begin (); type != end_type; type++) {
+			TypeDesc const *desc = m_pApp->GetTypeDescription (*type), *rdesc;
+			if (desc->RequiredParents.size () > 0) {
+				wrong_types.insert (*type);
+				continue;
+			}
+			end_requested = desc->RequiredChildren.end ();
+			for (requested = desc->RequiredChildren.begin (); requested != end_requested; requested++) {
+				rdesc = m_pApp->GetTypeDescription (*requested);
+				if (rdesc->PossibleChildren.size () > 0 && rdesc->RequiredChildren.size () == 0)
+					continue;
+				if (children_types.find (*requested) == children_types.end()) {
+					wrong_types.insert (*type);
+					break;
+				 }
+			}
+		}
+		for (type = wrong_types.begin(); type != wrong_types.end (); type++)
+			possible_types.erase (*type);
 		if (possible_types.size () == 1) {
 			// Add a new action.
 			m_Type = *possible_types.begin ();
