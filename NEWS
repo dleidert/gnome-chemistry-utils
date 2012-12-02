@@ -1,3 +1,7 @@
+Version 0.14.0
+	GChemPaint:
+		* Fix reaction construction.
+
 Version 0.13.99
 	GChemPaint:
 		* Fix squiggle bonds period.
@@ -6,7 +10,7 @@ Version 0.13.99
 		* Fixed some meomory access issues.
 		* Fixed crash when loading a group.
 		* Fixed mesomery construction.
-		* Fixed gcrash when ungrouping.
+		* Fixed crash when ungrouping.
 
 Version 0.13.98
 	GChemPaint:

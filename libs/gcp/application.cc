@@ -370,7 +370,6 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		AddRule ("reactant", RuleMustBeIn, "reaction-step");
 		AddRule ("reaction-step", RuleMustBeIn, "reaction");
 		AddRule ("reaction", RuleMustContain, "reaction-arrow");
-		AddRule ("reaction-arrow", RuleMustBeIn, "reaction");
 		AddRule ("reaction-arrow", RuleMayContain, "reaction-prop");
 		AddRule ("reaction-prop", RuleMustBeIn, "reaction-arrow");
 		AddRule ("reaction-prop", RuleMayContain, "molecule");
@@ -383,7 +382,6 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		AddRule ("mesomer", RuleMustBeIn, "mesomery");
 		AddRule ("mesomery", RuleMustContain, "mesomer");
 		AddRule ("mesomery", RuleMustContain, "mesomery-arrow");
-		AddRule ("mesomery-arrow", RuleMustBeIn, "mesomery");
 		MechanismArrowType = AddType ("mechanism-arrow", CreateMechanismArrow);
 		MechanismStepType = AddType ("mechanism-step", CreateMechanismStep);
 		AddRule ("reaction-step", RuleMayContain, "mechanism-step");

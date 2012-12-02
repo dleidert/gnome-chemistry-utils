@@ -448,7 +448,7 @@ bool gcpSelectionTool::OnRightButtonClicked (gcu::UIManager *UIManager)
 			end_requested = desc->RequiredChildren.end ();
 			for (requested = desc->RequiredChildren.begin (); requested != end_requested; requested++) {
 				rdesc = m_pApp->GetTypeDescription (*requested);
-				if (rdesc->PossibleChildren.size () > 0 && rdesc->RequiredChildren.size () == 0)
+				if (rdesc->RequiredChildren.size () > 0 || rdesc->RequiredParents.size () > 0)
 					continue;
 				if (children_types.find (*requested) == children_types.end()) {
 					wrong_types.insert (*type);
