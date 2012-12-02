@@ -20,7 +20,7 @@ The latest version of the software can be found at:
 See the file ChangeLog for more information about this software.
 
 What is needed to install the Gnome Chemistry Utils:
-	GOffice version 0.9.x.
+	GOffice version 0.10.x.
 	All dependencies of these libraries.
 These libraries are available from ftp://ftp.gnome.org or one of its mirrors.
 	BODR (the Blue Obelisk Data Repository) version 5 or later.

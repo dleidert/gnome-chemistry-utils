@@ -1,3 +1,13 @@
+Version 0.13.99
+	GChemPaint:
+		* Fix squiggle bonds period.
+		* Allow brackets around a mesomery.
+		* Allow a mesomery inside a reaction.
+		* Fixed some meomory access issues.
+		* Fixed crash when loading a group.
+		* Fixed mesomery construction.
+		* Fixed crash when ungrouping.
+
 Version 0.13.98
 	GChemPaint:
 		* Don't freeze after an aborted molecules merge.
