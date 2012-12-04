@@ -235,7 +235,7 @@ void Atom::Update ()
 		m_nlp = m_Element->GetValenceElectrons () - ((nbonds > m_Valence)? nbonds: m_Valence);
 		if ((m_Charge > 0) && (m_nlp > 0)) m_nlp -= m_Charge;
 		else if (m_Charge < 0)
-			m_nlp -= m_Charge;
+			m_nlp -= (m_Element->GetValenceElectrons () < 4)? m_Charge: m_Charge * 2;
 		m_nlp /= 2;
 		if (m_nlp < nexplp) // Can this occur ?
 			m_nlp = nexplp;

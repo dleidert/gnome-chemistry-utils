@@ -1,7 +1,15 @@
 ##Text encoding: utf-8
 
+2012-12-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: fix non bonding electon pairs in anions.
+
+2012-12-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* README: update goffice version.
+	* libs/gcp/application.cc: allow arrows outside of reaction or mesomery.
+	* plugins/paint/selection/selectiontool.cc: fix reaction construction.
+
 2012-11-30  Jean Bréfort  <jean.brefort@normalesup.org>
-	* plugins/paint/selection/groupdlg.cc: fixed gcrash when ungrouping.
+	* plugins/paint/selection/groupdlg.cc: fixed crash when ungrouping.
 
 2012-11-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: fixed rules for mesomery.
