@@ -1,6 +1,7 @@
 Version 0.14.0
 	GChemPaint:
 		* Fix reaction construction.
+		* Fix non bonding electron pairs.
 
 Version 0.13.99
 	GChemPaint:
