@@ -161,7 +161,8 @@ bool MechanismStep::Load (xmlNodePtr node)
 
 void MechanismStep::NotifyEmpty ()
 {
-	if (!HasChildren () && !IsLocked ())
+	// only delete when not a mesomer or a reaction step
+	if (!HasChildren () && !IsLocked () && GetType () == MechanismStepType)
 		delete this;
 }
 

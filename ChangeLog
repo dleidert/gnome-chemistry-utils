@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2013-01-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-step.cc: do not destroy in NotifyEmpty () when empty
+	and not standalone.
+	* libs/gcp/mesomery.cc: do not allow destruction when inside a reaction.
+
 2012-12-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: requires goffice-0.10 >= 0.10.0.
 

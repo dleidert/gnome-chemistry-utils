@@ -774,6 +774,8 @@ static void do_destroy_mesomery (void *data)
 
 bool Mesomery::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y)
 {
+	if (GetParentOfType (gcu::ReactionType) != NULL)
+		return false;
 	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	GtkActionGroup *group = gtk_action_group_new ("mesomery");
 	GtkAction *action = gtk_action_new ("destroy-ms", _("Destroy the mesomery relationship"), NULL, NULL);
