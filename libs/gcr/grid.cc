@@ -474,10 +474,11 @@ static gboolean gcr_grid_button_press_event (GtkWidget *widget, GdkEventButton *
 		} else {
 			if (new_col >= 0 && !grid->editable[new_col])
 				new_col = -1;
-			if (new_row != grid->row)
-				g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
 			grid->col = new_col;
-			grid->row = grid->last_row = new_row;
+			if (new_row != grid->row) {
+				grid->row = grid->last_row = new_row;
+				g_signal_emit (grid, gcr_grid_signals[ROW_SELECTED], 0, new_row);
+			}
 		}
 	}
 	// evaluate the cursor position if any

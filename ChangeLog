@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2013-02-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: change row before emitting the row changed signal.
+
 2013-01-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-step.cc: do not destroy in NotifyEmpty () when empty
 	and not standalone.
