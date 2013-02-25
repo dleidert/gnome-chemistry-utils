@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2013-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-step.cc: fix crash when deleting a reactant using the
+	lasso tool.
+
 2013-02-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: change row before emitting the row changed signal.
 
