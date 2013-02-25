@@ -2,6 +2,7 @@ Version 0.15.0
 	GChemPaint:
 		* Do not allow a mesomery setruction when inside a reaction.
 		* Fix molecule deletion inside a mesomery.
+		* Fix reactant deletion iside a reaction.
 	GCrystal:
 		* Fix row selection operations order in grids.
 

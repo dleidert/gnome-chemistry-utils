@@ -228,6 +228,10 @@ bool ReactionStep::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 		map<double, Object*>::iterator im, endm;
 		double x, y, x0, y0, x1, y1;
 		std::set <gcu::Object *> Invalid;
+		if (!pObj) {
+			delete this;
+			return true;
+		}
 		while (pObj) {
 			if (pObj->GetType () == ReactionOperatorType)
 				Operators.push_front (pObj);
