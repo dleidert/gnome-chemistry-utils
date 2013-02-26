@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2013-02-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mesomer.cc: don't crash when a mesomery inside a reaction is
+	destroyed.
+	* libs/gcp/mesomery.cc: ditto.
+	* libs/gcp/reactant.cc: ditto.
+	* libs/gcp/reaction-step.cc: ditto.
+
 2013-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-step.cc: fix crash when deleting a reactant using the
 	lasso tool.

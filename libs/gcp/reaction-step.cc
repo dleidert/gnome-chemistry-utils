@@ -236,7 +236,10 @@ bool ReactionStep::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 			if (pObj->GetType () == ReactionOperatorType)
 				Operators.push_front (pObj);
 			else if (pObj->GetType () == MechanismArrowType); // don't do anything
-			else {
+			else if (pObj->GetType () == MesomeryArrowType) {
+				delete this;
+				return true;
+			} else {
 				if (pObj->GetChildrenNumber ()) {
 					pData->GetObjectBounds (pObj, &rect);
 					x = (rect.x0 + rect.x1) / 2;
@@ -323,7 +326,7 @@ void ReactionStep::CleanChildren ()
 			Child->SetParent (pObj);
 			arrows.push_back (static_cast <MechanismArrow *> (Child));
 			continue;
-		} else if (Child->GetType () == MechanismStepType) {
+		} else if (Child->GetType () == MechanismStepType || Child->GetType () == MesomeryArrowType) {
 			Child->SetParent (pObj);
 			if (pOp && !Group)
 				new_objects.insert (Child);
