@@ -753,7 +753,7 @@ void Mesomery::Transform2D (G_GNUC_UNUSED Matrix2D& m, G_GNUC_UNUSED double x, G
 bool Mesomery::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	Validate (true);
-	if (GetChildrenNumber () < 3)
+	if (GetChildrenNumber () < 3 || !Validate (true))
 		delete this;
 	else
 		Align ();

@@ -241,7 +241,11 @@ bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 			while (pObj) {
 				if (pObj == Child)
 					ChildFound = true;
-				else if (pObj != Stoichiometry) {
+				else if (pObj->GetType () == MesomeryArrowType) {
+					// A mesomery inside the reaction has been destroyed, we need to destoy the whole reaction as well
+					ChildFound = false;
+					break;
+				} else if (pObj != Stoichiometry) {
 					Reactant *reactant = new Reactant (step, pObj);
 					if (Stoichiometry) {
 						reactant->Stoichiometry = new Text ();
@@ -262,7 +266,7 @@ bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 			}
 			if (node)
 				xmlFreeNode (node);
-			EmitSignal (OnChangedSignal);
+			return true;
 		}
 	}
 	return true;

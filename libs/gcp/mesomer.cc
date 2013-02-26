@@ -142,10 +142,8 @@ double Mesomer::GetYAlign ()
 
 bool Mesomer::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
-	if (GetChildrenNumber () != 1) {
-		delete GetParent ();
-		return false;
-	}
+	if (GetChildrenNumber () != 1)
+		delete this;
 	return true;
 }
 
