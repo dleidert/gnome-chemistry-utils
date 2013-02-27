@@ -726,8 +726,55 @@ std::string Molecule::GetRawFormula () const
 	return ofs.str ();
 }
 
+static void BuildConnectivity (gcu::Atom *atom, set < gcu::Atom * > &ConnectedAtoms)
+{
+	std::map < gcu::Atom *, gcu::Bond * >::iterator i;
+	gcu::Bond *bond;
+	ConnectedAtoms.insert (atom);
+	for (bond = atom->GetFirstBond (i); bond; bond = atom->GetNextBond (i)) {
+		gcu::Atom *end = bond->GetAtom (atom);
+		if (ConnectedAtoms.find (end) == ConnectedAtoms.end ())
+			BuildConnectivity (end, ConnectedAtoms);
+	}
+}
+
 void Molecule::OnLoaded ()
 {
+	// First check if we have only one molecule or split, this might happen with
+	// cml (root node being molecule) or malformed files.
+	if (m_Atoms.size () > 1) {
+		std::set < gcu::Atom * > ConnectedAtoms;
+		std::list < gcu::Atom * >:: iterator i;
+		while (1) {
+			BuildConnectivity (GetFirstAtom (i), ConnectedAtoms);
+			if (m_Atoms.size () == ConnectedAtoms.size ())
+				break;
+			// now split the molecule
+			Molecule *new_mol = new Molecule (static_cast < Atom * > (GetFirstAtom (i)));
+			GetParent ()->AddChild (new_mol);
+			// move chiral atoms to new mol if needed
+			std::set < gcu::Atom * >::iterator i, iend = ConnectedAtoms.end ();
+			for (i = ConnectedAtoms.begin (); i != iend; i++) {
+				Atom *atom = static_cast < Atom * > (*i);
+				if (m_ChiralAtoms.find (atom) != m_ChiralAtoms.end ()) {
+					m_ChiralAtoms.erase (atom);
+					new_mol->m_ChiralAtoms.insert (atom);
+				}
+			}
+			// remove new_mol children from there
+			std::list < gcu::Atom * >::iterator a, aend = new_mol->m_Atoms.end ();
+			std::list < gcu::Bond * >::iterator b, bend = new_mol->m_Bonds.end ();
+			std::list < Fragment * >::iterator f, fend = new_mol->m_Fragments.end ();
+			for (a = new_mol->m_Atoms.begin (); a != aend; a++)
+				m_Atoms.remove (*a);
+			for (b = new_mol->m_Bonds.begin (); b != bend; b++)
+				m_Bonds.remove (*b);
+			for (f = new_mol->m_Fragments.begin (); f != fend; f++)
+				m_Fragments.remove (*f);
+			// clean connected atoms for the next round
+			ConnectedAtoms.clear ();
+		}
+	}
 	UpdateCycles ();
 	// now we need to consider atoms with parity (essentially on import)
 	std::set < Atom * >::iterator it, end = m_ChiralAtoms.end ();
