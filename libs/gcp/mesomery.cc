@@ -259,7 +259,7 @@ bool Mesomery::Build (std::set < Object * > const &Children) throw (invalid_argu
 	return true;
 }
 
-static void BuildConnectivity ( set<Object *> &Objects, Mesomer* pMesomer)
+static void BuildConnectivity (set<Object *> &Objects, Mesomer* pMesomer)
 {
 	map<Mesomer *, MesomeryArrow *> *Arrows = pMesomer->GetArrows ();
 	map<Mesomer *, MesomeryArrow *>::iterator i, end = Arrows->end ();
