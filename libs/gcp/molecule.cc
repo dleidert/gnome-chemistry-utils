@@ -815,7 +815,7 @@ double Molecule::GetMeanBondLength () const
 
 bool Molecule::AtomIsChiral (Atom *atom) const {
 	std::set < Atom * >::const_iterator it = m_ChiralAtoms.find (atom);
-	if (it != m_ChiralAtoms.end ())
+	if (it == m_ChiralAtoms.end ())
 		return false;
 	return atom->HasStereoBond ();
 }

@@ -90,6 +90,14 @@ Evaluates the angles between the bond and its two adjacent bonds in the cycle.
 */
 	int GetFusedBonds ();
 /*!
+@param c: a cycle.
+@atom: an atom common to both cycles.
+@bond: a bond common to both cycles and starting at @atom.
+
+@return the bridge length starting at @tom and going through @bond.
+*/
+	unsigned GetBridgeLength (Cycle *c, Atom *atom, Bond *bond);
+/*!
 @return the localized object generic name.
 */
 	std::string Name ();

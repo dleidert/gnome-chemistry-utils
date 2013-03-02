@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2013-03-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: enhance the choice of a stereobond from known parity.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcu/chain.cc: new GetFirstAtom().
+	* libs/gcu/chain.h: ditto.
+	* libs/gcu/cycle.cc: Evaluates inter-cycle bridge length.
+	* libs/gcu/cycle.h: ditto.
+
+2013-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mesomery.cc: remove extra white space.
+	* libs/gcp/molecule.cc: checl molecule consistency while loading, avoids
+	a stack overflow.
+
 2013-02-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mesomer.cc: don't crash when a mesomery inside a reaction is
 	destroyed.
