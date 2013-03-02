@@ -5,6 +5,8 @@ Version 0.14.1
 		* Fix reactant deletion inside a reaction.
 		* Don't crash when a mesomery inside a reaction is destroyed.
 		* Check molecule consistency when loading, avoids a stack overflow.
+		* Enhanced representaion of chiral molecules imported from CML and other
+		formats.
 	GCrystal:
 		* Fix row selection operations order in grids.
 

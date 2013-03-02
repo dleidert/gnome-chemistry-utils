@@ -174,6 +174,10 @@ Adds the two atoms and the bond between them to the chain. The two atoms must be
 */
 	double GetMeanBondLength ();
 /*!
+@return the first atom in the chain if any.
+*/
+	Atom* GetFirstAtom ();
+/*!
 @param pAtom an atom in the chain.
 @return the next atom in the chain or NULL if pAtom is the last one.
 */

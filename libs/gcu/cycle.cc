@@ -217,6 +217,27 @@ int Cycle::GetFusedBonds ()
 	return n;
 }
 
+unsigned Cycle::GetBridgeLength (Cycle *c, Atom *atom, Bond *bond)
+{
+	unsigned n = 0;
+	if (m_Bonds[atom].fwd != bond)
+		Reverse ();
+	if (c->m_Bonds[atom].fwd != bond)
+		c->Reverse ();
+	Atom *cur = atom;
+	while (1) {
+		n++;
+		cur = m_Bonds[atom].fwd->GetAtom (cur);
+		if (cur == atom)
+			// the cycles are identical, this should not occur, but it's better
+			// if infinite loops are prevented
+			break;
+		if (m_Bonds[cur].fwd != c->m_Bonds[cur].fwd)
+			break;
+	}
+	return n;
+}
+
 std::string Cycle::Name ()
 {
 	return _("Cycle");

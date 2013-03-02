@@ -38,7 +38,7 @@
 #include <gccv/group.h>
 #include <gccv/text.h>
 #include <gccv/text-tag.h>
-#include <gcu/chain.h>
+#include <gcu/cycle.h>
 #include <gcu/element.h>
 #include <gcu/objprops.h>
 #include <gcugtk/ui-manager.h>
@@ -1519,10 +1519,12 @@ bool Atom::UpdateStereoBonds ()
 	unsigned length[4]; // lengths before end or cycle 0 means cyclic bond
 	unsigned cycle_size[4]; // size of the nearest and largest attached cycle
 	unsigned cycle_pos[4]; // position of the cycle
+	unsigned is_cyclic[4];
 	Bond *bond[4];
 	double x[4], y[4];
 	std::list < unsigned > sorted;
 	std::list < unsigned >::iterator s, send;
+	unsigned cyclic_bonds = 0;
 	// we need to determine wich bonds should be considered as stereobonds
 	// the answer is that stereocenters should not be bonded by a stereobond
 	// then the bond should not be cyclic
@@ -1537,16 +1539,39 @@ bool Atom::UpdateStereoBonds ()
 			length[i] = 0;
 			cycle_size[i] = 0;
 			cycle_pos[i] = 0;
+			is_cyclic[i] = false;
 			continue;
 		}
 		bond[i] = static_cast < Bond * > (GetBond (m_Bonded[i]));
+		is_cyclic[i] = bond[i]->IsCyclic ();
 		if (!bond[i]) // not everything has been loaded
 			return false;
 		// search if the bonded atom is a stereocenter
-		if (static_cast < Molecule * > (GetMolecule ())->AtomIsChiral (m_Bonded[i]) ||
-		    bond[i]->IsCyclic ()) {
+		if (static_cast < Molecule * > (GetMolecule ())->AtomIsChiral (m_Bonded[i])) {
 			length[i] = cycle_pos[i] = G_MAXUINT; // this will be large enough
 			cycle_size[i] = 0;
+		} else if (is_cyclic[i]) {
+			// FIXME
+			length[i] = cycle_pos[i] = G_MAXUINT; // this will be large enough
+			cycle_size[i] = 0;
+			cyclic_bonds++;
+			if (is_cyclic[i] > 1) {
+				std::list < gcu::Cycle * >::iterator c;
+				gcu::Cycle *c0, *c1;
+				c0 = bond[i]->GetFirstCycle (c, NULL);
+				c1 = bond[i]->GetNextCycle (c, NULL);
+				// Note: we might look for a third cycle for complex situations
+				if (c0->GetLength () > 4 && c1->GetLength () > 4) {
+					// we need to do something if the bridge is 2 bonds or more long.
+					unsigned l = c0->GetBridgeLength (c1, this, bond[i]);
+					if (l > 1) {
+						// we can use stereobonds in this bridge
+						// FIXME: check that it does not contain chiral atoms
+						length[i] = cycle_pos[i] = 0; 
+					}
+				}
+				// with smaller cycles, InChI generation might miss the stereochemistry: FIXME
+			}
 		} else {
 			gcu::Chain *chain = new gcu::Chain (bond[i], this);
 			// find the longuest linear chain and the first attached cycle

@@ -291,6 +291,21 @@ double Chain::GetMeanBondLength ()
 	return l / n;
 }
 
+Atom* Chain::GetFirstAtom ()
+{
+	std::map < Atom*, ChainElt >::iterator i = m_Bonds.begin ();
+	if (GetType () == CycleType)
+		return (*i).first;
+	Atom *res = (*i).first, *cur = res;
+	while (cur) {
+		cur = m_Bonds[res].rev->GetAtom (res);
+		if (cur == NULL)
+			break;
+		res = cur;
+	}
+	return res;
+}
+
 Atom* Chain::GetNextAtom (Atom* pAtom)
 {
 	return (Atom*) m_Bonds[pAtom].fwd->GetAtom (pAtom);
