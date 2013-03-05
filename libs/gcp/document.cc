@@ -717,6 +717,7 @@ void Document::RemoveBond (Bond* pBond)
 	m_pView->Update (pAtom1);
 	pMol->Lock (false);
 	if (pBond->IsCyclic ()) {
+		pBond->RemoveAllCycles ();
 		pMol->Remove (pBond);
 		pMol->UpdateCycles ();
 		Update ();
