@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2013-03-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: don't crash when deleting a cyclic bond.
+	* libs/gcp/reaction-arrow.cc: start work for supporting several attachments
+	to the same arrow.
+	* libs/gcp/reaction-prop.cc: ditto.
+	* libs/gcp/reaction-prop.h: ditto.
+
 2013-03-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: enhance the choice of a stereobond from known parity.
 	* libs/gcp/molecule.cc: ditto.

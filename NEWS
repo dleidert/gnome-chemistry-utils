@@ -7,6 +7,7 @@ Version 0.15.0
 		* Check molecule consistency when loading, avoids a stack overflow.
 		* Enhanced representaion of chiral molecules imported from CML and other
 		formats.
+		* Fix crash when deleting a cyclic bond.
 	GCrystal:
 		* Fix row selection operations order in grids.
 

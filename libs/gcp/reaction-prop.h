@@ -161,7 +161,10 @@ Sets the role for the property which should be less than REACTION_PROP_MAX.
 /*!\fn GetRefRole()
 @return the property role as a reference.
 */
-GCU_PROP (unsigned, Role);
+GCU_PROP (unsigned, Role)
+GCU_PROP (unsigned, Step)
+GCU_PROP (unsigned, Line)
+GCU_PROP (unsigned, Rank)
 };
 
 }	//	namespace gcp

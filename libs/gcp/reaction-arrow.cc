@@ -244,29 +244,41 @@ bool ReactionArrow::BuildContextualMenu (gcu::UIManager *UIManager, Object *obje
 	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	Document *Doc = dynamic_cast<Document*> (GetDocument ());
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
-	// Don't allow more than one child at the moment
-	if (pData->SelectedObjects.size () != 1 || HasChildren ())
-		return Object::BuildContextualMenu (UIManager, object, x, y);
-	Object *obj = *pData->SelectedObjects.begin ();
-	TypeId Id = obj->GetType ();
-	if ((Id != MoleculeType && Id != TextType) || obj->GetGroup ())
-		return Object::BuildContextualMenu (UIManager, object, x, y);
-	GtkActionGroup *group = gtk_action_group_new ("reaction-arrow");
-	GtkAction *action = gtk_action_new ("Arrow", _("Arrow"), NULL, NULL);
-	gtk_action_group_add_action (group, action);
-	g_object_unref (action);
-	struct CallbackData *data = new struct CallbackData ();
-	data->arrow = this;
-	data->child = obj;
-	action = gtk_action_new ("attach", _("Attach selection to arrow..."), NULL, NULL);
-	g_object_set_data_full (G_OBJECT (action), "data", data, (GDestroyNotify) do_free_data);
-	g_signal_connect_swapped (action, "activate", G_CALLBACK (do_attach_object), data);
-	gtk_action_group_add_action (group, action);
-	g_object_unref (action);
-	gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Arrow'><menuitem action='attach'/></menu></popup></ui>", -1, NULL);
-	gtk_ui_manager_insert_action_group (uim, group, 0);
-	g_object_unref (group);
-	return true;
+	// If there are several lines of objects attached to the arrow, add a property dialog
+	bool result = false;
+	GtkActionGroup *group = NULL;
+	GtkAction *action;
+	if (GetChildrenNumber () > 1) {
+		group = gtk_action_group_new ("reaction-arrow");
+		GtkAction *action = gtk_action_new ("Arrow", _("Arrow"), NULL, NULL);
+		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
+	}
+	if (pData->SelectedObjects.size () == 1) {
+		Object *obj = *pData->SelectedObjects.begin ();
+		TypeId Id = obj->GetType ();
+		if ((Id != MoleculeType && Id != TextType) || obj->GetGroup ())
+			return Object::BuildContextualMenu (UIManager, object, x, y);
+		if (group == NULL) {
+			group = gtk_action_group_new ("reaction-arrow");
+			action = gtk_action_new ("Arrow", _("Arrow"), NULL, NULL);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+		}
+		struct CallbackData *data = new struct CallbackData ();
+		data->arrow = this;
+		data->child = obj;
+		action = gtk_action_new ("attach", _("Attach selection to arrow..."), NULL, NULL);
+		g_object_set_data_full (G_OBJECT (action), "data", data, (GDestroyNotify) do_free_data);
+		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_attach_object), data);
+		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
+		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Arrow'><menuitem action='attach'/></menu></popup></ui>", -1, NULL);
+		gtk_ui_manager_insert_action_group (uim, group, 0);
+		g_object_unref (group);
+		result = true;
+	}
+	return result || Object::BuildContextualMenu (UIManager, object, x, y);
 }
 
 void ReactionArrow::Move (double x, double y, double z)

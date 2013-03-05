@@ -57,7 +57,12 @@ static unsigned RoleFromString (char const *role)
 
 ReactionProp::ReactionProp ():
 	Object (ReactionPropType),
-	DialogOwner ()
+	DialogOwner (),
+	m_Object (NULL),
+	m_Role (REACTION_PROP_UNKNOWN),
+	m_Step (0),
+	m_Line (0),
+	m_Rank (0)
 {
 }
 
@@ -65,7 +70,10 @@ ReactionProp::ReactionProp (ReactionArrow *parent, Object *child):
 	Object (ReactionPropType),
 	DialogOwner (),
 	m_Object (child),
-	m_Role (REACTION_PROP_UNKNOWN)
+	m_Role (REACTION_PROP_UNKNOWN),
+	m_Step (0),
+	m_Line (0),
+	m_Rank (0)
 {
 	SetParent (parent);
 	AddChild (child);
@@ -82,6 +90,22 @@ xmlNodePtr ReactionProp::Save (xmlDocPtr xml)
 	if (!node)
 		return NULL;
 	xmlNewProp (node, (xmlChar*) "role",  (xmlChar*) ReactionPropRoles[m_Role]);
+	char *buf;
+	if (m_Step > 0) {
+			buf = g_strdup_printf ("%u", m_Step);
+			xmlNewProp (node, (xmlChar*) "step", (xmlChar*) buf);
+			g_free (buf);
+	}
+	if (m_Line > 0) {
+			buf = g_strdup_printf ("%u", m_Line);
+			xmlNewProp (node, (xmlChar*) "line", (xmlChar*) buf);
+			g_free (buf);
+	}
+	if (m_Rank > 0) {
+			buf = g_strdup_printf ("%u", m_Rank);
+			xmlNewProp (node, (xmlChar*) "rank", (xmlChar*) buf);
+			g_free (buf);
+	}
 	return node;
 }
 
@@ -90,6 +114,21 @@ bool ReactionProp::Load (xmlNodePtr node)
 	bool res = Object::Load (node);
 	if (res) {
 		char *buf = (char*) xmlGetProp (node, (xmlChar*) "role");
+		if (buf) {
+			m_Role = RoleFromString (buf);
+			xmlFree (buf);
+		}
+		buf = (char*) xmlGetProp (node, (xmlChar*) "step");
+		if (buf) {
+			m_Step = strtoul (buf, NULL, 10);
+			xmlFree (buf);
+		}
+		buf = (char*) xmlGetProp (node, (xmlChar*) "line");
+		if (buf) {
+			m_Role = RoleFromString (buf);
+			xmlFree (buf);
+		}
+		buf = (char*) xmlGetProp (node, (xmlChar*) "rank");
 		if (buf) {
 			m_Role = RoleFromString (buf);
 			xmlFree (buf);
