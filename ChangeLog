@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2013-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bmp (0.14.2)
+	* libs/gcp/molecule.cc: fix crash when loading some molecules (was
+	introduced in 0.14.1).
+
 2013-03-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: don't crash when deleting a cyclic bond.
 

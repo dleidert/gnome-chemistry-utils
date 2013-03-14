@@ -1,5 +1,9 @@
 Version 0.14.1
 	GChemPaint:
+		* Fix crash when loading some molecules (was introduced in 0.14.1).
+
+Version 0.14.1
+	GChemPaint:
 		* Do not allow a mesomery setruction when inside a reaction.
 		* Fix molecule deletion inside a mesomery.
 		* Fix reactant deletion inside a reaction.
