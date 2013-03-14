@@ -417,4 +417,50 @@ char ReactionArrow::GetSymbolicPosition (double x, double y)
 	return (s > l)? 'h': 'o';
 }
 
+unsigned ReactionArrow::GetLastStep ()
+{
+	unsigned res = 0, step;
+	std::map < std::string, gcu::Object * >::iterator i;
+	ReactionProp *prop = static_cast < ReactionProp * > (GetFirstChild (i));
+	while (prop) {
+		step = prop->GetStep ();
+		if (step > res)
+			res = step;
+		prop = static_cast < ReactionProp * > (GetFirstChild (i));
+	}
+	return res;
+}
+
+unsigned ReactionArrow::GetLastLine (unsigned step)
+{
+	unsigned res = 0, line;
+	std::map < std::string, gcu::Object * >::iterator i;
+	ReactionProp *prop = static_cast < ReactionProp * > (GetFirstChild (i));
+	while (prop) {
+		if (step == prop->GetStep ()) {
+			line = prop->GetLine ();
+			if (line > res)
+				res = line;
+		}
+		prop = static_cast < ReactionProp * > (GetFirstChild (i));
+	}
+	return res;
+}
+
+unsigned ReactionArrow::GetLastPos (unsigned step, unsigned line)
+{
+	unsigned res = 0, pos;
+	std::map < std::string, gcu::Object * >::iterator i;
+	ReactionProp *prop = static_cast < ReactionProp * > (GetFirstChild (i));
+	while (prop) {
+		if (step == prop->GetStep () && line == prop->GetLine ()) {
+			pos = prop->GetRank ();
+			if (pos > res)
+				res = pos;
+		}
+		prop = static_cast < ReactionProp * > (GetFirstChild (i));
+	}
+	return res;
+}
+
 }	//	namespace gcp

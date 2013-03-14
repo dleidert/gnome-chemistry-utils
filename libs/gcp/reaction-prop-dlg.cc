@@ -38,6 +38,10 @@ static void on_role_changed (GtkComboBox *box, ReactionProp *prop)
 	prop->SetRole (gtk_combo_box_get_active (box));
 }
 
+static void on_focus (ReactionProp *prop)
+{
+}
+
 ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):
 	gcugtk::Dialog (static_cast < gcugtk::Application * > (arrow->GetDocument ()->GetApp ()), UIDIR"/arrow-object.ui", "reaction-prop", GETTEXT_PACKAGE, prop),
 	m_Arrow (arrow),
@@ -51,6 +55,7 @@ ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):
 	gtk_combo_box_set_active (GTK_COMBO_BOX (box), prop->GetRole ());
 	g_signal_connect (G_OBJECT (box), "changed", G_CALLBACK (on_role_changed), prop);
 	gtk_widget_show (GTK_WIDGET (dialog));
+	g_signal_connect_swapped(G_OBJECT (dialog), "focus-in-event", G_CALLBACK (on_focus), prop);
 }
 
 ReactionPropDlg::~ReactionPropDlg ()

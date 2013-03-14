@@ -146,6 +146,10 @@ false otherwise.
 */
 	char GetSymbolicPosition (double x, double y);
 
+	unsigned GetLastStep ();
+	unsigned GetLastLine (unsigned step);
+	unsigned GetLastPos (unsigned step, unsigned line);
+
 private:
 	unsigned m_Type;
 	bool m_TypeChanged;

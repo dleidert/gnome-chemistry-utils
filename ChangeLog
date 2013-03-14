@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2013-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: fix crash when loading some molecules.
+	* libs/gcp/reaction-arrow.cc: start work on multi attachments support.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-prop-dlg.cc: ditto.
+	* ui/paint/arrow-object.ui: ditto.
+	* ui/paint/reaction-arrow-prop.ui: ditto.
+
 2013-03-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: don't crash when deleting a cyclic bond.
 	* libs/gcp/reaction-arrow.cc: start work for supporting several attachments
