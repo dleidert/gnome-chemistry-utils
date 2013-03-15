@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2013-03-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bmp (0.14.3)
+
 2013-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bmp (0.14.2)
 	* libs/gcp/molecule.cc: fix crash when loading some molecules (was
