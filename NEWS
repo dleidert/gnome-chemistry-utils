@@ -6,7 +6,7 @@ Version 0.14.2
 
 Version 0.14.1
 	GChemPaint:
-		* Do not allow a mesomery setruction when inside a reaction.
+		* Do not allow a mesomery destruction when inside a reaction.
 		* Fix molecule deletion inside a mesomery.
 		* Fix reactant deletion inside a reaction.
 		* Don't crash when a mesomery inside a reaction is destroyed.
