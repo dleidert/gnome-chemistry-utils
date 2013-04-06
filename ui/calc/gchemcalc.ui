@@ -16,10 +16,10 @@
           <object class="GtkEntry" id="entry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="margin_left">6</property>
+            <property name="margin_right">6</property>
             <property name="invisible_char">●</property>
             <property name="invisible_char_set">True</property>
-            <property name="margin-left">6</property>
-            <property name="margin-right">6</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -81,10 +81,11 @@
         <child>
           <object class="GtkLabel" id="weight">
             <property name="visible">True</property>
-            <property name="xalign">0</property>
-            <property name="yalign">1</property>
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
+            <property name="xalign">0</property>
+            <property name="yalign">1</property>
+            <property name="selectable">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -97,12 +98,12 @@
           <object class="GtkNotebook" id="calc-book">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="margin_left">6</property>
+            <property name="margin_right">6</property>
+            <property name="margin_bottom">6</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="tab_pos">bottom</property>
-            <property name="margin-left">6</property>
-            <property name="margin-right">6</property>
-            <property name="margin-bottom">6</property>
             <child>
               <object class="GtkScrolledWindow" id="scrolledwindow1">
                 <property name="height_request">277</property>
@@ -134,8 +135,8 @@
               <object class="GtkGrid" id="pattern">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-	        <property name="column_spacing">12</property>
-	        <property name="row_spacing">6</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">12</property>
                 <child>
                   <object class="GtkLabel" id="monomass-lbl">
                     <property name="visible">True</property>
@@ -154,8 +155,9 @@
                   <object class="GtkLabel" id="monomass">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
                     <property name="hexpand">True</property>
+                    <property name="xalign">0</property>
+                    <property name="selectable">True</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -187,6 +189,12 @@
             <property name="width">2</property>
             <property name="height">1</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
     </child>

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2013-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gnumeric/functions.cc: add monoisotopicmass function.
+	* gnumeric/plugin.xml.in.in: ditto.
+	* ui/calc/gchemcalc.ui: make the masses selectable.
+
 2013-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: fix crash when loading some molecules.
 	* libs/gcp/reaction-arrow.cc: start work on multi attachments support.

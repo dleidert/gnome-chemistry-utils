@@ -36,6 +36,8 @@ extern "C" {
 // needed to export the symbol...???
 extern const GnmFuncDescriptor Chemistry_functions[];
 
+static bool isotopes_loaded = false;
+
 //GNM_PLUGIN_MODULE_HEADER;
 extern GOPluginModuleDepend const go_plugin_depends [] = {
 	{ "goffice",	GOFFICE_API_VERSION },
@@ -77,10 +79,48 @@ gnumeric_molarmass (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return res;
 }
 
+static GnmFuncHelp const help_monoisotopicmass[] = {
+    { GNM_FUNC_HELP_NAME, N_("MONOISOTIPICMASS:monoisotopic mass of a chemical entity")},
+    { GNM_FUNC_HELP_ARG, N_("formula:the input chemical formula such as \"CCl4\"")},
+	{ GNM_FUNC_HELP_DESCRIPTION, N_("MOLMONOISOTIPICMASS calculates a monoisotopic mass associated with the given @{formula}.") },
+	{ GNM_FUNC_HELP_EXAMPLES, N_("=monoisotopicmass(\"CCl4\")") },
+	{ GNM_FUNC_HELP_END, NULL }
+};
+
+static GnmValue *
+gnumeric_monoisotopicmass (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmValue *res;
+	gcu::Formula *f = NULL;
+
+	if (!isotopes_loaded) {
+		gcu::Element::LoadIsotopes ();
+		isotopes_loaded = true;
+	}
+
+	try {
+		f = new gcu::Formula (value_peek_string (argv[0]));
+		gcu::IsotopicPattern pattern;
+		f->CalculateIsotopicPattern (pattern);
+		gcu::SimpleValue v = pattern.GetMonoMass ();
+		char const *s = v.GetAsString ();
+		res = value_new_float (strtod (s, NULL));
+	}
+	catch (gcu::parse_error &e) {
+		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+	}
+	if (f)
+		delete f ;
+	return res;
+}
+
 const GnmFuncDescriptor Chemistry_functions[] = {
 
         { N_("molarmass"),       "s",
 			help_molarmass, gnumeric_molarmass, NULL, NULL, NULL,
+			GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
+        { N_("monoisotopicmass"),       "s",
+			help_monoisotopicmass, gnumeric_monoisotopicmass, NULL, NULL, NULL,
 			GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 
 

@@ -44,7 +44,7 @@ Version 0.13.92
 		* Fix misleading error message while saving.
 		* Fix loading of arrows inside a group. [#27032]
 	GCrystal:
-		* Apply element change to all slected atoms.
+		* Apply element change to all selected atoms.
 		* Updated the documentation.
 	GSpectrum:
 		* Add "Response factor" as supported unit.
