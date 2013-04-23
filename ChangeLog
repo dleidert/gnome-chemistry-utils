@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2013-04-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: add a PositionChildren() method.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-prop-dlg.cc: initialize spin buttons.
+	* libs/gcp/reaction-prop-dlg.h: ditto.
+	* libs/gcp/reaction-prop.cc: don't save step, line or rank when less than 1.
+
 2013-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gnumeric/functions.cc: add monoisotopicmass function.
 	* gnumeric/plugin.xml.in.in: ditto.

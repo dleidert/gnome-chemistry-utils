@@ -60,6 +60,7 @@ The destructor.
 private:
 	ReactionArrow *m_Arrow;
 	ReactionProp *m_Prop;
+	GtkSpinButton *m_StepBtn, *m_LineBtn, *m_PosBtn;
 };
 
 }	//	namespace gcp

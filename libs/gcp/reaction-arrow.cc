@@ -113,6 +113,11 @@ bool ReactionArrow::Load (xmlNodePtr node)
 			}
 			child = GetNextNodeByName (child->next, "reaction-prop");
 		}
+
+		// at this point, check if there are no duplicates for the (step, line, rank) triplet
+		// and no missing lines steps or ranks
+		// FIXME: write that code!
+
 		parent = GetParent ();
 		if (!parent)
 			return true;
@@ -302,12 +307,38 @@ void ReactionArrow::AddProp (Object *object)
 	Document *Doc = dynamic_cast<Document*> (GetDocument ());
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
 	Operation *Op = Doc->GetNewOperation (GCP_MODIFY_OPERATION);
+	unsigned step, line, rank;
 	Op->AddObject (object, 0);
 	Object *Group = GetGroup ();
 	if (!Group)
 		Group = this;
 	Op->AddObject (Group, 0);
 	ReactionProp *prop = new ReactionProp (this, object);
+	// set a step: the last current one
+	step = GetLastStep ();
+	if (step == 0) {
+		step++;
+		line = 1;
+		rank = 1;
+	} else {
+		line = GetLastLine (step);
+		if (line == 0) {
+			line = 1;
+			rank = 1;
+		} else {
+			// add to a new line if last line has only one object
+			rank = GetLastPos (step, line);
+			if (rank < 2) {
+				line++;
+				rank = 1;
+			} else
+				rank++;
+		}	}
+	prop->SetStep (step);
+	prop->SetLine (line);
+	prop->SetRank (rank);
+	// set a line: a new one if step is 0 and first line has one object or less
+	line = GetLastLine (step);
 	// add the child in the object tree
 	AddChild (prop);
 	// position the child
@@ -377,6 +408,10 @@ void ReactionArrow::PositionChild (ReactionProp *prop)
 	Doc->GetView ()->Update (this);
 }
 
+void ReactionArrow::PositionChildren ()
+{
+}
+
 bool ReactionArrow::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	if (Signal == OnChangedSignal) {
@@ -426,7 +461,7 @@ unsigned ReactionArrow::GetLastStep ()
 		step = prop->GetStep ();
 		if (step > res)
 			res = step;
-		prop = static_cast < ReactionProp * > (GetFirstChild (i));
+		prop = static_cast < ReactionProp * > (GetNextChild (i));
 	}
 	return res;
 }
@@ -442,7 +477,7 @@ unsigned ReactionArrow::GetLastLine (unsigned step)
 			if (line > res)
 				res = line;
 		}
-		prop = static_cast < ReactionProp * > (GetFirstChild (i));
+		prop = static_cast < ReactionProp * > (GetNextChild (i));
 	}
 	return res;
 }
@@ -458,7 +493,7 @@ unsigned ReactionArrow::GetLastPos (unsigned step, unsigned line)
 			if (pos > res)
 				res = pos;
 		}
-		prop = static_cast < ReactionProp * > (GetFirstChild (i));
+		prop = static_cast < ReactionProp * > (GetNextChild (i));
 	}
 	return res;
 }

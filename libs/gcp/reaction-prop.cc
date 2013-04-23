@@ -91,17 +91,17 @@ xmlNodePtr ReactionProp::Save (xmlDocPtr xml)
 		return NULL;
 	xmlNewProp (node, (xmlChar*) "role",  (xmlChar*) ReactionPropRoles[m_Role]);
 	char *buf;
-	if (m_Step > 0) {
+	if (m_Step > 1) {
 			buf = g_strdup_printf ("%u", m_Step);
 			xmlNewProp (node, (xmlChar*) "step", (xmlChar*) buf);
 			g_free (buf);
 	}
-	if (m_Line > 0) {
+	if (m_Line > 1) {
 			buf = g_strdup_printf ("%u", m_Line);
 			xmlNewProp (node, (xmlChar*) "line", (xmlChar*) buf);
 			g_free (buf);
 	}
-	if (m_Rank > 0) {
+	if (m_Rank > 1) {
 			buf = g_strdup_printf ("%u", m_Rank);
 			xmlNewProp (node, (xmlChar*) "rank", (xmlChar*) buf);
 			g_free (buf);
@@ -122,17 +122,20 @@ bool ReactionProp::Load (xmlNodePtr node)
 		if (buf) {
 			m_Step = strtoul (buf, NULL, 10);
 			xmlFree (buf);
-		}
+		} else
+			m_Step = 1;
 		buf = (char*) xmlGetProp (node, (xmlChar*) "line");
 		if (buf) {
-			m_Role = RoleFromString (buf);
+			m_Line = strtoul (buf, NULL, 10);
 			xmlFree (buf);
-		}
+		} else
+			m_Line = 1;
 		buf = (char*) xmlGetProp (node, (xmlChar*) "rank");
 		if (buf) {
-			m_Role = RoleFromString (buf);
+			m_Rank = strtoul (buf, NULL, 10);
 			xmlFree (buf);
-		}
+		} else
+			m_Rank = 1;
 	}
 	return res;
 }

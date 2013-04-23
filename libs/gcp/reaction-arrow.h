@@ -114,6 +114,11 @@ Position an object at the right place near the arrow.
 */
 	void PositionChild (ReactionProp *prop);
 /*!
+Position attached objects at the right places above or below the arrow
+according to their step, line and rank.
+*/
+	void PositionChildren ();
+/*!
 @param Signal the appropriate SignalId
 @param Child the child which emitted the signal or NULL
 
