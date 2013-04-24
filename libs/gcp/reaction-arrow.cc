@@ -54,6 +54,8 @@ ReactionArrow::ReactionArrow (Reaction* react, unsigned Type): Arrow (ReactionAr
 	if (react)
 		react->AddChild (this);
 	m_TypeChanged = false;
+	m_NumberingScheme = NumberingSchemeArabic;
+	m_MaxLinesAbove = 1;
 }
 
 
@@ -78,6 +80,17 @@ xmlNodePtr ReactionArrow::Save (xmlDocPtr xml) const
 		xmlNewProp (node, (xmlChar*) "start",  (xmlChar*) GetStartStep ()->GetId ());
 	if (GetEndStep ())
 		xmlNewProp (node, (xmlChar*) "end",  (xmlChar*) GetEndStep ()->GetId ());
+	if (GetLastStep () > 1 && m_NumberingScheme != NumberingSchemeArabic) {
+		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("numbering scheme"),
+		            ((m_NumberingScheme == NumberingSchemeRoman)?
+		             	 reinterpret_cast < xmlChar const * > ("roman"):
+			             reinterpret_cast < xmlChar const * > ("roman lower")));
+	}
+	if (m_MaxLinesAbove != 1) {
+		char *buf = g_strdup_printf ("%u", m_MaxLinesAbove);
+		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("max lines above"), reinterpret_cast < xmlChar const * > (buf));
+		g_free (buf);
+	}
 	SaveChildren (xml, node);
 	return node;
 }
@@ -112,6 +125,19 @@ bool ReactionArrow::Load (xmlNodePtr node)
 					delete prop;
 			}
 			child = GetNextNodeByName (child->next, "reaction-prop");
+		}
+		buf = reinterpret_cast < char * > (xmlGetProp (node, (xmlChar*) "numbering scheme"));
+		if (buf) {
+			if (!strcmp (buf, "roman"))
+				m_NumberingScheme = NumberingSchemeRoman;
+			else if (!strcmp (buf, "roman low"))
+				m_NumberingScheme = NumberingSchemeRomanLow;
+			xmlFree (buf);
+		}
+		buf = reinterpret_cast < char * > (xmlGetProp (node, (xmlChar*) "max lines above"));
+		if (buf) {
+			m_MaxLinesAbove = strtoul (buf, NULL, 10);
+			xmlFree (buf);
 		}
 
 		// at this point, check if there are no duplicates for the (step, line, rank) triplet
@@ -452,48 +478,48 @@ char ReactionArrow::GetSymbolicPosition (double x, double y)
 	return (s > l)? 'h': 'o';
 }
 
-unsigned ReactionArrow::GetLastStep ()
+unsigned ReactionArrow::GetLastStep () const
 {
 	unsigned res = 0, step;
-	std::map < std::string, gcu::Object * >::iterator i;
-	ReactionProp *prop = static_cast < ReactionProp * > (GetFirstChild (i));
+	std::map < std::string, gcu::Object * >::const_iterator i;
+	ReactionProp const *prop = static_cast < ReactionProp const * > (GetFirstChild (i));
 	while (prop) {
 		step = prop->GetStep ();
 		if (step > res)
 			res = step;
-		prop = static_cast < ReactionProp * > (GetNextChild (i));
+		prop = static_cast < ReactionProp const * > (GetNextChild (i));
 	}
 	return res;
 }
 
-unsigned ReactionArrow::GetLastLine (unsigned step)
+unsigned ReactionArrow::GetLastLine (unsigned step) const
 {
 	unsigned res = 0, line;
-	std::map < std::string, gcu::Object * >::iterator i;
-	ReactionProp *prop = static_cast < ReactionProp * > (GetFirstChild (i));
+	std::map < std::string, gcu::Object * >::const_iterator i;
+	ReactionProp const *prop = static_cast < ReactionProp const * > (GetFirstChild (i));
 	while (prop) {
 		if (step == prop->GetStep ()) {
 			line = prop->GetLine ();
 			if (line > res)
 				res = line;
 		}
-		prop = static_cast < ReactionProp * > (GetNextChild (i));
+		prop = static_cast < ReactionProp const * > (GetNextChild (i));
 	}
 	return res;
 }
 
-unsigned ReactionArrow::GetLastPos (unsigned step, unsigned line)
+unsigned ReactionArrow::GetLastPos (unsigned step, unsigned line) const
 {
 	unsigned res = 0, pos;
-	std::map < std::string, gcu::Object * >::iterator i;
-	ReactionProp *prop = static_cast < ReactionProp * > (GetFirstChild (i));
+	std::map < std::string, gcu::Object * >::const_iterator i;
+	ReactionProp const *prop = static_cast < ReactionProp const * > (GetFirstChild (i));
 	while (prop) {
 		if (step == prop->GetStep () && line == prop->GetLine ()) {
 			pos = prop->GetRank ();
 			if (pos > res)
 				res = pos;
 		}
-		prop = static_cast < ReactionProp * > (GetNextChild (i));
+		prop = static_cast < ReactionProp const * > (GetNextChild (i));
 	}
 	return res;
 }

@@ -35,6 +35,12 @@ class UIManager;
 
 namespace gcp {
 
+typedef enum {
+	NumberingSchemeArabic,
+	NumberingSchemeRoman,
+	NumberingSchemeRomanLow
+} NumberingScheme;
+
 class ReactionStep;
 class Reaction;
 class ReactionProp;
@@ -151,13 +157,16 @@ false otherwise.
 */
 	char GetSymbolicPosition (double x, double y);
 
-	unsigned GetLastStep ();
-	unsigned GetLastLine (unsigned step);
-	unsigned GetLastPos (unsigned step, unsigned line);
+	unsigned GetLastStep () const;
+	unsigned GetLastLine (unsigned step) const;
+	unsigned GetLastPos (unsigned step, unsigned line) const;
 
 private:
 	unsigned m_Type;
 	bool m_TypeChanged;
+
+GCU_PROP (unsigned, MaxLinesAbove)
+GCU_PROP (NumberingScheme, NumberingScheme);
 };
 
 }	//	namespace gcp
