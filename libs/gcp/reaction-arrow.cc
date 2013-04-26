@@ -81,14 +81,14 @@ xmlNodePtr ReactionArrow::Save (xmlDocPtr xml) const
 	if (GetEndStep ())
 		xmlNewProp (node, (xmlChar*) "end",  (xmlChar*) GetEndStep ()->GetId ());
 	if (GetLastStep () > 1 && m_NumberingScheme != NumberingSchemeArabic) {
-		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("numbering scheme"),
+		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("numbering-scheme"),
 		            ((m_NumberingScheme == NumberingSchemeRoman)?
 		             	 reinterpret_cast < xmlChar const * > ("roman"):
 			             reinterpret_cast < xmlChar const * > ("roman lower")));
 	}
 	if (m_MaxLinesAbove != 1) {
 		char *buf = g_strdup_printf ("%u", m_MaxLinesAbove);
-		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("max lines above"), reinterpret_cast < xmlChar const * > (buf));
+		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("max-lines-above"), reinterpret_cast < xmlChar const * > (buf));
 		g_free (buf);
 	}
 	SaveChildren (xml, node);
@@ -126,7 +126,7 @@ bool ReactionArrow::Load (xmlNodePtr node)
 			}
 			child = GetNextNodeByName (child->next, "reaction-prop");
 		}
-		buf = reinterpret_cast < char * > (xmlGetProp (node, (xmlChar*) "numbering scheme"));
+		buf = reinterpret_cast < char * > (xmlGetProp (node, (xmlChar*) "numbering-scheme"));
 		if (buf) {
 			if (!strcmp (buf, "roman"))
 				m_NumberingScheme = NumberingSchemeRoman;
@@ -134,7 +134,7 @@ bool ReactionArrow::Load (xmlNodePtr node)
 				m_NumberingScheme = NumberingSchemeRomanLow;
 			xmlFree (buf);
 		}
-		buf = reinterpret_cast < char * > (xmlGetProp (node, (xmlChar*) "max lines above"));
+		buf = reinterpret_cast < char * > (xmlGetProp (node, (xmlChar*) "max-lines-above"));
 		if (buf) {
 			m_MaxLinesAbove = strtoul (buf, NULL, 10);
 			xmlFree (buf);
@@ -255,6 +255,46 @@ void ReactionArrow::UpdateItem ()
 	AddItem ();
 }
 
+class ReactionArrowProps: gcugtk::Dialog
+{
+public:
+	ReactionArrowProps (ReactionArrow *arrow);
+};
+
+static void on_lines_changed (GtkSpinButton *btn, ReactionArrow *arrow)
+{
+	arrow->SetMaxLinesAbove (gtk_spin_button_get_value_as_int (btn));
+	arrow->PositionChildren ();
+}
+
+static void on_numbering_changed (GtkComboBox *box, ReactionArrow *arrow)
+{
+	arrow->SetNumberingScheme (static_cast < NumberingScheme > (gtk_combo_box_get_active (box)));
+	arrow->PositionChildren ();
+}
+
+ReactionArrowProps::ReactionArrowProps (ReactionArrow *arrow):
+	gcugtk::Dialog (reinterpret_cast < gcugtk::Application * > (arrow->GetApplication ()), UIDIR"/reaction-arrow-prop.ui", "reaction-arrow-dlg", GETTEXT_PACKAGE, arrow)
+{
+	gtk_widget_show (GTK_WIDGET (dialog));
+	GtkWidget *w = GetWidget ("lines-btn");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), arrow->GetMaxLinesAbove ());
+	g_signal_connect (w, "value-changed", G_CALLBACK (on_lines_changed), arrow);
+	w = GetWidget ("steps-combo");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (w), arrow->GetNumberingScheme ());
+	g_signal_connect (w, "changed", G_CALLBACK (on_numbering_changed), arrow);
+	if (arrow->GetLastStep () < 2) {
+		gtk_widget_hide (GetWidget ("steps-lbl"));
+		gtk_widget_hide (w);
+	}
+}
+	
+
+static void do_props (ReactionArrow *arrow)
+{
+	new ReactionArrowProps (arrow);
+}
+
 struct CallbackData {
 	ReactionArrow *arrow;
 	Object *child;
@@ -279,11 +319,18 @@ bool ReactionArrow::BuildContextualMenu (gcu::UIManager *UIManager, Object *obje
 	bool result = false;
 	GtkActionGroup *group = NULL;
 	GtkAction *action;
-	if (GetChildrenNumber () > 1) {
+	if (GetChildrenNumber () > 0) {
 		group = gtk_action_group_new ("reaction-arrow");
 		GtkAction *action = gtk_action_new ("Arrow", _("Arrow"), NULL, NULL);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
+		action = gtk_action_new ("props", _("Properties..."), _("Arrow properties"), NULL);
+		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
+		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_props), this);
+		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Arrow'><menuitem action='props'/></menu></popup></ui>", -1, NULL);
+		gtk_ui_manager_insert_action_group (uim, group, 0);
+		result = true;
 	}
 	if (pData->SelectedObjects.size () == 1) {
 		Object *obj = *pData->SelectedObjects.begin ();

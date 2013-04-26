@@ -8,5 +8,6 @@ dist_ui_DATA = \
 	H-pos.ui \
 	newfiledlg.ui \
 	preferences.ui \
+	reaction-arrow-prop.ui \
 	tools.ui \
 	zoom.ui

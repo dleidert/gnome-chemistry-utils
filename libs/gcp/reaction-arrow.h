@@ -28,6 +28,7 @@
 /*!\file*/
 
 #include "arrow.h"
+#include <gcu/dialog-owner.h>
 
 namespace gcu {
 class UIManager;
@@ -47,7 +48,7 @@ class ReactionProp;
 
 /*!\class ReactionArrow gcp/reaction-arrow.h
 Arrow class for arrows used in chemical reactions.*/
-class ReactionArrow: public Arrow
+class ReactionArrow: public Arrow, public gcu::DialogOwner
 {
 public:
 /*!

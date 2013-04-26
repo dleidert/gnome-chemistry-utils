@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2013-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: add properties editor.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* ui/paint/Makefile.am: install the new ui file.
+	* ui/paint/reaction-arrow-prop.ui: populate.
+
 2013-04-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: add more properties.
 	* libs/gcp/reaction-arrow.h: ditto.
