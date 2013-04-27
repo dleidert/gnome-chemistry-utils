@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2013-04-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: add new files.
+	* libs/gcp/application.cc: new ReactionSeparator class.
+	* libs/gcp/reaction-arrow.cc: ditto.
+	* libs/gcp/reaction-separator.cc: ditto.
+	* libs/gcp/reaction-separator.h: ditto.
+
 2013-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: add properties editor.
 	* libs/gcp/reaction-arrow.h: ditto.

@@ -28,6 +28,7 @@
 #include "reaction-step.h"
 #include "reaction-prop.h"
 #include "reaction-prop-dlg.h"
+#include "reaction-separator.h"
 #include "document.h"
 #include "settings.h"
 #include "theme.h"
@@ -481,8 +482,21 @@ void ReactionArrow::PositionChild (ReactionProp *prop)
 	Doc->GetView ()->Update (this);
 }
 
+typedef *gcu::Object Line;
+typedef *Line Step;
+
 void ReactionArrow::PositionChildren ()
 {
+	std::set < ReactionSeparator * > separators;
+	std::map < std::string, gcu::Object * >::_iterator i;
+	gcu::Object const *obj = GetFirstChild (i);
+	unsigned s, max_step = GetLastStep ();
+	*Step *steps = new Step[max_step];
+	while (obj) {
+		if (obj->GetType () == ReactionSeparatorType)
+			separators.insert (static_cast < ReactionSeparator * > (obj);
+	}
+	delete [] steps;
 }
 
 bool ReactionArrow::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
@@ -529,12 +543,16 @@ unsigned ReactionArrow::GetLastStep () const
 {
 	unsigned res = 0, step;
 	std::map < std::string, gcu::Object * >::const_iterator i;
-	ReactionProp const *prop = static_cast < ReactionProp const * > (GetFirstChild (i));
-	while (prop) {
-		step = prop->GetStep ();
-		if (step > res)
-			res = step;
-		prop = static_cast < ReactionProp const * > (GetNextChild (i));
+	gcu::Object const *obj = GetFirstChild (i);
+	ReactionProp const *prop;
+	while (obj) {
+		if (obj->GetType () == ReactionPropType) {
+			prop = static_cast < ReactionProp const * > (obj);
+			step = prop->GetStep ();
+			if (step > res)
+				res = step;
+		}
+		obj = GetNextChild (i);
 	}
 	return res;
 }
@@ -543,14 +561,18 @@ unsigned ReactionArrow::GetLastLine (unsigned step) const
 {
 	unsigned res = 0, line;
 	std::map < std::string, gcu::Object * >::const_iterator i;
-	ReactionProp const *prop = static_cast < ReactionProp const * > (GetFirstChild (i));
-	while (prop) {
-		if (step == prop->GetStep ()) {
-			line = prop->GetLine ();
-			if (line > res)
-				res = line;
+	gcu::Object const *obj = GetFirstChild (i);
+	ReactionProp const *prop;
+	while (obj) {
+		if (obj->GetType () == ReactionPropType) {
+			prop = static_cast < ReactionProp const * > (obj);
+			if (step == prop->GetStep ()) {
+				line = prop->GetLine ();
+				if (line > res)
+					res = line;
+			}
 		}
-		prop = static_cast < ReactionProp const * > (GetNextChild (i));
+		obj = GetNextChild (i);
 	}
 	return res;
 }
@@ -559,14 +581,18 @@ unsigned ReactionArrow::GetLastPos (unsigned step, unsigned line) const
 {
 	unsigned res = 0, pos;
 	std::map < std::string, gcu::Object * >::const_iterator i;
-	ReactionProp const *prop = static_cast < ReactionProp const * > (GetFirstChild (i));
-	while (prop) {
-		if (step == prop->GetStep () && line == prop->GetLine ()) {
-			pos = prop->GetRank ();
-			if (pos > res)
-				res = pos;
+	gcu::Object const *obj = GetFirstChild (i);
+	ReactionProp const *prop;
+	while (obj) {
+		if (obj->GetType () == ReactionPropType) {
+			prop = static_cast < ReactionProp const * > (obj);
+			if (step == prop->GetStep () && line == prop->GetLine ()) {
+				pos = prop->GetRank ();
+				if (pos > res)
+					res = pos;
+			}
 		}
-		prop = static_cast < ReactionProp const * > (GetNextChild (i));
+		obj = GetNextChild (i);
 	}
 	return res;
 }
