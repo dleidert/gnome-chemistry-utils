@@ -482,21 +482,118 @@ void ReactionArrow::PositionChild (ReactionProp *prop)
 	Doc->GetView ()->Update (this);
 }
 
-typedef *gcu::Object Line;
-typedef *Line Step;
+typedef struct {
+	gcu::Object **objs;
+	unsigned max;
+	double width, height, y;
+} Line;
+
+typedef struct {
+	Line *lines;
+	unsigned max;
+} ArrowStep;
 
 void ReactionArrow::PositionChildren ()
 {
 	std::set < ReactionSeparator * > separators;
-	std::map < std::string, gcu::Object * >::_iterator i;
-	gcu::Object const *obj = GetFirstChild (i);
-	unsigned s, max_step = GetLastStep ();
-	*Step *steps = new Step[max_step];
+	std::set < gcu::Object * > garbage;
+	std::map < std::string, gcu::Object * >::iterator i;
+	gcu::Object *obj = GetFirstChild (i);
+	unsigned s, max_step = GetLastStep (), l, p, n;
+	ArrowStep *steps = (max_step != 0)? new ArrowStep[max_step]: NULL;
+	ReactionProp *prop;
+	Document *doc = static_cast < Document * > (GetDocument ());
+	WidgetData* data = reinterpret_cast < WidgetData * > ( g_object_get_data (G_OBJECT (doc->GetWidget ()), "data"));
+	gccv::Rect rect;
+	double y;
+	Line *line;
+	if (steps == NULL)
+		return; /* there is nothing valid around there */
+	// allocate lines
+	for (s = 0; s < max_step; s++) {
+		steps[s].max = GetLastLine (s + 1);
+		if (steps[s].max > 0) {
+			steps[s].lines = new Line[steps[s].max];
+			for (l = 0; l < steps[s].max; l++) {
+				steps[s].lines[l].max = GetLastPos (s + 1, l + 1);
+				if (steps[s].lines[l].max > 0) {
+					steps[s].lines[l].objs = new gcu::Object *[steps[s].lines[l].max];
+					for (p = 0 ; p < steps[s].lines[l].max; p++)
+						steps[s].lines[l].objs[p] = NULL;
+					}
+				else
+					steps[s].lines[l].objs = NULL;
+			}
+		} else
+			steps[s].lines = NULL;
+	}
 	while (obj) {
 		if (obj->GetType () == ReactionSeparatorType)
-			separators.insert (static_cast < ReactionSeparator * > (obj);
+			separators.insert (static_cast < ReactionSeparator * > (obj));
+		else if (obj->GetType () == ReactionPropType) {
+			prop = static_cast < ReactionProp * > (obj);
+			s = prop->GetStep ();
+			l = prop->GetLine ();
+			p = prop->GetRank ();
+			if (s * l * p == 0) // none should be nul
+				garbage.insert (obj);
+			s--;
+			l--;
+			p--;
+			if (steps[s].lines[l].objs[p] == NULL)
+				steps[s].lines[l].objs[p] = obj;
+			else
+				garbage.insert (obj);
+		} else
+			garbage.insert (obj);
+		obj = GetNextChild (i);
+	}
+	// check if every object really exists to avoid crashes
+	for (s = 0; s < max_step; s++) {
+		for (l = 0; l < steps[s].max; l++) {
+			line = steps[s].lines + l;
+			for (p = 0; p < line->max; p++)
+				if (line->objs[p] == NULL) {
+					for (n = p + 1; n < line->max; n++)
+						line->objs[n - 1] = line->objs[n];
+					line->max --;
+				}
+			if (line->max == 0) {
+				// remove the empty line
+				if (line->objs)
+					delete [] line->objs;
+				for (n = l + 1; n < steps[s].max; n++)
+					steps[s].lines[n - 1] = steps[s].lines[n];
+				steps[s].max--;
+			}
+		}
+		if (steps[s].max == 0) {
+			// remove the empty step
+			if (steps[s].lines)
+				delete [] steps[s].lines;
+			for (n = s + 1; n < max_step; n++)
+				steps[n - 1] = steps[n];
+			max_step--;
+		}
+	}
+	
+	// evaluate lines size
+	for (s = 0; s < max_step; s++) {
+		for (l = 0; l < steps[s].max; l++) {
+			line = steps[s].lines + l;
+			line->width = line->height = 0.;
+			data->GetObjectBounds (line->objs[0], &rect);
+			y = line->objs[0]->GetYAlign ();
+		}
+	}
+	// clean memory
+	for (s = 0; s < max_step; s++) {
+		for (l = 0; l < steps[s].max; l++)
+			delete [] steps[s].lines[l].objs;
+		delete [] steps[s].lines;
 	}
 	delete [] steps;
+	// FIXME: delete garbage if any
 }
 
 bool ReactionArrow::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)

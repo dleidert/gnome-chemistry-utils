@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2013-04-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: start work on children aligment.
+	* libs/gcp/reaction-separator.h: add missing declaration.
+
 2013-04-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: add new files.
 	* libs/gcp/application.cc: new ReactionSeparator class.

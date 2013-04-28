@@ -31,6 +31,8 @@
 /*!\file*/
 namespace gcp {
 
+extern gcu::TypeId ReactionSeparatorType;
+
 /*!\class ReactionOperator gcp/reaction-separator.h
 \brief Class for ", " strings used to separate objects attached to an arrow.
 
