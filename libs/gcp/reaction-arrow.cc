@@ -158,6 +158,8 @@ bool ReactionArrow::Load (xmlNodePtr node)
 			doc->SetTarget (buf, reinterpret_cast <Object **> (GetEndStepPtr ()), GetParent (), this, ActionIgnore);
 			xmlFree (buf);
 		}
+		// ensure that children are properly aligned
+		PositionChildren ();
 		return true;
 	}
 	return false;
@@ -485,7 +487,7 @@ void ReactionArrow::PositionChild (ReactionProp *prop)
 typedef struct {
 	gcu::Object **objs;
 	unsigned max;
-	double width, height, y;
+	double width, height, ascent, descent;
 } Line;
 
 typedef struct {
@@ -505,8 +507,12 @@ void ReactionArrow::PositionChildren ()
 	Document *doc = static_cast < Document * > (GetDocument ());
 	WidgetData* data = reinterpret_cast < WidgetData * > ( g_object_get_data (G_OBJECT (doc->GetWidget ()), "data"));
 	gccv::Rect rect;
-	double y;
+	double y, ascent, descent, sep_width = 0., sep_ascent = 0., sep_descent = 0.;
 	Line *line;
+	bool needs_sep = false;
+	ReactionSeparator *sep;
+	double scale = doc->GetTheme ()->GetZoomFactor ();
+
 	if (steps == NULL)
 		return; /* there is nothing valid around there */
 	// allocate lines
@@ -565,7 +571,8 @@ void ReactionArrow::PositionChildren ()
 				for (n = l + 1; n < steps[s].max; n++)
 					steps[s].lines[n - 1] = steps[s].lines[n];
 				steps[s].max--;
-			}
+			} else if (line->max > 1)
+				needs_sep = true;
 		}
 		if (steps[s].max == 0) {
 			// remove the empty step
@@ -578,14 +585,47 @@ void ReactionArrow::PositionChildren ()
 	}
 	
 	// evaluate lines size
+	if (needs_sep) {
+		if (separators.empty ()) {
+			sep = new ReactionSeparator ();
+			separators.insert (sep);
+			AddChild (sep);
+			doc->GetView ()->AddObject (sep);
+		} else
+			sep = *separators.begin ();
+		data->GetObjectBounds (sep, &rect);
+		sep_width = (rect.x1 - rect.x0) / scale;
+		y = sep->GetYAlign ();
+		sep_ascent = y - rect.y0 / scale;
+		sep_descent = rect.y1 / scale - y;
+	}
 	for (s = 0; s < max_step; s++) {
 		for (l = 0; l < steps[s].max; l++) {
 			line = steps[s].lines + l;
-			line->width = line->height = 0.;
-			data->GetObjectBounds (line->objs[0], &rect);
-			y = line->objs[0]->GetYAlign ();
+			line->width = line->ascent = line->descent = 0.;
+			for (p = 0; p < line->max; p++) {
+				data->GetObjectBounds (line->objs[p], &rect);
+				line->width += (rect.x1 - rect. x0) / scale;
+				y = line->objs[p]->GetYAlign ();
+				ascent = y - rect.y0 / scale;
+				descent = rect.y1 / scale - y;
+				if (line->ascent < ascent)
+					line->ascent = ascent;
+				if (line->descent < descent)
+					line->descent = descent;
+			}
+			if (line->max > 1) {
+				line->width += sep_width * (line->max - 1);
+				if (line->ascent < sep_ascent)
+					line->ascent = sep_ascent;
+				if (line->descent < sep_descent)
+					line->descent = sep_descent;
+			}
+			line->height = line->ascent + line->descent;
+			// FIXME: if there are several steps, add room for steps numbering
 		}
 	}
+	// evaluate needed arrow size
 	// clean memory
 	for (s = 0; s < max_step; s++) {
 		for (l = 0; l < steps[s].max; l++)

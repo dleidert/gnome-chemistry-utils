@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2013-04-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: evaluate lines size.
+	* libs/gcp/reaction-prop.cc: implement GetYAlign().
+	* libs/gcp/reaction-prop.h: ditto.
+
 2013-04-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: start work on children aligment.
 	* libs/gcp/reaction-separator.h: add missing declaration.

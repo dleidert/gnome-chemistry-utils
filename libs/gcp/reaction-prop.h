@@ -144,6 +144,11 @@ It should not be called by a program; call Object::EmitSignal instead.
 @return the localized object generic name.
 */
 	std::string Name ();
+/*!
+Used to retrieve the y coordinate for alignment.
+@return y coordinate used for reaction arrow children alignment.
+*/
+	virtual double GetYAlign ();
 
 private:
 /*!\fn GetObject()

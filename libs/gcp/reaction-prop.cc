@@ -112,6 +112,10 @@ xmlNodePtr ReactionProp::Save (xmlDocPtr xml)
 bool ReactionProp::Load (xmlNodePtr node)
 {
 	bool res = Object::Load (node);
+	if (GetChildrenNumber () != 1)
+		return false;
+	std::map < std::string, gcu::Object * >::iterator i;
+	m_Object = GetFirstChild (i);
 	if (res) {
 		char *buf = (char*) xmlGetProp (node, (xmlChar*) "role");
 		if (buf) {
@@ -150,6 +154,11 @@ bool ReactionProp::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 std::string ReactionProp::Name ()
 {
 	return _("Reaction property");
+}
+
+double ReactionProp::GetYAlign ()
+{
+	return m_Object->GetYAlign ();
 }
 
 }	//	namespace gcp
