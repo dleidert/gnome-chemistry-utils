@@ -2,9 +2,9 @@
 
 /*
  * GChemPaint library
- * reaction-operator.h
+ * step-counter.h
  *
- * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2013 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -22,8 +22,8 @@
  * USA
  */
 
-#ifndef GCHEMPAINT_REACTION_OPERATOR_H
-#define GCHEMPAINT_REACTION_OPERATOR_H
+#ifndef GCHEMPAINT_STEP_COUNTER_H
+#define GCHEMPAINT_STEP_COUNTER_H
 
 #include <gccv/item-client.h>
 #include <gcu/object.h>
@@ -31,26 +31,28 @@
 /*!\file*/
 namespace gcp {
 
-/*!\class ReactionOperator gcp/reaction-operator.h
-\brief Class for '+' signs in chemical reaction equations.
+extern gcu::TypeId StepCounterType;
+
+/*!\class ReactionOperator gcp/step-counter.h
+\brief Class for "nn. " strings used to number steps attached to an arrow.
 
 Objects of this class are added when useful by the framework. There is no need
 to create them manually.
 */
-class ReactionOperator: public gcu::Object, public gccv::ItemClient
+class StepCounter: public gcu::Object, public gccv::ItemClient
 {
 public:
 /*!
-The constructor. Adds a '+' sign in the chemical equation.
+The constructor. Adds a numering string to a step attached to an arrow.
 */
-	ReactionOperator ();
+	StepCounter (unsigned step, NumberingScheme scheme);
 /*!
 The destructor.
 */
-	virtual ~ReactionOperator ();
+	virtual ~StepCounter ();
 
 /*!
-Used to add a representation of the operator in the view.
+Used to add a representation of the numbering string in the view.
 */
 	void AddItem ();
 /*!
@@ -58,37 +60,37 @@ Used to add a representation of the operator in the view.
 @param y the y component of the transation vector.
 @param z the z component of the transation vector (unused).
 
-Moves the reaction operator.
+Moves the numering string.
 */
 	virtual void Move (double x, double y, double z = 0);
 /*!
-@param state: the selection state of the operator.
+@param state: the selection state of the numering string.
 
-Used to set the selection state of the operator.
+Used to set the selection state of the numering string.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing. Children will be selected too.
 */
 	virtual void SetSelected (int state);
 /*!
-@param x the new x coordinate of the operator.
-@param y the new y coordinate of the operator.
+@param x the new x coordinate of the numering string.
+@param y the new y coordinate of the numering string.
 
-Sets the coordinates of the operator. The values are understood horizontally
+Sets the coordinates of the numering string. The values are understood horizontally
 as left side and vertically as base line.
 */
 	void SetCoords (double x, double y);
 /*!
-@param x where to store the x coordinate of the operator.
-@param y where to store the y coordinate of the operator.
-@param z where to store the z coordinate of the operator or NULL for 2D representations.
+@param x where to store the x coordinate of the numering string.
+@param y where to store the y coordinate of the numering string.
+@param z where to store the z coordinate of the numering string or NULL for 2D representations.
 
-Retrieves the current coordinates of the operator.
+Retrieves the current coordinates of the numering string.
 @return true if successful and false if an error occurs (if x or y is NULL).
 */
 	bool GetCoords (double* x, double* y, double *z = NULL) const;
 /*!
 Used to retrieve the y coordinate for alignment.
-@return y coordinate used for reaction operators alignment.
+@return y coordinate used for numering strings alignment.
 */
 	virtual double GetYAlign ();
 
@@ -97,10 +99,17 @@ Used to retrieve the y coordinate for alignment.
 */
 	std::string Name ();
 
+// private methods
+	void Changed ();
+
 private:
 	double m_x, m_y;
+	std::string m_str;
+
+GCU_PROP_FULL (unsigned, Step, Changed)
+GCU_PROP_FULL (NumberingScheme, Scheme, Changed)
 };
 
 }	//	namespace gcp
 
-#endif	//	GCHEMPAINT_REACTION_OPERATOR_H
+#endif	//	GCHEMPAINT_STEP_COUNTER_H

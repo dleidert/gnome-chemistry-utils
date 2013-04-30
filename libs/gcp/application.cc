@@ -317,6 +317,7 @@ bool	Application::m_HaveGChem3D = false;
 bool	Application::m_HaveAvogadro = false;
 
 extern TypeId ReactionSeparatorType;
+extern TypeId StepCounterType;
 
 static void on_config_changed (GOConfNode *node, gchar const *key, Application *app)
 {
@@ -357,6 +358,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		AddType ("reaction-arrow", CreateReactionArrow, ReactionArrowType);
 		AddType ("reaction-operator", NULL, ReactionOperatorType);
 		ReactionSeparatorType = AddType ("reaction-separator", NULL, ReactionSeparatorType);
+		StepCounterType = AddType ("step-counter", NULL, StepCounterType);
 		ReactionPropType = AddType ("reaction-prop", CreateReactionProp);
 		MesomerType = AddType ("mesomer", CreateMesomer);
 		AddType ("mesomery", CreateMesomery, MesomeryType);
@@ -375,11 +377,13 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		AddRule ("reaction", RuleMustContain, "reaction-arrow");
 		AddRule ("reaction-arrow", RuleMayContain, "reaction-prop");
 		AddRule ("reaction-arrow", RuleMayContain, "reaction-separator");
+		AddRule ("reaction-arrow", RuleMayContain, "step-counter");
 		AddRule ("reaction-prop", RuleMustBeIn, "reaction-arrow");
 		AddRule ("reaction-prop", RuleMayContain, "molecule");
 		AddRule ("reaction-prop", RuleMayContain, "text");
 		AddRule ("reaction-operator", RuleMustBeIn, "reaction-step");
 		AddRule ("reaction-separator", RuleMustBeIn, "reaction-arrow");
+		AddRule ("step-counter", RuleMustBeIn, "reaction-arrow");
 		AddRule ("reactant", RuleMayContain, "molecule");
 		AddRule ("reactant", RuleMayContain, "text");
 		AddRule ("reactant", RuleMayContain, "mesomery");

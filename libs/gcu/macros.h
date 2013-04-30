@@ -79,6 +79,29 @@ private:	\
 	void Changed##member (void);	\
 	type m_##member;
 
+/*!\def GCU_PROP_EX()
+Defines a private member with appropriate get/set methods.
+GCU_PROP_EX((Type,Foo,Callback) expands to one private member:
+\code
+	Type m_Foo;
+\endcode
+
+and two public methods:
+\code
+	void SetFoo(Type val);
+	Type GetFoo();
+\endcode
+
+SetFoo() calls Callback which should be a private method implemented by
+the class.
+*/
+#define GCU_PROP_FULL(type,member,callback) \
+public:	\
+	void Set##member (type val) {m_##member = val; callback ();}	\
+	type Get##member (void) const {return m_##member;}	\
+private:	\
+	type m_##member;
+
 /*!\def GCU_POINTER_PROP()
 Defines a private pointer member with appropriate get/set methods.
 GCU_POINTER_PROP((Type,Foo) expands to one private member:

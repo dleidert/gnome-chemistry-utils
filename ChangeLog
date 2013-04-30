@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2013-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: add new files.
+	* libs/gcp/application.cc: new StepCounter class.
+	* libs/gcp/reaction-arrow.cc: ditto.
+	* libs/gcp/reaction-operator.h: removed unused member.
+	* libs/gcp/reaction-separator.h: ditto.
+	* libs/gcp/step-counter.cc: new class.
+	* libs/gcp/step-counter.h: ditto.
+	* libs/gcu/macros.h: add a new macro: GCU_PROP_FULL.
+
 2013-04-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: evaluate lines size.
 	* libs/gcp/reaction-prop.cc: implement GetYAlign().

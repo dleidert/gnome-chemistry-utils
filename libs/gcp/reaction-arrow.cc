@@ -29,6 +29,7 @@
 #include "reaction-prop.h"
 #include "reaction-prop-dlg.h"
 #include "reaction-separator.h"
+#include "step-counter.h"
 #include "document.h"
 #include "settings.h"
 #include "theme.h"
@@ -512,11 +513,14 @@ void ReactionArrow::PositionChildren ()
 	bool needs_sep = false;
 	ReactionSeparator *sep;
 	double scale = doc->GetTheme ()->GetZoomFactor ();
+	StepCounter **counters, *counter;
 
 	if (steps == NULL)
 		return; /* there is nothing valid around there */
+	counters = new StepCounter*[max_step];
 	// allocate lines
 	for (s = 0; s < max_step; s++) {
+		counters[s] =  NULL;
 		steps[s].max = GetLastLine (s + 1);
 		if (steps[s].max > 0) {
 			steps[s].lines = new Line[steps[s].max];
@@ -536,7 +540,10 @@ void ReactionArrow::PositionChildren ()
 	while (obj) {
 		if (obj->GetType () == ReactionSeparatorType)
 			separators.insert (static_cast < ReactionSeparator * > (obj));
-		else if (obj->GetType () == ReactionPropType) {
+		else if (obj->GetType () == StepCounterType) {
+			counter = static_cast < StepCounter * > (obj);
+			counters[counter->GetStep () -1] = counter;
+		} else if (obj->GetType () == ReactionPropType) {
 			prop = static_cast < ReactionProp * > (obj);
 			s = prop->GetStep ();
 			l = prop->GetLine ();
@@ -628,10 +635,13 @@ void ReactionArrow::PositionChildren ()
 	// evaluate needed arrow size
 	// clean memory
 	for (s = 0; s < max_step; s++) {
+		if (counters[s] != NULL)
+			delete counters[s]; // unused existing counter
 		for (l = 0; l < steps[s].max; l++)
 			delete [] steps[s].lines[l].objs;
 		delete [] steps[s].lines;
 	}
+	delete [] counters;
 	delete [] steps;
 	// FIXME: delete garbage if any
 }

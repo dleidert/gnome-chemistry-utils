@@ -51,6 +51,7 @@ libgcp_@GCU_API_VER@_la_SOURCES = \
 		mechanism-step.cc \
 		scheme.cc \
 		step.cc \
+		step-counter.cc \
 		text.cc \
 		text-object.cc \
 		docprop.cc \
@@ -99,6 +100,7 @@ noinst_HEADERS = \
 		mechanism-step.h \
 		scheme.h \
 		step.h \
+		step-counter.h \
 		text.h \
 		text-editor.h \
 		text-object.h \

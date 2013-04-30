@@ -101,7 +101,6 @@ Used to retrieve the y coordinate for alignment.
 
 private:
 	double m_x, m_y;
-	PangoLayout *m_Layout;
 };
 
 }	//	namespace gcp
