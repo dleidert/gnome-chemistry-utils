@@ -502,17 +502,20 @@ void ReactionArrow::PositionChildren ()
 	std::set < gcu::Object * > garbage;
 	std::map < std::string, gcu::Object * >::iterator i;
 	gcu::Object *obj = GetFirstChild (i);
-	unsigned s, max_step = GetLastStep (), l, p, n;
+	unsigned s, max_step = GetLastStep (), l, p, n, cur = 0;
 	ArrowStep *steps = (max_step != 0)? new ArrowStep[max_step]: NULL;
 	ReactionProp *prop;
 	Document *doc = static_cast < Document * > (GetDocument ());
+	Theme const *theme = doc->GetTheme ();
 	WidgetData* data = reinterpret_cast < WidgetData * > ( g_object_get_data (G_OBJECT (doc->GetWidget ()), "data"));
 	gccv::Rect rect;
-	double y, ascent, descent, sep_width = 0., sep_ascent = 0., sep_descent = 0.;
+	double y, ascent, descent, sep_width = 0., sep_ascent = 0., sep_descent = 0.,
+		   counter_width = 0., counter_ascent = 0., counter_descent = 0.,
+		   uwidth = 0., uheight = 0., lwidth = 0., lheight = 0.;
 	Line *line;
 	bool needs_sep = false;
 	ReactionSeparator *sep;
-	double scale = doc->GetTheme ()->GetZoomFactor ();
+	double scale = theme->GetZoomFactor (), padding = theme->GetPadding ();
 	StepCounter **counters, *counter;
 
 	if (steps == NULL)
@@ -606,6 +609,25 @@ void ReactionArrow::PositionChildren ()
 		sep_ascent = y - rect.y0 / scale;
 		sep_descent = rect.y1 / scale - y;
 	}
+	// evaluate step counters size, and create them if needed
+	for (s = 0; s < max_step; s++) {
+		if (counters[s] == NULL) {
+			counters[s] = new StepCounter (s + 1, m_NumberingScheme);
+			AddChild (counters[s]);
+			doc->GetView ()->AddObject (counters[s]);
+		}
+		data->GetObjectBounds (counters[s], &rect);
+		y = (rect.x1 - rect.x0) / scale;
+		if (y > counter_width)
+			counter_width = y;
+		rect.y0 /= scale;
+		rect.y1 /= scale;
+		y = counters[s]->GetYAlign ();
+		if (y -rect.y0 > counter_ascent)
+			counter_ascent = y - rect.y0;
+		if (rect.y1 -y > counter_descent)
+			counter_descent = rect.y1 - y;
+	}
 	for (s = 0; s < max_step; s++) {
 		for (l = 0; l < steps[s].max; l++) {
 			line = steps[s].lines + l;
@@ -628,11 +650,37 @@ void ReactionArrow::PositionChildren ()
 				if (line->descent < sep_descent)
 					line->descent = sep_descent;
 			}
+			if (max_step > 1) {
+				// make room for steps numbering.
+				line->width += counter_width;
+				if (line->ascent < counter_ascent)
+					line->ascent = counter_ascent;
+				if (line->descent < counter_descent)
+					line->descent = counter_descent;
+			}
 			line->height = line->ascent + line->descent;
-			// FIXME: if there are several steps, add room for steps numbering
+			if (cur < m_MaxLinesAbove) {
+				uheight += line->height;
+				if (line->width > uwidth)
+					uwidth = line->width;
+			} else {
+				lheight += line->height;
+				if (line->width > lwidth)
+					lwidth = line->width;
+			}
+			cur++;
 		}
 	}
 	// evaluate needed arrow size
+	if (cur > m_MaxLinesAbove) {
+		uheight += (m_MaxLinesAbove - 1) * padding;
+		cur ++;
+		if (cur > m_MaxLinesAbove)
+			lheight = (cur - m_MaxLinesAbove) * padding;
+	} else
+		uheight += (cur - 1) * padding;
+	cur = 0;
+	// position children
 	// clean memory
 	for (s = 0; s < max_step; s++) {
 		if (counters[s] != NULL)

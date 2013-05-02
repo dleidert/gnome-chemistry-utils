@@ -10,7 +10,7 @@ INCLUDES = \
 	-I$(top_srcdir)	-I$(top_srcdir)/libs	\
 	$(gnumeric_CFLAGS) \
 	$(GCU_CFLAGS)
-DEFS += -DDATADIR=\"$(datadir)\" -DGNM_VERSION_FULL=\"$(gnm_version)\"
+DEFS += -DDATADIR=\"$(datadir)\"
 
 gchemutils_plugindir = $(GNUMERIC_PLUGINS_DIR)/gchemutils
 gchemutils_plugin_LTLIBRARIES = plugin.la 

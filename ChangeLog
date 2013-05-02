@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2013-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gnumeric/Makefile.am: fix warning.
+	* libs/gcp/reaction-arrow.cc: evaluate attached objects blocks sizes.
+	* libs/gcp/step-counter.cc: fix step.
+
 2013-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: add new files.
 	* libs/gcp/application.cc: new StepCounter class.

@@ -184,7 +184,9 @@ std::string StepCounter::Name ()
 
 void StepCounter::Changed ()
 {
-	m_str = std::string (schemes [m_Scheme][m_Step]);
+	if (m_Step == 0)
+		m_Step = 1; // this would be a bug if it happened
+	m_str = std::string (schemes [m_Scheme][m_Step - 1]);
 }
 
 }	//	namespace gcp
