@@ -115,12 +115,6 @@ Attach an object to the arrow and pops up the reaction property dialog box.
 */
 	void AddProp (gcu::Object *object);
 /*!
-@param prop the attached property to position.
-
-Position an object at the right place near the arrow.
-*/
-	void PositionChild (ReactionProp *prop);
-/*!
 Position attached objects at the right places above or below the arrow
 according to their step, line and rank.
 */
@@ -168,6 +162,7 @@ private:
 
 GCU_PROP (unsigned, MaxLinesAbove)
 GCU_PROP (NumberingScheme, NumberingScheme);
+GCU_RO_PROP (double, MinLength);
 };
 
 }	//	namespace gcp

@@ -419,14 +419,14 @@ void ReactionArrow::AddProp (Object *object)
 	// add the child in the object tree
 	AddChild (prop);
 	// position the child
-	PositionChild (prop);
+	PositionChildren ();
 	Op->AddObject (Group, 1);
 	Doc->FinishOperation ();
 	pData->UnselectAll ();
 	EmitSignal (OnChangedSignal);
 	new ReactionPropDlg (this, prop);
 }
-
+/*
 void ReactionArrow::PositionChild (ReactionProp *prop)
 {
 	// FIXME: this is experimental code
@@ -483,7 +483,7 @@ void ReactionArrow::PositionChild (ReactionProp *prop)
 	ymin = m_y + length * y - x * yspan - (rect.y0 + rect.y1) / 2. / pTheme->GetZoomFactor ();
 	prop->Move (xmin, ymin);
 	Doc->GetView ()->Update (this);
-}
+}*/
 
 typedef struct {
 	gcu::Object **objs;
@@ -517,6 +517,7 @@ void ReactionArrow::PositionChildren ()
 	ReactionSeparator *sep;
 	double scale = theme->GetZoomFactor (), padding = theme->GetPadding ();
 	StepCounter **counters, *counter;
+	double lxspan, lyspan, uxspan, uyspan, x, length;
 
 	if (steps == NULL)
 		return; /* there is nothing valid around there */
@@ -680,6 +681,24 @@ void ReactionArrow::PositionChildren ()
 	} else
 		uheight += (cur - 1) * padding;
 	cur = 0;
+	length = sqrt (m_width * m_width + m_height * m_height);
+	x = fabs (m_width / length);
+	y = fabs (m_height / length);
+	lxspan = fabs (lwidth * x + lheight * y);
+	lyspan = fabs (lwidth * y  + lheight * x);
+	uxspan = fabs (uwidth * x + uheight * y);
+	uyspan = fabs (uwidth * y  + uheight * x);
+	x = (uxspan > lxspan)? uxspan: lxspan,
+	x += (2* theme->GetArrowObjectPadding () + theme->GetArrowHeadA ()) / theme->GetZoomFactor ();
+	// adjust the arrow length if needed
+	if (x > length) {
+		m_width *= x / length;
+		m_height *= x / length;
+		length = x;
+	}
+	m_MinLength = x;
+	length -= theme->GetArrowHeadA () / theme->GetZoomFactor ();
+	length /= 2.;
 	// position children
 	// clean memory
 	for (s = 0; s < max_step; s++) {
@@ -692,17 +711,13 @@ void ReactionArrow::PositionChildren ()
 	delete [] counters;
 	delete [] steps;
 	// FIXME: delete garbage if any
+	doc->GetView ()->Update (this);
 }
 
 bool ReactionArrow::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
-	if (Signal == OnChangedSignal) {
-		// for now we can have only one child property.
-		map<string, Object*>::iterator i;
-		ReactionProp *prop = dynamic_cast <ReactionProp *> (GetFirstChild (i));
-		if (prop != NULL)
-			PositionChild (prop);
-	}
+	if (Signal == OnChangedSignal)
+		PositionChildren ();
 	return true;
 }
 
