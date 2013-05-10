@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2013-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/loader-error.h: add missing header.
+
 2013-05-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: ensure the length is long enough after adding
 	children, and remove obsolete PositionChild().
