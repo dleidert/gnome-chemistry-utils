@@ -28,6 +28,7 @@
 /*!\file*/
 
 #include <stdexcept>
+#include <string>
 
 namespace gcu {
 

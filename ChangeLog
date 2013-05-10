@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2013-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/loader-error.h: add missing header.
+
 2013-03-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bmp (0.14.3)
 
