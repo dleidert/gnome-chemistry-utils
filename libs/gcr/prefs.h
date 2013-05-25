@@ -55,7 +55,7 @@ The destructor.
 private:
 	GtkComboBox *PrintResMenu;
 	GtkSpinButton *PrintResBtn;
-	GtkColorButton *BackgroundBtn;
+	GtkColorChooser *BackgroundBtn;
 	GtkSpinButton *FoVBtn;
 	GtkEntry *PsiEnt, *ThetaEnt, *PhiEnt;
 	unsigned long PsiSignal, ThetaSignal, PhiSignal, PrintResChanged;

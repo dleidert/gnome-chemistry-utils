@@ -73,7 +73,7 @@ private:
 	GcrGrid *m_Grid;
 	GcuPeriodic* periodic;
 	GtkToggleButton* CustomColor;
-	GtkColorButton *AtomColor;
+	GtkColorChooser *AtomColor;
 	GtkEntry *AtomR;
 	unsigned short m_nElt;
 	std::vector < Atom * > m_Atoms;

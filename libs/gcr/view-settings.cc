@@ -89,7 +89,7 @@ bool ViewSettingsDlgPrivate::OnPhiChanged (ViewSettingsDlg *dlg)
 void ViewSettingsDlgPrivate::OnBackgroundChanged (ViewSettingsDlg *dlg)
 {
 	GdkRGBA rgba;
-	gtk_color_button_get_rgba (dlg->Background, &rgba);
+	gtk_color_chooser_get_rgba (dlg->Background, &rgba);
 	dlg->m_pView->SetRed (rgba.red);
 	dlg->m_pView->SetGreen (rgba.green);
 	dlg->m_pView->SetBlue (rgba.blue);
@@ -105,10 +105,10 @@ ViewSettingsDlg::ViewSettingsDlg (View* pView): gcugtk::Dialog (static_cast < gc
 	Psi = GTK_ENTRY (GetWidget ("psi"));
 	Theta = GTK_ENTRY (GetWidget ("theta"));
 	Phi = GTK_ENTRY (GetWidget ("phi"));
-	Background = GTK_COLOR_BUTTON (GetWidget ("color"));
+	Background = GTK_COLOR_CHOOSER (GetWidget ("color"));
 	GdkRGBA rgba;
 	m_pView->GetBackgroundColor (&rgba.red, &rgba.green, &rgba.blue, &rgba.alpha);
-	gtk_color_button_set_rgba (Background, &rgba);
+	gtk_color_chooser_set_rgba (Background, &rgba);
 	g_signal_connect_swapped (Background, "color-set", G_CALLBACK (ViewSettingsDlgPrivate::OnBackgroundChanged), this);
 	double x0, x1, x2;
 	m_pView->GetRotation (&x0, &x1, &x2);

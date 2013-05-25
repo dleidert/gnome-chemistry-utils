@@ -54,7 +54,7 @@ The destructor.
 
 private:
 	View *m_pView;
-	GtkColorButton *Background;
+	GtkColorChooser *Background;
 	GtkSpinButton *FoV;
 	GtkEntry *Psi, *Theta, *Phi;
 	unsigned long PsiSignal, ThetaSignal, PhiSignal;

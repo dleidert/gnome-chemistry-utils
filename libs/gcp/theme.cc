@@ -205,7 +205,6 @@ ThemeManager::ThemeManager ()
 {
 	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	g_type_init ();
 	libgoffice_init ();
 	m_ConfNode = go_conf_get_node (gcu::Application::GetConfDir (), GCP_CONF_DIR_SETTINGS);
 	GCU_GCONF_GET ("bond-length", float, DefaultBondLength, 140.)

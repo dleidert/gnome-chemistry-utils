@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2013-05-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: request recent glib and gtk+.
+	* libs/gccv/text.cc: fix build with gtk+-3.8.
+	* libs/gcp/fontsel.cc: ditto.
+	* libs/gcp/theme.cc: ditto.
+	* libs/gcp/tools.cc: ditto.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcr/atomsdlg.cc: ditto.
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/linesdlg.cc: ditto.
+	* libs/gcr/linesdlg.h: ditto.
+	* libs/gcr/prefs.cc: ditto.
+	* libs/gcr/prefs.h: ditto.
+	* libs/gcr/view-settings.cc: ditto.
+	* libs/gcr/view-settings.h: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+
 2013-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/loader-error.h: add missing header.
 

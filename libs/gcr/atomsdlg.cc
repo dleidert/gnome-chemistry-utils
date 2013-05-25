@@ -66,7 +66,7 @@ public:
 	static void RowSelected (AtomsDlg *pBox, int row);
 	static void ElementChanged (AtomsDlg *pBox, unsigned Z);
 	static void SetElement (unsigned i, AtomsDlg *pBox);
-	static void ColorSet (GtkColorButton *btn, AtomsDlg *pBox);
+	static void ColorSet (GtkColorChooser *btn, AtomsDlg *pBox);
 	static void SetColor (unsigned i, AtomsDlg *pBox);
 	static void ColorToggled (GtkToggleButton *btn, AtomsDlg *pBox);
 	static void ChargeChanged (GtkSpinButton *btn, AtomsDlg *pBox);
@@ -90,7 +90,7 @@ void AtomsDlgPrivate::AddRow (AtomsDlg *pBox)
 		new_atom->SetRadius (pBox->m_Radius);
 		new_atom->SetEffectiveRadiusRatio (gtk_spin_button_get_value (pBox->ScaleBtn) / 100.);
 		GdkRGBA rgba;
-		gtk_color_button_get_rgba (pBox->AtomColor, &rgba);
+		gtk_color_chooser_get_rgba (pBox->AtomColor, &rgba);
 		new_atom->SetColor (rgba.red, rgba.green, rgba.blue, rgba.alpha);
 	}
 	unsigned new_row = gcr_grid_append_row (pBox->m_Grid,
@@ -169,7 +169,7 @@ void AtomsDlgPrivate::RowSelected (AtomsDlg *pBox, int row)
 		g_signal_handler_block (pBox->AtomColor, pBox->m_ColorSignalID);
 		GdkRGBA rgba, color;
 		pBox->m_Atoms[row]->GetColor (rgba);
-		gtk_color_button_set_rgba (pBox->AtomColor, &rgba);
+		gtk_color_chooser_set_rgba (pBox->AtomColor, &rgba);
 		g_signal_handler_unblock (pBox->AtomColor, pBox->m_ColorSignalID);
 		if (pBox->m_nElt) {
 			double *Colors = Element::GetElement (pBox->m_nElt)->GetDefaultColor ();
@@ -231,7 +231,7 @@ void AtomsDlgPrivate::ElementChanged (AtomsDlg *pBox, unsigned Z)
 		pBox->m_RGBA.green = Colors[1];
 		pBox->m_RGBA.blue = Colors[2];
 		pBox->m_RGBA.alpha = 1.;
-		gtk_color_button_set_rgba (pBox->AtomColor, &pBox->m_RGBA);
+		gtk_color_chooser_set_rgba (pBox->AtomColor, &pBox->m_RGBA);
 	} else {
 		pBox->m_Radii = NULL;
 		gtk_toggle_button_set_active (pBox->CustomColor, true);
@@ -248,10 +248,10 @@ void AtomsDlgPrivate::SetColor (unsigned i, AtomsDlg *pBox)
 	pBox->m_Atoms[i]->SetColor (pBox->m_RGBA.red, pBox->m_RGBA.green, pBox->m_RGBA.blue, pBox->m_RGBA.alpha);
 }
 
-void AtomsDlgPrivate::ColorSet (GtkColorButton *btn, AtomsDlg *pBox)
+void AtomsDlgPrivate::ColorSet (GtkColorChooser *btn, AtomsDlg *pBox)
 {
 	if (pBox->m_AtomSelected >= 0) {
-		gtk_color_button_get_rgba (btn, &pBox->m_RGBA);
+		gtk_color_chooser_get_rgba (btn, &pBox->m_RGBA);
 		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetColor), pBox);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
@@ -438,7 +438,7 @@ AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 		m_Atoms[gcr_grid_append_row (m_Grid, ((*i)->GetZ () > 0)? Element::Symbol ((*i)->GetZ ()): _("Unknown"), (*i)->x (), (*i)->y (), (*i)->z ())] = *i;
 	if (Atoms->empty ())
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
-	AtomColor = GTK_COLOR_BUTTON (GetWidget ("color"));
+	AtomColor = GTK_COLOR_CHOOSER (GetWidget ("color"));
 	m_ColorSignalID = g_signal_connect (G_OBJECT (AtomColor), "color-set", G_CALLBACK (AtomsDlgPrivate::ColorSet), this);
 	CustomColor = GTK_TOGGLE_BUTTON (GetWidget ("custom_color"));
 	gtk_toggle_button_set_active (CustomColor, true);

@@ -97,15 +97,12 @@ void register_item_cb (GtkWidget *w, Tools *Dlg)
 void Tools::AddToolbar (string &name)
 {
 	if (m_UIManager) {
-		GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), name.c_str ()),
-			*h = gtk_handle_box_new ();
-		g_object_set (G_OBJECT (h), "hexpand", true, NULL);
+		GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), name.c_str ());
 		gtk_container_foreach (GTK_CONTAINER (w), (GtkCallback) register_item_cb, this);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);
-		gtk_container_add (GTK_CONTAINER (h), w);
-		gtk_container_add (GTK_CONTAINER (m_ButtonsGrid), h);
-		gtk_widget_show_all (h);
+		gtk_container_add (GTK_CONTAINER (m_ButtonsGrid), w);
+		gtk_widget_show_all (w);
 	}
 }
 

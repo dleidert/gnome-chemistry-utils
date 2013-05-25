@@ -599,7 +599,7 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	GtkScrolledWindow* scroll = (GtkScrolledWindow*) gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (scroll, GTK_SHADOW_IN);
-	gtk_scrolled_window_add_with_viewport (scroll, w);
+	gtk_container_add (GTK_CONTAINER (scroll), w);
 	gtk_widget_set_size_request (GTK_WIDGET (scroll), 408, 308);
 	gtk_widget_show (GTK_WIDGET (scroll));
 	gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (scroll));

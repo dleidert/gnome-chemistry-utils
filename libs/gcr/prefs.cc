@@ -132,7 +132,7 @@ bool PrefsDlgPrivate::OnPhiChanged (PrefsDlg *dlg)
 void PrefsDlgPrivate::OnBackgroundChanged (PrefsDlg *dlg)
 {
 	GdkRGBA rgba;
-	gtk_color_button_get_rgba (dlg->BackgroundBtn, &rgba);
+	gtk_color_chooser_get_rgba (dlg->BackgroundBtn, &rgba);
 	Red = rgba.red;
 	go_conf_set_double (static_cast <Application * > (dlg->GetApp ())->GetConfNode (), "views/red", Red);
 	Green = rgba.green;
@@ -201,13 +201,13 @@ PrefsDlg::PrefsDlg (Application *App): gcugtk::Dialog (App, UIDIR"/prefs.ui", "p
 	ThetaSignal = g_signal_connect_swapped (ThetaEnt, "focus-out-event", G_CALLBACK (PrefsDlgPrivate::OnThetaChanged), this);
 	g_signal_connect_swapped (PhiEnt, "activate", G_CALLBACK (PrefsDlgPrivate::OnPhiChanged), this);
 	PhiSignal = g_signal_connect_swapped (PhiEnt, "focus-out-event", G_CALLBACK (PrefsDlgPrivate::OnPhiChanged), this);
-	BackgroundBtn = GTK_COLOR_BUTTON (GetWidget ("color"));
+	BackgroundBtn = GTK_COLOR_CHOOSER (GetWidget ("color"));
 	GdkRGBA rgba;
 	rgba.red = Red;
 	rgba.green = Green;
 	rgba.blue = Blue;
 	rgba.alpha = 1.;
-	gtk_color_button_set_rgba (BackgroundBtn, &rgba);
+	gtk_color_chooser_set_rgba (BackgroundBtn, &rgba);
 	g_signal_connect_swapped (BackgroundBtn, "color-set", G_CALLBACK (PrefsDlgPrivate::OnBackgroundChanged), this);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }

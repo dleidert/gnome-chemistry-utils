@@ -530,7 +530,7 @@ gcp_font_sel_init (GcpFontSel *fs)
 	gtk_tree_view_set_headers_visible (fs->FacesTree, false);
 	sc = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sc), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sc), GTK_WIDGET (fs->FacesTree));
+	gtk_container_add (GTK_CONTAINER (sc), GTK_WIDGET (fs->FacesTree));
 	g_object_set (sc, "expand", true, NULL);
 	gtk_grid_attach (grid, sc, 1, 1, 1, 2);
 	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
@@ -559,7 +559,7 @@ gcp_font_sel_init (GcpFontSel *fs)
 	fs->SizeSignal = g_signal_connect (fs->SizeSel, "changed", G_CALLBACK (on_select_size), fs);
 	sc = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sc), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sc), w);
+	gtk_container_add (GTK_CONTAINER (sc), w);
 	gtk_grid_attach (grid, sc, 2, 2, 1, 1);
 	w = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (w), 4);
@@ -614,7 +614,7 @@ gcp_font_sel_init (GcpFontSel *fs)
 	sc = gtk_scrolled_window_new (NULL, NULL);
 	g_object_set (sc, "expand", true, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sc), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sc), GTK_WIDGET (fs->FamilyTree));
+	gtk_container_add (GTK_CONTAINER (sc), GTK_WIDGET (fs->FamilyTree));
 	gtk_grid_attach (grid, sc, 0, 1, 1, 2);
 	g_free (families);
 	fs->AllowSlanted = true;

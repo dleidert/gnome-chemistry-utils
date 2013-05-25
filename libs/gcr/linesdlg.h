@@ -68,7 +68,7 @@ private:
 
 private:
 	Document *m_pDoc;
-	GtkColorButton *LineColor, *EdgesColor, *MediansColor, *DiagsColor;
+	GtkColorChooser *LineColor, *EdgesColor, *MediansColor, *DiagsColor;
 	GtkEntry *LineR, *EdgesR, *MediansR, *DiagsR;
 	GtkCheckButton *EdgesBtn, *MediansBtn, *DiagsBtn;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;

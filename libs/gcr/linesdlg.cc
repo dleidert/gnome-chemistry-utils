@@ -58,12 +58,12 @@ public:
 	static bool EdgesRadiusEdited (LinesDlg *pBox);
 	static bool DiagsRadiusEdited (LinesDlg *pBox);
 	static bool MediansRadiusEdited (LinesDlg *pBox);
-	static void EdgesColorSet (GtkColorButton *btn, LinesDlg *pBox);
-	static void DiagsColorSet (GtkColorButton *btn, LinesDlg *pBox);
-	static void MediansColorSet (GtkColorButton *btn, LinesDlg *pBox);
+	static void EdgesColorSet (GtkColorChooser *btn, LinesDlg *pBox);
+	static void DiagsColorSet (GtkColorChooser *btn, LinesDlg *pBox);
+	static void MediansColorSet (GtkColorChooser *btn, LinesDlg *pBox);
 	static bool RadiusEdited (LinesDlg *pBox);
 	static void SetRadius (unsigned i, LinesDlg *pBox);
-	static void ColorSet (GtkColorButton *btn, LinesDlg *pBox);
+	static void ColorSet (GtkColorChooser *btn, LinesDlg *pBox);
 	static void SetColor (unsigned i, LinesDlg *pBox);
 };
 
@@ -74,7 +74,7 @@ void LinesDlgPrivate::AddRow (LinesDlg *pBox)
 		new_line = new Line (*pBox->m_Lines[pBox->m_LineSelected]);
 	else {
 		GdkRGBA rgba;
-		gtk_color_button_get_rgba (pBox->LineColor, &rgba);
+		gtk_color_chooser_get_rgba (pBox->LineColor, &rgba);
 		double r;
 		pBox->GetNumber (pBox->LineR, &r);
 		new_line = new Line (normal, 0., 0., 0., 0., 0., 0., r, rgba.red, rgba.green, rgba.blue, rgba.alpha);
@@ -153,7 +153,7 @@ void LinesDlgPrivate::RowSelected (LinesDlg *pBox, int row)
 		g_signal_handler_block (pBox->LineColor, pBox->m_ColorChangedID);
 		GdkRGBA rgba;
 		pBox->m_Lines[row]->GetColor (rgba);
-		gtk_color_button_set_rgba (pBox->LineColor, &rgba);
+		gtk_color_chooser_set_rgba (pBox->LineColor, &rgba);
 		g_signal_handler_unblock (pBox->LineColor, pBox->m_ColorChangedID);
 		char *buf = g_strdup_printf ("%g", pBox->m_Lines[row]->GetRadius ());
 		gtk_entry_set_text (pBox->LineR, buf);
@@ -179,7 +179,7 @@ void LinesDlgPrivate::EdgesToggled (GtkToggleButton *btn, LinesDlg *pBox)
 	if (active) {
 		GdkRGBA rgba;
 		double r;
-		gtk_color_button_get_rgba (pBox->EdgesColor, &rgba);
+		gtk_color_chooser_get_rgba (pBox->EdgesColor, &rgba);
 		pBox->GetNumber (pBox->EdgesR, &r, gcugtk::Min, 0);
 		pBox->Edges = new Line (edges, 0., 0., 0., 0., 0., 0., r, rgba.red, rgba.green, rgba.blue, rgba.alpha);
 		pBox->m_pDoc->GetLineList ()->push_front (pBox->Edges);
@@ -200,7 +200,7 @@ void LinesDlgPrivate::DiagonalsToggled (GtkToggleButton *btn, LinesDlg *pBox)
 	if (active) {
 		GdkRGBA rgba;
 		double r;
-		gtk_color_button_get_rgba (pBox->DiagsColor, &rgba);
+		gtk_color_chooser_get_rgba (pBox->DiagsColor, &rgba);
 		pBox->GetNumber (pBox->DiagsR, &r, gcugtk::Min, 0);
 		pBox->Diagonals = new Line (diagonals, 0., 0., 0., 0., 0., 0., r, rgba.red, rgba.green, rgba.blue, rgba.alpha);
 		pBox->m_pDoc->GetLineList ()->push_front (pBox->Diagonals);
@@ -221,7 +221,7 @@ void LinesDlgPrivate::MediansToggled (GtkToggleButton *btn, LinesDlg *pBox)
 	if (active) {
 		GdkRGBA rgba;
 		double r;
-		gtk_color_button_get_rgba (pBox->MediansColor, &rgba);
+		gtk_color_chooser_get_rgba (pBox->MediansColor, &rgba);
 		pBox->GetNumber (pBox->MediansR, &r, gcugtk::Min, 0);
 		pBox->Medians = new Line (medians, 0., 0., 0., 0., 0., 0., r, rgba.red, rgba.green, rgba.blue, rgba.alpha);
 		pBox->m_pDoc->GetLineList ()->push_front (pBox->Medians);
@@ -273,28 +273,28 @@ bool LinesDlgPrivate::MediansRadiusEdited (LinesDlg *pBox)
 	return false;
 }
 
-void LinesDlgPrivate::EdgesColorSet (GtkColorButton *btn, LinesDlg *pBox)
+void LinesDlgPrivate::EdgesColorSet (GtkColorChooser *btn, LinesDlg *pBox)
 {
 	GdkRGBA rgba;
-	gtk_color_button_get_rgba (btn, &rgba);
+	gtk_color_chooser_get_rgba (btn, &rgba);
 	pBox->Edges->SetColor (rgba);
 	pBox->m_pDoc->Update ();
 	pBox->m_pDoc->SetDirty (true);
 }
 
-void LinesDlgPrivate::DiagsColorSet (GtkColorButton *btn, LinesDlg *pBox)
+void LinesDlgPrivate::DiagsColorSet (GtkColorChooser *btn, LinesDlg *pBox)
 {
 	GdkRGBA rgba;
-	gtk_color_button_get_rgba (btn, &rgba);
+	gtk_color_chooser_get_rgba (btn, &rgba);
 	pBox->Diagonals->SetColor (rgba);
 	pBox->m_pDoc->Update ();
 	pBox->m_pDoc->SetDirty (true);
 }
 
-void LinesDlgPrivate::MediansColorSet (GtkColorButton *btn, LinesDlg *pBox)
+void LinesDlgPrivate::MediansColorSet (GtkColorChooser *btn, LinesDlg *pBox)
 {
 	GdkRGBA rgba;
-	gtk_color_button_get_rgba (btn, &rgba);
+	gtk_color_chooser_get_rgba (btn, &rgba);
 	pBox->Medians->SetColor (rgba);
 	pBox->m_pDoc->Update ();
 	pBox->m_pDoc->SetDirty (true);
@@ -322,10 +322,10 @@ void LinesDlgPrivate::SetColor (unsigned i, LinesDlg *pBox)
 		pBox->m_Lines[i]->SetColor (pBox->m_rgba);
 }
 
-void LinesDlgPrivate::ColorSet (GtkColorButton *btn, LinesDlg *pBox)
+void LinesDlgPrivate::ColorSet (GtkColorChooser *btn, LinesDlg *pBox)
 {
 	if (pBox->m_LineSelected >= 0) {
-		gtk_color_button_get_rgba (btn, &pBox->m_rgba);
+		gtk_color_chooser_get_rgba (btn, &pBox->m_rgba);
 		gcr_grid_for_each_selected (pBox->m_Grid, reinterpret_cast < GridCb > (SetColor), pBox);
 		pBox->m_pDoc->Update ();
 		pBox->m_pDoc->SetDirty (true);
@@ -354,24 +354,24 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 	g_signal_connect_swapped (G_OBJECT (m_Grid), "value-changed", G_CALLBACK (LinesDlgPrivate::ValueChanged), this);
 	g_signal_connect_swapped (G_OBJECT (m_Grid), "row-deleted", G_CALLBACK (LinesDlgPrivate::RowDeleted), this);
 	EdgesBtn = GTK_CHECK_BUTTON (GetWidget ("edges"));
-	EdgesColor = GTK_COLOR_BUTTON (GetWidget ("edges-color"));
+	EdgesColor = GTK_COLOR_CHOOSER (GetWidget ("edges-color"));
 	gtk_widget_set_sensitive (GTK_WIDGET (EdgesColor), false);
 	EdgesR = GTK_ENTRY (GetWidget ("edges-radius"));
 	gtk_entry_set_text (EdgesR, "5");
 	gtk_widget_set_sensitive (GTK_WIDGET (EdgesR), false);
 	MediansBtn = GTK_CHECK_BUTTON (GetWidget ("medians"));
-	MediansColor = GTK_COLOR_BUTTON (GetWidget ("med-color"));
+	MediansColor = GTK_COLOR_CHOOSER (GetWidget ("med-color"));
 	gtk_widget_set_sensitive (GTK_WIDGET (MediansColor), false);
 	MediansR = GTK_ENTRY (GetWidget ("med-radius"));
 	gtk_entry_set_text (MediansR, "5");
 	gtk_widget_set_sensitive (GTK_WIDGET (MediansR), false);
 	DiagsBtn = GTK_CHECK_BUTTON (GetWidget ("diagonals"));
-	DiagsColor = GTK_COLOR_BUTTON (GetWidget ("diag-color"));
+	DiagsColor = GTK_COLOR_CHOOSER (GetWidget ("diag-color"));
 	gtk_widget_set_sensitive (GTK_WIDGET (DiagsColor), false);
 	DiagsR = GTK_ENTRY (GetWidget ("diag-radius"));
 	gtk_entry_set_text (DiagsR, "5");
 	gtk_widget_set_sensitive (GTK_WIDGET (DiagsR), false);
-	LineColor = GTK_COLOR_BUTTON (GetWidget ("color"));
+	LineColor = GTK_COLOR_CHOOSER (GetWidget ("color"));
 	LineR = GTK_ENTRY (GetWidget ("radius"));
 	m_LineSelected = -1;
 	Edges = Diagonals = Medians = NULL;
@@ -389,7 +389,7 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 			gtk_entry_set_text (EdgesR, buf);
 			g_free (buf);
 			(*i)->GetColor (rgba);
-			gtk_color_button_set_rgba (EdgesColor, &rgba);
+			gtk_color_chooser_set_rgba (EdgesColor, &rgba);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (EdgesBtn), true);
 			Edges = *i;
 			break;
@@ -400,7 +400,7 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 			gtk_entry_set_text (DiagsR, buf);
 			g_free (buf);
 			(*i)->GetColor (rgba);
-			gtk_color_button_set_rgba (DiagsColor, &rgba);
+			gtk_color_chooser_set_rgba (DiagsColor, &rgba);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (DiagsBtn), true);
 			Diagonals = *i;
 			break;
@@ -411,7 +411,7 @@ LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDI
 			gtk_entry_set_text (MediansR, buf);
 			g_free (buf);
 			(*i)->GetColor (rgba);
-			gtk_color_button_set_rgba (MediansColor, &rgba);
+			gtk_color_chooser_set_rgba (MediansColor, &rgba);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (MediansBtn), true);
 			Medians = *i;
 			break;
