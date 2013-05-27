@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-curve.cc
  *
- * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2013 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -538,6 +538,10 @@ void GChemTableCurve::SetGraph (GogGraph *graph)
 {
 	gtk_widget_destroy (m_GraphWidget);
 	m_GraphWidget = go_graph_widget_new (graph);
+	g_signal_connect_swapped (m_GraphWidget, "size-allocate", G_CALLBACK (GChemTableCurve::OnSize), this);
+	g_signal_connect_swapped (m_GraphWidget, "motion-notify-event", G_CALLBACK (GChemTableCurve::OnMotion), this);
+	gtk_widget_set_size_request (m_GraphWidget, 400, 250);
+	g_object_set (G_OBJECT (m_GraphWidget), "expand", true, NULL);
 	gtk_widget_show (m_GraphWidget);
 	gtk_container_add (GTK_CONTAINER (m_GraphBox), m_GraphWidget);
 	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_GraphWidget));

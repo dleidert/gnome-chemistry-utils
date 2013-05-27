@@ -10,6 +10,9 @@ Version 0.15.0
 		* Fix crash when deleting a cyclic bond.
 	GCrystal:
 		* Fix row selection operations order in grids.
+	GChemTable:
+		* Fix crash when using masses in a graph.
+		* Fix graph behavior after edition.
 
 Version 0.14.0
 	GChemPaint:

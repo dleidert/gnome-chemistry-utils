@@ -38,7 +38,7 @@ class Application;
 
 This class implements a wrapper around GtkMessageDialog.
 */
-	class Message {
+class Message {
 friend class MessagePrivate;
 public:
 /*!
@@ -81,7 +81,7 @@ Displays a non modal message box.
 private:
 	unsigned m_delete_sgn, m_destroy_sgn, m_response_sgn;
 
-/*!\fn GetWindow ()
+/*!\fn GetWindow()
 @return the embedded GtkDialog instance.
 */
 GCU_RO_PROP (GtkDialog *, Window)

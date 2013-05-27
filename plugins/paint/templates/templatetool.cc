@@ -220,7 +220,7 @@ void gcpTemplateTool::OnChanged (GtkComboBox *combo)
 				m_Template->w = gtk_scrolled_window_new (NULL, NULL);
 				gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (m_Template->w), GTK_SHADOW_NONE);
 				gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (m_Template->w), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-				gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW (m_Template->w), m_Template->doc->GetWidget ());
+				gtk_container_add (GTK_CONTAINER (m_Template->w), m_Template->doc->GetWidget ());
 				gtk_widget_show_all (m_Template->w);
 				gtk_notebook_append_page (m_Book, m_Template->w, NULL);
 				page = gtk_notebook_page_num (m_Book, m_Template->w);
@@ -307,8 +307,8 @@ gcpNewTemplateToolDlg::gcpNewTemplateToolDlg (gcp::Application* App):
 	pDoc = new gcp::Document (reinterpret_cast<gcp::Application*> (m_App), true);
 	pDoc->SetEditable (false);
 	GtkWidget* w;
-	GtkScrolledWindow* scroll = GTK_SCROLLED_WINDOW (GetWidget ("scrolledcanvas"));
-	gtk_scrolled_window_add_with_viewport (scroll, w = pDoc->GetView ()->CreateNewWidget ());
+	GtkContainer* scroll = GTK_CONTAINER (GetWidget ("scrolledcanvas"));
+	gtk_container_add (scroll, w = pDoc->GetView ()->CreateNewWidget ());
 	pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	/* build the categories list */
 	GtkListStore *model = gtk_list_store_new (NUM_COLUMNS, G_TYPE_STRING);

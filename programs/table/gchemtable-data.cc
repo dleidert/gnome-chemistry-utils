@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-data.cc
  *
- * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2013 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -377,7 +377,11 @@ static void loadMass (double **values, int *len)
 	*values = new double[118];
 	for (int i = 1; i <= 118; i++) {
 		gcu::Element *elt = gcu::Element::GetElement (i);
-		(*values)[i - 1] = (elt)? elt->GetWeight ()->GetAsDouble (): go_nan;
+		if (elt) {
+			gcu::Value const *weight = elt->GetWeight ();
+			(*values)[i - 1] = (weight)? weight->GetAsDouble (): go_nan;
+		} else
+			(*values)[i - 1] = go_nan;
 	}
 	*len = MAX_ELT;
 }
