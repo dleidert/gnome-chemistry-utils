@@ -1,4 +1,7 @@
 Version 0.14.3
+	GChemTable:
+		* Fix crash when using masses in a graph.
+		* Fix graph behavior after edition.
 
 Version 0.14.2
 	GChemPaint:

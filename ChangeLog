@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2013-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/cycle.h: API docs fixes.
+	* libs/gcugtk/message.h: ditto.
+	* libs/gcugtk/printable.h: ditto.
+	* programs/table/gchemtable-curve.cc: fixed graph properties after edition.
+	* programs/table/gchemtable-data.cc: don't crash when using masses.
+
 2013-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/loader-error.h: add missing header.
 

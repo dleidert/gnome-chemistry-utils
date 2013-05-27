@@ -116,7 +116,7 @@ will be unrefed when the Printable is destroyed or when a new page setup is set.
 @return the GtkPrintSettings currently associated with the Printable instance.
 */
 GCU_RO_PROP (GtkPrintSettings *, PrintSettings)
-/*!\fn GetPrintSettings()
+/*!\fn GetPageSetup()
 @return the GtkPageSetup currently associated with the Printable instance.
 */
 GCU_RO_PROP (GtkPageSetup *, PageSetup)
