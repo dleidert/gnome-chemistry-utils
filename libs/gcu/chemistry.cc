@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * chemistry.cc
  *
- * Copyright (C) 2003-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2013 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -48,7 +48,7 @@ char const *gcu_element_get_name (int Z)
 	return Element::GetElement (Z)->GetName ();
 }
 
-int gcu_element_get_Z (char* symbol)
+int gcu_element_get_Z (char const *symbol)
 {
 	return Element::Z (symbol);
 }
@@ -159,6 +159,12 @@ char *gcu_element_get_weight_as_string (int Z)
 		return elt->GetStability ()? gcu_value_get_string (reinterpret_cast < GcuValue * > (&val)): g_strdup_printf("(%g)", val.value);
 	} else
 		return NULL;
+}
+
+double gcu_element_get_weight (int Z)
+{
+	Element *elt = Element::GetElement (Z);
+	return elt? elt->GetWeight ()->GetAsDouble (): 0.;
 }
 
 char const *gcu_element_get_electronic_configuration (int Z)

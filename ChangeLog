@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2013-05-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gnumeric/functions.cc: new functions for Gnumeric.
+	* gnumeric/plugin.xml.in.in: ditto.
+	* libs/gcu/chemistry.cc:new function: gcu_element_get_weight().
+	* libs/gcu/chemistry.h: ditto.
+
 2013-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/cycle.h: API docs fixes.
 	* libs/gcugtk/message.h: ditto.

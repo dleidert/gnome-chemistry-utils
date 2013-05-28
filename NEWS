@@ -1,6 +1,6 @@
 Version 0.15.0
 	GChemPaint:
-		* Do not allow a mesomery setruction when inside a reaction.
+		* Do not allow a mesomery destruction when inside a reaction.
 		* Fix molecule deletion inside a mesomery.
 		* Fix reactant deletion inside a reaction.
 		* Don't crash when a mesomery inside a reaction is destroyed.
@@ -13,6 +13,8 @@ Version 0.15.0
 	GChemTable:
 		* Fix crash when using masses in a graph.
 		* Fix graph behavior after edition.
+	Gnumeric plugin:
+		* Add monoisotopicmass function in gnumeric and more.
 
 Version 0.14.0
 	GChemPaint:

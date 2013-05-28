@@ -14,7 +14,10 @@
 			<functions textdomain="gchemutils-@GCU_API_VER@">
             	<function name="molarmass"/>
             	<function name="monoisotopicmass"/>
-			</functions>
+            	<function name="chemcomposition"/>
+            	<function name="elementnumber"/>
+            	<function name="elementsymbol"/>
+ 			</functions>
 		</service>
 	</services> 
 </plugin>
