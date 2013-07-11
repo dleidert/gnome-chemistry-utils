@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2013-07-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: position multiple objects around an arrow,
+	only works with one object per line.
+
 2013-05-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gnumeric/functions.cc: new functions for Gnumeric.
 	* gnumeric/plugin.xml.in.in: ditto.

@@ -486,7 +486,13 @@ void ReactionArrow::PositionChild (ReactionProp *prop)
 }*/
 
 typedef struct {
-	gcu::Object **objs;
+	gcu::Object *obj;
+	double x, y, width, height;
+} ObjPos;
+
+typedef struct {
+	ObjPos *objs;
+	double *ascents;
 	unsigned max;
 	double width, height, ascent, descent;
 } Line;
@@ -517,7 +523,8 @@ void ReactionArrow::PositionChildren ()
 	ReactionSeparator *sep;
 	double scale = theme->GetZoomFactor (), padding = theme->GetPadding ();
 	StepCounter **counters, *counter;
-	double lxspan, lyspan, uxspan, uyspan, x, length;
+	double lxspan, lyspan, uxspan, uyspan, x, length, xspan, yspan, xmin, ymin, width, xc, yc;
+	unsigned cur_line;
 
 	if (steps == NULL)
 		return; /* there is nothing valid around there */
@@ -531,9 +538,9 @@ void ReactionArrow::PositionChildren ()
 			for (l = 0; l < steps[s].max; l++) {
 				steps[s].lines[l].max = GetLastPos (s + 1, l + 1);
 				if (steps[s].lines[l].max > 0) {
-					steps[s].lines[l].objs = new gcu::Object *[steps[s].lines[l].max];
+					steps[s].lines[l].objs = new ObjPos[steps[s].lines[l].max];
 					for (p = 0 ; p < steps[s].lines[l].max; p++)
-						steps[s].lines[l].objs[p] = NULL;
+						steps[s].lines[l].objs[p].obj = NULL;
 					}
 				else
 					steps[s].lines[l].objs = NULL;
@@ -557,8 +564,8 @@ void ReactionArrow::PositionChildren ()
 			s--;
 			l--;
 			p--;
-			if (steps[s].lines[l].objs[p] == NULL)
-				steps[s].lines[l].objs[p] = obj;
+			if (steps[s].lines[l].objs[p].obj == NULL)
+				steps[s].lines[l].objs[p].obj = obj;
 			else
 				garbage.insert (obj);
 		} else
@@ -570,7 +577,7 @@ void ReactionArrow::PositionChildren ()
 		for (l = 0; l < steps[s].max; l++) {
 			line = steps[s].lines + l;
 			for (p = 0; p < line->max; p++)
-				if (line->objs[p] == NULL) {
+				if (line->objs[p].obj == NULL) {
 					for (n = p + 1; n < line->max; n++)
 						line->objs[n - 1] = line->objs[n];
 					line->max --;
@@ -634,10 +641,15 @@ void ReactionArrow::PositionChildren ()
 			line = steps[s].lines + l;
 			line->width = line->ascent = line->descent = 0.;
 			for (p = 0; p < line->max; p++) {
-				data->GetObjectBounds (line->objs[p], &rect);
-				line->width += (rect.x1 - rect. x0) / scale;
-				y = line->objs[p]->GetYAlign ();
-				ascent = y - rect.y0 / scale;
+				data->GetObjectBounds (line->objs[p].obj, &rect);
+				line->objs[p].x = rect.x0 / scale;
+				line->objs[p].y = rect.y0 / scale;
+				line->objs[p].width = (rect.x1 - rect. x0) / scale;
+				line->objs[p].height = (rect.y1 - rect. y0) / scale;
+				line->width += line->objs[p].width;
+				y = line->objs[p].obj->GetYAlign ();
+				ascent = y - line->objs[p].y;
+				line->objs[p].y += ascent;
 				descent = rect.y1 / scale - y;
 				if (line->ascent < ascent)
 					line->ascent = ascent;
@@ -688,18 +700,53 @@ void ReactionArrow::PositionChildren ()
 	lyspan = fabs (lwidth * y  + lheight * x);
 	uxspan = fabs (uwidth * x + uheight * y);
 	uyspan = fabs (uwidth * y  + uheight * x);
-	x = (uxspan > lxspan)? uxspan: lxspan,
-	x += (2* theme->GetArrowObjectPadding () + theme->GetArrowHeadA ()) / theme->GetZoomFactor ();
+	xspan = (uxspan > lxspan)? uxspan: lxspan,
+	xspan += (2* theme->GetArrowObjectPadding () + theme->GetArrowHeadA ()) / theme->GetZoomFactor ();
 	// adjust the arrow length if needed
-	if (x > length) {
-		m_width *= x / length;
-		m_height *= x / length;
-		length = x;
+	if (xspan > length) {
+		m_width *= xspan / length;
+		m_height *= xspan / length;
+		length = xspan;
 	}
-	m_MinLength = x;
+	m_MinLength = xspan;
 	length -= theme->GetArrowHeadA () / theme->GetZoomFactor ();
 	length /= 2.;
 	// position children
+	// FIXME: using GetArrowDist is a non-sense, we should have a new variable.
+	yspan = uyspan / 2. + theme->GetArrowDist () / theme->GetZoomFactor ();
+	if (x < 0 || (x < 1e-5 && y < 0))
+		yspan = -yspan;
+	// if the arrow is almost horizontal upper and lower blocks should be aligned
+	if (x != 0. && fabs (y / x) < 0.05)
+		uxspan = lxspan = MAX (uxspan, lxspan);
+	// first evaluate upper block position (actually first line position)
+	xmin = m_x + length * x + y * yspan - uxspan / 2.;
+	ymin = m_y + length * y - x * yspan - uyspan / 2.;
+	width = uxspan;
+	cur_line = 0;
+	for (s = 0; s < max_step; s++) {
+		for (l = 0; l < steps[s].max; l++) {
+			if (cur_line == m_MaxLinesAbove) {
+				yspan = lyspan / 2. + theme->GetArrowDist () / theme->GetZoomFactor ();
+				xmin = m_x + length * x - y * yspan - lxspan / 2.;
+				ymin = m_y + length * y + x * yspan - lyspan / 2.;
+				width = lxspan;
+			}
+			line = steps[s].lines + l;
+			xc = xmin;
+			if (max_step == 1) // center the lines instead of left align
+				xc += (width - line->width) / 2.;
+			yc = ymin + line->ascent;
+			for (p = 0; p < line->max; p++) {
+				if (p > 0) {
+					// insert a separator
+				}
+				line->objs[p].obj->Move (xc - line->objs[p].x, yc - line->objs[p].y);
+			}
+			ymin += line->height;
+			cur_line++;
+		}
+	}
 	// clean memory
 	for (s = 0; s < max_step; s++) {
 		if (counters[s] != NULL)
