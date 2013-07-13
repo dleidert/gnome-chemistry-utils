@@ -155,6 +155,7 @@ false otherwise.
 	unsigned GetLastStep () const;
 	unsigned GetLastLine (unsigned step) const;
 	unsigned GetLastPos (unsigned step, unsigned line) const;
+	void SetChildPos (ReactionProp *prop, unsigned step, unsigned line, unsigned rank);
 
 private:
 	unsigned m_Type;

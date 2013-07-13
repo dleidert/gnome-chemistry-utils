@@ -44,6 +44,7 @@ reaction arrows.
 */
 class ReactionPropDlg: public gcugtk::Dialog
 {
+friend class ReactionPropDlgPrivate;
 public:
 /*!
 @param arrow the reaction arrow to which the object is attached.
@@ -57,10 +58,13 @@ The destructor.
 */
 	virtual ~ReactionPropDlg ();
 
+	void Update ();
+
 private:
 	ReactionArrow *m_Arrow;
 	ReactionProp *m_Prop;
 	GtkSpinButton *m_StepBtn, *m_LineBtn, *m_PosBtn;
+	gulong m_StepSgn, m_LineSgn, m_PosSgn;
 };
 
 }	//	namespace gcp

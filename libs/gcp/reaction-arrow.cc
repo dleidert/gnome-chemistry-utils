@@ -854,4 +854,8 @@ unsigned ReactionArrow::GetLastPos (unsigned step, unsigned line) const
 	return res;
 }
 
+void ReactionArrow::SetChildPos (ReactionProp *prop, unsigned step, unsigned line, unsigned rank)
+{
+}
+
 }	//	namespace gcp

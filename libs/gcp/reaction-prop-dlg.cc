@@ -33,6 +33,32 @@ using namespace gcu;
 
 namespace gcp {
 
+class ReactionPropDlgPrivate
+{
+public:
+	static void OnPosChanged (GtkSpinButton *btn, ReactionPropDlg *dlg);
+};
+
+void ReactionPropDlgPrivate::OnPosChanged (GtkSpinButton *btn, ReactionPropDlg *dlg)
+{
+	unsigned step, line, pos;
+	step = dlg->m_Prop->GetStep ();
+	line = dlg->m_Prop->GetLine ();
+	pos = dlg->m_Prop->GetRank ();
+	if (btn == dlg->m_StepBtn)
+		step = gtk_spin_button_get_value_as_int (btn);
+	else if (btn == dlg->m_LineBtn)
+		line = gtk_spin_button_get_value_as_int (btn);
+	else if (btn == dlg->m_PosBtn)
+		pos = gtk_spin_button_get_value_as_int (btn);
+	else {
+		// should not occur
+		g_critical ("Should not occur");
+		return;
+	}
+	dlg->m_Arrow->SetChildPos (dlg->m_Prop, step, line, pos);
+}
+
 static void on_role_changed (GtkComboBox *box, ReactionProp *prop)
 {
 	prop->SetRole (gtk_combo_box_get_active (box));
@@ -76,12 +102,44 @@ ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):
 		if (max == 1)
 			gtk_widget_set_sensitive (GTK_WIDGET (m_PosBtn), false);
 	}
+	m_StepSgn = g_signal_connect (m_StepBtn, "value-changed", G_CALLBACK (ReactionPropDlgPrivate::OnPosChanged), this);
+	m_LineSgn = g_signal_connect (m_LineBtn, "value-changed", G_CALLBACK (ReactionPropDlgPrivate::OnPosChanged), this);
+	m_PosSgn = g_signal_connect (m_PosBtn, "value-changed", G_CALLBACK (ReactionPropDlgPrivate::OnPosChanged), this);
 	gtk_widget_show (GTK_WIDGET (dialog));
 	g_signal_connect_swapped(G_OBJECT (dialog), "focus-in-event", G_CALLBACK (on_focus), prop);
 }
 
 ReactionPropDlg::~ReactionPropDlg ()
 {
+}
+
+void ReactionPropDlg::Update ()
+{
+	g_signal_handler_block (m_StepBtn, m_StepSgn);
+	g_signal_handler_block (m_LineBtn, m_LineSgn);
+	g_signal_handler_block (m_PosBtn, m_PosSgn);
+	if (m_Arrow->GetChildrenNumber () < 2) {
+		gtk_spin_button_set_range (m_StepBtn, 1., 1.);
+		gtk_widget_set_sensitive (GTK_WIDGET (m_StepBtn), false);
+		gtk_spin_button_set_range (m_LineBtn, 1., 1.);
+		gtk_widget_set_sensitive (GTK_WIDGET (m_LineBtn), false);
+		gtk_spin_button_set_range (m_PosBtn, 1., 1.);
+		gtk_widget_set_sensitive (GTK_WIDGET (m_PosBtn), false);
+	} else {
+		unsigned step, line, max;
+		gtk_spin_button_set_range (m_StepBtn, 1, m_Arrow->GetLastStep () + 1);
+		gtk_spin_button_set_value (m_StepBtn, step = m_Prop->GetStep ());
+		gtk_spin_button_set_range (m_LineBtn, 1, m_Arrow->GetLastLine (step) + 1);
+		gtk_spin_button_set_value (m_LineBtn, line = m_Prop->GetLine ());
+		max = m_Arrow->GetLastPos (step, line);
+		gtk_spin_button_set_range (m_PosBtn, 1, max);
+		gtk_spin_button_set_value (m_PosBtn, m_Prop->GetRank ());
+		if (max == 1)
+			gtk_widget_set_sensitive (GTK_WIDGET (m_PosBtn), false);
+	}
+	g_signal_handler_unblock (m_StepBtn, m_StepSgn);
+	g_signal_handler_unblock (m_LineBtn, m_LineSgn);
+	g_signal_handler_unblock (m_PosBtn, m_PosSgn);
 }
 
 }

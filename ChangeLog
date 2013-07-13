@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2013-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: more work on steps support.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-prop-dlg.cc: add callbacks.
+	* libs/gcp/reaction-prop-dlg.h: ditto.
+
 2013-07-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: position multiple objects around an arrow,
 	only works with one object per line.
