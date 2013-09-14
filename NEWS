@@ -8,6 +8,8 @@ Version 0.15.0
 		* Enhanced representaion of chiral molecules imported from CML and other
 		formats.
 		* Fix crash when deleting a cyclic bond.
+		* Really close the window on delete event.
+		* Don't crash when aligning ungrouped objects.
 	GCrystal:
 		* Fix row selection operations order in grids.
 	GChemTable:
@@ -15,6 +17,8 @@ Version 0.15.0
 		* Fix graph behavior after edition.
 	Gnumeric plugin:
 		* Add monoisotopicmass function in gnumeric and more.
+	All:
+		* Make sure to not create a C++ locale from a NULL string.
 
 Version 0.14.0
 	GChemPaint:
