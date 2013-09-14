@@ -100,7 +100,7 @@ static void on_destroy (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 
 static bool on_delete_event (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED GdkEvent *event, gcp::Window* Win)
 {
-	return !Win->VerifySaved ();
+	return !Win->Close ();
 }
 
 static void on_file_new(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)

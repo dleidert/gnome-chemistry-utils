@@ -29,6 +29,7 @@
 
 #include "arrow.h"
 #include <gcu/dialog-owner.h>
+#include <list>
 
 namespace gcu {
 class UIManager;
@@ -45,6 +46,8 @@ typedef enum {
 class ReactionStep;
 class Reaction;
 class ReactionProp;
+
+class ReactionArrowStep; //private class
 
 /*!\class ReactionArrow gcp/reaction-arrow.h
 Arrow class for arrows used in chemical reactions.*/
@@ -160,6 +163,8 @@ false otherwise.
 private:
 	unsigned m_Type;
 	bool m_TypeChanged;
+	std::list < ReactionArrowStep * > m_Steps;
+	unsigned m_nSteps;
 
 GCU_PROP (unsigned, MaxLinesAbove)
 GCU_PROP (NumberingScheme, NumberingScheme);

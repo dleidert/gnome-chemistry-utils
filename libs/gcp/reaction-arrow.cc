@@ -49,6 +49,38 @@ using namespace std;
 
 namespace gcp {
 
+typedef struct {
+	ReactionProp *obj;
+	double x, y, width, height, ascent;
+} ObjPos;
+
+class ReactionArrowLine
+{
+public:
+	unsigned m_NbProps;
+	std::list < ObjPos > m_Props;
+};
+
+class ReactionArrowStep
+{
+public:
+	ReactionArrowStep ();
+	~ReactionArrowStep ();
+
+	StepCounter *m_Counter;
+	unsigned m_NbLines;
+	std::list < ReactionArrowLine * > m_Lines;
+};
+
+ReactionArrowStep::ReactionArrowStep ():
+	m_Counter (NULL)
+{
+}
+
+ReactionArrowStep::~ReactionArrowStep ()
+{
+}
+
 ReactionArrow::ReactionArrow (Reaction* react, unsigned Type): Arrow (ReactionArrowType)
 {
 	SetId ("ra1");
@@ -58,6 +90,7 @@ ReactionArrow::ReactionArrow (Reaction* react, unsigned Type): Arrow (ReactionAr
 	m_TypeChanged = false;
 	m_NumberingScheme = NumberingSchemeArabic;
 	m_MaxLinesAbove = 1;
+	m_nSteps = 0;
 }
 
 
@@ -486,11 +519,6 @@ void ReactionArrow::PositionChild (ReactionProp *prop)
 }*/
 
 typedef struct {
-	gcu::Object *obj;
-	double x, y, width, height;
-} ObjPos;
-
-typedef struct {
 	ObjPos *objs;
 	double *ascents;
 	unsigned max;
@@ -504,6 +532,7 @@ typedef struct {
 
 void ReactionArrow::PositionChildren ()
 {
+	std::set < StepCounter * > counters;
 	std::set < ReactionSeparator * > separators;
 	std::set < gcu::Object * > garbage;
 	std::map < std::string, gcu::Object * >::iterator i;
@@ -522,38 +551,46 @@ void ReactionArrow::PositionChildren ()
 	bool needs_sep = false;
 	ReactionSeparator *sep;
 	double scale = theme->GetZoomFactor (), padding = theme->GetPadding ();
-	StepCounter **counters, *counter;
+	StepCounter *counter;
 	double lxspan, lyspan, uxspan, uyspan, x, length, xspan, yspan, xmin, ymin, width, xc, yc;
 	unsigned cur_line;
+	ReactionArrowStep *step;
+	ReactionArrowLine *aline;
+	std::list < ReactionArrowStep * >::iterator is, isend;
+	std::list < ReactionArrowLine * >::iterator il, ilend;
+	std::list < ObjPos >::iterator ip, ipend;
 
-	if (steps == NULL)
+	if (max_step == 0)
 		return; /* there is nothing valid around there */
-	counters = new StepCounter*[max_step];
+	// TODO: add counters to first steps if needed
+	// either we have the correct steps number or we are missing some
+	while (max_step > m_nSteps) {
+		// create the necessary steps
+		step = new ReactionArrowStep ();
+		m_Steps.push_back (step);
+		m_nSteps++;
+	}
+	isend = m_Steps.end ();
 	// allocate lines
-	for (s = 0; s < max_step; s++) {
-		counters[s] =  NULL;
-		steps[s].max = GetLastLine (s + 1);
-		if (steps[s].max > 0) {
-			steps[s].lines = new Line[steps[s].max];
-			for (l = 0; l < steps[s].max; l++) {
-				steps[s].lines[l].max = GetLastPos (s + 1, l + 1);
-				if (steps[s].lines[l].max > 0) {
-					steps[s].lines[l].objs = new ObjPos[steps[s].lines[l].max];
-					for (p = 0 ; p < steps[s].lines[l].max; p++)
-						steps[s].lines[l].objs[p].obj = NULL;
-					}
-				else
-					steps[s].lines[l].objs = NULL;
-			}
-		} else
-			steps[s].lines = NULL;
+	for (s = 0, is = m_Steps.begin (); s < max_step; s++, is++) {
+		step = *is;
+		l = 0;
+		step->m_NbLines =  GetLastLine (s + 1);
+		for (l = 0; l < step->m_NbLines; l++) {
+			aline = new ReactionArrowLine ();
+			step->m_Lines.push_back (aline);
+			aline->m_NbProps = GetLastPos (s + 1, l + 1);
+			ObjPos pos = {NULL, 0., 0., 0., 0., 0.};
+			for (p = 0 ; p < aline->m_NbProps; p++)
+				aline->m_Props.push_back (pos);
+		}
 	}
 	while (obj) {
 		if (obj->GetType () == ReactionSeparatorType)
 			separators.insert (static_cast < ReactionSeparator * > (obj));
 		else if (obj->GetType () == StepCounterType) {
 			counter = static_cast < StepCounter * > (obj);
-			counters[counter->GetStep () -1] = counter;
+			counters.insert (counter);
 		} else if (obj->GetType () == ReactionPropType) {
 			prop = static_cast < ReactionProp * > (obj);
 			s = prop->GetStep ();
@@ -561,11 +598,25 @@ void ReactionArrow::PositionChildren ()
 			p = prop->GetRank ();
 			if (s * l * p == 0) // none should be nul
 				garbage.insert (obj);
-			s--;
-			l--;
-			p--;
-			if (steps[s].lines[l].objs[p].obj == NULL)
-				steps[s].lines[l].objs[p].obj = obj;
+			is = m_Steps.begin ();
+			while (s > 1) {
+				s--;
+				is++;
+			}
+			step = *is; // we are sure that the iterator is valid
+			il = step->m_Lines.begin ();
+			while (l > 1) {
+				l--;
+				il++;
+			}
+			aline = *il;
+			ip = aline->m_Props.begin ();
+			while (p > 1) {
+				p--;
+				ip++;
+			}
+			if ((*ip).obj == NULL)
+				(*ip).obj = prop;
 			else
 				garbage.insert (obj);
 		} else
@@ -573,6 +624,52 @@ void ReactionArrow::PositionChildren ()
 		obj = GetNextChild (i);
 	}
 	// check if every object really exists to avoid crashes
+	isend = m_Steps.end ();
+	s = 0;
+	for (is = m_Steps.begin (); is != isend; is++) {
+		step = *is;
+		ilend = step->m_Lines.end ();
+		l = 0;
+		for (il = step->m_Lines.begin (); il != ilend; il++) {
+			aline = *il;
+			ipend = aline->m_Props.end ();
+			p = 0;
+			for (ip = aline->m_Props.begin (); ip != ipend; ip++) {
+				if ((*ip).obj == NULL) {
+					ip = aline->m_Props.erase (ip);
+					ipend = aline->m_Props.end ();
+					if (ip == ipend)
+						break;
+				} else {
+					if ((*ip).obj->GetRank () != p)
+						(*ip).obj->SetRank (p);
+					p++;
+					if ((*ip).obj->GetLine () != l)
+						(*ip).obj->SetLine (l);
+					if ((*ip).obj->GetStep () != s)
+						(*ip).obj->SetStep (s);
+				}
+			}
+			if (aline->m_Props.empty ()) {
+				il = step->m_Lines.erase (il);
+				delete aline;
+				ilend = step->m_Lines.end ();
+				if (il == ilend)
+					break;
+			} else
+				l++;
+		}
+		if (step->m_Lines.empty ()) {
+			is = m_Steps.erase (is);
+			delete step;
+			max_step--;
+			isend = m_Steps.end ();
+			if (is == isend)
+				break;
+		} else
+			s++;
+	}
+	// FIXME: add counters
 	for (s = 0; s < max_step; s++) {
 		for (l = 0; l < steps[s].max; l++) {
 			line = steps[s].lines + l;
@@ -619,18 +716,18 @@ void ReactionArrow::PositionChildren ()
 	}
 	// evaluate step counters size, and create them if needed
 	for (s = 0; s < max_step; s++) {
-		if (counters[s] == NULL) {
-			counters[s] = new StepCounter (s + 1, m_NumberingScheme);
-			AddChild (counters[s]);
-			doc->GetView ()->AddObject (counters[s]);
-		}
-		data->GetObjectBounds (counters[s], &rect);
+//		if (counters[s] == NULL) {
+//			counters[s] = new StepCounter (s + 1, m_NumberingScheme);
+//			AddChild (counters[s]);
+//			doc->GetView ()->AddObject (counters[s]);
+//		}
+//		data->GetObjectBounds (counters[s], &rect);
 		y = (rect.x1 - rect.x0) / scale;
 		if (y > counter_width)
 			counter_width = y;
 		rect.y0 /= scale;
 		rect.y1 /= scale;
-		y = counters[s]->GetYAlign ();
+//		y = counters[s]->GetYAlign ();
 		if (y -rect.y0 > counter_ascent)
 			counter_ascent = y - rect.y0;
 		if (rect.y1 -y > counter_descent)
@@ -749,13 +846,10 @@ void ReactionArrow::PositionChildren ()
 	}
 	// clean memory
 	for (s = 0; s < max_step; s++) {
-		if (counters[s] != NULL)
-			delete counters[s]; // unused existing counter
 		for (l = 0; l < steps[s].max; l++)
 			delete [] steps[s].lines[l].objs;
 		delete [] steps[s].lines;
 	}
-	delete [] counters;
 	delete [] steps;
 	// FIXME: delete garbage if any
 	doc->GetView ()->Update (this);

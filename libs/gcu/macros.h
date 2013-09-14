@@ -280,7 +280,7 @@ The real key is obtained by appending the value of ROOTDIR to \a key.
 		target = NULL;	\
 	}	\
 	target = go_conf_get_string (m_ConfNode, key); \
-	if (target == NULL && defaultval)	\
+	if (target == NULL && defaultval != NULL)	\
 		target = g_strdup (defaultval);
 
 /*!\def GCU_UPDATE_KEY()
