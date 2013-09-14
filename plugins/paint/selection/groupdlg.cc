@@ -114,7 +114,7 @@ bool gcpGroupDlg::Apply ()
 			pOp->AddObject (*i, 0);
 	}
 
-	if (group && !m_Group) {
+	if (!m_Group) {
 		m_Group = new gcpGroup ();
 		m_Group->SetParent (m_Doc);
 		for (i = m_Data->SelectedObjects.begin (); i!= end; i++)

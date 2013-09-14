@@ -93,8 +93,11 @@ void gcu_element_load_databases (char const *name, ...)
 char* gcu_value_get_string (GcuValue const *value)
 {
 	std::ostringstream s;
-	std::locale loc (setlocale (LC_NUMERIC, NULL));
-	s.imbue (loc);
+	char const *cloc = setlocale (LC_NUMERIC, NULL);
+	if (cloc != NULL) {
+		std::locale loc (cloc);
+		s.imbue (loc);
+	}
 	char *str;
 	if (value->value < 0)
 		s << "−";
@@ -118,8 +121,11 @@ char* gcu_value_get_string (GcuValue const *value)
 char *gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
 {
 	std::ostringstream s;
-	std::locale loc (setlocale (LC_NUMERIC, NULL));
-	s.imbue (loc);
+	char const *cloc = setlocale (LC_NUMERIC, NULL);
+	if (cloc != NULL) {
+		std::locale loc (cloc);
+		s.imbue (loc);
+	}
 	char *str;
 	if (value->value < 0)
 		s << "−";

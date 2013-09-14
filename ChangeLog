@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2013-09-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/window.cc: really close the window on delete event.
+	* libs/gcu/chemistry.cc: fix locale use to avoid a crash is setlocale()
+	returns NULL.
+	* libs/gcu/macros.h: fix compiler warning.
+	* plugins/paint/selection/groupdlg.cc: don't crash when aligning ungrouped
+	objects.
+
 2013-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/cycle.h: API docs fixes.
 	* libs/gcugtk/message.h: ditto.
