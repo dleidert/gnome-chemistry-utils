@@ -1189,7 +1189,7 @@ void Fragment::Move (double x, double y, double z)
 
 void Fragment::OnChangeAtom ()
 {
-	if (m_bLoading)
+	if (m_bLoading || !m_Atom)
 		return;
 	Document *pDoc = (Document*) GetDocument ();
 	if (!pDoc) return;

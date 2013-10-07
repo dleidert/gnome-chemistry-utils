@@ -10,6 +10,7 @@ Version 0.15.0
 		* Fix crash when deleting a cyclic bond.
 		* Really close the window on delete event.
 		* Don't crash when aligning ungrouped objects.
+		* Do not use a NULL atom properties. [#40194]
 	GCrystal:
 		* Fix row selection operations order in grids.
 	GChemTable:

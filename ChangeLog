@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2013-10-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: do not use a NULL atom properties. [#40194]
+
 2013-09-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: start working on caching children positions.
 	* libs/gcp/reaction-arrow.h: ditto.
