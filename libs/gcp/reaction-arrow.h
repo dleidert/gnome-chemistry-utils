@@ -154,6 +154,11 @@ false otherwise.
 't' means on tail side, 'h' on head side, and 'o' for other.
 */
 	char GetSymbolicPosition (double x, double y);
+/*!
+This called when the reaction arrow and attached objects are fully loaded.
+Caches children positions.
+*/
+	void OnLoaded ();
 
 	unsigned GetLastStep () const;
 	unsigned GetLastLine (unsigned step) const;

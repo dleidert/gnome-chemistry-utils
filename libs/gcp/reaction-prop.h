@@ -120,7 +120,7 @@ The destructor.
 Used to save the reaction property to the xmlDoc.
 @return the xmlNode containing the serialized reaction property.
 */
-	xmlNodePtr Save (xmlDocPtr xml);
+	xmlNodePtr Save (xmlDocPtr xml) const;
 /*!
 @param node: a pointer to the xmlNode containing the serialized reaction property.
 

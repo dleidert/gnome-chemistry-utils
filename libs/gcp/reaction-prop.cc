@@ -83,7 +83,7 @@ ReactionProp::~ReactionProp ()
 {
 }
 
-xmlNodePtr ReactionProp::Save (xmlDocPtr xml)
+xmlNodePtr ReactionProp::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node;
 	node = Object::Save (xml);

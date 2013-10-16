@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2013-10-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: caching children positions now works.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-prop.cc: fis the Save method signature.
+	* libs/gcp/reaction-prop.h: ditto.
+
 2013-10-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: do not use a NULL atom properties. [#40194]
 

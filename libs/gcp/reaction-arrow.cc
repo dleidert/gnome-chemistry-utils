@@ -41,6 +41,7 @@
 #include <gcugtk/ui-manager.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
+#include <vector>
 #include <cmath>
 #include <cstring>
 
@@ -57,7 +58,8 @@ typedef struct {
 class ReactionArrowLine
 {
 public:
-	unsigned m_NbProps;
+	unsigned m_nProps;
+	double x, y, width, height, descent, ascent;
 	std::list < ObjPos > m_Props;
 };
 
@@ -68,7 +70,7 @@ public:
 	~ReactionArrowStep ();
 
 	StepCounter *m_Counter;
-	unsigned m_NbLines;
+	unsigned m_nLines;
 	std::list < ReactionArrowLine * > m_Lines;
 };
 
@@ -193,7 +195,7 @@ bool ReactionArrow::Load (xmlNodePtr node)
 			xmlFree (buf);
 		}
 		// ensure that children are properly aligned
-		PositionChildren ();
+		doc->NotifyDirty (this);
 		return true;
 	}
 	return false;
@@ -417,38 +419,36 @@ void ReactionArrow::AddProp (Object *object)
 	Document *Doc = dynamic_cast<Document*> (GetDocument ());
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
 	Operation *Op = Doc->GetNewOperation (GCP_MODIFY_OPERATION);
-	unsigned step, line, rank;
 	Op->AddObject (object, 0);
 	Object *Group = GetGroup ();
+	ReactionArrowStep *astep;
+	ReactionArrowLine *aline;
 	if (!Group)
 		Group = this;
 	Op->AddObject (Group, 0);
 	ReactionProp *prop = new ReactionProp (this, object);
 	// set a step: the last current one
-	step = GetLastStep ();
-	if (step == 0) {
-		step++;
-		line = 1;
-		rank = 1;
+	if (m_nSteps == 0) {
+		astep = new ReactionArrowStep ();
+		m_Steps.push_back (astep);
+		m_nSteps++;
+		aline = new ReactionArrowLine ();
+		astep->m_Lines.push_back (aline);
+		aline->m_nProps = 1;
 	} else {
-		line = GetLastLine (step);
-		if (line == 0) {
-			line = 1;
-			rank = 1;
-		} else {
+		astep = m_Steps.back ();
+		aline = astep->m_Lines.back ();
+		if (aline->m_Props.size () < 2) {
 			// add to a new line if last line has only one object
-			rank = GetLastPos (step, line);
-			if (rank < 2) {
-				line++;
-				rank = 1;
-			} else
-				rank++;
-		}	}
-	prop->SetStep (step);
-	prop->SetLine (line);
-	prop->SetRank (rank);
-	// set a line: a new one if step is 0 and first line has one object or less
-	line = GetLastLine (step);
+			aline = new ReactionArrowLine ();
+			astep->m_Lines.push_back (aline);
+		}
+	}
+	prop->SetStep (m_nSteps);
+	prop->SetLine (astep->m_Lines.size ());
+	ObjPos pos = {prop, 0., 0., 0., 0., 0.};
+	aline->m_Props.push_back (pos);
+	prop->SetRank (aline->m_Props.size ());
 	// add the child in the object tree
 	AddChild (prop);
 	// position the child
@@ -517,7 +517,7 @@ void ReactionArrow::PositionChild (ReactionProp *prop)
 	prop->Move (xmin, ymin);
 	Doc->GetView ()->Update (this);
 }*/
-
+/*
 typedef struct {
 	ObjPos *objs;
 	double *ascents;
@@ -528,18 +528,16 @@ typedef struct {
 typedef struct {
 	Line *lines;
 	unsigned max;
-} ArrowStep;
+} ArrowStep;*/
 
 void ReactionArrow::PositionChildren ()
 {
-	std::set < StepCounter * > counters;
+	std::vector < StepCounter * > counters;
 	std::set < ReactionSeparator * > separators;
 	std::set < gcu::Object * > garbage;
 	std::map < std::string, gcu::Object * >::iterator i;
 	gcu::Object *obj = GetFirstChild (i);
-	unsigned s, max_step = GetLastStep (), l, p, n, cur = 0;
-	ArrowStep *steps = (max_step != 0)? new ArrowStep[max_step]: NULL;
-	ReactionProp *prop;
+	unsigned max_step = GetLastStep (), p, cur = 0;
 	Document *doc = static_cast < Document * > (GetDocument ());
 	Theme const *theme = doc->GetTheme ();
 	WidgetData* data = reinterpret_cast < WidgetData * > ( g_object_get_data (G_OBJECT (doc->GetWidget ()), "data"));
@@ -547,7 +545,6 @@ void ReactionArrow::PositionChildren ()
 	double y, ascent, descent, sep_width = 0., sep_ascent = 0., sep_descent = 0.,
 		   counter_width = 0., counter_ascent = 0., counter_descent = 0.,
 		   uwidth = 0., uheight = 0., lwidth = 0., lheight = 0.;
-	Line *line;
 	bool needs_sep = false;
 	ReactionSeparator *sep;
 	double scale = theme->GetZoomFactor (), padding = theme->GetPadding ();
@@ -555,149 +552,27 @@ void ReactionArrow::PositionChildren ()
 	double lxspan, lyspan, uxspan, uyspan, x, length, xspan, yspan, xmin, ymin, width, xc, yc;
 	unsigned cur_line;
 	ReactionArrowStep *step;
-	ReactionArrowLine *aline;
-	std::list < ReactionArrowStep * >::iterator is, isend;
+	ReactionArrowLine *line;
+	std::list < ReactionArrowStep * >::iterator is, isend = m_Steps.end ();
 	std::list < ReactionArrowLine * >::iterator il, ilend;
 	std::list < ObjPos >::iterator ip, ipend;
 
 	if (max_step == 0)
 		return; /* there is nothing valid around there */
 	// TODO: add counters to first steps if needed
-	// either we have the correct steps number or we are missing some
-	while (max_step > m_nSteps) {
-		// create the necessary steps
-		step = new ReactionArrowStep ();
-		m_Steps.push_back (step);
-		m_nSteps++;
-	}
-	isend = m_Steps.end ();
-	// allocate lines
-	for (s = 0, is = m_Steps.begin (); s < max_step; s++, is++) {
-		step = *is;
-		l = 0;
-		step->m_NbLines =  GetLastLine (s + 1);
-		for (l = 0; l < step->m_NbLines; l++) {
-			aline = new ReactionArrowLine ();
-			step->m_Lines.push_back (aline);
-			aline->m_NbProps = GetLastPos (s + 1, l + 1);
-			ObjPos pos = {NULL, 0., 0., 0., 0., 0.};
-			for (p = 0 ; p < aline->m_NbProps; p++)
-				aline->m_Props.push_back (pos);
-		}
-	}
+	counters.resize (max_step, NULL);
 	while (obj) {
 		if (obj->GetType () == ReactionSeparatorType)
 			separators.insert (static_cast < ReactionSeparator * > (obj));
 		else if (obj->GetType () == StepCounterType) {
 			counter = static_cast < StepCounter * > (obj);
-			counters.insert (counter);
-		} else if (obj->GetType () == ReactionPropType) {
-			prop = static_cast < ReactionProp * > (obj);
-			s = prop->GetStep ();
-			l = prop->GetLine ();
-			p = prop->GetRank ();
-			if (s * l * p == 0) // none should be nul
-				garbage.insert (obj);
-			is = m_Steps.begin ();
-			while (s > 1) {
-				s--;
-				is++;
-			}
-			step = *is; // we are sure that the iterator is valid
-			il = step->m_Lines.begin ();
-			while (l > 1) {
-				l--;
-				il++;
-			}
-			aline = *il;
-			ip = aline->m_Props.begin ();
-			while (p > 1) {
-				p--;
-				ip++;
-			}
-			if ((*ip).obj == NULL)
-				(*ip).obj = prop;
-			else
-				garbage.insert (obj);
-		} else
+			counters[counter->GetStep ()] = counter;
+		} else if (obj->GetType () == ReactionPropType); // nothing to do at this point
+		else
 			garbage.insert (obj);
 		obj = GetNextChild (i);
 	}
-	// check if every object really exists to avoid crashes
-	isend = m_Steps.end ();
-	s = 0;
-	for (is = m_Steps.begin (); is != isend; is++) {
-		step = *is;
-		ilend = step->m_Lines.end ();
-		l = 0;
-		for (il = step->m_Lines.begin (); il != ilend; il++) {
-			aline = *il;
-			ipend = aline->m_Props.end ();
-			p = 0;
-			for (ip = aline->m_Props.begin (); ip != ipend; ip++) {
-				if ((*ip).obj == NULL) {
-					ip = aline->m_Props.erase (ip);
-					ipend = aline->m_Props.end ();
-					if (ip == ipend)
-						break;
-				} else {
-					if ((*ip).obj->GetRank () != p)
-						(*ip).obj->SetRank (p);
-					p++;
-					if ((*ip).obj->GetLine () != l)
-						(*ip).obj->SetLine (l);
-					if ((*ip).obj->GetStep () != s)
-						(*ip).obj->SetStep (s);
-				}
-			}
-			if (aline->m_Props.empty ()) {
-				il = step->m_Lines.erase (il);
-				delete aline;
-				ilend = step->m_Lines.end ();
-				if (il == ilend)
-					break;
-			} else
-				l++;
-		}
-		if (step->m_Lines.empty ()) {
-			is = m_Steps.erase (is);
-			delete step;
-			max_step--;
-			isend = m_Steps.end ();
-			if (is == isend)
-				break;
-		} else
-			s++;
-	}
 	// FIXME: add counters
-	for (s = 0; s < max_step; s++) {
-		for (l = 0; l < steps[s].max; l++) {
-			line = steps[s].lines + l;
-			for (p = 0; p < line->max; p++)
-				if (line->objs[p].obj == NULL) {
-					for (n = p + 1; n < line->max; n++)
-						line->objs[n - 1] = line->objs[n];
-					line->max --;
-				}
-			if (line->max == 0) {
-				// remove the empty line
-				if (line->objs)
-					delete [] line->objs;
-				for (n = l + 1; n < steps[s].max; n++)
-					steps[s].lines[n - 1] = steps[s].lines[n];
-				steps[s].max--;
-			} else if (line->max > 1)
-				needs_sep = true;
-		}
-		if (steps[s].max == 0) {
-			// remove the empty step
-			if (steps[s].lines)
-				delete [] steps[s].lines;
-			for (n = s + 1; n < max_step; n++)
-				steps[n - 1] = steps[n];
-			max_step--;
-		}
-	}
 	
 	// evaluate lines size
 	if (needs_sep) {
@@ -715,46 +590,51 @@ void ReactionArrow::PositionChildren ()
 		sep_descent = rect.y1 / scale - y;
 	}
 	// evaluate step counters size, and create them if needed
-	for (s = 0; s < max_step; s++) {
+//	for (s = 0; s < max_step; s++) {
 //		if (counters[s] == NULL) {
 //			counters[s] = new StepCounter (s + 1, m_NumberingScheme);
 //			AddChild (counters[s]);
 //			doc->GetView ()->AddObject (counters[s]);
 //		}
 //		data->GetObjectBounds (counters[s], &rect);
-		y = (rect.x1 - rect.x0) / scale;
-		if (y > counter_width)
-			counter_width = y;
-		rect.y0 /= scale;
-		rect.y1 /= scale;
+//		y = (rect.x1 - rect.x0) / scale;
+//		if (y > counter_width)
+//			counter_width = y;
+//		rect.y0 /= scale;
+//		rect.y1 /= scale;
 //		y = counters[s]->GetYAlign ();
-		if (y -rect.y0 > counter_ascent)
-			counter_ascent = y - rect.y0;
-		if (rect.y1 -y > counter_descent)
-			counter_descent = rect.y1 - y;
-	}
-	for (s = 0; s < max_step; s++) {
-		for (l = 0; l < steps[s].max; l++) {
-			line = steps[s].lines + l;
+//		if (y -rect.y0 > counter_ascent)
+//			counter_ascent = y - rect.y0;
+//		if (rect.y1 -y > counter_descent)
+//			counter_descent = rect.y1 - y;
+//	}
+	
+	for (is = m_Steps.begin (); is != isend; is++) {
+		step = *is;
+		ilend = step->m_Lines.end ();
+		for (il = step->m_Lines.begin (); il != ilend; il++) {
+			line = *il;
 			line->width = line->ascent = line->descent = 0.;
-			for (p = 0; p < line->max; p++) {
-				data->GetObjectBounds (line->objs[p].obj, &rect);
-				line->objs[p].x = rect.x0 / scale;
-				line->objs[p].y = rect.y0 / scale;
-				line->objs[p].width = (rect.x1 - rect. x0) / scale;
-				line->objs[p].height = (rect.y1 - rect. y0) / scale;
-				line->width += line->objs[p].width;
-				y = line->objs[p].obj->GetYAlign ();
-				ascent = y - line->objs[p].y;
-				line->objs[p].y += ascent;
+			ipend = line->m_Props.end ();
+			for (ip = line->m_Props.begin (); ip != ipend; ip++) {
+				obj = (*ip).obj;
+				data->GetObjectBounds (obj, &rect);
+				(*ip).x = rect.x0 / scale;
+				(*ip).y = rect.y0 / scale;
+				(*ip).width = (rect.x1 - rect. x0) / scale;
+				(*ip).height = (rect.y1 - rect. y0) / scale;
+				line->width += (*ip).width;
+				y = obj->GetYAlign ();
+				ascent = y - (*ip).y;
+				(*ip).y += ascent;
 				descent = rect.y1 / scale - y;
 				if (line->ascent < ascent)
 					line->ascent = ascent;
 				if (line->descent < descent)
 					line->descent = descent;
 			}
-			if (line->max > 1) {
-				line->width += sep_width * (line->max - 1);
+			if (line->m_Props.size () > 1) {
+				line->width += sep_width * (line->m_Props.size () - 1);
 				if (line->ascent < sep_ascent)
 					line->ascent = sep_ascent;
 				if (line->descent < sep_descent)
@@ -821,38 +701,173 @@ void ReactionArrow::PositionChildren ()
 	ymin = m_y + length * y - x * yspan - uyspan / 2.;
 	width = uxspan;
 	cur_line = 0;
-	for (s = 0; s < max_step; s++) {
-		for (l = 0; l < steps[s].max; l++) {
+	for (is = m_Steps.begin (); is != isend; is++) {
+		step = *is;
+		ilend = step->m_Lines.end ();
+		for (il = step->m_Lines.begin (); il != ilend; il++) {
 			if (cur_line == m_MaxLinesAbove) {
 				yspan = lyspan / 2. + theme->GetArrowDist () / theme->GetZoomFactor ();
 				xmin = m_x + length * x - y * yspan - lxspan / 2.;
 				ymin = m_y + length * y + x * yspan - lyspan / 2.;
 				width = lxspan;
 			}
-			line = steps[s].lines + l;
+			line = (*il);
 			xc = xmin;
 			if (max_step == 1) // center the lines instead of left align
 				xc += (width - line->width) / 2.;
 			yc = ymin + line->ascent;
-			for (p = 0; p < line->max; p++) {
-				if (p > 0) {
+			ipend = line->m_Props.end ();
+			p = 0;
+			for (ip = line->m_Props.begin (); ip != ipend; ip++) {
+				if (p++ > 0) {
 					// insert a separator
 				}
-				line->objs[p].obj->Move (xc - line->objs[p].x, yc - line->objs[p].y);
+				(*ip).obj->Move (xc - (*ip).x, yc - (*ip).y);
 			}
 			ymin += line->height;
 			cur_line++;
 		}
 	}
-	// clean memory
-	for (s = 0; s < max_step; s++) {
-		for (l = 0; l < steps[s].max; l++)
-			delete [] steps[s].lines[l].objs;
-		delete [] steps[s].lines;
-	}
-	delete [] steps;
 	// FIXME: delete garbage if any
 	doc->GetView ()->Update (this);
+}
+
+void ReactionArrow::OnLoaded ()
+{
+	unsigned s, l, p;
+	std::map < std::string, gcu::Object * >::iterator i;
+	gcu::Object *obj = GetFirstChild (i);
+	ReactionProp *prop;
+	Document *doc = static_cast < Document * > (GetDocument ());
+	ReactionArrowStep *step = NULL;
+	ReactionArrowLine *line;
+	std::list < ReactionArrowStep * >::iterator is, isend;
+	std::list < ReactionArrowLine * >::iterator il, ilend;
+	std::list < ObjPos >::iterator ip, ipend;
+	std::set < gcu::Object * > garbage;
+	ObjPos pos = {NULL, 0., 0., 0., 0., 0.};
+
+	// we don't need to destroy extra steps at this point, since empty ones will be later
+	while (obj) {
+		if (obj->GetType () == ReactionPropType) {
+			prop = static_cast < ReactionProp * > (obj);
+			s = prop->GetStep ();
+			l = prop->GetLine ();
+			p = prop->GetRank ();
+			if (s * l * p == 0) 
+				garbage.insert (obj);
+			while (s > m_nSteps) {
+				step = new ReactionArrowStep ();
+				m_Steps.push_back (step);
+				m_nSteps++;
+				step->m_nLines = 1;
+				line = new ReactionArrowLine ();
+				line->m_nProps = 0;
+				step->m_Lines.push_back (line);
+			}
+			if (step == NULL) {
+				is = m_Steps.begin ();
+				while (s > 1) {
+					s--;
+					is++;
+				}
+				step = *is; // we are sure that the iterator is valid
+			}
+			line = NULL;
+			while (l > step->m_nLines) {
+				step->m_nLines++;
+				line = new ReactionArrowLine ();
+				line->m_nProps = 0;
+				step->m_Lines.push_back (line);
+			}
+			if (line == NULL) {
+				il = step->m_Lines.begin ();
+				while (l > 1) {
+					l--;
+					il++;
+				}
+				line = *il;
+			}
+			if (p > line->m_nProps) {
+				while (p > line->m_nProps) {
+					line->m_Props.push_back (pos);
+					line->m_nProps++;
+				}
+			}
+			ip = line->m_Props.begin ();
+			while (p > 1) {
+				p--;
+				ip++;
+			}
+			if ((*ip).obj == NULL)
+				(*ip).obj = prop;
+			else
+				// we can't have two objects at the same position
+				garbage.insert (obj);
+		} else {
+			// we can't have objects that are not ReactionProp instances
+			garbage.insert (obj);
+		}
+		obj = GetNextChild (i);
+	}
+	// check if every object really exists to avoid crashes
+	isend = m_Steps.end ();
+	s = 1;
+	for (is = m_Steps.begin (); is != isend; is++) {
+		step = *is;
+		ilend = step->m_Lines.end ();
+		l = 1;
+		for (il = step->m_Lines.begin (); il != ilend; il++) {
+			line = *il;
+			ipend = line->m_Props.end ();
+			p = 1;
+			for (ip = line->m_Props.begin (); ip != ipend; ip++) {
+				if ((*ip).obj == NULL) {
+					ip = line->m_Props.erase (ip);
+					line->m_nProps--;
+					ipend = line->m_Props.end ();
+					if (ip == ipend)
+						break;
+				} else {
+					if ((*ip).obj->GetRank () != p)
+						(*ip).obj->SetRank (p);
+					p++;
+					if ((*ip).obj->GetLine () != l)
+						(*ip).obj->SetLine (l);
+					if ((*ip).obj->GetStep () != s)
+						(*ip).obj->SetStep (s);
+				}
+			}
+			if (line->m_Props.empty ()) {
+				il = step->m_Lines.erase (il);
+				delete line;
+				step->m_nLines--;
+				ilend = step->m_Lines.end ();
+				if (il == ilend)
+					break;
+			} else
+				l++;
+		}
+		if (step->m_Lines.empty ()) {
+			is = m_Steps.erase (is);
+			delete step;
+			m_nSteps--;
+			isend = m_Steps.end ();
+			if (is == isend)
+				break;
+		} else
+			s++;
+	}
+	// remove garbage
+	std::set < gcu::Object * >::iterator j, jend = garbage.end ();
+	for (j = garbage.begin (); j != jend; j++) {
+		if ((*j)->GetType () == ReactionPropType)
+			static_cast < ReactionProp * > (*j)->GetObject ()->SetParent (doc);
+		else
+			(*j)->SetParent (doc);
+		delete (*j);
+	}
+	PositionChildren ();
 }
 
 bool ReactionArrow::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
