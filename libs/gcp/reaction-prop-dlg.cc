@@ -64,10 +64,6 @@ static void on_role_changed (GtkComboBox *box, ReactionProp *prop)
 	prop->SetRole (gtk_combo_box_get_active (box));
 }
 
-static void on_focus (ReactionProp *prop)
-{
-}
-
 ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):
 	gcugtk::Dialog (static_cast < gcugtk::Application * > (arrow->GetDocument ()->GetApp ()), UIDIR"/arrow-object.ui", "reaction-prop", GETTEXT_PACKAGE, prop),
 	m_Arrow (arrow),
@@ -83,30 +79,11 @@ ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):
 	m_StepBtn = GTK_SPIN_BUTTON (GetWidget ("step-btn"));
 	m_LineBtn = GTK_SPIN_BUTTON (GetWidget ("line-btn"));
 	m_PosBtn = GTK_SPIN_BUTTON (GetWidget ("pos-btn"));
-	if (arrow->GetChildrenNumber () < 2) {
-		gtk_spin_button_set_range (m_StepBtn, 1., 1.);
-		gtk_widget_set_sensitive (GTK_WIDGET (m_StepBtn), false);
-		gtk_spin_button_set_range (m_LineBtn, 1., 1.);
-		gtk_widget_set_sensitive (GTK_WIDGET (m_LineBtn), false);
-		gtk_spin_button_set_range (m_PosBtn, 1., 1.);
-		gtk_widget_set_sensitive (GTK_WIDGET (m_PosBtn), false);
-	} else {
-		unsigned step, line, max;
-		gtk_spin_button_set_range (m_StepBtn, 1, arrow->GetLastStep () + 1);
-		gtk_spin_button_set_value (m_StepBtn, step = prop->GetStep ());
-		gtk_spin_button_set_range (m_LineBtn, 1, arrow->GetLastLine (step) + 1);
-		gtk_spin_button_set_value (m_LineBtn, line = prop->GetLine ());
-		max = arrow->GetLastPos (step, line);
-		gtk_spin_button_set_range (m_PosBtn, 1, max);
-		gtk_spin_button_set_value (m_PosBtn, prop->GetRank ());
-		if (max == 1)
-			gtk_widget_set_sensitive (GTK_WIDGET (m_PosBtn), false);
-	}
 	m_StepSgn = g_signal_connect (m_StepBtn, "value-changed", G_CALLBACK (ReactionPropDlgPrivate::OnPosChanged), this);
 	m_LineSgn = g_signal_connect (m_LineBtn, "value-changed", G_CALLBACK (ReactionPropDlgPrivate::OnPosChanged), this);
 	m_PosSgn = g_signal_connect (m_PosBtn, "value-changed", G_CALLBACK (ReactionPropDlgPrivate::OnPosChanged), this);
+	Update ();
 	gtk_widget_show (GTK_WIDGET (dialog));
-	g_signal_connect_swapped(G_OBJECT (dialog), "focus-in-event", G_CALLBACK (on_focus), prop);
 }
 
 ReactionPropDlg::~ReactionPropDlg ()
@@ -126,16 +103,24 @@ void ReactionPropDlg::Update ()
 		gtk_spin_button_set_range (m_PosBtn, 1., 1.);
 		gtk_widget_set_sensitive (GTK_WIDGET (m_PosBtn), false);
 	} else {
-		unsigned step, line, max;
-		gtk_spin_button_set_range (m_StepBtn, 1, m_Arrow->GetLastStep () + 1);
-		gtk_spin_button_set_value (m_StepBtn, step = m_Prop->GetStep ());
-		gtk_spin_button_set_range (m_LineBtn, 1, m_Arrow->GetLastLine (step) + 1);
+		unsigned step, line, rank, last_step, last_line, last_rank;
+		step = m_Prop->GetStep ();
+		last_step = m_Arrow->GetLastStep ();
+		last_line = m_Arrow->GetLastLine (step);
+		line = m_Prop->GetLine ();
+		rank = m_Prop->GetRank ();
+		last_rank = m_Arrow->GetLastPos (step, line);
+		if (step != last_step || last_line > 1 ||last_rank > 1)
+			last_step++;
+		if (line != last_line || last_rank > 2)
+			last_line++;
+		gtk_spin_button_set_range (m_StepBtn, 1, last_step);
+		gtk_spin_button_set_value (m_StepBtn, step);
+		gtk_spin_button_set_range (m_LineBtn, 1, last_line);
 		gtk_spin_button_set_value (m_LineBtn, line = m_Prop->GetLine ());
-		max = m_Arrow->GetLastPos (step, line);
-		gtk_spin_button_set_range (m_PosBtn, 1, max);
-		gtk_spin_button_set_value (m_PosBtn, m_Prop->GetRank ());
-		if (max == 1)
-			gtk_widget_set_sensitive (GTK_WIDGET (m_PosBtn), false);
+		gtk_spin_button_set_range (m_PosBtn, 1, last_rank);
+		gtk_spin_button_set_value (m_PosBtn, rank);
+		gtk_widget_set_sensitive (GTK_WIDGET (m_PosBtn), last_rank > 1);
 	}
 	g_signal_handler_unblock (m_StepBtn, m_StepSgn);
 	g_signal_handler_unblock (m_LineBtn, m_LineSgn);

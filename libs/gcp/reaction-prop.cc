@@ -25,7 +25,9 @@
 #include "config.h"
 #include "document.h"
 #include "reaction-prop.h"
+#include "reaction-prop-dlg.h"
 #include "reaction-arrow.h"
+#include <gcugtk/ui-manager.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
 
@@ -159,6 +161,30 @@ std::string ReactionProp::Name ()
 double ReactionProp::GetYAlign ()
 {
 	return m_Object->GetYAlign ();
+}
+
+static void do_props (ReactionProp *prop)
+{
+	gcu::Dialog *dialog = prop->GetDialog ("reaction-prop");
+	if (dialog)
+		dialog->Present ();
+	else
+		new ReactionPropDlg (static_cast < ReactionArrow * > (prop->GetParent ()), prop);
+}
+
+bool ReactionProp::BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *, double, double)
+{
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
+	GtkActionGroup *group = NULL;
+	GtkAction *action;
+	group = gtk_action_group_new ("reaction-prop");
+	action = gtk_action_new ("props", _("Role and position..."), _("Attached object properties"), NULL);
+	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
+	g_signal_connect_swapped (action, "activate", G_CALLBACK (do_props), this);
+	gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menuitem action='props'/></popup></ui>", -1, NULL);
+	gtk_ui_manager_insert_action_group (uim, group, 0);
+	return false;
 }
 
 }	//	namespace gcp

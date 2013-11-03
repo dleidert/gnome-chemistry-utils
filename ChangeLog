@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2013-11-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: implement position changes for objects
+	attached to an arrow.
+	* libs/gcp/reaction-prop-dlg.cc: ditto.
+	* libs/gcp/reaction-prop.cc: ditto.
+	* libs/gcp/reaction-prop.h: ditto.
+	* ui/paint/arrow-object.ui: ditto.
+
 2013-10-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: caching children positions now works.
 	* libs/gcp/reaction-arrow.h: ditto.

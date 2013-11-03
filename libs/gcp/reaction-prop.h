@@ -106,7 +106,7 @@ The default constructor.
 @param parent the parent reaction arrow.
 @param child the molecule or text to attach to the arrow.
 
-Builds a new reactionproperty, and attach the child to the arrow.
+Builds a new reaction property, and attach the child to the arrow.
 */
 	ReactionProp (ReactionArrow *parent, gcu::Object *child);
 /*!
@@ -139,6 +139,16 @@ It should not be called by a program; call Object::EmitSignal instead.
 @return true to be propagate the signal to the parent.
 */
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
+/*!
+@param UIManager the gcu::UIManager to populate.
+@param object the Object on which occured the mouse click.
+@param x x coordinate of the mouse click.
+@param y y coordinate of the mouse click.
+
+This method is called to build a contextual menu for the arrow attached object.
+@return true if something is added to the UIManager, false otherwise.
+*/
+	bool BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *object, double x, double y);
 
 /*!
 @return the localized object generic name.

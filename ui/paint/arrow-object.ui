@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkAdjustment" id="line-adj">
+    <property name="lower">1</property>
+    <property name="upper">1</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="rank-adj">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="step-adj">
+    <property name="lower">1</property>
+    <property name="upper">2</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkDialog" id="reaction-prop">
     <property name="can_focus">False</property>
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -24,12 +43,10 @@
             <child>
               <object class="GtkButton" id="help">
                 <property name="label">gtk-help</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -41,12 +58,10 @@
             <child>
               <object class="GtkButton" id="cancel">
                 <property name="label">gtk-close</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -119,6 +134,7 @@
                 <property name="tooltip_markup" translatable="yes">Numbered reaction step for this object.</property>
                 <property name="margin_top">12</property>
                 <property name="invisible_char">●</property>
+                <property name="adjustment">step-adj</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -161,6 +177,7 @@
                 <property name="can_focus">True</property>
                 <property name="tooltip_markup" translatable="yes">Line where this object should appear inside the step.</property>
                 <property name="invisible_char">●</property>
+                <property name="adjustment">line-adj</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -175,6 +192,7 @@
                 <property name="can_focus">True</property>
                 <property name="tooltip_text" translatable="yes">Position inside the line.</property>
                 <property name="invisible_char">●</property>
+                <property name="adjustment">rank-adj</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>

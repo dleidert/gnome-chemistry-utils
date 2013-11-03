@@ -117,7 +117,7 @@ xmlNodePtr ReactionArrow::Save (xmlDocPtr xml) const
 		xmlNewProp (node, (xmlChar*) "start",  (xmlChar*) GetStartStep ()->GetId ());
 	if (GetEndStep ())
 		xmlNewProp (node, (xmlChar*) "end",  (xmlChar*) GetEndStep ()->GetId ());
-	if (GetLastStep () > 1 && m_NumberingScheme != NumberingSchemeArabic) {
+	if (m_nSteps > 1 && m_NumberingScheme != NumberingSchemeArabic) {
 		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("numbering-scheme"),
 		            ((m_NumberingScheme == NumberingSchemeRoman)?
 		             	 reinterpret_cast < xmlChar const * > ("roman"):
@@ -294,7 +294,7 @@ void ReactionArrow::UpdateItem ()
 	AddItem ();
 }
 
-class ReactionArrowProps: gcugtk::Dialog
+class ReactionArrowProps: public gcugtk::Dialog
 {
 public:
 	ReactionArrowProps (ReactionArrow *arrow);
@@ -302,14 +302,27 @@ public:
 
 static void on_lines_changed (GtkSpinButton *btn, ReactionArrow *arrow)
 {
+	Document *doc = static_cast < Document * > (arrow->GetDocument ());
+	Operation *op = doc->GetNewOperation (GCP_MODIFY_OPERATION);
+	gcu::Object *obj = arrow->GetGroup ();
+	if (obj == NULL)
+		obj = arrow;
+	op->AddObject (obj);
 	arrow->SetMaxLinesAbove (gtk_spin_button_get_value_as_int (btn));
 	arrow->PositionChildren ();
+	op->AddObject (obj, 1);
+	doc->FinishOperation ();
 }
 
 static void on_numbering_changed (GtkComboBox *box, ReactionArrow *arrow)
 {
+	Document *doc = static_cast < Document * > (arrow->GetDocument ());
+	Operation *op = doc->GetNewOperation (GCP_MODIFY_OPERATION);
+	op->AddObject (arrow);
 	arrow->SetNumberingScheme (static_cast < NumberingScheme > (gtk_combo_box_get_active (box)));
 	arrow->PositionChildren ();
+	op->AddObject (arrow, 1);
+	doc->FinishOperation ();
 }
 
 ReactionArrowProps::ReactionArrowProps (ReactionArrow *arrow):
@@ -327,11 +340,14 @@ ReactionArrowProps::ReactionArrowProps (ReactionArrow *arrow):
 		gtk_widget_hide (w);
 	}
 }
-	
 
 static void do_props (ReactionArrow *arrow)
 {
-	new ReactionArrowProps (arrow);
+	gcu::Dialog *dialog = arrow->GetDialog ("reaction-arrow-dlg");
+	if (dialog)
+		dialog->Present ();
+	else
+		new ReactionArrowProps (arrow);
 }
 
 struct CallbackData {
@@ -537,7 +553,7 @@ void ReactionArrow::PositionChildren ()
 	std::set < gcu::Object * > garbage;
 	std::map < std::string, gcu::Object * >::iterator i;
 	gcu::Object *obj = GetFirstChild (i);
-	unsigned max_step = GetLastStep (), p, cur = 0;
+	unsigned max_step = m_nSteps, p, cur = 0;
 	Document *doc = static_cast < Document * > (GetDocument ());
 	Theme const *theme = doc->GetTheme ();
 	WidgetData* data = reinterpret_cast < WidgetData * > ( g_object_get_data (G_OBJECT (doc->GetWidget ()), "data"));
@@ -567,7 +583,10 @@ void ReactionArrow::PositionChildren ()
 		else if (obj->GetType () == StepCounterType) {
 			counter = static_cast < StepCounter * > (obj);
 			counters[counter->GetStep ()] = counter;
-		} else if (obj->GetType () == ReactionPropType); // nothing to do at this point
+		} else if (obj->GetType () == ReactionPropType) {
+			if (!needs_sep && static_cast < ReactionProp * > (obj)->GetRank () > 1)
+				needs_sep = true;
+		}
 		else
 			garbage.insert (obj);
 		obj = GetNextChild (i);
@@ -721,8 +740,20 @@ void ReactionArrow::PositionChildren ()
 			for (ip = line->m_Props.begin (); ip != ipend; ip++) {
 				if (p++ > 0) {
 					// insert a separator
+					if (separators.empty ()) {
+						sep = new ReactionSeparator ();
+						separators.insert (sep);
+						AddChild (sep);
+						doc->GetView ()->AddObject (sep);
+					} else {
+						sep = *separators.begin ();
+						separators.erase (sep);
+					}
+					sep->SetCoords (xc, yc);
+					xc += sep_width;
 				}
 				(*ip).obj->Move (xc - (*ip).x, yc - (*ip).y);
+				xc += (*ip).width;
 			}
 			ymin += line->height;
 			cur_line++;
@@ -730,6 +761,10 @@ void ReactionArrow::PositionChildren ()
 	}
 	// FIXME: delete garbage if any
 	doc->GetView ()->Update (this);
+	// remove extra separators
+	std::set < ReactionSeparator * >::iterator sp, spend = separators.end ();
+	for (sp = separators.begin (); sp != spend; sp++)
+		delete *sp;
 }
 
 void ReactionArrow::OnLoaded ()
@@ -907,64 +942,192 @@ char ReactionArrow::GetSymbolicPosition (double x, double y)
 
 unsigned ReactionArrow::GetLastStep () const
 {
-	unsigned res = 0, step;
-	std::map < std::string, gcu::Object * >::const_iterator i;
-	gcu::Object const *obj = GetFirstChild (i);
-	ReactionProp const *prop;
-	while (obj) {
-		if (obj->GetType () == ReactionPropType) {
-			prop = static_cast < ReactionProp const * > (obj);
-			step = prop->GetStep ();
-			if (step > res)
-				res = step;
-		}
-		obj = GetNextChild (i);
-	}
-	return res;
+	return m_nSteps;
 }
 
 unsigned ReactionArrow::GetLastLine (unsigned step) const
 {
-	unsigned res = 0, line;
-	std::map < std::string, gcu::Object * >::const_iterator i;
-	gcu::Object const *obj = GetFirstChild (i);
-	ReactionProp const *prop;
-	while (obj) {
-		if (obj->GetType () == ReactionPropType) {
-			prop = static_cast < ReactionProp const * > (obj);
-			if (step == prop->GetStep ()) {
-				line = prop->GetLine ();
-				if (line > res)
-					res = line;
-			}
-		}
-		obj = GetNextChild (i);
+	if (step == 0 || step > m_nSteps)
+		return 0;
+	std::list < ReactionArrowStep * >::const_iterator is = m_Steps.begin ();
+	while (step > 1) {
+		step--;
+		is++;
 	}
-	return res;
+	return (*is)->m_nLines;
 }
 
 unsigned ReactionArrow::GetLastPos (unsigned step, unsigned line) const
 {
-	unsigned res = 0, pos;
-	std::map < std::string, gcu::Object * >::const_iterator i;
-	gcu::Object const *obj = GetFirstChild (i);
-	ReactionProp const *prop;
-	while (obj) {
-		if (obj->GetType () == ReactionPropType) {
-			prop = static_cast < ReactionProp const * > (obj);
-			if (step == prop->GetStep () && line == prop->GetLine ()) {
-				pos = prop->GetRank ();
-				if (pos > res)
-					res = pos;
-			}
-		}
-		obj = GetNextChild (i);
+	if (step == 0 || step > m_nSteps || line == 0)
+		return 0;
+	std::list < ReactionArrowStep * >::const_iterator is = m_Steps.begin ();
+	while (step > 1) {
+		step--;
+		is++;
 	}
-	return res;
+	if ((*is)->m_nLines < line)
+		return 0;
+	std::list < ReactionArrowLine * >::const_iterator il = (*is)->m_Lines.begin ();
+	while (line > 1) {
+		line--;
+		il++;
+	}
+	return (*il)->m_nProps;
 }
 
 void ReactionArrow::SetChildPos (ReactionProp *prop, unsigned step, unsigned line, unsigned rank)
 {
+	unsigned s, l, r, cur;
+	s = prop->GetStep ();
+	l = prop->GetLine ();
+	r = prop->GetRank ();
+	if ((s == step && l == line && r == rank) || step < 1 || line < 1 || rank < 1)
+		return;
+	Document *doc = static_cast < Document * > (GetDocument ());
+	Operation *op = doc->GetNewOperation (GCP_MODIFY_OPERATION);
+	gcu::Object *obj = GetGroup ();
+	if (obj == NULL)
+		obj = this;
+	op->AddObject (obj);
+	if (step != s)
+		line = 0; // we put the object into a new line
+	else if (line != l)
+		rank = 0; // we put the object at line end
+	std::list < ReactionArrowStep * >::iterator is = m_Steps.begin (), isend; // origin step
+	cur = s;
+	while (cur > 1)  {
+		cur--;
+		is++;
+	}
+	std::list < ReactionArrowLine * >::iterator il = (*is)->m_Lines.begin (), ilend; // origin step
+	cur = l;
+	while (cur > 1)  {
+		cur--;
+		il++;
+	}
+	std::list < ObjPos >::iterator ir = (*il)->m_Props.begin (), irend; // origin step
+	cur = r;
+	while (cur > 1)  {
+		cur--;
+		ir++;
+	}
+	ReactionArrowStep *ars = *is;
+	ReactionArrowLine *arl = *il;
+	// remove object from its current position
+	arl->m_nProps--;
+	if (arl->m_nProps == 0) {
+		if (line > l)
+			line--;
+		ars->m_nLines--;
+		delete *il;
+		if (ars->m_nLines == 0) {
+			m_nSteps--;
+			delete *is;
+			is = m_Steps.erase (is);
+			isend = m_Steps.end ();
+			if (step > s)
+				step--;
+			while (is != isend) {
+				ilend = (*is)->m_Lines.end ();
+				for (il = (*is)->m_Lines.begin (); il != ilend; il++) {
+					irend = (*il)->m_Props.end ();
+					for (ir = (*il)->m_Props.begin (); ir != irend; ir++)
+						(*ir).obj->SetStep (s);
+				}
+				s++;
+			}
+		} else {
+			il = ars->m_Lines.erase (il);
+			ilend = ars->m_Lines.end ();
+			while (il != ilend) {
+				irend = (*il)->m_Props.end ();
+				for (ir = (*il)->m_Props.begin (); ir != irend; ir++)
+					(*ir).obj->SetLine (l);
+				l++;
+			}
+			
+		}
+	} else {
+		ir = arl->m_Props.erase (ir);
+		irend = arl->m_Props.end ();
+		while (ir != irend) {
+			(*ir).obj->SetRank (s++);
+			ir++;
+		}
+	}
+	// and now, insert the object at its new position
+	if (step > m_nSteps) {
+		step = ++m_nSteps;
+		// create the new step
+		ars = new ReactionArrowStep ();
+		m_Steps.push_back (ars);
+		arl = new ReactionArrowLine ();
+		ars->m_nLines = 1;
+		ars->m_Lines.push_front (arl);
+		line = 1;
+		rank = 1;
+	} else {
+		is = m_Steps.begin ();
+		cur = step;
+		while (cur > 1)  {
+			cur--;
+			is++;
+		}
+		ars = *is;
+		if (line == 0)
+			line = ars->m_nLines + 1;
+	}
+	prop->SetStep (step);
+	if (line > ars->m_nLines) {
+		line = ++ars->m_nLines;
+		arl = new ReactionArrowLine ();
+		ars->m_Lines.push_back (arl);
+		rank = 1;
+	} else {
+		il = ars->m_Lines.begin ();
+		cur = line;
+		while (cur > 1)  {
+			cur--;
+			il++;
+		}
+		arl = *il;
+		if (rank == 0)
+			rank = arl->m_nProps + 1;
+	}
+	prop->SetLine (line);
+	prop->SetRank (rank);
+	ObjPos pos = {prop, 0., 0., 0., 0., 0.};
+	if (rank > arl->m_nProps)
+		arl->m_Props.push_back (pos);
+	else {
+		cur = rank;
+		ir = arl->m_Props.begin ();
+		while (cur > 1) {
+			cur--;
+			ir++;
+		}
+		ir = arl->m_Props.insert (ir, pos);
+		irend = arl->m_Props.end ();
+		ir++;
+		while (ir != irend)
+			(*ir++).obj->SetRank (++rank);
+	}
+	arl->m_nProps++;
+	PositionChildren ();
+	op->AddObject (obj, 1);
+	doc->FinishOperation ();
+	// update children properties dialogs if any
+	std::map < std::string, gcu::Object * >::iterator i;
+	obj = GetFirstChild (i);
+	while (obj) {
+		if (obj->GetType () == ReactionPropType) {
+			gcu::Dialog *dialog = static_cast < ReactionProp * > (obj)->GetDialog ("reaction-prop");
+			if (dialog)
+				static_cast < ReactionPropDlg * > (dialog)->Update ();
+		}
+		obj = GetNextChild (i);
+	}
 }
 
 }	//	namespace gcp
