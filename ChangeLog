@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2013-11-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: add steps numbering.
+
 2013-11-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: implement position changes for objects
 	attached to an arrow.

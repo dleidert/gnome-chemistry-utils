@@ -582,7 +582,11 @@ void ReactionArrow::PositionChildren ()
 			separators.insert (static_cast < ReactionSeparator * > (obj));
 		else if (obj->GetType () == StepCounterType) {
 			counter = static_cast < StepCounter * > (obj);
-			counters[counter->GetStep ()] = counter;
+			cur = counter->GetStep () - 1;
+			if (max_step > 1 && cur < max_step)
+				counters[cur] = counter;
+			else
+				delete counter;
 		} else if (obj->GetType () == ReactionPropType) {
 			if (!needs_sep && static_cast < ReactionProp * > (obj)->GetRank () > 1)
 				needs_sep = true;
@@ -609,25 +613,29 @@ void ReactionArrow::PositionChildren ()
 		sep_descent = rect.y1 / scale - y;
 	}
 	// evaluate step counters size, and create them if needed
-//	for (s = 0; s < max_step; s++) {
-//		if (counters[s] == NULL) {
-//			counters[s] = new StepCounter (s + 1, m_NumberingScheme);
-//			AddChild (counters[s]);
-//			doc->GetView ()->AddObject (counters[s]);
-//		}
-//		data->GetObjectBounds (counters[s], &rect);
-//		y = (rect.x1 - rect.x0) / scale;
-//		if (y > counter_width)
-//			counter_width = y;
-//		rect.y0 /= scale;
-//		rect.y1 /= scale;
-//		y = counters[s]->GetYAlign ();
-//		if (y -rect.y0 > counter_ascent)
-//			counter_ascent = y - rect.y0;
-//		if (rect.y1 -y > counter_descent)
-//			counter_descent = rect.y1 - y;
-//	}
-	
+	if (max_step > 1) {
+		for (cur = 0; cur < max_step; cur++) {
+			if (counters[cur] == NULL) {
+				counters[cur] = new StepCounter (cur + 1, m_NumberingScheme);
+				AddChild (counters[cur]);
+				doc->GetView ()->AddObject (counters[cur]);
+			} else
+				counters[cur]->SetScheme (m_NumberingScheme);
+			data->GetObjectBounds (counters[cur], &rect);
+			y = (rect.x1 - rect.x0) / scale;
+			if (y > counter_width)
+				counter_width = y;
+			rect.y0 /= scale;
+			rect.y1 /= scale;
+			y = counters[cur]->GetYAlign ();
+			if (y -rect.y0 > counter_ascent)
+				counter_ascent = y - rect.y0;
+			if (rect.y1 -y > counter_descent)
+				counter_descent = rect.y1 - y;
+		}
+	}
+
+	cur = 0;
 	for (is = m_Steps.begin (); is != isend; is++) {
 		step = *is;
 		ilend = step->m_Lines.end ();
@@ -680,6 +688,8 @@ void ReactionArrow::PositionChildren ()
 			cur++;
 		}
 	}
+	uwidth += counter_width;
+	lwidth += counter_width;
 	// evaluate needed arrow size
 	if (cur > m_MaxLinesAbove) {
 		uheight += (m_MaxLinesAbove - 1) * padding;
@@ -720,6 +730,7 @@ void ReactionArrow::PositionChildren ()
 	ymin = m_y + length * y - x * yspan - uyspan / 2.;
 	width = uxspan;
 	cur_line = 0;
+	cur = 0;
 	for (is = m_Steps.begin (); is != isend; is++) {
 		step = *is;
 		ilend = step->m_Lines.end ();
@@ -731,10 +742,14 @@ void ReactionArrow::PositionChildren ()
 				width = lxspan;
 			}
 			line = (*il);
-			xc = xmin;
+			xc = xmin + counter_width;
+			yc = ymin + line->ascent;
 			if (max_step == 1) // center the lines instead of left align
 				xc += (width - line->width) / 2.;
-			yc = ymin + line->ascent;
+			else if (il == step->m_Lines.begin ()) {
+				// move the counter to its position
+				counters[cur++]->SetCoords (xmin, yc);
+			}
 			ipend = line->m_Props.end ();
 			p = 0;
 			for (ip = line->m_Props.begin (); ip != ipend; ip++) {
