@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2013-11-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: fix loading with attached objects.
+
 2013-11-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: add steps numbering.
 

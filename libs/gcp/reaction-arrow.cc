@@ -784,6 +784,8 @@ void ReactionArrow::PositionChildren ()
 
 void ReactionArrow::OnLoaded ()
 {
+	if (m_nSteps > 0)
+		return; // or should we delete the steps?
 	unsigned s, l, p;
 	std::map < std::string, gcu::Object * >::iterator i;
 	gcu::Object *obj = GetFirstChild (i);
@@ -804,8 +806,11 @@ void ReactionArrow::OnLoaded ()
 			s = prop->GetStep ();
 			l = prop->GetLine ();
 			p = prop->GetRank ();
-			if (s * l * p == 0) 
+			if (s * l * p == 0) {
 				garbage.insert (obj);
+				obj = GetNextChild (i);
+				continue;
+			}
 			while (s > m_nSteps) {
 				step = new ReactionArrowStep ();
 				m_Steps.push_back (step);
@@ -911,6 +916,7 @@ void ReactionArrow::OnLoaded ()
 	// remove garbage
 	std::set < gcu::Object * >::iterator j, jend = garbage.end ();
 	for (j = garbage.begin (); j != jend; j++) {
+printf("deleting object %p\n",*j);
 		if ((*j)->GetType () == ReactionPropType)
 			static_cast < ReactionProp * > (*j)->GetObject ()->SetParent (doc);
 		else
