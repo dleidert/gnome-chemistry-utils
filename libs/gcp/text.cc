@@ -550,6 +550,7 @@ bool Text::Load (xmlNodePtr node)
 {
 	if (!TextObject::Load (node))
 		return false;
+	Document *doc = static_cast <Document*> (GetDocument ());
 	xmlChar *buf = xmlGetProp (node, (xmlChar const *) "justification");
 	if (buf) {
 		if (!strcmp ((char const *) buf, "justify"))
@@ -608,7 +609,8 @@ bool Text::Load (xmlNodePtr node)
 		text->SetInterline (m_Interline);
 	}
 	m_bLoading = false;
-	GetDocument ()->ObjectLoaded (this);
+	doc->ObjectLoaded (this);
+	doc->GetView ()->AddObject (this);
 	return true;
 }
 
@@ -927,7 +929,7 @@ void Text::AddItem ()
 void Text::UpdateItem ()
 {
 	if (!m_Item)
-		return;
+		AddItem ();
 	Document *doc = static_cast <Document*> (GetDocument ());
 	Theme *theme = doc->GetTheme ();
 	reinterpret_cast <gccv::Text *> (m_Item)->SetPosition (m_x * theme->GetZoomFactor (), m_y * theme->GetZoomFactor ());

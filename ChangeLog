@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2013-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/text.cc: ensure the item is created on loading.
+
 2013-11-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: fix loading with attached objects.
 
