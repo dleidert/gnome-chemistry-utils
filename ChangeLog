@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2013-11-12  Jean Bréfort  <jean@naoned>
+	* libs/gcp/reaction-arrow.cc: new RemoveProp() method.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-prop.cc: call parent's RemoveProp() method before
+	destruction to avoid a crash.
+
 2013-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/text.cc: ensure the item is created on loading.
 

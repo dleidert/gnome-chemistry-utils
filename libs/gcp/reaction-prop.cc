@@ -148,8 +148,10 @@ bool ReactionProp::Load (xmlNodePtr node)
 
 bool ReactionProp::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
-	if (Signal == OnChangedSignal && !HasChildren ())
+	if (Signal == OnChangedSignal && !HasChildren ()) {
+		static_cast < ReactionArrow *> (GetParent ())->RemoveProp (this);
 		delete this;
+	}
 	return true;
 }
 

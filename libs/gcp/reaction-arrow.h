@@ -164,6 +164,7 @@ Caches children positions.
 	unsigned GetLastLine (unsigned step) const;
 	unsigned GetLastPos (unsigned step, unsigned line) const;
 	void SetChildPos (ReactionProp *prop, unsigned step, unsigned line, unsigned rank);
+	void RemoveProp (ReactionProp *prop);
 
 private:
 	unsigned m_Type;

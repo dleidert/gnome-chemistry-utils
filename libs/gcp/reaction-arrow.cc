@@ -1073,7 +1073,7 @@ void ReactionArrow::SetChildPos (ReactionProp *prop, unsigned step, unsigned lin
 		ir = arl->m_Props.erase (ir);
 		irend = arl->m_Props.end ();
 		while (ir != irend) {
-			(*ir).obj->SetRank (s++);
+			(*ir).obj->SetRank (r++);
 			ir++;
 		}
 	}
@@ -1148,6 +1148,72 @@ void ReactionArrow::SetChildPos (ReactionProp *prop, unsigned step, unsigned lin
 				static_cast < ReactionPropDlg * > (dialog)->Update ();
 		}
 		obj = GetNextChild (i);
+	}
+}
+
+void ReactionArrow::RemoveProp (ReactionProp *prop)
+{
+	unsigned s, l, r, cur;
+	s = prop->GetStep ();
+	l = prop->GetLine ();
+	r = prop->GetRank ();
+	std::list < ReactionArrowStep * >::iterator is = m_Steps.begin (), isend; // origin step
+	cur = s;
+	while (cur > 1)  {
+		cur--;
+		is++;
+	}
+	std::list < ReactionArrowLine * >::iterator il = (*is)->m_Lines.begin (), ilend; // origin step
+	cur = l;
+	while (cur > 1)  {
+		cur--;
+		il++;
+	}
+	std::list < ObjPos >::iterator ir = (*il)->m_Props.begin (), irend; // origin step
+	cur = r;
+	while (cur > 1)  {
+		cur--;
+		ir++;
+	}
+	ReactionArrowStep *ars = *is;
+	ReactionArrowLine *arl = *il;
+	// remove object from its current position
+	arl->m_nProps--;
+	if (arl->m_nProps == 0) {
+		ars->m_nLines--;
+		delete *il;
+		if (ars->m_nLines == 0) {
+			m_nSteps--;
+			delete *is;
+			is = m_Steps.erase (is);
+			isend = m_Steps.end ();
+			while (is != isend) {
+				ilend = (*is)->m_Lines.end ();
+				for (il = (*is)->m_Lines.begin (); il != ilend; il++) {
+					irend = (*il)->m_Props.end ();
+					for (ir = (*il)->m_Props.begin (); ir != irend; ir++)
+						(*ir).obj->SetStep (s);
+				}
+				s++;
+			}
+		} else {
+			il = ars->m_Lines.erase (il);
+			ilend = ars->m_Lines.end ();
+			while (il != ilend) {
+				irend = (*il)->m_Props.end ();
+				for (ir = (*il)->m_Props.begin (); ir != irend; ir++)
+					(*ir).obj->SetLine (l);
+				l++;
+			}
+			
+		}
+	} else {
+		ir = arl->m_Props.erase (ir);
+		irend = arl->m_Props.end ();
+		while (ir != irend) {
+			(*ir).obj->SetRank (r++);
+			ir++;
+		}
 	}
 }
 
