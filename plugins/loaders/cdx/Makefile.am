@@ -4,7 +4,7 @@ CLEANFILES = $(gcu_loader_cdx_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = \
+AM_CPPFLAGS = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(openbabel_CFLAGS) \

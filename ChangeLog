@@ -1,5 +1,43 @@
 ##Text encoding: utf-8
 
+2013-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/Makefile.am: replaced deprecated INCLUDES directives.
+	* docs/help/calc/Makefile.am: ditto.
+	* docs/help/crystal/Makefile.am: ditto.
+	* docs/help/spectra/Makefile.am: ditto.
+	* docs/help/table/Makefile.am: ditto.
+	* gnumeric/Makefile.am: ditto.
+	* goffice/Makefile.am: ditto.
+	* libs/gccv/Makefile.am: ditto.
+	* libs/gcp/Makefile.am: ditto.
+	* libs/gcr/Makefile.am: ditto.
+	* libs/gcu/Makefile.am: ditto.
+	* libs/gcugtk/Makefile.am: ditto.
+	* mozilla-plugin/Makefile.am: ditto (and fixed build).
+	* openbabel/Makefile.am: ditto.
+	* plugins/loaders/cdx/Makefile.am: ditto.
+	* plugins/loaders/cdxml/Makefile.am: ditto.
+	* plugins/loaders/cif/Makefile.am: ditto.
+	* plugins/loaders/cml/Makefile.am: ditto.
+	* plugins/loaders/ctfiles/Makefile.am: ditto.
+	* plugins/loaders/nuts/Makefile.am: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/atoms/Makefile.am: ditto.
+	* plugins/paint/bonds/Makefile.am: ditto.
+	* plugins/paint/cycles/Makefile.am: ditto.
+	* plugins/paint/residues/Makefile.am: ditto.
+	* plugins/paint/selection/Makefile.am: ditto.
+	* plugins/paint/templates/Makefile.am: ditto.
+	* plugins/paint/text/Makefile.am: ditto.
+	* plugins/paint/wikipedia/Makefile.am: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/calc/Makefile.am: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/paint/Makefile.am: ditto.
+	* programs/spectra/Makefile.am: ditto.
+	* programs/table/Makefile.am: ditto.
+	* tests/Makefile.am: ditto.
+
 2013-11-12  Jean Bréfort  <jean@naoned>
 	* libs/gcp/reaction-arrow.cc: new RemoveProp() method.
 	* libs/gcp/reaction-arrow.h: ditto.

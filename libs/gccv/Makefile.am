@@ -57,7 +57,7 @@ libgccv_@GCU_API_VER@_la_LIBADD = \
 		$(cairo_LIBS) \
 		$(gtk_LIBS) \
 		$(goffice_LIBS)
-INCLUDES = \
+AM_CPPFLAGS = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)

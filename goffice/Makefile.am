@@ -9,7 +9,7 @@ DEFS += -DDATADIR=\"$(datadir)\"
 goffice_gchemutilsdir = $(GOFFICE_PLUGINS_DIR)/gchemutils
 goffice_gchemutils_LTLIBRARIES = gchemutils.la
 
-INCLUDES = \
+AM_CPPFLAGS = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)

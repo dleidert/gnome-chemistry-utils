@@ -7,6 +7,6 @@ dist-hook: doc-dist-hook
 
 DOC_MODULE = gchemtable-@GCU_API_VER@
 DOC_ENTITIES = legal.xml
-DOC_INCLUDES = 
+DOC_AM_CPPFLAGS = 
 
 DOC_LINGUAS =

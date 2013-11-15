@@ -6,7 +6,7 @@ MAINTAINERCLEANFILES = Makefile.in
 
 if WITH_GNUMERIC
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I$(top_srcdir)	-I$(top_srcdir)/libs	\
 	$(gnumeric_CFLAGS) \
 	$(GCU_CFLAGS)
