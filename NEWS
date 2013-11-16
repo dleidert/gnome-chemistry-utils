@@ -5,7 +5,7 @@ Version 0.15.0
 		* Fix reactant deletion inside a reaction.
 		* Don't crash when a mesomery inside a reaction is destroyed.
 		* Check molecule consistency when loading, avoids a stack overflow.
-		* Enhanced representaion of chiral molecules imported from CML and other
+		* Enhanced representation of chiral molecules imported from CML and other
 		formats.
 		* Fix crash when deleting a cyclic bond.
 		* Really close the window on delete event.
