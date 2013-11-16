@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2013-11-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: add missing files.
+
 2012-10-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* eu.po: typos.
 
