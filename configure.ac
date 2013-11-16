@@ -163,7 +163,7 @@ AC_DEFINE_UNQUOTED([BODR_PKGDATADIR], ["$bodr_pkgdatadir"], [Path to Blue Obelis
 if test "x$gcu_is_stable" = "xyes"; then
 	GCU_CFLAGS="-Wall -Wextra -Werror=format-security"
 else
-	GCU_CFLAGS="-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE -Wall -Wextra -Werror=format-security"
+	GCU_CFLAGS="-DG_DISABLE_DEPRECATED -Wall -Wextra -Werror=format-security"
 fi
 AC_SUBST([GCU_CFLAGS])
 

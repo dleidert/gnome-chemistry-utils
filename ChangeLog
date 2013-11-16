@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2013-11-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: remove -DGTK_DISABLE_DEPRECATED from flags.
+
 2013-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/3d/Makefile.am: replaced deprecated INCLUDES directives.
 	* docs/help/calc/Makefile.am: ditto.
@@ -38,7 +41,7 @@
 	* programs/table/Makefile.am: ditto.
 	* tests/Makefile.am: ditto.
 
-2013-11-12  Jean Bréfort  <jean@naoned>
+2013-11-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: new RemoveProp() method.
 	* libs/gcp/reaction-arrow.h: ditto.
 	* libs/gcp/reaction-prop.cc: call parent's RemoveProp() method before
