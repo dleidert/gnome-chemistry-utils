@@ -11,6 +11,7 @@ Version 0.15.0
 		* Really close the window on delete event.
 		* Don't crash when aligning ungrouped objects.
 		* Do not use a NULL atom properties. [#40194]
+		* Allow attaching several objects to a reaction arrow.
 	GCrystal:
 		* Fix row selection operations order in grids.
 	GChemTable:
