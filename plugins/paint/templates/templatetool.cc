@@ -72,7 +72,7 @@ gcpTemplateTool::~gcpTemplateTool ()
 bool gcpTemplateTool::OnClicked ()
 {
 	gcp::Document* pDoc = m_pView->GetDoc ();
-	gcpNewTemplateToolDlg *dlg = (gcpNewTemplateToolDlg*) m_pApp->GetDialog ("new_template");
+	gcpNewTemplateToolDlg *dlg = (gcpNewTemplateToolDlg*) m_pApp->GetDialog ("new-template");
 	if (dlg) {
 		m_pObject = m_pObject->GetMolecule ();
 		if (m_pObject) {
