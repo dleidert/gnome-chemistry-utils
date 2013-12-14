@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2013-12-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: version bump (0.14.5).
+
+2013-12-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/templates/templatetool.cc: make adding template work again.
 
 2013-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
