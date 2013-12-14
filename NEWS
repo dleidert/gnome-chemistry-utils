@@ -1,3 +1,7 @@
+Version 0.15.1
+	GChemPaint:
+		* Make adding template work again.
+
 Version 0.15.0
 	GChemPaint:
 		* Do not allow a mesomery destruction when inside a reaction.
