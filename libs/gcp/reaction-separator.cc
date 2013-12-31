@@ -45,6 +45,14 @@ ReactionSeparator::ReactionSeparator ():
 	Object (ReactionSeparatorType),
 	gccv::ItemClient ()
 {
+	m_Text = ", ";
+}
+
+ReactionSeparator::ReactionSeparator (char const *text, gcu::TypeId type):
+	Object (type),
+	gccv::ItemClient ()
+{
+	m_Text = text;
 }
 
 ReactionSeparator::~ReactionSeparator ()
@@ -68,7 +76,7 @@ void ReactionSeparator::AddItem ()
 	text->SetLineColor (0);
 	text->SetLineWidth (0.);
 	text->SetFontDescription (view->GetPangoFontDesc ()); // may be use the text font instead
-	text->SetText (", ");
+	text->SetText (m_Text);
 	text->SetLineOffset (view->GetCHeight ());
 	m_Item = text;
 }

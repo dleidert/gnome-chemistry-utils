@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "application.h"
+#include "document.h"
 #include "reaction-prop-dlg.h"
 #include "reaction-arrow.h"
 #include "reaction-prop.h"
@@ -61,7 +62,12 @@ void ReactionPropDlgPrivate::OnPosChanged (GtkSpinButton *btn, ReactionPropDlg *
 
 static void on_role_changed (GtkComboBox *box, ReactionProp *prop)
 {
-	prop->SetRole (gtk_combo_box_get_active (box));
+	unsigned old_role = prop->GetRole (), new_role = gtk_combo_box_get_active (box);
+	if (old_role == new_role)
+		return;
+	prop->SetRole (new_role);
+	if (old_role == REACTION_PROP_PRODUCT || new_role == REACTION_PROP_PRODUCT)
+		prop->EmitSignal (OnChangedSignal);
 }
 
 ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):

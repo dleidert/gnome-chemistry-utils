@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2013-12-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: add a minus sign before reaction products attached
+	to an arrow.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcp/reaction-arrow.cc: ditto.
+	* libs/gcp/reaction-prop-dlg.cc: ditto.
+	* libs/gcp/reaction-separator.cc: ditto.
+	* libs/gcp/reaction-separator.h: ditto.
+	* libs/gcp/reaction-substractor.cc: ditto.
+	* libs/gcp/reaction-substractor.h: ditto.
+
 2013-12-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: version bump (0.15.1).
 	* plugins/paint/templates/templatetool.cc: make adding template work again.

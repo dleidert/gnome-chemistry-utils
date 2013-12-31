@@ -44,6 +44,7 @@ libgcp_@GCU_API_VER@_la_SOURCES = \
 		reaction-prop.cc \
 		reaction-prop-dlg.cc \
 		reaction-separator.cc \
+		reaction-substractor.cc \
 		mesomery.cc \
 		mesomer.cc \
 		mesomery-arrow.cc \
@@ -93,6 +94,7 @@ noinst_HEADERS = \
 		reaction-prop.h \
 		reaction-prop-dlg.h \
 		reaction-separator.h \
+		reaction-substractor.h \
 		mesomery.h \
 		mesomer.h \
 		mesomery-arrow.h \

@@ -33,7 +33,7 @@ namespace gcp {
 
 extern gcu::TypeId ReactionSeparatorType;
 
-/*!\class ReactionOperator gcp/reaction-separator.h
+/*!\class ReactionSeparator gcp/reaction-separator.h
 \brief Class for ", " strings used to separate objects attached to an arrow.
 
 Objects of this class are added when useful by the framework. There is no need
@@ -46,6 +46,13 @@ public:
 The constructor. Adds a ", " string to separate objects attached to an arrow.
 */
 	ReactionSeparator ();
+/*!
+@param text the text used for the separator.
+@param type the separator TypeId.
+
+Construcotr for derived classes.
+*/
+	ReactionSeparator (char const *text, gcu::TypeId type);
 /*!
 The destructor.
 */
@@ -101,6 +108,7 @@ Used to retrieve the y coordinate for alignment.
 
 private:
 	double m_x, m_y;
+	std::string m_Text;
 };
 
 }	//	namespace gcp

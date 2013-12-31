@@ -29,6 +29,7 @@
 #include "reaction-prop.h"
 #include "reaction-prop-dlg.h"
 #include "reaction-separator.h"
+#include "reaction-substractor.h"
 #include "step-counter.h"
 #include "document.h"
 #include "settings.h"
@@ -475,81 +476,12 @@ void ReactionArrow::AddProp (Object *object)
 	EmitSignal (OnChangedSignal);
 	new ReactionPropDlg (this, prop);
 }
-/*
-void ReactionArrow::PositionChild (ReactionProp *prop)
-{
-	// FIXME: this is experimental code
-	Document *Doc = dynamic_cast<Document*> (GetDocument ());
-	Theme *pTheme = Doc->GetTheme ();
-	double xmin, xspan, ymin, yspan,
-		length = sqrt (m_width * m_width + m_height * m_height),
-		x = m_width / length, y = m_height / length;
-	gccv::Rect rect;
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
-	pData->GetObjectBounds (prop, &rect);
-	if (m_width >=0) {
-		if (m_height >=0) {
-			xmin = (rect.x0 * x + rect.y0 * y) / pTheme->GetZoomFactor ();
-			xspan = (rect.x1 * x + rect.y1 * y) / pTheme->GetZoomFactor () - xmin;
-			ymin = (rect.x0 * y - rect.y1 * x) / pTheme->GetZoomFactor ();
-			yspan = (rect.x1 * y - rect.y0 * x) / pTheme->GetZoomFactor () - ymin;
-		} else {
-			xmin = (rect.x0 * x + rect.y1 * y) / pTheme->GetZoomFactor ();
-			xspan = (rect.x1 * x + rect.y0 * y) / pTheme->GetZoomFactor () - xmin;
-			ymin = (rect.x0 * y - rect.y0 * x) / pTheme->GetZoomFactor ();
-			yspan = (rect.x1 * y - rect.y1 * x) / pTheme->GetZoomFactor () - ymin;
-		}
-	} else {
-		if (m_height >=0) {
-			xmin = (rect.x1 * x + rect.y0 * y) / pTheme->GetZoomFactor ();
-			xspan = (rect.x0 * x + rect.y1 * y) / pTheme->GetZoomFactor () - xmin;
-			ymin = (rect.x1 * y - rect.y1 * x) / pTheme->GetZoomFactor ();
-			yspan = (rect.x0 * y - rect.y0 * x) / pTheme->GetZoomFactor () - ymin;
-		} else {
-			xmin = (rect.x1 * x + rect.y1 * y) / pTheme->GetZoomFactor ();
-			xspan = (rect.x0 * x + rect.y0 * y) / pTheme->GetZoomFactor () - xmin;
-			ymin = (rect.x1 * y - rect.y0 * x) / pTheme->GetZoomFactor ();
-			yspan = (rect.x0 * y - rect.y1 * x) / pTheme->GetZoomFactor () - ymin;
-		}
-	}
-	xspan = fabs (xspan);
-	yspan = fabs (yspan);
-	// xmin and ymin will now be the current center of the object
-	xspan += (2* pTheme->GetArrowObjectPadding () + pTheme->GetArrowHeadA ()) / pTheme->GetZoomFactor ();
-	// adjust the arrow length if needed
-	if (xspan > length) {
-		m_width *= xspan / length;
-		m_height *= xspan / length;
-		length = xspan;
-	}
-	// now move the child to the right place
-	length -= pTheme->GetArrowHeadA () / pTheme->GetZoomFactor ();
-	length /= 2.;
-	// FIXME: using GetArrowDist is a non-sense, we should have a new variable.
-	yspan = yspan / 2. + pTheme->GetArrowDist () / pTheme->GetZoomFactor ();
-	// calculate the vector of the needed move
-	xmin = m_x + length * x + y * yspan - (rect.x0 + rect.x1) / 2. / pTheme->GetZoomFactor ();
-	ymin = m_y + length * y - x * yspan - (rect.y0 + rect.y1) / 2. / pTheme->GetZoomFactor ();
-	prop->Move (xmin, ymin);
-	Doc->GetView ()->Update (this);
-}*/
-/*
-typedef struct {
-	ObjPos *objs;
-	double *ascents;
-	unsigned max;
-	double width, height, ascent, descent;
-} Line;
-
-typedef struct {
-	Line *lines;
-	unsigned max;
-} ArrowStep;*/
 
 void ReactionArrow::PositionChildren ()
 {
 	std::vector < StepCounter * > counters;
 	std::set < ReactionSeparator * > separators;
+	std::set < ReactionSubstractor * > substractors;
 	std::set < gcu::Object * > garbage;
 	std::map < std::string, gcu::Object * >::iterator i;
 	gcu::Object *obj = GetFirstChild (i);
@@ -558,11 +490,12 @@ void ReactionArrow::PositionChildren ()
 	Theme const *theme = doc->GetTheme ();
 	WidgetData* data = reinterpret_cast < WidgetData * > ( g_object_get_data (G_OBJECT (doc->GetWidget ()), "data"));
 	gccv::Rect rect;
-	double y, ascent, descent, sep_width = 0., sep_ascent = 0., sep_descent = 0.,
+	double y, ascent, descent, sep_width = 0., sep_ascent = 0., sep_descent = 0., subst_width = 0.,
 		   counter_width = 0., counter_ascent = 0., counter_descent = 0.,
 		   uwidth = 0., uheight = 0., lwidth = 0., lheight = 0.;
-	bool needs_sep = false;
+	bool needs_sep = false, needs_subst = false;
 	ReactionSeparator *sep;
+	ReactionSubstractor *subst;
 	double scale = theme->GetZoomFactor (), padding = theme->GetPadding ();
 	StepCounter *counter;
 	double lxspan, lyspan, uxspan, uyspan, x, length, xspan, yspan, xmin, ymin, width, xc, yc;
@@ -580,6 +513,8 @@ void ReactionArrow::PositionChildren ()
 	while (obj) {
 		if (obj->GetType () == ReactionSeparatorType)
 			separators.insert (static_cast < ReactionSeparator * > (obj));
+		if (obj->GetType () == ReactionSubstractorType)
+			substractors.insert (static_cast < ReactionSubstractor * > (obj));
 		else if (obj->GetType () == StepCounterType) {
 			counter = static_cast < StepCounter * > (obj);
 			cur = counter->GetStep () - 1;
@@ -590,6 +525,8 @@ void ReactionArrow::PositionChildren ()
 		} else if (obj->GetType () == ReactionPropType) {
 			if (!needs_sep && static_cast < ReactionProp * > (obj)->GetRank () > 1)
 				needs_sep = true;
+			if (!needs_subst && static_cast < ReactionProp * > (obj)->GetRole () == REACTION_PROP_PRODUCT)
+				needs_subst = true;
 		}
 		else
 			garbage.insert (obj);
@@ -611,6 +548,17 @@ void ReactionArrow::PositionChildren ()
 		y = sep->GetYAlign ();
 		sep_ascent = y - rect.y0 / scale;
 		sep_descent = rect.y1 / scale - y;
+	}
+	if (needs_subst) {
+		if (substractors.empty ()) {
+			subst = new ReactionSubstractor ();
+			substractors.insert (subst);
+			AddChild (subst);
+			doc->GetView ()->AddObject (subst);
+		} else
+			subst = *substractors.begin ();
+		data->GetObjectBounds (subst, &rect);
+		subst_width = (rect.x1 - rect.x0) / scale;
 	}
 	// evaluate step counters size, and create them if needed
 	if (max_step > 1) {
@@ -659,6 +607,8 @@ void ReactionArrow::PositionChildren ()
 					line->ascent = ascent;
 				if (line->descent < descent)
 					line->descent = descent;
+				if (static_cast < ReactionProp * > (obj)->GetRole () == REACTION_PROP_PRODUCT)
+					line->width += subst_width;
 			}
 			if (line->m_Props.size () > 1) {
 				line->width += sep_width * (line->m_Props.size () - 1);
@@ -757,7 +707,6 @@ void ReactionArrow::PositionChildren ()
 					// insert a separator
 					if (separators.empty ()) {
 						sep = new ReactionSeparator ();
-						separators.insert (sep);
 						AddChild (sep);
 						doc->GetView ()->AddObject (sep);
 					} else {
@@ -766,6 +715,20 @@ void ReactionArrow::PositionChildren ()
 					}
 					sep->SetCoords (xc, yc);
 					xc += sep_width;
+				}
+				if (static_cast < ReactionProp * > (obj)->GetRole () == REACTION_PROP_PRODUCT) {
+					// insert a separator
+					if (substractors.empty ()) {
+						subst = new ReactionSubstractor ();
+						substractors.insert (subst);
+						AddChild (subst);
+						doc->GetView ()->AddObject (subst);
+					} else {
+						subst = *substractors.begin ();
+						substractors.erase (subst);
+					}
+					subst->SetCoords (xc, yc);
+					xc += subst_width;
 				}
 				(*ip).obj->Move (xc - (*ip).x, yc - (*ip).y);
 				xc += (*ip).width;
@@ -916,7 +879,6 @@ void ReactionArrow::OnLoaded ()
 	// remove garbage
 	std::set < gcu::Object * >::iterator j, jend = garbage.end ();
 	for (j = garbage.begin (); j != jend; j++) {
-printf("deleting object %p\n",*j);
 		if ((*j)->GetType () == ReactionPropType)
 			static_cast < ReactionProp * > (*j)->GetObject ()->SetParent (doc);
 		else
