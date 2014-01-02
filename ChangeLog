@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2014-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: fix contextual menu to always display the
+	"destroy reaction" item.
+
 2013-12-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: add a minus sign before reaction products attached
 	to an arrow.

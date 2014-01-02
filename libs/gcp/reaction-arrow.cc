@@ -412,7 +412,7 @@ bool ReactionArrow::BuildContextualMenu (gcu::UIManager *UIManager, Object *obje
 		g_object_unref (group);
 		result = true;
 	}
-	return result || Object::BuildContextualMenu (UIManager, object, x, y);
+	return Object::BuildContextualMenu (UIManager, object, x, y) || result;
 }
 
 void ReactionArrow::Move (double x, double y, double z)
