@@ -1,3 +1,7 @@
+Version 0.14.6
+	Goffice component:
+		* Don't crash when editing after saving a GChemPaint object.
+
 Version 0.14.5
 	GChemPaint:
 		* Make adding template work again.
