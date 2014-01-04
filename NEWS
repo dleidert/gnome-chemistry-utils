@@ -1,6 +1,10 @@
 Version 0.15.1
 	GChemPaint:
 		* Make adding template work again.
+		* Add a minus sign before reaction products attached to a reaction
+		arrow.
+	Goffice component:
+		* Don't crash when editing after saving a GChemPaint object.
 
 Version 0.15.0
 	GChemPaint:

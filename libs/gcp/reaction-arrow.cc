@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-arrow.cc
  *
- * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -82,6 +82,46 @@ ReactionArrowStep::ReactionArrowStep ():
 
 ReactionArrowStep::~ReactionArrowStep ()
 {
+}
+
+class ReactionArrowPrivate {
+public:
+	static void DoInvert (ReactionArrow *arrow);
+	static void DoSwapHeads (ReactionArrow *arrow);
+};
+
+void ReactionArrowPrivate::DoInvert (ReactionArrow *arrow)
+{
+	Document *doc = dynamic_cast<Document*> (arrow->GetDocument ());
+	Operation *op = doc->GetNewOperation (GCP_MODIFY_OPERATION);
+	Object *group = arrow->GetGroup ();
+	if (group == NULL)
+		group = arrow;
+	op->AddObject (group, 0);
+	Step *buf = arrow->GetStartStep ();
+	arrow->SetStartStep (arrow->GetEndStep ());
+	arrow->SetEndStep (buf);
+	arrow->m_x += arrow->m_width;
+	arrow->m_width = -arrow->m_width;
+	arrow->m_y += arrow->m_height;
+	arrow->m_height = -arrow->m_height;
+	op->AddObject (group, 1);
+	doc->FinishOperation ();
+	doc->GetView ()->Update (arrow);
+}
+
+void ReactionArrowPrivate::DoSwapHeads (ReactionArrow *arrow)
+{
+	Document *doc = dynamic_cast<Document*> (arrow->GetDocument ());
+	Operation *op = doc->GetNewOperation (GCP_MODIFY_OPERATION);
+	Object *group = arrow->GetGroup ();
+	if (group == NULL)
+		group = arrow;
+	op->AddObject (group, 0);
+	arrow->m_Type = (arrow->m_Type == ReversibleArrow)? FullReversibleArrow: ReversibleArrow;
+	op->AddObject (group, 1);
+	doc->FinishOperation ();
+	doc->GetView ()->Update (arrow);
 }
 
 ReactionArrow::ReactionArrow (Reaction* react, unsigned Type): Arrow (ReactionArrowType)
@@ -372,47 +412,51 @@ bool ReactionArrow::BuildContextualMenu (gcu::UIManager *UIManager, Object *obje
 	Document *Doc = dynamic_cast<Document*> (GetDocument ());
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
 	// If there are several lines of objects attached to the arrow, add a property dialog
-	bool result = false;
 	GtkActionGroup *group = NULL;
-	GtkAction *action;
+	group = gtk_action_group_new ("reaction-arrow");
+	GtkAction *action = gtk_action_new ("Arrow", _("Arrow"), NULL, NULL);
+	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
 	if (GetChildrenNumber () > 0) {
-		group = gtk_action_group_new ("reaction-arrow");
-		GtkAction *action = gtk_action_new ("Arrow", _("Arrow"), NULL, NULL);
-		gtk_action_group_add_action (group, action);
-		g_object_unref (action);
 		action = gtk_action_new ("props", _("Properties..."), _("Arrow properties"), NULL);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_props), this);
 		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Arrow'><menuitem action='props'/></menu></popup></ui>", -1, NULL);
 		gtk_ui_manager_insert_action_group (uim, group, 0);
-		result = true;
 	}
 	if (pData->SelectedObjects.size () == 1) {
 		Object *obj = *pData->SelectedObjects.begin ();
 		TypeId Id = obj->GetType ();
-		if ((Id != MoleculeType && Id != TextType) || obj->GetGroup ())
-			return Object::BuildContextualMenu (UIManager, object, x, y);
-		if (group == NULL) {
-			group = gtk_action_group_new ("reaction-arrow");
-			action = gtk_action_new ("Arrow", _("Arrow"), NULL, NULL);
+		if ((Id == MoleculeType || Id == TextType) && obj->GetGroup () == NULL) {
+			struct CallbackData *data = new struct CallbackData ();
+			data->arrow = this;
+			data->child = obj;
+			action = gtk_action_new ("attach", _("Attach selection to arrow..."), NULL, NULL);
+			g_object_set_data_full (G_OBJECT (action), "data", data, (GDestroyNotify) do_free_data);
+			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_attach_object), data);
 			gtk_action_group_add_action (group, action);
 			g_object_unref (action);
+			gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Arrow'><menuitem action='attach'/></menu></popup></ui>", -1, NULL);
 		}
-		struct CallbackData *data = new struct CallbackData ();
-		data->arrow = this;
-		data->child = obj;
-		action = gtk_action_new ("attach", _("Attach selection to arrow..."), NULL, NULL);
-		g_object_set_data_full (G_OBJECT (action), "data", data, (GDestroyNotify) do_free_data);
-		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_attach_object), data);
+	}
+	action = gtk_action_new ("invert", _("Invert"), _("Invert arrow"), NULL); 
+	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
+	g_signal_connect_swapped (action, "activate", G_CALLBACK (ReactionArrowPrivate::DoInvert), this);
+	gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Arrow'><menuitem action='invert'/></menu></popup></ui>", -1, NULL);
+	if (m_Type != SimpleArrow) {
+		action = gtk_action_new ("swap-heads", ((m_Type == ReversibleArrow)? _("Full heads"): _("Half heads")), _("Swap arrow head style between half and full"), NULL); 
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
-		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Arrow'><menuitem action='attach'/></menu></popup></ui>", -1, NULL);
-		gtk_ui_manager_insert_action_group (uim, group, 0);
-		g_object_unref (group);
-		result = true;
+		g_signal_connect_swapped (action, "activate", G_CALLBACK (ReactionArrowPrivate::DoSwapHeads), this);
+		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Arrow'><menuitem action='invert'/><menuitem action='swap-heads'/></menu></popup></ui>", -1, NULL);
 	}
-	return Object::BuildContextualMenu (UIManager, object, x, y) || result;
+	
+	gtk_ui_manager_insert_action_group (uim, group, 0);
+	g_object_unref (group);
+	Object::BuildContextualMenu (UIManager, object, x, y);
+	return true;
 }
 
 void ReactionArrow::Move (double x, double y, double z)

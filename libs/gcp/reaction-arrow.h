@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-arrow.h
  *
- * Copyright (C) 2004-2012 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -53,6 +53,7 @@ class ReactionArrowStep; //private class
 Arrow class for arrows used in chemical reactions.*/
 class ReactionArrow: public Arrow, public gcu::DialogOwner
 {
+friend class ReactionArrowPrivate;
 public:
 /*!
 */

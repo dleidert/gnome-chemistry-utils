@@ -4,7 +4,7 @@
  * GChemPaint library
  * document.cc
  *
- * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -112,8 +112,8 @@ Document::~Document ()
 	pango_attr_list_unref (m_PangoAttrList);
 	if (m_Theme)
 		m_Theme->RemoveClient (this);
-	if (m_App)
-		static_cast<Application*> (m_App)->SetActiveDocument (NULL);
+	if (m_App && static_cast < Application * > (m_App)->GetActiveDocument () == this)
+		static_cast < Application * > (m_App)->SetActiveDocument (NULL);
 }
 
 void Document::Clear ()
