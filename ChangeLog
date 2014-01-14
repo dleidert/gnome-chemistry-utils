@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2014-01-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* templates/paint/templates.xml.in: fixed guanine structure.
+
 2014-01-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: version bump (0.14.6).
 	* libs/gcp/document.cc: don'ts set the application active document to NULL

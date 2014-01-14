@@ -1388,8 +1388,8 @@
       </atom>
       <bond id="b36" order="1" begin="a35" end="a36"/>
       <bond id="b37" order="1" begin="a36" end="a37"/>
-      <bond id="b38" order="2" begin="a37" end="a38"/>
-      <bond id="b39" order="1" begin="a38" end="a39"/>
+      <bond id="b38" order="1" begin="a37" end="a38"/>
+      <bond id="b39" order="2" begin="a38" end="a39"/>
       <bond id="b40" order="1" begin="a39" end="a40"/>
       <bond id="b41" order="2" begin="a40" end="a35"/>
       <bond id="b42" order="1" begin="a40" end="a41"/>
