@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2014-01-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cml/cml.cc: fixed CML import.
+	* plugins/loaders/ctfiles/plugin.xml.in: add read support.
+
 2014-01-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* templates/paint/templates.xml.in: fixed guanine structure.
 

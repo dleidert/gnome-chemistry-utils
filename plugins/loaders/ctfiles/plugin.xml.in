@@ -9,7 +9,7 @@
 	</loader>
 	<services>
 		<service type="chemical_loader" id="GCULoader_ctfiles">
-			<mime_type name="chemical/x-mdl-molfile" capabilities="w" scope="23"/>
+			<mime_type name="chemical/x-mdl-molfile" capabilities="r" scope="23"/>
 			<information>
 				<_description>CTfiles loader</_description>
 			</information>

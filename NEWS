@@ -3,6 +3,7 @@ Version 0.15.1
 		* Make adding template work again.
 		* Add a minus sign before reaction products attached to a reaction
 		arrow.
+		* Fix CML import.
 	Goffice component:
 		* Don't crash when editing after saving a GChemPaint object.
 
