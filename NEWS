@@ -1,4 +1,7 @@
 Version 0.14.6
+	CGchemPaint:
+		* Restore .mol files support.
+		* Fix CML import.
 	Goffice component:
 		* Don't crash when editing after saving a GChemPaint object.
 

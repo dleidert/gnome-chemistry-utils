@@ -441,7 +441,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		found = Loader::GetNextLoader (it);
 	}
 	// test if OpenBabel supports some extra types
-//	TestSupportedType ("chemical/x-mdl-molfile");
+	TestSupportedType ("chemical/x-mdl-molfile", "mol", true);
 	TestSupportedType ("chemical/x-pdb", "pdb", true);
 	TestSupportedType ("chemical/x-xyz", "xyz", true);
 //	TestSupportedType ("chemical/x-ncbi-asn1");

@@ -515,6 +515,7 @@ static GsfXMLInNode const cml_dtd[] = {
 GSF_XML_IN_NODE (CML, CML, -1, "cml", GSF_XML_CONTENT, &cml_doc, NULL),
 	GSF_XML_IN_NODE (CML, CML_SCALAR, -1, "scalar", GSF_XML_CONTENT, cml_scalar_start, cml_scalar_end),
 	GSF_XML_IN_NODE (CML, MOLECULE, -1, "molecule", GSF_XML_CONTENT, cml_mol_start, cml_simple_end),
+	GSF_XML_IN_NODE_END
 };
 
 ContentType CMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io)
