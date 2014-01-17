@@ -1478,7 +1478,7 @@ void SpectrumDocument::ReadDataTable (istream &s, double *x, double *y)
 			break;	// this should not occur, but a corrupted or bad file is always possible
 		s.getline (line, 300);
 		if (strstr (line, "##")) {
-			s.seekg (-strlen (line) -1, _S_cur);
+			s.seekg (-strlen (line) -1, s.cur);
 			if (read > npoints) {
 				g_warning (_("Found too many data!"));
 				// FIXME: throw an exception

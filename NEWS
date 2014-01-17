@@ -4,6 +4,8 @@ Version 0.14.6
 		* Fix CML import.
 	Goffice component:
 		* Don't crash when editing after saving a GChemPaint object.
+	Other:
+		* Fix build on FreeBSD (Koop Mast). [#41256]
 
 Version 0.14.5
 	GChemPaint:

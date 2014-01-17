@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2014-01-17  Koop Mast
+	* libs/gcu/application.cc: fix build on FreeBSD. [#41256]
+	* libs/gcugtk/spectrumdoc.cc: ditto.
+
 2014-01-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: restore .mol files support.
 	* plugins/loaders/cml/cml.cc: fixed CML import.
