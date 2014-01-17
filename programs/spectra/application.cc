@@ -119,12 +119,12 @@ bool gsvApplication::FileProcess (const gchar* filename, const gchar* mime_type,
 		GtkRecentData data;
 		data.display_name = g_strdup (pDoc->GetTitle ().c_str ());
 		if (*data.display_name == 0) {
+			g_free (data.display_name);
 			char *title = g_path_get_basename (filename);
 			char *buf = g_uri_unescape_string (title, NULL);
 			g_free (title);
 			data.display_name = buf;
 			pDoc->SetTitle (data.display_name);
-			g_free (buf);
 		}
 		char *dirname = g_path_get_dirname (filename);
 		SetCurDir (dirname);

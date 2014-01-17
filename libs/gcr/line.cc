@@ -314,7 +314,7 @@ bool Line::Load (xmlNodePtr node)
 	if (!txt)
 		return false;
 	int i = 0;
-	while (strcmp (txt, LineTypeName[i]) && (i < 5))
+	while ((i < 5) && strcmp (txt, LineTypeName[i]))
 		i++;
 	xmlFree (txt);
 	if (i < 5)
