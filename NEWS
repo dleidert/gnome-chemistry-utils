@@ -3,7 +3,8 @@ Version 0.14.6
 		* Avoid empty entries in recent list.
 	CGchemPaint:
 		* Restore .mol files support.
-		* Fix CML import.
+		* Fix CML import (also affected 3d viewer and >GCrystal).
+		* Fix BMP export.
 	GCrystal:
 		* Fix test order in lines code. [#41261]
 	GSpectrum:
