@@ -1,11 +1,20 @@
 Version 0.15.1
+	3d viewer:
+		* Avoid empty entries in recent list.
 	GChemPaint:
 		* Make adding template work again.
 		* Add a minus sign before reaction products attached to a reaction
 		arrow.
 		* Fix CML import.
-	Goffice component:
+	GCrystal:
+		* Fix test order in lines code. [#41261]
+	GSpectrum:
+		* Fix access to uninitialized data.
+		* Don' double free a string.
+	GOffice component:
 		* Don't crash when editing after saving a GChemPaint object.
+	Mozilla plugin:
+		* Fix supported mime-types list. (see Debian bug #716961)
 	Other:
 		* Fix build on FreeBSD (Koop Mast). [#41256]
 

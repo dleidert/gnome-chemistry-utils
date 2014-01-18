@@ -586,10 +586,14 @@ static int ReadField (char const *s, char *key, char *buf)
 			strncpy (buf, data, MIN (eq - data, VALUE_LENGTH));
 			buf[MIN (eq - data, VALUE_LENGTH - 1)] = 0;
 		}
-		else
+		else {
 			strncpy (buf, data, VALUE_LENGTH);
+			buf[VALUE_LENGTH - 1] = 0;
+		}
 		// strip trailing white spaces:
-		i = strlen (buf);
+		i = strlen (buf) - 1;
+		if (i < 0)
+			return JCAMP_UNKNOWN;
 		while (buf[i] <= ' ' || buf[i] == '"')
 			buf[i--] = 0;
 

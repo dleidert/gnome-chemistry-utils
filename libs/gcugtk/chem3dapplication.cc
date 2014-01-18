@@ -233,6 +233,8 @@ bool Chem3dApplication::FileProcess (const gchar* filename, const gchar* mime_ty
 
 		GtkRecentData data;
 		data.display_name = const_cast <char*> (pDoc->GetTitle ().c_str ());
+		if (*data.display_name == 0)
+			data.display_name = NULL;
 		data.description = NULL;
 		data.mime_type = (char*) mime_type;
 		data.app_name = const_cast <char*> ("gchem3d");
