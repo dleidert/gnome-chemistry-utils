@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2014-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* mozilla-plugin/moz-plugin.c: fixed supported mime-types list. (see
+	Debian bug #716961)
+
 2014-01-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/line.cc: fixed test order. [#41261]
 	* libs/gcugtk/chem3dapplication.cc: avoid empty entries in recent list.

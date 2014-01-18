@@ -11,6 +11,8 @@ Version 0.14.6
 		* Don' double free a string.
 	GOffice component:
 		* Don't crash when editing after saving a GChemPaint object.
+	Mozilla plugin:
+		* Fix supported mime-types list. (see Debian bug #716961)
 	Other:
 		* Fix build on FreeBSD (Koop Mast). [#41256]
 
