@@ -793,7 +793,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		cairo_destroy (cr);
 		g_object_unref (output);
 	} else {
-		GdkPixbuf *pixbuf = BuildPixbuf (resolution);
+		GdkPixbuf *pixbuf = BuildPixbuf (resolution, strcmp (type, "bmp"));
 		GFile *file = g_vfs_get_file_for_uri (g_vfs_get_default (), filename.c_str ());
 		GError *error = NULL;
 		GFileOutputStream *output = g_file_create (file, G_FILE_CREATE_NONE, NULL, &error);
@@ -853,7 +853,7 @@ static void destroy_surface (G_GNUC_UNUSED guchar *pixels, gpointer data)
 	cairo_surface_destroy (reinterpret_cast <cairo_surface_t *> (data));
 }
 
-GdkPixbuf *View::BuildPixbuf (int resolution)
+GdkPixbuf *View::BuildPixbuf (int resolution, bool transparent)
 {
 	gccv::Rect rect;
 	m_pData->GetObjectBounds (m_pDoc, &rect);
@@ -869,7 +869,7 @@ GdkPixbuf *View::BuildPixbuf (int resolution)
 		zoom = 1.;
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, w, h);
 	cairo_t *cr = cairo_create (surface);
-	if (m_pDoc->GetApp () && !m_pDoc->GetApp ()->GetTransparentBackground ()) {
+	if (!transparent || (m_pDoc->GetApp () && !m_pDoc->GetApp ()->GetTransparentBackground ())) {
 		cairo_set_source_rgb (cr, 1., 1., 1.);
 		cairo_paint (cr);
 	}

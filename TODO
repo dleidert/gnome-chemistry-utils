@@ -3,11 +3,11 @@
 	* add crystal structures (? needs reliable crystal structures in bodr).
 
 * Calculator:
-	* enhance ambiguous abbreviations support (0.14?).
-	* a lot of code cleaning (0.14?).
+	* enhance ambiguous abbreviations support (0.16?).
+	* a lot of code cleaning (0.16?).
 
 * 3d viewer:
-	* allow selection of atoms and or bonds, and display of lengths and angles (0.14?).
+	* allow selection of atoms and or bonds, and display of lengths and angles (0.16?).
 	* add a preferences dialog.
 	* accept several molecules from the same file.
 
@@ -26,14 +26,13 @@
 	* New tools:
 		- delocalized bonds (?),
 		- week interactions (e.g. H-bonds) (?),
-		- curved reaction arrows and Tollman's loops (?),
+		- curved reaction arrows and Tollman's loops 0.16?),
 		- cluster bonds (as in boranes) (?),
 		- electron vacancies (?).
-	* Multi-steps reactions (0.14?).
+	* Enhance multi-steps reactions (0.16).
 	* Scriptability (?).
-	* Enhance fragments (0.14+).
+	* Enhance fragments (0.16+).
 	* Change cursor according to situation (?).
-	* Allow associating several objects with reaction arrows (0.14?).
 	* Allow various superscripts for brackets (charge, transition state,...)
 
 * Goffice component:
@@ -41,7 +40,7 @@
 
 * Spectrum viewer:
 	* support inclusion of zoomed partials.
-	* import varian files (0.14?)
+	* import varian files (0.16?)
 
 * GCCV Library:
 	* add new items as needed.

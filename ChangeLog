@@ -1,6 +1,12 @@
 ##Text encoding: utf-8
 
 2014-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/view.cc: do not try to export a transparent image to .bmp (also
+	fix pasting into LO).
+	* libs/gcp/view.h: ditto.
+	* libs/gcp/widgetdata.cc: ditto.
+
+2014-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* mozilla-plugin/moz-plugin.c: fixed supported mime-types list. (see
 	Debian bug #716961)
 

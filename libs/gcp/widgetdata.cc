@@ -177,7 +177,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 		gsize size;
 		pView->CreateNewWidget (); // force canvas creation
 		Doc->ParseXMLTree (pDoc);
-		GdkPixbuf *pixbuf = pView->BuildPixbuf (-1); // copy with zoom == 1
+		GdkPixbuf *pixbuf = pView->BuildPixbuf (-1, false); // copy with zoom == 1
 		gdk_pixbuf_save_to_buffer (pixbuf, &ClipboardTextData, &size, "bmp", NULL, NULL);
 		gtk_selection_data_set (selection_data, gdk_atom_intern (export_targets[info].target, FALSE), 8, (const guchar*) ClipboardTextData, size);
 		g_object_unref (pixbuf);

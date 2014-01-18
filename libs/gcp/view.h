@@ -240,12 +240,13 @@ will be used which will result as a one to one pixel export.
 	char *BuildEPS ();
 /*!
 @param resolution the resolution for the new image.
+@param transparent whether the pixbuf should have a transparent background.
 
 Builds a new image with the given resolution in ppi. The size is evaluated
 using the guessed screen resolution.
 @return the new pixbuf.
 */
-	GdkPixbuf *BuildPixbuf (int resolution);
+	GdkPixbuf *BuildPixbuf (int resolution, bool transparent = true);
 /*!
 Called by the framework to ensure that the view size is enough large to
 contain all objects.

@@ -5,7 +5,8 @@ Version 0.15.1
 		* Make adding template work again.
 		* Add a minus sign before reaction products attached to a reaction
 		arrow.
-		* Fix CML import.
+		* Fix CML import (also affected 3d viewer and >GCrystal).
+		* Fix BMP export.
 	GCrystal:
 		* Fix test order in lines code. [#41261]
 	GSpectrum:
