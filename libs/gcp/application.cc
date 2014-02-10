@@ -4,7 +4,7 @@
  * GChemPaint library
  * application.cc
  *
- * Copyright (C) 2004-2012 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -24,7 +24,7 @@
 
 #include "config.h"
 #include "application.h"
-#include "atom.h"
+#include "atom-residue.h"
 #include "bond.h"
 #include "brackets.h"
 #include "document.h"
@@ -235,6 +235,11 @@ static Object* CreateAtom ()
 	return new Atom ();
 }
 
+static Object* CreateResidue ()
+{
+	return new AtomResidue ();
+}
+
 static Object* CreateBond ()
 {
 	return new Bond ();
@@ -350,6 +355,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 
 		// Initialize types
 		AddType ("atom", CreateAtom, AtomType);
+		AddType ("residue", CreateResidue, ResidueType);
 		AddType ("bond", CreateBond, gcu::BondType);
 		AddType ("molecule", CreateMolecule, MoleculeType);
 		AddType ("reaction", CreateReaction, ReactionType);

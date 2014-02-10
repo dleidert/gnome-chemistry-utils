@@ -137,7 +137,7 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 	}
 	Comments = GTK_TEXT_VIEW (GetWidget ("comments"));
 	Buffer = gtk_text_view_get_buffer (Comments);
-	chn = m_pDoc->GetComment ();
+	chn = m_pDoc->GetComment ().c_str ();
 	if(chn)
 		gtk_text_buffer_set_text (Buffer, chn , -1);
 	g_signal_connect (G_OBJECT (Buffer), "changed", G_CALLBACK (on_comments_changed), this);

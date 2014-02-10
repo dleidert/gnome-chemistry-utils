@@ -1424,6 +1424,14 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 		m_Atom->SetCoords (m_x, m_y);
 		break;
 	}
+	case GCU_PROP_X:
+		m_x = g_ascii_strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_Atom->SetCoords (m_x, m_y);
+		break;
+	case GCU_PROP_Y:
+		m_y = g_ascii_strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_Atom->SetCoords (m_x, m_y);
+		break;
 	case GCU_PROP_TEXT_TEXT: {
 		m_buf = value;
 		if (m_EndAtom > m_BeginAtom) {
@@ -1510,6 +1518,18 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 	}
 	m_bLoading = false;
 	return true;
+}
+
+std::string Fragment::GetProperty (unsigned property) const
+{
+	switch (property) {
+	case GCU_PROP_FRAGMENT_ATOM_ID:
+			return m_Atom->GetId ();
+		break;
+	default:
+		break;
+	}
+	return TextObject::GetProperty (property);
 }
 
 bool Fragment::Analyze () {

@@ -28,6 +28,7 @@ libgcp_@GCU_API_VER@_la_SOURCES = \
 		operation.cc \
 		arrow.cc \
 		atom.cc \
+		atom-residue.cc \
 		electron.cc \
 		bond.cc \
 		brackets.cc \
@@ -79,6 +80,7 @@ noinst_HEADERS = \
 		electron.h \
 		arrow.h \
 		atom.h \
+		atom-residue.h \
 		bond.h \
 		brackets.h \
 		residue.h \

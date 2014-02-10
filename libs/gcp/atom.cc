@@ -60,6 +60,7 @@ Atom::Atom ():
 	m_ShowSymbol (false),
 	m_HPosStyle (AUTO_HPOS)
 {
+	SetId ("a1");
 	m_Valence = -1; //unspecified
 	m_nlp = m_nlu = 0;
 	m_nH = 0;

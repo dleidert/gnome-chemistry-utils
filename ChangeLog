@@ -1,5 +1,27 @@
 ##Text encoding: utf-8
 
+2014-02-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: add support for residues outside of fragments.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcp/atom.cc: add an Index property.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/atom-residue.cc: add support for residues outside of fragments.
+	* libs/gcp/atom-residue.h: ditto.
+	* libs/gcp/docprop.cc: move Document::comment to gcu.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/fragment-residue.h: typos.
+	* libs/gcp/fragment.cc: support more properties.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcu/atom.cc: add support for isotopes.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/document.h: add a document comment field.
+	* libs/gcu/macros.h: enhance the GCU_PROP macro.
+	* libs/gcu/objprops.h: add new properties.
+	* plugins/loaders/cml/cml.cc: typo.
+	* plugins/loaders/ctfiles/ctfiles.cc: implement import from V2000 mol files.
+	* plugins/loaders/ctfiles/plugin.xml.in: add more suppored file types.
+
 2014-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/view.cc: do not try to export a transparent image to .bmp (also
 	fix pasting into LO).

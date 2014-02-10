@@ -54,7 +54,7 @@ typedef struct {
 	string curstr;
 	string proptype;
 	unsigned cur_prop;
-	gpointer data; // used for whatever has to be stores which is not an Object
+	gpointer data; // used for whatever has to be stored which is not an Object
 } CMLReadState;
 
 typedef struct {

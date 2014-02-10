@@ -116,9 +116,21 @@ The atomic number of an atom.
 */
 	GCU_PROP_ATOM_Z,
 /*!
+The mass number of an atom.
+*/
+	GCU_PROP_ATOM_A,
+/*!
 The charge of an atom.
 */
 	GCU_PROP_ATOM_CHARGE,
+/*!
+The visible index of an atom displayed a a supscript.
+*/
+	GCU_PROP_ATOM_INDEX,
+/*!
+The label of an atom.
+*/
+	GCU_PROP_ATOM_LABEL,
 /*!
 The parity of an atom: a positive or negative integer followed by the ids of the four (or less) bonded atoms.
 */

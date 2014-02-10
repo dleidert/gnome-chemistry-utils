@@ -121,13 +121,7 @@ Loads the document from the XML tree representing it.
 /*!
 @return the document title.
 */
-	const gchar* GetTitle () const;
-/*!
-@param title the new title.
-
-The document title.
-*/
-	void SetTitle (const gchar* title);
+	const char* GetTitle () const;
 /*!
 @param label the new window title.
 
@@ -244,10 +238,6 @@ Called by the framework when the user fires the Edit/Redo command.
 */
 	const gchar* GetMail () {return m_mail;}
 /*!
-@return the comment associated with the document.
-*/
-	const gchar* GetComment () {return m_comment;}
-/*!
 @param author the new author name.
 
 Setes the document author name.
@@ -259,12 +249,6 @@ Setes the document author name.
 Sets the document author e-mail address.
 */
 	void SetMail (const gchar* mail);
-/*!
-@param comment the new comment.
-
-Sets the comment associated with the document  any.
-*/
-	void SetComment (const gchar* comment);
 /*!
 Ends the current operation and pushes it on top of the undo stack. This method
 must be called after all changes have been done in  the document and the changes
@@ -466,9 +450,8 @@ private:
 private:
 	View * m_pView;
 	gchar* m_filename;
-	gchar *m_title;
 	gchar *m_label;
-	gchar *m_comment, *m_author, *m_mail;
+	gchar *m_author, *m_mail;
 	bool m_bIsLoading, m_bUndoRedo, m_bReadOnly;
 	std::string m_FileType;
 	bool m_bWriteable;

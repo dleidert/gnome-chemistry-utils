@@ -26,6 +26,7 @@
 #define GCU_ATOM_H
 
 #include "object.h"
+#include "macros.h"
 #include <glib.h>
 #include <map>
 #include <vector>
@@ -296,6 +297,9 @@ displaying the atom.
 */
 	void NetToCartesian (double a, double b, double c, double alpha, double beta, double gamma);
 
+private:
+	void AChanged ();
+
 protected:
 /*!
 The atomic number of the Atom.
@@ -321,6 +325,9 @@ The charge of the Atom.
 The Bond instances of the Atom. The index of the map is a pointer to the other end of the Bond.
 */
 	std::map<Atom*, Bond*> m_Bonds;
+
+GCU_PROP_FULL (int, A, AChanged) // nucleon number, 0 means natural or not specified.
+
 };
 
 /*!\class AtomPair gcu/atom.h

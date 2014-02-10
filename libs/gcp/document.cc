@@ -72,7 +72,6 @@ Document::Document (Application *App, bool StandAlone, Window *window):
 	m_Window = window;
 	m_filename = NULL;
 	m_label = NULL;
-	m_title = NULL;
 	m_bWriteable = true;
 	m_PangoAttrList = pango_attr_list_new ();
 	m_Theme = NULL;
@@ -95,7 +94,6 @@ Document::Document (Application *App, bool StandAlone, Window *window):
 		m_mail = g_strdup (chn);
 	else
 		m_mail = NULL;
-	m_comment = NULL;
 	m_pCurOp = NULL;
 	m_bReadOnly = false;
 	SetActive ();
@@ -124,16 +122,14 @@ void Document::Clear ()
 	m_pCurOp = NULL;
 	g_free (m_filename);
 	m_filename = NULL;
-	g_free (m_title);
-	m_title = NULL;
+	SetTitle ("");
 	g_free (m_label);
 	m_label = NULL;
 	g_free (m_author);
 	m_author = NULL;
 	g_free (m_mail);
 	m_mail = NULL;
-	g_free (m_comment);
-	m_comment = NULL;
+	SetComment ("");
 	map<string, Object *>::iterator it;
 	Object *obj;
 	while (HasChildren ()) {
@@ -159,8 +155,8 @@ GtkWidget* Document::GetWidget ()
 
 const gchar* Document::GetTitle () const
 {
-	if (m_title)
-		return m_title;
+	if (gcu::Document::GetTitle ().length ())
+		return gcu::Document::GetTitle ().c_str ();
 	else if (m_label)
 		return m_label;
 	return (m_Window)? m_Window->GetDefaultTitle (): NULL;
@@ -455,10 +451,7 @@ void Document::Save () const
 
 bool Document::Load (xmlNodePtr root)
 {
-	if (m_title) {
-		g_free(m_title);
-		m_title = NULL;
-	}
+	SetTitle ("");
 	if (m_author) {
 		g_free(m_author);
 		m_author = NULL;
@@ -467,10 +460,7 @@ bool Document::Load (xmlNodePtr root)
 		g_free(m_mail);
 		m_mail = NULL;
 	}
-	if (m_comment) {
-		g_free(m_comment);
-		m_comment = NULL;
-	}
+	SetComment ("");
 	xmlNodePtr node, child;
 	char* tmp;
 	Object* pObject;
@@ -504,7 +494,7 @@ bool Document::Load (xmlNodePtr root)
 	if (node) {
 		tmp = (char*) xmlNodeGetContent (node);
 		if (tmp) {
-			m_title = g_strdup (tmp);
+			SetTitle (tmp);
 			xmlFree (tmp);
 		}
 	}
@@ -527,7 +517,7 @@ bool Document::Load (xmlNodePtr root)
 	if (node) {
 		tmp = (char*) xmlNodeGetContent (node);
 		if (tmp) {
-			m_comment = g_strdup (tmp);
+			SetComment (tmp);
 			xmlFree (tmp);
 		}
 	}
@@ -609,8 +599,8 @@ xmlDocPtr Document::BuildXMLTree () const
 	else
 		throw (int) 0;
 
-	if (m_title && *m_title) {
-		node = xmlNewDocNode (xml, NULL, (xmlChar*) "title", (xmlChar*) m_title);
+	if (gcu::Document::GetTitle ().length ()) {
+		node = xmlNewDocNode (xml, NULL, (xmlChar*) "title", (xmlChar*) gcu::Document::GetTitle ().c_str ());
 		if (node)
 			xmlAddChild (xml->children, node);
 		else
@@ -628,8 +618,8 @@ xmlDocPtr Document::BuildXMLTree () const
 		else
 			throw (int) 0;
 	}
-	if (m_comment && *m_comment) {
-		node = xmlNewDocNode (xml, NULL, (xmlChar*) "comment", (xmlChar*) m_comment);
+	if (GetComment ().length () > 0) {
+		node = xmlNewDocNode (xml, NULL, (xmlChar*) "comment", (xmlChar*) GetComment ().c_str ());
 		if (node)
 			xmlAddChild (xml->children, node);
 		else
@@ -834,12 +824,6 @@ void Document::OnProperties ()
 	new DocPropDlg (this);
 }
 
-void Document::SetTitle (const gchar* title)
-{
-	g_free (m_title);
-	m_title = (title && *title)? g_strdup (title): NULL;
-}
-
 void Document::SetAuthor (const gchar* author)
 {
 	g_free (m_author);
@@ -852,12 +836,6 @@ void Document::SetMail (const gchar* mail)
 	m_mail = (mail && *mail)? g_strdup (mail): NULL;
 }
 
-void Document::SetComment (const gchar* comment)
-{
-	g_free (m_comment);
-	m_comment = (comment && *comment)? g_strdup (comment): NULL;
-}
-
 void Document::AddObject (Object* pObject)
 {
 	if (!pObject->GetParent ())
@@ -865,11 +843,6 @@ void Document::AddObject (Object* pObject)
 	m_pView->AddObject (pObject);
 	if (m_bIsLoading || m_bUndoRedo)
 		return;
-// commenting out the following lines since they make bad things. Remove when sure that they are not actually needed
-/*	if (!m_pCurOp) {
-		m_pCurOp = new AddOperation (this, ++m_OpID);
-		m_pCurOp->AddObject (pObject);
-	}*/
 }
 
 void Document::OnUndo ()
@@ -1251,8 +1224,7 @@ bool Document::SetProperty (unsigned property, char const *value)
 			m_Window->SetTitle (GetTitle ());
 		break;
 	case GCU_PROP_DOC_COMMENT:
-		g_free (m_comment);
-		m_comment = g_strdup (value);
+		SetComment (value);
 		break;
 	case GCU_PROP_DOC_CREATOR:
 		g_free (m_author);
@@ -1287,10 +1259,10 @@ std::string Document::GetProperty (unsigned property) const
 		res << m_FileType;
 		break;
 	case GCU_PROP_DOC_TITLE:
-		res << GetTitle ();
+		res << gcu::Document::GetTitle ();
 		break;
 	case GCU_PROP_DOC_COMMENT:
-		res << m_comment;
+		res << GetComment ().c_str ();
 		break;
 	case GCU_PROP_DOC_CREATOR:
 		res << m_author;

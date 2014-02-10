@@ -9,7 +9,11 @@
 	</loader>
 	<services>
 		<service type="chemical_loader" id="GCULoader_ctfiles">
-			<mime_type name="chemical/x-mdl-molfile" capabilities="r" scope="23"/>
+			<mime_type name="chemical/x-mdl-molfile" capabilities="rw" scope="23"/>
+			<!-- the other formats are only supported for 2D files -->
+			<mime_type name="chemical/x-mdl-rxnfile" capabilities="rw" scope="2"/>
+			<mime_type name="chemical/x-mdl-rdfile" capabilities="rw" scope="2"/>
+			<mime_type name="chemical/x-mdl-sdfile" capabilities="rw" scope="2"/>
 			<information>
 				<_description>CTfiles loader</_description>
 			</information>

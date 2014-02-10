@@ -26,6 +26,7 @@
 #define GCHEMPAINT_ATOM_H
 
 #include <map>
+#include <string>
 #include <glib.h>
 #include <gccv/item-client.h>
 #include <gccv/structs.h>
@@ -512,7 +513,8 @@ Shows or hides the atom local charge.
 /*!\fn GetShowCharge()
 @return whether the local charge is displayed as a reference.
 */
-GCU_PROP (bool, ShowCharge);
+GCU_PROP (bool, ShowCharge)
+GCU_PROP (std::string, Index)
 };
 
 }	//	namespace gcp

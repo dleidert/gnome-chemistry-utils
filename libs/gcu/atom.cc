@@ -46,6 +46,7 @@ Atom::Atom (): Object (AtomType)
 	m_Z = -1;
 	m_x = m_y = m_z = 0.0;
 	m_Charge = 0;
+	m_A = 0;
 }
 
 Atom::~Atom ()
@@ -294,6 +295,9 @@ bool Atom::SetProperty (unsigned property, char const *value)
 	case GCU_PROP_ATOM_Z:
 		SetZ (atoi (value));
 		break;
+	case GCU_PROP_ATOM_A:
+		SetA (atoi (value));
+		break;
 	case GCU_PROP_ATOM_CHARGE:
 		SetCharge (atoi (value));
 		break;
@@ -323,6 +327,9 @@ string Atom::GetProperty (unsigned property) const
 	}
 	case GCU_PROP_ATOM_Z:
 		res << GetZ ();
+		break;
+	case GCU_PROP_ATOM_A:
+		res << GetA ();
 		break;
 	case GCU_PROP_ATOM_SYMBOL:
 		res << GetSymbol ();
@@ -402,6 +409,14 @@ void Atom::NetToCartesian (double a, double b, double c, double alpha, double be
 	SetCoords (dx * sqrt (1 - square (cos (beta)) - square ((cos (gamma) - cos (beta) * cos (alpha)) / sin (alpha))),
 		dx * (cos (gamma) - cos (beta) * cos (alpha)) / sin (alpha) + dy * sin (alpha),
 		(dx * cos (beta) + dy * cos (alpha) + dz));
+}
+
+void Atom::AChanged ()
+{
+	// we might enforce that the isotope is in the database, acually just ensure
+	// that A is greater than Z.
+	if (m_Z > m_A)
+		m_A = 0;
 }
 
 }	//	namespace gcu

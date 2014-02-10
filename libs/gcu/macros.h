@@ -38,8 +38,9 @@ GCU_PROP((Type,Foo) expands to one private member:
 and three public methods:
 \code
 	void SetFoo(Type val);
-	Type GetFoo();
+	Type GetFoo() const;
 	Type& GetRefFoo();
+	Type const & GetRefFoo() const;
 \endcode
 
 The last one allows code as:
@@ -52,6 +53,7 @@ public:	\
 	void Set##member (type val) {m_##member = val;}	\
 	type Get##member (void) const {return m_##member;}	\
 	type &GetRef##member (void) {return m_##member;}	\
+	type const &GetRef##member (void) const {return m_##member;}	\
 private:	\
 	type m_##member;
 

@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment-residue.h
  *
- * Copyright (C) 2008-1012 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -64,7 +64,7 @@ Builds an XML node representing this instance.
 /*!
 @param node an XML node.
 
-Loads the symbol and associated resdue from \a node.
+Loads the symbol and associated residue from \a node.
 @return true on success, false otherwise.
 */
 	bool Load (xmlNodePtr node);

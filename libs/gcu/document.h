@@ -124,6 +124,21 @@ to avoid errors on the next paste event.
 @return the current document title.
 */
 	std::string &GetTitle () {return m_Title;}
+	std::string const &GetTitle () const {return m_Title;}
+
+/*!
+@param title the new document comment.
+*/
+	virtual void SetComment (std::string& comment) {m_Comment = comment;}
+/*!
+@param title the new document comment.
+*/
+	virtual void SetComment (char const *comment) {m_Comment = comment;}
+/*!
+@return the current document comment.
+*/
+	std::string &GetComment () {return m_Comment;}
+	std::string const &GetComment () const {return m_Comment;}
 
 /*!
 @param pObject an object needing some update.
@@ -232,6 +247,11 @@ protected:
 The document title.
 */
 	std::string m_Title;
+
+/*!
+The document comment.
+*/
+	std::string m_Comment;
 
 /*!
 		 The set of dirty objects, see gcu::Document::NotifyDirty.

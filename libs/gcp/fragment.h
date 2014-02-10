@@ -272,11 +272,18 @@ Validates the contents of the fragment text, and display error messages when nec
 @param value the property value as a string
 
 Used when loading to set properties for the fragment. This method supports
-GCU_PROP_POS2D, GCU_PROP_TEXT_TEXT, GCU_PROP_FRAGMENT_ATOM_START,
+GCU_PROP_X, GCU_PROP_Y, GCU_PROP_POS2D, GCU_PROP_TEXT_TEXT, GCU_PROP_FRAGMENT_ATOM_START,
 and GCU_PROP_FRAGMENT_ATOM_ID.
 @return true if the property could be set, or if the property is not relevant, false otherwise.
 */
 	bool SetProperty (unsigned property, char const *value);
+
+/*!
+@param property the property id as defined in objprops.h
+
+Used when saving to get properties from fragments.
+*/
+	std::string GetProperty (unsigned property) const;
 
 /*!
 Analyses the text in the fragment. This calls gcp::Fragment::AnalContent()
