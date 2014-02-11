@@ -27,6 +27,7 @@
 #include "atom.h"
 #include <gcu/application.h>
 #include <gcu/loader.h>
+#include <gcu/xml-utils.h>
 #include <cstring>
 
 extern "C"
@@ -39,6 +40,7 @@ struct _GcrCrystalViewer
 	gcr::View *pView;
 	gcr::Document *pDoc;
 	guint glList;
+	double psi, theta, phi;
 };
 
 struct _GcrCrystalViewerClass
@@ -166,6 +168,9 @@ void gcr_crystal_viewer_set_data (GcrCrystalViewer * viewer, xmlNodePtr node)
 	g_return_if_fail (node);
 	viewer->pDoc->ParseXMLTree (node);
 	viewer->pView->Update ();
+	viewer->psi = viewer->pView->GetPsi ();
+	viewer->theta = viewer->pView->GetTheta ();
+	viewer->phi = viewer->pView->GetPhi ();
 }
 
 GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, guint width, guint height, gboolean use_bg)
@@ -188,13 +193,13 @@ void gcr_crystal_viewer_set_uri_with_mime_type (GcrCrystalViewer * viewer, const
 	}
 	viewer->pDoc->Reinit ();
 	if  (!strcmp (mime_type, "application/x-gcrystal")) {
-/*		xmlDocPtr xml = xmlParseFile (filename.c_str ());
+		xmlDocPtr xml = gcu::ReadXMLDocFromURI (uri, NULL, NULL);
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "crystal")) {
 			g_message ("Invalid data");
 			return;
 		}
-		gcr_crystal_viewer_set_data (GCR_CRYSTAL_VIEWER (Viewer), xml->children);
-		xmlFree (xml);*/
+		gcr_crystal_viewer_set_data (GCR_CRYSTAL_VIEWER (viewer), xml->children);
+		xmlFree (xml);
 	} else {
 		if (!App) {
 			App = viewer->pDoc->GetApp ();
@@ -205,6 +210,9 @@ void gcr_crystal_viewer_set_uri_with_mime_type (GcrCrystalViewer * viewer, const
 		viewer->pDoc->Loaded ();
 		viewer->pDoc->Update ();
 		viewer->pDoc->GetView ()->Update ();
+		viewer->psi = viewer->pView->GetPsi ();
+		viewer->theta = viewer->pView->GetTheta ();
+		viewer->phi = viewer->pView->GetPhi ();
 	}
 }
 
@@ -225,6 +233,13 @@ void gcr_crystal_viewer_set_uri	(GcrCrystalViewer * viewer, const gchar * uri)
 		return;
 	}
 	gcr_crystal_viewer_set_uri_with_mime_type (viewer, uri, g_file_info_get_content_type (info));
+}
+
+void gcr_crystal_viewer_back_to_initial_orientation (GcrCrystalViewer * viewer)
+{
+	g_return_if_fail (GCR_IS_CRYSTAL_VIEWER (viewer));
+	viewer->pDoc->GetView ()->SetRotation (viewer->psi, viewer->theta, viewer->phi);
+	viewer->pDoc->GetView ()->Update ();
 }
 
 } //extern "C"

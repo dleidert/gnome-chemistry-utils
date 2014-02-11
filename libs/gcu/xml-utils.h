@@ -221,7 +221,8 @@ independent. The date must be stored in the format MM/DD/YYYY.
 */
 bool ReadDate (xmlNodePtr node, char const *name, GDate *date);
 
-
+xmlDocPtr ReadXMLDocFromFile (GFile *file, char const *uri, char const *encoding, GOCmdContext *ctxt);
+xmlDocPtr ReadXMLDocFromURI (char const *uri, char const *encoding, GOCmdContext *ctxt);
 }	//	namespace gcu
 
 #endif	// GCU_XML_UTILS_H

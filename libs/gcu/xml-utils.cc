@@ -22,8 +22,10 @@
  * USA
  */
 
+#include "config.h"
 #include "xml-utils.h"
 #include "macros.h"
+#include <glib/gi18n-lib.h>
 #include <cstring>
 #include <set>
 #include <sstream>
@@ -371,6 +373,64 @@ bool ReadDate (xmlNodePtr node, char const *name, GDate *date)
 		return res;
 	} else
 		return false;
+}
+
+struct XmlReadState {
+	GInputStream *input;
+	GOCmdContext *ctxt;
+};
+
+static int	cb_vfs_to_xml (struct XmlReadState *state, char* buf, int nb)
+{
+	GError *error = NULL;
+	int n = g_input_stream_read (state->input, buf, nb, NULL, &error);
+	if (error) {
+		if (state->ctxt)
+			go_cmd_context_error (state->ctxt, error);
+		else
+			g_message ("GIO error: %s\n", error->message);
+		g_error_free (error);
+	}
+	return n;
+}
+
+static int	cb_state_release (struct XmlReadState *state)
+{
+	g_input_stream_close (state->input, NULL, NULL);
+	return 0;
+}
+
+xmlDocPtr ReadXMLDocFromFile (GFile *file, char const *uri, char const *encoding, GOCmdContext *ctxt)
+{
+	GError *error = NULL;
+	GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
+	xmlDocPtr xml = NULL;
+	struct XmlReadState state;
+	if (error) {
+		go_cmd_context_error (ctxt, error);
+		g_error_free (error);
+		return NULL;
+	}
+	state.input = input;
+	state.ctxt = ctxt;
+	xmlKeepBlanksDefault (1); // to be sure we don't loose significant spaces.
+	if (!(xml = xmlReadIO ((xmlInputReadCallback) cb_vfs_to_xml,
+	                       (xmlInputCloseCallback) cb_state_release, &state,
+	                       uri, encoding, 0))) {
+		if (ctxt)
+			go_cmd_context_error_import (ctxt, _("Error while parsing XML"));
+		else
+			g_message (_("Error while parsing XML"));
+	}
+	return xml;
+}
+
+xmlDocPtr ReadXMLDocFromURI (char const *uri, char const *encoding, GOCmdContext *ctxt)
+{
+	GFile *file = g_file_new_for_uri (uri);
+	xmlDocPtr xml = ReadXMLDocFromFile (file, uri, encoding, ctxt);
+	g_object_unref (file);
+	return xml;
 }
 
 }	//	namespace gcu

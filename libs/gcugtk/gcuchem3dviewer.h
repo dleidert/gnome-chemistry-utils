@@ -138,6 +138,12 @@ Renders the scene to a newly allocated pixbuf.
 \return the new GdkPixbuf*.
 */
 GdkPixbuf *gcu_chem3d_viewer_new_pixbuf (GcuChem3DViewer * viewer, guint width, guint height, gboolean use_bg);
+/*!
+@param viewer a pointer to a GcuChem3DViewer widget.
+
+Restore the initial orientation.
+*/
+void	gcu_chem3d_viewer_back_to_initial_orientation (GcuChem3DViewer * viewer);
 
 G_END_DECLS
 

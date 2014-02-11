@@ -37,6 +37,7 @@ struct _GcuChem3DViewer
 
 	gcugtk::Chem3dDoc *Doc;
 	GtkWidget *widget;
+	double psi, theta, phi;
 };
 
 struct _GcuChem3DViewerClass
@@ -222,11 +223,17 @@ void gcu_chem3d_viewer_set_uri_with_mime_type (GcuChem3DViewer * viewer, const g
 	g_return_if_fail (GCU_IS_CHEM3D_VIEWER (viewer));
 	g_return_if_fail (uri);
 	viewer->Doc->Load (uri, mime_type);
+	viewer->psi = viewer->Doc->GetView ()->GetPsi ();
+	viewer->theta = viewer->Doc->GetView ()->GetTheta ();
+	viewer->phi = viewer->Doc->GetView ()->GetPhi ();
 }
 
 void gcu_chem3d_viewer_set_data (GcuChem3DViewer * viewer, const gchar *data, const gchar* mime_type, size_t size)
 {
 	viewer->Doc->LoadData (data, mime_type, size);
+	viewer->psi = viewer->Doc->GetView ()->GetPsi ();
+	viewer->theta = viewer->Doc->GetView ()->GetTheta ();
+	viewer->phi = viewer->Doc->GetView ()->GetPhi ();
 }
 
 void gcu_chem3d_viewer_update (GcuChem3DViewer *viewer)
@@ -313,4 +320,11 @@ static void gcu_chem3d_viewer_set_property (GObject *object, guint property_id,
 GdkPixbuf *gcu_chem3d_viewer_new_pixbuf (GcuChem3DViewer * viewer, guint width, guint height, gboolean use_bg)
 {
 	return viewer->Doc->GetView ()->BuildPixbuf (width, height, use_bg);
+}
+
+void gcu_chem3d_viewer_back_to_initial_orientation (GcuChem3DViewer * viewer)
+{
+	g_return_if_fail (GCU_IS_CHEM3D_VIEWER (viewer));
+	viewer->Doc->GetView ()->SetRotation (viewer->psi, viewer->theta, viewer->phi);
+	viewer->Doc->GetView ()->Update ();
 }

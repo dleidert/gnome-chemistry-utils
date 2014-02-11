@@ -120,6 +120,12 @@ Nothing happens if uri is NULL.
 */
 void	gcr_crystal_viewer_set_uri	(GcrCrystalViewer * viewer, const gchar * uri);
 
+/*!
+@param viewer a pointer to a GcrCrystalViewer widget.
+
+Restore the initial orientation.
+*/
+void	gcr_crystal_viewer_back_to_initial_orientation (GcrCrystalViewer * viewer);
 G_END_DECLS
 
 #endif //	GCR_CRYSTAL_VIEWER_H

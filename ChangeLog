@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2014-02-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: use new XML helper.
+	* libs/gcr/gcrcrystalviewer.cc: add function to go back to initial
+	orientation.
+	* libs/gcr/gcrcrystalviewer.h: ditto.
+	* libs/gcu/xml-utils.cc: new helpers.
+	* libs/gcu/xml-utils.h: ditto.
+	* libs/gcugtk/gcuchem3dviewer.cc: add function to go back to initial
+	orientation.
+	* libs/gcugtk/gcuchem3dviewer.h: ditto.
+	* mozilla-plugin/chem-viewer.cc: add a contextual menu to restore initital
+	orientation of 3D views.
+
 2014-02-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: add support for residues outside of fragments.
 	* libs/gcp/application.cc: ditto.

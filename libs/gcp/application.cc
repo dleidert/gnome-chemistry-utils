@@ -59,6 +59,7 @@
 #include <gcu/cmd-context.h>
 #include <gcu/loader.h>
 #include <gcu/loader-error.h>
+#include <gcu/xml-utils.h>
 #include <gccv/canvas.h>
 #include <glib/gi18n-lib.h>
 #include <fstream>
@@ -851,16 +852,7 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 			g_error_free (error);
 			throw 1;
 		}
-		GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
-		if (error) {
-			g_object_unref (file);
-			g_message ("GIO error: %s\n", error->message);
-			g_error_free (error);
-			throw 1;
-		}
-		xmlKeepBlanksDefault (1); // to be sure we don't loose significant spaces.
-		if (!(xml = xmlReadIO ((xmlInputReadCallback) cb_vfs_to_xml,
-				 (xmlInputCloseCallback) g_input_stream_close, input, filename.c_str (), NULL, 0))) {
+		if (!(xml = ReadXMLDocFromFile (file, filename.c_str (), NULL, NULL))) {
 			g_object_unref (file);
 			throw 1;
 		}

@@ -38,6 +38,7 @@
 #include <gdk/gdkx.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkx.h>
+#include <glib/gi18n-lib.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -140,6 +141,27 @@ void ChemComp::SetWindow (XID xid)
 	}
 }
 
+static void on_initial_orientation (GtkWidget *viewer)
+{
+	if (GCR_IS_CRYSTAL_VIEWER (viewer))
+		gcr_crystal_viewer_back_to_initial_orientation (GCR_CRYSTAL_VIEWER (viewer));
+	else // chem3dviewer
+		gcu_chem3d_viewer_back_to_initial_orientation (GCU_CHEM3D_VIEWER (viewer));
+}
+
+static bool on_button_press (GtkWidget *viewer, GdkEventButton *event)
+{
+	if (event->button != 3)
+		return false;
+	GtkWidget *menu = gtk_menu_new ();
+	GtkWidget *item = gtk_menu_item_new_with_label (_("Back to initial orientation"));
+	g_signal_connect_swapped (item, "activate", G_CALLBACK (on_initial_orientation), viewer);
+	gtk_menu_attach (GTK_MENU (menu), item, 0, 1, 0, 1);
+	gtk_widget_show (item);
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, event->time);
+	return true;
+}
+
 void ChemComp::SetFilename (string& filename)
 {
 	if (Loaded)
@@ -157,6 +179,8 @@ void ChemComp::SetFilename (string& filename)
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "crystal"))
 			return;
 		gcr_crystal_viewer_set_data (GCR_CRYSTAL_VIEWER (Viewer), xml->children);
+		// add a handler for contextual menu
+		g_signal_connect (Viewer, "button-press-event", G_CALLBACK (on_button_press), NULL);
 		xmlFree (xml);
 	} else if (MimeType == "chemical/x-cif") {
 		if (!loaded_radii) {
@@ -169,6 +193,7 @@ void ChemComp::SetFilename (string& filename)
 			g_free (uri);
 		}
 		gcr_crystal_viewer_set_uri_with_mime_type (GCR_CRYSTAL_VIEWER (Viewer), filename.c_str (), "chemical/x-cif");
+		g_signal_connect (Viewer, "button-press-event", G_CALLBACK (on_button_press), NULL);
 	} else 	if (MimeType == "application/x-gchempaint") {
 		xmlDocPtr xml = xmlParseFile (filename.c_str ());
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "chemistry"))
@@ -216,6 +241,7 @@ void ChemComp::SetFilename (string& filename)
 				g_object_set (G_OBJECT (Viewer), (*i).first.c_str (), (*i).second.c_str (), NULL);
 		}
 		Params.clear ();
+		g_signal_connect (Viewer, "button-press-event", G_CALLBACK (on_button_press), NULL);
 	}
 }
 
