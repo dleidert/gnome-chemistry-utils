@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2014-02-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: fixed crash with recent Gtk+.
+
 2014-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/view.cc: do not try to export a transparent image to .bmp (also
 	fix pasting into LO).
