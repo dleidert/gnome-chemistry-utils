@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2014-02-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/grid.cc: fixed crash with recent Gtk+.
+
 2014-02-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: use new XML helper.
 	* libs/gcr/gcrcrystalviewer.cc: add function to go back to initial

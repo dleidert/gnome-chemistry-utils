@@ -1102,6 +1102,8 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ..
 	grid->width = 0;
 	GtkWidget *w = gtk_button_new_with_label ("00");
 	gtk_widget_get_preferred_height (w, &grid->row_height, NULL);
+	if (grid->row_height < height)
+		grid->row_height = height + 2;
 	grid->line_offset = (grid->row_height - height) / 2;
 	gtk_widget_get_preferred_width (w, &grid->header_width, NULL);
 	g_object_ref_sink (w);

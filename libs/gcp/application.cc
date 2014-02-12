@@ -817,17 +817,6 @@ void Application::SaveGcp (string const &filename, Document* pDoc)
 	gtk_recent_manager_add_full (GetRecentManager (), filename.c_str (), &data);
 }
 
-static int	cb_vfs_to_xml (GInputStream *input, char* buf, int nb)
-{
-	GError *error = NULL;
-	int n = g_input_stream_read (input, buf, nb, NULL, &error);
-	if (error) {
-		g_message ("GIO error: %s", error->message);
-		g_error_free (error);
-	}
-	return n;
-}
-
 void Application::OpenGcp (string const &filename, Document* pDoc)
 {
 	xmlDocPtr xml = NULL;
