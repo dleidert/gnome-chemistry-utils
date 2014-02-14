@@ -32,6 +32,7 @@
 namespace gcugtk {
 
 WindowState Application::DefaultWindowState = NormalWindowState;
+static Application *Default = NULL;
 
 class ApplicationPrivate
 {
@@ -144,6 +145,13 @@ void Application::ShowURI (GdkScreen *screen, std::string& uri)
 void Application::OnLiveAssistance (GdkScreen *screen)
 {
 	go_gtk_url_show ("irc://irc.gimp.net/gchemutils", screen);
+}
+
+Application *Application::GetDefaultApplication ()
+{
+	if (!Default)
+		Default = new Application ("gcugtk"); // the name is just arbitrary
+	return Default;
 }
 
 }	//	namespace gcugtk

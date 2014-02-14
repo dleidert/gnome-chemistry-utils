@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2014-02-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: always use the correct application to load residues.
+	* libs/gcu/application.cc: don't use a NULL command context.
+	* libs/gcu/application.h: tupo.
+	* libs/gcugtk/application.cc: add a static GetDefaultApplication() method.
+	* libs/gcugtk/application.h: ditto.
+	* libs/gcugtk/cmd-context-gtk.h: ensure that class Application is declared.
+	* mozilla-plugin/chem-viewer.cc: load radii for 3Dmolecules.
+
 2014-02-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/grid.cc: fixed crash with recent Gtk+.
 
