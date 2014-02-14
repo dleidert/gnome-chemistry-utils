@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2014-02-14  Dimitris Spingos <dmtrs32@gmail.com>
+	* el.po: updated Greek translation.
+
 2013-11-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: add missing files.
 

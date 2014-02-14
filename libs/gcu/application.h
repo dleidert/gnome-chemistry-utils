@@ -244,14 +244,14 @@ Application available.
 	static Application *GetDefaultApplication ();
 
 /*!
-@param name: aa Application name
+@param name: an Application name
 
 @return the Application with the given name if it currently exists in the process.
 */
 	static Application *GetApplication (char const *name);
 
 /*!
-@param name: aa Application name
+@param name: an Application name
 
 @return the Application with the given name if it currently exists in the process.
 */

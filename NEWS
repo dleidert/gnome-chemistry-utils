@@ -17,6 +17,7 @@ Version 0.15.1
 		* Don't crash when editing after saving a GChemPaint object.
 	Mozilla plugin:
 		* Fix supported mime-types list. (see Debian bug #716961)
+		* Fix crashers for 2D and 3D molecules.
 	Other:
 		* Fix build on FreeBSD (Koop Mast). [#41256]
 

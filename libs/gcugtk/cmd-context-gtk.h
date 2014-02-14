@@ -28,6 +28,8 @@
 /*!\file*/
 namespace gcugtk {
 
+class Application;
+
 /*!\class CmdContextGtk gcugtk/cmd-context-gtk.h
 @brief A Gtk+ using gcu::CmdContext implementation.
 

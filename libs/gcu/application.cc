@@ -215,7 +215,8 @@ ContentType Application::Load (std::string const &uri, const gchar *mime_type, D
 			return ContentTypeUnknown;
 		}
 	}
-	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
+	CmdContext *ctxt = GetCmdContext ();
+	GOIOContext *io = ctxt? ctxt->GetNewGOIOContext (): NULL;
 	ContentType ret = l->Read (Doc, input, mime_type, io);
 	g_object_unref (input);
 	g_object_unref (io);
@@ -240,7 +241,8 @@ ContentType Application::Load (GsfInput *input, const gchar *mime_type, Document
 		mime_type = "chemical/x-cml";
 		needs_free = true;
 	}
-	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
+	CmdContext *ctxt = GetCmdContext ();
+	GOIOContext *io = ctxt? ctxt->GetNewGOIOContext (): NULL;
 	ContentType ret = l->Read (Doc, input, mime_type, io);
 	g_object_unref (io);
 	if (needs_free)
@@ -252,7 +254,8 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Object c
 {
 	Loader *l = Loader::GetSaver (mime_type);
 	GError *error = NULL;
-	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
+	CmdContext *ctxt = GetCmdContext ();
+	GOIOContext *io = ctxt? ctxt->GetNewGOIOContext (): NULL;
 	if (!l) {
 		l = Loader::GetSaver ("chemical/x-cml");
 		if (!l) {
@@ -298,7 +301,8 @@ bool Application::Save (GsfOutput *output, const gchar *mime_type, Object const 
 {
 	bool ret;
 	Loader *l = Loader::GetSaver (mime_type);
-	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
+	CmdContext *ctxt = GetCmdContext ();
+	GOIOContext *io = ctxt? ctxt->GetNewGOIOContext (): NULL;
 	if (!l) {
 		l = Loader::GetSaver ("chemical/x-cml");
 		if (!l)
@@ -386,8 +390,9 @@ TypeId Application::AddType (std::string TypeName, Object* (*Create) (), TypeId 
 Object* Application::CreateObject (const std::string& TypeName, Object* parent)
 {
 	map <TypeId, TypeDesc>::const_iterator it = m_Types.find (Object::GetTypeId (TypeName));
-	if (it == m_Types.end ())
+	if (it == m_Types.end ()) {
 		return NULL;
+	}
 	TypeDesc const *typedesc = &(*it).second;
 	Object* obj = (typedesc->Create)? typedesc->Create (): NULL;
 	if (obj) {

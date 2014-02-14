@@ -184,7 +184,13 @@ Creates a new empty message using the default mail if any.
 Attempts to open the \#gchemutils channel at irc.gimp.net.
 */
 	void OnLiveAssistance (GdkScreen *screen);
-	
+
+/*!
+@return a dummy Application instance which might be used when there is no other
+Application available.
+*/
+	static Application *GetDefaultApplication ();
+
 protected:
 
 /*!

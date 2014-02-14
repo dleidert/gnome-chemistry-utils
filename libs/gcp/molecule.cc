@@ -440,7 +440,7 @@ bool Molecule::Load (xmlNodePtr node)
 	// FIXME, the following looks like a kludge
 	child = GetNodeByName (node, "pseudo-atom");
 	while (child) {
-		pObject = CreateObject ("pseudo-atom", pDoc);
+		pObject = (GetApplication ())? CreateObject ("pseudo-atom", pDoc): Application::GetApplication ("GChemPaint")->CreateObject ("pseudo-atom", pDoc);
 		if (pDoc)
 			AddChild (pObject);
 		if (!pObject->Load (child)) {

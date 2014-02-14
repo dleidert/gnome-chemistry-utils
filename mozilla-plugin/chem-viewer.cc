@@ -24,6 +24,7 @@
 #include <gcugtk/gcuchem3dviewer.h>
 #include <gcr/gcrcrystalviewer.h>
 #include <gcugtk/gcuspectrumviewer.h>
+#include <gcugtk/cmd-context-gtk.h>
 #include <gcu/chem3ddoc.h>
 #include <gcu/loader.h>
 #include <gcp/application.h>
@@ -62,7 +63,7 @@ public:
 	GtkWindow* GetWindow() {return NULL;}
 };
 
-MozPaintApp::MozPaintApp (): gcp::Application ()
+MozPaintApp::MozPaintApp (): gcp::Application (new gcugtk::CmdContextGtk (NULL))
 {
 }
 
@@ -225,6 +226,10 @@ void ChemComp::SetFilename (string& filename)
 		gcu_spectrum_viewer_set_uri (GCU_SPECTRUM_VIEWER (Viewer), uri);
 		g_free (uri);
 	} else {
+		if (!loaded_radii) {
+			Element::LoadRadii ();
+			loaded_radii = true;
+		}
 		char *uri = g_filename_to_uri (filename.c_str (), NULL, NULL);
 		gcu_chem3d_viewer_set_uri_with_mime_type (GCU_CHEM3D_VIEWER (Viewer),
 				uri, MimeType.c_str ());
