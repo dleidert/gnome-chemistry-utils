@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+
+2014-02-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: version bump (0.14.7).
+
 2014-02-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: always use the correct application to load residues.
 	* libs/gcu/application.cc: don't use a NULL command context.
