@@ -1,5 +1,7 @@
 ##Text encoding: utf-8
 
+2014-02-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: fix drawing area with gtk3 >= 3.10.
 
 2014-02-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.14.8).

@@ -94,14 +94,15 @@ bool CanvasPrivate::OnDraw (Canvas *canvas, cairo_t *cr)
 	gtk_style_context_get_color (ctxt, state, &rgba);
 	canvas->m_Color = GO_COLOR_FROM_GDK_RGBA (rgba);
 	if (ev && ev->type == GDK_EXPOSE) {
-		GdkEventExpose *event = reinterpret_cast < GdkEventExpose * > (ev);
+		double clip_x0, clip_y0, clip_x1, clip_y1;
+		cairo_clip_extents (cr, &clip_x0, &clip_y0, &clip_x1, &clip_y1);
 		x0 *= canvas->m_Zoom;
 		x1 *= canvas->m_Zoom;
 		y0 *= canvas->m_Zoom;
 		y1 *= canvas->m_Zoom;
-		if (x0 <= event->area.x + event->area.width && x1 >= event->area.x && y0 <= event->area.y + event->area.height && y1 >= event->area.y)
-			canvas->m_Root->Draw (cr, event->area.x / canvas->m_Zoom, event->area.y / canvas->m_Zoom, (event->area.x + event->area.width) / canvas->m_Zoom, (event->area.y + event->area.height) / canvas->m_Zoom, false);
-	} else
+		if (x0 <= clip_x1 && x1 >= clip_x0 && y0 <= clip_y1 && y1 >= clip_y0)
+			canvas->m_Root->Draw (cr, clip_x0 / canvas->m_Zoom, clip_y0 / canvas->m_Zoom, clip_x1 / canvas->m_Zoom, clip_y1 / canvas->m_Zoom, false);
+	}
 		canvas->m_Root->Draw (cr, x0, y0, x1, y1, true);
 	cairo_restore (cr);
 	return true;

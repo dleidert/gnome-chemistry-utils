@@ -1,3 +1,7 @@
+Version 0.14.8
+	GChemPaint:
+		* Fix drawing with Gtk+ >= 3.10.
+
 Version 0.14.7
 	GCrystal:
 		* Fix crash in dialogs with recent Gtk+.
