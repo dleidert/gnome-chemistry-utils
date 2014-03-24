@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2014-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: fix tool buttons appearance for Gtk+-3.0 >= 3.10.
+
 2014-02-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: fix drawing area with gtk3 >= 3.10.
 

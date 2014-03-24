@@ -1055,9 +1055,11 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 				gtk_icon_source_set_state_wildcarded (src, false);
 				gtk_icon_source_set_direction_wildcarded (src, true);
 
-				for (int c = 0; c < 5; c++) {
+				for (int c = 0; c < 7; c++) {
 					GtkStateFlags state;
-					switch (c) {
+					if (GTK_CHECK_VERSION (3, 10, 0))
+						state = GTK_STATE_FLAG_ACTIVE;
+					else switch (c) {
 					default:
 					case 0:
 						state = GTK_STATE_FLAG_NORMAL;
@@ -1124,7 +1126,9 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 				gtk_icon_source_set_direction_wildcarded (src, true);
 				for (int c = 0; c < 7; c++) {
 					GtkStateFlags state;
-					switch (c) {
+					if (GTK_CHECK_VERSION (3, 10, 0))
+						state = GTK_STATE_FLAG_ACTIVE;
+					else switch (c) {
 					default:
 					case 0:
 						state = GTK_STATE_FLAG_NORMAL;
