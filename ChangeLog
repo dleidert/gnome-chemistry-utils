@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2014-03-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: don't crash if an atom is missing when evaluating
+	angles.
+	* libs/gcp/molecule.cc: correctly checks connectivity for molecules having
+	fragments. 
+	* libs/gcp/view.cc: fix update when deleting a aprial selecion inside a
+	group.
+	* libs/gcu/bond.cc: don't crash if an atom is missing when evaluating
+	angles.
+
 2014-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: fix tool buttons appearance for Gtk+-3.0 >= 3.10.
 
