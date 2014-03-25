@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcugtk/ui-builder.cc
  *
- * Copyright (C) 2009-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -30,7 +30,13 @@
 namespace gcugtk
 {
 
-UIBuilder::UIBuilder (char const *filename, char const *domain) throw (std::runtime_error)
+UIBuilder::UIBuilder (): gcu::UIBuilder ()
+{
+	m_Builder = gtk_builder_new ();
+}
+
+UIBuilder::UIBuilder (char const *filename, char const *domain) throw (std::runtime_error):
+	gcu::UIBuilder ()
 {
 	m_Builder = go_gtk_builder_load (filename, domain, NULL);
 	if (!m_Builder) {
@@ -69,4 +75,11 @@ GObject *UIBuilder::GetObject (char const *name)
 	return gtk_builder_get_object (m_Builder, name);
 }
 
-}   //  namespace gcu
+void UIBuilder::ActivateActionWidget (char const *path, bool activate)
+{
+	GtkWidget *w = go_gtk_builder_get_widget (m_Builder, path);
+	if (w)
+		gtk_widget_set_sensitive (w, activate);
+}
+
+}   //  namespace gcugtk

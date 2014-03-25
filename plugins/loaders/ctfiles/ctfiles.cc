@@ -60,6 +60,19 @@ typedef struct {
 	std::vector < gcu::Object * > atoms;
 } CTReadState;
 
+class CTfilesLoader;
+typedef struct {
+	CTfilesLoader *loader;
+	GsfOutput *out;
+	GOIOContext *io;
+	gcu::ContentType type;
+	std::map < gcu::Object const * , unsigned> indices;
+	unsigned cur;
+} CTWriteState;
+
+////////////////////////////////////////////////////////////////////////////////
+// CTfilesLoader definition
+
 class CTfilesLoader: public gcu::Loader
 {
 public:
@@ -69,10 +82,10 @@ public:
 	gcu::ContentType Read (gcu::Document *doc, GsfInput *in, char const *mime_type, GOIOContext *io);
 	bool Write (gcu::Object const *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, gcu::ContentType type);
 
-	bool WriteObject (GsfXMLOut *out, gcu::Object const *object, GOIOContext *io, gcu::ContentType type);
+	bool WriteObject (CTWriteState *state, gcu::Object const *object);
 
 private:
-	std::map <std::string, bool (*) (CTfilesLoader *, GsfXMLOut *, gcu::Object const *, GOIOContext *s, gcu::ContentType)> m_WriteCallbacks;
+	std::map <std::string, bool (*) (CTWriteState *, gcu::Object const *)> m_WriteCallbacks;
 	bool ReadHeader (CTReadState *state);
 	bool ReadCounts (CTReadState *state, char const *source);
 	bool ReadMolecule (CTReadState *state);
@@ -80,9 +93,66 @@ private:
 	bool ReadBond (CTReadState *state);
 };
 
+////////////////////////////////////////////////////////////////////////////////
+// Write callbacks
+
+bool ct_write_atom (CTWriteState *state, gcu::Object const *object)
+{
+	return true;
+}
+
+bool ct_write_fragment (CTWriteState *state, gcu::Object const *object)
+{
+	return true;
+}
+
+bool ct_write_bond (CTWriteState *state, gcu::Object const *object)
+{
+	return true;
+}
+
+bool ct_write_molecule (CTWriteState *state, gcu::Object const *object)
+{
+	std::map < std::string, gcu::Object * >::const_iterator i;
+	gcu::Object const *child = object->GetFirstChild (i);
+	std::list < gcu::Object const * > bonds, fragments;
+	while (child) {
+		switch (child->GetType ()) {
+		case gcu::FragmentType:
+			fragments.push_back (child); 
+		case gcu::AtomType:
+			state->loader->WriteObject (state, child);
+			state->indices[child] = ++state->cur;
+			break;
+		case gcu::BondType:
+			bonds.push_back (child);
+			break;
+		default:
+			break;
+		}
+		child = object->GetNextChild (i);
+	}
+	// now save bonds
+	if (bonds.size () > 0) {
+		std::list < gcu::Object const * >::iterator it, end = bonds.end ();
+		for (it = bonds.begin (); it != end; ++it)
+			state->loader->WriteObject (state, *it);
+	}
+	state->cur = 0;
+	state->indices.clear ();
+	return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// CTfilesLoader implementation
+
 CTfilesLoader::CTfilesLoader ()
 {
 	AddMimeType ("chemical/x-mdl-molfile");
+	m_WriteCallbacks["molecule"] = ct_write_molecule;
+	m_WriteCallbacks["atom"] = ct_write_molecule;
+	m_WriteCallbacks["fragment"] = ct_write_molecule;
+	m_WriteCallbacks["bond"] = ct_write_molecule;
 }
 
 CTfilesLoader::~CTfilesLoader ()
@@ -379,17 +449,17 @@ gcu::ContentType CTfilesLoader::Read  (G_GNUC_UNUSED gcu::Document *doc, G_GNUC_
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
-bool CTfilesLoader::WriteObject (GsfXMLOut *xml, gcu::Object const *object, GOIOContext *io, gcu::ContentType type)
+bool CTfilesLoader::WriteObject (CTWriteState *state, gcu::Object const *object)
 {
 	std::string name = gcu::Object::GetTypeName (object->GetType ());
-	std::map <std::string, bool (*) (CTfilesLoader *, GsfXMLOut *, gcu::Object const *, GOIOContext *, gcu::ContentType)>::iterator i = m_WriteCallbacks.find (name);
+	std::map < std::string, bool (*) (CTWriteState *, gcu::Object const *) >::iterator i = m_WriteCallbacks.find (name);
 	if (i != m_WriteCallbacks.end ())
-		return (*i).second (this, xml, object, io, type);
+		return (*i).second (state, object);
 	// if we don't save the object iself, try to save its children
 	std::map <std::string, gcu::Object *>::const_iterator j;
 	gcu::Object const *child = object->GetFirstChild (j);
 	while (child) {
-		if (!WriteObject (xml, child, io, type))
+		if (!WriteObject (state, child))
 			return false;
 		child = object->GetNextChild (j);
 	}
@@ -397,10 +467,16 @@ bool CTfilesLoader::WriteObject (GsfXMLOut *xml, gcu::Object const *object, GOIO
 					either in this code or in the cml schema */
 }
 
-bool CTfilesLoader::Write  (gcu::Object const *obj, GsfOutput *out, char const *, GOIOContext *, gcu::ContentType)
+bool CTfilesLoader::Write  (gcu::Object const *obj, GsfOutput *out, char const *, GOIOContext *ctxt, gcu::ContentType type)
 {
 	if (NULL != out) {
 		gcu::Document const *doc = dynamic_cast <gcu::Document const *> (obj);
+		CTWriteState state;
+		state.loader = this;
+		state.out = out;
+		state.io = ctxt;
+		state.type = type;
+		state.cur = 0;
 		if (!doc)
 			doc = obj->GetDocument ();
 		if (obj->GetType () == gcu::MoleculeType) {
@@ -410,6 +486,7 @@ bool CTfilesLoader::Write  (gcu::Object const *obj, GsfOutput *out, char const *
 			// only support V3000 on export
 			char buf[] = "  0  0  0     0  0           999 V3000\n";
 			gsf_output_write (out, strlen (buf), reinterpret_cast < guint8 const * > (buf));
+			WriteObject (&state, obj);
 			gsf_output_write (out, 6, reinterpret_cast < guint8 const * > ("M END\n"));
 		} else
 			return false;

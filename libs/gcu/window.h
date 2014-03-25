@@ -25,6 +25,9 @@
 #ifndef GCU_WINDOW_H
 #define GCU_WINDOW_H
 
+#include "macros.h"
+#include "ui-builder.h"
+
 /*!\file*/
 namespace gcu {
 class UIManager;
@@ -73,6 +76,7 @@ protected:
 The gcugtk::UIManager associated with the window.
 */
 	UIManager* m_UIManager;
+GCU_PROT_POINTER_PROP (UIBuilder, Builder)
 };
 
 }

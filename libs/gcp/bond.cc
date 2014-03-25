@@ -95,6 +95,8 @@ void Bond::SetType (BondType type)
 double Bond::GetAngle2D (Atom* pAtom)
 {
 	double x1, y1, x2, y2;
+	if (m_Begin == NULL || m_End == NULL)
+		return HUGE_VAL;
 	m_Begin->GetCoords (&x1, &y1);
 	m_End->GetCoords (&x2, &y2);
 	x2 -= x1;

@@ -1,5 +1,24 @@
 ##Text encoding: utf-8
 
+2014-03-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: don't crash if an atom is missing when evaluating
+	angles.
+	* libs/gcp/molecule.cc: correctly checks connectivity for molecules having
+	fragments. 
+	* libs/gcp/view.cc: fix update when deleting a aprial selecion inside a
+	group.
+	* libs/gcu/Makefile.am: new gcu::UIBuilder base class.
+	* libs/gcu/bond.cc: don't crash if an atom is missing when evaluating
+	angles.
+	* libs/gcu/ui-builder.cc: new gcu::UIBuilder base class.
+	* libs/gcu/ui-builder.h: ditto.
+	* libs/gcu/window.cc: add an UIBuilder field.
+	* libs/gcu/window.h: ditto.
+	* libs/gcugtk/ui-builder.cc: make gcugck::UIBuilder derive from the new
+	class.
+	* libs/gcugtk/ui-builder.h: ditto.
+	* plugins/loaders/ctfiles/ctfiles.cc: start work on export.
+
 2014-02-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: fix drawing area with gtk3 >= 3.10.
 

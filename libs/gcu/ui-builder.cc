@@ -1,10 +1,8 @@
-// -*- C++ -*-
-
 /*
  * Gnome Chemistry Utils
- * gcu/window.cc
+ * gcu/ui-builder.cc
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -24,31 +22,19 @@
 
 #include "config.h"
 #include "ui-builder.h"
-#include "ui-manager.h"
-#include "window.h"
 
 namespace gcu {
 
-Window::Window ():
-		m_Builder (NULL)
+UIBuilder::UIBuilder ()
 {
 }
 
-Window::~Window ()
+UIBuilder::~UIBuilder ()
 {
 }
 
-void Window::Destroy ()
+void UIBuilder::ActivateActionWidget (char const *, bool)
 {
 }
 
-void Window::Show ()
-{
-}
-
-void Window::ActivateActionWidget (char const *path, bool activate)
-{
-	m_UIManager->ActivateActionWidget (path, activate);
-}
-
-}
+}	//	namespace gcu

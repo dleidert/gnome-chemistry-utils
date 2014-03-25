@@ -49,6 +49,7 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		spacegroup.cc   \
 		sphere.cc	\
 		transform3d.cc  \
+		ui-builder.cc   \
 		ui-manager.cc   \
 		value.cc \
 		vector.cc \
@@ -86,6 +87,7 @@ noinst_HEADERS = \
 		sphere.h	\
 		structs.h   \
 		transform3d.h  \
+		ui-builder.h   \
 		ui-manager.h   \
 		value.h \
 		vector.h \

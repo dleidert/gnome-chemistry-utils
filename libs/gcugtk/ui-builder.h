@@ -22,11 +22,12 @@
  * USA
  */
 
-#ifndef GCU_UI_BUILDER_H
-#define GCU_UI_BUILDER_H
+#ifndef GCU_GTK_UI_BUILDER_H
+#define GCU_GTK_UI_BUILDER_H
 
 #include <gtk/gtk.h>
 #include <gcu/macros.h>
+#include <gcu/ui-builder.h>
 #include <stdexcept>
 
 /*!\file*/
@@ -38,9 +39,13 @@ namespace gcugtk
 
 Wraps a GtkBuilder and provides some useful methods.
 */
-class UIBuilder
+class UIBuilder: public gcu::UIBuilder
 {
 public:
+/*!
+Constructs a new UIBuilder.
+*/
+	UIBuilder ();
 /*!
 @param filename: the name of the ui file which contains the description of
 the widgets.
@@ -73,6 +78,14 @@ The destructor.
 */
 	GObject *GetObject (char const *name);
 
+/*!
+@param path a path describing a menu or tool item.
+@param activate whether to activate the item.
+
+Make the item associated to \a path active or inactive according to \a activate.
+*/
+	void ActivateActionWidget (char const *path, bool activate);
+
 
 /*!\fn GetBuilder()
 @return the embedded GtkBuilder
@@ -82,4 +95,4 @@ GCU_RO_PROP (GtkBuilder *, Builder)
 
 }   //  namespace gcu
 
-#endif  //  GCU_UI_BUILDER_H
+#endif  //  GCU_GTK_UI_BUILDER_H

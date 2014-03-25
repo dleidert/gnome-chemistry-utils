@@ -286,6 +286,7 @@ void View::OnDeleteSelection (GtkWidget* w)
 			pObject = m_pDoc->GetDescendant ((*k).c_str ());
 			if (!pObject)
 				continue;
+			pObject->EmitSignal (OnChangedSignal);
 			Group = pObject->GetGroup ();
 			ModifiedObjects.insert ((Group)? Group->GetId (): *k);
 		}

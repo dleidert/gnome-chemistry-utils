@@ -1,10 +1,8 @@
-// -*- C++ -*-
-
 /*
  * Gnome Chemistry Utils
- * gcu/window.cc
+ * gcu/ui-manager.h
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011-2012 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -22,33 +20,40 @@
  * USA
  */
 
-#include "config.h"
-#include "ui-builder.h"
-#include "ui-manager.h"
-#include "window.h"
+/*!\file*/
+
+#ifndef GCU_UI_BUILDER_H
+#define GCU_UI_BUILDER_H
 
 namespace gcu {
 
-Window::Window ():
-		m_Builder (NULL)
+/*!\class UIBuilder gcu/ui-builder.h
+@brief base class for a user interface manager
+*/
+class UIBuilder
 {
-}
+public:
+/*!
+The default constructor.
+*/
+	UIBuilder ();
 
-Window::~Window ()
-{
-}
+/*!
+The destructor.
+*/
+	virtual ~UIBuilder ();
 
-void Window::Destroy ()
-{
-}
+/*!
+@param path a path describing a menu or tool.
+@param activate whether to activate the item.
 
-void Window::Show ()
-{
-}
+Make the item associated to \a path active or inactive according to \a activate.
+*/
+	virtual void ActivateActionWidget (char const *path, bool activate);
+	// TODO: add as many virtual functions as needed
 
-void Window::ActivateActionWidget (char const *path, bool activate)
-{
-	m_UIManager->ActivateActionWidget (path, activate);
-}
+};
 
-}
+}	//	namespace gcu
+
+#endif	//	GCU_UI_BUILDER_H

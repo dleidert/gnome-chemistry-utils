@@ -742,17 +742,28 @@ void Molecule::OnLoaded ()
 {
 	// First check if we have only one molecule or split, this might happen with
 	// cml (root node being molecule) or malformed files.
-	if (m_Atoms.size () > 1) {
+	if (m_Atoms.size () + m_Fragments.size () > 1) {
 		/* FIXME: what should be done with fragments? */
 		std::set < gcu::Atom * > ConnectedAtoms;
 		std::list < gcu::Atom * >:: iterator i;
 		while (1) {
-			BuildConnectivity (GetFirstAtom (i), ConnectedAtoms);
+			if (m_Atoms.size () > 0)
+				BuildConnectivity (GetFirstAtom (i), ConnectedAtoms);
+			else {
+				BuildConnectivity ((*m_Fragments.begin())->GetAtom (), ConnectedAtoms);
+			}
 			if (m_Atoms.size () + m_Fragments.size () == ConnectedAtoms.size ())
 				break;
 			// now split the molecule
-			Molecule *new_mol = new Molecule (static_cast < Atom * > (GetFirstAtom (i)));
+			Molecule *new_mol;
+			Atom *atom = (m_Atoms.size ())?
+							static_cast < Atom * > (GetFirstAtom (i)):
+							(*m_Fragments.begin())->GetAtom ();
+			new_mol = new Molecule ();
 			GetParent ()->AddChild (new_mol);
+			new_mol->AddChild (atom);
+			gcu::Chain *chain = new gcu::Chain (new_mol, atom);
+			delete chain;
 			// move chiral atoms to new mol if needed
 			std::set < gcu::Atom * >::iterator i, iend = ConnectedAtoms.end ();
 			for (i = ConnectedAtoms.begin (); i != iend; i++) {
