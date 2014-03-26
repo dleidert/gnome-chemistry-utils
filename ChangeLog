@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2014-03-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: don't set an Id to the residue, AddChild will do
+	the job.
+	* libs/gcu/object.cc: do not cache Id translations when not done with an
+	explicit SetId();
+
 2014-03-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: don't crash if an atom is missing when evaluating
 	angles.

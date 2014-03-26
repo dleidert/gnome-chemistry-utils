@@ -46,6 +46,7 @@ TypeDesc::TypeDesc ()
 
 static map<string, TypeId> Types;
 static vector<string> TypeNames;
+static Object temp;
 
 Object::Object (TypeId Id):
 	m_Dirty (false)
@@ -110,7 +111,7 @@ void Object::SetId (gchar const *Id)
 	m_Id = g_strdup (Id);
 	if (m_Parent) {
 		Object *parent = m_Parent;
-		m_Parent = NULL;
+		m_Parent = &temp;
 		parent->AddChild (this);
 	}
 }
@@ -178,7 +179,12 @@ void Object::AddChild (Object* object)
 	} else {
 		Object* o = pDoc->RealGetDescendant (object->m_Id);
 		if (o && ((pDoc != object->GetDocument()) || (object != o))) {
-			gchar *buf = pDoc->GetNewId (object->m_Id);
+			/* we need caching of the id translation only when called from
+			 * an explicit SetId() call, that's why we use temp as parent in
+			 * that case to identify this situation, otherwise we would have a
+			 * wrong translation for Ids like "a1" as when the first atom is
+			 * "a2" (the atom is first created and added with "a1" as Id) */
+			gchar *buf = pDoc->GetNewId (object->m_Id, object->m_Parent == &temp);
 			 if (object->m_Parent) {
 				object->m_Parent->m_Children.erase (object->m_Id);
 				object->m_Parent = NULL;
