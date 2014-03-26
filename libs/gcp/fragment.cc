@@ -712,13 +712,6 @@ bool Fragment::Load (xmlNodePtr node)
 				m_Atom->AddBond (pBond);
 			}
 			delete pOldAtom;
-			char id[8];
-			int j = 1;
-			id[0] = 'a';
-			do
-				snprintf (id+1, 7, "%d", j++);
-			while (pDoc->GetDescendant (id) != NULL);
-			m_Atom->SetId (id);
 			AddChild (m_Atom);
 			if (!m_Atom->Load (child))
 				return false;
