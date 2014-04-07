@@ -1,5 +1,41 @@
 ##Text encoding: utf-8
 
+2014-04-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/Makefile.am: new classes.
+	* libs/gccv/arc.cc: new Arc class.
+	* libs/gccv/arc.h: ditto.
+	* libs/gccv/canvas.cc: fixed clipped area with recent Gtk+.
+	* libs/gccv/fill-item.cc: add an auto background which is the inverse from
+	foreground color.
+	* libs/gccv/fill-item.h: ditto.
+	* libs/gccv/hash.cc: make able to use auto color.
+	* libs/gccv/hash.h: ditto.
+	* libs/gccv/leaf.cc: ditto.
+	* libs/gccv/line-item.cc: make ApplyLine() return a boolean.
+	* libs/gccv/line-item.h: ditto.
+	* libs/gccv/path.cc: new Path class.
+	* libs/gccv/path.h: ditto.
+	* libs/gccv/polygon.cc: make able to use auto colors.
+	* libs/gccv/text.h: fixed API doc.
+	* libs/gccv/wedge.cc: make able to use auto color.
+	* libs/gccv/wedge.h: ditto.
+	* libs/gcp/application.cc: change the way tool buttons are created so that
+	they appear more in line with the theme.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/tools.cc: ditto.
+	* libs/gcp/tools.h: ditto.
+	* plugins/paint/arrows/plugin.cc: ditto.
+	* plugins/paint/atoms/plugin.cc: ditto.
+	* plugins/paint/bonds/bondtool.cc: ditto.
+	* plugins/paint/bonds/bondtool.h: ditto.
+	* plugins/paint/bonds/plugin.cc: ditto.
+	* plugins/paint/cycles/plugin.cc: ditto.
+	* plugins/paint/selection/lassotool.cc: ditto.
+	* plugins/paint/selection/plugin.cc: ditto.
+	* plugins/paint/selection/selectiontool.cc: ditto.
+	* plugins/paint/templates/plugin.cc: ditto.
+	* plugins/paint/text/plugin.cc: ditto.
+
 2014-03-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: don't set an Id to the residue, AddChild will do
 	the job.

@@ -23,13 +23,15 @@
  */
 
 #include "config.h"
+#include "canvas.h"
 #include "wedge.h"
 #include <cmath>
 
 namespace gccv {
 
 Wedge::Wedge (Canvas *canvas, double x0, double y0, double x1, double y1, double width):
-	Item (canvas), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.)
+	Item (canvas), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.),
+	m_AutoColor (false)
 {
 	m_Width = width;
 	m_FillColor = GO_COLOR_BLACK;
@@ -37,7 +39,8 @@ Wedge::Wedge (Canvas *canvas, double x0, double y0, double x1, double y1, double
 }
 
 Wedge::Wedge (Group *parent, double x0, double y0, double x1, double y1, double width, ItemClient *client):
-	Item (parent, client), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.)
+	Item (parent, client), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.),
+	m_AutoColor (false)
 {
 	m_Width = width;
 	m_FillColor = GO_COLOR_BLACK;
@@ -100,7 +103,7 @@ void Wedge::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 	cairo_line_to (cr, m_xe1, m_ye1);
 	cairo_line_to (cr, m_xe2, m_ye2);
 	cairo_close_path (cr);
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (m_FillColor));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (m_AutoColor? GetCanvas ()->GetColor (): m_FillColor));
 	cairo_fill (cr);
 }
 

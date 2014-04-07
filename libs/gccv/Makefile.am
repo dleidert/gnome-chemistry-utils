@@ -3,6 +3,7 @@ MAINTAINERCLEANFILES = Makefile.in
 lib_LTLIBRARIES = libgccv-@GCU_API_VER@.la
 
 noinst_HEADERS = \
+	arc.h  \
 	arrow.h		\
 	bezier-arrow.h  \
 	brackets.h	\
@@ -17,6 +18,7 @@ noinst_HEADERS = \
 	leaf.h	\
 	line.h	\
 	line-item.h	\
+	path.h  \
 	polygon.h	\
 	poly-line.h	\
 	rectangle.h	\
@@ -28,6 +30,7 @@ noinst_HEADERS = \
 	wedge.h
 
 libgccv_@GCU_API_VER@_la_SOURCES =	\
+	arc.cc  \
 	arrow.cc	\
 	bezier-arrow.cc  \
 	brackets.cc	\
@@ -42,6 +45,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	leaf.cc	\
 	line.cc	\
 	line-item.cc	\
+	path.c  \
 	polygon.cc	\
 	poly-line.cc	\
 	rectangle.cc	\

@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * plugin.cc
  *
- * Copyright (C) 2004-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -24,6 +24,9 @@
 
 #include "config.h"
 #include "plugin.h"
+#include <gccv/canvas.h>
+#include <gccv/arrow.h>
+#include <gccv/bezier-arrow.h>
 #include <gcp/application.h>
 #include "arrowtool.h"
 #include "curvedarrowtool.h"
@@ -58,48 +61,21 @@ gcpArrowsPlugin::~gcpArrowsPlugin ()
 {
 }
 
-static gcp::IconDesc icon_descs[] = {
-	{"gcp_SimpleArrow", gcp_arrow1_24, NULL},
-	{"gcp_ReversibleArrow", gcp_arrow2_24, NULL},
-	{"gcp_RetrosynthesisArrow", gcp_retrosynth_24, NULL},
-	{"gcp_MesomeryArrow", gcp_mesomery_24, NULL},
-	{"gcp_CurvedArrow", gcp_curved_24, NULL},
-	{"gcp_Curved1Arrow", gcp_curved1_24, NULL},
-	{NULL, NULL, NULL}
+static gcp::ToolDesc tools[] = {
+	{   "SimpleArrow", N_("Add an arrow for an irreversible reaction"),
+		gcp::ArrowToolbar, 0, NULL, NULL},
+	{   "ReversibleArrow", N_("Add a pair of arrows for a reversible reaction"),
+		gcp::ArrowToolbar, 0, NULL, NULL},
+	{   "RetrosynthesisArrow", N_("Add an arrow for a retrosynthesis step"),
+		gcp::ArrowToolbar, 0, NULL, NULL},
+	{   "DoubleHeadedArrow", N_("Add a double headed arrow to represent mesomery"),
+		gcp::ArrowToolbar, 0, NULL, NULL},
+	{   "CurvedArrow", N_("Add a curved arrow to represent an electron pair move"),
+		gcp::ArrowToolbar, 0, NULL, NULL},
+	{   "Curved1Arrow", N_("Add a curved arrow to represent an single electron move"),
+		gcp::ArrowToolbar, 0, NULL, NULL},
+	{   NULL, NULL, 0, 0, NULL, NULL}
 };
-
-static GtkRadioActionEntry entries[] = {
-	{	"SimpleArrow", "gcp_SimpleArrow", N_("Simple arrow"), NULL,
-		N_("Add an arrow for an irreversible reaction"),
-		0	},
-	{	"ReversibleArrow", "gcp_ReversibleArrow", N_("Double arrow"), NULL,
-		N_("Add a pair of arrows for a reversible reaction"),
-		0	},
-	{	"RetrosynthesisArrow", "gcp_RetrosynthesisArrow", N_("Retrosynthesis arrow"), NULL,
-		N_("Add an arrow for a retrosynthesis step"),
-		0	},
-	{	"DoubleHeadedArrow", "gcp_MesomeryArrow", N_("Mesomery arrow"), NULL,
-		N_("Add a double headed arrow to represent mesomery"),
-		0	},
-	{	"CurvedArrow", "gcp_CurvedArrow", N_("Electron pair move arrow"), NULL,
-		N_("Add a curved arrow to represent an electron pair move"),
-		0	},
-	{	"Curved1Arrow", "gcp_Curved1Arrow", N_("Single electron move arrow"), NULL,
-		N_("Add a curved arrow to represent an single electron move"),
-		0	},
-};
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='ArrowsToolbar'>"
-"    <toolitem action='SimpleArrow'/>"
-"    <toolitem action='ReversibleArrow'/>"
-"    <toolitem action='RetrosynthesisArrow'/>"
-"    <toolitem action='DoubleHeadedArrow'/>"
-"    <toolitem action='CurvedArrow'/>"
-"    <toolitem action='Curved1Arrow'/>"
-"  </toolbar>"
-"</ui>";
 
 void gcpArrowsPlugin::Populate (gcp::Application* App)
 {
@@ -110,8 +86,74 @@ void gcpArrowsPlugin::Populate (gcp::Application* App)
 	GOConfNode *node = go_conf_get_node (gcu::Application::GetConfDir (), "paint/plugins/arrows");
 	bool FullHeads = go_conf_get_bool (node, "full-arrows-heads");
 	go_conf_free_node (node);
-	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
-	App->RegisterToolbar ("ArrowsToolbar", 4);
+	// build canvases for tool buttons
+	// Simple arrow
+	gccv::Canvas *canvas = new gccv::Canvas (NULL);
+	gccv::Arrow *arrow = new gccv::Arrow (canvas, 1., 12., 23., 12.);
+	arrow->SetA (5.);
+	arrow->SetB (6.);
+	arrow->SetC (3.);
+	arrow->SetAutoColor (true);
+	arrow->SetLineWidth (2.);
+	tools[0].widget = canvas->GetWidget ();
+	// Reversible arrow
+	canvas = new gccv::Canvas (NULL);
+	arrow = new gccv::Arrow (canvas, 1., 10., 23., 10.);
+	arrow->SetA (5.);
+	arrow->SetB (6.);
+	arrow->SetC (3.);
+	arrow->SetAutoColor (true);
+	arrow->SetLineWidth (2.);
+	arrow->SetEndHead (gccv::ArrowHeadLeft);
+	arrow = new gccv::Arrow (canvas, 23., 14., 1., 14.);
+	arrow->SetA (5.);
+	arrow->SetB (6.);
+	arrow->SetC (3.);
+	arrow->SetAutoColor (true);
+	arrow->SetLineWidth (2.);
+	arrow->SetEndHead (gccv::ArrowHeadLeft);
+	tools[1].widget = canvas->GetWidget ();
+	// Retrosynthesis arrow
+	canvas = new gccv::Canvas (NULL);
+	gccv::Line *line = new gccv::Line (canvas, 1., 9., 18., 9.);
+	line->SetAutoColor (true);
+	line->SetLineWidth (2.);
+	line = new gccv::Line (canvas, 1., 15., 18., 15.);
+	line->SetAutoColor (true);
+	line->SetLineWidth (2.);
+	line = new gccv::Line (canvas, 14., 5., 23., 12.);
+	line->SetAutoColor (true);
+	line->SetLineWidth (2.);
+	line = new gccv::Line (canvas, 14., 19., 23., 12.);
+	line->SetAutoColor (true);
+	line->SetLineWidth (2.);
+	tools[2].widget = canvas->GetWidget ();
+	// Mesomery arrow
+	canvas = new gccv::Canvas (NULL);
+	arrow = new gccv::Arrow (canvas, 1., 12., 23., 12.);
+	arrow->SetA (5.);
+	arrow->SetB (6.);
+	arrow->SetC (3.);
+	arrow->SetAutoColor (true);
+	arrow->SetLineWidth (2.);
+	arrow->SetStartHead (gccv::ArrowHeadFull);
+	tools[3].widget = canvas->GetWidget ();
+	// Curved arrow with full head
+	canvas = new gccv::Canvas (NULL);
+	gccv::BezierArrow *ba = new gccv::BezierArrow (canvas);
+	ba->SetControlPoints (2., 23., 2., 1., 20., 1., 20., 23.);
+	ba->SetAutoColor (true);
+	ba->SetLineWidth (2.);
+	tools[4].widget = canvas->GetWidget ();
+	// Curved arrow with full head
+	canvas = new gccv::Canvas (NULL);
+	ba = new gccv::BezierArrow (canvas);
+	ba->SetControlPoints (2., 23., 2., 1., 20., 1., 20., 23.);
+	ba->SetAutoColor (true);
+	ba->SetLineWidth (2.);
+	ba->SetHead (gccv::ArrowHeadLeft);
+	tools[5].widget = canvas->GetWidget ();
+	App->AddTools (tools);
 	new gcpArrowTool (App);
 	new gcpArrowTool (App, FullHeads? gcp::FullReversibleArrow: gcp::ReversibleArrow);
 	new gcpArrowTool (App, gcpDoubleHeadedArrow);

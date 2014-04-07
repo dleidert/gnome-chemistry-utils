@@ -981,20 +981,39 @@ void Application::OnToolChanged (GtkAction *current)
 		m_pActiveTool->Activate(true);
 }
 
+void Application::OnToolChanged (char const *new_tool_name)
+{
+	Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
+	if (m_pActiveTool) {
+		if (m_pActiveTool->GetName () == new_tool_name)
+			return;
+		if (!m_pActiveTool->Activate(false)) {
+			if (ToolsBox)
+				ToolsBox->OnSelectTool (m_pActiveTool);
+			return;
+		}
+	}
+	m_pActiveTool = m_Tools[new_tool_name];
+	if (ToolsBox)
+		ToolsBox->OnSelectTool (m_pActiveTool);
+	if (m_pActiveTool)
+		m_pActiveTool->Activate(true);
+}
+
 void Application::BuildTools () throw (std::runtime_error)
 {
-	Tools *ToolsBox = new Tools (this);
-	map<int, string>::iterator i, iend = ToolbarNames.end ();
-	list<char const*>::iterator j, jend = UiDescs.end ();
-	string s;
-	GError *error = NULL;
-	gcugtk::UIManager *ToolsManager = new gcugtk::UIManager (gtk_ui_manager_new ());
-	ToolsBox->SetUIManager (ToolsManager);
-	GtkActionGroup *action_group = gtk_action_group_new ("Tools");
-	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_radio_actions (action_group, RadioActions, m_entries, 0, G_CALLBACK (on_tool_changed), this);
-	gtk_ui_manager_insert_action_group (ToolsManager->GetUIManager (), action_group, 0);
-	for (j = UiDescs.begin (); j != jend; j++)
+	Tools *ToolsBox = new Tools (this, m_ToolDescriptions);
+//	map < int, string >::iterator i, iend = ToolbarNames.end ();
+//	list < ToolDesc const * >::iterator j, jend = m_ToolDescriptions.end ();
+//	string s;
+//	GError *error = NULL;
+//	gcugtk::UIManager *ToolsManager = new gcugtk::UIManager (gtk_ui_manager_new ());
+//	ToolsBox->SetUIManager (ToolsManager);
+//	GtkActionGroup *action_group = gtk_action_group_new ("Tools");
+//	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
+//	gtk_action_group_add_radio_actions (action_group, RadioActions, m_entries, 0, G_CALLBACK (on_tool_changed), this);
+//	gtk_ui_manager_insert_action_group (ToolsManager->GetUIManager (), action_group, 0);
+/*	for (j = UiDescs.begin (); j != jend; j++)
 		if (!gtk_ui_manager_add_ui_from_string (ToolsManager->GetUIManager (), *j, -1, &error)) {
 			string what = string ("building user interface failed: ") + error->message;
 			g_error_free (error);
@@ -1004,7 +1023,7 @@ void Application::BuildTools () throw (std::runtime_error)
 		s = "ui/";
 		s += (*i).second;
 		ToolsBox->AddToolbar (s);
-	}
+	}*/
 	m_pActiveTool = m_Tools["Select"];
 	if (m_pActiveTool)
 		m_pActiveTool->Activate(true);
@@ -1171,6 +1190,12 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 		g_object_unref (ctxt);
 		gtk_widget_destroy (w);
 	}
+}
+
+void Application::AddTools (ToolDesc const *tools)
+{
+	// just storing at this point
+	m_ToolDescriptions.push_back (tools);
 }
 
 void Application::RegisterToolbar (char const *name, int index)

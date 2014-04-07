@@ -96,7 +96,7 @@ actually the sum of this distance and the hash width.
 /*!\fn GetLineDist()
 @return the distance between two consecutive hashes.
 */
-		GCCV_ITEM_POS_PROP (double, LineDist)
+GCCV_ITEM_POS_PROP (double, LineDist)
 };
 
 }

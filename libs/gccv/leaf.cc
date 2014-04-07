@@ -121,7 +121,7 @@ double Leaf::Distance (double x, double y, Item **item) const
 #define LEAF_INCR8	1.
 void Leaf::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
-	GOColor fill_color = GetFillColor (), line_color = GetLineColor ();
+	GOColor fill_color = GetEffectiveFillColor (), line_color = GetEffectiveLineColor ();
 	cairo_set_line_width (cr, GetLineWidth ());
 	cairo_move_to (cr, m_x, m_y);
 	cairo_curve_to (cr,

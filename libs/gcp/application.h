@@ -51,7 +51,7 @@ The namespace used for the C++ classes used by GChemPaint.
 
 namespace gcp {
 
-/*!\struct IconDesc
+	/*!\struct IconDesc
 Structure to use as icon descriptors for tools.
 See gcp::Application::AddActions() for information about its use.
 */
@@ -70,6 +70,50 @@ The icon as in line bytes or NULL (when using a canvas instead of a bitmap).
 */
 	gccv::Canvas *canvas;
 } IconDesc;
+
+/*!\struct ToolDesc
+Structure to use as button descriptors for tools.
+See gcp::Application::AddTools() for information about its use.
+*/
+typedef struct
+{
+/*!
+The tool name.
+*/
+	char const *name;
+/*!
+The tool tip.
+*/
+	char const *tip;
+/*!
+The tool bar number
+*/
+	unsigned bar;
+/*!
+The tool group inside the toolbar. This field helps merging toolbars with tools
+from different plugins.
+*/
+	unsigned group;
+/*!
+The name of the icon to add to the button.
+*/
+	char const *icon_name;
+/*!
+The widget to add to the tool button, if NULL the icon with %icon_name will
+be used. If both are NULL, the tool button will not be added.
+*/
+	GtkWidget *widget;
+} ToolDesc;
+
+// standard toolbars
+enum {
+	SelectionToolbar,
+	AtomToolbar,
+	BondToolbar,
+	RingToolbar,
+	ArrowToolbar,
+	MaxToolbar
+};
 
 class Target;
 class NewFileDlg;
@@ -302,6 +346,7 @@ void gcpSelectionPlugin::Populate (gcp::Application* App)
 \endcode
 */
 	void AddActions (GtkRadioActionEntry const *entries, int nb, char const *ui_description, IconDesc const *icons);
+	void AddTools (ToolDesc const *tools);
 /*!
 @param name the name of the toolbar.
 @param index the rank of the toolbar in the toolbox.
@@ -316,6 +361,7 @@ gcp::Application::AddActions() for a case use.
 Call by the framework when the active tool changed.
 */
 	void OnToolChanged (GtkAction *current);
+	void OnToolChanged (char const *new_tool_name);
 /*!
 @param target the Target to add.
 
@@ -430,6 +476,7 @@ have scalable icons using the theme colors whenever possible.
 Used as callback as gtk_clipboard_request_contents().
 */
 	void ReceiveTargets (GtkClipboard *clipboard, GtkSelectionData *selection_data);
+	std::list < ToolDesc const * > const &GetToolDescriptions () const {return m_ToolDescriptions;}
 
 protected:
 /*!
@@ -492,7 +539,8 @@ private:
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;
 	GdkCursor *m_Cursors[CursorMax];
-	std::map < std::string, gccv::Canvas * >m_ToolCanvases;
+	std::map < std::string, gccv::Canvas * > m_ToolCanvases; // to deprecate
+	std::list < ToolDesc const * > m_ToolDescriptions;
 
 /*!\fn GetHaveGhemical
 @return true if ghemical is usable on startup.

@@ -60,13 +60,15 @@ GOColor LineItem::GetEffectiveLineColor () const
 	return m_AutoColor? GetCanvas ()->GetColor (): m_LineColor;
 }
 
-void LineItem::ApplyLine (cairo_t *cr) const
+bool LineItem::ApplyLine (cairo_t *cr) const
 {
+	GOColor color = m_AutoColor? GetCanvas ()->GetColor (): m_LineColor;
 	cairo_save (cr);
 	cairo_set_line_width (cr, m_LineWidth);
-	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (m_AutoColor? GetCanvas ()->GetColor (): m_LineColor));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	if (m_Dashes)
 		cairo_set_dash (cr, m_Dashes, m_DashesNb, m_DashOffset);
+	return color != 0;
 }
 
 void LineItem::SetDashes (double const *dashes, int num_dashes, double offset)

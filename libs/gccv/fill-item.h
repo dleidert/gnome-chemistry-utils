@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/fill-item.h
  *
- * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -37,7 +37,7 @@ namespace gccv {
 This class has just one important member: the fill color. Although it is
 not a virtual class, only derived objects should be used.
 */
-	class FillItem: public LineItem {
+class FillItem: public LineItem {
 public:
 /*!
 @param canvas a Canvas.
@@ -58,6 +58,11 @@ The destructor.
 */
 	virtual ~FillItem ();
 
+/*!
+@return the line color whether it is an automatic color or not.
+*/
+	GOColor GetEffectiveFillColor () const;
+
 /*!\fn SetFillColor(GOColor color)
 @param color the new fill color.
 
@@ -67,6 +72,16 @@ Sets the fill color for the item.
 @return the fill color for the item.
 */
 GCCV_ITEM_PROP (GOColor, FillColor)
+/*!\fn SetAutoFillColor(bool auto)
+@param auto whether to use a color from the theme.
+
+if \a auto is true, the color used to fill the shape whill be retrieved from
+the Gtk+ theme instead of using the FillColor member.
+*/
+/*!\fn bool GetAutoFillColor()
+@return the line color mode, true if automatic, false otherwise.
+*/
+GCCV_ITEM_PROP (bool, AutoFillColor)
 };
 
 }

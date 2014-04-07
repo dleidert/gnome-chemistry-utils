@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * plugin.cc
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -41,44 +41,25 @@ gcpTextPlugin::gcpTextPlugin (): gcp::Plugin ()
 gcpTextPlugin::~gcpTextPlugin ()
 {
 }
-
-static gcp::IconDesc icon_descs[] = {
-	{"gcp_Text", gcp_text_24, NULL},
-	{"gcp_Fragment", gcp_fragment_24, NULL},
-	{NULL, NULL, NULL}
+	
+static gcp::ToolDesc tools[] = {
+	{   "Separator", NULL,
+		gcp::SelectionToolbar, 2, NULL, NULL},
+	{   "Text", N_("Add or modify a text"),
+		gcp::SelectionToolbar, 2, NULL, NULL},
+	{   "Fragment", N_("Add or modify a group of atoms"),
+		gcp::AtomToolbar, 1, NULL, NULL},
+	{   NULL, NULL, 0, 0, NULL, NULL}
 };
-
-static GtkRadioActionEntry entries[] = {
-	{	"Text", "gcp_Text", N_("Text"), NULL,
-		N_("Add or modify a text"),
-		0	},
-	{	"Fragment", "gcp_Fragment", N_("Erase"), NULL,
-		N_("Add or modify a group of atoms"),
-		0	},
-};
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='SelectToolbar'>"
-"	 <placeholder name='Select1'/>"
-"	 <placeholder name='Select2'/>"
-"	 <placeholder name='Select3'>"
-"	   <separator/>"
-"	   <toolitem action='Text'/>"
-"	 </placeholder>"
-"  </toolbar>"
-"  <toolbar name='AtomsToolbar'>"
-"	 <placeholder name='Atom1'/>"
-"	 <placeholder name='Atom2'>"
-"	   <toolitem action='Fragment'/>"
-"	 </placeholder>"
-"	 <placeholder name='Atom3'/>"
-"  </toolbar>"
-"</ui>";
 
 void gcpTextPlugin::Populate (gcp::Application* App)
 {
-	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
+	tools[1].widget = gtk_label_new (NULL);
+	gtk_label_set_markup (GTK_LABEL (tools[1].widget), "<span face=\"serif\" size=\"larger\">T</span>");
+	tools[2].widget = gtk_label_new (NULL);
+	gtk_label_set_markup (GTK_LABEL (tools[2].widget), "CH<sub><span size=\"smaller\">2</span></sub>");
+	g_object_set (G_OBJECT (tools[2].widget), "margin-top", 3, NULL);
+	App->AddTools (tools);
 	new gcpTextTool (App);
 	new gcpFragmentTool (App);
 }

@@ -49,6 +49,7 @@ public:
 Builds the tools box for the application.
 */
 	Tools (Application *App);
+	Tools (Application *app, std::list < ToolDesc const * > const &descs);
 /*!
 The destructor.
 */
@@ -115,7 +116,8 @@ Called by the framework when the Help button is clicked.
 private:
 	gcugtk::UIManager *m_UIManager;
 	GtkGrid *m_ButtonsGrid;
-	std::map<Tool*, int> m_Pages;
+	std::map < Tool *, int > m_Pages;
+	std::map < std::string, GtkWidget *> m_Widgets;
 	GtkNotebook *m_Book;
 	Tool *m_Tool;
 	GcuComboPeriodic *m_Mendeleiev;

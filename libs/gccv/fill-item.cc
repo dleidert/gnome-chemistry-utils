@@ -23,24 +23,32 @@
  */
 
 #include "config.h"
+#include "canvas.h"
 #include "fill-item.h"
 
 namespace gccv {
 
 FillItem::FillItem (Canvas *canvas):
 	LineItem (canvas),
-	m_FillColor (GO_COLOR_WHITE)
+	m_FillColor (GO_COLOR_WHITE),
+	m_AutoFillColor (false)
 {
 }
 
 FillItem::FillItem (Group *parent, ItemClient *client):
 	LineItem (parent, client),
-	m_FillColor (GO_COLOR_WHITE)
+	m_FillColor (GO_COLOR_WHITE),
+	m_AutoFillColor (false)
 {
 }
 
 FillItem::~FillItem ()
 {
+}
+
+GOColor FillItem::GetEffectiveFillColor () const
+{
+	return m_AutoFillColor? GetCanvas ()->GetColor () ^0xffffff00: m_FillColor;
 }
 
 }

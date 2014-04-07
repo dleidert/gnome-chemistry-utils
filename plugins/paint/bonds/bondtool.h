@@ -26,6 +26,7 @@
 #define GCHEMPAINT_BOND_TOOL_H
 
 #include <gcp/tool.h>
+#include <gccv/wedge.h>
 
 namespace gcp {
 	class Atom;
@@ -96,8 +97,10 @@ protected:
 class gcpDownBondTool: public gcpBondTool
 {
 public:
-	gcpDownBondTool (gcp::Application *App);
+	gcpDownBondTool (gcp::Application *App, gccv::Wedge *item);
 	virtual ~gcpDownBondTool ();
+
+	void UpdateItem (bool inverted);
 
 protected:
 	virtual void Draw ();
@@ -108,6 +111,7 @@ protected:
 private:
 	GOConfNode *m_ConfNode;
 	guint m_NotificationId;
+	gccv::Wedge *m_Wedge;
 };
 
 class gcpSquiggleBondTool: public gcpBondTool

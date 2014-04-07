@@ -96,14 +96,14 @@ bool CanvasPrivate::OnDraw (Canvas *canvas, cairo_t *cr)
 	if (ev && ev->type == GDK_EXPOSE) {
 		double clip_x0, clip_y0, clip_x1, clip_y1;
 		cairo_clip_extents (cr, &clip_x0, &clip_y0, &clip_x1, &clip_y1);
-		x0 *= canvas->m_Zoom;
-		x1 *= canvas->m_Zoom;
-		y0 *= canvas->m_Zoom;
-		y1 *= canvas->m_Zoom;
+		clip_x0 /= canvas->m_Zoom;
+		clip_x1 /= canvas->m_Zoom;
+		clip_y0 /= canvas->m_Zoom;
+		clip_y1 /= canvas->m_Zoom;
 		if (x0 <= clip_x1 && x1 >= clip_x0 && y0 <= clip_y1 && y1 >= clip_y0)
-			canvas->m_Root->Draw (cr, clip_x0 / canvas->m_Zoom, clip_y0 / canvas->m_Zoom, clip_x1 / canvas->m_Zoom, clip_y1 / canvas->m_Zoom, false);
-	}
-	canvas->m_Root->Draw (cr, x0, y0, x1, y1, true);
+			canvas->m_Root->Draw (cr, clip_x0, clip_y0, clip_x1, clip_y1, false);
+	} else
+		canvas->m_Root->Draw (cr, x0, y0, x1, y1, true);
 	cairo_restore (cr);
 	return true;
 }

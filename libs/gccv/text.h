@@ -311,7 +311,7 @@ GCCV_TEXT_PROP (double, Padding)
 
 Sets the Anchor foir the Text.
 */
-/*!\fn GetAnchor()
+/*!\fn Anchor GetAnchor()
 @return the Text Anchor.
 */
 GCCV_TEXT_PROP (Anchor, Anchor)

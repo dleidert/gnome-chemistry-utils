@@ -37,6 +37,7 @@
 #include <gcugtk/ui-manager.h>
 #include <gccv/canvas.h>
 #include <gccv/group.h>
+#include <gccv/line.h>
 #include <gccv/rectangle.h>
 #include <gccv/structs.h>
 #include <glib/gi18n-lib.h>
@@ -50,19 +51,13 @@ using namespace std;
 static void on_flip (GtkWidget *btn, gcp::Application* App)
 {
 	gcpSelectionTool *tool = (gcpSelectionTool*) App->GetTool ("Select");
-	if (GTK_IS_WIDGET (btn))
-		tool->OnFlip (strcmp (gtk_widget_get_name (btn), "VertFlip"));
-	else
-		tool->OnFlip (strcmp (gtk_action_get_name (GTK_ACTION (btn)), "VertFlip"));
+	tool->OnFlip (strcmp (gtk_widget_get_name (btn), "VertFlip"));
 }
 
-static void on_rotate (GtkWidget *btn, gcp::Application* App)
+static void on_rotate (GtkToggleToolButton *btn, gcp::Application* App)
 {
 	gcpSelectionTool *tool = (gcpSelectionTool*) App->GetTool ("Select");
-	if (GTK_IS_WIDGET (btn))
-		tool->Rotate (gtk_toggle_tool_button_get_active (GTK_TOGGLE_TOOL_BUTTON (btn)));
-	else
-		tool->Rotate (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (btn)));
+	tool->Rotate (gtk_toggle_tool_button_get_active (btn));
 }
 
 static void on_merge (G_GNUC_UNUSED GtkWidget *btn, gcp::Application* App)
@@ -282,7 +277,7 @@ void gcpSelectionTool::AddSelection (gcp::WidgetData* data)
 			m_pData = d;
 		}
 		// If the selection is made of two molecules, activate the merge tool
-		if (m_UIManager) {
+		if (m_MergeBtn) {
 			std::set < Object * >::iterator i = m_pData->SelectedObjects.begin ();
 			gtk_widget_set_sensitive (m_MergeBtn, ((m_pData->SelectedObjects.size () == 2) &&
 				((*i++)->GetType () == MoleculeType) &&
@@ -476,60 +471,67 @@ bool gcpSelectionTool::OnRightButtonClicked (gcu::UIManager *UIManager)
 	return false;
 }
 
-static GtkActionEntry entries[] = {
-	{ "HorizFlip", "gcp_Horiz", N_("Horizontal flip"), NULL,
-		N_("Flip the selection horizontally"), G_CALLBACK (on_flip) },
-	{ "VertFlip", "gcp_Vert", N_("Vertical flip"), NULL,
-		N_("Flip the selection vertically"), G_CALLBACK (on_flip) },
-	{ "Merge", "gcp_Merge", N_("Merge"), NULL,
-		N_("Merge two molecules"), G_CALLBACK (on_merge) }
-};
-
-static GtkToggleActionEntry toggles[] = {
-	  { "Rotate", "gcp_Rotate", N_("_Rotate"), NULL,
-		  N_("Rotate the selection"), G_CALLBACK (on_rotate), false }
-};
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='Selection'>"
-"    <toolitem action='HorizFlip'/>"
-"    <toolitem action='VertFlip'/>"
-"    <toolitem action='Rotate'/>"
-"    <toolitem action='Merge'/>"
-"  </toolbar>"
-"</ui>";
-
 GtkWidget *gcpSelectionTool::GetPropertyPage ()
 {
 	GtkWidget *grid, *w;
-	GtkActionGroup *action_group;
-	GError *error;
+	GtkToolbar *tb;
+	GtkToolItem *ti;
 
 	grid = gtk_grid_new ();
 	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, "border-width", 6, NULL);
-	action_group = gtk_action_group_new ("SelectionToolActions");
-	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), m_pApp);
-	gtk_action_group_add_toggle_actions (action_group, toggles, G_N_ELEMENTS (toggles), m_pApp);
-
-	m_UIManager = new gcugtk::UIManager (gtk_ui_manager_new ());
-	if (!gtk_ui_manager_add_ui_from_string (m_UIManager->GetUIManager (), ui_description, -1, &error))
-	  {
-		g_message ("building property page failed: %s", error->message);
-		g_error_free (error);
-		gtk_widget_destroy (grid);
-		g_object_unref (m_UIManager);
-		m_UIManager = NULL;
-		return NULL;;
-	  }
-	gtk_ui_manager_insert_action_group (m_UIManager->GetUIManager (), action_group, 0);
-	w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/Selection");
-	gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
-	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);
+	w = gtk_toolbar_new ();
+	tb = GTK_TOOLBAR (w);
+	gtk_toolbar_set_style (tb, GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_show_arrow (tb, false);
 	gtk_container_add (GTK_CONTAINER (grid), w);
+	ti = gtk_tool_button_new ( gtk_image_new_from_icon_name ("object-flip-horizontal", GTK_ICON_SIZE_LARGE_TOOLBAR), NULL);
+	gtk_tool_item_set_tooltip_text (ti, _("Flip the selection horizontally"));
+	gtk_widget_set_name (GTK_WIDGET (ti), "HorizFlip");
+	gtk_toolbar_insert (tb, ti, -1);
+	g_signal_connect (G_OBJECT (ti), "clicked", G_CALLBACK (on_flip), m_pApp);
+	ti = gtk_tool_button_new ( gtk_image_new_from_icon_name ("object-flip-vertical", GTK_ICON_SIZE_LARGE_TOOLBAR), NULL);
+	gtk_tool_item_set_tooltip_text (ti, _("Flip the selection vertically"));
+	gtk_widget_set_name (GTK_WIDGET (ti), "VertFlip");
+	gtk_toolbar_insert (tb, ti, -1);
+	g_signal_connect (G_OBJECT (ti), "clicked", G_CALLBACK (on_flip), m_pApp);
+	ti = gtk_toggle_tool_button_new ();
+	gtk_tool_button_set_icon_widget (GTK_TOOL_BUTTON (ti), gtk_image_new_from_icon_name ("object-rotate-right", GTK_ICON_SIZE_LARGE_TOOLBAR));
+	gtk_tool_item_set_tooltip_text (ti, _("Rotate the selection"));
+	gtk_toolbar_insert (tb, ti, -1);
+	g_signal_connect (G_OBJECT (ti), "toggled", G_CALLBACK (on_rotate), m_pApp);
+	gccv::Canvas *canvas = new gccv::Canvas (NULL);
+	gccv::Rectangle *rect = new gccv::Rectangle (canvas, 1., 1., 8., 7.);
+	rect->SetAutoColor (true);
+	rect->SetFillColor (0);
+	rect->SetLineWidth (2.);
+	rect = new gccv::Rectangle (canvas, 15., 1., 8., 7.);
+	rect->SetAutoColor (true);
+	rect->SetFillColor (0);
+	rect->SetLineWidth (2.);
+	rect = new gccv::Rectangle (canvas, 4., 16., 16., 7.);
+	rect->SetAutoColor (true);
+	rect->SetFillColor (0);
+	rect->SetLineWidth (2.);
+	gccv::Line *line = new gccv::Line (canvas, 12., 16., 12., 23.);
+	line->SetAutoColor (true);
+	line->SetLineWidth (2.);
+	double const dash[] = {1.};
+	line->SetDashes (dash, 1, 0.);
+	line = new gccv::Line (canvas, 5., 8., 8., 16.);
+	line->SetAutoColor (true);
+	line->SetLineWidth (2.);
+	line->SetDashes (dash, 1, 0.);
+	line = new gccv::Line (canvas, 19., 8., 16., 16.);
+	line->SetAutoColor (true);
+	line->SetLineWidth (2.);
+	line->SetDashes (dash, 1, 0.);
+	gtk_widget_set_size_request (canvas->GetWidget (), 24, 24);
+	ti = gtk_tool_button_new (canvas->GetWidget (), NULL);
+	gtk_tool_item_set_tooltip_text (ti, _("Merge two molecules"));
+	gtk_toolbar_insert (tb, ti, -1);
+	g_signal_connect (G_OBJECT (ti), "clicked", G_CALLBACK (on_merge), m_pApp);
+	m_MergeBtn = GTK_WIDGET (ti);
 	gtk_widget_show_all (grid);
-	m_MergeBtn = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/Selection/Merge");
 	gtk_widget_set_sensitive (m_MergeBtn, false);
 	return grid;
 }
