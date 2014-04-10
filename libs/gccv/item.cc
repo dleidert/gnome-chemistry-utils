@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/item.cc
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -31,6 +31,10 @@
 namespace gccv {
 
 Item::Item (Canvas *canvas):
+	m_x0 (0.),
+	m_y0 (0.),
+	m_x1 (0.),
+	m_y1 (0.),
 	m_Canvas (canvas),
 	m_CachedBounds (false),
 	m_Client (NULL),
@@ -43,6 +47,10 @@ Item::Item (Canvas *canvas):
 }
 
 Item::Item (Group *parent, ItemClient *client):
+	m_x0 (0.),
+	m_y0 (0.),
+	m_x1 (0.),
+	m_y1 (0.),
 	m_CachedBounds (false),
 	m_Client (client),
 	m_Parent (parent),

@@ -26,7 +26,7 @@
 	* New tools:
 		- delocalized bonds (?),
 		- week interactions (e.g. H-bonds) (?),
-		- curved reaction arrows and Tollman's loops 0.16?),
+		- curved reaction arrows and Tollman's loops 0.16),
 		- cluster bonds (as in boranes) (?),
 		- electron vacancies (?).
 	* Enhance multi-steps reactions (0.16).

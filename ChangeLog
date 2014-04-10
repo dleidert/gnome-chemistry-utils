@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2014-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/item.cc: fix initialization issues.
+	* libs/gccv/leaf.cc: ditto.
+	* libs/gccv/polygon.cc: ditto.
+	* libs/gccv/squiggle.cc: ditto.
+
 2014-04-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/Makefile.am: new classes.
 	* libs/gccv/arc.cc: new Arc class.

@@ -29,22 +29,20 @@ namespace gccv {
 
 Leaf::Leaf (Canvas *canvas, double x, double y, double radius):
 	FillItem (canvas),
+	m_x (x), m_y (y),
+	m_Radius (radius), m_Rotation (0.),
 	m_WidthFactor (1.)
 {
-	SetPosition (x, y);
-	SetRadius (radius);
-	SetRotation (0.);
 	for (int i = 0; i < 11; i++)
 		m_Controls[i].x = m_Controls[i].y = 0.;
 }
 
 Leaf::Leaf (Group *parent, double x, double y, double radius, ItemClient *client):
 	FillItem (parent, client),
+	m_x (x), m_y (y),
+	m_Radius (radius), m_Rotation (0.),
 	m_WidthFactor (1.)
 {
-	SetPosition (x, y);
-	SetRadius (radius);
-	SetRotation (0.);
 	for (int i = 0; i < 11; i++)
 		m_Controls[i].x = m_Controls[i].y = 0.;
 }
