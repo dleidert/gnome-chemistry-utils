@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/squiggle.h
  *
- * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -31,13 +31,15 @@
 namespace gccv {
 
 Squiggle::Squiggle (Canvas *canvas, double xstart, double ystart, double xend, double yend):
-	LineItem (canvas), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.)
+	LineItem (canvas), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.),
+	m_Width (0.), m_Step (0.)
 {
 	SetPosition (xstart, ystart, xend, yend);
 }
 
 Squiggle::Squiggle (Group *parent, double xstart, double ystart, double xend, double yend, ItemClient *client):
-	LineItem (parent, client), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.)
+	LineItem (parent, client), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.),
+	m_Width (0.), m_Step (0.)
 {
 	SetPosition (xstart, ystart, xend, yend);
 }

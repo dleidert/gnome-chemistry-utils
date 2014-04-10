@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2014-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/item.cc: fix initialization issues.
+	* libs/gccv/leaf.cc: ditto.
+	* libs/gccv/polygon.cc: ditto.
+	* libs/gccv/squiggle.cc: ditto.
+
 2014-03-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: don't set an Id to the residue, AddChild will do
 	the job.

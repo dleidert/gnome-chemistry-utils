@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/polygon.cc
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -147,6 +147,8 @@ void Polygon::UpdateBounds ()
 {
 	// This code might be off by a little thing because of miter limits.
 	list <Point>::const_iterator i = m_Points.begin (), end = m_Points.end ();
+	if (i == end)
+		return;
 	m_x0 = m_x1 = (*i).x;
 	m_y0 = m_y1 = (*i).y;
 	for (i++; i != end; i++) {
