@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/canvas.h
  *
- * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -150,6 +150,10 @@ GCU_PROP (double, Gap)
 @return the foreground color.
 */
 GCU_PROP (GOColor, Color)
+/*!\fn GetFont()
+@return the font description.
+*/
+GCU_RO_PROP (PangoFontDescription *, Font)
 /*!\fn GetLastEventState()
 @return the GdkModifierType value for the last received event.
 */

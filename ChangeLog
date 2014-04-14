@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2014-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: request Lasem.
+	* libs/gccv/Makefile.am: new equation item.
+	* libs/gccv/canvas.cc: support default font.
+	* libs/gccv/canvas.h: ditto.
+	* libs/gccv/equation.cc: new equation item.
+	* libs/gccv/equation.h: ditto.
+	* libs/gccv/line-item.h: typo.
+	* libs/gcp/reaction-arrow.cc: accept equations as property.
+	* libs/gcp/text.cc: set defult ouline color to transparent.
+	* plugins/paint/text/Makefile.am: new equation support.
+	* plugins/paint/text/equation.cc: ditto.
+	* plugins/paint/text/equation.h: ditto.
+	* plugins/paint/text/mathtool.cc: ditto.
+	* plugins/paint/text/mathtool.h: ditto.
+	* plugins/paint/text/plugin.cc: ditto.
+
 2014-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/item.cc: fix initialization issues.
 	* libs/gccv/leaf.cc: ditto.

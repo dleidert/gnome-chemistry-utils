@@ -10,6 +10,7 @@ noinst_HEADERS = \
 	canvas.h	\
 	circle.h	\
 	client.h	\
+	equation.h  \
 	fill-item.h	\
 	group.h		\
 	hash.h		\
@@ -37,6 +38,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	canvas.cc	\
 	circle.cc	\
 	client.cc	\
+	equation.cc  \
 	fill-item.cc	\
 	group.cc	\
 	hash.cc		\

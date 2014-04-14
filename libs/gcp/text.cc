@@ -977,7 +977,7 @@ void Text::SetSelected (int state)
 		color = DeleteColor;
 		break;
 	default:
-		color = GO_COLOR_WHITE;
+		color = 0;
 		break;
 	}
 	dynamic_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);

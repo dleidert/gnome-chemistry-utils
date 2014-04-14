@@ -427,8 +427,9 @@ bool ReactionArrow::BuildContextualMenu (gcu::UIManager *UIManager, Object *obje
 	}
 	if (pData->SelectedObjects.size () == 1) {
 		Object *obj = *pData->SelectedObjects.begin ();
-		TypeId Id = obj->GetType ();
-		if ((Id == MoleculeType || Id == TextType) && obj->GetGroup () == NULL) {
+		std::set<TypeId> types;
+		obj->GetPossibleAncestorTypes (types);
+		if (types.find (ReactionPropType) != types.end () && obj->GetGroup () == NULL) {
 			struct CallbackData *data = new struct CallbackData ();
 			data->arrow = this;
 			data->child = obj;

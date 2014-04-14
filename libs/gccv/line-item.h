@@ -105,7 +105,7 @@ GCCV_ITEM_PROP (GOColor, LineColor)
 /*!\fn SetAutoColor(bool auto)
 @param auto whether to use a color from the theme.
 
-if \a auto is true, the color used to draw the line whiil be retrieved from
+if \a auto is true, the color used to draw the line will be retrieved from
 the Gtk+ theme instead of using the LineColor member.
 */
 /*!\fn bool GetAutoColor()
