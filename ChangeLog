@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2014-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/eq-props.ui: new equation properties dialog.
+
+2014-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: request Lasem.
 	* libs/gccv/Makefile.am: new equation item.
 	* libs/gccv/canvas.cc: support default font.
