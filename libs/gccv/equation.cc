@@ -32,7 +32,7 @@ Equation::Equation (Canvas *canvas, double x, double y):
 	Rectangle (canvas, x, y, 0., 0.),
 	m_x (x), m_y (y), m_View (NULL),
 	m_Math (NULL),
-	m_Anchor (AnchorLine)
+	m_Anchor (AnchorLineWest)
 {
 }
 
@@ -40,7 +40,7 @@ Equation::Equation (Group *parent, double x, double y, ItemClient *client):
 	Rectangle (parent, x, y, 0., 0., client),
 	m_x (x), m_y (y), m_View (NULL),
 	m_Math (NULL),
-	m_Anchor (AnchorLine)
+	m_Anchor (AnchorLineWest)
 {
 }
 
@@ -55,7 +55,6 @@ static std::string last_font;
 
 void Equation::Draw (cairo_t *cr, bool is_vector) const
 {
-	Rectangle::Draw (cr, is_vector);
 	if (m_Math && (m_AutoFont || m_AutoTextColor)) {
 		LsmDomNode *node = lsm_dom_node_get_first_child (LSM_DOM_NODE (m_Math));
 		LsmDomElement *style = LSM_DOM_ELEMENT (lsm_dom_node_get_first_child (node));
@@ -106,10 +105,12 @@ void Equation::Draw (cairo_t *cr, bool is_vector) const
 		if (changed)
 			const_cast < gccv::Equation * > (this)->SetPosition (m_x, m_y);
 	}
+	Rectangle::Draw (cr, is_vector);
 	if (m_View) {
 		double x, y;
 		GetPosition (x, y);
 		lsm_dom_view_render (m_View, cr, x, y);
+		cairo_new_path (cr);
 	}
 }
 

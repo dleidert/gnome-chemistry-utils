@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2014-04-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/equation.cc: fixed rendering.
+	* plugins/paint/text/equation.cc: set an appropriate anchor.
+
 2014-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/text/eq-props.ui: new equation properties dialog.
 
@@ -12,7 +16,7 @@
 	* libs/gccv/equation.h: ditto.
 	* libs/gccv/line-item.h: typo.
 	* libs/gcp/reaction-arrow.cc: accept equations as property.
-	* libs/gcp/text.cc: set defult ouline color to transparent.
+	* libs/gcp/text.cc: set default ouline color to transparent.
 	* plugins/paint/text/Makefile.am: new equation support.
 	* plugins/paint/text/equation.cc: ditto.
 	* plugins/paint/text/equation.h: ditto.

@@ -60,8 +60,8 @@
  * 	Emmanuel Pacaud <emmanuel@gnome.org>
  */
 
-extern char * itex2MML_parse (const char * buffer, unsigned long length);
-extern void   itex2MML_free_string (char * str);
+extern "C" char * itex2MML_parse (const char * buffer, unsigned long length);
+extern "C" void   itex2MML_free_string (char * str);
 
 static char *
 lsm_itex_to_mathml (const char *itex, int size)
@@ -139,6 +139,7 @@ gcpEquationProps::gcpEquationProps (gcp::Document *doc, gcpEquation *equation):
 	gcugtk::Dialog (doc? doc->GetApplication (): NULL, UIDIR"/eq-props.ui", "equation-properties", GETTEXT_PACKAGE, equation),
 	m_Equation (equation),
 	m_Doc (doc)
+
 {
 	GtkNotebook *nb = GTK_NOTEBOOK (GetWidget ("notebook"));
 	GtkWidget *me = go_math_editor_new ();
@@ -207,6 +208,7 @@ void gcpEquation::AddItem ()
 	                                         m_y * theme->GetZoomFactor (),
 	                                         this);
 	m_Item = eq;
+	eq->SetAnchor (gccv::AnchorLineWest);
 	eq->SetMath ((m_Itex.length ())? m_Math: NULL);
 }
 
@@ -228,6 +230,7 @@ xmlNodePtr gcpEquation::Save (xmlDocPtr xml) const
 	xmlNodePtr node = xmlNewDocNode (xml, NULL,
 	                                 reinterpret_cast <xmlChar const *> ("equation"),
 	                                 reinterpret_cast <xmlChar const *> (m_Itex.c_str ()));
+	SaveId (node);
 	// save the position
 	gcu::WritePosition (xml, node, NULL, m_x, m_y);	
 	// save the style
@@ -238,7 +241,12 @@ xmlNodePtr gcpEquation::Save (xmlDocPtr xml) const
 
 bool gcpEquation::Load (xmlNodePtr node)
 {
-	xmlChar *buf = xmlNodeGetContent (node);
+	xmlChar *buf = xmlGetProp (node, (xmlChar*) "id");
+	if (buf) {
+		SetId (reinterpret_cast <char *> (buf));
+		xmlFree (buf);
+	}
+	buf = xmlNodeGetContent (node);
 	m_Itex = reinterpret_cast <char *> (buf);
 	lsm_dom_node_set_node_value (m_ItexString, m_Itex.c_str ());
 	xmlFree (buf);
