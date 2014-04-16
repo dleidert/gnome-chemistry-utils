@@ -45,13 +45,7 @@ public:
 	void SetSelected (int state);
 	std::string Name ();
 	char const *HasPropertiesDialog () const;
-/*!
-@param x the horizontal translation.
-@param y the vertical translation.
-@param z the depth translation.
-
-The z variable is not useful.
-*/
+	void ParentChanged ();
 	void Move (double x, double y, double z = 0);
 
 	void SetFontDesc (PangoFontDescription const *desc);
@@ -63,13 +57,17 @@ protected:
 	gcu::Dialog *BuildPropertiesDialog ();
 
 private:
+	void UpdateFont ();
+
+private:
 	double m_x, m_y;
 	std::string m_Itex;
 	LsmDomDocument *m_Math;
 	LsmDomNode *m_ItexString;
 	LsmDomNode *m_StyleElement;
+	bool m_AutoFont;
 
-GCU_PROP (PangoFontDescription const *, Font)
+GCU_RO_PROP (PangoFontDescription*, Font)
 GCU_PROP (GOColor, Color)
 GCU_PROP (bool, Inline)
 };

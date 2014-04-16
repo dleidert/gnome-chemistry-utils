@@ -278,6 +278,10 @@ This method searches the Object in its children and if not found calls the GetDe
 */
 	void SetParent (Object* Parent);
 /*!
+	Called when parent changed. Default implementation does nothing.
+ */
+	virtual void ParentChanged ();
+/*!
 	@param xml the xmlDoc used to save the document.
 
 	Used to save the Object to the xmlDoc. Each serializable Object should implement this virtual method.

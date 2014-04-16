@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2014-04-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/equation.cc: fix equation size.
+	* libs/gcp/document.cc: propagate theme change to descendants.
+	* libs/gcp/reaction.cc: enhance construction.
+	* libs/gcp/view.cc: add an font description for default text.
+	* libs/gcp/view.h: ditto.
+	* libs/gcu/object.cc: add ParentChanged() method.
+	* libs/gcu/object.h: ditto.
+	* plugins/paint/text/equation.cc: implement perisitence of style.
+	* plugins/paint/text/equation.h: ditto.
+	* plugins/paint/text/mathtool.cc: set font description after adding the new
+	equation to the document.
+
 2014-04-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/equation.cc: fixed rendering.
 	* plugins/paint/text/equation.cc: set an appropriate anchor.

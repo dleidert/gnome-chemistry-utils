@@ -140,7 +140,8 @@ bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argu
 		double dx, dy, dl;
 		dx = x1 - x0;
 		dy = y1 - y0;
-		dl = sqrt (dx * dx + dy * dy) / pTheme->GetArrowPadding () * pTheme->GetZoomFactor ();
+		// we need more than one arrow padding to avoid issues with parallel arrows (o letters).
+		dl = sqrt (dx * dx + dy * dy) / 3. / pTheme->GetArrowPadding () * pTheme->GetZoomFactor ();
 		dx /= dl;
 		dy /= dl;
 		x0 -= dx;

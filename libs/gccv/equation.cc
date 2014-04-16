@@ -109,7 +109,11 @@ void Equation::Draw (cairo_t *cr, bool is_vector) const
 	if (m_View) {
 		double x, y;
 		GetPosition (x, y);
-		lsm_dom_view_render (m_View, cr, x, y);
+		cairo_save (cr);
+		cairo_translate (cr, x, y);
+		cairo_scale (cr, 4./3., 4./3.);
+		lsm_dom_view_render (m_View, cr, 0., 0.);
+		cairo_restore (cr);
 		cairo_new_path (cr);
 	}
 }
@@ -122,9 +126,11 @@ void Equation::SetPosition (double x, double y)
 		g_object_unref (m_View);
 	m_View = (m_Math)? lsm_dom_document_create_view (const_cast < LsmDomDocument * > (m_Math)): NULL;
 	double w, h, bl;
-	if (m_View)
+	if (m_View) {
 		lsm_dom_view_get_size (m_View, &w, &h, &bl);
-	else {
+		w /= 0.75;
+		h /= 0.75;
+	} else {
 		w = 2.;
 		h = bl = 10.;
 	}

@@ -205,6 +205,7 @@ void Object::AddChild (Object* object)
 		if (App)
 			object->m_TypeDesc = App->GetTypeDescription (object->m_Type);
 	}
+	object->ParentChanged ();
 }
 
 void Object::SetParent (Object* Parent)
@@ -220,6 +221,10 @@ void Object::SetParent (Object* Parent)
 		}
 		m_Parent = NULL;
 	}
+}
+
+void Object::ParentChanged ()
+{
 }
 
 Object* Object::GetChild (const gchar* Id) const

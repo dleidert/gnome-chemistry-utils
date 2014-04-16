@@ -34,9 +34,6 @@ public:
 	virtual ~gcpMathTool ();
 
 	bool OnClicked ();
-
-private:
-	PangoFontDescription *m_Font;
 };
 
 #endif	// GCHEMPAINT_MATH_TOOL_H

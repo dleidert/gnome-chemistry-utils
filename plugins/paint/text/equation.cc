@@ -105,6 +105,23 @@ static void on_itex_changed (GoMathEditor *me, gcpEquation *eq)
 	g_free (itex);
 }
 
+static void on_font_changed (GOFontSel *fs, gpointer, gcpEquation *eq)
+{
+	PangoFontDescription *desc = go_font_sel_get_font_desc (fs);
+	GOColor color = go_font_sel_get_color (fs);
+	if ((eq->GetITeX ().length () != 0) && (!pango_font_description_equal (eq->GetFont (), desc) || (eq->GetColor () != color))) {
+		gcp::Document *doc = static_cast < gcp::Document * > (eq->GetDocument ());
+		gcp::Operation *op = doc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+		op->AddObject (eq);
+		eq->SetColor (color); // color first to force the update (kludge)
+		eq->SetFontDesc (desc);
+		op->AddObject (eq, 1);
+		doc->FinishOperation ();
+		doc->GetView ()->Update (eq);
+	}
+	pango_font_description_free (desc);
+}
+
 static bool on_unselect (gcpEquation *equation) {
 	equation->SetSelected (gcp::SelStateUnselected);
 	return false;
@@ -153,6 +170,7 @@ gcpEquationProps::gcpEquationProps (gcp::Document *doc, gcpEquation *equation):
 	go_font_sel_set_font (GO_FONT_SEL (fs), font);
 	go_font_sel_set_color (GO_FONT_SEL (fs), equation->GetColor (), false);
 	go_font_unref (font);
+	g_signal_connect (fs, "font-changed", G_CALLBACK (on_font_changed), equation);
 	gtk_notebook_append_page (nb, fs, gtk_label_new (_("Font")));
 	gtk_widget_show_all (GTK_WIDGET (nb));
 	g_signal_connect_swapped (GetWindow (), "delete-event", G_CALLBACK (on_delete), equation);
@@ -175,7 +193,10 @@ gcpEquation::gcpEquation (double x, double y):
 	gccv::ItemClient (),
 	m_x (x), m_y (y),
 	m_Math (NULL),
-	m_Color (GO_COLOR_BLACK)
+	m_AutoFont (true),
+	m_Font (NULL),
+	m_Color (GO_COLOR_BLACK),
+	m_Inline (false)
 {
 	SetId ("eq1");
 	m_Math = lsm_dom_implementation_create_document (NULL, "math");
@@ -194,6 +215,8 @@ gcpEquation::~gcpEquation ()
 {
 	if (m_Math)
 		g_object_unref (m_Math);
+	if (m_Font)
+		pango_font_description_free (m_Font);
 }
 
 void gcpEquation::AddItem ()
@@ -227,6 +250,7 @@ xmlNodePtr gcpEquation::Save (xmlDocPtr xml) const
 {
 	if (m_Itex.length () == 0)
 		return NULL;
+	char *buf;
 	xmlNodePtr node = xmlNewDocNode (xml, NULL,
 	                                 reinterpret_cast <xmlChar const *> ("equation"),
 	                                 reinterpret_cast <xmlChar const *> (m_Itex.c_str ()));
@@ -234,7 +258,16 @@ xmlNodePtr gcpEquation::Save (xmlDocPtr xml) const
 	// save the position
 	gcu::WritePosition (xml, node, NULL, m_x, m_y);	
 	// save the style
-	// FIXME
+	if (!m_AutoFont) {
+		buf = pango_font_description_to_string (m_Font);
+		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("font"), reinterpret_cast < xmlChar * > (buf));
+		g_free (buf);
+	}
+	if (m_Color != GO_COLOR_BLACK) {
+		buf = go_color_as_str (m_Color);
+		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("color"), reinterpret_cast < xmlChar * > (buf));
+		g_free (buf);
+	}
 
 	return node;
 }
@@ -246,12 +279,29 @@ bool gcpEquation::Load (xmlNodePtr node)
 		SetId (reinterpret_cast <char *> (buf));
 		xmlFree (buf);
 	}
-	buf = xmlNodeGetContent (node);
-	m_Itex = reinterpret_cast <char *> (buf);
-	lsm_dom_node_set_node_value (m_ItexString, m_Itex.c_str ());
-	xmlFree (buf);
 	if (!gcu::ReadPosition (node, NULL, &m_x, &m_y))
 		return false;
+	buf = xmlGetProp (node, reinterpret_cast < xmlChar const * > ("color"));
+	if (buf) {
+		if (!go_color_from_str (reinterpret_cast <char *> (buf), &m_Color))
+			m_Color = GO_COLOR_BLACK;
+		xmlFree (buf);
+	}
+	buf = xmlGetProp (node, reinterpret_cast < xmlChar const * > ("font"));
+	if (buf) {
+		PangoFontDescription *desc = pango_font_description_from_string (reinterpret_cast <char *> (buf));
+		if (desc) {
+			SetFontDesc (desc);
+			pango_font_description_free (desc);
+		}
+		xmlFree (buf);
+	}
+	buf = xmlNodeGetContent (node);
+	if (buf) {
+		m_Itex = reinterpret_cast <char *> (buf);
+		lsm_dom_node_set_node_value (m_ItexString, m_Itex.c_str ());
+		xmlFree (buf);
+	}
 	// FIXME: populate editor if opened (might happen on undo/redo operations)
 	gcpEquationProps *dlg = static_cast < gcpEquationProps * > (GetDialog ("equation-properties"));
 	if (dlg) {
@@ -301,32 +351,64 @@ gcu::Dialog *gcpEquation::BuildPropertiesDialog ()
 	return dlg;
 }
 
+void gcpEquation::ParentChanged ()
+{
+	if ((m_Font == NULL) || m_AutoFont) {
+		if (m_Font)
+			pango_font_description_free (m_Font);
+		gcp::Document *doc = static_cast <gcp::Document *> (GetDocument ());
+		gcp::Theme *theme = doc->GetTheme ();
+		m_Font = pango_font_description_new ();
+		pango_font_description_set_family (m_Font, theme->GetTextFontFamily ());
+		pango_font_description_set_size (m_Font, theme->GetTextFontSize ());
+		pango_font_description_set_style (m_Font, theme->GetTextFontStyle ());
+		pango_font_description_set_weight (m_Font, theme->GetTextFontWeight ());
+		pango_font_description_set_stretch (m_Font, theme->GetTextFontStretch ());
+		pango_font_description_set_variant (m_Font, theme->GetTextFontVariant ());
+		if (m_Math)
+			UpdateFont ();
+	}
+}
+
 void gcpEquation::SetFontDesc (PangoFontDescription const *desc)
 {
-	m_Font = desc;
-	if (m_Math) {
-		char *value;
-		LsmDomElement *style = LSM_DOM_ELEMENT (m_StyleElement);
-		if (pango_font_description_get_weight (m_Font) >= PANGO_WEIGHT_BOLD) {
-			if (pango_font_description_get_style (m_Font) == PANGO_STYLE_NORMAL)
-				lsm_dom_element_set_attribute (style, "mathvariant", "bold");
-			else
-				lsm_dom_element_set_attribute (style, "mathvariant", "bold-italic");
-		} else {
-			if (pango_font_description_get_style (m_Font) == PANGO_STYLE_NORMAL)
-				lsm_dom_element_set_attribute (style, "mathvariant", "normal");
-			else
-				lsm_dom_element_set_attribute (style, "mathvariant", "italic");
-		}
+	if (pango_font_description_equal (m_Font, desc))
+		return;
+	m_Font = pango_font_description_copy (desc);
+	m_AutoFont = false;
+	if (m_Math)
+		UpdateFont ();
+}
 
-		lsm_dom_element_set_attribute (style, "mathfamily",
-						   pango_font_description_get_family (m_Font));
-
-		value = g_strdup_printf ("%gpt", pango_units_to_double (
-				pango_font_description_get_size (m_Font)));
-		lsm_dom_element_set_attribute (style, "mathsize", value);
-		g_free (value);
+void gcpEquation::UpdateFont ()
+{
+	char *value;
+	LsmDomElement *style = LSM_DOM_ELEMENT (m_StyleElement);
+	if (pango_font_description_get_weight (m_Font) >= PANGO_WEIGHT_BOLD) {
+		if (pango_font_description_get_style (m_Font) == PANGO_STYLE_NORMAL)
+			lsm_dom_element_set_attribute (style, "mathvariant", "bold");
+		else
+			lsm_dom_element_set_attribute (style, "mathvariant", "bold-italic");
+	} else {
+		if (pango_font_description_get_style (m_Font) == PANGO_STYLE_NORMAL)
+			lsm_dom_element_set_attribute (style, "mathvariant", "normal");
+		else
+			lsm_dom_element_set_attribute (style, "mathvariant", "italic");
 	}
+
+	lsm_dom_element_set_attribute (style, "mathfamily",
+					   pango_font_description_get_family (m_Font));
+
+	value = g_strdup_printf ("%gpt", pango_units_to_double (
+			pango_font_description_get_size (m_Font)));
+	lsm_dom_element_set_attribute (style, "mathsize", value);
+	g_free (value);
+	value = g_strdup_printf ("#%02x%02x%02x",
+				 GO_COLOR_UINT_R (m_Color),
+				 GO_COLOR_UINT_G (m_Color),
+				 GO_COLOR_UINT_B (m_Color));
+	lsm_dom_element_set_attribute (style, "mathcolor", value);
+	g_free (value);
 }
 
 void gcpEquation::ItexChanged (char const *itex, bool compact)
@@ -370,7 +452,7 @@ void gcpEquation::ItexChanged (char const *itex, bool compact)
 		lsm_dom_element_set_attribute (LSM_DOM_ELEMENT (m_StyleElement),
 		                               "displaystyle", compact ? "false" : "true");
 	}
-	SetFontDesc (m_Font);
+	UpdateFont ();
 	if (*itex)
 		op->AddObject (this, target);
 	doc->FinishOperation ();

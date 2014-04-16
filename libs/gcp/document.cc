@@ -1127,6 +1127,17 @@ void Document::SetTheme (Theme *theme)
 		m_pView->UpdateTheme ();
 }
 
+static void PropagateThemeChange (Object * obj)
+{
+	map< string, Object * >::iterator i;
+	Object *Obj = obj->GetFirstChild (i);
+	while (Obj) {
+		Obj->ParentChanged ();
+		PropagateThemeChange (Obj);
+		Obj = obj->GetNextChild (i);
+	}
+}
+
 bool Document::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	if (Signal == OnThemeChangedSignal) {
@@ -1147,6 +1158,7 @@ bool Document::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 		pango_attr_list_insert (m_PangoAttrList, pango_attr_stretch_new (m_Theme->GetFontStretch ()));
 		pango_attr_list_insert (m_PangoAttrList, pango_attr_variant_new (m_Theme->GetFontVariant ()));
 		m_pView->UpdateTheme ();
+		PropagateThemeChange (this);
 	}
 	return false;
 }
