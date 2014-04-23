@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2014-04-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.cc: ass a minimum length member.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/reaction-arrow.cc: enhance child alignment on vertical arrows.
+	* libs/gcp/reaction-arrow.h: remove minimu length from there.
+	* libs/gcp/reaction.cc: some alignment enhancement.
+	* plugins/paint/text/equation.cc: fix vertical alignment.
+	* plugins/paint/text/equation.h: ditto.
+
 2014-04-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/equation.cc: fix equation size.
 	* libs/gcp/document.cc: propagate theme change to descendants.

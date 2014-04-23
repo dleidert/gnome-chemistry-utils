@@ -175,7 +175,6 @@ private:
 
 GCU_PROP (unsigned, MaxLinesAbove)
 GCU_PROP (NumberingScheme, NumberingScheme);
-GCU_RO_PROP (double, MinLength);
 };
 
 }	//	namespace gcp

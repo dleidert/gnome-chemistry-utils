@@ -59,10 +59,17 @@ typedef struct {
 class ReactionArrowLine
 {
 public:
+	ReactionArrowLine ();
+
 	unsigned m_nProps;
 	double x, y, width, height, descent, ascent;
 	std::list < ObjPos > m_Props;
 };
+
+ReactionArrowLine::ReactionArrowLine ():
+	m_nProps (0), x (0.), y (0.), width (0.), height (0.), descent (0.), ascent (0.)
+{
+}
 
 class ReactionArrowStep
 {
@@ -687,8 +694,9 @@ void ReactionArrow::PositionChildren ()
 	lwidth += counter_width;
 	// evaluate needed arrow size
 	if (cur > m_MaxLinesAbove) {
-		uheight += (m_MaxLinesAbove - 1) * padding;
-		cur ++;
+		if (m_MaxLinesAbove > 0)
+			uheight += (m_MaxLinesAbove - 1) * padding;
+		cur --;
 		if (cur > m_MaxLinesAbove)
 			lheight = (cur - m_MaxLinesAbove) * padding;
 	} else
@@ -701,6 +709,8 @@ void ReactionArrow::PositionChildren ()
 	lyspan = fabs (lwidth * y  + lheight * x);
 	uxspan = fabs (uwidth * x + uheight * y);
 	uyspan = fabs (uwidth * y  + uheight * x);
+	x = m_width / length;
+	y = m_height / length;
 	xspan = (uxspan > lxspan)? uxspan: lxspan,
 	xspan += (2* theme->GetArrowObjectPadding () + theme->GetArrowHeadA ()) / theme->GetZoomFactor ();
 	// adjust the arrow length if needed

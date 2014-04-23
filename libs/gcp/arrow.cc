@@ -43,7 +43,8 @@ namespace gcp {
 
 Arrow::Arrow (TypeId Type):
 	Object (Type),
-	gccv::ItemClient ()
+	gccv::ItemClient (),
+	m_MinLength (0.)
 {
 	m_Start = m_End = NULL;
 }

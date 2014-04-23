@@ -231,6 +231,7 @@ private:
 @return the arrow length.
 */
 GCU_RO_PROP (double, Length)
+GCU_PROT_PROP (double, MinLength);
 };
 
 }	//	namespace gcp

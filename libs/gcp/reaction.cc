@@ -208,87 +208,25 @@ bool Reaction::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 	if (IsLocked ())
 		return false;
 	if (Signal == OnChangedSignal) {
-		Document *pDoc = (Document*) GetDocument ();
-		View *pView = pDoc->GetView ();
-		Theme *pTheme = pDoc->GetTheme ();
-		WidgetData  *pData= (WidgetData*)g_object_get_data(G_OBJECT(pDoc->GetWidget ()), "data");
 		map<Object*, gccv::Rect> Objects;
 		map<double, Object*> Children;
 		list<Object*> Operators;
-		gccv::Rect rect;
 		map<string, Object*>::iterator i;
 		Object *pObj = GetFirstChild (i);
 		ReactionArrow *arrow;
 		ReactionStep *step;
 		list<ReactionArrow *> IsolatedArrows;
-		double x0, y0, x1, y1, x, y, x2, y2, xpos, ypos, l;
-		bool horiz, has_start;
+		bool has_start;
 		// It is assume we'll find only one arrow!
 		while (pObj) {
 			if (pObj->GetType () == ReactionArrowType) {
 				arrow = reinterpret_cast<ReactionArrow*> (pObj);
 				has_start = false;
-				arrow->GetCoords (&x0, &y0, &x1, &y1);
-				x = x1 - x0;
-				y = y1 - y0;
-				l = sqrt (x * x + y * y);
-				x /= l;
-				y /= l;
-				if ((fabs (x) > 1e-5) && (fabs (y) > 1e-5))
-					horiz = (fabs (x) > fabs (y));
-				else if (fabs (x) > 1e-5)
-					horiz = true;
-				else
-					horiz = false;
 				step = static_cast < ReactionStep * > (arrow->GetStartStep ());
-				if (step) {
+				if (step)
 					has_start = true;
-					pData->GetObjectBounds (step, &rect);
-					x2 = (rect.x0 + rect.x1) / 2;
-					y2 = step->GetYAlign () * pTheme->GetZoomFactor ();
-					xpos = rect.x1 - x2;
-					ypos = rect.y1 - y2;
-					if (horiz) {
-						l = xpos + pTheme->GetArrowPadding ();
-						if (x < 0)
-							l = -l;
-						x2 += l;
-						y2 += l * y / x;
-					} else {
-						l = ypos + pTheme->GetArrowPadding ();
-						if (y < 0)
-							l = -l;
-						x2 += l * x / y;
-						y2 += l;
-					}
-					x1 += xpos = x2 / pTheme->GetZoomFactor () - x0;
-					y1 += ypos = y2 / pTheme->GetZoomFactor () - y0;
-					arrow->Move (xpos, ypos);
-					pView->Update (arrow);
-				}
 				step = static_cast < ReactionStep * > (arrow->GetEndStep ());
-				if (step) {
-					pData->GetObjectBounds (step, &rect);
-					x2 = (rect.x0 + rect.x1) / 2;
-					y2 = step->GetYAlign () * pTheme->GetZoomFactor ();
-					if (horiz) {
-						xpos = rect.x1 - x2;
-						l = xpos + pTheme->GetArrowPadding ();
-						if (x < 0)
-							l = -l;
-						x2 -= l;
-						y2 -= l * y / x;
-					} else {
-						ypos = rect.y1 - y2;
-						l = ypos + pTheme->GetArrowPadding ();
-						if (y < 0)
-							l = -l;
-						x2 -= l * x / y;
-						y2 -= l;
-					}
-					step->Move (x1 - x2 / pTheme->GetZoomFactor (), y1 - y2 / pTheme->GetZoomFactor ());
-					pView->Update (step);
-				} else if (!has_start)
+				if (!step && !has_start)
 					IsolatedArrows.push_front (arrow);
 			}
 			pObj = GetNextChild (i);
@@ -299,6 +237,8 @@ bool Reaction::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 		}
 		if (!HasChildren ())
 			delete this;
+		else
+			Align ();
 	}
 	return true;
 }
