@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2014-04-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.h: make SetCoords() virtual.
+	* libs/gcp/reaction-arrow.cc: implement SetCoords() so that attached
+	objects follow the arrow.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/scheme.cc: typo.
+	* plugins/paint/text/equation.cc: use a transparent background.
+
 2014-04-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/arrow.cc: ass a minimum length member.
 	* libs/gcp/arrow.h: ditto.

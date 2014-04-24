@@ -94,7 +94,7 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 
 Sets the position and length of an arrow.
 */
-	void SetCoords (double xstart, double ystart, double xend, double yend);
+	virtual void SetCoords (double xstart, double ystart, double xend, double yend);
 /*!
 @param xstart where to store the x coordinate of the start point.
 @param ystart where to store the y coordinate of the start point.

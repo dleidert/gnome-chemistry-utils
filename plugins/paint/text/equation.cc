@@ -232,6 +232,7 @@ void gcpEquation::AddItem ()
 	                                         this);
 	m_Item = eq;
 	eq->SetAnchor (gccv::AnchorLineWest);
+	eq->SetFillColor (0);
 	eq->SetMath ((m_Itex.length ())? m_Math: NULL);
 }
 

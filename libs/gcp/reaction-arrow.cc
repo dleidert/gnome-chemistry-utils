@@ -229,6 +229,8 @@ bool ReactionArrow::Load (xmlNodePtr node)
 		// and no missing lines steps or ranks
 		// FIXME: write that code!
 
+		// ensure that everything is added to the canvas
+		static_cast < Document * > (doc)->GetView ()->AddObject (this);
 		parent = GetParent ();
 		if (!parent)
 			return true;
@@ -531,6 +533,7 @@ void ReactionArrow::AddProp (Object *object)
 
 void ReactionArrow::PositionChildren ()
 {
+	if (GetParent () == NULL) return;
 	std::vector < StepCounter * > counters;
 	std::set < ReactionSeparator * > separators;
 	std::set < ReactionSubstractor * > substractors;
@@ -1232,6 +1235,12 @@ void ReactionArrow::RemoveProp (ReactionProp *prop)
 			ir++;
 		}
 	}
+}
+
+void ReactionArrow::SetCoords (double xstart, double ystart, double xend, double yend)
+{
+	Arrow::SetCoords (xstart, ystart, xend, yend);
+	PositionChildren ();
 }
 
 }	//	namespace gcp

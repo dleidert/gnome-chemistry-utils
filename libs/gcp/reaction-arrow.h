@@ -105,6 +105,15 @@ arrow if any.
 */
 	void Move (double x, double y, double z = 0);
 /*!
+@param xstart the x coordinate of the start point.
+@param ystart the y coordinate of the start point.
+@param xend the x coordinate of the end point.
+@param yend the y coordinate of the end point.
+
+Sets the position and length of an arrow. Overrides and calls Arrow::SetCoords().
+*/
+	void SetCoords (double xstart, double ystart, double xend, double yend);
+/*!
 @param state: the selection state of the arrow.
 
 Used to set the selection state of the arrow inside the widget.

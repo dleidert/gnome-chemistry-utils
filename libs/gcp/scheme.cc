@@ -485,7 +485,7 @@ void Scheme::Align () throw (std::invalid_argument)
 		}
 		terminated_chains.clear ();
 	}
-	// really move mesomers
+	// really move steps
 	std::map < gcu::Object*, StepData >::iterator p, pend= positions.end ();
 	for (p = positions.begin (); p != pend; p++)
 		(*p).first->Move ((*p).second.dx / theme->GetZoomFactor (), (*p).second.dy / theme->GetZoomFactor ());
