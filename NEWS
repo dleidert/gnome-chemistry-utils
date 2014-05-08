@@ -1,3 +1,5 @@
+Version 0.14.9
+
 Version 0.14.8
 	GChemPaint:
 		* Fix drawing with Gtk+ >= 3.10.

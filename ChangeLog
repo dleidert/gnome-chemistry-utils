@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2014-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.14.9).
+
 2014-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/item.cc: fix initialization issues.
 	* libs/gccv/leaf.cc: ditto.
@@ -17,7 +20,7 @@
 	angles.
 	* libs/gcp/molecule.cc: correctly checks connectivity for molecules having
 	fragments. 
-	* libs/gcp/view.cc: fix update when deleting a aprial selecion inside a
+	* libs/gcp/view.cc: fix update when deleting a partial selection inside a
 	group.
 	* libs/gcu/bond.cc: don't crash if an atom is missing when evaluating
 	angles.

@@ -1190,6 +1190,7 @@ void Fragment::OnChangeAtom ()
 	m_TextItem->ReplaceText (sym, m_BeginAtom, m_EndAtom - m_BeginAtom);
 	m_EndAtom = m_BeginAtom + sym.length ();
 	// FIXME: we probably need to insert a tag there
+	m_StartSel = m_EndSel = m_TextItem->GetCursorPosition ();
 	OnChanged (false);
 }
 
