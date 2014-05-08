@@ -47,7 +47,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	leaf.cc	\
 	line.cc	\
 	line-item.cc	\
-	path.c  \
+	path.cc  \
 	polygon.cc	\
 	poly-line.cc	\
 	rectangle.cc	\
