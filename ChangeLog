@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2014-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.15.2).
+
+2014-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/Makefile.am: typo.
 	* plugins/text/plugin.cc: remove obsolete include.
 
@@ -111,7 +114,7 @@
 	angles.
 	* libs/gcp/molecule.cc: correctly checks connectivity for molecules having
 	fragments. 
-	* libs/gcp/view.cc: fix update when deleting a aprial selecion inside a
+	* libs/gcp/view.cc: fix update when deleting a partial selection inside a
 	group.
 	* libs/gcu/Makefile.am: new gcu::UIBuilder base class.
 	* libs/gcu/bond.cc: don't crash if an atom is missing when evaluating
