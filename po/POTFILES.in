@@ -71,6 +71,7 @@ libs/gcu/molecule.cc
 libs/gcu/object.cc
 libs/gcu/spacegroup.cc
 libs/gcu/value.cc
+libs/gcu/xml-utils.cc
 libs/gcugtk/application.cc
 libs/gcugtk/chem3dapplication.cc
 libs/gcugtk/chem3dwindow.cc
@@ -86,6 +87,7 @@ libs/gcugtk/spectrumdoc.cc
 libs/gcugtk/spectrumview.cc
 libs/gcugtk/stringdlg.cc
 libs/gcugtk/ui-builder.cc
+mozilla-plugin/chem-viewer.cc
 plugins/loaders/cdx/cdx.cc
 plugins/loaders/cdx/plugin.xml.in
 plugins/loaders/cdxml/cdxml.cc
@@ -135,6 +137,8 @@ plugins/paint/selection/selectiontool.cc
 plugins/paint/templates/plugin.cc
 [type: gettext/glade]plugins/paint/templates/templates.ui
 plugins/paint/templates/templatetool.cc
+[type: gettext/glade]plugins/paint/text/eq-props.ui
+plugins/paint/text/equation.cc
 [type: gettext/glade]plugins/paint/text/fontsel.ui
 plugins/paint/text/fragmenttool.cc
 plugins/paint/text/plugin.cc
@@ -198,3 +202,4 @@ templates/paint/templates.xml.in
 [type: gettext/glade]ui/table/curve.ui
 [type: gettext/glade]ui/table/family.ui
 [type: gettext/glade]ui/table/block.ui
+libs/gcp/reaction-substractor.cc

@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2014-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: updated files list.
+
 2014-02-14  Dimitris Spingos <dmtrs32@gmail.com>
 	* el.po: updated Greek translation.
 
