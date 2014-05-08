@@ -33,7 +33,6 @@
 #include "mathtool.h"
 #include "fragmenttool.h"
 #include "equation.h"
-#include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
 
 static gcu::Object *CreateEquation ()
