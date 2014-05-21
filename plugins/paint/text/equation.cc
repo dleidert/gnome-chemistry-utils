@@ -64,14 +64,14 @@ extern "C" char * itex2MML_parse (const char * buffer, unsigned long length);
 extern "C" void   itex2MML_free_string (char * str);
 
 static char *
-lsm_itex_to_mathml (const char *itex, int size)
+lsm_itex_to_mathml (const char *itex, gsize size)
 {
 	char *mathml;
 
 	if (itex == NULL)
 		return NULL;
 
-	if (size < 0)
+	if (size < 1)
 		size = strlen (itex);
 
 	mathml = itex2MML_parse (itex, size);
@@ -421,7 +421,7 @@ void gcpEquation::ItexChanged (char const *itex, bool compact)
 		std::string full_itex = (compact)? "$": "\\[";
 		full_itex += itex;
 		full_itex += (compact)? "$": "\\]";
-		mathml = lsm_itex_to_mathml (full_itex.c_str (), -1);
+		mathml = lsm_itex_to_mathml (full_itex.c_str (), full_itex.length ());
 		if (mathml == NULL)
 			return;
 	}
