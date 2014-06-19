@@ -17,22 +17,6 @@ DEFS += -DDATADIR=\"$(datadir)\" \
         -DUIDIR=\"$(uidir)\" \
 		-DPLUGINSDIR=\"$(arrowsdir)\"
 
-IMAGES = \
-	arrow1-24.png \
-	arrow2-24.png \
-	curved1-24.png \
-	curved24.png \
-	mesomery24.png \
-	retrosynth24.png
-
-VARIABLES = \
-	gcp_arrow1_24			$(srcdir)/arrow1-24.png \
-	gcp_arrow2_24			$(srcdir)/arrow2-24.png \
-	gcp_retrosynth_24		$(srcdir)/retrosynth24.png \
-	gcp_mesomery_24			$(srcdir)/mesomery24.png \
-	gcp_curved_24			$(srcdir)/curved24.png \
-	gcp_curved1_24			$(srcdir)/curved1-24.png
-
 arrowsdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 arrows_LTLIBRARIES = arrows.la
 
@@ -48,6 +32,7 @@ arrows_la_SOURCES = \
 	plugin.cc \
 	arrowtool.cc \
 	curvedarrowtool.cc \
+	looptool.cc \
 	retrosynthesis.cc \
 	retrosynthesisarrow.cc \
 	retrosynthesisstep.cc
@@ -56,6 +41,7 @@ noinst_HEADERS = \
 	plugin.h \
 	arrowtool.h \
 	curvedarrowtool.h \
+	looptool.h \
 	retrosynthesis.h \
 	retrosynthesisarrow.h \
 	retrosynthesisstep.h

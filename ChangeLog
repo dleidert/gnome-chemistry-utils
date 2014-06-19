@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2014-06-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/arc.cc: add optional arrow head.
+	* plugins/paint/arrows/Makefile.am: new Tolman loop tool.
+	* plugins/paint/arrows/looptool.cc: ditto.
+	* plugins/paint/arrows/looptool.h: ditto.
+	* plugins/paint/arrows/plugin.cc: ditto.
+	* plugins/paint/selection/plugin.cc: remove obsolete code.
+	* plugins/paint/text/equation.cc: fix persistance on display mode.
+
 2014-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.15.2).
 

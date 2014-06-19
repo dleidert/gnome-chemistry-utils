@@ -204,6 +204,7 @@ gcpEquation::gcpEquation (double x, double y):
 	m_StyleElement = LSM_DOM_NODE (lsm_dom_document_create_element (m_Math, "mstyle"));
 	LsmDomNode *itex_element = LSM_DOM_NODE (lsm_dom_document_create_element (m_Math, "lasem:itex"));
 	m_ItexString = LSM_DOM_NODE (lsm_dom_document_create_text_node (m_Math, ""));
+	lsm_dom_element_set_attribute (LSM_DOM_ELEMENT (m_StyleElement), "displaystyle", "true");
 
 	lsm_dom_node_append_child (LSM_DOM_NODE (m_Math), math_element);
 	lsm_dom_node_append_child (math_element, m_StyleElement);
@@ -269,6 +270,8 @@ xmlNodePtr gcpEquation::Save (xmlDocPtr xml) const
 		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("color"), reinterpret_cast < xmlChar * > (buf));
 		g_free (buf);
 	}
+	if (m_Inline)
+		xmlNewProp (node, reinterpret_cast < xmlChar const * > ("mode"), reinterpret_cast < xmlChar const * > ("inline"));
 
 	return node;
 }
@@ -297,6 +300,13 @@ bool gcpEquation::Load (xmlNodePtr node)
 		}
 		xmlFree (buf);
 	}
+	buf = xmlGetProp (node, reinterpret_cast < xmlChar const * > ("mode"));
+	if (buf) {
+		m_Inline = !strcmp (reinterpret_cast < char * > (buf), "inline");
+		xmlFree (buf);
+	}
+	lsm_dom_element_set_attribute (LSM_DOM_ELEMENT (m_StyleElement),
+	                               "displaystyle", m_Inline ? "false" : "true");
 	buf = xmlNodeGetContent (node);
 	if (buf) {
 		m_Itex = reinterpret_cast <char *> (buf);
@@ -442,6 +452,8 @@ void gcpEquation::ItexChanged (char const *itex, bool compact)
 		m_StyleElement = LSM_DOM_NODE (lsm_dom_document_create_element (m_Math, "mstyle"));
 		LsmDomNode *itex_element = LSM_DOM_NODE (lsm_dom_document_create_element (m_Math, "lasem:itex"));
 		m_ItexString = LSM_DOM_NODE (lsm_dom_document_create_text_node (m_Math, itex));
+		lsm_dom_element_set_attribute (LSM_DOM_ELEMENT (m_StyleElement),
+		                               "displaystyle", m_Inline? "false" : "true");
 
 		lsm_dom_node_append_child (LSM_DOM_NODE (m_Math), math_element);
 		lsm_dom_node_append_child (math_element, m_StyleElement);

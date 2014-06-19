@@ -25,11 +25,13 @@
 #include "config.h"
 #include "plugin.h"
 #include <gccv/canvas.h>
+#include <gccv/arc.h>
 #include <gccv/arrow.h>
 #include <gccv/bezier-arrow.h>
 #include <gcp/application.h>
 #include "arrowtool.h"
 #include "curvedarrowtool.h"
+#include "looptool.h"
 #include "retrosynthesis.h"
 #include "retrosynthesisarrow.h"
 #include "retrosynthesisstep.h"
@@ -73,6 +75,8 @@ static gcp::ToolDesc tools[] = {
 	{   "CurvedArrow", N_("Add a curved arrow to represent an electron pair move"),
 		gcp::ArrowToolbar, 0, NULL, NULL},
 	{   "Curved1Arrow", N_("Add a curved arrow to represent an single electron move"),
+		gcp::ArrowToolbar, 0, NULL, NULL},
+	{   "TolmanLoop", N_("Create a catalytic cycle from existing molecules"),
 		gcp::ArrowToolbar, 0, NULL, NULL},
 	{   NULL, NULL, 0, 0, NULL, NULL}
 };
@@ -153,6 +157,30 @@ void gcpArrowsPlugin::Populate (gcp::Application* App)
 	ba->SetLineWidth (2.);
 	ba->SetHead (gccv::ArrowHeadLeft);
 	tools[5].widget = canvas->GetWidget ();
+	// Reversible arrow
+	canvas = new gccv::Canvas (NULL);
+	tools[6].widget = canvas->GetWidget ();
+	gccv::Arc *arc = new gccv::Arc (canvas, 12., 12., 9., -5. * M_PI / 12., M_PI / 12.);
+	arc->SetLineWidth (2.);
+	arc->SetAutoColor (true);
+	arc->SetHead (gccv::ArrowHeadFull);	
+	arc->SetA (5.);
+	arc->SetB (6.);
+	arc->SetC (3.);
+	arc = new gccv::Arc (canvas, 12., 12., 9., M_PI / 4., 3. * M_PI / 4.);
+	arc->SetLineWidth (2.);
+	arc->SetAutoColor (true);
+	arc->SetHead (gccv::ArrowHeadFull);	
+	arc->SetA (5.);
+	arc->SetB (6.);
+	arc->SetC (3.);
+	arc = new gccv::Arc (canvas, 12., 12., 9., 11. * M_PI / 12., 17. * M_PI / 12.);
+	arc->SetLineWidth (2.);
+	arc->SetAutoColor (true);
+	arc->SetHead (gccv::ArrowHeadFull);	
+	arc->SetA (5.);
+	arc->SetB (6.);
+	arc->SetC (3.);
 	App->AddTools (tools);
 	new gcpArrowTool (App);
 	new gcpArrowTool (App, FullHeads? gcp::FullReversibleArrow: gcp::ReversibleArrow);
@@ -160,6 +188,7 @@ void gcpArrowsPlugin::Populate (gcp::Application* App)
 	new gcpArrowTool (App, gcpDoubleQueuedArrow);
 	new gcpCurvedArrowTool (App, "CurvedArrow");
 	new gcpCurvedArrowTool (App, "Curved1Arrow");
+	new gcpLoopTool (App);
 	App->AddRule ("retrosynthesis", RuleMustContain, "retrosynthesis-step");
 	App->AddRule ("retrosynthesis", RuleMustContain, "retrosynthesis-arrow");
 	App->AddRule ("retrosynthesis-step", RuleMustContain, "molecule");

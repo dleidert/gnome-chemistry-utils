@@ -110,6 +110,40 @@ void Arc::ToCairo (cairo_t *cr) const
 		else
 			cairo_arc_negative (cr, m_X, m_Y, m_Radius, m_Start, m_End);
 	} else {
+		double end = m_End + ((m_End > m_Start)? -1.: 1.) * m_A / m_Radius;
+		if (m_Start < m_End)
+			cairo_arc (cr, m_X, m_Y, m_Radius, m_Start, end);
+		else
+			cairo_arc_negative (cr, m_X, m_Y, m_Radius, m_Start, end);
+		cairo_stroke (cr);
+		// now draw the head
+		double x0, y0, x1, y1, rot;
+		x0 = m_X + m_Radius * cos (end);
+		y0 = m_Y + m_Radius * sin (end);
+		x1 = m_X + m_Radius * cos (m_End);
+		y1 = m_Y + m_Radius * sin (m_End);
+		rot = atan2 (y1 - y0, x1 - x0);
+		cairo_save (cr);
+		cairo_translate (cr, x0, y0);
+		cairo_rotate (cr, rot);
+		switch (m_Head) {
+		case ArrowHeadRight:
+			// FIXME
+				break;
+		case ArrowHeadLeft:
+			// FIXME
+			break;
+		default:
+			cairo_move_to (cr, 0., GetLineWidth () / 2.);
+			cairo_line_to (cr, m_A - m_B, GetLineWidth () / 2. + m_C);
+			cairo_line_to (cr, m_A, 0.);
+			cairo_line_to (cr, m_A -  m_B, -GetLineWidth () / 2. - m_C);
+			cairo_line_to (cr, 0., -GetLineWidth () / 2.);
+			break;
+		}
+		cairo_close_path (cr);
+		cairo_fill (cr);
+		cairo_restore (cr);
 	}
 }
 

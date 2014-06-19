@@ -56,33 +56,6 @@ gcpSelectionPlugin::~gcpSelectionPlugin()
 {
 }
 
-static gcp::IconDesc icon_descs[] = {
-	{"gcp_Selection", gcp_selection_24, NULL},
-	{"gcp_Eraser", gcp_eraser_24, NULL},
-	{"gcp_Horiz", gcp_horiz_24, NULL},
-	{"gcp_Lasso", gcp_lasso_24, NULL},
-	{"gcp_Vert", gcp_vert_24, NULL},
-	{"gcp_Rotate", gcp_rotate_24, NULL},
-	{"gcp_Merge", NULL, NULL},
-	{"gcp_Brackets", gcp_brackets_24, NULL},
-	{NULL, NULL, NULL}
-};
-
-static GtkRadioActionEntry entries[] = {
-	{	"Select", "gcp_Selection", N_("Select"), NULL,
-		N_("Select one or more objects"),
-		0	},
-	{	"Erase", "gcp_Eraser", N_("Erase"), NULL,
-		N_("Eraser"),
-		0	},
-	{	"Lasso", "gcp_Lasso", N_("Area selection"), NULL,
-		N_("Area selection"),
-		0	},
-	{	"Brackets", "gcp_Brackets", N_("Brackets"), NULL,
-		N_("Brackets"),
-		0	},
-};
-
 static const char *ui_description =
 "<ui>"
 "  <toolbar name='SelectToolbar'>"
