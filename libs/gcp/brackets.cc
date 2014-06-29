@@ -267,7 +267,7 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 static void AddAtom (gcu::Atom const *atom, std::set < gcu::Object * > const &objects, std::set < gcu::Object const * > &test)
 {
 	test.insert (atom);
-	std::map < gcu::Atom *, gcu::Bond *>::const_iterator i;
+	std::map < gcu::Bondable *, gcu::Bond *>::const_iterator i;
 	gcu::Bond const *bond = atom->GetFirstBond (i);
 	gcu::Atom const *atom1;
 	std::set < gcu::Object * >::const_iterator end = objects.end ();

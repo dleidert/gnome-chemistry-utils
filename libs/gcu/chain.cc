@@ -69,7 +69,7 @@ Chain::Chain (Molecule* molecule, Bond* pBond, TypeId Type): Object (Type)
 		m_Bonds[pAtom0].fwd = pBond;
 		pAtom = (Atom*) pBond->GetAtom (1);
 		m_Bonds[pAtom].rev = pBond;
-		map<gcu::Atom*, gcu::Bond*>::iterator i;
+		map < gcu::Bondable *, gcu::Bond * >::iterator i;
 		Bond* pBond0 = (Bond*) pAtom->GetFirstBond (i);
 		while (pBond0) {
 			if ((pBond0 != pBond) && FindCycle (pAtom, pBond0))
@@ -108,7 +108,7 @@ bool Chain::FindCycle (Atom* pAtom, Bond* pBond)
 	}
 	m_Bonds[pAtom].fwd = pBond;
 	m_Bonds[pAtom1].rev = pBond;
-	map<gcu::Atom*, gcu::Bond*>::iterator i;
+	map < gcu::Bondable *, gcu::Bond * >::iterator i;
 	Bond* pBond1 = (Bond*) pAtom1->GetFirstBond (i);
 	while (pBond1) {
 		if ((pBond1 != pBond) && FindCycle (pAtom1, pBond1))
@@ -122,7 +122,7 @@ bool Chain::FindCycle (Atom* pAtom, Bond* pBond)
 
 void Chain::FindCycles (Atom* pAtom)
 {
-	map<gcu::Atom*, gcu::Bond*>::iterator i;
+	map < gcu::Bondable *, gcu::Bond * >::iterator i;
 	Bond* pBond = (Bond*) pAtom->GetFirstBond (i);
 	Atom* pAtom0;
 	Molecule *mol;
@@ -326,7 +326,7 @@ unsigned Chain::BuildLength (unsigned *cycle_size, unsigned *cycle_pos)
 	unsigned min_cycle_pos = 0;
 	// searching from there
 	std::map < Atom *, ChainElt >::iterator i, end = m_Bonds.end ();
-	std::map < Atom *, Bond * >::iterator b;
+	std::map < Bondable *, Bond * >::iterator b;
 	Bond *bond, *last_bond = NULL;
 	Atom *atom = NULL;
 	for (i = m_Bonds.begin(); i != end; i++) {

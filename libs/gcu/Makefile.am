@@ -25,6 +25,7 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		application.cc \
 		atom.cc \
 		bond.cc \
+		bondable.cc \
 		chain.cc \
 		chem3ddoc.cc	\
 		chemistry.cc \
@@ -60,6 +61,7 @@ noinst_HEADERS = \
 		application.h \
 		atom.h \
 		bond.h \
+		bondable.h \
 		chain.h \
 		chem3ddoc.h	\
 		chemistry.h \

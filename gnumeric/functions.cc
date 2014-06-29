@@ -82,9 +82,9 @@ gnumeric_molarmass (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_monoisotopicmass[] = {
-    { GNM_FUNC_HELP_NAME, N_("MONOISOTIPICMASS:monoisotopic mass of a chemical entity")},
+    { GNM_FUNC_HELP_NAME, N_("MONOISOTOPICMASS:monoisotopic mass of a chemical entity")},
     { GNM_FUNC_HELP_ARG, N_("formula:the input chemical formula such as \"CCl4\"")},
-	{ GNM_FUNC_HELP_DESCRIPTION, N_("MONOISOTIPICMASS calculates a monoisotopic mass associated with the given @{formula}.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, N_("MONOISOTOPICMASS calculates a monoisotopic mass associated with the given @{formula}.") },
 	{ GNM_FUNC_HELP_EXAMPLES, N_("=monoisotopicmass(\"CCl4\")") },
 	{ GNM_FUNC_HELP_END, NULL }
 };
@@ -117,7 +117,7 @@ gnumeric_monoisotopicmass (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_chemcomposition[] = {
-    { GNM_FUNC_HELP_NAME, N_("CHEMCOMPOSITION: mass percent of a given element inside a chemical entity")},
+    { GNM_FUNC_HELP_NAME, N_("CHEMCOMPOSITION:mass percent of a given element inside a chemical entity")},
     { GNM_FUNC_HELP_ARG, N_("formula:the input chemical formula such as \"CCl4\"")},
     { GNM_FUNC_HELP_ARG, N_("element:an element symbol \"C\"")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("CHEMCOMPOSITION calculates the mass percent of an element inside the given @{formula}.") },

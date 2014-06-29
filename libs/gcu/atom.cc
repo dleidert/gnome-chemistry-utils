@@ -41,7 +41,7 @@ using namespace std;
 namespace gcu
 {
 
-Atom::Atom (): Object (AtomType)
+Atom::Atom (): Bondable (AtomType)
 {
 	m_Z = -1;
 	m_x = m_y = m_z = 0.0;
@@ -58,7 +58,7 @@ Atom::~Atom ()
 }
 
 Atom::Atom (int Z, double x, double y, double z):
-	Object (AtomType)
+	Bondable (AtomType)
 {
 	SetZ (Z);
 	m_x = x;
@@ -68,7 +68,7 @@ Atom::Atom (int Z, double x, double y, double z):
 }
 
 Atom::Atom (Atom& a):
-	Object (AtomType)
+	Bondable (AtomType)
 {
 	SetZ (a.m_Z);
 	m_x = a.m_x;
@@ -129,39 +129,6 @@ void Atom::AddBond (Bond* pBond)
 void Atom::RemoveBond (Bond* pBond)
 {
 	m_Bonds.erase (pBond->GetAtom (this));
-}
-
-Bond* Atom::GetFirstBond (map<Atom*, Bond*>::iterator& i)
-{
-	i = m_Bonds.begin ();
-	if (i == m_Bonds.end ())
-		return NULL;
-	return (*i).second;
-}
-
-Bond const * Atom::GetFirstBond (std::map< Atom *, Bond * >::const_iterator& i) const
-{
-	i = m_Bonds.begin ();
-	if (i == m_Bonds.end ())
-		return NULL;
-	return (*i).second;
-}
-
-
-Bond const * Atom::GetNextBond (std::map< Atom *, Bond * >::const_iterator& i) const
-{
-	i++;
-	if (i == m_Bonds.end())
-		return NULL;
-	return (*i).second;
-}
-
-Bond* Atom::GetNextBond (map<Atom*, Bond*>::iterator& i)
-{
-	i++;
-	if (i == m_Bonds.end())
-		return NULL;
-	return (*i).second;
 }
 
 void Atom::Move (double x, double y, double z)
@@ -246,7 +213,7 @@ bool Atom::SaveNode (G_GNUC_UNUSED xmlDocPtr xml, G_GNUC_UNUSED xmlNodePtr node)
 
 Bond* Atom::GetBond (Atom* pAtom) const
 {
-	std::map<Atom*, Bond*>::const_iterator i;
+	std::map < Bondable*, Bond * >::const_iterator i;
 	i = m_Bonds.find (pAtom);
 	return (i != m_Bonds.end ())? (*i).second: NULL;
 }
@@ -345,7 +312,7 @@ string Atom::GetProperty (unsigned property) const
 
 bool Atom::IsInCycle (Cycle* pCycle)
 {
-	map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end ();
+	map < gcu::Bondable *, gcu::Bond * >::iterator i, end = m_Bonds.end ();
 	for (i = m_Bonds.begin (); i != end; i++)
 		if (((Bond*) (*i).second)->IsInCycle (pCycle))
 		return true;
@@ -364,17 +331,20 @@ bool Atom::Match (Atom *atom, AtomMatchState &state)
 	state.mol2[atom] = n;
 	state.atoms[n] = AtomPair (this, atom);
 	// compare bonded atoms
-	map<gcu::Atom*, gcu::Bond*>::iterator i, iend = m_Bonds.end ();
-	map<gcu::Atom*, gcu::Bond*>::iterator j, jend = atom->m_Bonds.end ();
+	map < gcu::Bondable *, gcu::Bond * >::iterator i, iend = m_Bonds.end ();
+	map < gcu::Bondable *, gcu::Bond * >::iterator j, jend = atom->m_Bonds.end ();
 	for (i = m_Bonds.begin (); i != iend; i++) {
-		if (state.mol1.find ((*i).first) != state.mol1.end ())
+		Atom *first = dynamic_cast < Atom * > ((*i).first);
+		// FIXME: what if the Bondable is not an Atom ?
+		if (!atom || state.mol1.find (first) != state.mol1.end ())
 			continue; /* may be not enough: we might search which atom is
 		  				associated with this one and see if it is effectively
 			  			bonded to *atom */
 		for (j = atom->m_Bonds.begin (); j != jend; j++) {
-			if (state.mol2.find ((*j).first) != state.mol2.end ())
+			Atom *next = dynamic_cast < Atom * > ((*j).first);
+			if (!next || state.mol2.find (next) != state.mol2.end ())
 				continue;
-			if ((*i).first->Match ((*j).first, state))
+			if (first->Match (next, state))
 				break;
 		}
 		if (j == jend)

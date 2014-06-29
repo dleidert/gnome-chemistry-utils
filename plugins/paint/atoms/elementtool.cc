@@ -104,7 +104,7 @@ void gcpElementTool::OnRelease ()
 			if (m_nState & GDK_CONTROL_MASK && (parent->GetType () == FragmentType)) {
 				//If m_pObject points to an atom inside a fragment, replace the whole fragment.
 				gcp::Atom* pAtom = ((gcp::Fragment*) parent)->GetAtom ();
-				map<Atom*, Bond*>::iterator i;
+				map < Bondable *, Bond * >::iterator i;
 				gcp::Bond *pBond = (gcp::Bond*) pAtom->GetFirstBond (i);
 				double x, y;
 				pAtom->GetCoords (&x, &y);
@@ -127,7 +127,7 @@ void gcpElementTool::OnRelease ()
 				gcp::Atom* pAtom = static_cast <gcp::Atom *> (m_pObject);
 				pAtom->SetZ (CurZ);
 				m_pView->Update ((gcp::Atom*) m_pObject);
-				map<Atom*, Bond*>::iterator i;
+				map < Bondable *, Bond * >::iterator i;
 				gcp::Bond *pBond = (gcp::Bond*) pAtom->GetFirstBond (i);
 				while (pBond) {
 					pBond->SetDirty ();

@@ -82,7 +82,7 @@ bool gcpCycleTool::OnClicked ()
 	gcp::Bond* pBond, *pBond1;
 	gcp::Document *pDoc = m_pView->GetDoc ();
 	m_dLength = pDoc->GetBondLength () * m_dZoomFactor;
-	map<Atom*, Bond*>::iterator j;
+	map < Bondable *, Bond * >::iterator j;
 	int i;
 	bool bDone = false;
 	m_dDefAngle = 0.0;

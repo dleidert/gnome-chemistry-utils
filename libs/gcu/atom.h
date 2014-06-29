@@ -25,7 +25,7 @@
 #ifndef GCU_ATOM_H
 #define GCU_ATOM_H
 
-#include "object.h"
+#include "bondable.h"
 #include "macros.h"
 #include <glib.h>
 #include <map>
@@ -44,7 +44,7 @@ class Vector;
 This class is used to represent atoms.
 
 */
-class Atom: public Object
+class Atom: public Bondable
 {
 public:
 /*!
@@ -163,42 +163,10 @@ Removes a Bond.
 */
 	Vector GetVector () const;
 /*!
-@param i a C++ std::map iterator.
-
-Use this function to retrieve the first Bond of this Atom and initialize the iterator.
-@return the first Bond of this Atom or NULL if the Atom has is not bonded.
-*/
-	Bond *GetFirstBond (std::map < Atom *, Bond * >::iterator& i);
-/*!
-@param i a C++ std::map constant iterator.
-
-Use this function to retrieve the first Bond of this constant Atom and initialize the iterator.
-@return the first Bond of this Atom or NULL if the Atom has is not bonded.
-*/
-	Bond const *GetFirstBond (std::map< Atom *, Bond * >::const_iterator& i) const;
-/*!
-@param i a C++ std::map iterator initialized by Atom::GetFirstBond.
-
-Use this method to iterate through the list of Bond instances of this Atom.
-@return the next Bond of this Atom or NULL.
-*/
-	Bond *GetNextBond (std::map<Atom*, Bond*>::iterator& i);
-/*!
-@param i a C++ std::map constant iterator initialized by Atom::GetFirstBond(std::map< Atom *, Bond * >::const_iterator&).
-
-Use this method to iterate through the list of Bond instances of this Atom.
-@return the next Bond of this Atom or NULL.
-*/
-	Bond const *GetNextBond (std::map< Atom *, Bond * >::const_iterator& i) const;
-/*!
 @param pAtom a pointer to an Atom instance.
 @return a pointer to the Bond shared by pAtom and this Atom if it exists or NULL.
 */
 	Bond* GetBond (Atom* pAtom) const;
-/*!
-@return the number of Bond instances shared by this Atom. It does not take multiplicity of bonds into account.
-*/
-	int GetBondsNumber () const {return m_Bonds.size();}
 /*!
 @param xml the xmlDoc used to save the document.
 @return a pointer to the xmlNode representing this Atom or NULL if an error occured.
@@ -321,10 +289,6 @@ The x coordinate of the Atom.
 The charge of the Atom.
 */
 	char m_Charge;
-/*!
-The Bond instances of the Atom. The index of the map is a pointer to the other end of the Bond.
-*/
-	std::map<Atom*, Bond*> m_Bonds;
 
 GCU_PROP_FULL (int, A, AChanged) // nucleon number, 0 means natural or not specified.
 
@@ -369,17 +333,17 @@ public:
 /*!
 This map gives the index of atoms from the first molecule in gcu::AtomMatchState::atoms.
 */
-	std::map <Atom*, int> mol1;
+	std::map < Atom *, int > mol1;
 
 /*!
 This map gives the index of atoms from the second molecule in gcu::AtomMatchState::atoms.
 */
-	std::map <Atom*, int> mol2;
+	std::map < Atom *, int > mol2;
 
 /*!
 The array of matched atoms.
 */
-	std::vector <AtomPair> atoms;
+	std::vector < AtomPair > atoms;
 };
 
 } //namespace gcu

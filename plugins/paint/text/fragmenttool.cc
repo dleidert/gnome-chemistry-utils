@@ -94,7 +94,7 @@ bool gcpFragmentTool::OnClicked ()
 				double x, y;
 				pAtom->GetCoords (&x, &y);
 				gcp::Molecule *pMol = (gcp::Molecule*) pAtom->GetMolecule ();
-				map<Atom*, Bond*>::iterator i;
+				map < Bondable *, Bond * >::iterator i;
 				gcp::Bond *pBond = (gcp::Bond*) pAtom->GetFirstBond (i);
 				m_Fragment = new gcp::Fragment (x, y);
 				gcp::Atom* pFragAtom = (gcp::Atom*) m_Fragment->GetAtom ();

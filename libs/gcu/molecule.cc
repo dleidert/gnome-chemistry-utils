@@ -303,7 +303,7 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 				// remove the pseudo-atom
 				// FIXME: we drop the orientation of the bond and the positionof the pseudo-atom
 				// which will make 2D autogeneration problematic
-				map<Atom*, Bond*>::iterator ci;
+				map < Bondable *, Bond * >::iterator ci;
 
 				bond = pseudo->GetFirstBond (ci);
 				atom = bond->GetAtom (pseudo);

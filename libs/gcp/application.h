@@ -300,52 +300,6 @@ Saves the active view as an image.
 Sets the zoom level for the active document window.
 */
 	void Zoom (double zoom);
-/*!
-@param entries an array of GtkRadioActionEntry structures.
-@param nb the number of entries.
-@param ui_description an xml like text describing the user interface.
-@param icons an array of IconDesc structures for the icons used by the buttons.
-
-Adds new buttons in the tools box. The code used in the selection plugin is:
-\code
-static gcp::IconDesc icon_descs[] = {
-	{"gcp_Selection", gcp_selection_24},
-	{"gcp_Eraser", gcp_eraser_24},
-	{NULL, NULL}
-};
-
-static GtkRadioActionEntry entries[] = {
-	{	"Select", "gcp_Selection", N_("Select"), NULL,
-		N_("Select one or more objects"),
-		0	},
-	{	"Erase", "gcp_Eraser", N_("Erase"), NULL,
-		N_("Eraser"),
-		0	}
-};
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='SelectToolbar'>"
-"	 <placeholder name='Select1'>"
-"      <toolitem action='Select'/>"
-"      <toolitem action='Erase'/>"
-"	 </placeholder>"
-"	 <placeholder name='Select2'/>"
-"	 <placeholder name='Select3'/>"
-"  </toolbar>"
-"</ui>";
-
-void gcpSelectionPlugin::Populate (gcp::Application* App)
-{
-	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
-	App->RegisterToolbar ("SelectToolbar", 0);
-	new gcpSelectionTool (App);
-	new gcpEraserTool (App);
-	App->ActivateTool ("Select", true);
-}
-\endcode
-*/
-	void AddActions (GtkRadioActionEntry const *entries, int nb, char const *ui_description, IconDesc const *icons);
 	void AddTools (ToolDesc const *tools);
 /*!
 @param name the name of the toolbar.
@@ -524,10 +478,6 @@ private:
 	static bool m_bInit;
 	static bool m_Have_InChI;
 	xmlDocPtr XmlDoc;
-	GtkIconFactory *IconFactory;
-	std::list<char const*> UiDescs;
-	GtkRadioActionEntry* RadioActions;
-	int m_entries;
 	std::map<int, std::string> ToolbarNames;
 	unsigned m_NumDoc; //used to build the name of the action associated with the menu
 	std::set<Target*> m_Targets;

@@ -340,7 +340,7 @@ bool Molecule::Merge (Molecule* pMolecule, bool RemoveDuplicates)
 			}
 
 			// Treat shared atoms and delete from pMolecule
-			map< gcu::Atom *, gcu::Bond * >::iterator ai;
+			map < gcu::Bondable *, gcu::Bond * >::iterator ai;
 			endj = AtomMap.end ();
 			for (j = AtomMap.begin (); j != endj; j++) {
 				b0 = (Bond*) (*j).second->pAtom->GetFirstBond (ai);
@@ -728,7 +728,7 @@ std::string Molecule::GetRawFormula () const
 
 static void BuildConnectivity (gcu::Atom *atom, set < gcu::Atom * > &ConnectedAtoms)
 {
-	std::map < gcu::Atom *, gcu::Bond * >::iterator i;
+	std::map < gcu::Bondable *, gcu::Bond * >::iterator i;
 	gcu::Bond *bond;
 	ConnectedAtoms.insert (atom);
 	for (bond = atom->GetFirstBond (i); bond; bond = atom->GetNextBond (i)) {

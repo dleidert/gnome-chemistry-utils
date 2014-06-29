@@ -236,7 +236,7 @@ void gcpCurvedArrowTool::OnDrag ()
 			case gcu::AtomType: {
 				gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
 				if (!m_Target) {
-					std::map< gcu::Atom *, gcu::Bond * >::iterator it;
+					std::map< gcu::Bondable *, gcu::Bond * >::iterator it;
 					double x, y;
 					atom->GetCoords (&x, &y);
 					x *= pTheme->GetZoomFactor ();

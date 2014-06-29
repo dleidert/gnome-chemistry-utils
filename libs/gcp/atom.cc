@@ -170,7 +170,7 @@ void Atom::SetZ (int Z)
 
 int Atom::GetTotalBondsNumber () const
 {
-	std::map<gcu::Atom*, gcu::Bond*>::const_iterator i, end = m_Bonds.end ();
+	std::map < gcu::Bondable *, gcu::Bond * >::const_iterator i, end = m_Bonds.end ();
 	int n = 0;
 	for (i = m_Bonds.begin(); i != end; i++)
 		n += (*i).second->GetOrder ();
@@ -194,7 +194,7 @@ HPos Atom::GetBestSide ()
 	size_t nb_bonds = m_Bonds.size ();
 	if (nb_bonds == 0)
 		return (Element::BestSide (m_Z))? RIGHT_HPOS: LEFT_HPOS;
-	std::map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end();
+	std::map < gcu::Bondable *, gcu::Bond * >::iterator i, end = m_Bonds.end();
 	double sumc = 0.0, sums = 0.0, a;
 	for (i = m_Bonds.begin(); i != end; i++) {
 		a = ((Bond*) (*i).second)->GetAngle2DRad (this);
@@ -278,7 +278,7 @@ void Atom::Update ()
 		}
 	}
 	m_AvailPosCached = false;
-	map<gcu::Atom*, gcu::Bond*>::iterator j = m_Bonds.begin(), jend = m_Bonds.end ();
+	map < gcu::Bondable *, gcu::Bond * >::iterator j = m_Bonds.begin(), jend = m_Bonds.end ();
 	if (nbonds && GetZ () == 6) {
 		// update large bonds ends
 		Bond *bond;
@@ -353,7 +353,7 @@ void Atom::UpdateAvailablePositions ()
 	} else
 		m_AvailPos = 0xff;
 	m_AvailPos &= ~m_OccupiedPos;
-	map<gcu::Atom*, gcu::Bond*>::iterator i = m_Bonds.begin();
+	map < gcu::Bondable *, gcu::Bond * >::iterator i = m_Bonds.begin();
 	while (i != m_Bonds.end()) {
 		n = m_AngleList.begin ();
 		angle = ((Bond*) (*i).second)->GetAngle2D (this);
@@ -1124,7 +1124,7 @@ static void do_display_symbol (GtkToggleAction *action, Atom *pAtom)
 	View *view = Doc->GetView ();
 	view->Update (pAtom);
 	// also update the bonds
-	map<gcu::Atom*, gcu::Bond*>::iterator i;
+	map < gcu::Bondable *, gcu::Bond * >::iterator i;
 	Bond *bond = static_cast <Bond *> (pAtom->GetFirstBond (i));
 	while (bond) {
 		bond->SetDirty ();
@@ -1473,7 +1473,7 @@ Bond *Atom::GetBondAtAngle (double angle)
 {
 	Bond *res = NULL, *bond;
 	double a1, a0 = 2 * M_PI;// something larger that anything we can get
-	std::map <gcu::Atom *, gcu::Bond *>::iterator it;
+	std::map < gcu::Bondable *, gcu::Bond * >::iterator it;
 	for (bond = static_cast <gcp::Bond *> (GetFirstBond (it)); bond; bond = static_cast <gcp::Bond *> (GetNextBond (it))) {
 		a1 = bond->GetAngle2DRad (this);
 		a1 -= angle;
@@ -1650,7 +1650,7 @@ bool Atom::UpdateStereoBonds ()
 
 bool Atom::HasStereoBond () const
 {
-	std::map < gcu::Atom *, gcu::Bond * >::const_iterator i, end = m_Bonds.end ();
+	std::map < gcu::Bondable *, gcu::Bond * >::const_iterator i, end = m_Bonds.end ();
 	for (i = m_Bonds.begin (); i != end; i++)
 		switch (static_cast < Bond * > ((*i).second)->GetType ()) {
 		case UpBondType:
@@ -1665,7 +1665,7 @@ bool Atom::HasStereoBond () const
 
 Bond *Atom::GetNewmanBond () const
 {
-	std::map < gcu::Atom *, gcu::Bond * >::const_iterator i, end = m_Bonds.end ();
+	std::map < gcu::Bondable *, gcu::Bond * >::const_iterator i, end = m_Bonds.end ();
 	for (i = m_Bonds.begin (); i != end; i++)
 		if (static_cast < Bond * > ((*i).second)->GetType () == NewmanBondType)
 			return static_cast < Bond * > ((*i).second);

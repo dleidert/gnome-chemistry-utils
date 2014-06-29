@@ -111,7 +111,7 @@ void gcpBracketsTool::OnDrag ()
 							if (atom == NULL)
 								atom = static_cast <gcp::Atom *> (object);
 							// go through the bonds and select them if both ends are selected
-							std::map<gcu::Atom*, gcu::Bond*>::iterator i;
+							std::map < gcu::Bondable *, gcu::Bond * >::iterator i;
 							gcu::Bond *bond = atom->GetFirstBond (i);
 							while (bond) {
 								if (m_pData->IsSelected (bond->GetAtom (atom)))

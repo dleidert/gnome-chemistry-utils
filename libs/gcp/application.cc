@@ -436,13 +436,8 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		m_bInit = true;
 		g_idle_add (reinterpret_cast <GSourceFunc> (ApplicationPrivate::Init), this);
 	}
-	RadioActions = NULL;
-	m_entries = 0;
-	IconFactory = gtk_icon_factory_new ();
 	set<Plugin*>::iterator i = Plugins.begin (), end = Plugins.end ();
 	while (i != end) (*i++)->Populate (this);
-	gtk_icon_factory_add_default (IconFactory);
-	g_object_unref (G_OBJECT (IconFactory));
 	XmlDoc = xmlNewDoc ((xmlChar const*) "1.0");
 	visible_windows = 0;
 	load_globs ();
@@ -520,15 +515,9 @@ Application::~Application ()
 	go_conf_free_node (m_ConfNode);
 	m_ConfNode = NULL;
 	TheThemeManager.Shutdown ();
-#if 0
-	g_object_unref (m_Style);
-#endif
 	// unref cursors
 	for (int i = 0; i < CursorMax; i++)
 		g_object_unref (m_Cursors[i]);
-	if (m_entries)
-		g_free (RadioActions);
-	g_object_unref (IconFactory);
 	// unload plugins
 	Plugin::UnloadPlugins ();
 	std::map < std::string, gccv::Canvas * >::iterator k, kend = m_ToolCanvases.end ();
@@ -1003,27 +992,6 @@ void Application::OnToolChanged (char const *new_tool_name)
 void Application::BuildTools () throw (std::runtime_error)
 {
 	Tools *ToolsBox = new Tools (this, m_ToolDescriptions);
-//	map < int, string >::iterator i, iend = ToolbarNames.end ();
-//	list < ToolDesc const * >::iterator j, jend = m_ToolDescriptions.end ();
-//	string s;
-//	GError *error = NULL;
-//	gcugtk::UIManager *ToolsManager = new gcugtk::UIManager (gtk_ui_manager_new ());
-//	ToolsBox->SetUIManager (ToolsManager);
-//	GtkActionGroup *action_group = gtk_action_group_new ("Tools");
-//	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
-//	gtk_action_group_add_radio_actions (action_group, RadioActions, m_entries, 0, G_CALLBACK (on_tool_changed), this);
-//	gtk_ui_manager_insert_action_group (ToolsManager->GetUIManager (), action_group, 0);
-/*	for (j = UiDescs.begin (); j != jend; j++)
-		if (!gtk_ui_manager_add_ui_from_string (ToolsManager->GetUIManager (), *j, -1, &error)) {
-			string what = string ("building user interface failed: ") + error->message;
-			g_error_free (error);
-			throw runtime_error (what);
-		}
-	for (i = ToolbarNames.begin (); i != iend; i++) {
-		s = "ui/";
-		s += (*i).second;
-		ToolsBox->AddToolbar (s);
-	}*/
 	m_pActiveTool = m_Tools["Select"];
 	if (m_pActiveTool)
 		m_pActiveTool->Activate(true);
@@ -1039,157 +1007,6 @@ void Application::ShowTools (bool visible)
 			BuildTools ();
 	} else
 	ToolsBox->Show (visible);
-}
-
-void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char const *ui_description, IconDesc const *icons)
-{
-	static int cur_entry = 1;
-	if (nb > 0) {
-		if (m_entries)
-			RadioActions = g_renew (GtkRadioActionEntry, RadioActions, m_entries + nb);
-		else
-			RadioActions = g_new (GtkRadioActionEntry, nb);
-		memcpy (RadioActions + m_entries, entries, nb * sizeof (GtkRadioActionEntry));
-		for (int i = 0; i < nb; i++)
-			if (strcmp (RadioActions[i + m_entries].name, "Select"))
-				RadioActions[i + m_entries].value = cur_entry++;
-			else
-				RadioActions[i + m_entries].value = 0;
-		m_entries += nb;
-	}
-	if (ui_description)
-		UiDescs.push_back (ui_description);
-	if (icons) {
-		GtkWidget *w = gtk_button_new ();
-		GtkStyleContext *ctxt = gtk_widget_get_style_context (w);
-		GtkIconSet *set;
-		GtkIconSource *src;
-		while (icons->name) {
-			GdkPixbuf *icon;
-			if (icons->data_24) {
-				GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline (-1, icons->data_24, false, NULL);
-				set = gtk_icon_set_new ();
-				src = gtk_icon_source_new ();
-				gtk_icon_source_set_size_wildcarded (src, true);
-				gtk_icon_source_set_state_wildcarded (src, false);
-				gtk_icon_source_set_direction_wildcarded (src, true);
-
-				for (int c = 0; c < 5; c++) {
-					GtkStateFlags state;
-					switch (c) {
-					default:
-					case 0:
-						state = GTK_STATE_FLAG_NORMAL;
-						break;
-					case 1:
-						state = GTK_STATE_FLAG_ACTIVE;
-						break;
-					case 2:
-						state = GTK_STATE_FLAG_PRELIGHT;
-						break;
-					case 3:
-						state = GTK_STATE_FLAG_SELECTED;
-						break;
-					case 4:
-						state = GTK_STATE_FLAG_INSENSITIVE;
-						break;
-					case 5:
-						state = GTK_STATE_FLAG_INCONSISTENT;
-						break;
-					case 6:
-						state = GTK_STATE_FLAG_FOCUSED;
-						break;
-					}
-					GdkRGBA rgba;
-					gtk_style_context_get_color (ctxt, state, &rgba);
-					icon = gdk_pixbuf_copy (pixbuf);
-					// set the pixbuf color to the corresponding style for the style
-					unsigned char red, blue, green;
-					red = rgba.red * 255;
-					green = rgba.green * 255;
-					blue = rgba.blue * 255;
-					unsigned char *line, *cur;
-					line = gdk_pixbuf_get_pixels (icon);
-					int i, j, rows, cols, rowstride;
-					cols = gdk_pixbuf_get_width (icon);
-					rows = gdk_pixbuf_get_height (icon);
-					rowstride = gdk_pixbuf_get_rowstride (icon);
-					for (i = 0; i < rows; i++) {
-						cur = line;
-						line += rowstride;
-						for (j = 0; j < cols; j++) {
-							cur[0] = cur[0] ^ red;
-							cur[1] = cur[1] ^ green;
-							cur[2] = cur[2] ^ blue;
-							cur += 4;
-						}
-					}
-					gtk_icon_source_set_pixbuf (src, icon);
-					gtk_icon_source_set_state (src, static_cast <GtkStateType> (c));
-					gtk_icon_set_add_source (set, src);	/* copies the src */
-					g_object_unref (icon);
-				}
-				gtk_icon_source_free (src);
-				gtk_icon_factory_add (IconFactory, icons->name, set);	/* keeps reference to set */
-				gtk_icon_set_unref (set);
-				g_object_unref (pixbuf);
-			} else if (icons->canvas) {
-				cairo_surface_t *surface;
-				cairo_t *cr;
-				set = gtk_icon_set_new ();
-				src = gtk_icon_source_new ();
-				gtk_icon_source_set_size_wildcarded (src, true);
-				gtk_icon_source_set_state_wildcarded (src, false);
-				gtk_icon_source_set_direction_wildcarded (src, true);
-				for (int c = 0; c < 7; c++) {
-					GtkStateFlags state;
-					switch (c) {
-					default:
-					case 0:
-						state = GTK_STATE_FLAG_NORMAL;
-						break;
-					case 1:
-						state = GTK_STATE_FLAG_ACTIVE;
-						break;
-					case 2:
-						state = GTK_STATE_FLAG_PRELIGHT;
-						break;
-					case 3:
-						state = GTK_STATE_FLAG_SELECTED;
-						break;
-					case 4:
-						state = GTK_STATE_FLAG_INSENSITIVE;
-						break;
-					case 5:
-						state = GTK_STATE_FLAG_INCONSISTENT;
-						break;
-					case 6:
-						state = GTK_STATE_FLAG_FOCUSED;
-						break;
-					}
-					GdkRGBA rgba;
-					gtk_style_context_get_color (ctxt, state, &rgba);
-					icon = gdk_pixbuf_new (GDK_COLORSPACE_RGB, true, 8, 24, 24);
-					surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 24, 24);
-					cr = cairo_create (surface);
-					gtk_widget_set_state_flags (icons->canvas->GetWidget (), static_cast < GtkStateFlags > (c? 1 << (c - 1): 0), true);
-					icons->canvas->SetColor (GO_COLOR_FROM_GDK_RGBA (rgba));
-					icons->canvas->Render (cr, false);
-					go_cairo_convert_data_to_pixbuf (gdk_pixbuf_get_pixels (icon), cairo_image_surface_get_data (surface), 24, 24, 96);
-					gtk_icon_source_set_pixbuf (src, icon);
-					gtk_icon_source_set_state (src, static_cast <GtkStateType> (c));
-					gtk_icon_set_add_source (set, src);	/* copies the src */
-					g_object_unref (icon);
-				}
-				gtk_icon_source_free (src);
-				gtk_icon_factory_add (IconFactory, icons->name, set);	/* keeps reference to set */
-				gtk_icon_set_unref (set);
-			}
-			icons++;
-		}
-		g_object_unref (ctxt);
-		gtk_widget_destroy (w);
-	}
 }
 
 void Application::AddTools (ToolDesc const *tools)

@@ -661,7 +661,7 @@ void Document::Update ()
 
 void Document::RemoveAtom (Atom* pAtom)
 {
-	std::map<gcu::Atom*, gcu::Bond*>::iterator i;
+	std::map < gcu::Bondable *, gcu::Bond * >::iterator i;
 	Bond* pBond;
 	while ((pBond = (Bond*) pAtom->GetFirstBond (i)))
 	{
@@ -678,7 +678,7 @@ void Document::RemoveAtom (Atom* pAtom)
 
 void Document::RemoveFragment (Fragment* pFragment)
 {
-	std::map<gcu::Atom*, gcu::Bond*>::iterator i;
+	std::map < gcu::Bondable *, gcu::Bond * >::iterator i;
 	Atom* pAtom = pFragment->GetAtom ();
 	Bond* pBond;
 	while ((pBond = (Bond*) pAtom->GetFirstBond (i))) {
@@ -1384,7 +1384,7 @@ gcu::Residue *Document::CreateResidue (char const *name, char const *symbol, gcu
 	double x, y;
 	a->GetCoords (&x, &y);
 	molecule->Move (-x, -y);
-	map <gcu::Atom*, gcu::Bond*>::iterator j;
+	map < gcu::Bondable *, gcu::Bond * >::iterator j;
 	gcu::Bond *b = a->GetFirstBond (j);
 	double angle = b->GetAngle2DRad (a);
 	Matrix2D m (-angle, false);

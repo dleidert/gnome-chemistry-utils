@@ -820,7 +820,7 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 									if (have_pseudo) {
 										// try adding a new residue
 										// first examine the first atom
-										map <gcu::Atom*, gcu::Bond*>::iterator i;
+										map < gcu::Bondable *, gcu::Bond * >::iterator i;
 										gcu::Bond *b = a->GetFirstBond (i);
 										int residue_offset = 0;
 										if (!b)

@@ -237,7 +237,7 @@ bool Fragment::OnChanged (bool save)
 			if (residue)
 				residue->SetResidue (r, sy);
 			else {
-				map<gcu::Atom*, gcu::Bond*>::iterator i;
+				map < gcu::Bondable *, gcu::Bond * >::iterator i;
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 				Atom *pOldAtom = m_Atom;
 				m_Atom = new FragmentResidue (this, sy);
@@ -259,7 +259,7 @@ bool Fragment::OnChanged (bool save)
 				Z = GetElementAtPos (m_StartSel = m_BeginAtom, CurPos);
 			if (Z) {
 				if (residue) {
-					map<gcu::Atom*, gcu::Bond*>::iterator i;
+					map < gcu::Bondable *, gcu::Bond * >::iterator i;
 					Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 					Atom *pOldAtom = m_Atom;
 					m_Atom = new FragmentAtom (this, Z);
@@ -309,7 +309,7 @@ bool Fragment::OnChanged (bool save)
 			if (residue)
 				residue->SetResidue (r, sy);
 			else {
-				map<gcu::Atom*, gcu::Bond*>::iterator i;
+				map < gcu::Bondable *, gcu::Bond * >::iterator i;
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 				Atom *pOldAtom = m_Atom;
 				m_Atom = new FragmentResidue (this, sy);
@@ -327,7 +327,7 @@ bool Fragment::OnChanged (bool save)
 		} else {
 			int Z = GetElementAtPos (m_BeginAtom, m_EndAtom);
 			if (residue) {
-				map<gcu::Atom*, gcu::Bond*>::iterator i;
+				map < gcu::Bondable *, gcu::Bond * >::iterator i;
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 				Atom *pOldAtom = m_Atom;
 				m_Atom = new FragmentAtom (this, Z);
@@ -703,7 +703,7 @@ bool Fragment::Load (xmlNodePtr node)
 			m_EndAtom = m_buf.length ();
 		} else if (!strcmp ((const char*) child->name, "residue")) {
 			// replace the atom by a residue
-			map<gcu::Atom*, gcu::Bond*>::iterator i;
+			map < gcu::Bondable *, gcu::Bond * >::iterator i;
 			Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 			Atom *pOldAtom = m_Atom;
 			m_Atom = new FragmentResidue (this, NULL);
@@ -1108,7 +1108,7 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 		if (residue)
 			residue->SetResidue (r, sy);
 		else {
-			map<gcu::Atom*, gcu::Bond*>::iterator i;
+			map < gcu::Bondable *, gcu::Bond * >::iterator i;
 			Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 			Atom *pOldAtom = m_Atom;
 			m_Atom = NULL;
@@ -1142,7 +1142,7 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 		return NULL;
 	m_bLoading = true;
 	if (residue) {
-		map<gcu::Atom*, gcu::Bond*>::iterator i;
+		map < gcu::Bondable *, gcu::Bond * >::iterator i;
 		Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 		Atom *pOldAtom = m_Atom;
 		m_Atom = NULL;
@@ -1242,7 +1242,7 @@ gccv::Anchor Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Po
 	width /= pTheme->GetZoomFactor ();
 	height = m_height / pTheme->GetZoomFactor (); // hmm, we might find something better
 	if (m_Atom->GetBondsNumber()) {
-		map<gcu::Atom*, gcu::Bond*>::iterator j;
+		map < gcu::Bondable *, gcu::Bond * >::iterator j;
 		Bond* pBond = (Bond*)m_Atom->GetFirstBond (j);
 		double angle = pBond->GetAngle2D (m_Atom) + 180.0;
 		if ((result & POSITION_NE) && (angle >= 180.0) && (angle <= 270.0))
@@ -1443,7 +1443,7 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 			}
 			if (r) {
 				m_EndAtom = m_BeginAtom +  + strlen (sy);
-				map<gcu::Atom*, gcu::Bond*>::iterator i;
+				map < gcu::Bondable *, gcu::Bond * >::iterator i;
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 				Atom *pOldAtom = m_Atom;
 				pOldAtom->SetParent (NULL);
@@ -1482,7 +1482,7 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 			}
 			if (r) {
 				m_EndAtom = m_BeginAtom + strlen (sy);
-				map<gcu::Atom*, gcu::Bond*>::iterator i;
+				map < gcu::Bondable *, gcu::Bond * >::iterator i;
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 				Atom *pOldAtom = m_Atom;
 				pOldAtom->SetParent (NULL);
@@ -1539,7 +1539,7 @@ bool Fragment::Analyze () {
 
 void Fragment::Update () {
 	if (m_Atom->GetBondsNumber () > 0 && m_Inversable) {
-		map<gcu::Atom*, gcu::Bond*>::iterator i;
+		map < gcu::Bondable *, gcu::Bond *>::iterator i;
 		Bond *bond = reinterpret_cast <Bond *> (m_Atom->GetFirstBond (i));
 		double angle = bond->GetAngle2D (m_Atom);
 		if (m_BeginAtom == 0 && (angle < 89. && angle > -89.)) {

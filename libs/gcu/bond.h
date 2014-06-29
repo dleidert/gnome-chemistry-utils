@@ -33,6 +33,7 @@ namespace gcu
 {
 
 class Atom;
+class Bondable;
 class Cycle;
 
 /*!\class Bond gcu/bond.h
@@ -66,6 +67,7 @@ The destructor of Bond.
 @return a pointer to the Atom instance: first Atom if which is 0, last if which is 1 or NULL.
 */
 	virtual Atom* GetAtom (int which) const; //0 = first, 1 = last, others reserved (for multicentered bonds?)
+	virtual Bondable* GetEnd (int which) const; //0 = first, 1 = last, others reserved (for multicentered bonds?)
 
 /*!
 @param pAtom a pointer to an Atom instance.
@@ -75,6 +77,8 @@ always be used even if the implementation does not use it in this version.
 @return the last atom if pAtom is the first, the first if pAtom is the last or NULL if pAtom is not concerned by this Bond.
 */
 	virtual Atom* GetAtom (Atom* pAtom, int which = 0) const;	//"which" is just a place holder for multicenter bonds; returns an atom different from pAtom
+															//i.e. the other end of the bond
+	virtual Bondable* GetEnd (Bondable* other, int which = 0) const;	//"which" is just a place holder for multicenter bonds; returns an atom different from pAtom
 															//i.e. the other end of the bond
 
 /*!
@@ -246,11 +250,11 @@ The order of the bond.
 /*!
 A pointer to the first Atom instance of the Bond.
 */
-	Atom *m_Begin;
+	Bondable *m_Begin;
 /*!
 A pointer to the last Atom instance of the Bond.
 */
-	Atom *m_End;// only 2 centered bonds, other bonds should be covered by derived classes
+	Bondable *m_End;// only 2 centered bonds, other bonds should be covered by derived classes
 
 /*!
 The gcu::Cycle instnces to which the bond pertains.

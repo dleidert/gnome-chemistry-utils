@@ -89,7 +89,7 @@ bool gcpChainTool::OnClicked()
 		m_Points[0].y = y = m_y0 *= m_dZoomFactor;
 		switch (nb) {
 		case 1: {
-				map<Atom*, Bond*>::iterator i;
+				map < Bondable *, Bond * >::iterator i;
 				gcp::Bond* bond = (gcp::Bond*) ((Atom*) m_pObject)->GetFirstBond (i);
 				m_RefAngle = m_dAngle = bond->GetAngle2D ((gcp::Atom*) m_pObject);
 				m_dAngle += (m_Positive)? +150: -150;
@@ -98,7 +98,7 @@ bool gcpChainTool::OnClicked()
 			}
 		case 2: {
 				double a2;
-				map<Atom*, Bond*>::iterator i;
+				map < Bondable *, Bond * >::iterator i;
 				gcp::Bond* bond = (gcp::Bond*) ((Atom*) m_pObject)->GetFirstBond (i);
 				a1 = bond->GetAngle2D ((gcp::Atom*) m_pObject);
 				bond = (gcp::Bond*) ((Atom*) m_pObject)->GetNextBond (i);

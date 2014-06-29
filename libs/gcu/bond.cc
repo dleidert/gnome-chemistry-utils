@@ -66,20 +66,35 @@ Atom* Bond::GetAtom(int which) const
 {
 	switch (which)
 	{
+	case 0: return dynamic_cast < Atom * > (m_Begin);
+	case 1: return dynamic_cast < Atom * > (m_End);
+	default: return NULL;
+	}
+}
+
+Bondable* Bond::GetEnd (int which) const
+{
+	switch (which)
+	{
 	case 0: return m_Begin;
 	case 1: return m_End;
 	default: return NULL;
 	}
 }
 
-Atom* Bond::GetAtom(Atom* pAtom, G_GNUC_UNUSED int which) const
+Atom* Bond::GetAtom(Atom* pAtom, int) const
 {
-	return (pAtom == m_Begin)? m_End: (pAtom == m_End)? m_Begin: NULL;
+	return (pAtom == m_Begin)? dynamic_cast < Atom * > (m_End): (pAtom == m_End)? dynamic_cast < Atom * > (m_Begin): NULL;
+}
+
+Bondable* Bond::GetEnd (Bondable* other, int) const
+{
+	return (other == m_Begin)? m_End: (other == m_End)? m_Begin: NULL;
 }
 
 Atom const * Bond::GetAtom (Atom const * pAtom, G_GNUC_UNUSED int which) const
 {
-	return (pAtom == m_Begin)? m_End: (pAtom == m_End)? m_Begin: NULL;
+	return (pAtom == m_Begin)? dynamic_cast < Atom * > (m_End): (pAtom == m_End)? dynamic_cast < Atom * > (m_Begin): NULL;
 }
 
 unsigned char Bond::GetOrder() const

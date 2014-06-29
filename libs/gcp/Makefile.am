@@ -31,6 +31,7 @@ libgcp_@GCU_API_VER@_la_SOURCES = \
 		atom-residue.cc \
 		electron.cc \
 		bond.cc \
+		delocalized-bond.cc \
 		brackets.cc \
 		residue.cc \
 		fragment-atom.cc \
@@ -54,8 +55,12 @@ libgcp_@GCU_API_VER@_la_SOURCES = \
 		scheme.cc \
 		step.cc \
 		step-counter.cc \
+		supermolecule.cc \
 		text.cc \
 		text-object.cc \
+		tolman-loop.cc \
+		tolman-step.cc \
+		weak-bond.cc \
 		docprop.cc \
 		fontsel.cc \
 		newfiledlg.cc \
@@ -82,6 +87,7 @@ noinst_HEADERS = \
 		atom.h \
 		atom-residue.h \
 		bond.h \
+		delocalized-bond.h \
 		brackets.h \
 		residue.h \
 		fragment-atom.h \
@@ -105,9 +111,12 @@ noinst_HEADERS = \
 		scheme.h \
 		step.h \
 		step-counter.h \
+		supermolecule.h \
 		text.h \
-		text-editor.h \
 		text-object.h \
+		tolman-loop.h \
+		tolman-step.h \
+		weak-bond.h \
 		docprop.h \
 		fontsel.h \
 		newfiledlg.h \

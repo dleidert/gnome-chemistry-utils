@@ -456,7 +456,7 @@ void gcpResiduesDlg::OnCurChanged ()
 	}
 	m_Document->GetView ()->EnsureSize ();
 	m_Atom = dynamic_cast <gcpPseudoAtom *> (m_Document->GetDescendant ("a1"));
-	map<gcu::Atom*, gcu::Bond*>::iterator j;
+	map < gcu::Bondable *, gcu::Bond * >::iterator j;
 	m_Atom->GetFirstBond (j);
 	static_cast <gcp::Atom *>((*j).first)->Lock ();
 	static_cast <gcp::Bond *>((*j).second)->Lock ();

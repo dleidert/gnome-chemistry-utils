@@ -79,8 +79,8 @@ void Bond::SetType (BondType type)
 		m_order = 1;
 	if (m_type == NewmanBondType) {
 		if (m_Begin && m_End) {
-			gcu::Atom *atom = m_Begin->z () > m_End->z ()? m_End: m_Begin;
-			std::map < gcu::Atom *, gcu::Bond * >::iterator i;
+			gcu::Atom *atom = dynamic_cast < gcu::Atom * > (m_Begin->z () > m_End->z ()? m_End: m_Begin);
+			std::map < gcu::Bondable *, gcu::Bond * >::iterator i;
 			for (Bond *bond = static_cast < Bond * > (atom->GetFirstBond (i)); bond; bond = static_cast <Bond * > (atom->GetNextBond (i)))
 				 bond->m_CoordsCalc = false;
 		}
@@ -130,7 +130,7 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 		double ax, ay, anga, angb = atan2 (fabs (dy), fabs (dx));
 		bool horizontal;
 		gcp::Bond *bond = static_cast < Atom * > (m_Begin)->GetNewmanBond ();
-		if (bond != NULL && m_Begin->z () < bond->GetAtom (m_Begin)->z ()) {
+		if (bond != NULL && m_Begin->z () < bond->GetEnd (m_Begin)->z ()) {
 			bl = bond->m_coords[15];
 			if (!go_finite (bl))
 				return false;
@@ -156,7 +156,7 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 			}
 		}
 		bond = static_cast < Atom * > (m_End)->GetNewmanBond ();
-		if (bond != NULL && m_End->z () < bond->GetAtom (m_End)->z ()) {
+		if (bond != NULL && m_End->z () < bond->GetEnd (m_End)->z ()) {
 			bl = bond->m_coords[15];
 			if (!go_finite (bl))
 				return false;
@@ -230,11 +230,12 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 			if (sin(a0 - a1) * sin (a0 - a2) > 0) {
 				double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
 				double tanb = 0., cosa = cos (a0), sina = sin (a0);
-				if (m_Begin->GetZ () == 6 && !static_cast <Atom*> (m_Begin)->GetShowSymbol ())
+				Atom *begin = dynamic_cast < Atom * > (m_Begin), *end = dynamic_cast < Atom * > (m_End);
+				if (begin && begin->GetZ () == 6 && !begin->GetShowSymbol ())
 					tanb = fabs (tan ((M_PI - a0 + a1) / 2));
 				m_coords[4] = *x1 + BondDist * cosa * tanb - dy * sign;
 				m_coords[5] = *y1 + dx * sign - BondDist * sina * tanb;
-				tanb = (m_End->GetZ () == 6 && !static_cast <Atom*> (m_End)->GetShowSymbol ())? fabs (tan ((a2 - a0) / 2)): 0.;
+				tanb = (end && end->GetZ () == 6 && !end->GetShowSymbol ())? fabs (tan ((a2 - a0) / 2)): 0.;
 				m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
 				m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
 			} else goto general;
@@ -244,19 +245,21 @@ general:
 			int n1 = m_Begin->GetBondsNumber () - 1, n2 = m_End->GetBondsNumber () - 1;
 			if (n1 == 1) {
 				// put the second line on the bond side if any
-				map <gcu::Atom*, gcu::Bond*>::iterator it;
+				map < gcu::Bondable *, gcu::Bond * >::iterator it;
 				Bond *bond = static_cast <Bond*> (m_Begin->GetFirstBond (it));
 				if (bond == this)
 					bond = static_cast <Bond*> (m_Begin->GetNextBond (it));
 				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (static_cast <Atom*> (m_Begin)), a;
 				if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
 					double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
-					double tanb = ((m_Begin->GetZ () == 6)? fabs (tan ((M_PI - a0 + a1) / 2)): 0.), cosa = cos (a0), sina = sin (a0);
+					Atom *atom = dynamic_cast < Atom * > (m_Begin);
+					double tanb = ((atom && atom->GetZ () == 6)? fabs (tan ((M_PI - a0 + a1) / 2)): 0.), cosa = cos (a0), sina = sin (a0);
 					m_coords[4] = *x1 + BondDist * cosa * tanb - dy * sign;
 					m_coords[5] = *y1 + dx * sign - BondDist * sina * tanb;
 					tanb = 0.;
 					bond = static_cast <Bond*> (m_End->GetFirstBond (it));
-					if (m_End->GetZ () == 6)
+					atom = dynamic_cast < Atom * > (m_End);
+					if (atom && atom->GetZ () == 6)
 						while (bond) {
 							if (bond != this) {
 								a = tan ((bond->GetAngle2DRad (static_cast <Atom*> (m_End)) - a0) / 2);
@@ -272,7 +275,7 @@ general:
 				}
 			} else if (n1 > 1 && n2 > 0) {
 				if (n2 == 1) {
-					map <gcu::Atom*, gcu::Bond*>::iterator it;
+					map < gcu::Bondable *, gcu::Bond * >::iterator it;
 					Bond *bond = static_cast <Bond*> (m_End->GetFirstBond (it));
 					if (bond == this)
 						bond = static_cast <Bond*> (m_End->GetNextBond (it));
@@ -280,11 +283,12 @@ general:
 					if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
 						double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
 						double tanb = 0., cosa = cos (a0), sina = sin (a0);
+						Atom *atom = dynamic_cast < Atom * > (m_Begin);
 						a2 = M_PI + a0;
 						if (a2 > 2 * M_PI)
 							a2 -= 2 * M_PI;
 						bond = static_cast <Bond*> (m_Begin->GetFirstBond (it));
-						if (m_Begin->GetZ () == 6)
+						if (atom && atom->GetZ () == 6)
 							while (bond) {
 								if (bond != this) {
 									a = tan ((bond->GetAngle2DRad (static_cast <Atom*> (m_Begin)) - a2) / 2);
@@ -296,7 +300,8 @@ general:
 							}
 						m_coords[4] = *x1 - (BondDist * cosa * tanb + dy) * sign;
 						m_coords[5] = *y1 + (dx + BondDist * sina * tanb) * sign;
-						tanb = (m_End->GetZ () == 6)? fabs (tan ((a1 - a0) / 2)): 0.;
+						atom = dynamic_cast < Atom * > (m_End);
+						tanb = (atom && atom->GetZ () == 6)? fabs (tan ((a1 - a0) / 2)): 0.;
 						m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
 						m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
 					}
@@ -305,9 +310,10 @@ general:
 					double tana = 0., tanb = 0., tanc = 0., tand = 0.;
 					double a, a0 = GetAngle2DRad (static_cast <Atom*> (m_End)), a1 = GetAngle2DRad (static_cast <Atom*> (m_Begin));
 					double cosa = cos (a0), sina = sin (a0);
-					map <gcu::Atom*, gcu::Bond*>::iterator it;
+					map < gcu::Bondable *, gcu::Bond * >::iterator it;
+					Atom *atom = dynamic_cast < Atom * > (m_Begin);
 					Bond *bond;
-					if (m_Begin->GetZ () == 6) {
+					if (atom && atom->GetZ () == 6) {
 						bond = static_cast <Bond*> (m_Begin->GetFirstBond (it));
 						while (bond) {
 							if (bond != this) {
@@ -321,7 +327,8 @@ general:
 							bond = static_cast <Bond*> (m_Begin->GetNextBond (it));
 						}
 					}
-					if (m_End->GetZ () == 6) {
+					atom = dynamic_cast < Atom * > (m_End);
+					if (atom && atom->GetZ () == 6) {
 						bond = static_cast <Bond*> (m_End->GetFirstBond (it));
 						while (bond) {
 							if (bond != this) {
@@ -349,7 +356,7 @@ general:
 				}
 				goto done;
 			} else if (n2 == 1) { // n1 is 0
-				map <gcu::Atom*, gcu::Bond*>::iterator it;
+				map < gcu::Bondable *, gcu::Bond * >::iterator it;
 				Bond *bond = static_cast <Bond*> (m_End->GetFirstBond (it));
 				if (bond == this)
 					bond = static_cast <Bond*> (m_End->GetNextBond (it));
@@ -359,7 +366,8 @@ general:
 					double tanb, cosa = cos (a0), sina = sin (a0);
 					m_coords[4] = *x1 - dy * sign;
 					m_coords[5] = *y1 + dx * sign;
-					tanb = (m_End->GetZ () == 6)? fabs (tan ((a1 - a0) / 2)): 0.;
+					Atom *atom = dynamic_cast < Atom * > (m_End);
+					tanb = (atom && atom->GetZ () == 6)? fabs (tan ((a1 - a0) / 2)): 0.;
 					m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
 					m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
 					goto done;
@@ -560,7 +568,7 @@ void Bond::Transform2D (G_GNUC_UNUSED Matrix2D& m, G_GNUC_UNUSED double x, G_GNU
 void Bond::Revert ()
 {
 	m_CoordsCalc = false;
-	gcu::Atom* pAtom = m_Begin;
+	gcu::Bondable *pAtom = m_Begin;
 	m_Begin = m_End;
 	m_End = pAtom;
 }
@@ -1021,7 +1029,9 @@ void Bond::OnLoaded ()
 		GetParent ()->SetDirty ();
 	if (m_type == NewmanBondType && m_Begin && m_End) {
 		// ensure begin and end are at the same x,y position
-		m_End->SetCoords (m_Begin->x (), m_Begin->y (), m_End->z ());
+		Atom *end = dynamic_cast < Atom * > (m_End);
+		if (end) // and what if it's NULL?
+			end->SetCoords (m_Begin->x (), m_Begin->y (), m_End->z ());
 	}
 }
 

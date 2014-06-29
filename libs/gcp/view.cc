@@ -470,7 +470,7 @@ static void do_set_symbol (GtkAction *action, Object *obj)
 		op->AddObject (group);
 		atom->SetZ (Z);
 		// set all bonds as dirty
-		map<gcu::Atom*, gcu::Bond*>::iterator i;
+		map < gcu::Bondable *, gcu::Bond * >::iterator i;
 		Bond *bond = reinterpret_cast <Bond *> (atom->GetFirstBond (i));
 		while (bond) {
 			bond->SetDirty ();
@@ -618,11 +618,11 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 					m_CurAtom->SetZ (Z);
 					Update (m_CurAtom);
 					// set all bonds as dirty
-					map<gcu::Atom*, gcu::Bond*>::iterator i;
-					Bond *bond = reinterpret_cast <Bond *> (m_CurAtom->GetFirstBond (i));
+					map < gcu::Bondable *, gcu::Bond * >::iterator i;
+					Bond *bond = reinterpret_cast < Bond * > (m_CurAtom->GetFirstBond (i));
 					while (bond) {
 						bond->SetDirty ();
-						bond = reinterpret_cast <Bond *> (m_CurAtom->GetNextBond (i));
+						bond = reinterpret_cast < Bond * > (m_CurAtom->GetNextBond (i));
 					}
 					op->AddObject (group, 1);
 					m_pDoc->FinishOperation ();

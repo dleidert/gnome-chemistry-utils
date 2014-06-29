@@ -346,7 +346,7 @@ bool gcpTextTool::Unselect ()
 			char* endval = (char*) xmlNodeGetContent (m_CurNode);
 			char* initval = (char*) xmlNodeGetContent (m_InitNode);
 			gcp::Fragment *fragment = dynamic_cast <gcp::Fragment *> (pObj);
-			map<Atom*, Bond*>::iterator i;
+			map <Bondable *, Bond * >::iterator i;
 			gcp::Bond *pBond = (fragment)? reinterpret_cast <gcp::Bond *> (fragment->GetAtom ()->GetFirstBond (i)): NULL;
 			if ((initval && strlen (initval))) {
 				if (endval && strlen (endval)) {

@@ -1,5 +1,53 @@
 ##Text encoding: utf-8
 
+2014-06-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gnumeric/functions.cc: fix functions help.
+	* libs/gcp/Makefile.am: add new files.
+	* libs/gcp/application.cc: fix after Bondable class introduction.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/atom.cc: ditto.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/brackets.cc: ditto.
+	* libs/gcp/delocalized-bond.cc: new DelocalizedBond class.
+	* libs/gcp/delocalized-bond.h: ditto.
+	* libs/gcp/document.cc: fix after Bondable class introduction.
+	* libs/gcp/fragment-atom.cc: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcp/supermolecule.cc: new SuperMolecule class.
+	* libs/gcp/supermolecule.h: ditto.
+	* libs/gcp/tolman-arrow.cc: new TolmanArrow class.
+	* libs/gcp/tolman-arrow.h: ditto.
+	* libs/gcp/tolman-loop.cc: new TolmanLoop class.
+	* libs/gcp/tolman-loop.h: ditto.
+	* libs/gcp/tolman-step.cc: new TolmanStep class.
+	* libs/gcp/tolman-step.h: ditto.
+	* libs/gcp/view.cc: fix after Bondable class introduction.
+	* libs/gcp/weak-bond.cc: new WeakBond class.
+	* libs/gcp/weak-bond.h: ditto.
+	* libs/gcu/Makefile.am: add Bondable class.
+	* libs/gcu/atom.cc: fix after Bondable class introduction.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/bond.cc: use Bondable instances as bond ends.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/bondable.cc: new Bondable class.
+	* libs/gcu/bondable.h: ditto.
+	* libs/gcu/chain.cc:: fix after Bondable class introduction.
+	* libs/gcu/molecule.cc: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/paint/arrows/curvedarrowtool.cc: ditto.
+	* plugins/paint/atoms/elementtool.cc: ditto.
+	* plugins/paint/bonds/bondtool.cc: ditto.
+	* plugins/paint/bonds/chaintool.cc: ditto.
+	* plugins/paint/cycles/cycletool.cc: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/selection/bracketstool.cc: ditto.
+	* plugins/paint/selection/erasertool.cc: ditto.
+	* plugins/paint/selection/lassotool.cc: ditto.
+	* plugins/paint/text/fragmenttool.cc: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+
 2014-06-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/arc.cc: add optional arrow head.
 	* plugins/paint/arrows/Makefile.am: new Tolman loop tool.

@@ -66,7 +66,7 @@ bool gcpEraserTool::OnClicked ()
 			Object* parent = m_pObject->GetParent ();
 			if (parent->GetType () == FragmentType)
 				m_Item = dynamic_cast <gccv::ItemClient *> (parent)->GetItem ();
-			std::map<Atom*, Bond*>::iterator i;
+			std::map < Bondable *, Bond * >::iterator i;
 			gcp::Bond* pBond = (gcp::Bond*)((gcp::Atom*)m_pObject)->GetFirstBond (i);
 			while (pBond) {
 				pBond->SetSelected (gcp::SelStateErasing);
@@ -114,7 +114,7 @@ void gcpEraserTool::OnDrag ()
 		if (pObject == m_pObject) {
 			if (!m_bChanged) {
 				client->SetSelected (gcp::SelStateErasing);
-				std::map<Atom*, Bond*>::iterator i;
+				std::map < Bondable *, Bond * >::iterator i;
 				gcp::Bond* pBond = (gcp::Bond*) ((gcp::Atom*) m_pObject)->GetFirstBond (i);
 				while (pBond) {
 					pBond->SetSelected (gcp::SelStateErasing);
@@ -124,7 +124,7 @@ void gcpEraserTool::OnDrag ()
 			}
 		} else if (m_bChanged) {
 			client->SetSelected (gcp::SelStateUnselected);
-			std::map<Atom*, Bond*>::iterator i;
+			std::map < Bondable *, Bond * >::iterator i;
 			gcp::Bond* pBond = (gcp::Bond*) ((gcp::Atom*) m_pObject)->GetFirstBond (i);
 			while (pBond) {
 				pBond->SetSelected (gcp::SelStateUnselected);
@@ -208,7 +208,7 @@ void gcpEraserTool::OnMotion ()
 			return; //It's an automatic object, can't be deleted
 		m_pData->SetSelected (m_pObject, gcp::SelStateErasing);
 		if (Id == AtomType) {
-			std::map<Atom*, Bond*>::iterator i;
+			std::map < Bondable *, Bond * >::iterator i;
 			gcp::Bond* pBond = (gcp::Bond*)((gcp::Atom*)m_pObject)->GetFirstBond (i);
 			while (pBond) {
 				m_pData->SetSelected (pBond, gcp::SelStateErasing);

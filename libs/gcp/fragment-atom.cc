@@ -299,7 +299,7 @@ void FragmentAtom::DoBuildSymbolGeometry (View *pView)
 
 	BuildSymbolGeometry ((double) rect.width / PANGO_SCALE, (double) rect.height / PANGO_SCALE, ascent - (double) rect.y / PANGO_SCALE - m_CHeight);
 	g_object_unref (G_OBJECT (layout));
-	map<gcu::Atom*, gcu::Bond*>::iterator i;
+	map < gcu::Bondable *, gcu::Bond * >::iterator i;
 	Bond *bond = (Bond*) GetFirstBond (i);
 	if (bond)
 		bond->SetDirty ();
