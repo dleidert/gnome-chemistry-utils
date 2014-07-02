@@ -105,6 +105,12 @@ Used to retrieve the y coordinate for alignment.
 @return the localized object generic name.
 */
 	std::string Name ();
+/*!
+	@param xml the xmlDoc used to save the document.
+
+	Don't save anything, separators are automatic objects
+*/
+	xmlNodePtr Save (xmlDocPtr xml) const;
 
 private:
 	double m_x, m_y;

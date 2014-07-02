@@ -26,9 +26,10 @@
 #define GCU_BONDABLE_H
 
 #include "object.h"
-#include "bond.h"
 
 namespace gcu {
+
+class Bond;
 
 class Bondable: public Object
 {
@@ -56,17 +57,14 @@ Removes a Bond.
 @return the x coordinate of this Bondable.
 */
 	virtual double x () const = 0;
-	virtual double &x () = 0;
 /*!
 @return the y coordinate of this Bondable.
 */
 	virtual double y () const = 0;
-	virtual double &y () = 0;
 /*!
 @return the z coordinate of this Bondable.
 */
 	virtual double z () const = 0;
-	virtual double &z () = 0;
 /*!
 @param i a C++ std::map iterator.
 

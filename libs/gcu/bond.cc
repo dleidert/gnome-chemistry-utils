@@ -37,7 +37,7 @@ using namespace std;
 namespace gcu
 {
 
-Bond::Bond(): Object(BondType)
+Bond::Bond (): Bondable (BondType)
 {
 	SetId ("b1");
 	m_Begin = NULL;
@@ -45,7 +45,7 @@ Bond::Bond(): Object(BondType)
 	m_order = 0;
 }
 
-Bond::Bond(Atom* first, Atom* last, unsigned char order): Object(BondType)
+Bond::Bond (Atom* first, Atom* last, unsigned char order): Bondable (BondType)
 {
 	SetId ("b1");
 	m_Begin = first;
@@ -55,14 +55,14 @@ Bond::Bond(Atom* first, Atom* last, unsigned char order): Object(BondType)
 	last->AddBond(this);
 }
 
-Bond::~Bond()
+Bond::~Bond ()
 {
 	Molecule *mol = static_cast < Molecule * > (GetMolecule ());
 	if (mol)
 		mol->Remove (this);
 }
 
-Atom* Bond::GetAtom(int which) const
+Atom* Bond::GetAtom (int which) const
 {
 	switch (which)
 	{
@@ -355,6 +355,32 @@ void Bond::OnLoaded ()
 std::string Bond::Name ()
 {
 	return _("Bond");
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Bondable implementation
+
+void Bond::AddBond (Bond* pBond)
+{
+}
+
+void Bond::RemoveBond (Bond* pBond)
+{
+}
+
+double Bond::x () const
+{
+	return (m_Begin->x () + m_End->y ()) / 2.;
+}
+
+double Bond::y () const
+{
+	return (m_Begin->y () + m_End->y ()) / 2.;
+}
+
+double Bond::z () const
+{
+	return (m_Begin->z () + m_End->z ()) / 2.;
 }
 
 }	//	namespace gcu

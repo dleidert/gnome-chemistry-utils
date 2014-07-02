@@ -182,6 +182,11 @@ std::string StepCounter::Name ()
 	return _("Reaction separator");
 }
 
+xmlNodePtr StepCounter::Save (xmlDocPtr) const
+{
+	return NULL;
+}
+
 void StepCounter::Changed ()
 {
 	if (m_Step == 0)

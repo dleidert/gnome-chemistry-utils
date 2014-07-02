@@ -25,7 +25,7 @@
 #ifndef GCP_DELOCALIZED_BOND_H
 #define GCP_DELOCALIZED_BOND_H
 
-#include <gcu/object.h>
+#include <gcu/bondable.h>
 
 namespace gcp {
 
@@ -37,7 +37,7 @@ extern gcu::TypeId DelocalizedBondType;
 The DelocalizedBond class represents delocalized pi bonds, either aromatic or
 not.
 */
-class DelocalizedBond: public gcu::Object
+class DelocalizedBond: public gcu::Bondable
 {
 public:
 /*!

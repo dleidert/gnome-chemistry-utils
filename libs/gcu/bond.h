@@ -26,21 +26,20 @@
 #define GCU_BOND_H
 
 #include <list>
-#include "object.h"
+#include "bondable.h"
 
 /*!\file*/
 namespace gcu
 {
 
 class Atom;
-class Bondable;
 class Cycle;
 
 /*!\class Bond gcu/bond.h
 This class is used to represent bonds.
 
 */
-class Bond: public Object
+class Bond: public Bondable
 {
 public:
 /*!
@@ -241,6 +240,28 @@ This method should be called when a bond has been fully loaded.
 @return the localized object generic name.
 */
 	std::string Name ();
+/*!
+Adds a Bond (should be to a transition metal atom).
+*/
+	void AddBond (Bond* pBond);
+/*!
+@param pBond a pointer to the Bond to remove from this Bondable.
+
+Removes a Bond.
+*/
+	void RemoveBond (Bond* pBond);
+/*!
+@return the x coordinate of this Bondable.
+*/
+	double x () const;
+/*!
+@return the y coordinate of this Bondable.
+*/
+	double y () const;
+/*!
+@return the z coordinate of this Bondable.
+*/
+	double z () const;
 
 protected:
 /*!

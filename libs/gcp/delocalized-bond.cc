@@ -29,7 +29,7 @@ namespace gcp {
 
 gcu::TypeId DelocalizedBondType = gcu::NoType;
 
-DelocalizedBond::DelocalizedBond (): Object (DelocalizedBondType)
+DelocalizedBond::DelocalizedBond (): gcu::Bondable (DelocalizedBondType)
 {
 	SetId ("wb1");
 }

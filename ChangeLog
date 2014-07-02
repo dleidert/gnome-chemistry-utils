@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2014-07-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/delocalized-bond.cc: make it derive from Bondable.
+	* libs/gcp/delocalized-bond.h: ditto.
+	* libs/gcp/reaction-separator.cc: don't save.
+	* libs/gcp/reaction-separator.h: ditto.
+	* libs/gcp/step-counter.cc: ditto.
+	* libs/gcp/step-counter.h: ditto.
+	* libs/gcu/bond.cc: make it derive from Bondable.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/bondable.h: remove some unuseful virtual methods.
+	* plugins/paint/text/fragmenttool.cc: fixed crasher.
+
 2014-06-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gnumeric/functions.cc: fix functions help.
 	* libs/gcp/Makefile.am: add new files.

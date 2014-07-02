@@ -133,13 +133,13 @@ bool gcpFragmentTool::OnClicked ()
 					m_Fragment->AnalContent (start, end);
 					m_Fragment->GetTextItem ()->SetSelectionBounds (start, end);
 				}
-				delete pAtom;
 				if (pBond) {
 					pBond->ReplaceAtom (pAtom, pFragAtom);
 					pFragAtom->AddBond (pBond);
 					pOp->AddObject (pBond, 1);
 					pBond->SetDirty (); // force redraw
 				}
+				delete pAtom;
 				pOp->AddObject (m_Fragment, 1);
 				pDoc->FinishOperation ();
 				pDoc->EmptyTranslationTable ();

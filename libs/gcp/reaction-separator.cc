@@ -137,4 +137,9 @@ std::string ReactionSeparator::Name ()
 	return _("Reaction separator");
 }
 
+xmlNodePtr ReactionSeparator::Save (xmlDocPtr) const
+{
+	return NULL;
+}
+
 }	//	namespace gcp
