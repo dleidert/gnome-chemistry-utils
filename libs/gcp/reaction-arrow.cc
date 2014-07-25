@@ -734,9 +734,9 @@ void ReactionArrow::PositionChildren ()
 	if (x != 0. && fabs (y / x) < 0.05)
 		uxspan = lxspan = MAX (uxspan, lxspan);
 	// first evaluate upper block position (actually first line position)
-	xmin = m_x + length * x + y * yspan - uxspan / 2.;
-	ymin = m_y + length * y - x * yspan - uyspan / 2.;
-	width = uxspan;
+	xmin = m_x + length * x + y * yspan - uwidth / 2.;
+	ymin = m_y + length * y - x * yspan - uheight / 2.;
+	width = uwidth;
 	cur_line = 0;
 	cur = 0;
 	for (is = m_Steps.begin (); is != isend; is++) {
@@ -745,9 +745,9 @@ void ReactionArrow::PositionChildren ()
 		for (il = step->m_Lines.begin (); il != ilend; il++) {
 			if (cur_line == m_MaxLinesAbove) {
 				yspan = lyspan / 2. + theme->GetArrowDist () / theme->GetZoomFactor ();
-				xmin = m_x + length * x - y * yspan - lxspan / 2.;
-				ymin = m_y + length * y + x * yspan - lyspan / 2.;
-				width = lxspan;
+				xmin = m_x + length * x - y * yspan - lwidth / 2.;
+				ymin = m_y + length * y + x * yspan - lheight / 2.;
+				width = lwidth;
 			}
 			line = (*il);
 			xc = xmin + counter_width;
@@ -832,6 +832,7 @@ void ReactionArrow::OnLoaded ()
 				obj = GetNextChild (i);
 				continue;
 			}
+			step = NULL;
 			while (s > m_nSteps) {
 				step = new ReactionArrowStep ();
 				m_Steps.push_back (step);

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2014-07-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: fixed attached objects position for non
+	horizontal arrows.
+	* libs/gcp/reaction-prop.cc: fixed object role persistence.
+
 2014-07-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/delocalized-bond.cc: make it derive from Bondable.
 	* libs/gcp/delocalized-bond.h: ditto.
