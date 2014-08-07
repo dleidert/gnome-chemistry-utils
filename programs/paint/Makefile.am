@@ -3,7 +3,8 @@ EXTRA_DIST = \
 
 CLEANFILES = \
 	$(desktop_DATA) gchempaint.desktop \
-	$(kde_mime_desktop_DATA)
+	$(kde_mime_desktop_DATA) \
+	gchempaint.appdata.xml
 
 MAINTAINERCLEANFILES = Makefile.in gchempaint.desktop.in
 
@@ -38,6 +39,11 @@ gchempaint-@GCU_API_VER@.desktop: gchempaint.desktop
 desktopdir = $(datadir)/applications
 desktop_DATA = gchempaint-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
+
+appdatadir = $(datadir)/appdata
+appdata_DATA = gchempaint.appdata.xml
+gchempaint.appdata.xml: gchempaint.appdata.xml.in
+	cp $< $@
 
 if WITH_KDE_MIME
 kde_mime_desktop_DATA = x-gchempaint.desktop

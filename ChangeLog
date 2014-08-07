@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2014-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/paint/Makefile.am: add an appdata file for GChemPaint.
+	* programs/paint/gchempaint.appdata.xml.in: ditto.
+
 2014-07-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: fixed attached objects position for non
 	horizontal arrows.
