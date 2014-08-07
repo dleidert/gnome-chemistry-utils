@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 Jean Brefort <jean.brefort@normalesup.org> -->
+<application>
+ <id type="desktop">gchempaint.desktop</id>
+ <licence>CC0</licence>
+ <name>GChemPaint</name>
+ <summary>Draw and display 2D chemical structures</summary>
+ <description>
+  <p>
+    GChemPaint is an editor for 2D chemical structures. It can display not only
+	molecules but also reactions and more. It is able to export structures to
+	various file formats as well to some 3D viewers. It also give access to
+	online databases.
+  </p>
+  <p>
+    GChemPaint is part of the GNOME Chemistry Utils set of chemistry related
+    programs.
+  </p>
+ </description>
+ <screenshots>
+  <screenshot type="default">http://gchemutils.nongnu.org/paint/sample.png</screenshot>
+  <screenshot>http://gchemutils.nongnu.org/paint/toolbox.png</screenshot>
+ </screenshots>
+ <url type="homepage">http://gchemutils.nongnu.org</url>
+ <updatecontact>gchemutils-main@nongnu.org</updatecontact>
+</application>
