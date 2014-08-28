@@ -2,7 +2,8 @@
 <!-- Copyright 2014 Jean Brefort <jean.brefort@normalesup.org> -->
 <application>
  <id type="desktop">gchempaint.desktop</id>
- <licence>CC0</licence>
+ <metadata_licence>CC0-1.0</metadata_licence>
+ <project_license>GPL-3.0 and GFDL-1.3</project_license>
  <name>GChemPaint</name>
  <summary>Draw and display 2D chemical structures</summary>
  <description>

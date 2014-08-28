@@ -899,8 +899,10 @@ void View::EnsureSize ()
 	m_Canvas->GetRoot ()->GetBounds (x1, y1, x2, y2);
 	if (x1 < 0.) x2 -= x1;
 	if (y1 < 0.) y2 -= y1;
-	if (x2 <= 0. || y2 <= 0.)
+	if (x2 <= 0. || y2 <= 0.) {
+		gtk_widget_set_size_request (m_pWidget, -1, -1);
 		return;
+	}
 	if ((x2 != m_width) || (y2 != m_height)) {
 		m_width = x2;
 		m_height = y2;
