@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2014-08-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: ensure that the document size is always updated.
+	[#43091]
+	* libs/gcp/operation.cc: ditto.
+	* libs/gcp/view.cc: ditto.
+	* programs/paint/gchempaint.appdata.xml.in: update license data.
+
 2014-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/paint/Makefile.am: add an appdata file for GChemPaint.
 	* programs/paint/gchempaint.appdata.xml.in: ditto.

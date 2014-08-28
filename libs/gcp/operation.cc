@@ -25,6 +25,7 @@
 #include "config.h"
 #include "operation.h"
 #include "document.h"
+#include "view.h"
 #include <cstring>
 
 using namespace gcu;
@@ -48,6 +49,7 @@ Operation::~Operation ()
 void Operation::Add (unsigned type)
 {
 	m_pDoc->LoadObjects (m_Nodes[type]);
+	m_pDoc->GetView ()->EnsureSize ();
 }
 
 void Operation::Delete (unsigned type)
@@ -62,6 +64,7 @@ void Operation::Delete (unsigned type)
 		xmlFree (Id);
 		node = node->next;
 	}
+	m_pDoc->GetView ()->EnsureSize ();
 }
 
 void Operation::AddObject (Object* pObject, unsigned type)

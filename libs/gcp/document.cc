@@ -945,6 +945,7 @@ void Document::FinishOperation ()
 	Update ();
 	m_NewObjects.clear ();
 	EmptyTranslationTable ();
+	m_pView->EnsureSize ();
 }
 
 void Document::AbortOperation()
