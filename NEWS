@@ -1,4 +1,8 @@
-Version 0.14.9
+Version 0.14.9:
+	GChemPaint:
+		* Ensure that the document size is always updated. [#43091]
+	All applications:
+		* Add appdata files.
 
 Version 0.14.8
 	GChemPaint:
