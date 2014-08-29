@@ -1,6 +1,6 @@
 EXTRA_DIST = $(desktop_in_files)
 
-CLEANFILES = $(desktop_DATA) gchemtable.desktop
+CLEANFILES = $(desktop_DATA) gchemtable.desktop gchemtable.appdata.xml
 
 MAINTAINERCLEANFILES = Makefile.in gchemtable.desktop.in
 
@@ -44,6 +44,11 @@ gchemtable-@GCU_API_VER@.desktop: gchemtable.desktop
 desktopdir=$(datadir)/applications
 desktop_DATA = gchemtable-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
+
+appdatadir = $(datadir)/appdata
+appdata_DATA = gchemtable.appdata.xml
+gchemtable.appdata.xml: gchemtable.appdata.xml.in
+	cp $< $@
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \

@@ -3,7 +3,8 @@ EXTRA_DIST = \
 
 CLEANFILES = \
 	$(desktop_DATA) gcrystal.desktop \
-	$(kde_mime_desktop_DATA)
+	$(kde_mime_desktop_DATA) \
+	gcrystal.appdata.xml
 
 MAINTAINERCLEANFILES = Makefile.in gcrystal.desktop.in
 
@@ -51,6 +52,11 @@ gcrystal-@GCU_API_VER@.desktop: gcrystal.desktop
 desktopdir=$(datadir)/applications
 desktop_DATA = gcrystal-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
+
+appdatadir = $(datadir)/appdata
+appdata_DATA = gcrystal.appdata.xml
+gcrystal.appdata.xml: gcrystal.appdata.xml.in
+	cp $< $@
 
 if WITH_KDE_MIME
 kde_mime_desktop_DATA = x-gcrystal.desktop
