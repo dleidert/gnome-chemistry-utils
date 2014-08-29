@@ -1,6 +1,6 @@
 EXTRA_DIST = $(desktop_in_files) 
 
-CLEANFILES = $(desktop_DATA) gchem3d.desktop
+CLEANFILES = $(desktop_DATA) gchem3d.desktop gchem3d.appdata.xml
 
 MAINTAINERCLEANFILES = Makefile.in gchem3d.desktop.in
 
@@ -39,6 +39,11 @@ gchem3d-@GCU_API_VER@.desktop: gchem3d.desktop
 desktopdir=$(datadir)/applications
 desktop_DATA = gchem3d-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
+
+appdatadir = $(datadir)/appdata
+appdata_DATA = gchem3d.appdata.xml
+gchem3d.appdata.xml: gchem3d.appdata.xml.in
+	cp $< $@
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \

@@ -1,6 +1,6 @@
 EXTRA_DIST = $(desktop_in_files)
 
-CLEANFILES = $(desktop_DATA) gspectrum.desktop
+CLEANFILES = $(desktop_DATA) gspectrum.desktop gspectrum.appdata.xml
 
 MAINTAINERCLEANFILES = Makefile.in gspectrum.desktop.in
 
@@ -40,6 +40,11 @@ gspectrum-@GCU_API_VER@.desktop: gspectrum.desktop
 desktopdir=$(datadir)/applications
 desktop_DATA = gspectrum-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
+
+appdatadir = $(datadir)/appdata
+appdata_DATA = gspectrum.appdata.xml
+gspectrum.appdata.xml: gspectrum.appdata.xml.in
+	cp $< $@
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
