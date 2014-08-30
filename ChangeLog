@@ -1,6 +1,15 @@
 ##Text encoding: utf-8
 
 2014-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Makefile.am: fix make clean for recent doxygen.
+	* programs/3d/Makefile.am: fix distribution of appdata files.
+	* programs/calc/Makefile.am: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/paint/Makefile.am: ditto.
+	* programs/spectra/Makefile.am: ditto.
+	* programs/table/Makefile.am: ditto.
+
+2014-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/glview.cc: fix rotation. [#42977] (patch from Toni Andjelkovic)
 	* libs/gcu/glview.h: ditto.
 	* libs/gcugtk/glview.cc: ditto.

@@ -1,4 +1,4 @@
-EXTRA_DIST = $(desktop_in_files)
+EXTRA_DIST = $(desktop_in_files) gspectrum.appdata.xml.in
 
 CLEANFILES = $(desktop_DATA) gspectrum.desktop gspectrum.appdata.xml
 
