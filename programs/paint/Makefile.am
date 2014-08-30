@@ -1,5 +1,6 @@
 EXTRA_DIST = \
-	$(desktop_in_files)
+	$(desktop_in_files) \
+	gchempaint.appdata.xml.in
 
 CLEANFILES = \
 	$(desktop_DATA) gchempaint.desktop \

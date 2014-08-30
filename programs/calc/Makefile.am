@@ -1,4 +1,4 @@
-EXTRA_DIST = $(desktop_in_files)
+EXTRA_DIST = $(desktop_in_files) gchemcalc.appdata.xml.in
 
 CLEANFILES = $(desktop_DATA) gchemcalc.desktop gchemcalc.appdata.xml
 

@@ -1,6 +1,6 @@
 EXTRA_DIST = html-upstream.tar.gz
 
-CLEANFILES = html_stamp Doxyfile.bak
+CLEANFILES = html_stamp Doxyfile.bak doxygen_sqlite3.db
 
 DISTCLEANFILES = Doxyfile
 
