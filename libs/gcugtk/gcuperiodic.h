@@ -103,7 +103,7 @@ typedef struct _GcuPeriodicClass  GcuPeriodicClass;
 <h2>Signals</h2>
 
  This widget has one signal:
-- "element-changed": void	user_function (GtkWidget* periodic, guint Z, gpointer data).
+- "element-changed": void	user_function (GtkWidget* periodic, unsigned Z, gpointer data).
 \param periodic: the object which received the signal.
 \param Z: the atomic number of the newly selected element or 0 if no element is selected.
 \param data: user data set when the signal handler was connected.
@@ -152,7 +152,7 @@ GtkWidget*            gcu_periodic_new               (void);
  *
  * Returns: the atomic number of the currently selected element or %0 if none is selected.
  */
-guint				gcu_periodic_get_element		(GcuPeriodic* periodic);
+unsigned				gcu_periodic_get_element		(GcuPeriodic* periodic);
 /**
  * gcu_periodic_set_element:
  * \param periodic  a GcuPeriodic widget
@@ -161,7 +161,7 @@ guint				gcu_periodic_get_element		(GcuPeriodic* periodic);
  * Description: sets the selected element in the periodic table.
  */
 
-void				gcu_periodic_set_element		(GcuPeriodic* periodic, guint element);
+void				gcu_periodic_set_element		(GcuPeriodic* periodic, unsigned element);
 
 /*!
 \param periodic a GcuPeriodic widget.

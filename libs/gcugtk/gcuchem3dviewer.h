@@ -137,7 +137,7 @@ void	gcu_chem3d_viewer_set_data	(GcuChem3DViewer * viewer, const gchar * data, c
 Renders the scene to a newly allocated pixbuf.
 \return the new GdkPixbuf*.
 */
-GdkPixbuf *gcu_chem3d_viewer_new_pixbuf (GcuChem3DViewer * viewer, guint width, guint height, gboolean use_bg);
+GdkPixbuf *gcu_chem3d_viewer_new_pixbuf (GcuChem3DViewer * viewer, unsigned width, unsigned height, gboolean use_bg);
 /*!
 @param viewer a pointer to a GcuChem3DViewer widget.
 

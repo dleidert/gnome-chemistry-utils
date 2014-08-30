@@ -176,7 +176,7 @@ private:
 	GtkUIManager* m_UIManager;
 	unsigned m_statusId;
 	bool m_bFileOpening;
-	guint m_NotificationId;
+	unsigned m_NotificationId;
 
 /*!\fn GetConfNode()
 @return the GOConfNode used for the default configuration.

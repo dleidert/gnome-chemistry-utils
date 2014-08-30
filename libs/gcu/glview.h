@@ -111,7 +111,7 @@ protected:
 std::
 Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 */
-	void Rotate (gdouble x, gdouble y);
+	void Rotate (double x, double y);
 
 /*!
 Starts an OpenGL drawing operation. Will set the appropriate context.
@@ -132,11 +132,11 @@ A Matrix reprenting the scene spatial orientation
 */
 	Matrix m_Euler;
 /*!
-A matrix 
+The mouse cursor last horizontal position. 
 */
 	double m_Lastx;
 /*!
-A Matrix 
+The mouse cursor last vertical position. 
 */
 	double m_Lasty;
 /*!

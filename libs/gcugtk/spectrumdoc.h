@@ -366,7 +366,7 @@ private:
 	double freq;
 	double offset, refpoint;
 	GtkWidget *m_XAxisInvertBtn;
-	guint m_XAxisInvertSgn;
+	unsigned m_XAxisInvertSgn;
 
 /*!\var m_View
 The SpectrumView instance associated with the document.

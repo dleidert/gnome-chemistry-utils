@@ -508,7 +508,7 @@ PositionTextTag::~PositionTextTag ()
 }
 
 struct position_data {
-	guint start, end;
+	unsigned start, end;
 	std::list <PangoAttribute *>extra;
 	std::map <unsigned, int> sizes, rises;
 };

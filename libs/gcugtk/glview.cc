@@ -45,6 +45,7 @@ public:
 	static bool OnDraw (GLView* View, cairo_t *cr);
 	static bool OnMotion (G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *event, GLView* View);
 	static bool OnPressed (G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event, GLView* View);
+	static bool OnReleased (G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event, GLView* View);
 };
 
 // Callbacks
@@ -113,42 +114,44 @@ bool GLViewPrivate::OnDraw (GLView* View, G_GNUC_UNUSED cairo_t *cr)
 
 bool GLViewPrivate::OnMotion (GtkWidget *, GdkEventMotion *event, GLView* View)
 {
-	gint x, y;
-	GdkModifierType state;
-
-	if (event->is_hint)
-		gdk_window_get_device_position (event->window, event->device, &x, &y, &state);
-	else {
-	    x = (gint) event->x;
-	    y = (gint) event->y;
-	    state = (GdkModifierType) event->state;
-	}
-	if (state & GDK_BUTTON1_MASK) {
-		if ((x == View->m_Lastx) && (y == View->m_Lasty))
+	if (View->m_DragFlag) {
+		if ((event->x == View->m_Lastx) && (event->y == View->m_Lasty))
 			return false;
 		View->m_Doc->SetDirty (true);
-		View->Rotate (x - View->m_Lastx, y - View->m_Lasty);
-		View->m_Lastx = x;
-		View->m_Lasty = y;
+		View->Rotate (event->x - View->m_Lastx, event->y - View->m_Lasty);
+		View->m_Lastx = event->x;
+		View->m_Lasty = event->y;
 		gtk_widget_queue_draw_area (View->m_Widget, 0, 0, View->m_WindowWidth, View->m_WindowHeight);
+		gdk_event_request_motions (event); /* handles is_hint events */
 	}
 	return true;
 }
 
 bool GLViewPrivate::OnPressed (GtkWidget *, GdkEventButton *event, GLView* View)
 {
-  if (event->button == 1) {
-    // beginning of drag, reset mouse position
-    View->m_Lastx = event->x;
-    View->m_Lasty = event->y;
-    return true;
-  }
-  return false;
+	if (event->button == 1) {
+		// beginning of drag, reset mouse position
+		View->m_Lastx = event->x;
+		View->m_Lasty = event->y;
+		View->m_DragFlag = true;
+		return true;
+	}
+	return false;
+}
+
+bool GLViewPrivate::OnReleased (GtkWidget *, GdkEventButton *event, GLView* View)
+{
+	if (event->button == 1) {
+		View->m_DragFlag = false;
+		return true;
+	}
+	return false;
 }
 
 GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (pDoc), Printable ()
 {
 	m_bInit = false;
+	m_DragFlag = false;
 /* Create new OpenGL widget. */
 	static bool inited = false;
 	if (!inited) {
@@ -184,6 +187,9 @@ GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (
 	// When a mouse button is pressed
 	g_signal_connect (G_OBJECT (m_Widget), "button_press_event",
 				G_CALLBACK (GLViewPrivate::OnPressed), this);
+	// When a mouse button is released
+	g_signal_connect (G_OBJECT (m_Widget), "button_release_event",
+				G_CALLBACK (GLViewPrivate::OnReleased), this);
 
 	gtk_widget_show (GTK_WIDGET (m_Widget));
 	SetHasBackground (true);
@@ -258,7 +264,7 @@ void GLView::Reshape (int width, int height)
 void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
 {
 	cairo_t *cr;
-	gdouble width, height;
+	double width, height;
 
 	cr = gtk_print_context_get_cairo_context (context);
 	width = gtk_print_context_get_width (context);

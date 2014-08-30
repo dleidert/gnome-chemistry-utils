@@ -72,9 +72,11 @@ void GLView::SetRotation(double psi, double theta, double phi)
 	m_Euler = m;
 }
 
-void GLView::Rotate (gdouble x, gdouble y)
+void GLView::Rotate (double x, double y)
 {
-	gdouble z = sqrt (x*x + y*y);
+	double z = sqrt (x*x + y*y);
+	if (z == 0.)
+		return;
 	Matrix Mat (0, (y > 0) ? - acos (x/z) : acos (x/z), z * M_PI / 900., rotation);
 	m_Euler = Mat * m_Euler;
 	m_Euler.Euler (m_Psi, m_Theta, m_Phi);

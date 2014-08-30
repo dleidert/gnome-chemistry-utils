@@ -293,7 +293,7 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 		return;
 	double R, w, x, y, z, x0, y0, z0, dist;
 	int n = 0, Z;
-	const gdouble* color;
+	const double* color;
 	char const *symbol;
 	ostringstream file;
 	map<string, sAtom> AtomsMap;
@@ -454,9 +454,9 @@ void Chem3dDoc::Draw (Matrix const &m) const
 	std::list <Atom *>::const_iterator i;
 	Atom const *atom = m_Mol->GetFirstAtom (i);
 	unsigned int Z;
-	gdouble R;
+	double R;
 	map<Atom const *, Vector> atomPos;
-	const gdouble* color;
+	const double* color;
 	Vector v, normal (0., 0., 1.);
 	Sphere sp (10);
 	GcuAtomicRadius rad;
@@ -571,7 +571,7 @@ void Chem3dDoc::ChangedDisplay3D ()
 	std::list <Atom *>::const_iterator i;
 	Atom const *atom = m_Mol->GetFirstAtom (i);
 	unsigned int Z;
-	gdouble R, w, x, y, z;
+	double R, w, x, y, z;
 	GcuAtomicRadius rad;
 	rad.type = GCU_VAN_DER_WAALS;
 	rad.charge = 0;

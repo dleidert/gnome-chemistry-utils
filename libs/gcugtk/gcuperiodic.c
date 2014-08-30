@@ -39,7 +39,7 @@ struct _GcuPeriodic
 	GtkLabel* labels[119];
 	double red[119], blue[119], green[119];
 	GtkNotebook *book;
-	guint Z;
+	unsigned Z;
 	gboolean can_unselect;
 	unsigned colorstyle;
 	GArray *colorschemes;
@@ -51,7 +51,7 @@ struct _GcuPeriodicClass
 {
 	GtkBinClass parent_class;
 
-	void (* element_changed_event)(GcuPeriodic *periodic);
+	void (* element_changed_event)(GcuPeriodic *periodic, unsigned Z);
 };
 
 GType
@@ -314,13 +314,13 @@ GtkWidget* gcu_periodic_new ()
 	return GTK_WIDGET (g_object_new (GCU_TYPE_PERIODIC, NULL));
 }
 
-guint gcu_periodic_get_element(GcuPeriodic* periodic)
+unsigned gcu_periodic_get_element(GcuPeriodic* periodic)
 {
 	g_return_val_if_fail(GCU_IS_PERIODIC(periodic), 0);
 	return periodic->Z;
 }
 
-void gcu_periodic_set_element (GcuPeriodic* periodic, guint element)
+void gcu_periodic_set_element (GcuPeriodic* periodic, unsigned element)
 {
 	g_return_if_fail(GCU_IS_PERIODIC(periodic));
 	if (periodic->can_unselect && periodic->buttons[0]) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(periodic->buttons[0]), FALSE);

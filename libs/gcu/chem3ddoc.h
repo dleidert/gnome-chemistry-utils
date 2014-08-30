@@ -166,7 +166,7 @@ GCU_RO_PROP (Molecule *, Mol)
 
 private:
 	/* cell parameters to support molecule loaded from a crystal structure */
-	gdouble m_a, m_b, m_c, m_alpha, m_beta, m_gamma;
+	double m_a, m_b, m_c, m_alpha, m_beta, m_gamma;
 };
 
 }	// namespace gcu

@@ -367,7 +367,7 @@ private:
 	std::map <std::string, Theme*> m_Themes;
 	std::list <std::string> m_Names;
 	GOConfNode *m_ConfNode;
-	guint m_NotificationId;
+	unsigned m_NotificationId;
 	Theme *m_DefaultTheme;
 };
 

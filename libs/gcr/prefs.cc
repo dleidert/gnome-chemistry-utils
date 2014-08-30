@@ -29,7 +29,7 @@
 
 namespace gcr {
 
-guint PrintResolution = 300;
+unsigned PrintResolution = 300;
 class PrefsDlgPrivate {
 public:
 	static void OnPrintResolution (PrefsDlg *dlg);

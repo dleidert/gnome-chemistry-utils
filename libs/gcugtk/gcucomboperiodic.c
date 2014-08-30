@@ -118,12 +118,12 @@ GtkWidget *gcu_combo_periodic_new (void)
 	return GTK_WIDGET (g_object_new (GCU_TYPE_COMBO_PERIODIC, NULL));
 }
 
-guint	gcu_combo_periodic_get_element	(GcuComboPeriodic* combo)
+unsigned	gcu_combo_periodic_get_element	(GcuComboPeriodic* combo)
 {
 	return gcu_periodic_get_element (GCU_PERIODIC (combo->periodic));
 }
 
-void	gcu_combo_periodic_set_element	(GcuComboPeriodic* combo, guint element)
+void	gcu_combo_periodic_set_element	(GcuComboPeriodic* combo, unsigned element)
 {
 	g_signal_handler_block (combo->periodic, combo->handler_id);
 	gcu_periodic_set_element (GCU_PERIODIC (combo->periodic), element);

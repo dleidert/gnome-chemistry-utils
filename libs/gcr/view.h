@@ -93,13 +93,13 @@ Retrieves the view background color.
 /*!
 @return the field of view. Might be 0 for orthogonal projections.
 */
-	gdouble& GetFoV () {return GetRefAngle ();}
+	double& GetFoV () {return GetRefAngle ();}
 
 /*!
 @return the distance from the model center to the point of view. Not used for
 orthogonal projections.
 */
-	gdouble& GetPos () {return m_Radius;}
+	double& GetPos () {return m_Radius;}
 
 /*!
 @param psi where to store Euler's psi angle.
@@ -114,11 +114,11 @@ protected:
 /*!
 The height of the widget.
 */
-	gdouble m_height;
+	double m_height;
 /*!
 The width of the widget.
 */
-	gdouble m_width;
+	double m_width;
 
 /*!\fn SetWindow(Window *val)
 @param val a Window

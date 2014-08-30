@@ -100,7 +100,7 @@ void	gcr_crystal_viewer_set_data	(GcrCrystalViewer * viewer, xmlNodePtr node);
 Renders the scene to a newly allocated pixbuf.
 \return the new GdkPixbuf*.
 */
-GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, guint width, guint height, gboolean use_bg);
+GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, unsigned width, unsigned height, gboolean use_bg);
 
 /*!
 @param viewer a pointer to a GcrCrystalViewer widget.
@@ -110,7 +110,7 @@ GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, guint width
 Changes the crystal structure displayed by the one described in the uri.
 Nothing happens if uri is NULL.
 */
-void	gcr_crystal_viewer_set_uri_with_mime_type	(GcrCrystalViewer * viewer, const gchar * uri, const gchar* mime_type);
+void	gcr_crystal_viewer_set_uri_with_mime_type	(GcrCrystalViewer * viewer, char const *uri, char const *mime_type);
 /*!
 @param viewer a pointer to a GcrCrystalViewer widget.
 @param uri the URI of the file containing the crystal structure to display.
@@ -118,7 +118,7 @@ void	gcr_crystal_viewer_set_uri_with_mime_type	(GcrCrystalViewer * viewer, const
 Changes the crystal structure displayed by the one described in the uri.
 Nothing happens if uri is NULL.
 */
-void	gcr_crystal_viewer_set_uri	(GcrCrystalViewer * viewer, const gchar * uri);
+void	gcr_crystal_viewer_set_uri	(GcrCrystalViewer * viewer, char const *uri);
 
 /*!
 @param viewer a pointer to a GcrCrystalViewer widget.

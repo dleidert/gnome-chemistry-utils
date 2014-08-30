@@ -39,7 +39,7 @@ struct _GcrCrystalViewer
 
 	gcr::View *pView;
 	gcr::Document *pDoc;
-	guint glList;
+	unsigned glList;
 	double psi, theta, phi;
 };
 
@@ -173,7 +173,7 @@ void gcr_crystal_viewer_set_data (GcrCrystalViewer * viewer, xmlNodePtr node)
 	viewer->phi = viewer->pView->GetPhi ();
 }
 
-GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, guint width, guint height, gboolean use_bg)
+GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, unsigned width, unsigned height, gboolean use_bg)
 {
 	return viewer->pDoc->GetView ()->BuildPixbuf (width, height, use_bg);
 }
@@ -185,7 +185,7 @@ static gcu::Object *CreateCrystalAtom ()
 	return new gcr::Atom ();
 }
 
-void gcr_crystal_viewer_set_uri_with_mime_type (GcrCrystalViewer * viewer, const gchar * uri, const gchar* mime_type)
+void gcr_crystal_viewer_set_uri_with_mime_type (GcrCrystalViewer * viewer, char const *uri, char const *mime_type)
 {
 	if (mime_type == NULL) {
 		g_message ("Cannot open an uri with unknown mime type.");
@@ -216,7 +216,7 @@ void gcr_crystal_viewer_set_uri_with_mime_type (GcrCrystalViewer * viewer, const
 	}
 }
 
-void gcr_crystal_viewer_set_uri	(GcrCrystalViewer * viewer, const gchar * uri)
+void gcr_crystal_viewer_set_uri	(GcrCrystalViewer * viewer, char const *uri)
 {
 	GVfs *vfs = g_vfs_get_default ();
 	GFile *file = g_vfs_get_file_for_uri (vfs, uri);

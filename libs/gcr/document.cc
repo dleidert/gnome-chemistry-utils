@@ -262,9 +262,9 @@ void Document::Update ()
 	m_Empty = AtomDef.empty () && LineDef.empty ();
 	Atom atom;
 	Line line;
-	gdouble alpha = m_alpha * M_PI / 180;
-	gdouble beta = m_beta * M_PI / 180;
-	gdouble gamma = m_gamma * M_PI / 180;
+	double alpha = m_alpha * M_PI / 180;
+	double beta = m_beta * M_PI / 180;
+	double gamma = m_gamma * M_PI / 180;
 	// Remove all atoms
 	while (!Atoms.empty ()) {
 		delete Atoms.front ();
@@ -443,7 +443,7 @@ void Document::Update ()
 	}
 
 	//Transform coordinates to Cartesians and find center of visible view
-	gdouble x, y, z, d,
+	double x, y, z, d,
 		xmin = G_MAXDOUBLE, ymin = G_MAXDOUBLE, zmin = G_MAXDOUBLE,
 		xmax = -G_MAXDOUBLE, ymax = -G_MAXDOUBLE, zmax = -G_MAXDOUBLE;
 	iend = Atoms.end ();

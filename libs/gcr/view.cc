@@ -35,9 +35,9 @@
 namespace gcr
 {
 
-guint FoV;
-gdouble Psi, Theta, Phi;
-gdouble Red, Green, Blue;
+unsigned FoV;
+double Psi, Theta, Phi;
+double Red, Green, Blue;
 
 View::View (Document* pDoc): gcugtk::GLView (pDoc)
 {

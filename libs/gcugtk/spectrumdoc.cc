@@ -1431,7 +1431,7 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 void SpectrumDocument::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
 {
 	cairo_t *cr;
-	gdouble width, height;
+	double width, height;
 
 	cr = gtk_print_context_get_cairo_context (context);
 	width = gtk_print_context_get_width (context);

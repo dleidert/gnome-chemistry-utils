@@ -485,7 +485,7 @@ private:
 	std::list<std::string> m_SupportedMimeTypes;
 	std::list<std::string> m_WriteableMimeTypes;
 	GOConfNode *m_ConfNode;
-	guint m_NotificationId;
+	unsigned m_NotificationId;
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;
 	GdkCursor *m_Cursors[CursorMax];

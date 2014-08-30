@@ -89,7 +89,7 @@ supported.
 
 Called by the framework to get the actual data for the clipboard.
 */
-	void OnGetData (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info);
+	void OnGetData (GtkClipboard *clipboard, GtkSelectionData *selection_data,  unsigned info);
 
 private:
 	enum data_type Type;

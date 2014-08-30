@@ -470,51 +470,51 @@ The Bravais lattice of the crystal.
 /*!
 The a parameter of the unit cell.
 */
-	gdouble m_a;
+	double m_a;
 /*!
 The b parameter of the unit cell.
 */
-	gdouble m_b;
+	double m_b;
 /*!
 The c parameter of the unit cell.
 */
-	gdouble m_c;
+	double m_c;
 /*!
 The alpha angle of the unit cell.
 */
-	gdouble m_alpha;
+	double m_alpha;
 /*!
 The beta angle of the unit cell.
 */
-	gdouble m_beta;
+	double m_beta;
 /*!
 The gamma angle of the unit cell.
 */
-	gdouble m_gamma;
+	double m_gamma;
 /*!
 The minimum x coordinate in the representation of the crystal structure.
 */
-	gdouble m_xmin;
+	double m_xmin;
 /*!
 The minimum y coordinate in the representation of the crystal structure.
 */
-	gdouble m_ymin;
+	double m_ymin;
 /*!
 The minimum z coordinate in the representation of the crystal structure.
 */
-	gdouble m_zmin;
+	double m_zmin;
 /*!
 The maximum x coordinate in the representation of the crystal structure.
 */
-	gdouble m_xmax;
+	double m_xmax;
 /*!
 The maximum y coordinate in the representation of the crystal structure.
 */
-	gdouble m_ymax;
+	double m_ymax;
 /*!
 The maximum z coordinate in the representation of the crystal structure.
 */
-	gdouble m_zmax;
+	double m_zmax;
 /*!
 List of the atoms in the definition of the crystal
 */

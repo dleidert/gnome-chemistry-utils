@@ -147,7 +147,7 @@ void GChemCalc::ParseNodes (xmlNodePtr node)
 void GChemCalc::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
 {
 	cairo_t *cr;
-	gdouble width, height;
+	double width, height;
 
 	cr = gtk_print_context_get_cairo_context (context);
 	width = gtk_print_context_get_width (context);

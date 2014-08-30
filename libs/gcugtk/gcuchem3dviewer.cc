@@ -317,7 +317,7 @@ static void gcu_chem3d_viewer_set_property (GObject *object, guint property_id,
 	gcu_chem3d_viewer_update(viewer);
 }
 
-GdkPixbuf *gcu_chem3d_viewer_new_pixbuf (GcuChem3DViewer * viewer, guint width, guint height, gboolean use_bg)
+GdkPixbuf *gcu_chem3d_viewer_new_pixbuf (GcuChem3DViewer * viewer, unsigned width, unsigned height, gboolean use_bg)
 {
 	return viewer->Doc->GetView ()->BuildPixbuf (width, height, use_bg);
 }

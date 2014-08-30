@@ -50,7 +50,7 @@ Declaration of the GcuComboPeriodic widget.
 <h2>Signals</h2>
 
  This widget has one signal:
-- "changed": void	user_function (GtkWidget* periodic, guint Z, gpointer data).
+- "changed": void	user_function (GtkWidget* periodic, unsigned Z, gpointer data).
 \param periodic: the object which received the signal.
 \param Z: the atomic number of the newly selected element or %0 if none is selected.
 \param data: user data set when the signal handler was connected.
@@ -76,14 +76,14 @@ GtkWidget *gcu_combo_periodic_new (void);
 Used to get the currently selected element in the periodic table.
 @return the atomic number of the currently selected element or %0 if none is selected.
  */
-guint	gcu_combo_periodic_get_element	(GcuComboPeriodic *combo);
+unsigned	gcu_combo_periodic_get_element	(GcuComboPeriodic *combo);
 
 /*!
 @param combo  a GcuComboPeriodic widget
 @param element the atomic number of the element to select or 0
 Sets the selected element in the periodic table.
 */
-void	gcu_combo_periodic_set_element	(GcuComboPeriodic *combo, guint element);
+void	gcu_combo_periodic_set_element	(GcuComboPeriodic *combo, unsigned element);
 
 G_END_DECLS
 

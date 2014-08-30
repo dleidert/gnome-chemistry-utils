@@ -38,10 +38,10 @@ Document* GetNewDocument();
 void RemoveDocument(Document* pDoc);
 bool RequestApp(View* pView);
 
-extern guint PrintWidth, PrintHeight, PrintResolution;
-extern guint FoV;
-extern gdouble Phi, Theta, Psi;
-extern gdouble Red, Green, Blue;
+extern unsigned PrintWidth, PrintHeight, PrintResolution;
+extern unsigned FoV;
+extern double Phi, Theta, Psi;
+extern double Red, Green, Blue;
 
 }	//	namespace gcr
 

@@ -129,7 +129,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
 	app->OnAbout ();
 }
 
-static void on_changed (G_GNUC_UNUSED GcuPeriodic* periodic, guint Z, GChemTableApp *app)
+static void on_changed (G_GNUC_UNUSED GcuPeriodic* periodic, unsigned Z, GChemTableApp *app)
 {
 	app->OnElement (Z);
 }

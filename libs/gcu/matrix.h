@@ -97,7 +97,7 @@ the rotation applied to a solid; the resulting matrix is then multiplied by the 
 matrix.
 The code used in CrystalView::Rotate and in GtkChem3DViewer code is (when mouse has moved by x and y on the screen):
 \code
-	gdouble z = sqrt(x*x + y*y);
+	double z = sqrt(x*x + y*y);
 	Matrix Mat(0, (y > 0)? - acos(x/z) :acos(x/z), z * M_PI / 90., rotation);
 	m_Euler = Mat * m_Euler;
 \endcode

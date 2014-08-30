@@ -58,7 +58,7 @@ The destructor.
 private:
 	char m_buf[64];
 	Document *m_pDoc;
-	gdouble m_a, m_b, m_c, m_alpha, m_beta, m_gamma;
+	double m_a, m_b, m_c, m_alpha, m_beta, m_gamma;
 	GtkComboBox* TypeMenu;
 	GtkEntry *A, *B, *C, *Alpha, *Beta, *Gamma;
 	GtkToggleButton *AutoSpaceGroup;

@@ -42,7 +42,7 @@ The data type available for the default clipboard.
 /*!\var ClipboardDataType
 The data type available for the primary clipboard.
 */
-extern guint ClipboardDataType, ClipboardDataType1;
+extern unsigned ClipboardDataType, ClipboardDataType1;
 /*!
 A global variable to store clipboard data as a string representation of an xml
 document.
