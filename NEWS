@@ -1,6 +1,8 @@
 Version 0.14.9:
 	GChemPaint:
 		* Ensure that the document size is always updated. [#43091]
+	3d viewer and GCrystal:
+		* Fix rotation. [#42977] (patch from Toni Andjelkovic)
 	All applications:
 		* Add appdata files.
 
