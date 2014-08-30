@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2014-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/glview.cc: fix rotation. [#42977] (patch from Toni Andjelkovic)
+	* libs/gcu/glview.h: ditto.
+	* libs/gcugtk/glview.cc: ditto.
+	* libs/gcugtk/glview.h: ditto.
+
 2014-08-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/3d/Makefile.am: add appdata files for every program.
 	* programs/3d/gchem3d.appdata.xml.in: ditto.

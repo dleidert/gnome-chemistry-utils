@@ -102,6 +102,7 @@ The associated widget.
 
 private:
 	bool m_bInit;
+	bool m_DragFlag;
 	GdkWindow *m_Window;
 	GLXContext m_Context;
 	XVisualInfo *m_VisualInfo;
