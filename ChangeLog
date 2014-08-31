@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2014-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.14.10).
+
 2014-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Makefile.am: fix make clean for recent doxygen.
 	* programs/3d/Makefile.am: fix distribution of appdata files.
