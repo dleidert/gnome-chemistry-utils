@@ -90,7 +90,7 @@ void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_da
 			return;
 		}
 
-		gchar* name;
+		char *name;
 		*DataType = GCP_CLIPBOARD_ALL;
 		for ( j = 0; j < atom_count ; j++) {
 			name = gdk_atom_name (targets [j]);
@@ -186,7 +186,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 	}
 	default:
 		xmlDocDumpFormatMemory (pDoc, &ClipboardData, &size, info);
-		gtk_selection_data_set_text (selection_data, (const gchar*) ClipboardData, size);
+		gtk_selection_data_set_text (selection_data, (const char *) ClipboardData, size);
 		break;
 	}
 	if (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD))

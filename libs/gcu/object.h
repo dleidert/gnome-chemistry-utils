@@ -178,7 +178,7 @@ the Object::AddType method.
 
 	Every object must have an Id, since searches in the document tree uses it.
 */
-	void SetId (gchar const *Id);
+	void SetId (char const *Id);
 /*!
 	@return the Id of the Object instance.
 */
@@ -242,7 +242,7 @@ the Object::AddType method.
 To search the Object in lower shells of the tree, use the Object::GetDescendant method.
 @return the Object instance of type Id if found in the children list or NULL if not found.
 */
-	Object* GetChild (const gchar* Id) const;
+	Object* GetChild (char const *Id) const;
 /*!
 @param i a C++ std::map iterator.
 
@@ -733,7 +733,7 @@ protected:
 	virtual Dialog *BuildPropertiesDialog ();
 
 private:
-	Object* RealGetDescendant (const gchar* Id) const;
+	Object* RealGetDescendant (char const *Id) const;
 
 private:
 	char* m_Id;

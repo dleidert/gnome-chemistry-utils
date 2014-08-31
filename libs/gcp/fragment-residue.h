@@ -78,7 +78,7 @@ Sets the associated residue.
 /*!
 @return the symbol of this Residue.
 */
-	const gchar* GetSymbol () const;
+	char const *GetSymbol () const;
 
 /*!\fn GetResidue()
 @return the associated residue.

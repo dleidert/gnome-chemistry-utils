@@ -153,7 +153,7 @@ GtkWidget* Document::GetWidget ()
 }
 
 
-const gchar* Document::GetTitle () const
+char const *Document::GetTitle () const
 {
 	if (gcu::Document::GetTitle ().length ())
 		return gcu::Document::GetTitle ().c_str ();
@@ -162,12 +162,12 @@ const gchar* Document::GetTitle () const
 	return (m_Window)? m_Window->GetDefaultTitle (): NULL;
 }
 
-const gchar* Document::GetLabel () const
+char const *Document::GetLabel () const
 {
 	return m_label;
 }
 
-void Document::SetFileName (string const &Name, const gchar* mime_type)
+void Document::SetFileName (string const &Name, char const *mime_type)
 {
 	if (m_filename)
 		g_free (m_filename);
@@ -254,7 +254,7 @@ void Document::AddAtom (Atom* pAtom)
 {
 	int i = 1;
 	char id[8];
-	const gchar *Id;
+	char const *Id;
 	Id = pAtom->GetId ();
 	if (Id == NULL) {
 		id[0] = 'a';
@@ -285,7 +285,7 @@ void Document::AddFragment (Fragment* pFragment)
 {
 	int i = 1;
 	char id[8];
-	const gchar *Id;
+	char const *Id;
 	Id = pFragment->GetId ();
 	if (Id == NULL)  {
 		id[0] = 'f';
@@ -317,7 +317,7 @@ void Document::AddBond (Bond* pBond)
 {
 	int i = 1;
 	char id[8];
-	const gchar *Id;
+	char const *Id;
 	Id = pBond->GetId ();
 	if (Id == NULL) {
 		id[0] = 'b';
@@ -824,13 +824,13 @@ void Document::OnProperties ()
 	new DocPropDlg (this);
 }
 
-void Document::SetAuthor (const gchar* author)
+void Document::SetAuthor (char const *author)
 {
 	g_free (m_author);
 	m_author = (author && *author)? g_strdup (author): NULL;
 }
 
-void Document::SetMail (const gchar* mail)
+void Document::SetMail (char const *mail)
 {
 	g_free (m_mail);
 	m_mail = (mail && *mail)? g_strdup (mail): NULL;
@@ -1174,7 +1174,7 @@ void Document::SetDirty (bool isDirty)
 	gcu::Document::SetDirty (isDirty);
 }
 
-void Document::SetLabel(const gchar* label)
+void Document::SetLabel(char const *label)
 {
 	m_label = g_strdup (label);
 	m_Window->SetTitle (label);

@@ -80,7 +80,7 @@ There are two properties:
 	 their van der Waals radius; bonds are not displayed. String version is "spacefill".
 	.
 
-- "bgcolor": gchar* (Read / Write).
+- "bgcolor": char *(Read / Write).
 	<br>The background color for the display, for example "black" or "#ffffe6". Only "black",
 	"white" and "#rrggbb" are accepted in this version of the Gnome Chemistry Utils.
 <h2>Functions</h2>
@@ -99,7 +99,7 @@ GType               gcu_chem3d_viewer_get_type          (void) G_GNUC_CONST;
 
 Creates a GcuChem3DViewer widget and fills it with the data from uri. If uri is NULL, the widget will be empty.
 */
-GtkWidget*            gcu_chem3d_viewer_new               (const gchar* uri);
+GtkWidget*            gcu_chem3d_viewer_new               (char const *uri);
 /*!
 @param viewer a pointer to GcuChem3DViewer widget.
 @param uri the URI of the file containing the molecular structure to display. Any file supported by
@@ -108,7 +108,7 @@ GtkWidget*            gcu_chem3d_viewer_new               (const gchar* uri);
 
 Changes the molecule displayed by the one described in the uri. Nothing happens if uri is NULL.
 */
-void	gcu_chem3d_viewer_set_uri_with_mime_type	(GcuChem3DViewer * viewer, const gchar * uri, const gchar* mime_type);
+void	gcu_chem3d_viewer_set_uri_with_mime_type	(GcuChem3DViewer * viewer, char const *uri, char const *mime_type);
 /*!
 @param viewer a pointer to GcuChem3DViewer widget.
 @param uri the URI of the file containing the molecular structure to display.
@@ -116,7 +116,7 @@ void	gcu_chem3d_viewer_set_uri_with_mime_type	(GcuChem3DViewer * viewer, const g
 
 Changes the molecule displayed by the one described in the uri. Nothing happens if uri is NULL.
 */
-void	gcu_chem3d_viewer_set_uri	(GcuChem3DViewer * viewer, const gchar * uri);
+void	gcu_chem3d_viewer_set_uri	(GcuChem3DViewer * viewer, char const *uri);
 /*!
 @param viewer a pointer to GcuChem3DViewer widget.
 @param data a pointer to the raw data representing a serialized version of molecule to display
@@ -126,7 +126,7 @@ void	gcu_chem3d_viewer_set_uri	(GcuChem3DViewer * viewer, const gchar * uri);
 
 Changes the molecule displayed by the one described in the data. Nothing happens if data or mime-type is NULL.
 */
-void	gcu_chem3d_viewer_set_data	(GcuChem3DViewer * viewer, const gchar * data, const gchar* mime_type, size_t size);
+void	gcu_chem3d_viewer_set_data	(GcuChem3DViewer * viewer, char const *data, char const *mime_type, size_t size);
 
 /*!
 @param viewer a pointer to a GcuChem3DViewer widget.

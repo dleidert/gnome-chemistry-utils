@@ -81,7 +81,7 @@ xmlNodePtr TextObject::SaveSelected ()
 	m_RealSave = true;
 	if (!node)
 		return NULL;
-	gchar* buf = g_strdup_printf ("%u", m_StartSel);
+	char *buf = g_strdup_printf ("%u", m_StartSel);
 	xmlNewProp (node, (xmlChar*) "start-sel", (xmlChar*) buf);
 	g_free (buf);
 	buf = g_strdup_printf ("%u", m_EndSel);

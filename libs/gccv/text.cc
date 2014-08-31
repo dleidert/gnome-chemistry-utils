@@ -68,7 +68,7 @@ class TextPrivate
 {
 public:
 	static bool OnBlink (Text *text);
-	static void OnCommit (GtkIMContext *context, const gchar *str, Text *text);
+	static void OnCommit (GtkIMContext *context, char const *str, Text *text);
 };
 
 #define PREBLINK_TIME 300
@@ -90,7 +90,7 @@ bool TextPrivate::OnBlink (Text *text)
 	return false;
 }
 
-void TextPrivate::OnCommit (G_GNUC_UNUSED GtkIMContext *context, const gchar *str, Text *text)
+void TextPrivate::OnCommit (G_GNUC_UNUSED GtkIMContext *context, char const *str, Text *text)
 {
 	std::string s = str;
 	unsigned start, length;

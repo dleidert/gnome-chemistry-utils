@@ -351,7 +351,7 @@ Sets the currently active widget.
 /*!
 @return the current document file name.
 */
-	const gchar* GetFileName () {return m_filename;}
+	char const *GetFileName () {return m_filename;}
 
 /*!
 @param pView the new active view.
@@ -551,7 +551,7 @@ The document last revision date.
 	GDate m_RevisionDate;
 
 private:
-	gchar *m_filename;
+	char *m_filename;
 	bool m_bClosing;
 	GtkWidget* m_widget;
 	View *m_pActiveView;
@@ -654,7 +654,7 @@ GCU_PROT_POINTER_PROP (char, Comment)
 /*!
 A table of the Bravais lattices names.
 */
-extern gchar const *LatticeName[];
+extern char const *LatticeName[];
 
 } // namespace gcr
 

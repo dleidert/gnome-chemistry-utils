@@ -127,22 +127,22 @@ Loads the document from the XML tree representing it.
 
 Sets the label to use as window title.
 */
-	void SetLabel (const gchar* label);
+	void SetLabel (char const *label);
 /*!
 @return the window title.
 */
-	const gchar* GetLabel () const;
+	char const *GetLabel () const;
 /*!
 @param filename the new file name (URI).
 @param mime_type the new mime type.
 
 Sets the new file name and its associated mime type.
 */
-	void SetFileName (std::string const &filename, const gchar *mime_type);
+	void SetFileName (std::string const &filename, char const *mime_type);
 /*!
 @return the current file name, actually the URI.
 */
-	const gchar* GetFileName () const {return m_filename;}
+	char const *GetFileName () const {return m_filename;}
 /*!
 @param print a GtkPrintOperation.
 @param	context a GtkPrintContext.
@@ -232,23 +232,23 @@ Called by the framework when the user fires the Edit/Redo command.
 /*!
 @return the author's name.
 */
-	const gchar* GetAuthor () {return m_author;}
+	char const *GetAuthor () {return m_author;}
 /*!
 @return the author's e-mail address.
 */
-	const gchar* GetMail () {return m_mail;}
+	char const *GetMail () {return m_mail;}
 /*!
 @param author the new author name.
 
 Setes the document author name.
 */
-	void SetAuthor (const gchar* author);
+	void SetAuthor (char const *author);
 /*!
 @param mail the new e-mail address.
 
 Sets the document author e-mail address.
 */
-	void SetMail (const gchar* mail);
+	void SetMail (char const *mail);
 /*!
 Ends the current operation and pushes it on top of the undo stack. This method
 must be called after all changes have been done in  the document and the changes
@@ -449,9 +449,9 @@ private:
 	//Implementation
 private:
 	View * m_pView;
-	gchar* m_filename;
-	gchar *m_label;
-	gchar *m_author, *m_mail;
+	char *m_filename;
+	char *m_label;
+	char *m_author, *m_mail;
 	bool m_bIsLoading, m_bUndoRedo, m_bReadOnly;
 	std::string m_FileType;
 	bool m_bWriteable;
@@ -511,7 +511,7 @@ Sets the new default arrow length for the document.
 @return the current default arrow length as a reference.
 */
 GCU_PROP (double, ArrowLength)
-/*!\fn SetTextFontFamily(gchar* val)
+/*!\fn SetTextFontFamily(char *val)
 @param val the new text font family.
 
 Sets the new current text font family for the document.
@@ -522,7 +522,7 @@ Sets the new current text font family for the document.
 /*!\fn GetRefTextFontFamily()
 @return the current text font family as a reference.
 */
-GCU_PROP (gchar*, TextFontFamily)
+GCU_PROP (char*, TextFontFamily)
 /*!\fn SetTextFontStyle(PangoStyle val)
 @param val the new text font style.
 
@@ -571,7 +571,7 @@ Sets the new current text font stretch for the document.
 @return the current text font stretch as a reference.
 */
 GCU_PROP (PangoStretch, TextFontStretch)
-/*!\fn SetTextFontSize(gint val)
+/*!\fn SetTextFontSize(int val)
 @param val the new text font size.
 
 Sets the new current text font size for the document.
@@ -582,7 +582,7 @@ Sets the new current text font size for the document.
 /*!\fn GetRefTextFontSize()
 @return the current text font size as a reference.
 */
-GCU_PROP (gint, TextFontSize)
+GCU_PROP (int, TextFontSize)
 /*!\fn GetPangoAttrList()
 @return a PangoAttrList with all the attributes used for atomic symbols display.
 */

@@ -220,7 +220,7 @@ GCU_RO_PROP (double, ChargeSignSize)
 /*!\fn GetFontFamily()
 @return the theme font family used for chemical formula such as atoms and fragments
 */
-GCU_RO_PROP (gchar*, FontFamily)
+GCU_RO_PROP (char*, FontFamily)
 /*!\fn GetFontStyle()
 @return the theme font style used for chemical formula such as atoms and fragments.
 */
@@ -240,11 +240,11 @@ GCU_RO_PROP (PangoStretch, FontStretch)
 /*!\fn GetFontSize()
 @return the theme font size used for chemical formula such as atoms and fragments.
 */
-GCU_RO_PROP (gint, FontSize)
+GCU_RO_PROP (int, FontSize)
 /*!\fn GetTextFontFamily()
 @return the theme default font family used for texts.
 */
-GCU_RO_PROP (gchar*, TextFontFamily)
+GCU_RO_PROP (char*, TextFontFamily)
 /*!\fn GetTextFontStyle()
 @return the theme default font style used for texts.
 */
@@ -264,7 +264,7 @@ GCU_RO_PROP (PangoStretch, TextFontStretch)
 /*!\fn GetTextFontSize()
 @return the theme default text font size.
 */
-GCU_RO_PROP (gint, TextFontSize)
+GCU_RO_PROP (int, TextFontSize)
 /*!\fn GetThemeType()
 @return the type of the theme as definedby the ThemeType enumeration.
 */
@@ -312,7 +312,7 @@ The destructor.
 Called by the framework when the value associated with \a name changed in the
 settings.
 */
-	void OnConfigChanged (GOConfNode *node, gchar const *name);
+	void OnConfigChanged (GOConfNode *node, char const *name);
 /*!
 @param theme a theme to duplicate.
 

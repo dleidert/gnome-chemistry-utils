@@ -61,18 +61,18 @@ double DefaultSignPadding = 8.0;
 //double DefaultChargeSignHeight = 12.;
 double DefaultChargeSignSize = 9.;
 //double DefaultChargeYAlign = 10.;
-gchar *DefaultFontFamily = NULL;
+char *DefaultFontFamily = NULL;
 PangoStyle DefaultFontStyle = PANGO_STYLE_NORMAL;
 PangoWeight DefaultFontWeight = PANGO_WEIGHT_NORMAL;
 PangoVariant DefaultFontVariant = PANGO_VARIANT_NORMAL;
 PangoStretch DefaultFontStretch = PANGO_STRETCH_NORMAL;
-gint DefaultFontSize = 12 * PANGO_SCALE;
-gchar *DefaultTextFontFamily = NULL;
+int DefaultFontSize = 12 * PANGO_SCALE;
+char *DefaultTextFontFamily = NULL;
 PangoStyle DefaultTextFontStyle = PANGO_STYLE_NORMAL;
 PangoWeight DefaultTextFontWeight = PANGO_WEIGHT_NORMAL;
 PangoVariant DefaultTextFontVariant = PANGO_VARIANT_NORMAL;
 PangoStretch DefaultTextFontStretch = PANGO_STRETCH_NORMAL;
-gint DefaultTextFontSize = 12 * PANGO_SCALE;
+int DefaultTextFontSize = 12 * PANGO_SCALE;
 
 Theme::Theme (char const *name)
 {
@@ -135,7 +135,7 @@ Theme::~Theme ()
 
 ThemeManager TheThemeManager;
 
-static void on_config_changed (GOConfNode *node, gchar const *key, ThemeManager *manager)
+static void on_config_changed (GOConfNode *node, char const *key, ThemeManager *manager)
 {
 	manager->OnConfigChanged (node, key);
 }
@@ -254,7 +254,7 @@ ThemeManager::ThemeManager ()
 		path = szhome;
 	path += "/.gchempaint/themes";
 	ParseDir (path, LOCAL_THEME_TYPE);
-	gchar *default_theme  =NULL;
+	char *default_theme  =NULL;
 	GCU_GCONF_GET_STRING ("default-theme", default_theme, "GChemPaint");
 	map <string, Theme*>::iterator i = m_Themes.find (default_theme);
 	m_DefaultTheme = (i != m_Themes.end ())? (*i).second: m_Themes["GChemPaint"];
@@ -332,7 +332,7 @@ list <string> const &ThemeManager::GetThemesNames ()
 	return m_Names;
 }
 
-void ThemeManager::OnConfigChanged (GOConfNode *node, gchar const *name)
+void ThemeManager::OnConfigChanged (GOConfNode *node, char const *name)
 {
 	Theme *theme = m_Themes["GChemPaint"];
 	char *buf = NULL;
@@ -419,7 +419,7 @@ void ThemeManager::OnConfigChanged (GOConfNode *node, gchar const *name)
 
 Theme *ThemeManager::CreateNewTheme (Theme *theme)
 {
-	gchar *name = g_strdup (_("NewTheme1"));
+	char *name = g_strdup (_("NewTheme1"));
 	int i = 2;
 	while (m_Themes[name] != NULL) {
 		g_free (name);

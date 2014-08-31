@@ -101,7 +101,7 @@ Dialog::~Dialog()
 
 bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, double max)
 {
-	const gchar* text = gtk_entry_get_text (Entry);
+	char const *text = gtk_entry_get_text (Entry);
 	char *end;
 	*x = strtod (text, &end);
 	if (end != text + strlen (text)) {

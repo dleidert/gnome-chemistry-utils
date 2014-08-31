@@ -72,7 +72,7 @@ private:
 	GtkEntry *LineR, *EdgesR, *MediansR, *DiagsR;
 	GtkCheckButton *EdgesBtn, *MediansBtn, *DiagsBtn;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
-	gint m_LineSelected;
+	int m_LineSelected;
 	GcrGrid *m_Grid;
 	std::vector < Line * > m_Lines;
 	Line *Edges, *Diagonals, *Medians;

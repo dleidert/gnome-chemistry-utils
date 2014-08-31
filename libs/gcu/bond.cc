@@ -110,7 +110,7 @@ void Bond::SetOrder(unsigned char Order)
 xmlNodePtr Bond::Save(xmlDocPtr xml) const
 {
 	xmlNodePtr parent;
-	gchar buf[16];
+	char buf[16];
 	parent = xmlNewDocNode(xml, NULL, (xmlChar*)"bond", NULL);
 	if (!parent) return NULL;
 
@@ -360,11 +360,11 @@ std::string Bond::Name ()
 /////////////////////////////////////////////////////////////////////////////
 // Bondable implementation
 
-void Bond::AddBond (Bond* pBond)
+void Bond::AddBond (Bond *)
 {
 }
 
-void Bond::RemoveBond (Bond* pBond)
+void Bond::RemoveBond (Bond *)
 {
 }
 

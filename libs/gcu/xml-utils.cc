@@ -233,8 +233,8 @@ bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
 bool WriteRadius (xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
 {
 	xmlNodePtr child;
-	gchar buf[256];
-	gchar const *tmp;
+	char buf[256];
+	char const *tmp;
 
 	child = xmlNewDocNode (xml, NULL, (xmlChar*) "radius", NULL);
 	if (child)

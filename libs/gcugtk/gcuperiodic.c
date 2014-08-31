@@ -95,7 +95,7 @@ void on_clicked (GtkToggleButton *button, GcuPeriodic* periodic)
 {
 	static gboolean change = FALSE;
 	if (button != periodic->buttons[0]) {
-		const gchar* name;
+		char const *name;
 		change = TRUE;
 		if (periodic->buttons[0])
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (periodic->buttons[0]), FALSE);

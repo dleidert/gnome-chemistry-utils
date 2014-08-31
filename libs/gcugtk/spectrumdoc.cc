@@ -120,7 +120,7 @@ void SpectrumDocument::Load (char const *uri, char const *mime_type)
 		g_object_unref (file);
 		return;
 	}
-	gchar *buf = new gchar[size + 1];
+	char *buf = new char[size + 1];
 	gsize n = size;
 	while (n) {
 		n -= g_input_stream_read (input, buf, size, NULL, &error);

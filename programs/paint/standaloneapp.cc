@@ -40,7 +40,7 @@ gcpStandaloneApp::~gcpStandaloneApp()
 
 void gcpStandaloneApp::OnFileNew(char const *Theme)
 {
-	gchar tmp[32];
+	char tmp[32];
 	if (m_pActiveDoc && !m_pActiveDoc->GetView ()->PrepareUnselect ())
 		return;
 	g_snprintf (tmp, sizeof (tmp), _("Untitled %d"), m_NumWindow++);

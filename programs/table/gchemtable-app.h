@@ -56,7 +56,7 @@ public:
 	void GetBlockColor (int Z, GdkRGBA *rgba);
 	void OnNewChart (char const *name);
 	void OnSaveAsImage (GChemTableCurve *curve);
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc);
+	bool FileProcess (char const *filename, char const *mime_type, bool bSave, GtkWindow *window, Document *Doc);
 
 
 private:

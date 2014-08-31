@@ -130,11 +130,11 @@ Removes the object from the view and destroys the items representing it.
 /*!
 @return the name of the font used to display atomic symbols.
 */
-	gchar* GetFontName () {return m_sFontName;}
+	char *GetFontName () {return m_sFontName;}
 /*!
 @return the name of the font used to display stoichiometry indices and charges.
 */
-	gchar* GetSmallFontName () {return m_sSmallFontName;}
+	char *GetSmallFontName () {return m_sSmallFontName;}
 /*!
 @return the description of the font used to display atomic symbols.
 */
@@ -316,7 +316,7 @@ private:
 	std::list<GtkWidget*> m_Widgets;
 	PangoFontDescription* m_PangoFontDesc, *m_PangoSmallFontDesc, *m_PangoTextFontDesc;
 	double m_dFontHeight;
-	gchar* m_sFontName, *m_sSmallFontName;
+	char *m_sFontName, *m_sSmallFontName;
 	int m_width, m_height;
 	double m_lastx, m_lasty;
 	bool m_bEmbedded;

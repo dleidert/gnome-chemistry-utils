@@ -54,7 +54,7 @@ on_size (GcuSpectrumViewer* w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer
 }
 
 GtkWidget*
-gcu_spectrum_viewer_new  (const gchar* uri)
+gcu_spectrum_viewer_new  (char const *uri)
 {
 	GcuSpectrumViewer *viewer = GCU_SPECTRUM_VIEWER (g_object_new (GCU_TYPE_SPECTRUM_VIEWER, NULL));
 	viewer->doc = new gcugtk::SpectrumDocument ();
@@ -69,7 +69,7 @@ gcu_spectrum_viewer_new  (const gchar* uri)
 }
 
 void
-gcu_spectrum_viewer_set_uri	(GcuSpectrumViewer * viewer, const gchar * uri)
+gcu_spectrum_viewer_set_uri	(GcuSpectrumViewer * viewer, char const *uri)
 {
 	if (!uri)
 		return;

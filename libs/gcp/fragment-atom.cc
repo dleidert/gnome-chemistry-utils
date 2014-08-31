@@ -103,7 +103,7 @@ void FragmentAtom::SetSelected (int state)
 xmlNodePtr FragmentAtom::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node;
-	gchar buf[16];
+	char buf[16];
 	node = xmlNewDocNode (xml, NULL, (xmlChar*) "atom", NULL);
 	if (!node)
 		return NULL;

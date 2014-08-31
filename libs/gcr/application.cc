@@ -44,7 +44,7 @@ namespace gcr {
 // defines used for GCU_GCONF_GET
 #define ROOTDIR	"/apps/gchemutils/crystal/"
 
-static void on_config_changed (GOConfNode *node, gchar const *name, G_GNUC_UNUSED gpointer user_data)
+static void on_config_changed (GOConfNode *node, char const *name, G_GNUC_UNUSED gpointer user_data)
 {
 	GCU_UPDATE_KEY ("printing/resolution", int, PrintResolution, {})
 	GCU_UPDATE_KEY ("view/fov", int, FoV, {})
@@ -171,7 +171,7 @@ static cairo_status_t cairo_write_func (void *closure, const unsigned char *data
 	return result ? CAIRO_STATUS_SUCCESS : CAIRO_STATUS_WRITE_ERROR;
 }
 
-bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc)
+bool Application::FileProcess (char const *filename, char const *mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc)
 {
 	Document *Doc = static_cast < Document * > (pDoc);
 	int type = GCRYSTAL;
@@ -227,7 +227,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		}
 		GFile *file = g_file_new_for_uri (filename2.c_str ());
 		bool err = g_file_query_exists (file, NULL);
-		gint result = GTK_RESPONSE_YES;
+		int result = GTK_RESPONSE_YES;
 		if (err) {
 			char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
 			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("File %s\nexists, overwrite?"), unescaped));

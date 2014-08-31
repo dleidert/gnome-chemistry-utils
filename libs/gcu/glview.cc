@@ -85,7 +85,7 @@ void GLView::Rotate (double x, double y)
 	m_Phi /= M_PI / 180.;
 }
 
-static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gpointer data)
+static gboolean do_save_image (char const *buf, gsize count, GError **error, gpointer data)
 {
 	GOutputStream *output = (GOutputStream *) data;
 	while (count) {

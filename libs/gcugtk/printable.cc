@@ -57,7 +57,7 @@ public:
 	PrintSettings ();
 	virtual ~PrintSettings ();
 	void Init ();
-	void OnConfigChanged (GOConfNode *node, gchar const *name);
+	void OnConfigChanged (GOConfNode *node, char const *name);
 	GtkPrintSettings *settings;
 	GtkPageSetup *setup;
 	GtkUnit unit;
@@ -73,7 +73,7 @@ PrintSettings::PrintSettings ()
 	setup = NULL;
 }
 
-static void on_config_changed (GOConfNode *node, gchar const *key, G_GNUC_UNUSED gpointer data)
+static void on_config_changed (GOConfNode *node, char const *key, G_GNUC_UNUSED gpointer data)
 {
 	DefaultSettings.OnConfigChanged (node, key);
 }
@@ -118,7 +118,7 @@ PrintSettings::~PrintSettings ()
 	go_conf_free_node (m_ConfNode);
 }
 
-void PrintSettings::OnConfigChanged (GOConfNode *node, gchar const *name)
+void PrintSettings::OnConfigChanged (GOConfNode *node, char const *name)
 {
 	char *val = NULL;
 	GCU_UPDATE_STRING_KEY ("paper", val,

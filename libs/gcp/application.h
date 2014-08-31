@@ -262,7 +262,7 @@ Callback called when the user clicks on the Save or Open button in the file
 chooser to process the file.
 @return false on success, true otherwise.
 */
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
+	bool FileProcess (char const *filename, char const *mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 /*!
 @param filename the URI of the file to save.
 @param pDoc the document to save.
@@ -360,7 +360,7 @@ Closes all open documents and ends the application.
 Called by the framework when the configuration entry has changed to update a
 running application preferences if the system allows such callbacks.
 */
-	void OnConfigChanged (GOConfNode *node, gchar const *name);
+	void OnConfigChanged (GOConfNode *node, char const *name);
 /*!
 @param mime_type a mime type.
 @return the list of file name extensions corresponding to the mime type.

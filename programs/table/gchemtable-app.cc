@@ -389,11 +389,11 @@ GChemTableApp::~GChemTableApp ()
 
 void GChemTableApp::OnAbout ()
 {
-	const gchar * authors[] = {"Jean Bréfort", NULL};
-	const gchar * comments = _("GChemTable is a chemical periodic table of the elements application");
-	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = _("Copyright © 2005-2010 Jean Bréfort");
-	const gchar * license =
+	char const *authors[] = {"Jean Bréfort", NULL};
+	char const *comments = _("GChemTable is a chemical periodic table of the elements application");
+	/* char const *documentors[] = {NULL}; */
+	char const *copyright = _("Copyright © 2005-2010 Jean Bréfort");
+	char const *license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
 		"published by the Free Software Foundation; either version 3 of the\n"
@@ -408,7 +408,7 @@ void GChemTableApp::OnAbout ()
 		"USA";
 
 	/* Note to translators: replace the following string with the appropriate credits for you lang */
-	const gchar * translator_credits = _("translator_credits");
+	char const *translator_credits = _("translator_credits");
 	gtk_show_about_dialog (GetWindow (),
 	                       "program-name", "GChemTable",
 	                       "authors", authors,
@@ -717,16 +717,16 @@ void GChemTableApp::OnSaveAsImage (GChemTableCurve *curve)
 	gcugtk::FileChooser (this, true, l, reinterpret_cast <Document *> (curve), _("Save as image"), GetImageSizeWidget ());
 }
 
-bool GChemTableApp::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, Document *Doc)
+bool GChemTableApp::FileProcess (char const *filename, char const *mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, Document *Doc)
 {
 	GChemTableCurve *curve = reinterpret_cast <GChemTableCurve *> (Doc);
 	if(bSave) {
 		GFile *file = g_file_new_for_uri (filename);
 		bool err = g_file_query_exists (file, NULL);
-		gint result = GTK_RESPONSE_YES;
+		int result = GTK_RESPONSE_YES;
 		if (err) {
 			char *unescaped = g_uri_unescape_string (filename, NULL);
-			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
+			char *message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
 			gcugtk::Message *box = new gcugtk::Message (this, message, GTK_MESSAGE_QUESTION,
 			                                            GTK_BUTTONS_YES_NO, window);

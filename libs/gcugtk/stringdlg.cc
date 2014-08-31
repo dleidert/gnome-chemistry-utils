@@ -125,10 +125,10 @@ bool StringDlg::Apply ()
 			filename2 = g_strdup (filename);
 		GFile *file = g_file_new_for_uri (filename2);
 		err = g_file_query_exists (file, NULL);
-		gint result = GTK_RESPONSE_YES;
+		int result = GTK_RESPONSE_YES;
 		if (err) {
 			char *unescaped = g_uri_unescape_string (filename2, NULL);
-			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
+			char *message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
 			Message *box = new Message (static_cast < gcugtk::Application * > (GetApp ()),
 			                            message, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, GetWindow ());
@@ -143,7 +143,7 @@ bool StringDlg::Apply ()
 				g_file_delete (file, NULL, &error);
 				if (error) {
 					char *unescaped = g_uri_unescape_string (filename2, NULL);
-					gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
+					char *message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
 					g_free (unescaped);
 					g_error_free (error);
 					Message *box = new Message (static_cast < gcugtk::Application * > (GetApp ()),
@@ -158,7 +158,7 @@ bool StringDlg::Apply ()
 			GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
 			if (error) {
 				char *unescaped = g_uri_unescape_string (filename2, NULL);
-				gchar * message = g_strdup_printf (_("Could not open file %s, error was:\n%s"), unescaped, error->message);
+				char *message = g_strdup_printf (_("Could not open file %s, error was:\n%s"), unescaped, error->message);
 				g_free (unescaped);
 				Message *box = new Message (static_cast < gcugtk::Application * > (GetApp ()),
 				                            message, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, GetWindow ());
@@ -175,7 +175,7 @@ bool StringDlg::Apply ()
 				n += g_output_stream_write (output, ofs.str ().c_str () + n, nb - n, NULL, &error);
 				if (error) {
 					char *unescaped = g_uri_unescape_string (filename2, NULL);
-					gchar * message = g_strdup_printf (_("Could not write to file %s, error was:\n%s."), unescaped, error->message);
+					char *message = g_strdup_printf (_("Could not write to file %s, error was:\n%s."), unescaped, error->message);
 					g_free (unescaped);
 					Message *box = new Message (static_cast < gcugtk::Application * > (GetApp ()),
 						                        message, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, GetWindow ());
@@ -190,7 +190,7 @@ bool StringDlg::Apply ()
 			g_object_unref (file);
 			if (error) {
 				char *unescaped = g_uri_unescape_string (filename2, NULL);
-				gchar * message = g_strdup_printf (_("Could not close file %s, error was:\n%s"), unescaped, error->message);
+				char *message = g_strdup_printf (_("Could not close file %s, error was:\n%s"), unescaped, error->message);
 				g_free (unescaped);
 				Message *box = new Message (static_cast < gcugtk::Application * > (GetApp ()),
 				                            message, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, GetWindow ());

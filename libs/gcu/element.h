@@ -67,7 +67,7 @@ private:
 
 This constructor is private and cannot be used ouside of this class.
 	*/
-	Element (int Z, const char* Symbol);
+	Element (int Z, char const*Symbol);
 	/*!
 	The destructor.
 	*/
@@ -78,7 +78,7 @@ public:
 	@param Z: the atomic number of a chemical element.
 	@return The chemical symbol of the element whose atomic number is Z or NULL if the element is unknown.
 	*/
-	static const char* Symbol (int Z);
+	static char const *Symbol (int Z);
 	/*!
 	@param Z: the atomic number of a chemical element.
 
@@ -91,7 +91,7 @@ public:
 	@param symbol: the symbol of a chemical element.
 	@return The atomic number of the element whose chemical symbol is used as parameter or 0 if the element is unknown.
 	*/
-	static int Z (const char* symbol);
+	static int Z (char const *symbol);
 	/*!
 	@param Z: the atomic number of a chemical element.
 	@return a pointer to the Element whose atomic number is Z or NULL if the element is unknown.
@@ -101,7 +101,7 @@ public:
 	@param symbol: the symbol of a chemical element.
 	@return a pointer to the Element whose symbol is used as parameter or NULL if the element is unknown.
 	*/
-	static Element* GetElement (const char* symbol);
+	static Element* GetElement (char const *symbol);
 	/*!
 	@param radius: a pointer to a GcuAtomicRadius structure.
 
@@ -198,11 +198,11 @@ public:
 	Retrieves the default color used for the element.
 	@return an array of three double values for the red, green and blue components of the color.
 	*/
-	double* GetDefaultColor () {return m_DefaultColor;}
+	double *GetDefaultColor () {return m_DefaultColor;}
 	/*!
 	@return the name of the element in the current locale or in english if the current locale is not supported in the database.
 	*/
-	const char* GetName () {return name.c_str();}
+	char const *GetName () {return name.c_str();}
 	/*!
 	@return a pointer to the array of pointers to GcuAtomicRadius structures for all known radii for the element.
 	Last value in the array is NULL.
@@ -247,7 +247,7 @@ public:
 	/*!
 	@return the map of known names for the element indexed by language.
 	*/
-	std::map<std::string, std::string> const& GetNames () {return names;}
+	std::map<std::string, std::string> const &GetNames () {return names;}
 	/*!
 	@param rank: the rank of the ionization.
 

@@ -376,7 +376,7 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 			Text* text = new Text ();
 			if (!g_utf8_validate (data, length, NULL)) {
 				gsize r, w;
-				gchar* newstr = g_locale_to_utf8 ((const char*) data, length, &r, &w, NULL);
+				char *newstr = g_locale_to_utf8 ((const char*) data, length, &r, &w, NULL);
 				text->SetText (newstr);
 				g_free (newstr);
 			} else
@@ -730,7 +730,7 @@ void View::OnSelectAll ()
 		pActiveTool->AddSelection (m_pData);
 }
 
-static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gpointer data)
+static gboolean do_save_image (char const *buf, gsize count, GError **error, gpointer data)
 {
 	GOutputStream *output = (GOutputStream *) data;
 	while (count) {

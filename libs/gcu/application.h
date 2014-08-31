@@ -114,7 +114,7 @@ if they use the FileChooser.
 
 @return true if no error occured.
 */
-	virtual bool FileProcess (G_GNUC_UNUSED const gchar* filename, G_GNUC_UNUSED const gchar* mime_type, G_GNUC_UNUSED bool bSave, G_GNUC_UNUSED GtkWindow *window, G_GNUC_UNUSED Document *pDoc = NULL)
+	virtual bool FileProcess (G_GNUC_UNUSED char const *filename, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED bool bSave, G_GNUC_UNUSED GtkWindow *window, G_GNUC_UNUSED Document *pDoc = NULL)
 		{return false;}
 
 /*!

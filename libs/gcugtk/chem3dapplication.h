@@ -90,7 +90,7 @@ document according to \a bSave.
 
 @return true if no error occured.
 */
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
+	bool FileProcess (char const *filename, char const *mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 
 /*!
 Called when the user selects the 'Quit' menu item.

@@ -56,7 +56,7 @@ void AtomResidue::SetResidue (Residue const *res, char const *symbol)
 	const_cast <Residue *> (m_Residue)->Ref ();
 }
 
-const gchar* AtomResidue::GetSymbol () const
+char const *AtomResidue::GetSymbol () const
 {
 	return m_Abbrev.c_str ();
 }

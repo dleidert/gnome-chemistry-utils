@@ -140,7 +140,7 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 	{
 		node = xml->children;
 		while(node) {
-			if (!strcmp((gchar*)node->name, "lattice")) {
+			if (!strcmp((char *)node->name, "lattice")) {
 				txt = (char*)xmlNodeGetContent(node);
 				if (txt) {
 					int i = 0;
@@ -150,13 +150,13 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 						m_lattice = (gcr::Lattice) i;
 					xmlFree (txt);
 				}
-			} else if (!strcmp ((gchar*) node->name, "cell")) {
+			} else if (!strcmp ((char *) node->name, "cell")) {
 				txt = (char*) xmlNodeGetContent (node);
 				if (txt) {
 					sscanf (txt, "%lg %lg %lg %lg %lg %lg", &m_a, &m_b, &m_c, &m_alpha, &m_beta, &m_gamma);
 					xmlFree (txt);
 				}
-			} else if (!strcmp ((gchar*) node->name, "size")) {
+			} else if (!strcmp ((char *) node->name, "size")) {
 				txt = (char*) xmlNodeGetContent (node);
 				if (txt) {
 					sscanf (txt, "%lg %lg %lg %lg %lg %lg", &m_xmin, &m_ymin, &m_zmin, &m_xmax, &m_ymax, &m_zmax);
@@ -168,25 +168,25 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 						SetFixedSize (true);
 					xmlFree (txt);
 				}
-			} else if (!strcmp((gchar*)node->name, "atom")) {
+			} else if (!strcmp((char *)node->name, "atom")) {
 				gcAtom *pAtom = new gcAtom ();
 				if (pAtom->LoadOld (node, version))
 					AddChild (pAtom);
 				else
 					delete pAtom;
-			} else if (!strcmp ((gchar*) node->name, "line")) {
+			} else if (!strcmp ((char *) node->name, "line")) {
 				gcLine *pLine = new gcLine ();
 				if (pLine->LoadOld (node, version))
 					LineDef.push_back ((gcr::Line*) pLine);
 				else
 					delete pLine;
-			} else if (!strcmp((gchar*)node->name, "cleavage")) {
+			} else if (!strcmp((char *)node->name, "cleavage")) {
 				gcCleavage *pCleavage = new gcCleavage ();
 				if (pCleavage->LoadOld (node))
 					Cleavages.push_back ((gcr::Cleavage *) pCleavage);
 				else
 					delete pCleavage;
-			} else if (!strcmp( (gchar*) node->name, "view")) {
+			} else if (!strcmp( (char *) node->name, "view")) {
 				if (bViewLoaded) {
 					gcWindow *pWindow = new gcWindow (dynamic_cast <gcApplication *> (m_App), this);
 					gcView *pView = static_cast < gcView * > (pWindow->GetView ());

@@ -121,7 +121,7 @@ static cairo_status_t cairo_write_func (void *closure, const unsigned char *data
 	return result ? CAIRO_STATUS_SUCCESS : CAIRO_STATUS_WRITE_ERROR;
 }
 
-bool Chem3dApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *Doc)
+bool Chem3dApplication::FileProcess (char const *filename, char const *mime_type, bool bSave, GtkWindow *window, gcu::Document *Doc)
 {
 	Chem3dDoc *pDoc = dynamic_cast < Chem3dDoc * > (Doc);
 	if(bSave) {
@@ -168,10 +168,10 @@ bool Chem3dApplication::FileProcess (const gchar* filename, const gchar* mime_ty
 		GFile *file = g_vfs_get_file_for_uri (vfs, filename2.c_str ());
 		GError *error = NULL;
 		bool err = g_file_query_exists (file, NULL);
-		gint result = GTK_RESPONSE_YES;
+		int result = GTK_RESPONSE_YES;
 		if (err) {
 			char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
-			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
+			char *message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
 			Message *box = new Message (this, message, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, window);
 			result = box->Run ();
@@ -191,7 +191,7 @@ bool Chem3dApplication::FileProcess (const gchar* filename, const gchar* mime_ty
 			else if (use_cairo) {
 				GsfOutput *output = gsf_output_gio_new_for_uri (filename, &error);
 				if (error) {
-					gchar * mess = g_strdup_printf (_("Could not create stream!\n%s"), error->message);
+					char *mess = g_strdup_printf (_("Could not create stream!\n%s"), error->message);
 					Message *box = new Message (this, mess, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, window);
 					g_free (mess);
 					box->Run ();

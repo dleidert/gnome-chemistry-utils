@@ -105,7 +105,7 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 {
 	m_pDoc = pDoc;
 	Title = GTK_ENTRY (GetWidget ("title"));
-	const gchar* chn;
+	char const *chn;
 	chn = m_pDoc->GetTitle ();
 	if (chn)
 		gtk_entry_set_text (Title, chn);
@@ -125,7 +125,7 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 	g_signal_connect (G_OBJECT (Mail), "focus-out-event", G_CALLBACK (DocPropDlgPrivate::OnMailFocusedOut), pDoc);
 	CreationDate = GTK_LABEL (GetWidget ("creation"));
 	const GDate* Date = pDoc->GetCreationDate ();
-	gchar tmp[64];
+	char tmp[64];
 	/* The following format prints date as "Monday, July 8, 2002" */
 	if (g_date_valid (Date)) {
 		g_date_strftime (tmp, sizeof (tmp), _("%A, %B %d, %Y"), Date);

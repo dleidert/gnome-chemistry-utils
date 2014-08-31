@@ -85,7 +85,7 @@ int Message::Run ()
 		g_signal_handler_disconnect (m_Window, m_response_sgn);
 		m_response_sgn = 0;
 	}
-	gint res = gtk_dialog_run (m_Window);
+	int res = gtk_dialog_run (m_Window);
 	delete this;
 	return res;
 }

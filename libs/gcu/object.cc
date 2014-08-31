@@ -97,7 +97,7 @@ void Object::Clear ()
 	}
 }
 
-void Object::SetId (gchar const *Id)
+void Object::SetId (char const *Id)
 {
 	if (!Id)
 		return;
@@ -184,7 +184,7 @@ void Object::AddChild (Object* object)
 			 * that case to identify this situation, otherwise we would have a
 			 * wrong translation for Ids like "a1" as when the first atom is
 			 * "a2" (the atom is first created and added with "a1" as Id) */
-			gchar *buf = pDoc->GetNewId (object->m_Id, object->m_Parent == &temp);
+			char *buf = pDoc->GetNewId (object->m_Id, object->m_Parent == &temp);
 			 if (object->m_Parent) {
 				object->m_Parent->m_Children.erase (object->m_Id);
 				object->m_Parent = NULL;
@@ -227,7 +227,7 @@ void Object::ParentChanged ()
 {
 }
 
-Object* Object::GetChild (const gchar* Id) const
+Object* Object::GetChild (char const *Id) const
 {
 	if (Id == NULL)
 		return NULL;
@@ -236,7 +236,7 @@ Object* Object::GetChild (const gchar* Id) const
 	return (i != m_Children.end ())? (*i).second: NULL;
 }
 
-Object* Object::GetDescendant (const gchar* Id) const
+Object* Object::GetDescendant (char const *Id) const
 {
 	if (Id == NULL)
 		return NULL;
@@ -247,7 +247,7 @@ Object* Object::GetDescendant (const gchar* Id) const
 	return RealGetDescendant (Id);
 }
 
-Object* Object::RealGetDescendant (const gchar* Id) const
+Object* Object::RealGetDescendant (char const *Id) const
 {
 	map<string, Object*>::const_iterator i;
 	Object *object = NULL;

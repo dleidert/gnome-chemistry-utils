@@ -139,7 +139,7 @@ gcu_cc_gtk_progress_set (G_GNUC_UNUSED GOCmdContext *cc, G_GNUC_UNUSED double va
 }
 
 static void
-gcu_cc_gtk_progress_message_set (G_GNUC_UNUSED GOCmdContext *cc, G_GNUC_UNUSED gchar const *msg)
+gcu_cc_gtk_progress_message_set (G_GNUC_UNUSED GOCmdContext *cc, G_GNUC_UNUSED char const *msg)
 {
 }
 

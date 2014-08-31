@@ -70,7 +70,7 @@ public:
 	GtkWindow *GetGtkWindow () {return window;}
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const;
 	void OnSaveAsImage ();
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
+	bool FileProcess (char const *filename, char const *mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
 	static void OnSize (GChemCalc *calc, GtkAllocation *allocation);
 
 private:
@@ -201,15 +201,15 @@ void GChemCalc::OnSaveAsImage ()
 
 GChemCalc *App;
 
-bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, G_GNUC_UNUSED Document *pDoc)
+bool GChemCalc::FileProcess (char const *filename, char const *mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, G_GNUC_UNUSED Document *pDoc)
 {
 	if(bSave) {
 		GFile *file = g_file_new_for_uri (filename);
 		bool err = g_file_query_exists (file, NULL);
-		gint result = GTK_RESPONSE_YES;
+		int result = GTK_RESPONSE_YES;
 		if (err) {
 			char *unescaped = g_uri_unescape_string (filename, NULL);
-			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
+			char *message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
 			gcugtk::Message *box = new gcugtk::Message (static_cast < gcugtk::Application * > (App),
 			                                            message, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, App->GetGtkWindow ());
@@ -277,11 +277,11 @@ static void on_bug (GtkWidget *widget, G_GNUC_UNUSED gpointer data)
 
 static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 {
-	const gchar * authors[] = {"Jean Bréfort", NULL};
-	const gchar * comments = _("GChemCalc is a simple calculator for chemists");
-	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = _("Copyright © 2005-2010 Jean Bréfort");
-	const gchar * license =
+	char const *authors[] = {"Jean Bréfort", NULL};
+	char const *comments = _("GChemCalc is a simple calculator for chemists");
+	/* char const *documentors[] = {NULL}; */
+	char const *copyright = _("Copyright © 2005-2010 Jean Bréfort");
+	char const *license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
 		"published by the Free Software Foundation; either version 3 of the\n"
@@ -296,7 +296,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 		"USA";
 
 	/* Note to translators: replace the following string with the appropriate credits for you lang */
-	const gchar * translator_credits = _("translator_credits");
+	char const *translator_credits = _("translator_credits");
 
 	gtk_show_about_dialog (NULL,
 	                       "program-name", "GChemCalc",
@@ -661,7 +661,7 @@ static const char *ui_description =
 "  </menubar>"
 "</ui>";
 
-gboolean cb_print_version (G_GNUC_UNUSED const gchar *option_name, G_GNUC_UNUSED const gchar *value, G_GNUC_UNUSED gpointer data, G_GNUC_UNUSED GError **error)
+gboolean cb_print_version (G_GNUC_UNUSED char const *option_name, G_GNUC_UNUSED char const *value, G_GNUC_UNUSED gpointer data, G_GNUC_UNUSED GError **error)
 {
 	char *version = g_strconcat (_("GChemCalc Calculator version: "), VERSION, NULL);
 	puts (version);

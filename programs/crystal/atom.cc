@@ -59,19 +59,19 @@ bool gcAtom::LoadOld (xmlNodePtr node, unsigned version)
 	char *txt;
 	xmlNodePtr child = node->children;
 	while (child) {
-		if (!strcmp ((gchar*) child->name, "element")) {
+		if (!strcmp ((char *) child->name, "element")) {
 			txt = (char*) xmlNodeGetContent (child);
 			if (txt) {
 				m_Z = gcu::Element::Z (txt);
 				xmlFree (txt);
 			}
-		} else if (!strcmp ((gchar*) child->name, "position")) {
+		} else if (!strcmp ((char *) child->name, "position")) {
 			txt = (char*) xmlNodeGetContent (child);
 			if (txt) {
 				sscanf (txt, "%lg %lg %lg", &m_x, &m_y, &m_z);
 				xmlFree (txt);
 			}
-		} else if (!strcmp ((gchar*) child->name, "color")) {
+		} else if (!strcmp ((char *) child->name, "color")) {
 			txt = (char*) xmlNodeGetContent (child);
 			if (txt) {
 				if (version < 0x200)
@@ -80,7 +80,7 @@ bool gcAtom::LoadOld (xmlNodePtr node, unsigned version)
 					sscanf (txt, "%g %g %g %g", &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha);
 				xmlFree(txt);
 			}
-		} else if (!strcmp((gchar*)child->name, "radius")) {
+		} else if (!strcmp((char *)child->name, "radius")) {
 			txt = (char*) xmlNodeGetContent (child);
 			if (txt) {
 				sscanf (txt, "%lg", &m_Radius.value.value);

@@ -65,7 +65,7 @@ namespace gcr {
 #define XML		3
 #define FORMAT	4
 
-gchar const *LatticeName[] = {
+char const *LatticeName[] = {
 	"simple cubic",
 	"body-centered cubic",
 	"face-centered cubic",
@@ -155,8 +155,8 @@ void Document::ParseXMLTree (xmlNode* xml)
 	//look for generator node
 	node = xml->children;
 	while(node) {
-		if (!strcmp ((gchar*) node->name, "text"));
-		else if (!strcmp ((gchar*) node->name, "lattice")) {
+		if (!strcmp ((char *) node->name, "text"));
+		else if (!strcmp ((char *) node->name, "lattice")) {
 			txt = (char*) xmlNodeGetContent (node);
 			int i = 0;
 			while (strcmp (txt, LatticeName[i]) && (i < 14))
@@ -164,7 +164,7 @@ void Document::ParseXMLTree (xmlNode* xml)
 			if (i < 14)
 				m_lattice = (Lattice) i;
 			xmlFree (txt);
-		} else if (!strcmp ((gchar*) node->name, "group")) {
+		} else if (!strcmp ((char *) node->name, "group")) {
 			gcu::SpaceGroup *group = new gcu::SpaceGroup ();
 			txt = (char*) xmlGetProp (node, (xmlChar*) "Hall");
 			if (txt) {
@@ -190,14 +190,14 @@ void Document::ParseXMLTree (xmlNode* xml)
 			}
 			m_SpaceGroup = gcu::SpaceGroup::Find (group);
 			delete group;
-		} else if (!strcmp ((gchar*) node->name, "cell")) {
+		} else if (!strcmp ((char *) node->name, "cell")) {
 			gcu::ReadFloat (node, "a", m_a, 100);
 			gcu::ReadFloat (node, "b", m_b, 100);
 			gcu::ReadFloat (node, "c", m_c, 100);
 			gcu::ReadFloat (node, "alpha", m_alpha, 90);
 			gcu::ReadFloat (node, "beta", m_beta, 90);
 			gcu::ReadFloat (node, "gamma", m_gamma, 90);
-		} else if (!strcmp ((gchar*) node->name, "size")) {
+		} else if (!strcmp ((char *) node->name, "size")) {
 			gcu::ReadPosition (node, "start", &m_xmin, &m_ymin, &m_zmin);
 			gcu::ReadPosition (node, "end", &m_xmax, &m_ymax, &m_zmax);
 			txt = (char*) xmlGetProp (node, (xmlChar*) "fixed");
@@ -206,26 +206,26 @@ void Document::ParseXMLTree (xmlNode* xml)
 					m_FixedSize = true;
 				xmlFree (txt);
 			}
-		} else if (!strcmp ((gchar*) node->name, "atom")) {
+		} else if (!strcmp ((char *) node->name, "atom")) {
 			Atom *pAtom = CreateNewAtom ();
 			AddChild (pAtom);
 			if (!pAtom->Load (node)) {
 				AtomDef.remove (pAtom);
 				delete pAtom;
 			}
-		} else if (!strcmp ((gchar*) node->name, "line")) {
+		} else if (!strcmp ((char *) node->name, "line")) {
 			Line *pLine = CreateNewLine ();
 			if (pLine->Load (node))
 				LineDef.push_back (pLine);
 			else
 				delete pLine;
-		} else if (!strcmp ((gchar*) node->name, "cleavage")) {
+		} else if (!strcmp ((char *) node->name, "cleavage")) {
 			Cleavage *pCleavage = CreateNewCleavage ();
 			if (pCleavage->Load (node))
 				Cleavages.push_back (pCleavage);
 			else
 				delete pCleavage;
-		} else if (!strcmp ((gchar*) node->name, "view")) {
+		} else if (!strcmp ((char *) node->name, "view")) {
 			if (!bViewLoaded &&! m_Views.empty ())
 				m_Views.front ()->Load (node);
 			else
@@ -1467,7 +1467,7 @@ void Document::SetFileName (const string &filename)
 		g_free (unescaped);
 }
 
-void Document::SetTitle(const gchar* title)
+void Document::SetTitle(char const *title)
 {
 	m_Title = title? title: "";
 	g_free (m_Label);
@@ -1668,7 +1668,7 @@ void Document::Error (int num) const
 bool Document::Load (const std::string &filename)
 {
 	xmlDocPtr xml = NULL;
-	gchar *oldfilename, *oldtitle;
+	char *oldfilename, *oldtitle;
 	// close all dialogs
 	ClearDialogs ();
 	if (m_filename)

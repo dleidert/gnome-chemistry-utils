@@ -783,7 +783,7 @@ bool Window::VerifySaved ()
 		return true;
 	int res;
 	do {
-		gchar* str = g_strdup_printf (_("\"%s\" has been modified.  Do you wish to save it?"), m_Document->GetTitle ());
+		char *str = g_strdup_printf (_("\"%s\" has been modified.  Do you wish to save it?"), m_Document->GetTitle ());
 		gcugtk::Message *box = new gcugtk::Message (static_cast < gcugtk::Application * > (GetApplication ()),
 		                                            str, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, GetWindow (), true);
 		gtk_dialog_add_button (GTK_DIALOG (box->GetWindow ()),  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);

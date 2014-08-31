@@ -115,7 +115,7 @@ bool Atom::GetCoords (double *x, double *y, double *z) const
 	return true;
 }
 
-const gchar* Atom::GetSymbol () const
+char const *Atom::GetSymbol () const
 {
 	Element* Elt = Element::GetElement(m_Z);
 	return (Elt)? Element::Symbol(m_Z): NULL;
@@ -150,7 +150,7 @@ void Atom::Transform2D (Matrix2D& m, double x, double y)
 xmlNodePtr Atom::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr parent;
-	gchar buf[16];
+	char buf[16];
 	parent = xmlNewDocNode (xml, NULL, (xmlChar*) "atom", NULL);
 	if (!parent)
 		return NULL;

@@ -53,12 +53,12 @@ Document::~Document ()
 
 char* Document::GetNewId (char const *id, bool Cache)
 {
-	gchar *Id = g_strdup (id);
+	char *Id = g_strdup (id);
 	int i = 0, k;
 	while ((Id[i] < '0') || (Id[i] > '9'))
 		i++;
 	k = atoi (id + i);
-	gchar *buf = new gchar[i + 16];
+	char *buf = new char[i + 16];
 	strncpy (buf, Id, i);
 	buf[i] = 0;
 	g_free (Id);

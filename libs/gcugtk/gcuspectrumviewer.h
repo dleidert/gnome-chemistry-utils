@@ -77,21 +77,21 @@ GType               gcu_spectrum_viewer_get_type          (void) G_GNUC_CONST;
 Creates a GcuSpectrumViewer widget and fills it with the data from uri.
 If uri is NULL, the widget will display an empty chart.
 */
-GtkWidget*            gcu_spectrum_viewer_new               (const gchar* uri);
+GtkWidget*            gcu_spectrum_viewer_new               (char const *uri);
 /*!
 @param viewer a pointer to GcuSectrumViewer widget.
 @param uri the URI of the file containing the spectrum to display.
 
 Changes the molecule displayed by the one described in the uri. Nothing happens if uri is NULL.
 */
-void	gcu_spectrum_viewer_set_uri	(GcuSpectrumViewer * viewer, const gchar * uri);
+void	gcu_spectrum_viewer_set_uri	(GcuSpectrumViewer * viewer, char const *uri);
 
 /*!
 @param viewer a pointer to GcuSectrumViewer widget.
 
 @return the graph displayed by the widget.
 */
-GogGraph *gcu_spectrum_viewer_get_graph (GcuSpectrumViewer * viewer);
+GogGraph *gcu_spectrum_viewer_get_graph (GcuSpectrumViewer *viewer);
 
 G_END_DECLS
 

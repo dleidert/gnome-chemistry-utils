@@ -108,7 +108,7 @@ gcu_chem3d_viewer_get_type (void)
 	return chem3d_viewer_type;
 }
 
-GtkWidget* gcu_chem3d_viewer_new (const gchar *uri)
+GtkWidget* gcu_chem3d_viewer_new (char const *uri)
 {
 	GcuChem3DViewer* viewer = (GcuChem3DViewer*) g_object_new (GCU_TYPE_CHEM3D_VIEWER, NULL);
 	if (uri)
@@ -213,12 +213,12 @@ void gcu_chem3d_viewer_init (GcuChem3DViewer *viewer)
 	g_signal_connect (G_OBJECT (viewer), "size_allocate", G_CALLBACK (on_size), NULL);
 }
 
-void gcu_chem3d_viewer_set_uri (GcuChem3DViewer * viewer, const gchar *uri)
+void gcu_chem3d_viewer_set_uri (GcuChem3DViewer * viewer, char const *uri)
 {
 	gcu_chem3d_viewer_set_uri_with_mime_type (viewer, uri, NULL);
 }
 
-void gcu_chem3d_viewer_set_uri_with_mime_type (GcuChem3DViewer * viewer, const gchar * uri, const gchar* mime_type)
+void gcu_chem3d_viewer_set_uri_with_mime_type (GcuChem3DViewer * viewer, char const *uri, char const *mime_type)
 {
 	g_return_if_fail (GCU_IS_CHEM3D_VIEWER (viewer));
 	g_return_if_fail (uri);
@@ -228,7 +228,7 @@ void gcu_chem3d_viewer_set_uri_with_mime_type (GcuChem3DViewer * viewer, const g
 	viewer->phi = viewer->Doc->GetView ()->GetPhi ();
 }
 
-void gcu_chem3d_viewer_set_data (GcuChem3DViewer * viewer, const gchar *data, const gchar* mime_type, size_t size)
+void gcu_chem3d_viewer_set_data (GcuChem3DViewer * viewer, char const *data, char const *mime_type, size_t size)
 {
 	viewer->Doc->LoadData (data, mime_type, size);
 	viewer->psi = viewer->Doc->GetView ()->GetPsi ();
@@ -284,7 +284,7 @@ static void gcu_chem3d_viewer_set_property (GObject *object, guint property_id,
 			break;
 		case PROP_BGCOLOR:
 			{
-				const gchar* str = g_value_get_string (value);
+				char const *str = g_value_get_string (value);
 				if (!strcmp (str, "black")) {
 					viewer->Doc->GetView ()->SetRed (0.);
 					viewer->Doc->GetView ()->SetGreen (0.);

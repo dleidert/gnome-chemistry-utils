@@ -62,7 +62,7 @@ bool Cleavage::operator==(Cleavage& ccClivage)
 xmlNodePtr Cleavage::Save(xmlDocPtr xml) const
 {
 	xmlNodePtr node;
-	gchar buf[256];
+	char buf[256];
 	node = xmlNewDocNode(xml, NULL, (xmlChar*)"cleavage", NULL);
 	if (!node) return NULL;
 

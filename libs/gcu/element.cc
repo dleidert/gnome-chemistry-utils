@@ -322,35 +322,35 @@ Element::~Element()
 	props.clear ();
 }
 
-const gchar* Element::Symbol(gint Z)
+char const *Element::Symbol(int Z)
 {
 	Element* Elt = Table[Z];
 	return (Elt)? Elt->GetSymbol(): NULL;
 }
 
-bool Element::BestSide(gint Z)
+bool Element::BestSide(int Z)
 {
 	Element* Elt = Table[Z];
 	return (Elt)? Elt->GetBestSide(): true;
 }
 
-gint Element::Z(const gchar* symbol)
+int Element::Z(char const *symbol)
 {
 	Element* Elt = Table[symbol];
 	return (Elt)? Elt->GetZ(): 0;
 }
 
-Element* Element::GetElement(gint Z)
+Element* Element::GetElement(int Z)
 {
 	return Table[Z];
 }
 
-Element* Element::GetElement(const gchar* symbol)
+Element* Element::GetElement(char const *symbol)
 {
 	return Table[symbol];
 }
 
-unsigned Element::GetMaxBonds(gint Z)
+unsigned Element::GetMaxBonds(int Z)
 {
 	Element* Elt = Table[Z];
 	return (Elt)? Elt->GetMaxBonds(): 0;
@@ -400,12 +400,12 @@ bool Element::GetElectronegativity(GcuElectronegativity* en)
 		return false;
 }
 
-const GcuAtomicRadius** Element::GetRadii()
+const GcuAtomicRadius **Element::GetRadii()
 {
 	return (const GcuAtomicRadius**) &m_radii.front();
 }
 
-const GcuElectronegativity** Element::GetElectronegativities()
+const GcuElectronegativity **Element::GetElectronegativities()
 {
 	return (const GcuElectronegativity**) &m_en.front();
 }

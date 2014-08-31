@@ -64,7 +64,7 @@ void FragmentResidue::SetResidue (Residue const *res, char const *symbol)
 	const_cast <Residue *> (m_Residue)->Ref ();
 }
 
-const gchar* FragmentResidue::GetSymbol () const
+char const *FragmentResidue::GetSymbol () const
 {
 	return m_Abbrev.c_str ();
 }

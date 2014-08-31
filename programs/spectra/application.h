@@ -41,7 +41,7 @@ public:
 	gsvDocument *OnFileNew ();
 	void OnFileOpen (gsvDocument *Doc);
 	void OnSaveAsImage (gsvDocument *Doc);
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
+	bool FileProcess (char const *filename, char const *mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 	void OnQuit ();
 /*!
 @return a list of supported mime types.

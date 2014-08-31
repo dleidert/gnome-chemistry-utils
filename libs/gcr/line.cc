@@ -281,7 +281,7 @@ void Line::GetRotation (double & x, double & y, double & z, double & theta)
 xmlNodePtr Line::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr parent, child;
-	gchar buf[256];
+	char buf[256];
 	parent = xmlNewDocNode (xml, NULL, (xmlChar*) "line", NULL);
 	if (!parent)
 		return NULL;
@@ -327,7 +327,7 @@ bool Line::Load (xmlNodePtr node)
 			return false;
 	xmlNodePtr child = node->children;
 	while (child) {
-		if (!strcmp ((gchar*) child->name, "radius")) {
+		if (!strcmp ((char *) child->name, "radius")) {
 			txt = (char*) xmlNodeGetContent (child);
 			sscanf (txt, "%lg", &m_dr);
 			xmlFree (txt);

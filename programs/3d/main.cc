@@ -32,7 +32,7 @@
 #include <cstring>
 #include <cstdio>
 
-void cb_print_version (G_GNUC_UNUSED const gchar *option_name, G_GNUC_UNUSED const gchar *value, G_GNUC_UNUSED gpointer data, G_GNUC_UNUSED GError **error)
+void cb_print_version (G_GNUC_UNUSED char const *option_name, G_GNUC_UNUSED char const *value, G_GNUC_UNUSED gpointer data, G_GNUC_UNUSED GError **error)
 {
 	char *version = g_strconcat (_("GChem3d Viewer version: "), VERSION, NULL);
 	puts (version);

@@ -108,11 +108,11 @@ static void on_bug (GtkWidget *widget, gsvWindow* window)
 
 static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gsvWindow *Win)
 {
-	const gchar * authors[] = {"Jean Bréfort", NULL};
-	const gchar * comments = _("GSpectrum is a spectrum viewer for Gnome");
-	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = _("Copyright © 2007-2010 Jean Bréfort\n");
-	const gchar * license =
+	char const *authors[] = {"Jean Bréfort", NULL};
+	char const *comments = _("GSpectrum is a spectrum viewer for Gnome");
+	/* char const *documentors[] = {NULL}; */
+	char const *copyright = _("Copyright © 2007-2010 Jean Bréfort\n");
+	char const *license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
 		"published by the Free Software Foundation; either version 3 of the\n"
@@ -127,7 +127,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gsvWindow *
 		"USA";
 
 	/* Note to translators: replace the following string with the appropriate credits for you lang */
-	const gchar * translator_credits = _("translator_credits");
+	char const *translator_credits = _("translator_credits");
 	gtk_show_about_dialog (NULL,
 	                       "program-name", "GSpectrum",
 	                       "authors", authors,

@@ -60,7 +60,7 @@ bool gcView::LoadOld (xmlNodePtr node)
 	char *txt;
 	xmlNodePtr child = node->children;
 	while(child) {
-		if (!strcmp ((gchar*) child->name, "orientation")) {
+		if (!strcmp ((char *) child->name, "orientation")) {
 			txt = (char*) xmlNodeGetContent (child);
 			if (txt) {
 				double y, t, h;
@@ -68,7 +68,7 @@ bool gcView::LoadOld (xmlNodePtr node)
 				SetRotation (y, t, h);
 				xmlFree (txt);
 			}
-		} else if (!strcmp ((gchar*) child->name, "background")) {
+		} else if (!strcmp ((char *) child->name, "background")) {
 			txt = (char*) xmlNodeGetContent (child);
 			if (txt) {
 				float b, r, g, a;
@@ -79,7 +79,7 @@ bool gcView::LoadOld (xmlNodePtr node)
 				SetAlpha (a);
 				xmlFree(txt);
 			}
-		} else if (!strcmp((gchar*)child->name, "fov")) {
+		} else if (!strcmp((char *)child->name, "fov")) {
 			txt = (char*) xmlNodeGetContent (child);
 			if (txt) {
 				double x;

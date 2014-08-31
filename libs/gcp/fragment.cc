@@ -241,7 +241,7 @@ bool Fragment::OnChanged (bool save)
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 				Atom *pOldAtom = m_Atom;
 				m_Atom = new FragmentResidue (this, sy);
-				m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+				m_Atom->SetId ((char *) pOldAtom->GetId ());
 				if (pBond) {
 					pBond->ReplaceAtom (pOldAtom, m_Atom);
 					m_Atom->AddBond (pBond);
@@ -263,7 +263,7 @@ bool Fragment::OnChanged (bool save)
 					Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 					Atom *pOldAtom = m_Atom;
 					m_Atom = new FragmentAtom (this, Z);
-					m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+					m_Atom->SetId ((char *) pOldAtom->GetId ());
 					if (pBond) {
 						pBond->ReplaceAtom (pOldAtom, m_Atom);
 						m_Atom->AddBond (pBond);
@@ -313,7 +313,7 @@ bool Fragment::OnChanged (bool save)
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 				Atom *pOldAtom = m_Atom;
 				m_Atom = new FragmentResidue (this, sy);
-				m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+				m_Atom->SetId ((char *) pOldAtom->GetId ());
 				if (pBond) {
 					pBond->ReplaceAtom (pOldAtom, m_Atom);
 					m_Atom->AddBond (pBond);
@@ -331,7 +331,7 @@ bool Fragment::OnChanged (bool save)
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 				Atom *pOldAtom = m_Atom;
 				m_Atom = new FragmentAtom (this, Z);
-				m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+				m_Atom->SetId ((char *) pOldAtom->GetId ());
 				if (pBond) {
 					pBond->ReplaceAtom (pOldAtom, m_Atom);
 					m_Atom->AddBond (pBond);
@@ -1113,7 +1113,7 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 			Atom *pOldAtom = m_Atom;
 			m_Atom = NULL;
 			m_Atom = new FragmentResidue (this, sy);
-			m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+			m_Atom->SetId ((char *) pOldAtom->GetId ());
 			if (pBond) {
 				pBond->ReplaceAtom (pOldAtom, m_Atom);
 				m_Atom->AddBond (pBond);
@@ -1147,7 +1147,7 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 		Atom *pOldAtom = m_Atom;
 		m_Atom = NULL;
 		m_Atom = new FragmentAtom (this, Z);
-		m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+		m_Atom->SetId ((char *) pOldAtom->GetId ());
 		if (pBond) {
 			pBond->ReplaceAtom (pOldAtom, m_Atom);
 			m_Atom->AddBond (pBond);
@@ -1449,7 +1449,7 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 				pOldAtom->SetParent (NULL);
 				m_Atom = new FragmentResidue (this, sy);
 				AddChild (m_Atom);
-				m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+				m_Atom->SetId ((char *) pOldAtom->GetId ());
 				m_Atom->SetCoords (m_x, m_y);
 				if (pBond) {
 					pBond->ReplaceAtom (pOldAtom, m_Atom);
@@ -1488,7 +1488,7 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 				pOldAtom->SetParent (NULL);
 				m_Atom = new FragmentResidue (this, sy);
 				AddChild (m_Atom);
-				m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+				m_Atom->SetId ((char *) pOldAtom->GetId ());
 				m_Atom->SetCoords (m_x, m_y);
 				if (pBond) {
 					pBond->ReplaceAtom (pOldAtom, m_Atom);

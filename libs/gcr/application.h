@@ -125,7 +125,7 @@ is created unless \a pDoc is not NULL and is empty.
 
 @return true if no error occured.
 */
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
+	bool FileProcess (char const *filename, char const *mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 
 /*!
 @param it a mime type iterator.

@@ -60,7 +60,7 @@ bool View::Load (xmlNodePtr node)
 	xmlNodePtr child = node->children;
 	double x, y, z;
 	while (child) {
-		if (!strcmp ((gchar*) child->name, "orientation")) {
+		if (!strcmp ((char *) child->name, "orientation")) {
 			txt = (char*) xmlGetProp (child, (xmlChar*) "psi");
 			if (txt) {
 				sscanf(txt, "%lg", &x);
@@ -80,7 +80,7 @@ bool View::Load (xmlNodePtr node)
 			}	else
 				return false;
 			SetRotation (x, y, z);
-		} else if (!strcmp ((gchar*) child->name, "fov")) {
+		} else if (!strcmp ((char *) child->name, "fov")) {
 			txt = (char*) xmlNodeGetContent (child);
 			int result = sscanf (txt, "%lg", &x);
 			SetAngle ((result == 0)? 10.: x);
@@ -101,7 +101,7 @@ bool View::Load (xmlNodePtr node)
 xmlNodePtr View::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr parent, child;
-	gchar buf[256];
+	char buf[256];
 	parent = xmlNewDocNode (xml, NULL, (xmlChar*) "view", NULL);
 	if (!parent)
 		return NULL;

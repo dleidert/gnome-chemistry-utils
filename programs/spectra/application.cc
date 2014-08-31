@@ -83,16 +83,16 @@ void gsvApplication::OnQuit ()
 	}
 }
 
-bool gsvApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc)
+bool gsvApplication::FileProcess (char const *filename, char const *mime_type, bool bSave, GtkWindow *window, Document *Doc)
 {
 	gsvDocument *pDoc = dynamic_cast <gsvDocument *> (Doc);
 	if(bSave) {
 		GFile *file = g_file_new_for_uri (filename);
 		bool err = g_file_query_exists (file, NULL);
-		gint result = GTK_RESPONSE_YES;
+		int result = GTK_RESPONSE_YES;
 		if (err) {
 			char *unescaped = g_uri_unescape_string (filename, NULL);
-			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
+			char *message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
 			gcugtk::Message *box = new gcugtk::Message (this, message, GTK_MESSAGE_QUESTION,
 			                                            GTK_BUTTONS_YES_NO, window);

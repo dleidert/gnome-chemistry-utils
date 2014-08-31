@@ -130,7 +130,7 @@ Changes the formal charge of this Atom.
 /*!
 @return the atomic symbol of this Atom or NULL if the element is unknown.
 */
-	virtual const gchar* GetSymbol () const;
+	virtual char const *GetSymbol () const;
 /*!
 @param pBond a pointer to the new Bond to this Atom.
 

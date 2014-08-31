@@ -326,7 +326,7 @@ extern TypeId ReactionSeparatorType;
 extern TypeId ReactionSubstractorType;
 extern TypeId StepCounterType;
 
-static void on_config_changed (GOConfNode *node, gchar const *key, Application *app)
+static void on_config_changed (GOConfNode *node, char const *key, Application *app)
 {
 	app->OnConfigChanged (node, key);
 }
@@ -582,9 +582,9 @@ enum {
 	PIXBUF
 };
 
-bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, gcu::Document *Doc)
+bool Application::FileProcess (char const *filename, char const *mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, gcu::Document *Doc)
 {
-	const gchar* ext;
+	char const *ext;
 	Document *pDoc = static_cast<Document*> (Doc);
 	if (!filename || !strlen (filename) || g_file_test (filename, G_FILE_TEST_IS_DIR)) {
 		GetCmdContext ()->Message (_("Please enter a file name,\nnot a directory"), CmdContext::SeverityWarning, true);
@@ -659,7 +659,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		CmdContext::Response result = CmdContext::ResponseYes;
 		if (err) {
 			char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
-			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
+			char *message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
 			result = GetCmdContext ()->GetResponse (message, CmdContext::ResponseYes | CmdContext::ResponseNo);
 			g_free (message);
@@ -671,7 +671,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				g_file_delete (file, NULL, &error);
 				if (error) {
 					char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
-					gchar *message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
+					char *message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
 					g_free (unescaped);
 					g_error_free (error);
 					GetCmdContext ()->Message (message, CmdContext::SeverityError, false);
@@ -869,7 +869,7 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 			xmlFreeDoc(xml);
 		if (info)
 			g_object_unref (info);
-		gchar *mess = NULL;
+		char *mess = NULL;
 		GtkWidget* message;
 		switch (num)
 		{
@@ -1081,7 +1081,7 @@ void Application::UpdateAllTargets ()
 		(*i).second->OnConfigChanged ();
 }
 
-void Application::OnConfigChanged (GOConfNode *node, gchar const *name)
+void Application::OnConfigChanged (GOConfNode *node, char const *name)
 {
 	GCU_UPDATE_KEY ("compression", int, CompressionLevel, {})
 	bool CopyAsText;

@@ -194,7 +194,7 @@ void Application::RemoveDocument (Document *Doc)
 		NoMoreDocsEvent ();
 }
 
-ContentType Application::Load (std::string const &uri, const gchar *mime_type, Document* Doc, const char *options)
+ContentType Application::Load (std::string const &uri, char const *mime_type, Document* Doc, const char *options)
 {
 	Loader *l = Loader::GetLoader (mime_type);
 	GsfInput *input;
@@ -226,7 +226,7 @@ ContentType Application::Load (std::string const &uri, const gchar *mime_type, D
 	return ret;
 }
 
-ContentType Application::Load (GsfInput *input, const gchar *mime_type, Document* Doc, const char *options)
+ContentType Application::Load (GsfInput *input, char const *mime_type, Document* Doc, const char *options)
 {
 	Loader *l = Loader::GetLoader (mime_type);
 	bool needs_free = false;
@@ -250,7 +250,7 @@ ContentType Application::Load (GsfInput *input, const gchar *mime_type, Document
 	return ret;
 }
 
-bool Application::Save (std::string const &uri, const gchar *mime_type, Object const *Obj, ContentType type, const char *options)
+bool Application::Save (std::string const &uri, char const *mime_type, Object const *Obj, ContentType type, const char *options)
 {
 	Loader *l = Loader::GetSaver (mime_type);
 	GError *error = NULL;
@@ -297,7 +297,7 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Object c
 	return ret;
 }
 
-bool Application::Save (GsfOutput *output, const gchar *mime_type, Object const *Obj, ContentType type, const char *options)
+bool Application::Save (GsfOutput *output, char const *mime_type, Object const *Obj, ContentType type, const char *options)
 {
 	bool ret;
 	Loader *l = Loader::GetSaver (mime_type);
@@ -620,7 +620,7 @@ char* Application::ConvertToCML (std::string const &uri, const char *mime_type, 
 			g_object_unref (file);
 			return NULL;
 		}
-		gchar *szbuf = new gchar[size];
+		char *szbuf = new char[size];
 		gsize n = g_input_stream_read (input, szbuf, size, NULL, &error);
 		if (error) {
 			g_message ("GIO could not read the file: %s", error->message);

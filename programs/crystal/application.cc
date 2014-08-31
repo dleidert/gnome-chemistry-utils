@@ -49,7 +49,7 @@ gcApplication::~gcApplication ()
 gcr::Document *gcApplication::OnFileNew ()
 {
 	gcDocument* pDoc = new gcDocument (this);
-	gchar buf[32];
+	char buf[32];
 	g_snprintf (buf, sizeof (buf), _("Untitled%d"), nNewDocs++);
 	pDoc->SetLabel (buf);
 	new gcWindow (this, pDoc);
