@@ -1,4 +1,6 @@
 Version 0.15.2
+	Mozilla plugin:
+		* Supports the npapi-sdk package as requirement.
 
 Version 0.15.1
 	3d viewer:
