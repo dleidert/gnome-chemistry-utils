@@ -1,3 +1,7 @@
+Version 0.14.10:
+	Mozilla plugin:
+		* Supports the npapi-sdk package as requirement.
+
 Version 0.14.9:
 	GChemPaint:
 		* Ensure that the document size is always updated. [#43091]
