@@ -253,9 +253,19 @@ xmlNodePtr gcpEquation::Save (xmlDocPtr xml) const
 	if (m_Itex.length () == 0)
 		return NULL;
 	char *buf;
+	std::string esc;
+	std::size_t n = m_Itex.find ('&', 0), s = 0;
+	while (n != std::string::npos) {
+		if (n > s)
+			esc += m_Itex.substr (s, n - s);
+		esc += "&amp;";
+		s = n + 1;
+		n = m_Itex.find ('&', s);
+	}
+	esc += m_Itex.substr (s, m_Itex.length () - s);
 	xmlNodePtr node = xmlNewDocNode (xml, NULL,
 	                                 reinterpret_cast <xmlChar const *> ("equation"),
-	                                 reinterpret_cast <xmlChar const *> (m_Itex.c_str ()));
+	                                 reinterpret_cast <xmlChar const *> (esc.c_str ()));
 	SaveId (node);
 	// save the position
 	gcu::WritePosition (xml, node, NULL, m_x, m_y);	

@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2014-09-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/equation.cc: fix serialization.
+
 2014-09-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: accept the npapi-sdk package to build the mozilla plugin.
 
