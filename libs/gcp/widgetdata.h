@@ -250,6 +250,8 @@ selected.
 
 private:
 	void MoveItems (gcu::Object *obj, double dx, double dy);
+	void _GetObjectBounds (gcu::Object const* obj, gccv::Rect &rect) const;
+	
 };
 
 }	// namespace gcp
