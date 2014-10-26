@@ -25,8 +25,12 @@
 #include "config.h"
 #include "looptool.h"
 #include <gccv/canvas.h>
+#include <gccv/arc.h>
 #include <gcp/application.h>
+#include <gcp/document.h>
 #include <gcp/mechanism-step.h>
+#include <gcp/settings.h>
+#include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 
@@ -54,9 +58,30 @@ bool gcpLoopTool::OnClicked ()
 		m_pObject = mol;
 	}
 	m_pData->SetSelected (m_pObject);
-//	gcp::Document *doc = m_pView->GetDoc ();
-//	gcp::Theme *theme = doc->GetTheme ();
-	return false;
+	gccv::Rect rect;
+	double x, y, radius, start, end;
+	gcp::Document *doc = m_pView->GetDoc ();
+	gcp::Theme *theme = doc->GetTheme ();
+	m_pData->GetObjectBounds (m_pObject, rect);
+	rect.x1 -= rect.x0;
+	rect.y1 -= rect.y0;
+	// use twice the object diagonal as radius
+	radius = sqrt (rect.x1 * rect.x1 + rect.y1 * rect.y1);
+	// put the initial arrow below the first object
+	x = rect.x0 + rect.x1 / 2.;
+	y = rect.y0 + rect.y1 / 2. + radius;
+	start = atan2 (radius, rect.x1 / 2 + theme->GetArrowPadding () / theme->GetZoomFactor ());
+	end = 3. * M_PI / 2. - start;
+	start -= M_PI / 2.;
+	gccv::Arc *arc = new gccv::Arc (m_pView->GetCanvas (), x, y, radius, start, end);
+	arc->SetLineColor (gcp::AddColor);
+	arc->SetLineWidth (theme->GetArrowWidth ());
+	arc->SetA (theme->GetArrowHeadA ());
+	arc->SetB (theme->GetArrowHeadB ());
+	arc->SetC (theme->GetArrowHeadC ());
+	arc->SetHead (gccv::ArrowHeadFull);
+	m_Item = arc;
+	return true;
 }
 
 void gcpLoopTool::OnDrag ()
@@ -69,6 +94,9 @@ void gcpLoopTool::OnDrag ()
 void gcpLoopTool::OnRelease ()
 {
 	m_pData->UnselectAll ();
+	if (m_Item)
+		delete m_Item;
+	m_Item = NULL;
 }
 
 void gcpLoopTool::OnMotion ()

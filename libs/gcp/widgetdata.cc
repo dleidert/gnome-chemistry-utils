@@ -375,7 +375,7 @@ void WidgetData::Copy (GtkClipboard* clipboard)
 	gtk_clipboard_request_contents (clipboard, gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) on_receive_targets, App);
 }
 
-void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect &rect) const
+void WidgetData::_GetObjectBounds (Object const *obj, gccv::Rect &rect) const
 {
 	Object const *pObject;
 	gccv::ItemClient const *client, *child_client;
@@ -404,7 +404,7 @@ void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect &rect) const
 	while (pObject) {
 		child_client = dynamic_cast <gccv::ItemClient const *> (pObject);
 		if (!child_client || !child_client->GetItem () || !client || child_client->GetItem ()->GetParent () != client->GetItem ())
-			GetObjectBounds (pObject, rect);
+			_GetObjectBounds (pObject, rect);
 		pObject = obj->GetNextChild (i);
 	}
 }
@@ -414,7 +414,15 @@ void WidgetData::GetSelectionBounds (gccv::Rect &rect) const
 	std::set < Object * >::const_iterator i, end = SelectedObjects.end ();
 	rect.x0 = go_nan;
 	for (i = SelectedObjects.begin (); i != end; i++)
-		GetObjectBounds (*i, rect);
+		_GetObjectBounds (*i, rect);
+	if (!go_finite (rect.x0))
+		rect.x0 = rect.y0 = rect.x1 = rect.y1 = 0.;
+}
+
+void WidgetData::GetObjectBounds (gcu::Object const* obj, gccv::Rect &rect) const
+{
+	rect.x0 = go_nan;
+	_GetObjectBounds (obj, rect);
 	if (!go_finite (rect.x0))
 		rect.x0 = rect.y0 = rect.x1 = rect.y1 = 0.;
 }
@@ -422,7 +430,7 @@ void WidgetData::GetSelectionBounds (gccv::Rect &rect) const
 void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect *rect) const
 {
 	rect->x0 = go_nan;
-	GetObjectBounds (obj, *rect);
+	_GetObjectBounds (obj, *rect);
 	if (!go_finite (rect->x0))
 		rect->x0 = rect->y0 = rect->x1 = rect->y1 = 0.;
 }
@@ -432,7 +440,7 @@ void WidgetData::GetObjectsBounds (std::set <gcu::Object const *> const &objects
 	rect->x0 = go_nan;
 	std::set <gcu::Object const *>::iterator it, end = objects.end ();
 	for (it = objects.begin (); it != end; it++)
-		GetObjectBounds (*it, *rect);
+		_GetObjectBounds (*it, *rect);
 	if (!go_finite (rect->x0))
 		rect->x0 = rect->y0 = rect->x1 = rect->y1 = 0.;
 }
@@ -442,7 +450,7 @@ void WidgetData::GetObjectsBounds (std::set <gcu::Object *> const &objects, gccv
 	rect->x0 = go_nan;
 	std::set <gcu::Object *>::iterator it, end = objects.end ();
 	for (it = objects.begin (); it != end; it++)
-		GetObjectBounds (*it, *rect);
+		_GetObjectBounds (*it, *rect);
 	if (!go_finite (rect->x0))
 		rect->x0 = rect->y0 = rect->x1 = rect->y1 = 0.;
 }

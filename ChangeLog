@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2014-10-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/arc.cc: fix bounds.
+	* libs/gcp/widgetdata.cc: fix an object bounds evaluation issue.
+	* libs/gcp/widgetdata.h: ditto.
+	* plugins/paint/arrows/looptool.cc: implement OnClicked().
+
 2014-09-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/text/equation.cc: fix serialization.
 

@@ -81,12 +81,8 @@ double Arc::Distance (double x, double y, Item **item) const
 
 void Arc::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
-	if (ApplyLine (cr)) {
+	if (ApplyLine (cr))
 		ToCairo (cr);
-		cairo_stroke (cr);
-	}
-	if (m_Head != ArrowHeadNone) {
-	}
 	cairo_restore (cr);
 }
 
@@ -94,10 +90,58 @@ void Arc::UpdateBounds ()
 {
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
 	cairo_t *cr = cairo_create (surface);
-	cairo_surface_destroy (surface);
 	cairo_set_line_width (cr, GetLineWidth ());
-	ToCairo (cr);
-	cairo_stroke_extents (cr, &m_x0, &m_y0, &m_x1, &m_y1);
+	if (m_Head == ArrowHeadNone) {
+		if (m_Start < m_End)
+			cairo_arc (cr, m_X, m_Y, m_Radius, m_Start, m_End);
+		else
+			cairo_arc_negative (cr, m_X, m_Y, m_Radius, m_Start, m_End);
+		cairo_stroke_extents (cr, &m_x0, &m_y0, &m_x1, &m_y1);
+	} else {
+		double end = m_End + ((m_End > m_Start)? -1.: 1.) * m_A / m_Radius;
+		if (m_Start < m_End)
+			cairo_arc (cr, m_X, m_Y, m_Radius, m_Start, end);
+		else
+			cairo_arc_negative (cr, m_X, m_Y, m_Radius, m_Start, end);
+		cairo_stroke_extents (cr, &m_x0, &m_y0, &m_x1, &m_y1);
+		// now take the head into account
+		double x0, y0, x1, y1, rot;
+		x0 = m_X + m_Radius * cos (end);
+		y0 = m_Y + m_Radius * sin (end);
+		x1 = m_X + m_Radius * cos (m_End);
+		y1 = m_Y + m_Radius * sin (m_End);
+		rot = atan2 (y1 - y0, x1 - x0);
+		cairo_save (cr);
+		cairo_translate (cr, x0, y0);
+		cairo_rotate (cr, rot);
+		switch (m_Head) {
+		case ArrowHeadRight:
+			// FIXME
+				break;
+		case ArrowHeadLeft:
+			// FIXME
+			break;
+		default:
+			cairo_move_to (cr, 0., GetLineWidth () / 2.);
+			cairo_line_to (cr, m_A - m_B, GetLineWidth () / 2. + m_C);
+			cairo_line_to (cr, m_A, 0.);
+			cairo_line_to (cr, m_A -  m_B, -GetLineWidth () / 2. - m_C);
+			cairo_line_to (cr, 0., -GetLineWidth () / 2.);
+			break;
+		}
+		cairo_close_path (cr);
+		cairo_restore (cr);
+		cairo_fill_extents (cr, &x0, &y0, &x1, &y1);
+		if (x0 < m_x0)
+			m_x0 = x0;
+		if (y0 < m_y0)
+			m_y0 = y0;
+		if (x1 > m_x1)
+			m_x1 = x1;
+		if (y1 > m_y1)
+			m_y1 = y1;
+	}
+	cairo_surface_destroy (surface);
 	cairo_destroy (cr);
 	Item::UpdateBounds ();
 }
@@ -109,6 +153,7 @@ void Arc::ToCairo (cairo_t *cr) const
 			cairo_arc (cr, m_X, m_Y, m_Radius, m_Start, m_End);
 		else
 			cairo_arc_negative (cr, m_X, m_Y, m_Radius, m_Start, m_End);
+		cairo_stroke (cr);
 	} else {
 		double end = m_End + ((m_End > m_Start)? -1.: 1.) * m_A / m_Radius;
 		if (m_Start < m_End)
