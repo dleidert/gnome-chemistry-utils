@@ -27,7 +27,6 @@
 #include "settings.h"
 #include "tool.h"
 #include "tools.h"
-#include <gcugtk/ui-manager.h>
 #include <gcu/element.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
@@ -51,14 +50,13 @@ static void help_cb (Tools *box)
 {
 	box->OnHelp ();
 }
-
+/*
 Tools::Tools (Application *App):
 	gcugtk::Dialog (App, UIDIR"/tools.ui", "tools", GETTEXT_PACKAGE, App),
-	m_UIManager (NULL)
+	m_Parent (NULL)
 {
 	g_signal_connect (G_OBJECT (dialog), "delete-event", G_CALLBACK (on_delete_event), NULL);
 	Application *pApp = dynamic_cast<Application*> (App);
-	m_UIManager = NULL;
 	m_ButtonsGrid = GTK_GRID (GetWidget ("tools-buttons"));
 	m_Book = GTK_NOTEBOOK (GetWidget ("tools-book"));
 	GtkWidget *grid = GetWidget ("element-grid");
@@ -69,8 +67,9 @@ Tools::Tools (Application *App):
 	g_signal_connect_swapped (G_OBJECT (w), "changed", G_CALLBACK (element_changed_cb), this);
 	w = GetWidget ("help-btn");
 	g_signal_connect_swapped (G_OBJECT (w), "clicked", G_CALLBACK (help_cb), this);
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
-
+*/
 class Toolbar {
 public:
 	Toolbar ();
@@ -92,7 +91,7 @@ static void tool_toggled_cb (GtkToggleToolButton *btn, Application *app)
 
 Tools::Tools (Application *app, std::list < ToolDesc const * > const &descs):
 	gcugtk::Dialog (app, UIDIR"/tools.ui", "tools", GETTEXT_PACKAGE, app),
-	m_UIManager (NULL)
+	m_Parent (NULL)
 {
 	std::list < ToolDesc const * >::const_iterator d, end = descs.end ();
 	std::vector < Toolbar > toolbars;
@@ -170,19 +169,18 @@ Tools::Tools (Application *app, std::list < ToolDesc const * > const &descs):
 	w = GetWidget ("help-btn");
 	g_signal_connect_swapped (G_OBJECT (w), "clicked", G_CALLBACK (help_cb), this);
 	g_signal_connect (G_OBJECT (dialog), "delete-event", G_CALLBACK (on_delete_event), NULL);
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 Tools::~Tools ()
 {
-	if (m_UIManager) {
-		delete m_UIManager;
-		m_UIManager = NULL;
-	}
 }
 
-void Tools::Show (bool visible)
+void Tools::Show (bool visible, GtkWindow *parent)
 {
 	if (visible) {
+		if (m_Parent != parent)
+			gtk_window_set_transient_for (dialog, m_Parent = parent);
 		gtk_widget_show (GTK_WIDGET (dialog));
 		GtkWindow *w = reinterpret_cast<Application*> (m_App)->GetWindow ();
 		if (w)
@@ -194,23 +192,6 @@ void Tools::Show (bool visible)
 void register_item_cb (GtkWidget *w, Tools *Dlg)
 {
 	Dlg->RegisterTool (w);
-}
-
-void Tools::AddToolbar (string &name)
-{
-	if (m_UIManager) {
-		GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), name.c_str ());
-		gtk_container_foreach (GTK_CONTAINER (w), (GtkCallback) register_item_cb, this);
-		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
-		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);
-		gtk_container_add (GTK_CONTAINER (m_ButtonsGrid), w);
-		gtk_widget_show_all (w);
-	}
-}
-
-void Tools::SetUIManager (gcugtk::UIManager *manager)
-{
-	m_UIManager = manager;
 }
 
 void Tools::SetPage (Tool *tool, int i)

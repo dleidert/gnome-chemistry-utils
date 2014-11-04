@@ -27,7 +27,8 @@
 
 #include <gcp/tool.h>
 #include <gcu/object.h>
-#include <set>
+#include <gccv/structs.h>
+#include <map>
 
 class gcpLoopTool: public gcp::Tool
 {
@@ -42,7 +43,7 @@ public:
 
 private:
 	bool clockwise;
-	std::set < gcu::Object * > steps;
+	std::map < gcu::Object*, gccv::Rect > steps;
 };
 
 #endif  //  GCHEMPAINT_LOOP_TOOL_H

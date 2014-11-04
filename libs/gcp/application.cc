@@ -1006,7 +1006,7 @@ void Application::ShowTools (bool visible)
 		if (visible)
 			BuildTools ();
 	} else
-	ToolsBox->Show (visible);
+		ToolsBox->Show (visible, GetActiveDocument ()->GetGtkWindow ());
 }
 
 void Application::AddTools (ToolDesc const *tools)

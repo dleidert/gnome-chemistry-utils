@@ -31,10 +31,6 @@
 
 /*!\file*/
 
-namespace gcugtk {
-class UIManager;
-}
-
 namespace gcp {
 
 /*!class Tools gcp/tools.h
@@ -45,10 +41,10 @@ class Tools: public gcugtk::Dialog
 public:
 /*!
 @param App the GChemPaint Application.
+@param descs the tools description.
 
 Builds the tools box for the application.
 */
-	Tools (Application *App);
 	Tools (Application *app, std::list < ToolDesc const * > const &descs);
 /*!
 The destructor.
@@ -60,19 +56,7 @@ The destructor.
 
 Shows or hides the tools box.
 */
-	void Show (bool visible);
-/*!
-@param name the new toolbar name.
-
-Addsa new toolbar.
-*/
-	void AddToolbar (std::string &name);
-/*!
-@param manager a gcu::UIManager.
-
-Sets the gcugtk::UIManager associated to the user interface of the tools box.
-*/
-	void SetUIManager (gcugtk::UIManager *manager);
+	void Show (bool visible, GtkWindow *parent);
 /*!
 @param tool the Tool for which an options page has been added.
 @param i the rank of the page in the notebook.
@@ -114,13 +98,13 @@ Called by the framework when the Help button is clicked.
 	void OnHelp ();
 
 private:
-	gcugtk::UIManager *m_UIManager;
 	GtkGrid *m_ButtonsGrid;
 	std::map < Tool *, int > m_Pages;
 	std::map < std::string, GtkWidget *> m_Widgets;
 	GtkNotebook *m_Book;
 	Tool *m_Tool;
 	GcuComboPeriodic *m_Mendeleiev;
+	GtkWindow *m_Parent;
 };
 
 }	// namespace gcp
