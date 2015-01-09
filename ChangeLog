@@ -1,7 +1,7 @@
 ##Text encoding: utf-8
 
 2015-01-09  Jean Bréfort  <jean.brefort@normalesup.org>
-	* programs/3d/gchem3d.appdata.xml.in: fixed typo.
+	* programs/3d/gchem3d.appdata.xml.in: fixed typos.
 	* programs/calc/gchemcalc.appdata.xml.in: ditto.
 	* programs/crystal/gcrystal.appdata.xml.in: ditto.
 	* programs/paint/gchempaint.appdata.xml.in: ditto.
