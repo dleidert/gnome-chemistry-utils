@@ -1,6 +1,10 @@
 Version 0.14.10:
+	GChemPaint:
+		* Fix an object bounds issue.
 	Mozilla plugin:
 		* Supports the npapi-sdk package as requirement.
+	Other:
+		* Fixed typos in appdata files.
 
 Version 0.14.9:
 	GChemPaint:
