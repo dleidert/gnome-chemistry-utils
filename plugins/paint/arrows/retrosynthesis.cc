@@ -273,7 +273,8 @@ int gcpRetrosynthesis::Validate (bool split)
 		pObj = GetNextChild (i);
 	if (pObj == NULL)
 		return 1;
-	Target = reinterpret_cast<gcpRetrosynthesisStep *> (pObj);
+	if (Target == NULL)
+		Target = reinterpret_cast<gcpRetrosynthesisStep *> (pObj);
 	set<Object *> Objects;
 	Objects.insert (pObj);
 	if (BuildConnectivity (Objects, Target))
@@ -313,6 +314,8 @@ static void AlignStep (map<Object*, StepData> &data, gcpRetrosynthesisStep *step
 	map<gcpRetrosynthesisStep *, gcpRetrosynthesisArrow *> *Arrows = step->GetArrows ();
 	map<gcpRetrosynthesisStep *, gcpRetrosynthesisArrow *>::iterator i, end = Arrows->end ();
 	for (i = Arrows->begin (); i != end; i++) {
+		if (step == (*i).second->GetEndStep ())
+			continue;
 		(*i).second->GetCoords (&x0, &y0, &x1, &y1);
 		x = x1 - x0;
 		y = y1 - y0;
