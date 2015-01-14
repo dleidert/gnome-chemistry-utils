@@ -1,7 +1,10 @@
 ##Text encoding: utf-8
 
+2015-01-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/arrows/retrosynthesis.cc:
+
 2015-01-11  Jean Bréfort  <jean.brefort@normalesup.org>
-	* configure.ac: post release version bump (0.14.1).
+	* configure.ac: post release version bump (0.14.11).
 
 2015-01-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/3d/gchem3d.appdata.xml.in: fixed typos.

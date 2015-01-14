@@ -1,3 +1,7 @@
+Version 0.14.11:
+	GChemPaint:
+		* Fix an infinite loop condition in retrosyntheses alignment.
+
 Version 0.14.10:
 	GChemPaint:
 		* Fix an object bounds issue.
