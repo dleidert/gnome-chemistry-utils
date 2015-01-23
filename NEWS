@@ -1,4 +1,6 @@
 Version 0.15.2
+	GChemPaint:
+		* Add support for hybrid orbitals.
 	Mozilla plugin:
 		* Supports the npapi-sdk package as requirement.
 

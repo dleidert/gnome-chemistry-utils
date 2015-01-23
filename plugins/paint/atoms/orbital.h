@@ -45,6 +45,7 @@ typedef enum {
 	GCP_ORBITAL_TYPE_P,
 	GCP_ORBITAL_TYPE_DXY,
 	GCP_ORBITAL_TYPE_DZ2,
+	GCP_ORBITAL_TYPE_SP, // sp hybrid
 	GCP_ORBITAL_INVALID
 } gcpOrbitalType;
 

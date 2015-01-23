@@ -103,6 +103,11 @@ gcpOrbitalProps::gcpOrbitalProps (gcp::Document *doc, gcpOrbital *orbital):
 	if (m_Orbital->GetType () == GCP_ORBITAL_TYPE_DZ2)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), true);
 	g_signal_connect_swapped (w, "toggled", G_CALLBACK (gcpOrbitalProps::OnTypeChanged), this);
+	w = GetWidget ("hybrid-btn");
+	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_SP));
+	if (m_Orbital->GetType () == GCP_ORBITAL_TYPE_SP)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), true);
+	g_signal_connect_swapped (w, "toggled", G_CALLBACK (gcpOrbitalProps::OnTypeChanged), this);
 	w = GetWidget ("coef-btn");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_Orbital->GetCoef ());
 	g_signal_connect_swapped (w, "value-changed", G_CALLBACK (gcpOrbitalProps::OnCoefChanged), this);
@@ -296,6 +301,24 @@ void gcpOrbital::AddItem ()
 		group->MoveToBack (m_Item);
 		break;
 	}
+	case GCP_ORBITAL_TYPE_SP: {
+		gccv::Group *new_group = new gccv::Group (group, this);
+		gccv::Leaf *leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * 1.3 * zoom, this);
+		leaf->SetRotation (m_Rotation / 180. * M_PI);
+		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * 0.6 * zoom, this);
+		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+		leaf->SetRotation (m_Rotation / 180. * M_PI + M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (GO_COLOR_WHITE);
+		m_Item = new_group;
+		group->MoveToBack (m_Item);
+		break;
+	}
 	default:
 		// we might throw an exception here.
 		break;
@@ -318,6 +341,9 @@ xmlNodePtr gcpOrbital::Save (xmlDocPtr xml) const
 		break;
 	case GCP_ORBITAL_TYPE_DZ2:
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> ("dz2"));
+		break;
+	case GCP_ORBITAL_TYPE_SP:
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> ("sp"));
 		break;
 	default:
 		break;
@@ -346,6 +372,8 @@ bool gcpOrbital::Load (xmlNodePtr node)
 			m_Type = GCP_ORBITAL_TYPE_DXY;
 		else if (!strcmp (buf, "dz2"))
 			m_Type = GCP_ORBITAL_TYPE_DZ2;
+		else if (!strcmp (buf, "sp"))
+			m_Type = GCP_ORBITAL_TYPE_SP;
 		xmlFree (buf);
 	}
 	buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("coef")));
