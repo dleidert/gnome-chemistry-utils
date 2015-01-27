@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2015-01-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/atoms/orbital.cc: make hybrid orbitals really work.
+	* plugins/paint/atoms/orbitaltool.cc: ditto.
+
 2015-01-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/atoms/orbital-prop.ui: add support for hybrid orbitals.
 	* plugins/paint/atoms/orbital.cc: ditto.

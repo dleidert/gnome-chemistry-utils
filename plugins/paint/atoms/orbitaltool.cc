@@ -147,6 +147,23 @@ bool gcpOrbitalTool::OnClicked ()
 		m_Item = group;
 		break;
 	}
+	case GCP_ORBITAL_TYPE_SP: {
+		gccv::Group *group = new gccv::Group (m_pView->GetCanvas ());
+		gccv::Leaf *leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * ((m_Coef > 0)? 1.3: 0.6) * m_dZoomFactor);
+		leaf->SetRotation (m_Rotation / 180. * M_PI);
+		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * ((m_Coef > 0)? 0.6: 1.3) * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+		leaf->SetRotation (m_Rotation / 180. * M_PI + M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (GO_COLOR_WHITE);
+		m_Item = group;
+		break;
+	}
 	default:
 		break;
 	}
@@ -226,6 +243,9 @@ GtkWidget *gcpOrbitalTool::GetPropertyPage ()
 	g_signal_connect_swapped (G_OBJECT (w), "toggled", G_CALLBACK (TypeChanged), this);
 	w = builder->GetWidget ("dz2-btn");
 	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_DZ2));
+	g_signal_connect_swapped (G_OBJECT (w), "toggled", G_CALLBACK (TypeChanged), this);
+	w = builder->GetWidget ("hybrid-btn");
+	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_SP));
 	g_signal_connect_swapped (G_OBJECT (w), "toggled", G_CALLBACK (TypeChanged), this);
 	GtkWidget *res = builder->GetRefdWidget ("orbital");
 	m_Preview = new gccv::Canvas (NULL);

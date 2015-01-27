@@ -303,13 +303,13 @@ void gcpOrbital::AddItem ()
 	}
 	case GCP_ORBITAL_TYPE_SP: {
 		gccv::Group *new_group = new gccv::Group (group, this);
-		gccv::Leaf *leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * 1.3 * zoom, this);
+		gccv::Leaf *leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * ((m_Coef > 0)? 1.3: 0.6) * zoom, this);
 		leaf->SetRotation (m_Rotation / 180. * M_PI);
 		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
 		leaf->SetLineWidth (1.);
 		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
 		leaf->SetFillColor (GO_COLOR_GREY (100));
-		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * 0.6 * zoom, this);
+		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * ((m_Coef > 0)? 0.6: 1.3) * zoom, this);
 		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
 		leaf->SetRotation (m_Rotation / 180. * M_PI + M_PI);
 		leaf->SetLineWidth (1.);
