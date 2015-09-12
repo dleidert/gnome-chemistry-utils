@@ -33,7 +33,7 @@
 namespace gcugtk {
 
 /*!
-\class GLView gcu/glview.h
+\class GLView gcugtk/glview.h
 View class based on OpenGL for rendering. Used to display 3d chemical structures
 such as molecules or crystals cells.
 */

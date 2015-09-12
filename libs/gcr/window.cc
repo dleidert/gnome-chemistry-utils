@@ -428,7 +428,6 @@ Window::Window (gcu::Application *app, Document *doc, char const *extra_ui):
 	if (!gtk_ui_manager_add_ui_from_string (manager, ui_description, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
-		exit (EXIT_FAILURE);
 	}
 	if (extra_ui && !gtk_ui_manager_add_ui_from_string (manager, extra_ui, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);

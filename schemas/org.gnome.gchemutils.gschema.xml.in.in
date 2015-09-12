@@ -1,6 +1,7 @@
 <schemalist>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils" path="/org/gnome/gchemutils/">
     <child name="printsetup" schema="org.gnome.gchemutils.printsetup" />
+    <child name="gtk" schema="org.gnome.gchemutils.gtk" />
   </schema>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.printsetup" path="/org/gnome/gchemutils/printsetup/">
     <key name="preferred-unit" type="s">
@@ -47,6 +48,13 @@
       <default>0</default>
       <_summary>Paper</_summary>
       <_description>This is the default paper orientation.</_description>
+    </key>
+  </schema>
+  <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.gtk" path="/org/gnome/gchemutils/gtk/">
+    <key name="direct-rendering" type="b">
+      <default>@DIRECT_RENDERING@</default>
+      <_summary>Use direct rendering when exporting an offscreen OpenGL scene.</_summary>
+      <_description>The documentation says that direct rendering from OpenGL to a pixbuf is not possible, but some implementations only accept direct rendering and crash otherwise. The default is false, and if GCrystal or GChem3D crash, try setting to true.</_description>
     </key>
   </schema>
 </schemalist>

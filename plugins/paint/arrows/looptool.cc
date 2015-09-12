@@ -102,6 +102,7 @@ void gcpLoopTool::OnDrag ()
 	}
 	if (steps.find (obj) != steps.end())
 		return;
+	m_pData->SetSelected (obj);
 	delete m_Item; //deleting the old item, we need to rebuild it
 	// find objects center
 	gccv::Rect rect;
@@ -148,9 +149,10 @@ void gcpLoopTool::OnDrag ()
 	for (j++; j != jend; j++) {
 		
 		obj = (*j).second;
+		a = (*j).first;
 	}
 	obj = (*ordered.begin ()).second;
-	
+
 	m_Item = group;
 }
 

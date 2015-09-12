@@ -56,7 +56,7 @@ static void on_config_changed (GOConfNode *node, char const *name, G_GNUC_UNUSED
 	GCU_UPDATE_KEY ("view/blue", float, Blue, {})
 }
 
-Application::Application (): gcugtk::Application ("gcrystal")
+Application::Application (): gcugtk::GLApplication ("gcrystal")
 {
 //Configuration loading
 	m_ConfNode = go_conf_get_node (Application::GetConfDir (), "crystal");

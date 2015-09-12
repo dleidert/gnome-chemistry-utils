@@ -36,6 +36,7 @@ libgcugtk_@GCU_API_VER@_la_SOURCES = \
 		gcucomboperiodic.c \
 		gcuperiodic.c \
 		gcuspectrumviewer.cc \
+		glapplication.cc	\
 		glview.cc	\
 		message.cc	\
 		molecule.cc \
@@ -62,6 +63,7 @@ noinst_HEADERS = \
 		gcucomboperiodic.h \
 		gcuperiodic.h \
 		gcuspectrumviewer.h \
+		glapplication.h	\
 		glview.h	\
 		message.h	\
 		molecule.h \

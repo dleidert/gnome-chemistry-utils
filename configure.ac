@@ -167,6 +167,22 @@ dnl Not sure we need to test for glu.h and glx.h
 AC_CHECK_HEADER(GL/glu.h,,[AC_MSG_ERROR([Error, GL/glu.h not found.])])
 AC_CHECK_HEADER(GL/glx.h,,[AC_MSG_ERROR([Error, GL/glx.h not found.])])
 
+dnl check if OpenGL rendering to memory should be direct
+AC_ARG_ENABLE(
+	[opengl-direct-rendering],
+	AS_HELP_STRING(
+		[--enable-opengl-direct-rendering],
+		[ask if OpenGL rendering to memory (when exporting an image or for printing) should be direct @<:@default=yes@:>@]
+	),
+	[]
+)
+if test "x$enableval" = "xyes"; then
+DIRECT_RENDERING="true"
+else
+DIRECT_RENDERING="false"
+fi
+AC_SUBST([DIRECT_RENDERING])
+
 dnl check for lsm_itex_to_mathml
 saved_LIBS=$LIBS
 LIBS="$LIBS $lasem_LIBS"

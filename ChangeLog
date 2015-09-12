@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2015-09-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add a new direct OpenGL rendering option.
+	* libs/gcr/application.cc: ditto.
+	* libs/gcr/application.h: ditto.
+	* libs/gcr/window.cc: ditto.
+	* libs/gcugtk/Makefile.am: ditto.
+	* libs/gcugtk/chem3dapplication.cc: ditto.
+	* libs/gcugtk/chem3dapplication.h: ditto.
+	* libs/gcugtk/chem3dwindow.cc: ditto.
+	* libs/gcugtk/glapplication.cc: ditto.
+	* libs/gcugtk/glapplication.h: ditto.
+	* libs/gcugtk/glview.cc: ditto.
+	* libs/gcugtk/glview.h: ditto.
+	* plugins/paint/arrows/looptool.cc: minor update.
+	* schemas/org.gnome.gchemutils.gschema.xml.in.in: new direct OpenGL
+	rendering option.
+
 2015-01-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/atoms/orbital.cc: make hybrid orbitals really work.
 	* plugins/paint/atoms/orbitaltool.cc: ditto.
