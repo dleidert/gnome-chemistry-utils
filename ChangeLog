@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2015-11-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/window.cc: don't crash when importing an invalid string.
+	[Redhat bug #1285154]
+
 2015-01-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/3d/gchem3d.appdata.xml.in: one more typo.
 	* programs/calc/gchemcalc.appdata.xml.in: ditto.
