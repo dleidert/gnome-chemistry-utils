@@ -1,6 +1,7 @@
 Version 0.15.2
 	GChemPaint:
 		* Add support for hybrid orbitals.
+		* Don't crash when importing an invalid string. [Redhat bug #1285154]
 	Mozilla plugin:
 		* Supports the npapi-sdk package as requirement.
 

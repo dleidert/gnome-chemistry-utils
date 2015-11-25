@@ -76,6 +76,8 @@ void WindowPrivate::DoImportMol (gcu::Document *doc, char const *str)
 	app->Load (input, "chemical/x-cml", Doc, NULL);
 	std::set < gcu::Object * > objs = doc->GetNewObjects ();
 	Doc->Loaded ();
+	if (objs.empty ())
+		return;
 	Molecule *mol = static_cast < Molecule * > ((*objs.begin ())->GetMolecule ());
 	// scale so that the mean bond length is correct
 	double l = mol->GetMeanBondLength (), l0 = Doc->GetTheme ()->GetBondLength (), x0, y0, x1, y1;
