@@ -127,4 +127,17 @@ protected:
 	virtual void SetType(gcp::Bond* pBond);
 };
 
+class gcpWeakBondTool: public gcpBondTool
+{
+public:
+	gcpWeakBondTool (gcp::Application *App);
+	virtual ~gcpWeakBondTool ();
+
+protected:
+	virtual void Draw();
+	virtual void UpdateBond();
+	virtual void FinalizeBond();
+	virtual void SetType(gcp::Bond* pBond);
+};
+
 #endif // GCHEMPAINT_BOND_TOOL_H

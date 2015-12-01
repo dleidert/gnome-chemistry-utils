@@ -729,3 +729,46 @@ void gcpSquiggleBondTool::SetType (gcp::Bond* pBond)
 {
 	pBond->SetType (gcp::UndeterminedBondType);
 }
+
+gcpWeakBondTool::gcpWeakBondTool (gcp::Application *App): gcpBondTool (App, "WeakBond")
+{
+}
+
+gcpWeakBondTool::~gcpWeakBondTool ()
+{
+}
+
+void gcpWeakBondTool::Draw ()
+{
+	gcp::Theme *theme = m_pView->GetDoc ()->GetTheme ();
+	if (m_Item) {
+		static_cast <gccv::Line *> (m_Item)->SetPosition (m_x0, m_y0, m_x1, m_y1);
+	} else {
+		m_Item = new gccv::Line (m_pView->GetCanvas (), m_x0, m_y0, m_x1, m_y1);
+		gccv::Line *line = static_cast <gccv::Line *> (m_Item);
+		double dashes[] = {3., 2.};
+		line->SetLineColor (gcp::AddColor);
+		line->SetDashes (dashes, 2, 0.);
+		line->SetLineWidth (theme->GetBondWidth () / 2.);
+	}
+}
+
+void gcpWeakBondTool::UpdateBond ()
+{
+	Draw ();
+}
+
+void gcpWeakBondTool::FinalizeBond()
+{
+	if (m_bChanged) {
+		gcp::Bond* pBond = (gcp::Bond*) m_pObject;
+		pBond->SetType (gcp::WeakBondType);
+		m_pView->Remove (m_pObject);
+		m_pView->AddObject (m_pObject);
+	}
+}
+
+void gcpWeakBondTool::SetType (gcp::Bond* pBond)//FIXME: Is it really useful?
+{
+	pBond->SetType (gcp::WeakBondType);
+}

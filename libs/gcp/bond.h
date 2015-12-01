@@ -53,7 +53,8 @@ typedef enum
 	DownBondType,
 	ForeBondType,
 	UndeterminedBondType,
-	NewmanBondType
+	NewmanBondType,
+	WeakBondType
 } BondType;
 
 /*!\struct BondCrossing gcp/bond.h

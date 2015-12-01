@@ -64,6 +64,8 @@ static gcp::ToolDesc tools[] = {
 		gcp::BondToolbar, 0, NULL, NULL},
 	{   "DelocalizedBond", N_("Add a delocalized bonds system"),
 		gcp::BondToolbar, 0, NULL, NULL},
+	{   "WeakBond", N_("Add a weak bond"),
+		gcp::BondToolbar, 0, NULL, NULL},
 	{   "Newman", N_("Add a bond in Newman projection"),
 		gcp::BondToolbar, 0, NULL, NULL},
 	{   NULL, NULL, 0, 0, NULL, NULL}
@@ -128,6 +130,14 @@ void gcpBondsPlugin::Populate (gcp::Application* App)
 	line->SetLineWidth (6.);
 	line->SetAutoColor (true);
 	tools[5].widget = canvas->GetWidget ();
+	/* Build a canvas for the weak bond tool */
+	canvas = new gccv::Canvas (NULL);
+	line = new gccv::Line (canvas, 3., 21., 21., 3.);
+	line->SetLineWidth (1.);
+	double dashes[] = {3., 2.};
+	line->SetDashes (dashes, 2, 0.);
+	line->SetAutoColor (true);
+	tools[7].widget = canvas->GetWidget ();
 	/* Build a canvas for the Newton projection tool */
 	canvas = new gccv::Canvas (NULL);
 	gccv::Circle *circle = new gccv::Circle (canvas, 11.5, 11.5, 5.);
@@ -145,13 +155,14 @@ void gcpBondsPlugin::Populate (gcp::Application* App)
 	line->SetAutoColor (true);
 	line = new gccv::Line (canvas, 15.8, 9., 21.5, 5.7);
 	line->SetAutoColor (true);
-	tools[7].widget = canvas->GetWidget ();
+	tools[8].widget = canvas->GetWidget ();
 	App->AddTools (tools);
 	new gcpBondTool (App);
 	new gcpChainTool (App);
 	new gcpUpBondTool (App);
 	new gcpDownBondTool (App, hash);
 	new gcpForeBondTool (App);
+	new gcpWeakBondTool (App);
 	new gcpSquiggleBondTool (App);
 	new gcpDelocalizedTool (App);
 	new gcpNewmanTool (App);

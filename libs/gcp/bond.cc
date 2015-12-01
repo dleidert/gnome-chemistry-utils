@@ -418,7 +418,7 @@ Object* Bond::GetAtomAt(double x, double y, G_GNUC_UNUSED double z)
 
 bool Bond::SaveNode (G_GNUC_UNUSED xmlDocPtr xml, xmlNodePtr node) const
 {
-	switch(m_type) {
+	switch (m_type) {
 	case UpBondType:
 		xmlNewProp (node, (xmlChar*) "type", (xmlChar*) "up");
 		break;
@@ -434,6 +434,9 @@ bool Bond::SaveNode (G_GNUC_UNUSED xmlDocPtr xml, xmlNodePtr node) const
 	case NewmanBondType:
 		xmlNewProp (node, (xmlChar*) "type", (xmlChar*) "newman");
 		gcu::WriteFloat (node, "radius", m_coords[15]);
+		break;
+	case WeakBondType:
+		xmlNewProp (node, (xmlChar*) "type", (xmlChar*) "weak");
 		break;
 	default:
 		break;
@@ -462,6 +465,8 @@ bool Bond::LoadNode (xmlNodePtr node)
 		SetType (UndeterminedBondType);
 	else if (!strcmp (buf, "newman"))
 		SetType (NewmanBondType);
+	else if (!strcmp (buf, "weak"))
+		SetType (WeakBondType);
 	else
 		SetType (NormalBondType);
 	if (buf)
@@ -609,7 +614,8 @@ void Bond::SetSelected (int state)
 	}
 	case UndeterminedBondType:
 	case NewmanBondType:
-	case ForeBondType: {
+	case ForeBondType:
+	case WeakBondType: {
 		gccv::LineItem *item = static_cast <gccv::LineItem *> (m_Item);
 		item->SetLineColor (color);
 		break;
@@ -739,7 +745,23 @@ void Bond::AddItem ()
 		circle->SetFillColor (0);
 		circle->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
 		m_Item = circle;
+		break;
 	}
+	case WeakBondType: {
+	}
+		GetLine2DCoords (1, &x1, &y1, &x2, &y2);
+		gccv::Line *line = new gccv::Line (view->GetCanvas ()->GetRoot (),
+							x1 * theme->GetZoomFactor (),
+							y1 * theme->GetZoomFactor (),
+							x2 * theme->GetZoomFactor (),
+							y2 * theme->GetZoomFactor (),
+							this);
+		line->SetLineWidth (theme->GetBondWidth () / 2.);
+		double dashes[] = {3., 2.};
+		line->SetDashes (dashes, 2, 0.);
+		line->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		m_Item = line;
+		break;
 	}
 }
 
@@ -1007,6 +1029,7 @@ void Bond::AdjustPosition (double &x, double &y)
 		break;
 	case ForeBondType:
 	case UndeterminedBondType:
+	case WeakBondType:
 		l = 1.;
 		break;
 	default:
