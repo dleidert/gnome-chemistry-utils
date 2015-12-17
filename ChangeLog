@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2015-12-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: fix drawing when zoomed.
+
 2015-12-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: quick implementation of weak bonds.
 	* libs/gcp/bond.h: ditto.
