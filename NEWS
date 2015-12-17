@@ -2,6 +2,7 @@ Version 0.14.11:
 	GChemPaint:
 		* Fix an infinite loop condition in retrosyntheses alignment.
 		* Don't crash when importing an invalid string. [Redhat bug #1285154]
+		* Fix drawing when zoomed.
 
 Version 0.14.10:
 	GChemPaint:
