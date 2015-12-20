@@ -20,4 +20,8 @@
  </screenshots>
  <url type="homepage">http://gchemutils.nongnu.org</url>
  <updatecontact>gchemutils-main@nongnu.org</updatecontact>
+ <kudos>
+  <kudo>HiDpiIcon</kudo>
+  <kudo>ModernToolkit</kudo>
+ </kudos>
 </application>
