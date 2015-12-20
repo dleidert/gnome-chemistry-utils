@@ -5,6 +5,8 @@ Version 0.15.2
 		* Fix drawing when zoomed.
 	Mozilla plugin:
 		* Supports the npapi-sdk package as requirement.
+	Other: 
+		* Added appdata files.
 
 Version 0.15.1
 	3d viewer:

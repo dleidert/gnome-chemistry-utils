@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2015-12-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/3d/gchem3d.appdata.xml.in: add kudos as requested.
+	* programs/calc/gchemcalc.appdata.xml.in: ditto.
+	* programs/crystal/gcrystal.appdata.xml.in: ditto.
+	* programs/paint/gchempaint.appdata.xml.in: ditto.
+	* programs/paint/gchempaint.desktop.in.in: ditto.
+	* programs/spectra/gspectrum.appdata.xml.in: ditto.
+	* programs/table/gchemtable.appdata.xml.in: ditto.
+
 2015-12-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: fix drawing when zoomed.
 
