@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2016-01-06  Jean Brefort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: fixed two crashers.
+
 2015-12-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/3d/gchem3d.appdata.xml.in: add kudos as requested.
 	* programs/calc/gchemcalc.appdata.xml.in: ditto.
