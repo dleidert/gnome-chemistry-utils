@@ -472,8 +472,8 @@ bool Molecule::Load (xmlNodePtr node)
 		pObject = new Bond ();
 		AddBond ((Bond*) pObject);
 		if (!pObject->Load (child)) {
-			delete pObject;
 			m_Bonds.remove ((Bond*) pObject);
+			delete pObject;
 			return false;
 		}
 		if (pDoc)
@@ -749,9 +749,10 @@ void Molecule::OnLoaded ()
 		while (1) {
 			if (m_Atoms.size () > 0)
 				BuildConnectivity (GetFirstAtom (i), ConnectedAtoms);
-			else {
+			else if (m_Fragments.size () > 0) {
 				BuildConnectivity ((*m_Fragments.begin())->GetAtom (), ConnectedAtoms);
-			}
+			} else
+				break;
 			if (m_Atoms.size () + m_Fragments.size () == ConnectedAtoms.size ())
 				break;
 			// now split the molecule
