@@ -4,7 +4,7 @@
  * CDXML files loader plugin
  * cdxml.cc
  *
- * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2016 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -152,11 +152,12 @@ cdxml_doc (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	map<string, unsigned>::iterator it;
-	while (*attrs) {
-		if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
-			state->doc->SetProperty ((*it).second, (char const *) *attrs);}
-		attrs++;
-	}
+	if (attrs)
+		while (*attrs) {
+			if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
+				state->doc->SetProperty ((*it).second, (char const *) *attrs);}
+			attrs++;
+		}
 	state->cur.push (state->doc);
 }
 
@@ -187,73 +188,74 @@ cdxml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 	Object *obj = state->app->CreateObject ("bond", state->cur.top ());
 	obj->SetProperty (GCU_PROP_BOND_ORDER, "1");
 	map<string, unsigned>::iterator it;
-	while (*attrs) {
-		if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
-			if ((*it).second == GCU_PROP_BOND_TYPE) {
-				if (BondTypes.empty ()) {
-					BondTypes["Solid"] = 0;
-					BondTypes["Dash"] = 1;
-					BondTypes["Hash"] = 2;
-					BondTypes["WedgedHashBegin"] = 3;
-					BondTypes["WedgedHashEnd"] = 4;
-					BondTypes["Bold"] = 5;
-					BondTypes["WedgeBegin"] = 6;
-					BondTypes["WedgeEnd"] = 7;
-					BondTypes["Wavy"] = 8;
-					BondTypes["HollowWedgeBegin"] = 9;
-					BondTypes["HollowWedgeEnd"] = 10;
-					BondTypes["WavyWedgeBegin"] = 11;
-					BondTypes["WavyWedgeEnd"] = 12;
-					BondTypes["Dot"] = 13;
-					BondTypes["DashDot"] = 14;
+	if (attrs)
+		while (*attrs) {
+			if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
+				if ((*it).second == GCU_PROP_BOND_TYPE) {
+					if (BondTypes.empty ()) {
+						BondTypes["Solid"] = 0;
+						BondTypes["Dash"] = 1;
+						BondTypes["Hash"] = 2;
+						BondTypes["WedgedHashBegin"] = 3;
+						BondTypes["WedgedHashEnd"] = 4;
+						BondTypes["Bold"] = 5;
+						BondTypes["WedgeBegin"] = 6;
+						BondTypes["WedgeEnd"] = 7;
+						BondTypes["Wavy"] = 8;
+						BondTypes["HollowWedgeBegin"] = 9;
+						BondTypes["HollowWedgeEnd"] = 10;
+						BondTypes["WavyWedgeBegin"] = 11;
+						BondTypes["WavyWedgeEnd"] = 12;
+						BondTypes["Dot"] = 13;
+						BondTypes["DashDot"] = 14;
+					}
+					switch (BondTypes[(char const *) *attrs]) {
+					case 1:
+					case 2:
+					case 3:
+						obj->SetProperty (GCU_PROP_BOND_TYPE, "hash");
+						break;
+					case 4:
+						obj->SetProperty (GCU_PROP_BOND_TYPE, "hash-invert");
+						break;
+					case 5:
+						obj->SetProperty (GCU_PROP_BOND_TYPE, "large");
+						break;
+					case 6:
+						obj->SetProperty (GCU_PROP_BOND_TYPE, "wedge");
+						break;
+					case 7:
+						obj->SetProperty (GCU_PROP_BOND_TYPE, "wedge-invert");
+						break;
+					case 8:
+						obj->SetProperty (GCU_PROP_BOND_TYPE, "squiggle");
+						break;
+					default:
+						obj->SetProperty (GCU_PROP_BOND_TYPE, "normal");
+					}
+				} else if ((*it).second == GCU_PROP_BOND_ORDER) {
+					unsigned order = atoi ((char const *) *attrs);
+					switch (order) {
+					case 2:
+						obj->SetProperty (GCU_PROP_BOND_ORDER, "2");
+						break;
+					case 4:
+						obj->SetProperty (GCU_PROP_BOND_ORDER, "3");
+						break;
+					default:
+						obj->SetProperty (GCU_PROP_BOND_ORDER, "1");
+						break;
+					}
+				} else if (!obj->SetProperty ((*it).second, (char const *) *attrs)) {
+					CDXMLProps p;
+					p.obj = obj;
+					p.property = (*it).second;
+					p.value = (char const *) *attrs;
+					state->failed.push_back (p);
 				}
-				switch (BondTypes[(char const *) *attrs]) {
-				case 1:
-				case 2:
-				case 3:
-					obj->SetProperty (GCU_PROP_BOND_TYPE, "hash");
-					break;
-				case 4:
-					obj->SetProperty (GCU_PROP_BOND_TYPE, "hash-invert");
-					break;
-				case 5:
-					obj->SetProperty (GCU_PROP_BOND_TYPE, "large");
-					break;
-				case 6:
-					obj->SetProperty (GCU_PROP_BOND_TYPE, "wedge");
-					break;
-				case 7:
-					obj->SetProperty (GCU_PROP_BOND_TYPE, "wedge-invert");
-					break;
-				case 8:
-					obj->SetProperty (GCU_PROP_BOND_TYPE, "squiggle");
-					break;
-				default:
-					obj->SetProperty (GCU_PROP_BOND_TYPE, "normal");
-				}
-			} else if ((*it).second == GCU_PROP_BOND_ORDER) {
-				unsigned order = atoi ((char const *) *attrs);
-				switch (order) {
-				case 2:
-					obj->SetProperty (GCU_PROP_BOND_ORDER, "2");
-					break;
-				case 4:
-					obj->SetProperty (GCU_PROP_BOND_ORDER, "3");
-					break;
-				default:
-					obj->SetProperty (GCU_PROP_BOND_ORDER, "1");
-					break;
-				}
-			} else if (!obj->SetProperty ((*it).second, (char const *) *attrs)) {
-				CDXMLProps p;
-				p.obj = obj;
-				p.property = (*it).second;
-				p.value = (char const *) *attrs;
-				state->failed.push_back (p);
 			}
+			attrs++;
 		}
-		attrs++;
-	}
 	state->cur.push (obj);
 	state->doc->ObjectLoaded (obj);
 }
@@ -267,12 +269,13 @@ cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->doc->ObjectLoaded (obj);
 	char *lowered;
 	map<string, unsigned>::iterator it;
-	while (*attrs)
-		if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
-			lowered = g_ascii_strdown ((char const *) *attrs++, -1);
-			obj->SetProperty ((*it).second, lowered);
-			g_free (lowered);
-		}
+	if (attrs)
+		while (*attrs)
+			if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
+				lowered = g_ascii_strdown ((char const *) *attrs++, -1);
+				obj->SetProperty ((*it).second, lowered);
+				g_free (lowered);
+			}
 	state->markup = "<text>";
 }
 
@@ -291,27 +294,28 @@ cdxml_string_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	state->attributes = 0;
-	while (*attrs) {
-		if (!strcmp ((char const *) *attrs, "font")) {
+	if (attrs)
+		while (*attrs) {
+			if (!strcmp ((char const *) *attrs, "font")) {
+				attrs++;
+				state->font = atoi ((char const *) *attrs);
+				state->markup += "<font name=\"";
+				state->markup += state->fonts[state->font].name;
+				state->markup += " ";
+			} else if (!strcmp ((char const *) *attrs, "face"))  {
+				attrs++;
+				state->attributes |= atoi ((char const *) *attrs);
+			} else if (!strcmp ((char const *) *attrs, "size"))  {
+				attrs++;
+				state->size = (char const *) *attrs;
+			} else if (!strcmp ((char const *) *attrs, "color"))  {
+				attrs++;
+				state->attributes |= 0x100;
+				state->color = atoi ((char const *) *attrs);
+			} else
+				attrs ++;
 			attrs++;
-			state->font = atoi ((char const *) *attrs);
-			state->markup += "<font name=\"";
-			state->markup += state->fonts[state->font].name;
-			state->markup += " ";
-		} else if (!strcmp ((char const *) *attrs, "face"))  {
-			attrs++;
-			state->attributes |= atoi ((char const *) *attrs);
-		} else if (!strcmp ((char const *) *attrs, "size"))  {
-			attrs++;
-			state->size = (char const *) *attrs;
-		} else if (!strcmp ((char const *) *attrs, "color"))  {
-			attrs++;
-			state->attributes |= 0x100;
-			state->color = atoi ((char const *) *attrs);
-		} else
-			attrs ++;
-		attrs++;
-	}
+		}
 	state->markup += string (" ") + state->size + "\">";
 	if (state->attributes & 0x100)
 		state->markup += string ("<fore ") + state->colors[state->color] + ">";
@@ -337,6 +341,7 @@ cdxml_string_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	bool opened = true;
 	//TODO: add xin->content->str
+puts(xin->content->str);
 	if ((state->attributes & 0x60) == 0x60) {
 		// for now put all numbers as subscripts
 		// FIXME: fix this kludgy code
@@ -545,33 +550,34 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->doc->ObjectLoaded (obj);
 	map<string, unsigned>::iterator it;
 	bool fragment = false;
-	while (*attrs) {
-		if ((it = KnownProps.find ((char const *) *attrs)) != KnownProps.end ()) {
-			attrs++;
-			obj->SetProperty ((*it).second, (char const *) *attrs);
-		} else if (!strcmp ((char const *) *attrs++, "NodeType")) {
-			if (!strcmp ((char const *) *attrs, "Fragment") ||
-				!strcmp ((char const *) *attrs, "Nickname") ||
-				!strcmp ((char const *) *attrs, "Unspecified") ||
-				!strcmp ((char const *) *attrs, "GenericNickname"))
-				fragment = true;
-			else if (!strcmp ((char const *) *attrs, "ExternalConnectionPoint")) {
-				// convert the atom to a pseudo atom.
-				string pos = obj->GetProperty (GCU_PROP_POS2D);
-				string id = obj->GetProperty (GCU_PROP_ID);
-				Molecule *mol = dynamic_cast <Molecule *> (state->cur.top ());
-				if (mol)
-					mol->Remove (obj);
-				delete obj;
-				obj = state->app->CreateObject ("pseudo-atom", state->cur.top ());
-				if (id.length ())
-					obj->SetProperty (GCU_PROP_ID, id.c_str ());
-				obj->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+	if (attrs)
+		while (*attrs) {
+			if ((it = KnownProps.find ((char const *) *attrs)) != KnownProps.end ()) {
+				attrs++;
+				obj->SetProperty ((*it).second, (char const *) *attrs);
+			} else if (!strcmp ((char const *) *attrs++, "NodeType")) {
+				if (!strcmp ((char const *) *attrs, "Fragment") ||
+					!strcmp ((char const *) *attrs, "Nickname") ||
+					!strcmp ((char const *) *attrs, "Unspecified") ||
+					!strcmp ((char const *) *attrs, "GenericNickname"))
+					fragment = true;
+				else if (!strcmp ((char const *) *attrs, "ExternalConnectionPoint")) {
+					// convert the atom to a pseudo atom.
+					string pos = obj->GetProperty (GCU_PROP_POS2D);
+					string id = obj->GetProperty (GCU_PROP_ID);
+					Molecule *mol = dynamic_cast <Molecule *> (state->cur.top ());
+					if (mol)
+						mol->Remove (obj);
+					delete obj;
+					obj = state->app->CreateObject ("pseudo-atom", state->cur.top ());
+					if (id.length ())
+						obj->SetProperty (GCU_PROP_ID, id.c_str ());
+					obj->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+				}
+				attrs++;
 			}
 			attrs++;
 		}
-		attrs++;
-	}
 	state->cur.push (obj);
 	if (fragment) {
 		static GsfXMLInDoc *doc = NULL;
@@ -589,15 +595,16 @@ cdxml_font_start (GsfXMLIn *xin, xmlChar const **attrs)
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	CDXMLFont font;
 	font.index = 0;
-	while (*attrs) {
-		if (!strcmp ((char const *) *attrs, "id"))
-			font.index = atoi ((char const *) *(attrs + 1));
-		else if (!strcmp ((char const *) *attrs, "charset"))
-			font.encoding = (char const *) *(attrs + 1);
-		else if (!strcmp ((char const *) *attrs, "name"))
-			font.name = (char const *) *(attrs + 1);
-		attrs += 2;
-	}
+	if (attrs)
+		while (*attrs) {
+			if (!strcmp ((char const *) *attrs, "id"))
+				font.index = atoi ((char const *) *(attrs + 1));
+			else if (!strcmp ((char const *) *attrs, "charset"))
+				font.encoding = (char const *) *(attrs + 1);
+			else if (!strcmp ((char const *) *attrs, "name"))
+				font.name = (char const *) *(attrs + 1);
+			attrs += 2;
+		}
 	state->fonts[font.index] = font;
 }
 
@@ -635,29 +642,30 @@ cdxml_graphic_start (GsfXMLIn *xin, xmlChar const **attrs)
 	guint32 Id = 0;
 	guint16 type = 0xffff, arrow_type = 0xffff;
 	double x0, y0, x1, y1;
-	while (*attrs) {
-		if (!strcmp ((char const *) *attrs, "id"))
-			Id = atoi ((char const *) attrs[1]);
-		else if (!strcmp ((char const *) *attrs, "BoundingBox")) {
-			istringstream str (reinterpret_cast <char const *> (attrs[1]));
-			str >> x1 >> y1 >> x0 >> y0;
-		} else if (!strcmp ((char const *) *attrs, "GraphicType")) {
-			if (!strcmp ((char const *) attrs[1], "Line"))
-				type = 1;
-		} else if (!strcmp ((char const *) *attrs, "ArrowType")) {
-			if (!strcmp ((char const *) attrs[1], "FullHead") || !strcmp ((char const *) attrs[1], "HalfHead"))
-				arrow_type = 2;
-			else if (!strcmp ((char const *) attrs[1], "Resonance"))
-				arrow_type = 4;
-			else if (!strcmp ((char const *) attrs[1], "Equilibrium"))
-				arrow_type = 8;
-			else if (!strcmp ((char const *) attrs[1], "Hollow"))
-				arrow_type = 16;
-			else if (!strcmp ((char const *) attrs[1], "RetroSynthetic"))
-				arrow_type = 32;
+	if (attrs)
+		while (*attrs) {
+			if (!strcmp ((char const *) *attrs, "id"))
+				Id = atoi ((char const *) attrs[1]);
+			else if (!strcmp ((char const *) *attrs, "BoundingBox")) {
+				istringstream str (reinterpret_cast <char const *> (attrs[1]));
+				str >> x1 >> y1 >> x0 >> y0;
+			} else if (!strcmp ((char const *) *attrs, "GraphicType")) {
+				if (!strcmp ((char const *) attrs[1], "Line"))
+					type = 1;
+			} else if (!strcmp ((char const *) *attrs, "ArrowType")) {
+				if (!strcmp ((char const *) attrs[1], "FullHead") || !strcmp ((char const *) attrs[1], "HalfHead"))
+					arrow_type = 2;
+				else if (!strcmp ((char const *) attrs[1], "Resonance"))
+					arrow_type = 4;
+				else if (!strcmp ((char const *) attrs[1], "Equilibrium"))
+					arrow_type = 8;
+				else if (!strcmp ((char const *) attrs[1], "Hollow"))
+					arrow_type = 16;
+				else if (!strcmp ((char const *) attrs[1], "RetroSynthetic"))
+					arrow_type = 32;
+			}
+			attrs+=2;
 		}
-		attrs+=2;
-	}
 	if (type == 1) {
 		Object *obj = NULL;
 		ostringstream str;

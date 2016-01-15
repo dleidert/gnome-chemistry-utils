@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/document.cc
  *
- * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2016 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -38,7 +38,8 @@ namespace gcu
 
 
 Document::Document (Application *App): Object (DocumentType),
-m_Empty (true)
+	m_Empty (true),
+	m_Scale(1)
 {
 	m_App = App;
 	if (m_App)

@@ -36,6 +36,7 @@
 #include <glib/gi18n-lib.h>
 #include <list>
 #include <cstring>
+#include <sstream>
 
 using namespace gcu;
 
@@ -202,7 +203,8 @@ bool Arrow::SetProperty (unsigned property, char const *value)
 	switch (property) {
 	case GCU_PROP_ARROW_COORDS: {
 		double x0, y0, x1, y1;
-		sscanf (value, "%lg %lg %lg %lg", &x0, &y0, &x1, &y1);
+		std::istringstream str (value);
+		str >> x0 >> y0 >> x1 >> y1;
 		gcu::Document *doc = GetDocument ();
 		if (doc) {
 			x0 *= doc->GetScale ();
