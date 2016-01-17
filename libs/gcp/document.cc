@@ -438,7 +438,8 @@ void Document::Save () const
 		const_cast <Document *> (this)->SetReadOnly (false);
 		const_cast <Document *> (this)->SetDirty (false);
 		const_cast <Document *> (this)->m_LastStackSize = m_UndoList.size ();
-		const_cast <Document *> (this)->m_OpID = m_UndoList.front ()->GetID ();
+		if (m_UndoList.size () > 0)
+			const_cast <Document *> (this)->m_OpID = m_UndoList.front ()->GetID ();
 	}
 	catch (int num) {
 		if (xml)

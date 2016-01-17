@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-01-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: fixed a crasher.
+	* plugins/loaders/cdx/cdx.cc: enhanced style import.
+	* plugins/loaders/cdxml/cdxml.cc: fixed DTD.
+
 2016-01-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/arrow.cc: fix position setting through GetProperty().
 	* libs/gcp/fragment.cc: ditto.
