@@ -48,6 +48,7 @@
 #include <list>
 #include <cmath>
 #include <cstring>
+#include <sstream>
 
 using namespace gcu;
 using namespace std;
@@ -1409,7 +1410,8 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 	m_bLoading = true;
 	switch (property) {
 	case GCU_PROP_POS2D: {
-		sscanf (value, "%lg %lg", &m_x, &m_y);
+		std::istringstream str (value);
+		str >> m_x >> m_y;
 		gcu::Document *doc = GetDocument ();
 		if (doc) {
 			m_x *= doc->GetScale ();

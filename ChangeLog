@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2016-01-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.cc: fix position setting through GetProperty().
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcu/document.cc: fixed an uninitialized member condition.
+	* plugins/loaders/cdxml/cdxml.cc: protect against NULL attributes.
+
 2016-01-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: fixed two crashers.
 
