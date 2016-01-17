@@ -4,7 +4,7 @@
  * CDXML files loader plugin
  * cdx.cc
  *
- * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2016 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -33,7 +33,9 @@
 #include <gcu/objprops.h>
 #include <gcu/residue.h>
 #include <gcp/atom.h>
+#include <gcp/document.h>
 #include <gcp/fragment.h>
+#include <gcp/theme.h>
 
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-output-memory.h>
@@ -119,6 +121,11 @@ static gint32 ReadInt (GsfInput *input, int size)
 	return res;
 }*/
 
+typedef struct {
+	guint32 Arrow;
+	std::list < unsigned > Reagents, Products, ObjectsAbove, ObjectsBelow;
+} StepData;
+
 class CDXLoader: public gcu::Loader
 {
 public:
@@ -138,6 +145,9 @@ private:
 	bool ReadGroup (GsfInput *in, Object *parent);
 	bool ReadGraphic (GsfInput *in, Object *parent);
 	bool ReadFragmentText (GsfInput *in, Object *parent);
+	bool ReadScheme (GsfInput *in, Object *parent);
+	bool ReadStep (GsfInput *in, Object *parent);
+	bool ReadArrow (GsfInput *in, Object *parent);
 	guint16 ReadSize (GsfInput *in);
 	bool ReadDate (GsfInput *in);
 
@@ -160,6 +170,9 @@ private:
 	map <string, bool (*) (CDXLoader *, GsfOutput *, Object const *, GOIOContext *)> m_WriteCallbacks;
 	map<unsigned, GOColor> m_Colors;
 	map <string, gint32> m_SavedIds;
+	std::map <gint32, std::string> m_LoadedIds;
+	std::map <gint32, gint32> m_Superseded;
+	std::list <StepData > m_Scheme;
 	gint32 m_MaxId;
 	unsigned m_Z;
 };
@@ -185,9 +198,13 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	if (doc == NULL || in == NULL)
 		return ContentTypeUnknown;
 	ContentType result = ContentType2D;
-	guint16 code;
+	guint16 code, labelfont = 0, captionfont = 0;
 	bufsize = 64;
 	buf = new char [bufsize];
+	double bond_dist_ratio = -1., bond_length = 30.;
+	ostringstream themedesc;
+	gcp::Theme *theme = NULL;
+	themedesc << "<?xml version=\"1.0\"?>" << std::endl << "<theme name=\"ChemDraw\"";
 	// note that we read 28 bytes here while headers for recent cdx files have only 22 bytes, remaining are 0x8000 (document) and its id (0)
 	if (!gsf_input_read (in, kCDX_HeaderLength, (guint8*) buf) || strncmp (buf, kCDX_HeaderString, kCDX_HeaderStringLen)) {
 		result = ContentTypeUnknown;
@@ -202,6 +219,26 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 
 	while (code) {
 		if (code & kCDXTag_Object) {
+			if (theme == NULL) { // time to set the theme
+				gcp::Document *cpDoc = dynamic_cast <gcp::Document *> (doc);
+				if (cpDoc != NULL) {
+					if (bond_dist_ratio > 0.) 
+						themedesc << " bond-dist=\"" << bond_length * bond_dist_ratio / 3. << "\"";
+					themedesc << "/>";
+					xmlDocPtr xml = xmlParseMemory (themedesc.str().c_str(), themedesc.str().length());
+					theme = new gcp::Theme (NULL);
+					theme->Load (xml->children);
+					xmlFreeDoc (xml);
+					gcp::Theme *LocalTheme = gcp::TheThemeManager.GetTheme (theme->GetName ().c_str ());
+					if (LocalTheme && *LocalTheme == *theme) {
+						cpDoc->SetTheme (LocalTheme);
+						delete theme;
+					} else {
+						gcp::TheThemeManager.AddFileTheme (theme, doc->GetTitle ().c_str ());
+						cpDoc->SetTheme (theme);
+					}
+				}
+			}
 			switch (code) {
 			case kCDXObj_Page:
 				if (!ReadPage (in, doc))
@@ -260,6 +297,272 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				ostringstream str;
 				str << length;
 				doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, str.str ().c_str ());
+				bond_length = length / 16384.;
+				themedesc << " bond-length=\"" << bond_length << "\" zoom-factor=\"3\"";
+				break;
+			}
+			case kCDXProp_BondSpacing: {
+				if (size != 2) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				guint16 val;
+				if (!(READINT16 (in, val))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				bond_dist_ratio = val / 1000.;
+				break;
+			}
+			case kCDXProp_LineWidth: {
+				if (size != 4) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				guint32 length;
+				if (!(READINT32 (in,length))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				double x = length / 16384. / 3.;
+				themedesc << " bond-width=\"" << x << "\" arrow-width=\"" << x << "\" hash-width=\"" << x << "\"";
+				break;
+			}
+			case kCDXProp_BoldWidth: {
+				if (size != 4) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				guint32 length;
+				if (!(READINT32 (in,length))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				// for wedges chemdraw uses 1,5 times this value, but this is not the case for GChemPaint, at least for now.
+				themedesc << " stereo-bond-width=\"" << length / 16384. / 3. << "\"";
+				break;
+			}
+			case kCDXProp_HashSpacing: {
+				if (size != 4) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				guint32 length;
+				if (!(READINT32 (in,length))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				// for wedges chemdraw uses 1,5 times this value, but this is not the case for GChemPaint, at least for now.
+				themedesc << " hash-dist=\"" << length / 16384. / 3. << "\"";
+				break;
+			}
+			case kCDXProp_ChainAngle: {
+				if (size != 4) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				guint32 length;
+				if (!(READINT32 (in, length))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				themedesc << " bond-angle=\"" << (length / 65536) << "\"";
+				break;
+			}
+			case kCDXProp_MarginWidth: {
+				if (size != 4) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				guint32 length;
+				if (!(READINT32 (in,length))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				double x = length / 16384. / 3.;
+				themedesc << " padding=\"" << x << "\" arrow-padding=\"" << x << "\" object-padding=\"" << x << "\" sign-padding=\"" << x << "\"";
+				break;
+			}
+			case kCDXProp_CaptionStyle: {
+				guint16 i;
+				if (size != 8) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				if (!(READINT16 (in, captionfont))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				if (!(READINT16 (in, i))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				switch (i & 3) { // we do not support anything else
+				default:
+				case 0:
+					themedesc << " text-font-style=\"normal\" text-font_weight=\"normal\"";
+					break;
+				case 1:
+					themedesc << " text-font-style=\"normal\" text-font_weight=\"bold\"";
+					break;
+				case 2:
+					themedesc << " text-font-style=\"italic\" text-font_weight=\"normal\"";
+					break;
+				case 3:
+					themedesc << " text-font-style=\"italic\" text-font_weight=\"bold\"";
+					break;
+				}
+				if (!(READINT16 (in, i))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				themedesc << " text-font-size=\"" << i * PANGO_SCALE / 20 << "\"";
+				// read the color, but don't use it for now since GChemPaint does not support
+				if (!(READINT16 (in, i))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				break;
+			}
+			case kCDXProp_CaptionStyleFont:
+				if (size != 2) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				if (!(READINT16 (in, captionfont))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				break;
+			case kCDXProp_CaptionStyleSize: {
+				if (size != 2) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				int i;
+				if (!(READINT16 (in, i))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				themedesc << " text-font-size=\"" << i * PANGO_SCALE / 20 << "\"";
+				break;
+			}
+			case kCDXProp_CaptionStyleFace: {
+				if (size != 2) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				int i;
+				if (!(READINT16 (in, i))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				switch (i & 3) { // we do not support anything else
+				default:
+				case 0:
+					themedesc << " text-font-style=\"normal\" text-font_weight=\"normal\"";
+					break;
+				case 1:
+					themedesc << " text-font-style=\"normal\" text-font_weight=\"bold\"";
+					break;
+				case 2:
+					themedesc << " text-font-style=\"italic\" text-font_weight=\"normal\"";
+					break;
+				case 3:
+					themedesc << " text-font-style=\"italic\" text-font_weight=\"bold\"";
+					break;
+				}
+				break;
+			}
+			case kCDXProp_LabelStyle: {
+				guint16 i;
+				if (size != 8) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				if (!(READINT16 (in, labelfont))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				if (!(READINT16 (in, i))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				switch (i & 3) { // we do not support anything else
+				default:
+				case 0:
+					themedesc << " font-style=\"normal\" font_weight=\"normal\"";
+					break;
+				case 1:
+					themedesc << " font-style=\"normal\" font_weight=\"bold\"";
+					break;
+				case 2:
+					themedesc << " font-style=\"italic\" font_weight=\"normal\"";
+					break;
+				case 3:
+					themedesc << " font-style=\"italic\" font_weight=\"bold\"";
+					break;
+				}
+				if (!(READINT16 (in, i))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				themedesc << " font-size=\"" << i * PANGO_SCALE / 20 << "\"";
+				// read the color, but don't use it for now since GChemPaint does not support
+				if (!(READINT16 (in, i))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				break;
+			}
+			case kCDXProp_LabelStyleFont:
+				if (size != 2) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				if (!(READINT16 (in, labelfont))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				break;
+			case kCDXProp_LabelStyleSize: {
+				if (size != 2) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				int i;
+				if (!(READINT16 (in, i))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				themedesc << " font-size=\"" << i * PANGO_SCALE / 20 << "\"";
+				break;
+			}
+			case kCDXProp_LabelStyleFace: {
+				if (size != 2) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				int i;
+				if (!(READINT16 (in, i))) {
+					result = ContentTypeUnknown;
+					break;
+				}
+				switch (i & 3) { // we do not support anything else
+				default:
+				case 0:
+					themedesc << " font-style=\"normal\" font_weight=\"normal\"";
+					break;
+				case 1:
+					themedesc << " font-style=\"normal\" font_weight=\"bold\"";
+					break;
+				case 2:
+					themedesc << " font-style=\"italic\" font_weight=\"normal\"";
+					break;
+				case 3:
+					themedesc << " font-style=\"italic\" font_weight=\"bold\"";
+					break;
+				}
 				break;
 			}
 			case kCDXProp_FontTable: {
@@ -278,11 +581,17 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					font.name = buf;
 					m_Fonts[font.index] = font;
 				}
+				std::map < unsigned, CDXFont>::iterator i = m_Fonts.find (labelfont);
+				if (i != m_Fonts.end ())
+					themedesc << " font-family=\"" << (*i).second.name.c_str() << "\"";
+				i = m_Fonts.find (captionfont);
+				if (i != m_Fonts.end ())
+					themedesc << " text-font-family=\"" << (*i).second.name.c_str() << "\"";
 			}
 			break;
 			case kCDXProp_ColorTable: {
-				colors.push_back ("red=\"1\" green=\"1\" blue=\"1\""); // white
 				colors.push_back ("red=\"0\" green=\"0\" blue=\"0\""); // black
+				colors.push_back ("red=\"1\" green=\"1\" blue=\"1\""); // white
 				unsigned nb = (size - 2) / 6;
 				if (!(READINT16 (in,size)) || size != nb)
 					return ContentTypeUnknown;
@@ -316,6 +625,8 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	}
 	delete [] buf;
 	m_Fonts.clear ();
+	m_LoadedIds.clear ();
+	m_Superseded.clear ();
 	return result;
 }
 
@@ -621,6 +932,10 @@ bool CDXLoader::ReadPage (GsfInput *in, Object *parent)
 				if (!ReadGraphic (in, parent))
 					return false;
 				break;
+			case kCDXObj_ReactionScheme:
+				if (!ReadScheme (in, parent))
+					return false;
+				break;
 			default:
 				if (!ReadGenericObject (in))
 					return false;
@@ -648,6 +963,7 @@ bool CDXLoader::ReadMolecule (GsfInput *in, Object *parent)
 	ostringstream str;
 	str << "m" << Id;
 	mol->SetId (str.str ().c_str ());
+	m_LoadedIds[Id] = mol->GetId ();
 	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
@@ -694,6 +1010,7 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 	ostringstream str;
 	str << "a" << Id;
 	Atom->SetId (str.str ().c_str ());
+	m_LoadedIds[Id] = Atom->GetId ();
 	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
@@ -1006,6 +1323,7 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 	ostringstream str;
 	str << "b" << Id;
 	Bond->SetId (str.str ().c_str ());
+	m_LoadedIds[Id] = Bond->GetId ();
 	Bond->SetProperty (GCU_PROP_BOND_ORDER, "1");
 	if (!(READINT16 (in,code)))
 		return false;
@@ -1108,6 +1426,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 	ostringstream str;
 	str << "t" << Id;
 	Text->SetId (str.str ().c_str ());
+	m_LoadedIds[Id] = Text->GetId ();
 	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
@@ -1185,12 +1504,12 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 											str << "</i>";
 										if (attrs0.face & 1)
 											str << "</b>";
-										str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 30. << "\">";
+										str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 30. << "\">";
 										str << "<fore " << colors[attrs.color] << ">";
 										str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
 										while (buf[cur] >= '0' && buf[cur] <= '9')
 											str << buf[cur++];
-										str << "</sub></fore></font><font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
+										str << "</sub></fore></font><font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 20. << "\">";
 										str << "<fore " << colors[attrs.color] << ">";
 										if (attrs0.face & 1)
 											str << "<b>";
@@ -1220,7 +1539,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 						}
 						if ((attrs.face & 0x60) != 0 && (attrs.face & 0x60) != 0x60)
 							attrs.size = attrs.size * 2 / 3;
-						str << "<font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
+						str << "<font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 20. << "\">";
 						str << "<fore " << colors[attrs.color] << ">";
 						if (attrs.face & 1)
 							str << "<b>";
@@ -1257,14 +1576,14 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 									str << "</i>";
 								if (attrs0.face & 1)
 									str << "</b>";
-								str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 30. << "\">";
+								str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 30. << "\">";
 								str << "<fore " << colors[attrs.color] << ">";
 								str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
 								while (buf[cur] >= '0' && buf[cur] <= '9')
 									str << buf[cur++];
 								str << "</sub></fore></font>";
 								if (cur < size) {
-									str << "<font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
+									str << "<font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 20. << "\">";
 									str << "<fore " << colors[attrs.color] << ">";
 									if (attrs0.face & 1)
 										str << "<b>";
@@ -1359,7 +1678,7 @@ bool CDXLoader::ReadGroup (GsfInput *in, Object *parent)
 	guint16 code;
 	Object *Group= parent->GetApplication ()->CreateObject ("group", parent);
 	Group->Lock ();
-	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id
+	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id, unless we need to store in in m_LoadedIds
 		return false;
 	if (!(READINT16 (in,code)))
 		return false;
@@ -1457,6 +1776,7 @@ bool CDXLoader::ReadGraphic  (GsfInput *in, Object *parent)
 		}
 		if (obj) {
 			obj->SetId (str.str ().c_str ());
+			m_LoadedIds[Id] = obj->GetId ();
 			ostringstream str_;
 			str_ << x0 << " " << y0 << " " << x1 << " " << y1;
 			obj->SetProperty (GCU_PROP_ARROW_COORDS, str_.str ().c_str ());
@@ -1496,7 +1816,7 @@ bool CDXLoader::ReadDate  (GsfInput *in)
 bool CDXLoader::ReadFragmentText (GsfInput *in, G_GNUC_UNUSED Object *parent)
 {
 	guint16 code;
-	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id
+	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id, unless we need it in m_LoadedIds
 		return false;
 	if (!(READINT16 (in,code)))
 		return false;
@@ -1551,6 +1871,119 @@ bool CDXLoader::ReadFragmentText (GsfInput *in, G_GNUC_UNUSED Object *parent)
 		if (!(READINT16 (in,code)))
 			return false;
 	}
+	return true;
+}
+
+bool CDXLoader::ReadScheme (GsfInput *in, Object *parent)
+{
+	guint16 code;
+	guint32 Id;
+	m_Scheme.clear ();
+	if (!(READINT32 (in,Id)))
+		return false;
+	ostringstream str;
+	str << "r" << Id;
+	gcu::Object *obj = parent->GetApplication ()->CreateObject ("reaction", parent);
+	obj->SetId (str.str ().c_str ());
+	m_LoadedIds[Id] = obj->GetId ();
+	if (!(READINT16 (in,code)))
+		return false;
+	while (code) {
+		if (code == kCDXObj_ReactionStep) {
+			if (!ReadStep (in, obj))
+				return false;
+		} else 
+			return false;
+		if (!(READINT16 (in,code)))
+			return false;
+	}
+	return true;
+}
+
+bool CDXLoader::ReadStep (GsfInput *in, Object *parent)
+{
+	unsigned i, max;
+	guint16 code;
+	guint32 id;
+	StepData data;
+	if (dynamic_cast < gcp::Document * > (parent) == NULL)
+	    parent = parent->GetDocument (); // we don't support anything else for now
+	// we don't need the Id, so skip it;
+	if (gsf_input_seek (in, 4, G_SEEK_CUR))
+		return false;
+	if (!(READINT16 (in,code)))
+		return false;
+	while (code) {
+		if (code & kCDXTag_Object)
+			return false; // this should not happen
+		else {
+			guint16 size;
+			if ((size = ReadSize (in)) == 0xffff)
+				return false;
+			switch (code) {
+			case kCDXProp_ReactionStep_Reactants:
+				if ((size % 4) != 0)
+					return false;
+				max = size / 4;
+				for (i = 0; i < max; i++) {
+					if (!(READINT32 (in, id)))
+						return false;
+					data.Reagents.push_back (id);
+				}
+				break;
+			case kCDXProp_ReactionStep_Products:
+				if ((size % 4) != 0)
+					return false;
+				max = size / 4;
+				for (i = 0; i < max; i++) {
+					if (!(READINT32 (in, id)))
+						return false;
+					data.Products.push_back (id);
+				}
+				break;
+			case kCDXProp_ReactionStep_ObjectsAboveArrow:
+				if ((size % 4) != 0)
+					return false;
+				max = size / 4;
+				for (i = 0; i < max; i++) {
+					if (!(READINT32 (in, id)))
+						return false;
+					data.ObjectsAbove.push_back (id);
+				}
+				break;
+			case kCDXProp_ReactionStep_ObjectsBelowArrow:
+				if ((size % 4) != 0)
+					return false;
+				max = size / 4;
+				for (i = 0; i < max; i++) {
+					if (!(READINT32 (in, id)))
+						return false;
+				}
+					data.ObjectsBelow.push_back (id);
+				break;
+			case kCDXProp_ReactionStep_Arrows:
+				if ((size % 4) != 0)
+					return false;
+				// reading only the firt arrow for now
+				if (!(READINT32 (in, data.Arrow)))
+						return false;
+				if (size > 4 && gsf_input_seek (in, size - 4, G_SEEK_CUR))
+					return false;
+				break;
+			default:
+				if (size && gsf_input_seek (in, size, G_SEEK_CUR))
+					return false;
+			}
+		}
+		if (!(READINT16 (in,code)))
+			return false;
+	}
+	m_Scheme.push_back (data);
+	return true;
+}
+
+bool CDXLoader::ReadArrow (GsfInput *in, Object *parent)
+{
 	return true;
 }
 

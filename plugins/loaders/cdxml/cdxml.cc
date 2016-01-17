@@ -341,7 +341,6 @@ cdxml_string_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	bool opened = true;
 	//TODO: add xin->content->str
-puts(xin->content->str);
 	if ((state->attributes & 0x60) == 0x60) {
 		// for now put all numbers as subscripts
 		// FIXME: fix this kludgy code
@@ -613,15 +612,16 @@ cdxml_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	string red, green, blue;
-	while (*attrs) {
-		if (!strcmp ((char const *) *attrs, "r"))
-			red = (char const *) attrs[1];
-		else if (!strcmp ((char const *) *attrs, "g"))
-			green = (char const *) attrs[1];
-		else if (!strcmp ((char const *) *attrs, "b"))
-			blue = (char const *) attrs[1];
-		attrs += 2;
-	}
+	if (attrs)
+		while (*attrs) {
+			if (!strcmp ((char const *) *attrs, "r"))
+				red = (char const *) attrs[1];
+			else if (!strcmp ((char const *) *attrs, "g"))
+				green = (char const *) attrs[1];
+			else if (!strcmp ((char const *) *attrs, "b"))
+				blue = (char const *) attrs[1];
+			attrs += 2;
+		}
 	state->colors.push_back (string ("red=\"") + red + "\" green=\"" + green + "\" blue=\"" + blue + "\"");
 }
 
@@ -714,8 +714,8 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 			GSF_XML_IN_NODE (T, S, -1, "s", GSF_XML_CONTENT, cdxml_string_start, cdxml_string_end),
 		GSF_XML_IN_NODE (PAGE, FRAGMENT, -1, "fragment", GSF_XML_CONTENT, &cdxml_fragment_start, &cdxml_fragment_end),
 			GSF_XML_IN_NODE (FRAGMENT, NODE, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
+				GSF_XML_IN_NODE (NODE, T, -1, "t", GSF_XML_NO_CONTENT, NULL, NULL),
 			GSF_XML_IN_NODE (FRAGMENT, BOND, -1, "b", GSF_XML_CONTENT, cdxml_bond_start, cdxml_simple_end),
-			GSF_XML_IN_NODE (FRAGMENT, T1, -1, "t", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, GROUP, -1, "group", GSF_XML_CONTENT, cdxml_group_start, cdxml_simple_end),
 			GSF_XML_IN_NODE (GROUP, FRAGMENT1, -1, "fragment", GSF_XML_CONTENT, cdxml_fragment_start, cdxml_simple_end),
 				GSF_XML_IN_NODE (FRAGMENT1, NODE1, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
