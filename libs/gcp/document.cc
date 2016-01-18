@@ -1191,20 +1191,16 @@ void Document::OnThemeNamesChanged ()
 double Document::GetMedianBondLength ()
 {
 	vector <double> lengths;
-	int max = 128, nb = 0;
-	lengths.reserve (max);
+	int failed;
+	lengths.reserve (128);
 	double result = 0.;
 	stack<map< string, Object * >::iterator> iters;
 	map< string, Object * >::iterator m;
 	Object *Cur = this, *Ob = GetFirstChild (m);
 	while (Ob) {
-		if (Ob->GetType () == gcu::BondType) {
-			if (nb == max) {
-				max += 128;
-				lengths.resize (max);
-			}
-			lengths[nb++] = static_cast <Bond *> (Ob)->Get2DLength ();
-		} else if (Ob->HasChildren ()) {
+		if (Ob->GetType () == gcu::BondType)
+			lengths.push_back (static_cast <Bond *> (Ob)->Get2DLength ());
+		else if (Ob->HasChildren ()) {
 			Cur = Ob;
 			iters.push (m);
 			Ob = Cur->GetFirstChild (m);
@@ -1218,9 +1214,9 @@ double Document::GetMedianBondLength ()
 			Ob = Cur->GetNextChild (m);
 		}
 	}
-	if (nb > 0)
-		go_range_median_inter_nonconst (&lengths[0], nb, &result);
-	return result;
+	if (lengths.size () > 0)
+		failed = go_range_median_inter_nonconst (&lengths[0], lengths.size (), &result);
+	return (failed)? 0: result;
 }
 
 bool Document::SetProperty (unsigned property, char const *value)

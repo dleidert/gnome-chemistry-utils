@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2016-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: fixed GetMedianBondLength().
+	* plugins/loaders/cdx/cdx.cc: just convert distances to points.
+
 2016-01-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: fixed a crasher.
 	* plugins/loaders/cdx/cdx.cc: enhanced style import.

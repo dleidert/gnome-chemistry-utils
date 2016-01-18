@@ -215,7 +215,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	}
 
 	// set a default scale
-	doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, "1966080");
+	doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, "65536");
 
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -296,7 +296,6 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				}
 				ostringstream str;
 				str << length;
-				doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, str.str ().c_str ());
 				bond_length = length / 16384.;
 				themedesc << " bond-length=\"" << bond_length << "\" zoom-factor=\"3\"";
 				break;
