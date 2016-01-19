@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-01-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: fix scale for CDX documents.
+	* libs/gcu/objprops.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+
 2016-01-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: fixed a crasher.
 	* plugins/loaders/cdx/cdx.cc: enhanced style import.

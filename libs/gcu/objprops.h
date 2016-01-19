@@ -103,9 +103,14 @@ The date of the last file modification.
 	GCU_PROP_DOC_MODIFICATION_TIME,
 	// Theme related properties (might be doc properties in some formats)
 /*!
-The default bond length.
+The default bond length, to use when importing files with an unknown theme.
 */
 	GCU_PROP_THEME_BOND_LENGTH,
+/*!
+The number of coordinates units in one real unit. This is to import files with
+a known theme but a scaled unit (like CDX).
+*/
+	GCU_PROP_THEME_SCALE,
 	// Atom properties
 /*!
 The symbol of an atom.
