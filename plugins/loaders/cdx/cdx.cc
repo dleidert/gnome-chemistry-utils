@@ -214,8 +214,8 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 		code = 0;
 	}
 
-	// set a default scale
-	doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, "65536");
+	// set the scale
+	doc->SetProperty (GCU_PROP_THEME_SCALE, "16384");
 
 	while (code) {
 		if (code & kCDXTag_Object) {

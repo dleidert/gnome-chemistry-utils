@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-01-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: fix scale for CDX documents.
+	* libs/gcu/objprops.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+
 2016-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: fixed GetMedianBondLength().
 	* plugins/loaders/cdx/cdx.cc: just convert distances to points.

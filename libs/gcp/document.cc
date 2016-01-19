@@ -1254,6 +1254,14 @@ bool Document::SetProperty (unsigned property, char const *value)
 		gcu::Document::SetScale (m_Theme->GetBondLength () / length);
 		break;
 	}
+	case GCU_PROP_THEME_SCALE: {
+		char *end;
+		double length = strtod (value, &end);
+		if (*end != 0)
+			return false;
+		gcu::Document::SetScale (1. / length);
+		break;
+	}
 	}
 	return true;
 }
