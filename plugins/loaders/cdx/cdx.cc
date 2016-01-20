@@ -1420,6 +1420,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 	Object *Text= parent->GetApplication ()->CreateObject ("text", parent);
 	guint32 Id;
 	guint8 TextAlign = 0xfe, TextJustify = 0xfe;
+	char *utf8str;
 	if (!(READINT32 (in,Id)))
 		return false;
 	ostringstream str;
@@ -1461,11 +1462,11 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 				list <attribs> attributes;
 				size -=2;
 				guint16 *n = &attrs.index;
-				for (int i =0; i < nb; i++) {
+				for (int i = 0; i < nb; i++) {
 					if (size < 10)
 						return false;
 					for (int j = 0; j < 5; j++)
-						if (!(READINT16 (in,n[j])))
+						if (!(READINT16 (in, n[j])))
 							return false;
 					attributes.push_back (attrs);
 					size -= 10;
@@ -1476,7 +1477,10 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 					if (!gsf_input_read (in, size, (guint8*) buf))
 						return false;
 					buf[size] = 0;
-					Text->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+					utf8str = g_convert (buf, size, "utf-8", Charsets[m_Fonts[attrs.font].encoding].c_str (),
+					                           NULL, NULL, NULL);
+					Text->SetProperty (GCU_PROP_TEXT_TEXT, utf8str);
+					g_free (utf8str);
 				} else {
 					ostringstream str;
 					str << "<text>";
@@ -1488,14 +1492,15 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 							if (!gsf_input_read (in, attrs0.index, (guint8*) buf))
 								return false;
 							buf[attrs0.index] = 0;
-							// supposing the text is ASCII !!
+							utf8str = g_convert (buf, size, "utf-8", Charsets[m_Fonts[attrs.font].encoding].c_str (),
+									                   NULL, NULL, NULL);
 							if (interpret) {
 								// for now put all numbers as subscripts
 								// FIXME: fix this kludgy code
 								int cur = 0;
 								while (cur < attrs0.index) {
-									while (cur < attrs0.index && (buf[cur] < '0' || buf[cur] > '9'))
-										str << buf[cur++];
+									while (cur < attrs0.index && (utf8str[cur] < '0' || utf8str[cur] > '9'))
+										str << utf8str[cur++];
 									if (cur < attrs0.index) {
 										if (attrs0.face & 4)
 											str << "</u>";
@@ -1506,8 +1511,8 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 										str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 30. << "\">";
 										str << "<fore " << colors[attrs.color] << ">";
 										str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
-										while (buf[cur] >= '0' && buf[cur] <= '9')
-											str << buf[cur++];
+										while (utf8str[cur] >= '0' && utf8str[cur] <= '9')
+											str << utf8str[cur++];
 										str << "</sub></fore></font><font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 20. << "\">";
 										str << "<fore " << colors[attrs.color] << ">";
 										if (attrs0.face & 1)
@@ -1519,7 +1524,8 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 									}
 								}
 							} else
-								str << buf;
+								str << utf8str;
+							g_free (utf8str);
 							size -= attrs0.index;
 							if ((attrs0.face & 0x60) == 0x60)
 								interpret = false;
@@ -1560,14 +1566,16 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 						return false;
 					buf[size] = 0;
 					bool opened = true;
+					utf8str = g_convert (buf, size, "utf-8", Charsets[m_Fonts[attrs.font].encoding].c_str (),
+					                           NULL, NULL, NULL);
 					// supposing the text is ASCII!!
 					if (interpret) {
 						// for now put all numbers as subscripts
 						// FIXME: fix this kludgy code
 						int cur = 0;
 						while (cur < size) {
-							while (cur < size && (buf[cur] < '0' || buf[cur] > '9'))
-								str << buf[cur++];
+							while (cur < size && (utf8str[cur] < '0' || utf8str[cur] > '9'))
+								str << utf8str[cur++];
 							if (cur < size) {
 								if (attrs0.face & 4)
 									str << "</u>";
@@ -1578,8 +1586,8 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 								str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 30. << "\">";
 								str << "<fore " << colors[attrs.color] << ">";
 								str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
-								while (buf[cur] >= '0' && buf[cur] <= '9')
-									str << buf[cur++];
+								while (utf8str[cur] >= '0' && utf8str[cur] <= '9')
+									str << utf8str[cur++];
 								str << "</sub></fore></font>";
 								if (cur < size) {
 									str << "<font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 20. << "\">";
@@ -1595,7 +1603,8 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 							}
 						}
 					} else
-						str << buf;
+						str << utf8str;
+					g_free (utf8str);
 					if (opened) {
 						if ((attrs0.face & 0x60) != 0x60) {
 							if (attrs0.face & 0x40)
