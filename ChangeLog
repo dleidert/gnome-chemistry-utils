@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-01-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/scheme.cc: allow missing products in reactions again.
+	* plugins/loaders/cdx/cdx.cc: fix strings encoding while loading. Import
+	reaction and mesomery.
+
 2016-01-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: fix scale for CDX documents.
 	* libs/gcu/objprops.h: ditto.

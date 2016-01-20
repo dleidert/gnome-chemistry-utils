@@ -159,48 +159,52 @@ static void AlignArrow (Arrow *arrow, StepData &sd0, StepData &sd1, double Arrow
 		reversed = true;
 	} else
 		reversed = false;
-	x = sd1.x - sd0.x;
-	y = sd1.y - sd0.y;
-	l = sqrt (x * x + y * y);
-	x /= l;
-	y /= l;
-	if ((fabs (x) > 1e-5) && (fabs (y) > 1e-5))
-		horiz = (fabs (x) > fabs (y));
-	else if (fabs (x) > 1e-5)
-		horiz = true;
-	else
-		horiz = false;
-	if (horiz) {
-		if (x > 0)
-			dx = sd0.r.x1 - sd0.x + ArrowPadding;
+	if (sd1.s) {
+		x = sd1.x - sd0.x;
+		y = sd1.y - sd0.y;
+		l = sqrt (x * x + y * y);
+		x /= l;
+		y /= l;
+		if ((fabs (x) > 1e-5) && (fabs (y) > 1e-5))
+			horiz = (fabs (x) > fabs (y));
+		else if (fabs (x) > 1e-5)
+			horiz = true;
 		else
-			dx = sd0.r.x0 - sd0.x - ArrowPadding;
-		dy = dx * y / x;
+			horiz = false;
+		if (horiz) {
+			if (x > 0)
+				dx = sd0.r.x1 - sd0.x + ArrowPadding;
+			else
+				dx = sd0.r.x0 - sd0.x - ArrowPadding;
+			dy = dx * y / x;
+		} else {
+			if (y > 0)
+				dy = sd0.r.y1 - sd0.y + ArrowPadding;
+			else
+				dy = sd0.r.y0 - sd0.y - ArrowPadding;
+			dx = dy * x / y;
+		}
+		x0 = (dx + sd0.x) / ZoomFactor;
+		y0 = (dy + sd0.y) / ZoomFactor;
+		if (horiz) {
+			if (x > 0)
+				dx = sd1.x - sd1.r.x0 + ArrowPadding;
+			else
+				dx = sd1.x - sd1.r.x1 - ArrowPadding;
+			dy = dx * y / x;
+		} else {
+			if (y > 0)
+				dy = sd1.y - sd1.r.y0 + ArrowPadding;
+			else
+				dy = sd1.y - sd1.r.y1 - ArrowPadding;
+			dx = dy * x / y;
+		}
+		x1 = (sd1.x - dx) / ZoomFactor;
+		y1 = (sd1.y - dy) / ZoomFactor;
+		arrow->SetCoords (x0, y0, x1, y1);
 	} else {
-		if (y > 0)
-			dy = sd0.r.y1 - sd0.y + ArrowPadding;
-		else
-			dy = sd0.r.y0 - sd0.y - ArrowPadding;
-		dx = dy * x / y;
+		// FIXME: do we need to do something in that case?
 	}
-	x0 = (dx + sd0.x) / ZoomFactor;
-	y0 = (dy + sd0.y) / ZoomFactor;
-	if (horiz) {
-		if (x > 0)
-			dx = sd1.x - sd1.r.x0 + ArrowPadding;
-		else
-			dx = sd1.x - sd1.r.x1 - ArrowPadding;
-		dy = dx * y / x;
-	} else {
-		if (y > 0)
-			dy = sd1.y - sd1.r.y0 + ArrowPadding;
-		else
-			dy = sd1.y - sd1.r.y1 - ArrowPadding;
-		dx = dy * x / y;
-	}
-	x1 = (sd1.x - dx) / ZoomFactor;
-	y1 = (sd1.y - dy) / ZoomFactor;
-	arrow->SetCoords (x0, y0, x1, y1);
 	if (reversed)
 		arrow->Reverse ();
 }
@@ -330,15 +334,18 @@ void Scheme::Align () throw (std::invalid_argument)
 			(*j).second->Reverse ();
 		positions[(*j).first] = sd;
 	}
-	/* now add one mesomer to each growing chain and terminate chains when the end is
+	/* now add one step to each growing chain and terminate chains when the end is
 	reached or when a cycle is found */
 	while (!chains.empty ()) {
 		cend = chains.end ();
 		for (c = chains.begin (); c != cend; c++) {
-			// here we need the end of the chain and the previous mesomer
+			// here we need the end of the chain and the previous step
 			sr = (*c)->steps.rbegin ();
 			step0 = *sr;
-			sr++;
+			while (step0 == NULL) { // only the last step might be NULL
+				sr++;
+				step0 = *sr;
+			}
 			step = *sr;
 			arrows = step0->GetArrows ();
 			switch (arrows->size ()) {
@@ -359,7 +366,7 @@ void Scheme::Align () throw (std::invalid_argument)
 				sd0 = positions[step0];
 				sd = positions[(*j).first];
 				if (core.find ((*j).first) != core.end ()) {
-					// we reach a mesomer already in the core: cycle
+					// we reach a step already in the core: cycle
 					if (core.find (step0) == core.end ()) {
 						// find start atom for the chain
 						ch = *c;
@@ -421,6 +428,8 @@ void Scheme::Align () throw (std::invalid_argument)
 						reversed = true;
 					} else
 						reversed = false;
+					if ((*j).first == NULL)
+						continue;
 					sd0 = positions[step0];
 					sd = positions[(*j).first];
 					if (core.find ((*j).first) != core.end ()) {
@@ -488,13 +497,24 @@ void Scheme::Align () throw (std::invalid_argument)
 	// really move steps
 	std::map < gcu::Object*, StepData >::iterator p, pend= positions.end ();
 	for (p = positions.begin (); p != pend; p++)
-		(*p).first->Move ((*p).second.dx / theme->GetZoomFactor (), (*p).second.dy / theme->GetZoomFactor ());
+		if ((*p).first != NULL)
+			(*p).first->Move ((*p).second.dx / theme->GetZoomFactor (), (*p).second.dy / theme->GetZoomFactor ());
 	Arrow *arrow;
+	StepData dummy;
+	dummy.s = NULL;
+	dummy.x = go_nan;
 	for (obj = GetFirstChild (i); obj; obj = GetNextChild (i))
 		if ((arrow = dynamic_cast < Arrow * > (obj)) != NULL) {
-			sd = positions[arrow->GetStartStep ()];
-			sd0 = positions[arrow->GetEndStep ()];
-			AlignArrow (arrow, sd, sd0, theme->GetArrowPadding (), theme->GetZoomFactor ());
+			if (arrow->GetStartStep ())
+				sd = positions[arrow->GetStartStep ()];
+			if (arrow->GetEndStep ())
+				sd0 = positions[arrow->GetEndStep ()];
+			else
+				sd0 = dummy;
+			if (arrow->GetStartStep ())
+				AlignArrow (arrow, sd, sd0, theme->GetArrowPadding (), theme->GetZoomFactor ());
+			else
+				AlignArrow (arrow, sd0, dummy, theme->GetArrowPadding (), theme->GetZoomFactor ());
 		}
 	view->Update (this);
 }
