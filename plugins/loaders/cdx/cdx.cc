@@ -122,9 +122,13 @@ static gint32 ReadInt (GsfInput *input, int size)
 }*/
 
 typedef struct {
-	guint32 Arrow;
-	std::list < unsigned > Reagents, Products, ObjectsAbove, ObjectsBelow;
+	std::list < unsigned > Arrows, Reagents, Products, ObjectsAbove, ObjectsBelow;
 } StepData;
+
+typedef struct {
+	unsigned Id;
+	std::list < StepData > Steps;
+} SchemeData;
 
 class CDXLoader: public gcu::Loader
 {
@@ -150,6 +154,7 @@ private:
 	bool ReadArrow (GsfInput *in, Object *parent);
 	guint16 ReadSize (GsfInput *in);
 	bool ReadDate (GsfInput *in);
+	void BuildScheme (gcu::Document *doc, SchemeData &scheme);
 
 	bool WriteObject (GsfOutput *out, Object const *object, GOIOContext *io);
 	static void AddInt16Property (GsfOutput *out, gint16 prop, gint16 value);
@@ -166,13 +171,15 @@ private:
 	map<unsigned, CDXFont> m_Fonts;
 	vector <string> colors;
 	guint8 m_TextAlign, m_TextJustify;
+	unsigned m_Charset;
 
 	map <string, bool (*) (CDXLoader *, GsfOutput *, Object const *, GOIOContext *)> m_WriteCallbacks;
 	map<unsigned, GOColor> m_Colors;
-	map <string, gint32> m_SavedIds;
-	std::map <gint32, std::string> m_LoadedIds;
-	std::map <gint32, gint32> m_Superseded;
-	std::list <StepData > m_Scheme;
+	map <string, guint32> m_SavedIds;
+	std::map <guint32, std::string> m_LoadedIds;
+	std::map <guint32, guint32> m_Superseded;
+	SchemeData m_Scheme;
+	std::list < SchemeData > m_Schemes;
 	gint32 m_MaxId;
 	unsigned m_Z;
 };
@@ -621,6 +628,13 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 			result = ContentTypeUnknown;
 			break;
 		}
+	}
+	// time to build reaction schemes and the like
+	std::list < SchemeData >::iterator i, iend = m_Schemes.end ();
+	for (i = m_Schemes.begin (); i != iend; i++) {
+		if ((*i).Steps.empty ())
+			continue;
+		BuildScheme (doc, *i);
 	}
 	delete [] buf;
 	m_Fonts.clear ();
@@ -1885,26 +1899,21 @@ bool CDXLoader::ReadFragmentText (GsfInput *in, G_GNUC_UNUSED Object *parent)
 bool CDXLoader::ReadScheme (GsfInput *in, Object *parent)
 {
 	guint16 code;
-	guint32 Id;
-	m_Scheme.clear ();
-	if (!(READINT32 (in,Id)))
+	m_Scheme.Steps.clear ();
+	if (!(READINT32 (in,m_Scheme.Id)))
 		return false;
-	ostringstream str;
-	str << "r" << Id;
-	gcu::Object *obj = parent->GetApplication ()->CreateObject ("reaction", parent);
-	obj->SetId (str.str ().c_str ());
-	m_LoadedIds[Id] = obj->GetId ();
 	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
 		if (code == kCDXObj_ReactionStep) {
-			if (!ReadStep (in, obj))
+			if (!ReadStep (in, parent))
 				return false;
 		} else 
 			return false;
 		if (!(READINT16 (in,code)))
 			return false;
 	}
+	m_Schemes.push_back (m_Scheme);
 	return true;
 }
 
@@ -1966,17 +1975,18 @@ bool CDXLoader::ReadStep (GsfInput *in, Object *parent)
 				for (i = 0; i < max; i++) {
 					if (!(READINT32 (in, id)))
 						return false;
-				}
 					data.ObjectsBelow.push_back (id);
+				}
 				break;
 			case kCDXProp_ReactionStep_Arrows:
 				if ((size % 4) != 0)
 					return false;
-				// reading only the firt arrow for now
-				if (!(READINT32 (in, data.Arrow)))
+				max = size / 4;
+				for (i = 0; i < max; i++) {
+					if (!(READINT32 (in, id)))
 						return false;
-				if (size > 4 && gsf_input_seek (in, size - 4, G_SEEK_CUR))
-					return false;
+					data.Arrows.push_back (id);
+				}
 				break;
 			default:
 				if (size && gsf_input_seek (in, size, G_SEEK_CUR))
@@ -1986,13 +1996,160 @@ bool CDXLoader::ReadStep (GsfInput *in, Object *parent)
 		if (!(READINT16 (in,code)))
 			return false;
 	}
-	m_Scheme.push_back (data);
+	m_Scheme.Steps.push_back (data);
 	return true;
 }
 
 bool CDXLoader::ReadArrow (GsfInput *in, Object *parent)
 {
 	return true;
+}
+
+void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
+{
+	std::list < StepData >::iterator i, iend = scheme.Steps.end ();
+	std::list < unsigned >::iterator j, jend;
+	int IsReaction = 0, IsMesomery = 0, IsRetrosynthesis = 0;
+	bool HasMesomeryArrows = false;
+	gcu::Object *parent, *arrow, *obj;
+	for (i = scheme.Steps.begin (); i != iend; i++) {
+		if ((*i).Arrows.size () != 1)
+			return; // unsupported feature, don't load the scheme
+		std::string klass = gcu::Object::GetTypeName (doc->GetChild ((m_LoadedIds[*((*i).Arrows.begin())]).c_str ())->GetType ());
+		if (klass == "retrosynthesis-arrow") {
+			if (IsRetrosynthesis == -1)
+				return;
+			IsRetrosynthesis = 1;
+			IsReaction = IsMesomery = -1;
+		} else if (klass ==  "mesomery-arrow") {
+			if (IsMesomery == -1)
+				return;
+			IsRetrosynthesis = -1;
+			if (IsMesomery == 0 && IsReaction == 0)
+				IsMesomery = 1;
+			HasMesomeryArrows = true;
+		} else if (klass ==  "reaction-arrow") {
+			if (IsReaction == -1 || IsMesomery == -1)
+				return;
+			IsReaction = 1;
+			IsRetrosynthesis = -1;
+			IsMesomery = 0;
+		} else
+			return;
+	}
+	if (IsRetrosynthesis == 1) {
+	} else if (IsMesomery == 1) {
+		gcu::Object *mesomery = doc->CreateObject ("mesomery", doc);
+		ostringstream str;
+		str << "msy" << scheme.Id;
+		mesomery->SetId (str.str ().c_str ());
+		m_LoadedIds[scheme.Id] = mesomery->GetId ();
+		// now, add the objects to the reaction
+		for (i = scheme.Steps.begin (); i != iend; i++) {
+			if ((*i).Reagents.size () != 1 || (*i).Products.size () != 1) {
+				delete mesomery;
+				return;
+			}
+			// first the arrow
+			arrow = doc->GetChild ((m_LoadedIds[*((*i).Arrows.begin())]).c_str ());
+			obj = doc->GetDescendant (m_LoadedIds[*(*i).Reagents.begin ()].c_str ());
+			parent = obj->GetParent ();
+			if (parent == doc)
+				parent = doc->CreateObject ("mesomer", mesomery);
+			else if (parent->GetParent () != mesomery) {
+				delete mesomery;
+				return;
+			}
+			parent->AddChild (obj);
+			arrow->SetProperty (GCU_PROP_ARROW_START_ID, parent->GetId ());
+			obj = doc->GetDescendant (m_LoadedIds[*(*i).Products.begin ()].c_str ());
+			parent = obj->GetParent ();
+			if (parent == doc)
+				parent = doc->CreateObject ("mesomer", mesomery);
+			else if (parent->GetParent () != mesomery) {
+				delete mesomery;
+				return;
+			}
+			parent->AddChild (obj);
+			arrow->SetProperty (GCU_PROP_ARROW_END_ID, parent->GetId ());
+			mesomery->AddChild (arrow);
+		}
+		// Ignore objects over and under the arrows for now
+	} else if (IsReaction ==1) {
+		if (HasMesomeryArrows) {
+			// build mesomeries inside reactions
+			// FIXME
+		}
+		gcu::Object *reaction = doc->CreateObject ("reaction", doc);
+		ostringstream str;
+		str << "r" << scheme.Id;
+		reaction->SetId (str.str ().c_str ());
+		m_LoadedIds[scheme.Id] = reaction->GetId ();
+		// now, add the objects to the reaction
+		for (i = scheme.Steps.begin (); i != iend; i++) {
+			// first the arrow
+			arrow = doc->GetChild ((m_LoadedIds[*((*i).Arrows.begin())]).c_str ());
+			reaction->AddChild (arrow);
+			// first reagents
+			jend = (*i).Reagents.end ();
+			parent = NULL;
+			gcu::Object *rs = NULL; // make g++ happy
+			for (j = (*i).Reagents.begin (); j != jend; j++) {
+				obj = doc->GetDescendant (m_LoadedIds[*j].c_str ());
+				if (obj == NULL) {
+					delete reaction;
+					return;
+				}
+				if (parent == NULL) {
+					parent = obj->GetParent ();
+					if (parent == doc) {
+						rs = reaction->CreateObject ("reaction-step", reaction);
+						rs->AddChild (obj);
+					} else {
+						rs = parent;
+						if (rs->GetParent () != reaction) {
+							delete reaction;
+							return;
+						}
+					}
+				} else {
+					if (parent != obj->GetParent ()) {
+						delete reaction;
+						return;
+					} else if (parent == doc)
+						rs->AddChild (obj);
+				}
+				// search for potential stoichiometry coefficients
+				arrow->SetProperty (GCU_PROP_ARROW_START_ID, rs->GetId ());
+			}
+			// same treatment for products
+			jend = (*i).Products.end ();
+			parent = NULL;
+			for (j = (*i).Products.begin (); j != jend; j++) {
+				obj = doc->GetDescendant (m_LoadedIds[*j].c_str ());
+				if (obj == NULL) {
+					delete reaction;
+					return;
+				}
+				if (parent == NULL) {
+					parent = obj->GetParent ();
+					if (parent == doc) {
+						rs = reaction->CreateObject ("reaction-step", reaction);
+						rs->AddChild (obj);
+					} else
+						rs = parent;
+				} else {
+					if (parent != obj->GetParent ()) {
+						delete reaction;
+						return;
+					} else if (parent == doc)
+						rs->AddChild (obj);
+				}
+				// search for potential stoichiometry coefficients
+				arrow->SetProperty (GCU_PROP_ARROW_END_ID, rs->GetId ());
+			}
+		}
+	}
 }
 
 static CDXLoader loader;
