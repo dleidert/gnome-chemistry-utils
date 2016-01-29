@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-01-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/dialog.cc: don't throw an exception in Dialog::SetRealName().
+	* programs/table/gchemtable-curve.cc: don't crash when showing an already
+	existing chart. [Redhat bug #1302135]
+
 2016-01-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/scheme.cc: allow missing products in reactions again.
 	* plugins/loaders/cdx/cdx.cc: fix strings encoding while loading. Import

@@ -54,8 +54,7 @@ void Dialog::SetRealName (char const *name, DialogOwner *owner) throw (std::runt
 		m_Owner = owner;
 	m_windowname = name;
 	if (m_Owner && !m_Owner->AddDialog (name, this)) {
-		// do we need to set m_Owner to NULL?
-		throw std::runtime_error (_("Could not reference the new dialog."));
+		delete this;
 	}
 }
 
