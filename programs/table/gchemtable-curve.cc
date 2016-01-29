@@ -40,7 +40,6 @@
 using namespace gcu;
 using namespace std;
 
-map<string, GChemTableCurve*> curves;
 GObject *Copied;
 
 void on_show_curve (GObject *obj, char const* name)
@@ -48,11 +47,11 @@ void on_show_curve (GObject *obj, char const* name)
 	GChemTableApp *App = reinterpret_cast<GChemTableApp*> (g_object_get_data (obj, "app"));
 	if (App == NULL)
 		return;
-	GChemTableCurve *curve = curves[name];
-	if (curve)
-		gtk_window_present (curve->GetWindow ());
+	Dialog *dlg = (name)? App->GetDialog (name): NULL;
+	if (dlg)
+		dlg->Present ();
 	else
-		curves[name] = new GChemTableCurve (App, name);
+		new GChemTableCurve (App, name);
 }
 
 static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, GogGraph *graph)
@@ -443,7 +442,6 @@ GChemTableCurve::~GChemTableCurve ()
 {
 	if (m_Guru)
 		gtk_widget_destroy (m_Guru);
-	curves.erase (m_Name);
 }
 
 void GChemTableCurve::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const

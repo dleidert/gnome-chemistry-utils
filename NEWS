@@ -6,6 +6,9 @@ Version 0.14.11:
 		* Fix various runtime errors.
 		* Fix crash when creating a reaction with no product.
 		* Enhanced Chemdraw formats support.
+	GChemTable:
+		* Don't crash when showing an already existing chart.
+		[Redhat bug #1302135]
 	Other:
 		* Updated appdata files.
 
