@@ -26,6 +26,7 @@
 #define GCHEMPAINT_REACTANT_H
 
 #include <gcu/object.h>
+#include "text.h"
 
 /*!\file*/
 
@@ -119,6 +120,12 @@ Adds a text item to display the reactants stoichiometry coefficient. This
 coefficient does not need to be an integer, but should always be positive.
 */
 	void AddStoichiometry ();
+/*!
+@param stoichiometry: the text to use as stoichiometry coefficient.
+Adds a text item to display the reactants stoichiometry coefficient. This
+coefficient does not need to be an integer, but should always be positive.
+*/
+	void AddStoichiometry (gcp::Text *stoichiometry);
 /*!
 @return the molecule or text embedded in this instance.
 */

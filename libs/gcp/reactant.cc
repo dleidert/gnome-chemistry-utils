@@ -195,6 +195,14 @@ void Reactant::AddStoichiometry ()
 	tool->OnClicked (pView, text, rect.x0 * pTheme->GetZoomFactor (), GetYAlign () * pTheme->GetZoomFactor (), 0);
 }
 
+void Reactant::AddStoichiometry (gcp::Text *stoichiometry)
+{
+	if (stoichiometry == NULL)
+		return;
+	Stoichiometry = stoichiometry;
+	AddChild (stoichiometry);
+}
+
 bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 {
 	if (Signal == OnChangedSignal) {

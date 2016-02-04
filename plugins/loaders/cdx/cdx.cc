@@ -35,7 +35,11 @@
 #include <gcp/atom.h>
 #include <gcp/document.h>
 #include <gcp/fragment.h>
+#include <gcp/reactant.h>
+#include <gcp/reaction-step.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
+#include <gcp/widgetdata.h>
 
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-output-memory.h>
@@ -172,6 +176,7 @@ private:
 	vector <string> colors;
 	guint8 m_TextAlign, m_TextJustify;
 	unsigned m_Charset;
+	double padding; // needed to detect stoichiometry coefficients
 
 	map <string, bool (*) (CDXLoader *, GsfOutput *, Object const *, GOIOContext *)> m_WriteCallbacks;
 	map<unsigned, GOColor> m_Colors;
@@ -387,6 +392,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				}
 				double x = length / 16384. / 3.;
 				themedesc << " padding=\"" << x << "\" arrow-padding=\"" << x << "\" object-padding=\"" << x << "\" sign-padding=\"" << x << "\"";
+				padding = x * 2.; // the 2. factor is arbitrary
 				break;
 			}
 			case kCDXProp_CaptionStyle: {
@@ -629,6 +635,10 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 			break;
 		}
 	}
+
+	// Update the view so that the positions are correct
+	static_cast <gcp::Document *> (doc)->GetView ()->Update (doc);
+
 	// time to build reaction schemes and the like
 	std::list < SchemeData >::iterator i, iend = m_Schemes.end ();
 	for (i = m_Schemes.begin (); i != iend; i++) {
@@ -2000,7 +2010,7 @@ bool CDXLoader::ReadStep (GsfInput *in, Object *parent)
 	return true;
 }
 
-bool CDXLoader::ReadArrow (GsfInput *in, Object *parent)
+bool CDXLoader::ReadArrow (GsfInput *, Object *)
 {
 	return true;
 }
@@ -2011,7 +2021,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 	std::list < unsigned >::iterator j, jend;
 	int IsReaction = 0, IsMesomery = 0, IsRetrosynthesis = 0;
 	bool HasMesomeryArrows = false;
-	gcu::Object *parent, *arrow, *obj;
+	gcu::Object *parent, *arrow, *obj, *step, *reactant;
 	for (i = scheme.Steps.begin (); i != iend; i++) {
 		if ((*i).Arrows.size () != 1)
 			return; // unsupported feature, don't load the scheme
@@ -2116,8 +2126,10 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 					if (parent != obj->GetParent ()) {
 						delete reaction;
 						return;
-					} else if (parent == doc)
-						rs->AddChild (obj);
+					} else if (parent == doc) {
+						reactant = rs->CreateObject ("reactant", rs);
+						reactant->AddChild (obj);
+					}
 				}
 				// search for potential stoichiometry coefficients
 				arrow->SetProperty (GCU_PROP_ARROW_START_ID, rs->GetId ());
@@ -2142,12 +2154,57 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 					if (parent != obj->GetParent ()) {
 						delete reaction;
 						return;
-					} else if (parent == doc)
-						rs->AddChild (obj);
+					} else if (parent == doc) {
+						reactant = rs->CreateObject ("reactant", rs);
+						reactant->AddChild (obj);
+					}
 				}
 				// search for potential stoichiometry coefficients
 				arrow->SetProperty (GCU_PROP_ARROW_END_ID, rs->GetId ());
 			}
+		}
+		// now search for stoichiometry coefficients if any
+		gcp::WidgetData *data = static_cast <gcp::Document * > (doc)->GetView ()->GetData ();
+		gccv::Rect rect;
+		double x0, y0, x1;
+		std::map < std::string, Object * >::iterator k, l, r;
+		std::pair <gcu::Object *, gcu::Object * > couple;
+		std::list < std::pair <gcu::Object *, gcu::Object * > > couples;
+		obj = doc->GetFirstChild (k);
+		while (obj) {
+			// assuming that only text object can be stoichiometric coefs
+			if (obj->GetType () == gcu::TextType) {
+				data->GetObjectBounds (obj, rect);
+				x0 = rect.x1;
+				y0 = (rect.y0 + rect.y1) / 2.;
+				x1 = rect.x1 + padding;
+				for (step = reaction->GetFirstChild (l); step; step = reaction->GetNextChild (l)) {
+					if (step->GetType () != gcp::ReactionStepType)
+						continue;
+					data->GetObjectBounds (step, rect);
+					if (x0 > rect.x1 || x1 < rect.x0 || y0 > rect.y1 || y0 < rect.y0)
+						continue;
+					for (reactant = step->GetFirstChild (r); reactant; reactant = step->GetNextChild (r)) {
+						if (reactant->GetType () != gcu::ReactantType)
+							continue;
+						data->GetObjectBounds (reactant, rect);
+						if (x0 > rect.x1 || x1 < rect.x0 || y0 > rect.y1 || y0 < rect.y0)
+							continue;
+						// if we get there, we got it
+						// we must not set it now to avoid an invalid iterator at this point, so store in couples.
+						couple.first = reactant;
+						couple.second = obj;
+						couples.push_back (couple);
+						goto next_text;
+					}
+				}
+			}
+next_text:
+			obj = doc->GetNextChild (k);
+		}
+		std::list < std::pair <gcu::Object *, gcu::Object * > >::iterator c, cend = couples.end ();
+		for (c = couples.begin (); c != cend; c++) {
+			static_cast < gcp::Reactant * > ((*c).first)->AddStoichiometry (dynamic_cast <gcp::Text *> ((*c).second));
 		}
 	}
 }
