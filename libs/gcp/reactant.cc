@@ -280,6 +280,16 @@ bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 	return true;
 }
 
+void Reactant::SetMolecule (gcu::Object *molecule)
+{
+	if (molecule == NULL)
+		return;
+	if (Child)
+		delete Child;
+	Child = molecule;
+	AddChild (molecule);
+}
+
 std::string Reactant::Name ()
 {
 	return _("Reactant");

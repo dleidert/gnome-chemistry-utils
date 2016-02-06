@@ -650,6 +650,8 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	m_Fonts.clear ();
 	m_LoadedIds.clear ();
 	m_Superseded.clear ();
+	m_Colors.clear ();
+	m_Schemes.clear ();
 	return result;
 }
 
@@ -2025,7 +2027,10 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 	for (i = scheme.Steps.begin (); i != iend; i++) {
 		if ((*i).Arrows.size () != 1)
 			return; // unsupported feature, don't load the scheme
-		std::string klass = gcu::Object::GetTypeName (doc->GetChild ((m_LoadedIds[*((*i).Arrows.begin())]).c_str ())->GetType ());
+		obj = doc->GetChild ((m_LoadedIds[*((*i).Arrows.begin())]).c_str ());
+		if (obj == NULL)
+			return;
+		std::string klass = gcu::Object::GetTypeName (obj->GetType ());
 		if (klass == "retrosynthesis-arrow") {
 			if (IsRetrosynthesis == -1)
 				return;
@@ -2100,7 +2105,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 			// first the arrow
 			arrow = doc->GetChild ((m_LoadedIds[*((*i).Arrows.begin())]).c_str ());
 			reaction->AddChild (arrow);
-			// first reagents
+			// then reagents
 			jend = (*i).Reagents.end ();
 			parent = NULL;
 			gcu::Object *rs = NULL; // make g++ happy
@@ -2110,57 +2115,66 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 					delete reaction;
 					return;
 				}
-				if (parent == NULL) {
-					parent = obj->GetParent ();
+				parent = obj->GetParent ();
+				if (rs == NULL) {
 					if (parent == doc) {
 						rs = reaction->CreateObject ("reaction-step", reaction);
-						rs->AddChild (obj);
+						reactant = rs->CreateObject ("reactant", rs);
+						static_cast <gcp::Reactant * > (reactant)->SetMolecule (obj);
 					} else {
-						rs = parent;
+						rs = parent->GetParent ();
 						if (rs->GetParent () != reaction) {
 							delete reaction;
 							return;
 						}
 					}
 				} else {
-					if (parent != obj->GetParent ()) {
+					if (parent == doc) {
+						reactant = rs->CreateObject ("reactant", rs);
+						static_cast <gcp::Reactant * > (reactant)->SetMolecule (obj);
+					} else if (rs != parent->GetParent ()) {
 						delete reaction;
 						return;
-					} else if (parent == doc) {
-						reactant = rs->CreateObject ("reactant", rs);
-						reactant->AddChild (obj);
 					}
 				}
 				// search for potential stoichiometry coefficients
 				arrow->SetProperty (GCU_PROP_ARROW_START_ID, rs->GetId ());
+				rs->OnLoaded ();
 			}
 			// same treatment for products
 			jend = (*i).Products.end ();
-			parent = NULL;
+			rs = NULL;
 			for (j = (*i).Products.begin (); j != jend; j++) {
 				obj = doc->GetDescendant (m_LoadedIds[*j].c_str ());
 				if (obj == NULL) {
 					delete reaction;
 					return;
 				}
-				if (parent == NULL) {
-					parent = obj->GetParent ();
+				parent = obj->GetParent ();
+				if (rs == NULL) {
 					if (parent == doc) {
 						rs = reaction->CreateObject ("reaction-step", reaction);
-						rs->AddChild (obj);
-					} else
-						rs = parent;
+						reactant = rs->CreateObject ("reactant", rs);
+						static_cast <gcp::Reactant * > (reactant)->SetMolecule (obj);
+					} else {
+						rs = parent->GetParent ();
+						if (rs->GetParent () != reaction) {
+							delete reaction;
+							return;
+						}
+					}
 				} else {
-					if (parent != obj->GetParent ()) {
+					if (parent == doc) {
+						reactant = rs->CreateObject ("reactant", rs);
+						static_cast <gcp::Reactant * > (reactant)->SetMolecule (obj);
+					} else if (rs != parent->GetParent ()) {
 						delete reaction;
 						return;
-					} else if (parent == doc) {
-						reactant = rs->CreateObject ("reactant", rs);
-						reactant->AddChild (obj);
 					}
 				}
 				// search for potential stoichiometry coefficients
 				arrow->SetProperty (GCU_PROP_ARROW_END_ID, rs->GetId ());
+				rs->OnLoaded ();
 			}
 		}
 		// now search for stoichiometry coefficients if any
@@ -2175,7 +2189,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 			// assuming that only text object can be stoichiometric coefs
 			if (obj->GetType () == gcu::TextType) {
 				data->GetObjectBounds (obj, rect);
-				x0 = rect.x1;
+				x0 = rect.x0;
 				y0 = (rect.y0 + rect.y1) / 2.;
 				x1 = rect.x1 + padding;
 				for (step = reaction->GetFirstChild (l); step; step = reaction->GetNextChild (l)) {
@@ -2188,7 +2202,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 						if (reactant->GetType () != gcu::ReactantType)
 							continue;
 						data->GetObjectBounds (reactant, rect);
-						if (x0 > rect.x1 || x1 < rect.x0 || y0 > rect.y1 || y0 < rect.y0)
+						if (x0 > rect.x0 || x1 < rect.x0 || y0 > rect.y1 || y0 < rect.y0)
 							continue;
 						// if we get there, we got it
 						// we must not set it now to avoid an invalid iterator at this point, so store in couples.
