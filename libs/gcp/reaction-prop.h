@@ -149,6 +149,19 @@ This method is called to build a contextual menu for the arrow attached object.
 @return true if something is added to the UIManager, false otherwise.
 */
 	bool BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *object, double x, double y);
+/*!
+@param property the property id as defined in objprops.h
+@param value the property value as a string
+
+Used when loading to set common properties to arrow associated objects.
+Currently supported properties:
+	gcu::GCU_PROP_REACTION_ARROW_PROP_STEP,
+	gcu::GCU_PROP_REACTION_ARROW_PROP_LINE,
+	gcu::GCU_PROP_REACTION_ARROW_PROP_POSITION.
+@return true if the property could be set, or if the property is not relevant,
+false otherwise.
+*/
+	bool SetProperty (unsigned property, char const *value);
 
 /*!
 @return the localized object generic name.

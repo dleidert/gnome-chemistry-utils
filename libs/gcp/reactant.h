@@ -134,7 +134,11 @@ coefficient does not need to be an integer, but should always be positive.
 @return the text representing the stoichiometry coefficient of this instance.
 */
 	gcu::Object *GetStoichChild () {return Stoichiometry;}
-
+/*!
+@param child: the reagent molecule
+Sets the reagent molecule.
+*/
+	void SetMolecule (gcu::Object *molecule);
 /*!
 @return the localized object generic name.
 */

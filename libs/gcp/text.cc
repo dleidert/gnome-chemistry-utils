@@ -928,8 +928,10 @@ void Text::AddItem ()
 
 void Text::UpdateItem ()
 {
-	if (!m_Item)
+	if (!m_Item) {
 		AddItem ();
+		return;
+	}
 	Document *doc = static_cast <Document*> (GetDocument ());
 	Theme *theme = doc->GetTheme ();
 	reinterpret_cast <gccv::Text *> (m_Item)->SetPosition (m_x * theme->GetZoomFactor (), m_y * theme->GetZoomFactor ());

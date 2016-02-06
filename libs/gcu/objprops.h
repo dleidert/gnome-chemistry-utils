@@ -201,6 +201,22 @@ The type of a reaction arrow ("double" for a reversible arrow).
 */
 	GCU_PROP_REACTION_ARROW_TYPE,
 /*!
+The number of lines attached above the arrow. Default is 1. 
+*/
+	GCU_PROP_REACTION_ARROW_MAX_LINES_ABOVE,
+/*!
+The step number of the attached object.
+*/
+	GCU_PROP_REACTION_ARROW_PROP_STEP,
+/*!
+The line number of the attached object.
+*/
+	GCU_PROP_REACTION_ARROW_PROP_LINE,
+/*!
+The position of the attached object in its line.
+*/
+	GCU_PROP_REACTION_ARROW_PROP_POSITION,
+/*!
 The a parameter of a crystal cell.
 */
 	GCU_PROP_CELL_A,

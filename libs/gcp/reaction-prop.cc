@@ -28,6 +28,7 @@
 #include "reaction-prop-dlg.h"
 #include "reaction-arrow.h"
 #include <gcugtk/ui-manager.h>
+#include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
 
@@ -187,6 +188,24 @@ bool ReactionProp::BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *
 	gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menuitem action='props'/></popup></ui>", -1, NULL);
 	gtk_ui_manager_insert_action_group (uim, group, 0);
 	return false;
+}
+
+bool ReactionProp::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_REACTION_ARROW_PROP_STEP:
+		m_Step = atoi (value);
+		break;
+	case GCU_PROP_REACTION_ARROW_PROP_LINE:
+		m_Line = atoi (value);
+		break;
+	case GCU_PROP_REACTION_ARROW_PROP_POSITION:
+		m_Rank = atoi (value);
+		break;
+	default:
+		return Object::SetProperty (property, value);
+	}
+	return true;
 }
 
 }	//	namespace gcp

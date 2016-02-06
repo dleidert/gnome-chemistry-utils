@@ -147,8 +147,10 @@ It should not be called by a program; call Object::EmitSignal instead.
 @param property the property id as defined in objprops.h
 @param value the property value as a string
 
-Used when loading to set common properties to arrows. Only one property is
-currently supported: gcu::GCU_PROP_REACTION_ARROW_TYPE.
+Used when loading to set common properties to arrows. Currently supported
+properties:
+	gcu::GCU_PROP_REACTION_ARROW_TYPE,
+	gcu::GCU_PROP_REACTION_ARROW_MAX_LINES_ABOVE.
 @return true if the property could be set, or if the property is not relevant,
 false otherwise.
 */

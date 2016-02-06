@@ -960,6 +960,9 @@ bool ReactionArrow::SetProperty (unsigned property, char const *value)
 	case GCU_PROP_REACTION_ARROW_TYPE:
 		m_Type = (strcmp (value, "double"))? ReversibleArrow: SimpleArrow;
 		break;
+	case GCU_PROP_REACTION_ARROW_MAX_LINES_ABOVE:
+		m_MaxLinesAbove = atoi (value);
+		break;
 	default:
 		return Arrow::SetProperty (property, value);
 	}

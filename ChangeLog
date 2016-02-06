@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2016-02-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reactant.cc: fix reaction import from cdx format.
+	* libs/gcp/reactant.h: ditto.
+	* libs/gcp/reaction-arrow.cc: allow reaction arrow attached objects
+	import.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-prop.cc: ditto.
+	* libs/gcp/reaction-prop.h: ditto.
+	* libs/gcp/text.cc: minor optimization.
+	* libs/gcu/objprops.h: allow reaction arrow attached objects import.
+	* plugins/loaders/cdx/cdx.cc: full reaction import.
+
 2016-02-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reactant.cc: new method needed to import stoichiometry.
 	* libs/gcp/reactant.h: ditto.
