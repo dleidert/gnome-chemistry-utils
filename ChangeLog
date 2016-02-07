@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2016-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: fixed text vertical position.
+
 2016-02-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reactant.cc: fix reaction import from cdx format.
 	* libs/gcp/reactant.h: ditto.

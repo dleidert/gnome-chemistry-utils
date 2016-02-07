@@ -167,6 +167,7 @@ private:
 	static bool WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
+	static bool WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	void WriteId (Object const *obj, GsfOutput *out);
 
 private:
@@ -187,6 +188,7 @@ private:
 	std::list < SchemeData > m_Schemes;
 	gint32 m_MaxId;
 	unsigned m_Z;
+	int m_CHeight;
 };
 
 CDXLoader::CDXLoader ():
@@ -198,6 +200,7 @@ CDXLoader::CDXLoader ():
 	m_WriteCallbacks["atom"] = WriteAtom;
 	m_WriteCallbacks["bond"] = WriteBond;
 	m_WriteCallbacks["molecule"] = WriteMolecule;
+	m_WriteCallbacks["text"] = WriteText;
 }
 
 CDXLoader::~CDXLoader ()
@@ -228,6 +231,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 
 	// set the scale
 	doc->SetProperty (GCU_PROP_THEME_SCALE, "16384");
+	m_CHeight = 0.;
 
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -249,6 +253,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 						gcp::TheThemeManager.AddFileTheme (theme, doc->GetTitle ().c_str ());
 						cpDoc->SetTheme (theme);
 					}
+					m_CHeight = cpDoc->GetView ()->GetCHeight () * 16384 * 3;
 				}
 			}
 			switch (code) {
@@ -749,13 +754,21 @@ bool CDXLoader::WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *
 	return true;
 }
 
+bool CDXLoader::WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+{
+	gint16 n = kCDXObj_Text;
+	WRITEINT16 (out, n);
+	loader->WriteId (obj, out);
+	return true;
+}
+
 bool CDXLoader::WriteObject (GsfOutput *out, Object const *object, GOIOContext *io)
 {
 	string name = Object::GetTypeName (object->GetType ());
 	map <string, bool (*) (CDXLoader *, GsfOutput *, Object const *, GOIOContext *)>::iterator i = m_WriteCallbacks.find (name);
 	if (i != m_WriteCallbacks.end ())
 		return (*i).second (this, out, object, io);
-	// if we don't save the object iself, try tosave its children
+	// if we don't save the object iself, try to save its children
 	std::map <std::string, Object *>::const_iterator j;
 	Object const *child = object->GetFirstChild (j);
 	while (child) {
@@ -1473,7 +1486,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 				if (!(READINT32 (in,x)))
 					return false;
 				ostringstream str;
-				str <<  x << " " << y;
+				str <<  x << " " << y - m_CHeight;
 				Text->SetProperty (GCU_PROP_POS2D, str.str ().c_str ());
 				break;
 			}
