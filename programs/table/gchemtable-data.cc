@@ -538,7 +538,7 @@ void gct_data_init ()
 	gct_data_vector_new (_("Van der Waals radius"), loadVdWRad);
 	gct_data_vector_new (_("Metallic radius"), loadMetRad);
 	gct_data_vector_new (_("Fusion temperature"), loadFP);
-	gct_data_vector_new (_("Ebullition temperature"), loadEP);
+	gct_data_vector_new (_("Boiling temperature"), loadEP);
 }
 
 void gct_data_clear ()

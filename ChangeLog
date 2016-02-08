@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-02-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/gchemtable-app.cc: fixed typos. [#47081]
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-data.cc: ditto.
+
 2016-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: fixed text vertical position.
 

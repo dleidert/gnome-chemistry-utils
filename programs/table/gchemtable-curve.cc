@@ -406,7 +406,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Melting point"));
 	} else if (!strcmp (name, "bp")) {
-		ydata = gct_data_vector_get_from_name (_("Ebullition temperature"));
+		ydata = gct_data_vector_get_from_name (_("Boiling temperature"));
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Boiling point"), FALSE);
