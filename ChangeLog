@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2016-02-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: fixd crasher.
+	* libs/gcp/text.cc: add GetProperty() to allow for text export.
+	* libs/gcp/text.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: partial implementation of text export.
+	* plugins/loaders/cml/cml.cc: typo.
+
 2016-02-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/table/gchemtable-app.cc: fixed typos. [#47081]
 	* programs/table/gchemtable-curve.cc: ditto.

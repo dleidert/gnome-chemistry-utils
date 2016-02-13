@@ -446,7 +446,7 @@ cml_crystal_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->doc->SetProperty (GCU_PROP_SPACE_GROUP, found->GetHallName ().c_str ());
 	delete group;
 	state->data = NULL;
-};
+}
 
 static void
 cml_symmetry_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)

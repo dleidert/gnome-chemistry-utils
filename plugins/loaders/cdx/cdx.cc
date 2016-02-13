@@ -32,6 +32,7 @@
 #include <gcu/molecule.h>
 #include <gcu/objprops.h>
 #include <gcu/residue.h>
+#include <gcu/xml-utils.h>
 #include <gcp/atom.h>
 #include <gcp/document.h>
 #include <gcp/fragment.h>
@@ -134,6 +135,26 @@ typedef struct {
 	std::list < StepData > Steps;
 } SchemeData;
 
+typedef struct {
+	guint8 *buf;
+	guint size;
+	guint capacity;
+} ByteBuf;
+
+typedef struct {
+	GsfOutput *out;
+	GOIOContext *s;
+	ByteBuf *buf;
+	bool italic;
+	bool bold;
+	bool underline;
+	guint16 font;
+	guint16 size;
+	int position;
+	guint16 color;
+	guint16 index;
+} WriteTextState;
+
 class CDXLoader: public gcu::Loader
 {
 public:
@@ -168,6 +189,7 @@ private:
 	static bool WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
+	static bool WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *state);
 	void WriteId (Object const *obj, GsfOutput *out);
 
 private:
@@ -189,6 +211,7 @@ private:
 	gint32 m_MaxId;
 	unsigned m_Z;
 	int m_CHeight;
+	double m_Scale, m_Zoom;
 };
 
 CDXLoader::CDXLoader ():
@@ -311,8 +334,6 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					result = ContentTypeUnknown;
 					break;
 				}
-				ostringstream str;
-				str << length;
 				bond_length = length / 16384.;
 				themedesc << " bond-length=\"" << bond_length << "\" zoom-factor=\"3\"";
 				break;
@@ -754,11 +775,171 @@ bool CDXLoader::WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *
 	return true;
 }
 
+bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *state)
+{
+	std::string name (reinterpret_cast < char const * > (node->name));
+	WriteTextState child_state = *state;
+	if (name == "i")
+		child_state.italic = true;
+	else if (name == "b")
+		child_state.bold = true;
+	else if (name == "u")
+		child_state.underline = true;
+	else if (name == "font") {
+		xmlChar *buf = xmlGetProp (node, reinterpret_cast < xmlChar const * > ("name"));
+		PangoFontDescription *desc = pango_font_description_from_string (reinterpret_cast < char * > (buf));
+		xmlFree (buf);
+		child_state.size = pango_font_description_get_size (desc) * 20 / PANGO_SCALE;
+		std::string family = pango_font_description_get_family (desc);
+		if (family == "Arial")
+			child_state.font = 3;
+		else if (family == "Times New Roman")
+			child_state.font = 4;
+		else {
+			guint16 i = 5;
+			std::map < unsigned, CDXFont >::iterator it, itend = loader->m_Fonts.end ();
+			for (it = loader->m_Fonts.find (i); it != itend; it++, i++)
+				if (family == (*it).second.name)
+					break;
+			if (it == itend)
+				loader->m_Fonts[i] = (CDXFont) {i, kCDXCharSetUnicodeISO10646, family};
+			child_state.font = i;
+		}
+	} else if (name == "sub")
+		child_state.position = -1;
+	else if (name == "sup")
+		child_state.position = 1;
+	else if (name == "br")
+		;// FIXME *state->buf += '\n';
+	else if (name == "fore") {
+		GOColor color = ReadColor (node);
+		guint i = 2;
+		std::map < unsigned, GOColor >::iterator it, itend = loader->m_Colors.end ();
+			for (it = loader->m_Colors.find (i); it != itend; it++, i++)
+				if (color == (*it).second)
+					break;
+			if (it == itend)
+				loader->m_Colors[i] = color;
+		child_state.color = i;
+		
+	}
+	xmlNodePtr child = node->children;
+	if (child == NULL) {
+		// write the font style run
+		WRITEINT16 (state->out, state->index);
+		WRITEINT16 (state->out, child_state.font);
+		guint16 font_type = 0;
+		if (child_state.bold)
+			font_type |= 1;
+		if (child_state.italic)
+			font_type |= 2;
+		if (child_state.underline)
+			font_type |= 4;
+		switch (child_state.position) {
+		case -1:
+			font_type |= 0x20;
+			break;
+		case 1:
+			font_type |= 0x40;
+			break;
+		default:
+			break;
+		}
+		WRITEINT16 (state->out, font_type);
+		WRITEINT16 (state->out, child_state.size);
+		WRITEINT16 (state->out, child_state.color);
+		xmlChar *buf = xmlNodeGetContent (node);
+		guint16 bufsize = strlen (reinterpret_cast < char * > (buf));
+		guint8 *new_text;
+		gsize written;
+		char *converted = g_convert (reinterpret_cast < char * > (buf),
+		                             bufsize,
+		                             Charsets[loader->m_Fonts[child_state.font].encoding].c_str (),
+		                             "utf-8", NULL, &written, NULL);
+		if (converted)
+			new_text = reinterpret_cast < guint8 * > (converted);
+		else { // copying raw text and crossing fingers
+			new_text = reinterpret_cast < guint8 * > (buf);
+			written = bufsize;
+		}
+		if (written > 0) {
+			if (state->buf->size + written > state->buf->capacity) {
+				state->buf->capacity += 100 * ((written % 100) + 1);
+				state->buf->buf = reinterpret_cast < guint8 * > (g_realloc (state->buf->buf, state->buf->capacity));
+			}
+			memcpy (state->buf->buf + state->buf->size, new_text, written);
+			state->buf->size += written;
+		}
+		child_state.index = state->buf->size;
+		xmlFree (buf);
+		g_free (converted);
+	} else while (child) {
+		WriteNode (loader, child, &child_state);
+		child = child->next;
+	}
+	state->index = child_state.index;
+	return true;
+}
+
 bool CDXLoader::WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
 {
 	gint16 n = kCDXObj_Text;
 	WRITEINT16 (out, n);
 	loader->WriteId (obj, out);
+	std::string prop = obj->GetProperty (GCU_PROP_POS2D);
+	if (prop.length ()) {
+		istringstream str (prop);
+		double x, y;
+		gint32 x_, y_;
+		str >> x >> y;
+		x_ = x;
+		y_ = y + loader->m_CHeight;
+		n = kCDXProp_2DPosition;
+		WRITEINT16 (out, n);
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x08\x00"));
+		// write y first
+		WRITEINT32 (out, y_);
+		WRITEINT32 (out, x_);
+	}
+	prop = obj->GetProperty (GCU_PROP_TEXT_ALIGNMENT);
+	prop = obj->GetProperty (GCU_PROP_TEXT_JUSTIFICATION);
+	prop = obj->GetProperty (GCU_PROP_TEXT_MARKUP);
+	xmlDocPtr xml = xmlParseMemory (prop.c_str(), prop.length ());
+	xmlNodePtr node = xml->children->children;
+	GsfOutput *buf = gsf_output_memory_new ();
+	ByteBuf contents;
+	contents.buf = reinterpret_cast < guint8 * > (g_malloc (100));
+	contents.size = 0;
+	contents.capacity = 100;
+	WriteTextState state;
+	state.out = buf;
+	state.s = s;
+	state.buf = &contents;
+	state.italic = false;
+	state.bold = false;
+	state.underline = false;
+	state.font = 3;
+	state.size = 10;
+	state.position = 0;
+	state.color = 3;
+	state.index = 0;
+	while (node) {
+		if (strcmp (reinterpret_cast < char const *>(node->name), "position"))
+			WriteNode (loader, node, &state);
+		node = node->next;
+	}
+	gsf_off_t count = gsf_output_size (buf);
+	size_t size = contents.size + count + 2;
+	n = kCDXProp_Text;
+	WRITEINT16 (out, n);
+	n = size;
+	WRITEINT16 (out, n);
+	n = count / 10;
+	WRITEINT16 (out, n);
+	gsf_output_write (out, count, gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (buf)));
+	g_object_unref (buf);
+	gsf_output_write (out, contents.size, contents.buf);
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of text
 	return true;
 }
 
@@ -832,21 +1013,25 @@ bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_
 	m_Colors[9] = GO_COLOR_VIOLET;
 
 	// Init fonts, we always use Unknown as the charset, hoping it is not an issue
-	m_Fonts[3] = (CDXFont) {3, kCDXCharSetUnknown, string ("Arial")};
-	m_Fonts[4] = (CDXFont) {4, kCDXCharSetUnknown, string ("Times New Roman")};
+	m_Fonts[3] = (CDXFont) {3, kCDXCharSetUnicodeISO10646, string ("Arial")};
+	m_Fonts[4] = (CDXFont) {4, kCDXCharSetUnicodeISO10646, string ("Times New Roman")};
 
 	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
 	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
 	std::string app = doc->GetApp ()->GetName () + " "VERSION;
 	WriteSimpleStringProperty (out, kCDXProp_CreationProgram, app.length (), app.c_str ());
+	// Get the theme (we need a gcp::Document there)
+	gcp::Document const *cpDoc = dynamic_cast < gcp::Document const * > (doc);
+	gcp::Theme const *theme = cpDoc->GetTheme ();
+	m_Zoom = 1. / theme->GetZoomFactor();
+	m_Scale = 16384. / m_Zoom;
+	m_CHeight = const_cast < gcp::Document * > (cpDoc)->GetView ()->GetCHeight () * m_Scale;
 	// determine the bond length and scale the document appropriately
-	string prop = doc->GetProperty (GCU_PROP_THEME_BOND_LENGTH);
-	double scale = strtod (prop.c_str (), NULL);
-	const_cast <Document *> (doc)->SetScale (scale / 1966080.);
+	const_cast <Document *> (doc)->SetScale (3. / m_Scale);
 	n = kCDXProp_BondLength;
 	WRITEINT16 (out, n);
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));
-	l = 30;
+	l = theme->GetBondLength () * m_Scale * 3.;
 	WRITEINT32 (out, l);
 	// write the document contents
 	// there is a need for a two paths procedure
@@ -1499,7 +1684,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 				if (!(READINT16 (in,nb)))
 					return false;
 				list <attribs> attributes;
-				size -=2;
+				size -=2;   
 				guint16 *n = &attrs.index;
 				for (int i = 0; i < nb; i++) {
 					if (size < 10)
@@ -1518,7 +1703,8 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 					buf[size] = 0;
 					utf8str = g_convert (buf, size, "utf-8", Charsets[m_Fonts[attrs.font].encoding].c_str (),
 					                           NULL, NULL, NULL);
-					Text->SetProperty (GCU_PROP_TEXT_TEXT, utf8str);
+					if (utf8str != NULL)
+						Text->SetProperty (GCU_PROP_TEXT_TEXT, utf8str);
 					g_free (utf8str);
 				} else {
 					ostringstream str;
@@ -1531,8 +1717,15 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 							if (!gsf_input_read (in, attrs0.index, (guint8*) buf))
 								return false;
 							buf[attrs0.index] = 0;
-							utf8str = g_convert (buf, size, "utf-8", Charsets[m_Fonts[attrs.font].encoding].c_str (),
-									                   NULL, NULL, NULL);
+							std::string encoding = Charsets[m_Fonts[attrs.font].encoding];
+							if (encoding != "Unknown")
+									utf8str = g_convert (buf, attrs0.index, "utf-8", encoding.c_str (),
+													           NULL, NULL, NULL);
+							else { // just copy the string and cross fingers
+								utf8str = reinterpret_cast < char * > (g_malloc (size + 1));
+								strncpy (utf8str, buf, attrs0.index);
+								utf8str[attrs0.index] = 0;
+							}
 							if (interpret) {
 								// for now put all numbers as subscripts
 								// FIXME: fix this kludgy code
@@ -1605,8 +1798,15 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 						return false;
 					buf[size] = 0;
 					bool opened = true;
-					utf8str = g_convert (buf, size, "utf-8", Charsets[m_Fonts[attrs.font].encoding].c_str (),
-					                           NULL, NULL, NULL);
+					std::string encoding = Charsets[m_Fonts[attrs.font].encoding];
+					if (encoding != "Unknown")
+						utf8str = g_convert (buf, size, "utf-8", encoding.c_str (),
+							                       NULL, NULL, NULL);
+					else { // just copy the string and cross fingers
+						utf8str = reinterpret_cast < char * > (g_malloc (size + 1));
+						strncpy (utf8str, buf, size);
+						utf8str[size] = 0;
+					}
 					// supposing the text is ASCII!!
 					if (interpret) {
 						// for now put all numbers as subscripts
@@ -1659,7 +1859,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 							str << "</b>";
 						str << "</fore>";
 						str << "</font>";
-						}
+					}
 					str << "</text>";
 					Text->SetProperty (GCU_PROP_TEXT_MARKUP, str.str().c_str());
 				}

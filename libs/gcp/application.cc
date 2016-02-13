@@ -1005,7 +1005,7 @@ void Application::ShowTools (bool visible)
 	if (!ToolsBox) {
 		if (visible)
 			BuildTools ();
-	} else
+	} else if (GetActiveDocument ())
 		ToolsBox->Show (visible, GetActiveDocument ()->GetGtkWindow ());
 }
 

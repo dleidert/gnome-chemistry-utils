@@ -168,6 +168,13 @@ font settings.
 	void SetText (char const *text) {m_buf = text;}
 /*!
 @param property the property id as defined in objprops.h
+
+Used when saving to get properties from various objects. All classes
+supporting the mechanism must overload this method.
+*/
+	std::string GetProperty (unsigned property) const;
+/*!
+@param property the property id as defined in objprops.h
 @param value the property value as a string
 
 Used when loading to set properties for the fragment. This method supports
