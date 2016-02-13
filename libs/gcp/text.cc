@@ -39,6 +39,7 @@
 #include <gcu/objprops.h>
 #include <gcu/xml-utils.h>
 #include <glib/gi18n-lib.h>
+#include <sstream>
 #include <stdexcept>
 #include <cmath>
 #include <cstring>
@@ -997,6 +998,69 @@ double Text::GetYAlign ()
 	return m_y;
 }
 
+std::string Text::GetProperty (unsigned property) const
+{
+	switch (property) {
+	case GCU_PROP_POS2D: {
+		std::ostringstream str;
+		gcu::Document *doc = GetDocument ();
+		if (doc)
+			str << m_x / doc->GetScale () << " " << m_y / doc->GetScale ();
+		else
+			str << m_x << " " << m_y;
+		return str.str ();
+	}
+	case GCU_PROP_TEXT_MARKUP: {
+		xmlDocPtr xml = xmlNewDoc ((xmlChar*) "1.0");
+		char *buf;
+		int n;
+		//FIXME: do something if an error occurs
+
+		xmlFreeNode (xmlDocSetRootElement (xml,  Save (xml)));
+		xmlDocDumpMemory (xml, reinterpret_cast < xmlChar ** > (&buf), &n);
+		std::string res (buf, n);
+		xmlFree (buf);
+		xmlFreeDoc (xml);
+		return res;
+
+	}
+	case GCU_PROP_TEXT_TEXT:
+		return m_buf;
+	case GCU_PROP_TEXT_ALIGNMENT:
+		switch (m_Anchor) {
+		case gccv::AnchorLineEast:
+		case gccv::AnchorNorthEast:
+		case gccv::AnchorEast:
+		case gccv::AnchorSouthEast:
+			return "right";
+		case gccv::AnchorNorthWest:
+		case gccv::AnchorLineWest:
+		case gccv::AnchorWest:
+		case gccv::AnchorSouthWest:
+			return "left";
+		case gccv::AnchorNorth:
+		case gccv::AnchorLine:
+		case gccv::AnchorCenter:
+		case gccv::AnchorSouth:
+			return "center";
+		}
+		break;
+	case GCU_PROP_TEXT_JUSTIFICATION:
+		switch (m_Justification) {
+		case GTK_JUSTIFY_RIGHT:
+			return  "right";
+		case GTK_JUSTIFY_LEFT:
+			return  "left";
+		case GTK_JUSTIFY_CENTER:
+			return  "center";
+		case GTK_JUSTIFY_FILL:
+			return "justify";
+		}
+		break;
+	}
+	return "";
+}
+
 bool Text::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {
@@ -1013,6 +1077,8 @@ bool Text::SetProperty (unsigned property, char const *value)
 	}
 	case GCU_PROP_TEXT_MARKUP: {
 		xmlDocPtr xml = xmlParseMemory (value, strlen (value));
+		if (xml == NULL)
+			break;
 		xmlNodePtr node = xml->children->children;
 		unsigned pos = 0;
 		m_buf.clear ();
@@ -1024,6 +1090,7 @@ bool Text::SetProperty (unsigned property, char const *value)
 		}
 		m_bLoading = false;
 		// FIXME: implement
+		xmlFreeDoc (xml);
 		break;
 	}
 	case GCU_PROP_TEXT_TEXT:

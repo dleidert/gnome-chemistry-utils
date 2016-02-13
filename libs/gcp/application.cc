@@ -1018,8 +1018,8 @@ void Application::ShowTools (bool visible)
 	if (!ToolsBox) {
 		if (visible)
 			BuildTools ();
-	} else
-	ToolsBox->Show (visible);
+	} else if (GetActiveDocument ())
+		ToolsBox->Show (visible);
 }
 
 void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char const *ui_description, IconDesc const *icons)
