@@ -1521,7 +1521,7 @@ void Document::OnExportVRML (const string &FileName) const
 		if (error) {
 			cerr << "gio error: " << error->message << endl;
 			g_error_free (error);
-			g_object_unref (file);
+			g_object_unref (stream);
 			throw (int) 1;
 		}
 		std::map<std::string, sAtom>AtomsMap;

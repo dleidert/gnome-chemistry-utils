@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-02-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/document.cc: fix build with gcc-6 (and potential crasher).
+	[Redhat bug #1307546]
+	* plugins/loaders/cdx/cdx.cc: fix exported text position.
+
 2016-02-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: fixd crasher.
 	* libs/gcp/text.cc: add GetProperty() to allow for text export.
