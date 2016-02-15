@@ -9,6 +9,8 @@ Version 0.14.11:
 	GChemTable:
 		* Don't crash when showing an already existing chart.
 		[Redhat bug #1302135]
+	GCrystal:
+		* Fix build with gcc-6. [Redhat bug #1307546]
 	Other:
 		* Updated appdata files.
 

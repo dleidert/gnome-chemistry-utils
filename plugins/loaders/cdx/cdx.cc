@@ -1025,9 +1025,9 @@ bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_
 	gcp::Theme const *theme = cpDoc->GetTheme ();
 	m_Zoom = 1. / theme->GetZoomFactor();
 	m_Scale = 16384. / m_Zoom;
-	m_CHeight = const_cast < gcp::Document * > (cpDoc)->GetView ()->GetCHeight () * m_Scale;
+	m_CHeight = const_cast < gcp::Document * > (cpDoc)->GetView ()->GetCHeight () * 16384. * 3.;
 	// determine the bond length and scale the document appropriately
-	const_cast <Document *> (doc)->SetScale (3. / m_Scale);
+	const_cast <Document *> (doc)->SetScale (1. / 3. / m_Scale);
 	n = kCDXProp_BondLength;
 	WRITEINT16 (out, n);
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));
