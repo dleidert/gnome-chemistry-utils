@@ -168,7 +168,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		f = static_cast <gccv::FamilyTextTag *> (m_tag)->GetFamily ().c_str ();
 		ef = m_end;
 		if (es >= ef) {
-			char *str = g_strdup_printf ("%s %g", f, (double) n / PANGO_SCALE);
+			char *str = g_strdup_printf ("%s, %g", f, (double) n / PANGO_SCALE);
 			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("font"), NULL);
 			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("name"), reinterpret_cast <xmlChar const *> (str));
 			g_free (str);
@@ -178,7 +178,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		n = static_cast <gccv::SizeTextTag *> (m_tag)->GetSize ();
 		es = m_end;
 		if (ef >= es) {
-			char *str = g_strdup_printf ("%s %g", f, (double) n / PANGO_SCALE);
+			char *str = g_strdup_printf ("%s, %g", f, (double) n / PANGO_SCALE);
 			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("font"), NULL);
 			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("name"), reinterpret_cast <xmlChar const *> (str));
 			g_free (str);
