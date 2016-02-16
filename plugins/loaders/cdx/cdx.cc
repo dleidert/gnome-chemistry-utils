@@ -127,7 +127,7 @@ static gint32 ReadInt (GsfInput *input, int size)
 }*/
 
 typedef struct {
-	std::list < unsigned > Arrows, Reagents, Products, ObjectsAbove, ObjectsBelow;
+	std::list < unsigned > Arrows, Reagents, Products, ObjectsAbove, ObjectsBelow, Operators;
 } StepData;
 
 typedef struct {
@@ -182,12 +182,16 @@ private:
 	void BuildScheme (gcu::Document *doc, SchemeData &scheme);
 
 	bool WriteObject (GsfOutput *out, Object const *object, GOIOContext *io);
+	static void AddInt8Property (GsfOutput *out, gint16 prop, gint8 value);
 	static void AddInt16Property (GsfOutput *out, gint16 prop, gint16 value);
 	static void AddInt32Property (GsfOutput *out, gint16 prop, gint32 value);
 	static void WriteSimpleStringProperty (GsfOutput *out, gint16 id, gint16 length, char const *data);
 	static bool WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
+	static bool WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
+	static bool WriteReaction(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
+	static bool WriteRetrosynthesis(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *state);
 	void WriteId (Object const *obj, GsfOutput *out);
@@ -223,6 +227,7 @@ CDXLoader::CDXLoader ():
 	m_WriteCallbacks["atom"] = WriteAtom;
 	m_WriteCallbacks["bond"] = WriteBond;
 	m_WriteCallbacks["molecule"] = WriteMolecule;
+	m_WriteCallbacks["reaction"] = WriteReaction;
 	m_WriteCallbacks["text"] = WriteText;
 }
 
@@ -477,7 +482,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					result = ContentTypeUnknown;
 					break;
 				}
-				int i;
+				int i = 0;
 				if (!(READINT16 (in, i))) {
 					result = ContentTypeUnknown;
 					break;
@@ -490,7 +495,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					result = ContentTypeUnknown;
 					break;
 				}
-				int i;
+				guint16 i;
 				if (!(READINT16 (in, i))) {
 					result = ContentTypeUnknown;
 					break;
@@ -568,7 +573,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					result = ContentTypeUnknown;
 					break;
 				}
-				int i;
+				int i = 0;
 				if (!(READINT16 (in, i))) {
 					result = ContentTypeUnknown;
 					break;
@@ -581,7 +586,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					result = ContentTypeUnknown;
 					break;
 				}
-				int i;
+				guint16 i;
 				if (!(READINT16 (in, i))) {
 					result = ContentTypeUnknown;
 					break;
@@ -644,6 +649,10 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				break;
 			}
 			case kCDXProp_CaptionJustification: {
+				if (size != 1) {
+					result = ContentTypeUnknown;
+					break;
+				}
 				if (!gsf_input_read (in, 1, &m_TextAlign))
 					return ContentTypeUnknown;
 				break;
@@ -775,6 +784,49 @@ bool CDXLoader::WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *
 	return true;
 }
 
+bool CDXLoader::WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+{
+	std::map <std::string, Object *>::const_iterator i;
+	gcu::Object const *child = obj->GetFirstChild (i);
+	while (child) {
+		// FIXME
+		if (!loader->WriteObject (out, child, s))
+			return false;
+		child = obj->GetNextChild (i);
+	}
+	return true;
+}
+
+bool CDXLoader::WriteReaction(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+{
+	std::map <std::string, Object *>::const_iterator i;
+	gcu::Object const *child = obj->GetFirstChild (i);
+	while (child) {
+		string name = Object::GetTypeName (child->GetType ());
+		if (name == "reaction-step") {
+		} else if (name == "reaction-arrow") {
+		} else
+			puts("oops");
+		if (!loader->WriteObject (out, child, s))
+			return false;
+		child = obj->GetNextChild (i);
+	}
+	return true;
+}
+
+bool CDXLoader::WriteRetrosynthesis(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+{
+	std::map <std::string, Object *>::const_iterator i;
+	gcu::Object const *child = obj->GetFirstChild (i);
+	while (child) {
+		// FIXME
+		if (!loader->WriteObject (out, child, s))
+			return false;
+		child = obj->GetNextChild (i);
+	}
+	return true;
+}
+
 bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *state)
 {
 	std::string name (reinterpret_cast < char const * > (node->name));
@@ -809,9 +861,28 @@ bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *s
 		child_state.position = -1;
 	else if (name == "sup")
 		child_state.position = 1;
-	else if (name == "br")
-		;// FIXME *state->buf += '\n';
-	else if (name == "fore") {
+	else if (name == "br") {
+		gsize written;
+		guint8 const *new_text;
+		char *converted = g_convert ("\r", 1,
+		                             Charsets[loader->m_Fonts[state->font].encoding].c_str (),
+		                             "utf-8", NULL, &written, NULL);
+		if (converted)
+			new_text = reinterpret_cast < guint8 * > (converted);
+		else { // copying raw text and crossing fingers
+			new_text = reinterpret_cast < guint8 const * > ("\r");
+			written = 1;
+		}
+		if (written > 0) {
+			if (state->buf->size + written > state->buf->capacity) {
+				state->buf->capacity += 100 * ((written % 100) + 1);
+				state->buf->buf = reinterpret_cast < guint8 * > (g_realloc (state->buf->buf, state->buf->capacity));
+			}
+			memcpy (state->buf->buf + state->buf->size, new_text, written);
+			state->buf->size += written;
+			return true;
+		}
+	} else if (name == "fore") {
 		GOColor color = ReadColor (node);
 		guint i = 2;
 		std::map < unsigned, GOColor >::iterator it, itend = loader->m_Colors.end ();
@@ -901,8 +972,23 @@ bool CDXLoader::WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, 
 		WRITEINT32 (out, y_);
 		WRITEINT32 (out, x_);
 	}
+	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);
 	prop = obj->GetProperty (GCU_PROP_TEXT_ALIGNMENT);
+	if (prop == "right")
+		AddInt8Property (out, kCDXProp_Justification, 0xff);
+	else if (prop == "left")
+		AddInt8Property (out, kCDXProp_Justification, 0);
+	else if (prop == "center")
+		AddInt8Property (out, kCDXProp_Justification, 1);
 	prop = obj->GetProperty (GCU_PROP_TEXT_JUSTIFICATION);
+	if (prop == "right")
+		AddInt8Property (out, kCDXProp_CaptionJustification, 0xff);
+	else if (prop == "left")
+		AddInt8Property (out, kCDXProp_CaptionJustification, 0);
+	else if (prop == "center")
+		AddInt8Property (out, kCDXProp_CaptionJustification, 1);
+	else if (prop == "justify")
+		AddInt8Property (out, kCDXProp_CaptionJustification, 2);
 	prop = obj->GetProperty (GCU_PROP_TEXT_MARKUP);
 	xmlDocPtr xml = xmlParseMemory (prop.c_str(), prop.length ());
 	xmlNodePtr node = xml->children->children;
@@ -977,6 +1063,13 @@ void CDXLoader::WriteId (Object const *obj, GsfOutput *out)
 	WRITEINT32 (out, n);
 }
 
+void CDXLoader::AddInt8Property (GsfOutput *out, gint16 prop, gint8 value)
+{
+	WRITEINT16 (out, prop);
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x01\x00"));
+	gsf_output_write (out, 1, reinterpret_cast <guint8 const *> (&value)); 
+}
+
 void CDXLoader::AddInt16Property (GsfOutput *out, gint16 prop, gint16 value)
 {
 	WRITEINT16 (out, prop);
@@ -996,6 +1089,7 @@ bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_
 	Document const *doc = dynamic_cast <Document const *> (obj);
 	gint16 n;
 	gint32 l;
+	std::string str;
 	// FIXME: should be able to export a molecule or any object actually
 	if (!doc || !out)
 		return false;
@@ -1013,13 +1107,13 @@ bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_
 	m_Colors[9] = GO_COLOR_VIOLET;
 
 	// Init fonts, we always use Unknown as the charset, hoping it is not an issue
-	m_Fonts[3] = (CDXFont) {3, kCDXCharSetUnicodeISO10646, string ("Arial")};
-	m_Fonts[4] = (CDXFont) {4, kCDXCharSetUnicodeISO10646, string ("Times New Roman")};
+	m_Fonts[3] = (CDXFont) {3, kCDXCharSetWin31Latin1, string ("Arial")};
+	m_Fonts[4] = (CDXFont) {4, kCDXCharSetWin31Latin1, string ("Times New Roman")};
 
 	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
 	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
-	std::string app = doc->GetApp ()->GetName () + " "VERSION;
-	WriteSimpleStringProperty (out, kCDXProp_CreationProgram, app.length (), app.c_str ());
+	str = doc->GetApp ()->GetName () + " "VERSION;
+	WriteSimpleStringProperty (out, kCDXProp_CreationProgram, str.length (), str.c_str ());
 	// Get the theme (we need a gcp::Document there)
 	gcp::Document const *cpDoc = dynamic_cast < gcp::Document const * > (doc);
 	gcp::Theme const *theme = cpDoc->GetTheme ();
@@ -1028,11 +1122,67 @@ bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_
 	m_CHeight = const_cast < gcp::Document * > (cpDoc)->GetView ()->GetCHeight () * 16384. * 3.;
 	// determine the bond length and scale the document appropriately
 	const_cast <Document *> (doc)->SetScale (1. / 3. / m_Scale);
-	n = kCDXProp_BondLength;
-	WRITEINT16 (out, n);
-	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));
 	l = theme->GetBondLength () * m_Scale * 3.;
-	WRITEINT32 (out, l);
+	AddInt32Property (out, kCDXProp_BondLength, l);
+	n = theme->GetBondDist () * 1000. * m_Zoom / theme->GetBondLength ();
+	AddInt16Property (out, kCDXProp_BondSpacing, n);
+	l = theme->GetBondWidth () * 16384. * 3.;
+	AddInt32Property (out, kCDXProp_LineWidth, l);
+	l = theme->GetStereoBondWidth () * 16384. * 3.;
+	AddInt32Property (out, kCDXProp_BoldWidth, l);
+	l = theme->GetHashDist () * 16384. * 3.;
+	AddInt32Property (out, kCDXProp_HashSpacing, l);
+	l = theme->GetBondAngle () * 65536.;
+	AddInt32Property (out, kCDXProp_ChainAngle, l);
+	l = theme->GetPadding () * 16384. * 3.;
+	AddInt32Property (out, kCDXProp_MarginWidth, l);
+	str = theme->GetTextFontFamily ();
+	if (str == "Arial")
+		n = 3;
+	else if (str == "Times New Roman")
+		n = 4;
+	else {
+		n = 5;
+		std::map < unsigned, CDXFont >::iterator it, itend = m_Fonts.end ();
+		for (it = m_Fonts.find (n); it != itend; it++, n++)
+			if (str == (*it).second.name)
+				break;
+		if (it == itend)
+			m_Fonts[n] = (CDXFont) {static_cast < guint16 > (n), kCDXCharSetUnicodeISO10646, str};
+	}
+	AddInt16Property (out, kCDXProp_CaptionStyleFont, n);
+	n = theme->GetTextFontSize () * 20 / PANGO_SCALE;
+	AddInt16Property (out, kCDXProp_CaptionStyleSize, n);
+	n = 0;
+	if (theme->GetTextFontWeight () > PANGO_WEIGHT_NORMAL)
+		n |= 1;
+	if (theme->GetTextFontStyle () != PANGO_STYLE_NORMAL)
+		n |= 2;
+	AddInt16Property (out, kCDXProp_CaptionStyleFace, n);
+	str = theme->GetFontFamily ();
+	if (str == "Arial")
+		n = 3;
+	else if (str == "Times New Roman")
+		n = 4;
+	else {
+		n = 5;
+		std::map < unsigned, CDXFont >::iterator it, itend = m_Fonts.end ();
+		for (it = m_Fonts.find (n); it != itend; it++, n++)
+			if (str == (*it).second.name)
+				break;
+		if (it == itend)
+			m_Fonts[n] = (CDXFont) {static_cast < guint16 > (n), kCDXCharSetUnicodeISO10646, str};
+	}
+	AddInt16Property (out, kCDXProp_LabelStyleFont, n);
+	n = theme->GetFontSize () * 20 / PANGO_SCALE;
+	AddInt16Property (out, kCDXProp_LabelStyleSize, n);
+	n = 0;
+	if (theme->GetFontWeight () > PANGO_WEIGHT_NORMAL)
+		n |= 1;
+	if (theme->GetFontStyle () != PANGO_STYLE_NORMAL)
+		n |= 2;
+	AddInt16Property (out, kCDXProp_LabelStyleFace, n);
+	AddInt8Property (out, kCDXProp_CaptionJustification, 0);
 	// write the document contents
 	// there is a need for a two paths procedure
 	// in the first path, we collect fonts and colors
@@ -1861,7 +2011,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 						str << "</font>";
 					}
 					str << "</text>";
-					Text->SetProperty (GCU_PROP_TEXT_MARKUP, str.str().c_str());
+					Text->SetProperty (GCU_PROP_TEXT_MARKUP, str.str ().c_str ());
 				}
 				break;
 			}

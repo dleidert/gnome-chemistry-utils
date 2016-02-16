@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2016-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/text.cc: ensure font family is correctly exported.
+	* plugins/loaders/cdx/cdx.cc: save theme and fix various text export issues.
+
 2016-02-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/document.cc: fix build with gcc-6 (and potential crasher).
 	[Redhat bug #1307546]
