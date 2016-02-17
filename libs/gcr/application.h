@@ -25,7 +25,7 @@
 #ifndef GCR_APPLICATION_H
 #define GCR_APPLICATION_H
 
-#include <gcugtk/application.h>
+#include <gcugtk/glapplication.h>
 #include <goffice/goffice.h>
 
 /*!\file*/
@@ -47,7 +47,7 @@ class Window;
 This class is used to represent a GCrystal application.
 It is a virtual class since at least one method is pure virtual (gcp::Application::OnFileNew)
 */
-class Application: public gcugtk::Application {
+class Application: public gcugtk::GLApplication {
 public:
 /*!
 The default constructor.

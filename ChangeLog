@@ -1,5 +1,24 @@
 ##Text encoding: utf-8
 
+2016-02-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add a new direct OpenGL rendering option.
+	* libs/gcr/application.cc: ditto.
+	* libs/gcr/application.h: ditto.
+	* libs/gcr/window.cc: ditto.
+	* libs/gcugtk/Makefile.am: ditto.
+	* libs/gcugtk/chem3dapplication.cc: ditto.
+	* libs/gcugtk/chem3dapplication.h: ditto.
+	* libs/gcugtk/chem3dwindow.cc: ditto.
+	* libs/gcugtk/glapplication.cc: ditto.
+	* libs/gcugtk/glapplication.h: ditto.
+	* libs/gcugtk/glview.cc: ditto.
+	* libs/gcugtk/glview.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: attached imported strings to the reaction
+	arrow.
+	* programs/paint/gchempaint.desktop.in.in: add keywords.
+	* schemas/org.gnome.gchemutils.gschema.xml.in.in: add a new direct OpenGL
+	rendering option.
+
 2016-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/text.cc: ensure font family is correctly exported.
 	* plugins/loaders/cdx/cdx.cc: save theme and fix various text export issues.

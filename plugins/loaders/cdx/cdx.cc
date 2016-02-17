@@ -2539,6 +2539,25 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 				arrow->SetProperty (GCU_PROP_ARROW_END_ID, rs->GetId ());
 				rs->OnLoaded ();
 			}
+			// last, the objects attached above and below the arrow
+			if (!(*i).ObjectsAbove.empty () || !(*i).ObjectsBelow.empty ()) {
+				jend = (*i).ObjectsAbove.end ();
+				for (j = (*i).ObjectsAbove.begin (); j != jend; j++) {
+					obj = doc->GetDescendant (m_LoadedIds[*j].c_str ());
+					if (obj == NULL) // we should emit at least a warning
+						continue;
+					parent = arrow->CreateObject ("reaction-prop", arrow);
+					parent->AddChild (obj);
+				}
+				jend = (*i).ObjectsBelow.end ();
+				for (j = (*i).ObjectsBelow.begin (); j != jend; j++) {
+					obj = doc->GetDescendant (m_LoadedIds[*j].c_str ());
+					if (obj == NULL) // we should emit at least a warning
+						continue;
+					parent = arrow->CreateObject ("reaction-prop", arrow);
+					parent->AddChild (obj);
+				}
+			}
 		}
 		// now search for stoichiometry coefficients if any
 		gcp::WidgetData *data = static_cast <gcp::Document * > (doc)->GetView ()->GetData ();

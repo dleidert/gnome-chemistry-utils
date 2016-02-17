@@ -23,7 +23,7 @@
  */
 
 #include "config.h"
-#include "application.h"
+#include "glapplication.h"
 #include "glview.h"
 #include <gcu/gldocument.h>
 #include <GL/gl.h>
@@ -314,10 +314,11 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height, bool use_bg) co
 		GLX_DEPTH_SIZE, 1,
 		0
 	};
+	GLApplication *App = static_cast < GLApplication * > (m_Doc->GetApplication ());
 	GdkWindow *window = (m_Window)? m_Window: gdk_get_default_root_window ();
 	XVisualInfo *xvi = glXChooseVisual (GDK_WINDOW_XDISPLAY (window), gdk_screen_get_number (gdk_window_get_screen (window)), const_cast < int * > (attr_list));
 	Pixmap pixmap = XCreatePixmap (GDK_WINDOW_XDISPLAY (window), GDK_WINDOW_XID (window), width, height, xvi->depth);
-	GLXContext ctxt = glXCreateContext (GDK_WINDOW_XDISPLAY (window), xvi, NULL, false);
+	GLXContext ctxt = glXCreateContext (GDK_WINDOW_XDISPLAY (window), xvi, NULL, App->GetRenderDirect ());
 	GLXPixmap glxp = glXCreateGLXPixmap (GDK_WINDOW_XDISPLAY (window), xvi, pixmap);
 	// draw
 	if (glXMakeCurrent (GDK_WINDOW_XDISPLAY (window), glxp, ctxt)) {

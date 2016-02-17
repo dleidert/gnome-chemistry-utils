@@ -1,8 +1,11 @@
 [Desktop Entry]
 Version=1.0
-_Name=GChemPaint Chemical Structures Editor@STABILITY_POSTFIX@
+_Name=GChemPaint@STABILITY_POSTFIX@
+_GenericName=2D Chemical Structures Editor@STABILITY_POSTFIX@
 _Comment=Edit chemical 2D structures
 Exec=gchempaint-@GCU_API_VER@ %U
+# TRANSLATORS: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+_Keywords=molecule;chemistry;
 Terminal=false
 Type=Application
 Icon=gchempaint

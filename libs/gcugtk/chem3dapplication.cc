@@ -38,7 +38,7 @@
 namespace gcugtk {
 
 Chem3dApplication::Chem3dApplication (gcu::Display3DMode display3d, char const *bg):
-	gcugtk::Application (_("GChem3D Viewer"), DATADIR, "gchem3d"),
+	gcugtk::GLApplication (_("GChem3D Viewer"), DATADIR, "gchem3d"),
 	m_Display3D (display3d)
 {
 	if (!bg)

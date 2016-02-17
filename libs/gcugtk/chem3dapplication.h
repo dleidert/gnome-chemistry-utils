@@ -25,7 +25,7 @@
 #ifndef GCU_GTK_CHEM3D_APPLICATION_H
 #define GCU_GTK_CHEM3D_APPLICATION_H
 
-#include "application.h"
+#include "glapplication.h"
 #include <gcu/chem3ddoc.h>
 
 /*!\file*/
@@ -38,7 +38,7 @@ class Chem3dDoc;
 
 Application class for the molecule 3d viewer.
 */
-class Chem3dApplication: public Application
+class Chem3dApplication: public GLApplication
 {
 public:
 /*!
