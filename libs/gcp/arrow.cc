@@ -197,6 +197,21 @@ double Arrow::GetYAlign ()
 	return m_y + m_height / 2.;
 }
 
+std::string Arrow::GetProperty (unsigned property) const
+{
+	std::ostringstream res;
+	gcu::Document *doc = GetDocument ();
+	switch (property) {
+	case GCU_PROP_ARROW_COORDS:
+		res.precision (12);
+		res << m_x / doc->GetScale () << " " << m_y / doc->GetScale () << " " << (m_x + m_width) / doc->GetScale () << " " << (m_y + m_height) / doc->GetScale ();
+		break;
+	default:
+		return Object::GetProperty (property);
+	}
+	return res.str ();
+}
+
 bool Arrow::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {

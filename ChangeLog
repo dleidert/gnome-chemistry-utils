@@ -1,7 +1,17 @@
 ##Text encoding: utf-8
 
+2016-02-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.cc: export graphic objects to .cdx.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/reaction-operator.cc: ditto.
+	* libs/gcp/reaction-operator.h: ditto.
+	* libs/gcp/reaction-step.cc: improve operator position.
+	* libs/gcp/text.cc: enhance position preision on export.
+	* libs/gcu/atom.cc: ditto.
+	* plugins/loaders/cdx/cdx.cc: export graphic objects.
+
 2016-02-17  Jean Bréfort  <jean.brefort@normalesup.org>
-	* configure.ac: add a new direct OpenGL rendering option.
+	* configure.ac: add a new direct OpenGL rendering option. [#47169]
 	* libs/gcr/application.cc: ditto.
 	* libs/gcr/application.h: ditto.
 	* libs/gcr/window.cc: ditto.

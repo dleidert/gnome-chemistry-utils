@@ -185,18 +185,15 @@ void ReactionStep::OnLoaded ()
 	x = rect.x1;
 	y = (*im).second->GetYAlign ();
 	for (im++; im != endm; im++) {
-		x += pTheme->GetSignPadding ();
+		pObj = (*im).second;
+		rect = Objects[pObj];
+		x = (x + rect.x0) / 2.;
 		//Add a sign
 		ReactionOperator* pOp = new ReactionOperator();
 		AddChild (pOp);
 		pOp->SetCoords(x / pTheme->GetZoomFactor (), y);
 		pDoc->AddObject(pOp);
-		dynamic_cast <gccv::ItemClient *> (pOp)->GetItem ()->GetBounds (x0, y0, x1, y1);
-		pOp->Move ((x - x0) / pTheme->GetZoomFactor (), 0);
-		x += pTheme->GetSignPadding () + x1 - x0;
-		pObj = (*im).second;
-		rect = Objects[pObj];
-		x+= rect.x1 - rect.x0;
+		x= rect.x1;
 	}
 	m_bLoading = false;
 }
