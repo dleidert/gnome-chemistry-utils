@@ -29,11 +29,13 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
+#include <gcu/objprops.h>
 #include <gccv/canvas.h>
 #include <gccv/text.h>
 #include <glib/gi18n.h>
 #include <cmath>
 #include <cstring>
+#include <sstream>
 
 using namespace gcu;
 
@@ -126,6 +128,23 @@ double ReactionOperator::GetYAlign ()
 std::string ReactionOperator::Name ()
 {
 	return _("Reaction operator");
+}
+
+std::string ReactionOperator::GetProperty (unsigned property) const
+{
+	switch (property) {
+	case GCU_PROP_POS2D: {
+		std::ostringstream str;
+		gcu::Document *doc = GetDocument ();
+		str.precision (12);
+		if (doc)
+			str << m_x / doc->GetScale () << " " << m_y / doc->GetScale ();
+		else
+			str << m_x << " " << m_y;
+		return str.str ();
+	}
+	}
+	return "";
 }
 
 }	//	namespace gcp

@@ -1006,6 +1006,7 @@ std::string Text::GetProperty (unsigned property) const
 	case GCU_PROP_POS2D: {
 		std::ostringstream str;
 		gcu::Document *doc = GetDocument ();
+		str.precision (12);
 		if (doc)
 			str << m_x / doc->GetScale () << " " << m_y / doc->GetScale ();
 		else

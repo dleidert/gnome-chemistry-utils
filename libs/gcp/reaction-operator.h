@@ -91,6 +91,14 @@ Used to retrieve the y coordinate for alignment.
 @return y coordinate used for reaction operators alignment.
 */
 	virtual double GetYAlign ();
+/*!
+@param property the property id as defined in objprops.h
+
+Used when saving to get properties from a reaction operator. Currently only one
+property is supported:
+  gcu::GCU_PROP_POS2D.
+*/
+	std::string GetProperty (unsigned property) const;
 
 /*!
 @return the localized object generic name.

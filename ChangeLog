@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2016-02-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.cc: export graphic objects to .cdx.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/reaction-operator.cc: ditto.
+	* libs/gcp/reaction-operator.h: ditto.
+	* libs/gcp/reaction-step.cc: improve operator position.
+	* libs/gcp/text.cc: enhance position preision on export.
+	* libs/gcu/atom.cc: ditto.
+	* plugins/loaders/cdx/cdx.cc: export graphic objects.
+
 2016-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/text.cc: ensure font family is correctly exported.
 	* plugins/loaders/cdx/cdx.cc: save theme and fix various text export issues.

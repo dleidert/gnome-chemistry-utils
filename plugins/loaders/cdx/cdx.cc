@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include <gccv/text.h>
 #include <gcu/application.h>
 #include <gcu/bond.h>
 #include <gcu/document.h>
@@ -176,7 +177,6 @@ private:
 	bool ReadFragmentText (GsfInput *in, Object *parent);
 	bool ReadScheme (GsfInput *in, Object *parent);
 	bool ReadStep (GsfInput *in, Object *parent);
-	bool ReadArrow (GsfInput *in, Object *parent);
 	guint16 ReadSize (GsfInput *in);
 	bool ReadDate (GsfInput *in);
 	void BuildScheme (gcu::Document *doc, SchemeData &scheme);
@@ -185,12 +185,15 @@ private:
 	static void AddInt8Property (GsfOutput *out, gint16 prop, gint8 value);
 	static void AddInt16Property (GsfOutput *out, gint16 prop, gint16 value);
 	static void AddInt32Property (GsfOutput *out, gint16 prop, gint32 value);
+	static void AddBoundingBox (GsfOutput *out, gint32 x0, gint32 y0, gint32 x1, gint32 y1);
 	static void WriteSimpleStringProperty (GsfOutput *out, gint16 id, gint16 length, char const *data);
+	static bool WriteArrow (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteReaction(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
+	static bool WriteReactionStep(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteRetrosynthesis(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *state);
@@ -214,7 +217,7 @@ private:
 	std::list < SchemeData > m_Schemes;
 	gint32 m_MaxId;
 	unsigned m_Z;
-	int m_CHeight;
+	int m_CHeight, m_FontSize;
 	double m_Scale, m_Zoom;
 };
 
@@ -228,6 +231,7 @@ CDXLoader::CDXLoader ():
 	m_WriteCallbacks["bond"] = WriteBond;
 	m_WriteCallbacks["molecule"] = WriteMolecule;
 	m_WriteCallbacks["reaction"] = WriteReaction;
+	m_WriteCallbacks["reaction-arrow"] = WriteArrow;
 	m_WriteCallbacks["text"] = WriteText;
 }
 
@@ -784,6 +788,30 @@ bool CDXLoader::WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *
 	return true;
 }
 
+bool CDXLoader::WriteArrow (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+{
+	std::map <std::string, Object *>::const_iterator i;
+	gcu::Object const *child = obj->GetFirstChild (i);
+	while (child) {
+		if (!loader->WriteObject (out, child, s))
+			return false;
+		child = obj->GetNextChild (i);
+	}
+	gint16 n = kCDXObj_Graphic;
+	WRITEINT16 (out, n);
+	loader->WriteId (obj, out);
+	std::istringstream str (obj->GetProperty (GCU_PROP_ARROW_COORDS));
+	double x0, y0, x1, y1;
+	str >> x0 >> y0 >> x1 >> y1;
+	loader->AddBoundingBox (out, x0, y0, x1, y1);
+	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);
+	loader->AddInt16Property (out, kCDXProp_Graphic_Type, 1);
+	// FIXME: also support mesomery and retrosynthesis
+	loader->AddInt16Property (out, kCDXProp_Arrow_Type, obj->GetProperty (GCU_PROP_REACTION_ARROW_TYPE) == "double"? 8: 2);
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of plus
+	return true;
+}
+
 bool CDXLoader::WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
 {
 	std::map <std::string, Object *>::const_iterator i;
@@ -797,19 +825,55 @@ bool CDXLoader::WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *o
 	return true;
 }
 
-bool CDXLoader::WriteReaction(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+bool CDXLoader::WriteReactionStep(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
 {
 	std::map <std::string, Object *>::const_iterator i;
 	gcu::Object const *child = obj->GetFirstChild (i);
 	while (child) {
-		string name = Object::GetTypeName (child->GetType ());
+		std::string name = Object::GetTypeName (child->GetType ());
+		if (name == "reaction-operator") {
+			gint16 n = kCDXObj_Graphic;
+			WRITEINT16 (out, n);
+			loader->WriteId (obj, out);
+			// Write the bounding box
+			std::istringstream str(child->GetProperty (GCU_PROP_POS2D));
+			double x, y;
+			str >> x >> y;
+			x -= loader->m_FontSize / 3;
+			y += loader->m_CHeight;
+			AddBoundingBox (out, x, y, x, y - loader->m_FontSize);
+			AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);
+			loader->AddInt16Property (out, kCDXProp_Graphic_Type, 7);
+			loader->AddInt16Property (out, kCDXProp_Symbol_Type, 8);
+			gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of plus
+		} else if (!loader->WriteObject (out, child, s))
+			return false;
+		child = obj->GetNextChild (i);
+	}
+	return true;
+}
+
+bool CDXLoader::WriteReaction(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+{
+	std::map <std::string, Object *>::const_iterator i;
+	gcu::Object const *child = obj->GetFirstChild (i);
+	std::list < gcu::Object const * > arrows;
+	std::list < gcu::Object const * >::const_iterator it, itend;
+	while (child) {
+		std::string name = Object::GetTypeName (child->GetType ());
 		if (name == "reaction-step") {
-		} else if (name == "reaction-arrow") {
-		} else
-			puts("oops");
+			if (!loader->WriteReactionStep (loader, out, child, s))
+				return false;
+		} else if (name == "reaction-arrow")
+			arrows.push_back (child);
 		if (!loader->WriteObject (out, child, s))
 			return false;
 		child = obj->GetNextChild (i);
+	}
+	itend = arrows.end ();
+	for (it = arrows.begin (); it != itend; it++) {
+		// save the graphic object.
+		WriteArrow (loader, out, *it, s);
 	}
 	return true;
 }
@@ -1084,6 +1148,17 @@ void CDXLoader::AddInt32Property (GsfOutput *out, gint16 prop, gint32 value)
 	WRITEINT32 (out, value);
 }
 
+void CDXLoader::AddBoundingBox (GsfOutput *out, gint32 x0, gint32 y0, gint32 x1, gint32 y1)
+{
+	gint16 n = kCDXProp_BoundingBox;
+	WRITEINT16 (out, n);
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x10\x00"));
+	WRITEINT32 (out, y1);
+	WRITEINT32 (out, x1);
+	WRITEINT32 (out, y0);
+	WRITEINT32 (out, x0);
+}
+
 bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED char const *mime_type, GOIOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	Document const *doc = dynamic_cast <Document const *> (obj);
@@ -1136,6 +1211,7 @@ bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_
 	AddInt32Property (out, kCDXProp_ChainAngle, l);
 	l = theme->GetPadding () * 16384. * 3.;
 	AddInt32Property (out, kCDXProp_MarginWidth, l);
+
 	str = theme->GetTextFontFamily ();
 	if (str == "Arial")
 		n = 3;
@@ -1152,6 +1228,7 @@ bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_
 	}
 	AddInt16Property (out, kCDXProp_CaptionStyleFont, n);
 	n = theme->GetTextFontSize () * 20 / PANGO_SCALE;
+	m_FontSize = n * 16384 * 3 / 20;
 	AddInt16Property (out, kCDXProp_CaptionStyleSize, n);
 	n = 0;
 	if (theme->GetTextFontWeight () > PANGO_WEIGHT_NORMAL)
@@ -2372,11 +2449,6 @@ bool CDXLoader::ReadStep (GsfInput *in, Object *parent)
 			return false;
 	}
 	m_Scheme.Steps.push_back (data);
-	return true;
-}
-
-bool CDXLoader::ReadArrow (GsfInput *, Object *)
-{
 	return true;
 }
 

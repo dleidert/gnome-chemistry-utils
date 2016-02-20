@@ -278,6 +278,7 @@ string Atom::GetProperty (unsigned property) const
 	switch (property) {
 	case GCU_PROP_POS2D: {
 		Document *doc = const_cast <Atom*> (this)->GetDocument ();
+		res.precision (12);
 		if (doc)
 			res << m_x / doc->GetScale () << " " << m_y / doc->GetScale ();
 		else
