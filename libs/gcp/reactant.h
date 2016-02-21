@@ -131,6 +131,10 @@ coefficient does not need to be an integer, but should always be positive.
 */
 	gcu::Object *GetChild () {return Child;}
 /*!
+@return the molecule or text embedded in this instance.
+*/
+	gcu::Object const *GetChild () const {return Child;}
+/*!
 @return the text representing the stoichiometry coefficient of this instance.
 */
 	gcu::Object *GetStoichChild () {return Stoichiometry;}

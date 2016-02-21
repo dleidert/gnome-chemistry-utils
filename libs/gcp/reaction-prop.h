@@ -139,6 +139,11 @@ It should not be called by a program; call Object::EmitSignal instead.
 @return true to be propagate the signal to the parent.
 */
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
+/*!
+@param child: the embedded object
+Sets the rembedded objecte.
+*/
+	void SetChild (gcu::Object *child);
 
 /*!
 @return the localized object generic name.

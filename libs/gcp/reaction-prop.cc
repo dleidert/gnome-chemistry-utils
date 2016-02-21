@@ -110,4 +110,20 @@ std::string ReactionProp::Name ()
 	return _("Reaction property");
 }
 
+void ReactionProp::SetChild (gcu::Object *child)
+{
+	if (m_Object)
+		delete m_Object;
+	m_Object = child;
+	AddChild (child);
+}
+
+void ReactionProp::SetChild (gcu::Object *child)
+{
+	if (m_Object)
+		delete m_Object;
+	m_Object = child;
+	AddChild (child);
+}
+
 }	//	namespace gcp

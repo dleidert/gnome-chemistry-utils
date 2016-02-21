@@ -23,7 +23,6 @@
  */
 
 #include "config.h"
-#include <gccv/text.h>
 #include <gcu/application.h>
 #include <gcu/bond.h>
 #include <gcu/document.h>
@@ -34,10 +33,12 @@
 #include <gcu/objprops.h>
 #include <gcu/residue.h>
 #include <gcu/xml-utils.h>
+#include <gcp/arrow.h>
 #include <gcp/atom.h>
 #include <gcp/document.h>
 #include <gcp/fragment.h>
 #include <gcp/reactant.h>
+#include <gcp/reaction-prop.h>
 #include <gcp/reaction-step.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -853,7 +854,7 @@ bool CDXLoader::WriteReactionStep(CDXLoader *loader, GsfOutput *out, Object cons
 	return true;
 }
 
-bool CDXLoader::WriteReaction(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+bool CDXLoader::WriteReaction (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
 {
 	std::map <std::string, Object *>::const_iterator i;
 	gcu::Object const *child = obj->GetFirstChild (i);
@@ -866,15 +867,111 @@ bool CDXLoader::WriteReaction(CDXLoader *loader, GsfOutput *out, Object const *o
 				return false;
 		} else if (name == "reaction-arrow")
 			arrows.push_back (child);
-		if (!loader->WriteObject (out, child, s))
-			return false;
 		child = obj->GetNextChild (i);
 	}
 	itend = arrows.end ();
-	for (it = arrows.begin (); it != itend; it++) {
+	for (it = arrows.begin (); it != itend; it++)
 		// save the graphic object.
-		WriteArrow (loader, out, *it, s);
+		if (!WriteArrow (loader, out, *it, s))
+			return false;
+	// Now, save the reaction
+	gint16 n = kCDXObj_ReactionScheme;
+	guint32 id;
+	WRITEINT16 (out, n);
+	loader->WriteId (obj, out);
+	for (it = arrows.begin (); it != itend; it++) {
+		// save the associated step
+		n = kCDXObj_ReactionStep;
+		WRITEINT16 (out, n);
+		std::list < guint32 > Ids, Ids_;
+		loader->WriteId (NULL, out);
+		// reactants
+		gcp::Arrow const *arrow = static_cast < gcp::Arrow const * > (*it);
+		gcu::Object const *cur = arrow->GetStartStep ();
+		if (cur) {
+			child = cur->GetFirstChild (i);
+			while (child) {
+				if (child->GetType () == gcu::ReactantType)
+					Ids.push_back (loader->m_SavedIds[(static_cast < gcp::Reactant const * > (child))->GetChild ()->GetId ()]);
+				child = cur->GetNextChild (i);
+			}
+			if (!Ids.empty ()) {
+				n = kCDXProp_ReactionStep_Reactants;
+				WRITEINT16 (out, n);
+				n = 4 * Ids.size ();
+				WRITEINT16 (out, n);
+				while (!Ids.empty ()) {
+					id = Ids.front ();
+					WRITEINT32 (out, id);
+					Ids.pop_front ();
+				}
+			}
+		}
+		// products
+		cur = arrow->GetEndStep ();
+		if (cur) {
+			child = cur->GetFirstChild (i);
+			while (child) {
+				if (child->GetType () == gcu::ReactantType)
+					Ids.push_back (loader->m_SavedIds[(static_cast < gcp::Reactant const * > (child))->GetChild ()->GetId ()]);
+				child = cur->GetNextChild (i);
+			}
+			if (!Ids.empty ()) {
+				n = kCDXProp_ReactionStep_Products;
+				WRITEINT16 (out, n);
+				n = 4 * Ids.size ();
+				WRITEINT16 (out, n);
+				while (!Ids.empty ()) {
+					id = Ids.front ();
+					WRITEINT32 (out, id);
+					Ids.pop_front ();
+				}
+			}
+		}
+		// arrow
+		n = kCDXProp_ReactionStep_Arrows;
+		WRITEINT16 (out, n);
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));
+		id = loader->m_SavedIds[arrow->GetId ()];
+		WRITEINT32 (out, id);
+		// attached objects
+		// quick implementation, if y is lower than arrow y, then above, otherwise under
+		child = arrow->GetFirstChild (i);
+		double y = const_cast < gcp::Arrow * > (arrow)->GetYAlign ();
+		while (child) {
+			if (y > const_cast < gcu::Object * > (child)->GetYAlign ())
+				Ids_.push_back (loader->m_SavedIds[static_cast < gcp::ReactionProp const * > (child)->GetObject ()->GetId ()]);
+			else
+				Ids.push_back (loader->m_SavedIds[static_cast < gcp::ReactionProp const * > (child)->GetObject ()->GetId ()]);
+			child = arrow->GetNextChild (i);
+		}
+		// objects above the arrow
+		if (!Ids.empty ()) {
+			n = kCDXProp_ReactionStep_ObjectsAboveArrow;
+			WRITEINT16 (out, n);
+			n = 4 * Ids.size ();
+			WRITEINT16 (out, n);
+			while (!Ids.empty ()) {
+				id = Ids.front ();
+				WRITEINT32 (out, id);
+				Ids.pop_front ();
+			}
+		}
+		// objects under the arrow
+		if (!Ids_.empty ()) {
+			n = kCDXProp_ReactionStep_ObjectsBelowArrow;
+			WRITEINT16 (out, n);
+			n = 4 * Ids_.size ();
+			WRITEINT16 (out, n);
+			while (!Ids_.empty ()) {
+				id = Ids_.front ();
+				WRITEINT32 (out, id);
+				Ids_.pop_front ();
+			}
+		}
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of step
 	}
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of scheme
 	return true;
 }
 
@@ -1122,7 +1219,8 @@ void CDXLoader::WriteSimpleStringProperty (GsfOutput *out, gint16 id, gint16 len
 
 void CDXLoader::WriteId (Object const *obj, GsfOutput *out)
 {
-	m_SavedIds[obj->GetId ()] = m_MaxId;
+	if (obj)
+		m_SavedIds[obj->GetId ()] = m_MaxId;
 	gint32 n = m_MaxId++;
 	WRITEINT32 (out, n);
 }
@@ -2554,6 +2652,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 				if (rs == NULL) {
 					if (parent == doc) {
 						rs = reaction->CreateObject ("reaction-step", reaction);
+						static_cast < gcp::Arrow * > (arrow)->SetStartStep (dynamic_cast < gcp::Step * > (rs));
 						reactant = rs->CreateObject ("reactant", rs);
 						static_cast <gcp::Reactant * > (reactant)->SetMolecule (obj);
 					} else {
@@ -2589,6 +2688,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 				if (rs == NULL) {
 					if (parent == doc) {
 						rs = reaction->CreateObject ("reaction-step", reaction);
+						static_cast < gcp::Arrow * > (arrow)->SetEndStep (dynamic_cast < gcp::Step * > (rs));
 						reactant = rs->CreateObject ("reactant", rs);
 						static_cast <gcp::Reactant * > (reactant)->SetMolecule (obj);
 					} else {
@@ -2619,7 +2719,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 					if (obj == NULL) // we should emit at least a warning
 						continue;
 					parent = arrow->CreateObject ("reaction-prop", arrow);
-					parent->AddChild (obj);
+					static_cast < gcp::ReactionProp * > (parent)->SetChild (obj);
 				}
 				jend = (*i).ObjectsBelow.end ();
 				for (j = (*i).ObjectsBelow.begin (); j != jend; j++) {
@@ -2627,7 +2727,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 					if (obj == NULL) // we should emit at least a warning
 						continue;
 					parent = arrow->CreateObject ("reaction-prop", arrow);
-					parent->AddChild (obj);
+					static_cast < gcp::ReactionProp * > (parent)->SetChild (obj);
 				}
 			}
 		}
