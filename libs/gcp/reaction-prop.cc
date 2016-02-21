@@ -163,7 +163,7 @@ std::string ReactionProp::Name ()
 
 double ReactionProp::GetYAlign ()
 {
-	return m_Object->GetYAlign ();
+	return (m_Object)? m_Object->GetYAlign (): go_nan;
 }
 
 static void do_props (ReactionProp *prop)
@@ -206,6 +206,14 @@ bool ReactionProp::SetProperty (unsigned property, char const *value)
 		return Object::SetProperty (property, value);
 	}
 	return true;
+}
+
+void ReactionProp::SetChild (gcu::Object *child)
+{
+	if (m_Object)
+		delete m_Object;
+	m_Object = child;
+	AddChild (child);
 }
 
 }	//	namespace gcp

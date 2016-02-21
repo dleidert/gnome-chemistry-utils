@@ -47,6 +47,7 @@
 
 * GCU Library:
 	* provide clipboard support at the Application level (?).
+	* Make Object::GetYAlign() const
 
 * OpenBabel wrapper:
 	* write a streambuf class wrapping the socket.

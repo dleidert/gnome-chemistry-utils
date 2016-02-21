@@ -162,6 +162,11 @@ Currently supported properties:
 false otherwise.
 */
 	bool SetProperty (unsigned property, char const *value);
+/*!
+@param child: the embedded object
+Sets the rembedded objecte.
+*/
+	void SetChild (gcu::Object *child);
 
 /*!
 @return the localized object generic name.

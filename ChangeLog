@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2016-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reactant.h: make reaction export to .cdx possible.
+	* libs/gcp/reaction-prop.cc: ditto.
+	* libs/gcp/reaction-prop.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: export reactions.
+
 2016-02-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/arrow.cc: export graphic objects to .cdx.
 	* libs/gcp/arrow.h: ditto.
