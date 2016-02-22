@@ -93,7 +93,7 @@ Used to retrieve the y coordinate for alignment. Calls gcp::Molecule::GetYAlign
 for the embedded molecule and returns the result.
 @return y coordinate used for alignment.
 */
-	double GetYAlign ();
+	double GetYAlign () const;
 /*!
 @param arrow a mesomery arrow
 @param mesomer the mesomer at the other end of the arrow.

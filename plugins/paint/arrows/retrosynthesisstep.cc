@@ -94,7 +94,7 @@ bool gcpRetrosynthesisStep::Load(xmlNodePtr node)
 	return false;
 }
 
-double gcpRetrosynthesisStep::GetYAlign ()
+double gcpRetrosynthesisStep::GetYAlign () const
 {
 	return (Molecule)? Molecule->GetYAlign (): 0.;
 }

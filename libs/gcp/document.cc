@@ -147,7 +147,7 @@ void Document::Clear ()
 	}
 }
 
-GtkWidget* Document::GetWidget ()
+GtkWidget* Document::GetWidget () const
 {
 	return (m_pView)? m_pView->GetWidget (): NULL;
 }
@@ -1085,11 +1085,11 @@ void Document::SetReadOnly (bool ro)
 	}
 }
 
-double Document::GetYAlign ()
+double Document::GetYAlign () const
 {
 	if (GetChildrenNumber () == 1) {
-		map<string, Object*>::iterator i;
-		Object *Child = GetFirstChild (i);
+		map<string, Object*>::const_iterator i;
+		Object const *Child = GetFirstChild (i);
 		return Child->GetYAlign ();
 	} else {
 		WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (GetWidget ()), "data");

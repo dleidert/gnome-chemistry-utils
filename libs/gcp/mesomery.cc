@@ -804,10 +804,10 @@ Mesomery::Mesomery (Object* parent, Mesomer *mesomer): Object (MesomeryType)
 	Align ();
 }
 
-double Mesomery::GetYAlign ()
+double Mesomery::GetYAlign () const
 {
-	map<string, Object*>::iterator i;
-	Object *pObj;
+	std::map < std::string, gcu::Object * >::const_iterator i;
+	gcu::Object const *pObj;
 	pObj = GetFirstChild (i);
 	double y = DBL_MAX, new_y;
 	while (pObj) {

@@ -135,7 +135,7 @@ void Mesomer::RemoveArrow (G_GNUC_UNUSED MesomeryArrow *arrow, Mesomer *mesomer)
 	m_Arrows.erase (mesomer);
 }
 
-double Mesomer::GetYAlign ()
+double Mesomer::GetYAlign () const
 {
 	return (m_Molecule)? m_Molecule->GetYAlign (): 0.;
 }

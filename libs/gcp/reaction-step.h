@@ -85,7 +85,7 @@ Used to load a reaction step in memory.
 Used to retrieve the y coordinate for alignment.
 @return y coordinate used for the reaction step alignment.
 */
-	double GetYAlign ();
+	double GetYAlign () const;
 /*!
 @param Signal the appropriate SignalId
 @param Child the child which emitted the signal or NULL

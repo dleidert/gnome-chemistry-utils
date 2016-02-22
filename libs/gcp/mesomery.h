@@ -109,7 +109,7 @@ Aligns the children.
 /*!
 @return the alignment ordinate of the top mesomer.
 */
-	double GetYAlign ();
+	double GetYAlign () const;
 
 /*!
 @return the localized object generic name.

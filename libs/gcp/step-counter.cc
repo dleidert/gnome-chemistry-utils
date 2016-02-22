@@ -172,7 +172,7 @@ bool StepCounter::GetCoords (double* x, double* y, double *z) const
 	return true;
 }
 
-double StepCounter::GetYAlign ()
+double StepCounter::GetYAlign () const
 {
 	return m_y;
 }

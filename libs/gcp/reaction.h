@@ -101,7 +101,7 @@ Used to load an reaction in memory.
 Used to retrieve the y coordinate for alignment.
 @return y coordinate used for the reaction alignment.
 */
-	double GetYAlign ();
+	double GetYAlign () const;
 
 /*!
 @return the localized object generic name.

@@ -396,7 +396,7 @@ void gcpRetrosynthesis::Align ()
 	AlignStep (positions, Target, pView, pData);
 }
 
-double gcpRetrosynthesis::GetYAlign ()
+double gcpRetrosynthesis::GetYAlign () const
 {
 	return (Target)? Target->GetYAlign (): 0.;
 }

@@ -92,7 +92,7 @@ Retrieves the current coordinates of the numering string.
 Used to retrieve the y coordinate for alignment.
 @return y coordinate used for numering strings alignment.
 */
-	virtual double GetYAlign ();
+	double GetYAlign () const;
 
 /*!
 @return the localized object generic name.

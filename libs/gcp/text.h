@@ -158,7 +158,7 @@ The sizes are given in canvas coordinates.
 present at default size so that all texts and chemicalk symbols will have the
 same base line when aligned.
 */
-	double GetYAlign ();
+	double GetYAlign () const;
 /*!
 @param text the text to display.
 

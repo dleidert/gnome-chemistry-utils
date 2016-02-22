@@ -127,7 +127,7 @@ bool ReactionSeparator::GetCoords (double* x, double* y, double *z) const
 	return true;
 }
 
-double ReactionSeparator::GetYAlign ()
+double ReactionSeparator::GetYAlign () const
 {
 	return m_y;
 }

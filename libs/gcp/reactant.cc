@@ -166,7 +166,7 @@ bool Reactant::Load (xmlNodePtr node)
 		return false;
 }
 
-double Reactant::GetYAlign ()
+double Reactant::GetYAlign () const
 {
 	return (Child)? Child->GetYAlign (): 0.;
 }

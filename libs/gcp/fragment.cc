@@ -1391,7 +1391,7 @@ void Fragment::Transform2D (Matrix2D& m, double x, double y)
 	m_Atom->SetCoords (m_x, m_y);
 }
 
-double Fragment::GetYAlign ()
+double Fragment::GetYAlign () const
 {
 	return m_y;
 }

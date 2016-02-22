@@ -937,9 +937,9 @@ bool CDXLoader::WriteReaction (CDXLoader *loader, GsfOutput *out, Object const *
 		// attached objects
 		// quick implementation, if y is lower than arrow y, then above, otherwise under
 		child = arrow->GetFirstChild (i);
-		double y = const_cast < gcp::Arrow * > (arrow)->GetYAlign ();
+		double y = arrow->GetYAlign ();
 		while (child) {
-			if (y > const_cast < gcu::Object * > (child)->GetYAlign ())
+			if (y > child->GetYAlign ())
 				Ids_.push_back (loader->m_SavedIds[static_cast < gcp::ReactionProp const * > (child)->GetObject ()->GetId ()]);
 			else
 				Ids.push_back (loader->m_SavedIds[static_cast < gcp::ReactionProp const * > (child)->GetObject ()->GetId ()]);

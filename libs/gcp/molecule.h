@@ -142,7 +142,7 @@ passed as parameters or NULL if none is found in the molecule.
 Used to retrieve the y coordinate for alignment.
 @return y coordinate used for the molecule alignment.
 */
-	double GetYAlign ();
+	double GetYAlign () const;
 /*!
 @param UIManager the gcu::UIManager to populate.
 @param object the Object on which occured the mouse click.

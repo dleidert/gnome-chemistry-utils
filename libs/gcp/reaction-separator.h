@@ -99,7 +99,7 @@ Retrieves the current coordinates of the separator.
 Used to retrieve the y coordinate for alignment.
 @return y coordinate used for reaction separators alignment.
 */
-	virtual double GetYAlign ();
+	double GetYAlign () const;
 
 /*!
 @return the localized object generic name.

@@ -424,7 +424,7 @@ Used to retrieve the y coordinate for alignment. The default implementation retu
 every derived class for which alignment has a meaning should implement this method.
 @return y coordinate used for objects alignment.
 */
-	virtual double GetYAlign ();
+	virtual double GetYAlign () const;
 
 /*!
 @param uim the UIManager to populate.

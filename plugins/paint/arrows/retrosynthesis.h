@@ -39,13 +39,13 @@ public:
 	gcpRetrosynthesis ();
 	virtual ~gcpRetrosynthesis ();
 
-	virtual xmlNodePtr Save (xmlDocPtr xml) const;
-	virtual bool Load (xmlNodePtr);
-	virtual bool Build (std::set < Object * > const &Children) throw (std::invalid_argument);
-	virtual double GetYAlign ();
-	virtual bool BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y);
-	virtual bool OnSignal (SignalId Signal, Object *Child);
-	virtual void Transform2D (Matrix2D& m, double x, double y);
+	xmlNodePtr Save (xmlDocPtr xml) const;
+	bool Load (xmlNodePtr);
+	bool Build (std::set < Object * > const &Children) throw (std::invalid_argument);
+	double GetYAlign () const;
+	bool BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y);
+	bool OnSignal (SignalId Signal, Object *Child);
+	void Transform2D (Matrix2D& m, double x, double y);
 	int Validate (bool split);
 	void Align ();
 	std::string Name();

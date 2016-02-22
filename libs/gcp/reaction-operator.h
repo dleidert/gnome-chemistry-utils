@@ -90,7 +90,7 @@ Retrieves the current coordinates of the operator.
 Used to retrieve the y coordinate for alignment.
 @return y coordinate used for reaction operators alignment.
 */
-	virtual double GetYAlign ();
+	double GetYAlign () const;
 /*!
 @param property the property id as defined in objprops.h
 

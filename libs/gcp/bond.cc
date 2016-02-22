@@ -774,7 +774,7 @@ void Bond::UpdateItem ()
 	AddItem ();
 }
 
-double Bond::GetYAlign ()
+double Bond::GetYAlign () const
 {
 	double x1, y1, x2, y2;
 	if (!m_Begin || !m_End)

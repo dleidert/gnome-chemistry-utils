@@ -47,7 +47,7 @@ public:
 	char const *HasPropertiesDialog () const;
 	void ParentChanged ();
 	void Move (double x, double y, double z = 0);
-	double GetYAlign ();
+	double GetYAlign () const;
 
 	void SetFontDesc (PangoFontDescription const *desc);
 	void ItexChanged (char const *itex, bool compact);

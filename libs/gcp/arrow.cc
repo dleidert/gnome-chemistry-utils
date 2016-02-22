@@ -193,7 +193,7 @@ void Arrow::Transform2D (Matrix2D& m, double x, double y)
 	m.Transform (m_width, m_height);
 }
 
-double Arrow::GetYAlign ()
+double Arrow::GetYAlign () const
 {
 	return m_y + m_height / 2.;
 }

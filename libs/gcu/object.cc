@@ -466,7 +466,7 @@ bool Object::Build (G_GNUC_UNUSED std::set < Object * > const &Children) throw (
 	return false;
 }
 
-double Object::GetYAlign ()
+double Object::GetYAlign () const
 {
 	return 0.0;
 }

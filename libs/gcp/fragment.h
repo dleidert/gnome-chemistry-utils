@@ -265,7 +265,7 @@ Validates the contents of the fragment text, and display error messages when nec
 /*!
 @return the y coordinate at half height of a carbon atom symbol if any was present.
 */
-	double GetYAlign ();
+	double GetYAlign () const;
 
 /*!
 @param property the property id as defined in objprops.h

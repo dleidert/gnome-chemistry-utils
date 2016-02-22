@@ -67,14 +67,14 @@ std::string MechanismStep::Name ()
 	return _("Mechanism step");
 }
 
-double MechanismStep::GetYAlign ()
+double MechanismStep::GetYAlign () const
 {
 	if (m_Alignment)
 		return m_Alignment->GetYAlign ();
 	unsigned nb = 0;
 	double res = 0.;
-	std::map <std::string, Object *>::iterator i;
-	for (Object *obj = GetFirstChild (i); obj; obj = GetNextChild (i))
+	std::map < std::string, gcu::Object * >::const_iterator i;
+	for (gcu::Object const *obj = GetFirstChild (i); obj; obj = GetNextChild (i))
 		if (obj->GetType () == gcu::MoleculeType) {
 			res += obj->GetYAlign ();
 			nb++;

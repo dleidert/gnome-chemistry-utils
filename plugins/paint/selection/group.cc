@@ -364,7 +364,7 @@ void gcpGroup::Transform2D (G_GNUC_UNUSED Matrix2D& m, G_GNUC_UNUSED double x, G
 {
 }
 
-double gcpGroup::GetYAlign ()
+double gcpGroup::GetYAlign () const
 {
 	gcp::Document *pDoc = reinterpret_cast<gcp::Document*> (GetDocument ());
 	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");

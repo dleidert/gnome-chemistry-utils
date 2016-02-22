@@ -133,7 +133,7 @@ Used to move and/or transform an arrow.
 Used to retrieve the y coordinate for alignment.
 @return y coordinate used for arrows alignment.
 */
-	double GetYAlign ();
+	double GetYAlign () const;
 /*!
 @param property the identity of the property as defined in objprops.h.
 

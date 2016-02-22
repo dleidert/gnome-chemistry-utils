@@ -161,7 +161,7 @@ std::string ReactionProp::Name ()
 	return _("Reaction property");
 }
 
-double ReactionProp::GetYAlign ()
+double ReactionProp::GetYAlign () const
 {
 	return (m_Object)? m_Object->GetYAlign (): go_nan;
 }

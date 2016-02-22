@@ -995,7 +995,7 @@ void Text::Transform2D (Matrix2D& m, double x, double y)
 	m_y -= m_height / 2 - m_ascent - y;
 }
 
-double Text::GetYAlign ()
+double Text::GetYAlign () const
 {
 	return m_y;
 }

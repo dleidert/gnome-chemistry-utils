@@ -258,7 +258,7 @@ the maximum valence for the element.
 /*!
 @return the y coordinate at half height of the atom symbol if it was carbon.
 */
-	virtual double GetYAlign ();
+	double GetYAlign () const;
 /*!
 @param x the x component of the transation vector.
 @param y the y component of the transation vector.

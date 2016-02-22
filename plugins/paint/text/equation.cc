@@ -489,7 +489,7 @@ void gcpEquation::Move (double x, double y, double)
 	m_y += y;
 }
 
-double gcpEquation::GetYAlign ()
+double gcpEquation::GetYAlign () const
 {
 	gcp::Document *doc = static_cast <gcp::Document*> (GetDocument ());
 	return m_y - doc->GetView ()->GetCHeight () / doc->GetTheme ()->GetZoomFactor ();

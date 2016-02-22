@@ -46,9 +46,9 @@ public:
 	virtual ~gcpRetrosynthesisStep ();
 
 	gcpRetrosynthesisStep (gcpRetrosynthesis *synthesis, gcp::Molecule *molecule) throw (std::invalid_argument);
-	virtual double GetYAlign ();
-	virtual bool Load(xmlNodePtr);
-	virtual bool OnSignal (SignalId Signal, Object *Child);
+	double GetYAlign () const;
+	bool Load(xmlNodePtr);
+	bool OnSignal (SignalId Signal, Object *Child);
 	void AddArrow (gcpRetrosynthesisArrow *arrow, gcpRetrosynthesisStep *step, bool start) throw (std::invalid_argument);
 	bool Validate () {return Arrow != NULL || Arrows.size () > 0;}
 	map<gcpRetrosynthesisStep *, gcpRetrosynthesisArrow *> *GetArrows () {return &Arrows;}

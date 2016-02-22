@@ -232,7 +232,7 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 Used to retrieve the y coordinate for alignment.
 @return y coordinate of the bond center.
 */
-	double GetYAlign ();
+	double GetYAlign () const;
 /*!
 @param pBond a bond which might cross.
 

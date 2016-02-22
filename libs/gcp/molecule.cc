@@ -542,20 +542,20 @@ Object* Molecule::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 	return pObj;
 }
 
-double Molecule::GetYAlign ()
+double Molecule::GetYAlign () const
 {
 	if (m_Alignment)
 		return m_Alignment->GetYAlign ();
 	double y, maxy = - DBL_MAX, miny = DBL_MAX;
-	std::list<gcu::Atom*>::iterator i = m_Atoms.begin (), end = m_Atoms.end ();
+	std::list < gcu::Atom * >::const_iterator i = m_Atoms.begin (), end = m_Atoms.end ();
 	for (; i != end; i++) {
-		y =  reinterpret_cast <Atom *> (*i)->GetYAlign ();
+		y =  reinterpret_cast < Atom * > (*i)->GetYAlign ();
 		if (y < miny)
 			miny = y;
 		if (y > maxy)
 			maxy = y;
 	}
-	std::list<Fragment*>::iterator ig = m_Fragments.begin (), endg = m_Fragments.end ();
+	std::list < Fragment * >::const_iterator ig = m_Fragments.begin (), endg = m_Fragments.end ();
 	for (; ig != endg; ig++) {
 		y = (*ig)->GetYAlign ();
 		if (y < miny)

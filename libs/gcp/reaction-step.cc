@@ -198,10 +198,10 @@ void ReactionStep::OnLoaded ()
 	m_bLoading = false;
 }
 
-double ReactionStep::GetYAlign ()
+double ReactionStep::GetYAlign () const
 {
-	map<string, Object*>::iterator i;
-	Object *obj = GetFirstChild (i);
+	std::map < std::string, gcu::Object * >::const_iterator i;
+	Object const *obj = GetFirstChild (i);
 	while (obj && obj->GetType () != gcu::ReactantType && obj->GetType () != MechanismStepType)
 		obj = GetNextChild (i);
 	return (obj)? obj->GetYAlign (): 0.;

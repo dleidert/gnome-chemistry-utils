@@ -703,7 +703,7 @@ void Atom::AddToMolecule (Molecule* Mol)
 	Mol->AddAtom (this);
 }
 
-double Atom::GetYAlign ()
+double Atom::GetYAlign () const
 {
 	return m_y;
 }

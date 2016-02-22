@@ -55,7 +55,7 @@ The destructor.
 @return the alignment ordinate of the MechanismStep. Uses the average of the
 values returned by the molecules.
 */
-	double GetYAlign ();
+	double GetYAlign () const;
 /*!
 @param Signal the appropriate SignalId
 @param Child the child which emitted the signal or NULL

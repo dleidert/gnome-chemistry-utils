@@ -176,7 +176,7 @@ Sets the rembedded objecte.
 Used to retrieve the y coordinate for alignment.
 @return y coordinate used for reaction arrow children alignment.
 */
-	virtual double GetYAlign ();
+	double GetYAlign () const;
 
 private:
 /*!\fn GetObject()

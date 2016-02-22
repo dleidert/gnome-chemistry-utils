@@ -120,7 +120,7 @@ bool ReactionOperator::GetCoords (double* x, double* y, double *z) const
 	return true;
 }
 
-double ReactionOperator::GetYAlign ()
+double ReactionOperator::GetYAlign () const
 {
 	return m_y;
 }

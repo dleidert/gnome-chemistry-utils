@@ -102,11 +102,15 @@ Empties a document and reinitialize it.
 /*!
 @return the canvas widget where the document is displayed.
 */
-	GtkWidget* GetWidget ();
+	GtkWidget* GetWidget () const;
 /*!
 @return the gcp::View associated with the document.
 */
-	View* GetView () {return m_pView;}
+	View *GetView () {return m_pView;}
+/*!
+@return the gcp::View associated with the document.
+*/
+	View const*GetView () const {return m_pView;}
 /*!
 Saves the current file.
 */
@@ -336,7 +340,7 @@ objecst as a molecule or a reaction, it will reurn it's alignment value, otherwi
 0 is returned.
 @return y coordinate used for alignment.
 */
-	virtual double GetYAlign ();
+	double GetYAlign () const;
 /*!
 @return the gcp::Window displaying the document if any.
 */

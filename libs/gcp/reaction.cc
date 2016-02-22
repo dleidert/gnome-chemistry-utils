@@ -317,10 +317,10 @@ bool Reaction::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, d
 	return true;
 }
 
-double Reaction::GetYAlign ()
+double Reaction::GetYAlign () const
 {
-	map<string, Object*>::iterator i;
-	Object *pObj;
+	std::map < std::string, gcu::Object * >::const_iterator i;
+	Object const *pObj;
 	pObj = GetFirstChild (i);
 	double y = DBL_MAX, new_y;
 	while (pObj) {
