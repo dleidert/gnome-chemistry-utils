@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2016-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/brackets.cc: fix embedding of a whole molecule. [#47224]
+	* plugins/paint/selection/bracketstool.cc: fix spacings.
+
+2016-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* all: made gcu::Object::GetYAlign() const.
 
 2016-02-21  Jean Bréfort  <jean.brefort@normalesup.org>

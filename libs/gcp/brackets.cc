@@ -103,16 +103,17 @@ void Brackets::AddItem ()
 	}
 	gccv::Rect rect;
 	if (m_EmbeddedObjects.size () == 1 && GetParent () == *m_EmbeddedObjects.begin ()) {
-		rect.x0 = go_nan;
 		gcu::Object *parent = GetParent ();
+		std::set < gcu::Object * > objs;
 		for (child = parent->GetFirstChild (i); child; child = parent->GetNextChild (i)) {
 			if (child == this)
 				continue;
 			Brackets *br = dynamic_cast < Brackets * > (child);
 			if (br && br->m_EmbeddedObjects.size () == 1 && parent == *br->m_EmbeddedObjects.begin ())
 					continue;
-			view->GetData ()->GetObjectBounds (child, rect);
+			objs.insert (child);
 		}
+		view->GetData ()->GetObjectsBounds (objs, &rect);
 	} else
 		view->GetData ()->GetObjectsBounds (m_EmbeddedObjects, &rect);
 	gccv::Brackets *item = new gccv::Brackets (view->GetCanvas ()->GetRoot (), m_Type, m_Used, m_FontDesc.c_str (), rect.x0, rect.y0, rect.x1, rect.y1, this);

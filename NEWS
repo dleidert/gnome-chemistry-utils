@@ -4,6 +4,8 @@ Version 0.15.2
 		* Don't crash when importing an invalid string. [Redhat bug #1285154]
 		* Fix drawing when zoomed.
 		* Fix various runtime errors.
+		* Fix embedding of a whole molecule inside brackets. [#47224]
+		* Enhanced Chemdraw CDX format support.
 	GChemTable:
 		* Don't crash when showing an already existing chart.
 		[Redhat bug #1302135]

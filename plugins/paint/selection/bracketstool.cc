@@ -162,17 +162,16 @@ void gcpBracketsTool::OnDrag ()
 void gcpBracketsTool::OnRelease ()
 {
 	if (Evaluate ()) {
-    	gcp::Document * doc = m_pView->GetDoc ();
-	    gcp::Operation *op = doc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
-	    op->AddObject (m_Target, 0);
-	    gcp::Brackets *brackets = new gcp::Brackets (m_Type);
-        if (m_Used != gccv::BracketsBoth)
-            brackets->SetUsed (m_Used);
-         brackets->SetEmbeddedObjects (m_pData->SelectedObjects);
-	    op->AddObject (m_Target, 1);
+		gcp::Document * doc = m_pView->GetDoc ();
+		gcp::Operation *op = doc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+		op->AddObject (m_Target, 0);
+		gcp::Brackets *brackets = new gcp::Brackets (m_Type);
+		if (m_Used != gccv::BracketsBoth)
+			brackets->SetUsed (m_Used);
+		brackets->SetEmbeddedObjects (m_pData->SelectedObjects);
+		op->AddObject (m_Target, 1);
 		m_pView->AddObject (brackets);
 		brackets->EmitSignal (gcp::OnChangedSignal);
-
 	}
 	m_pData->UnselectAll ();
 }
