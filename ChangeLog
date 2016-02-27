@@ -1,6 +1,15 @@
 ##Text encoding: utf-8
 
 2016-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.h: typo.
+	* libs/gcp/mesomer.cc: add a property to set/get the child molecule.
+	* libs/gcp/mesomer.h: ditto.
+	* libs/gcp/reaction-arrow.h: typo.
+	* libs/gcp/reaction-operator.h: ditto..
+	* libs/gcu/objprops.h: add new properties.
+	* plugins/loaders/cdx/cdx.cc: fix mesomery loading.
+
+2016-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: enhance reaction operator position on export.
 	* programs/3d/gchem3d.desktop.in.in: add keywords.
 	* programs/calc/gchemcalc.desktop.in.in: ditto.

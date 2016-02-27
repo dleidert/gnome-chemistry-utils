@@ -146,7 +146,7 @@ Used by the gcu::Loader mechanism to retrieve properties of arrows.
 @param value the property value as a string
 
 Used when loading to set common properties to arrows. Only one property is
-currently supported: gcu::GCU_PROP_ARROW_COORDS.
+currently supported: GCU_PROP_ARROW_COORDS.
 @return true if the property could be set, or if the property is not relevant,
 false otherwise.
 */

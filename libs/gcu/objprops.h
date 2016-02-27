@@ -185,6 +185,22 @@ The Id of the object representing the products.
 */
 	GCU_PROP_ARROW_END_ID,
 /*!
+The Id of the object representing the mesomer.
+*/
+	GCU_PROP_MESOMER,
+/*!
+The Id of the stoichimetry coefficient.
+*/
+	GCU_PROP_STOICHIOMETRY,
+/*!
+The Id of a molecule or of the text representing the molecule
+*/
+	GCU_PROP_MOLECULE,
+/*!
+The Id of a molecule or text attached to an arrow
+*/
+	GCU_PROP_ARROW_OBJECT,
+/*!
 The type of a reaction arrow ("double" for a reversible arrow).
 */
 	GCU_PROP_REACTION_ARROW_TYPE,

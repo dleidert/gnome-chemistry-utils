@@ -96,7 +96,7 @@ Used to retrieve the y coordinate for alignment.
 
 Used when saving to get properties from a reaction operator. Currently only one
 property is supported:
-  gcu::GCU_PROP_POS2D.
+	GCU_PROP_POS2D.
 */
 	std::string GetProperty (unsigned property) const;
 
