@@ -149,8 +149,8 @@ It should not be called by a program; call Object::EmitSignal instead.
 
 Used when loading to set common properties to arrows. Currently supported
 properties:
-	gcu::GCU_PROP_REACTION_ARROW_TYPE,
-	gcu::GCU_PROP_REACTION_ARROW_MAX_LINES_ABOVE.
+	GCU_PROP_REACTION_ARROW_TYPE,
+	GCU_PROP_REACTION_ARROW_MAX_LINES_ABOVE.
 @return true if the property could be set, or if the property is not relevant,
 false otherwise.
 */

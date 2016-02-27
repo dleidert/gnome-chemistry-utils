@@ -155,9 +155,9 @@ This method is called to build a contextual menu for the arrow attached object.
 
 Used when loading to set common properties to arrow associated objects.
 Currently supported properties:
-	gcu::GCU_PROP_REACTION_ARROW_PROP_STEP,
-	gcu::GCU_PROP_REACTION_ARROW_PROP_LINE,
-	gcu::GCU_PROP_REACTION_ARROW_PROP_POSITION.
+	GCU_PROP_REACTION_ARROW_PROP_STEP,
+	GCU_PROP_REACTION_ARROW_PROP_LINE,
+	GCU_PROP_REACTION_ARROW_PROP_POSITION.
 @return true if the property could be set, or if the property is not relevant,
 false otherwise.
 */

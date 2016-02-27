@@ -29,6 +29,7 @@
 #include "document.h"
 #include "mechanism-arrow.h"
 #include "view.h"
+#include <gcu/objprops.h>
 #include "widgetdata.h"
 #include <glib/gi18n-lib.h>
 
@@ -161,6 +162,37 @@ bool Mesomer::Load (xmlNodePtr node)
 		return true;
 	}
 	return false;
+}
+
+std::string Mesomer::GetProperty (unsigned property) const
+{
+	std::string res;
+	switch (property) {
+	case GCU_PROP_MESOMER:
+		res = m_Molecule->GetId ();
+		break;
+	default:
+		return Object::GetProperty (property);
+	}
+	return res;
+}
+
+bool Mesomer::SetProperty (unsigned property, char const *value)
+{
+	gcu::Document *doc = GetDocument ();
+	switch (property) {
+	case GCU_PROP_MESOMER:
+		if (m_Molecule != NULL && !strcmp (m_Molecule->GetId (), value)) {
+			break;
+		}
+		if (m_Molecule != NULL)
+			m_Molecule->SetParent (doc);
+		m_Molecule = dynamic_cast < gcp::Molecule * > (doc->GetDescendant (value));
+		if (m_Molecule != NULL)
+			AddChild (m_Molecule);
+		break;
+	}
+	return true;
 }
 
 std::string Mesomer::Name ()

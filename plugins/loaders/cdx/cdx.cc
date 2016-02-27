@@ -2608,7 +2608,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 				delete mesomery;
 				return;
 			}
-			parent->AddChild (obj);
+			parent->SetProperty (GCU_PROP_MESOMER, obj->GetId ());
 			arrow->SetProperty (GCU_PROP_ARROW_START_ID, parent->GetId ());
 			obj = doc->GetDescendant (m_LoadedIds[*(*i).Products.begin ()].c_str ());
 			parent = obj->GetParent ();
