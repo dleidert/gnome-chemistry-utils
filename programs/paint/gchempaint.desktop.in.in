@@ -1,6 +1,7 @@
 [Desktop Entry]
 Version=1.0
-_Name=GChemPaint Chemical Structures Editor@STABILITY_POSTFIX@
+Name=GChemPaint@STABILITY_POSTFIX@
+_GenericName=Chemical Structures Editor@STABILITY_POSTFIX@
 _Comment=Edit chemical 2D structures
 Exec=gchempaint-@GCU_API_VER@ %U
 Terminal=false
@@ -8,3 +9,4 @@ Type=Application
 Icon=gchempaint
 Categories=GTK;GNOME;Education;Science;Chemistry;
 MimeType=application/x-gchempaint;chemical/x-cml;chemical/x-pdb;chemical/x-cdx;chemical/x-cdxml;chemical/x-mdl-molfile;chemical/x-ncbi-asn1;chemical/x-ncbi-asn1-binary;chemical/x-ncbi-asn1-xml;
+_Keywords=chemistry;2D;editor;display;printer;

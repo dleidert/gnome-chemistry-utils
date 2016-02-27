@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2016-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: enhance reaction operator position on export.
+	* programs/3d/gchem3d.desktop.in.in: add keywords.
+	* programs/calc/gchemcalc.desktop.in.in: ditto.
+	* programs/crystal/gcrystal.desktop.in.in: ditto.
+	* programs/paint/gchempaint.desktop.in.in: ditto.
+	* programs/spectra/gspectrum.desktop.in.in: ditto.
+	* programs/table/gchemtable.desktop.in.in: ditto.
+
 2016-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/brackets.cc: fix embedding of a whole molecule. [#47224]
 	* plugins/paint/selection/bracketstool.cc: fix spacings.

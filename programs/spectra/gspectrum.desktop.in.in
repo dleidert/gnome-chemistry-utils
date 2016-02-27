@@ -1,6 +1,7 @@
 [Desktop Entry]
 Version=1.0
-_Name=Spectrum viewer@STABILITY_POSTFIX@
+Name=GSpectrum@STABILITY_POSTFIX@
+_GenericName=Spectrum viewer@STABILITY_POSTFIX@
 _Comment=A spectrum viewer for the GNOME desktop
 Exec=gspectrum-@GCU_API_VER@
 Icon=gspectrum
@@ -8,3 +9,4 @@ Terminal=false
 Type=Application
 Categories=GTK;GNOME;Education;Science;Chemistry;
 MimeType=chemical/x-jcamp-dx;
+_Keywords=chemistry;spectrum;display;printer;

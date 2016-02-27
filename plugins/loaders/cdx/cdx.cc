@@ -841,7 +841,7 @@ bool CDXLoader::WriteReactionStep(CDXLoader *loader, GsfOutput *out, Object cons
 			double x, y;
 			str >> x >> y;
 			x -= loader->m_FontSize / 3;
-			y += loader->m_CHeight;
+			y += loader->m_CHeight + loader->m_FontSize / 2;
 			AddBoundingBox (out, x, y, x, y - loader->m_FontSize);
 			AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);
 			loader->AddInt16Property (out, kCDXProp_Graphic_Type, 7);

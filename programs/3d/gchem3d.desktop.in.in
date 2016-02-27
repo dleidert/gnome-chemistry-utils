@@ -1,6 +1,7 @@
 [Desktop Entry]
 Version=1.0
-_Name=Molecules Viewer@STABILITY_POSTFIX@
+Name=GChem3D@STABILITY_POSTFIX@
+_GenericName=3D molecules viewer@STABILITY_POSTFIX@
 _Comment=Display chemical 3D structures
 Exec=gchem3d-@GCU_API_VER@ %u
 Icon=gchem3d
@@ -8,3 +9,4 @@ Terminal=false
 Type=Application
 Categories=GTK;GNOME;Education;Science;Chemistry;
 MimeType=chemical/x-xyz;chemical/x-mdl-molfile;chemical/x-pdb;chemical/x-cml;
+_Keywords=chemistry;3D;display;molecule;printer;

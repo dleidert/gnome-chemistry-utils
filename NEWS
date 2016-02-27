@@ -14,6 +14,7 @@ Version 0.15.2
 	Mozilla plugin:
 		* Supports the npapi-sdk package as requirement.
 	Other: 
+		* Added keywords to desktop files.
 		* Added appdata files.
 
 Version 0.15.1
