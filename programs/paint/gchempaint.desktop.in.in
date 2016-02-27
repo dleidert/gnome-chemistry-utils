@@ -11,3 +11,4 @@ Type=Application
 Icon=gchempaint
 Categories=GTK;GNOME;Education;Science;Chemistry;
 MimeType=application/x-gchempaint;chemical/x-cml;chemical/x-pdb;chemical/x-cdx;chemical/x-cdxml;chemical/x-mdl-molfile;chemical/x-ncbi-asn1;chemical/x-ncbi-asn1-binary;chemical/x-ncbi-asn1-xml;
+_Keywords=chemistry;2D;editor;display;printer;

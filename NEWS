@@ -14,7 +14,8 @@ Version 0.14.11:
 		* Fix build with gcc-6. [Redhat bug #1307546]
 	GCrystal and GChem3D:
 		* Don't crash when rendering to memory (images and print). [#47169]
-	Other:
+	Other: 
+		* Added keywords to desktop files.
 		* Updated appdata files.
 
 Version 0.14.10:
