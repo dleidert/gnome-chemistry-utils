@@ -30,6 +30,7 @@
 #include <gcugtk/ui-manager.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
+#include <sstream>
 #include <cstring>
 
 using namespace gcu;
@@ -190,6 +191,28 @@ bool ReactionProp::BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *
 	return false;
 }
 
+std::string ReactionProp::GetProperty (unsigned property) const
+{
+	std::ostringstream res;
+	switch (property) {
+	case GCU_PROP_REACTION_ARROW_PROP_STEP:
+		res << m_Step;
+		break;
+	case GCU_PROP_REACTION_ARROW_PROP_LINE:
+		res << m_Line;
+		break;
+	case GCU_PROP_REACTION_ARROW_PROP_POSITION:
+		res << m_Rank;
+		break;
+	case GCU_PROP_ARROW_OBJECT:
+		res << m_Object->GetId ();
+		break;
+	default:
+		return Object::GetProperty (property);
+	}
+	return res.str ();
+}
+
 bool ReactionProp::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {
@@ -202,6 +225,9 @@ bool ReactionProp::SetProperty (unsigned property, char const *value)
 	case GCU_PROP_REACTION_ARROW_PROP_POSITION:
 		m_Rank = atoi (value);
 		break;
+	case GCU_PROP_ARROW_OBJECT:
+		SetChild (GetDocument ()->GetDescendant (value));
+		break;
 	default:
 		return Object::SetProperty (property, value);
 	}
@@ -210,6 +236,8 @@ bool ReactionProp::SetProperty (unsigned property, char const *value)
 
 void ReactionProp::SetChild (gcu::Object *child)
 {
+	if (child == NULL)
+		return;
 	if (m_Object)
 		delete m_Object;
 	m_Object = child;

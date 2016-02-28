@@ -42,6 +42,7 @@
 #include <gcugtk/ui-manager.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
+#include <sstream>
 #include <vector>
 #include <cmath>
 #include <cstring>
@@ -952,6 +953,22 @@ bool ReactionArrow::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 	if (Signal == OnChangedSignal)
 		PositionChildren ();
 	return true;
+}
+
+std::string ReactionArrow::GetProperty (unsigned property) const
+{
+	std::ostringstream res;
+	switch (property) {
+	case GCU_PROP_REACTION_ARROW_TYPE:
+		res << (m_Type == ReversibleArrow)? "double": "simple";
+		break;
+	case GCU_PROP_REACTION_ARROW_MAX_LINES_ABOVE:
+		res << m_MaxLinesAbove;
+		break;
+	default:
+		return Arrow::GetProperty (property);
+	}
+	return res.str ();
 }
 
 bool ReactionArrow::SetProperty (unsigned property, char const *value)

@@ -539,6 +539,7 @@ of its bonds is loaded. All classes supporting the mechanism must overload this 
 
 Used when saving to get properties from various objects. All classes
 supporting the mechanism must overload this method.
+@return the value of the property as a string.
 */
 	virtual std::string GetProperty (unsigned property) const;
 

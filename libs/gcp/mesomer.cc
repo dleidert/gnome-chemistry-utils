@@ -182,6 +182,8 @@ bool Mesomer::SetProperty (unsigned property, char const *value)
 	gcu::Document *doc = GetDocument ();
 	switch (property) {
 	case GCU_PROP_MESOMER:
+		if (doc == NULL)
+			return false;
 		if (m_Molecule != NULL && !strcmp (m_Molecule->GetId (), value)) {
 			break;
 		}

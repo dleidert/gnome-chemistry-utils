@@ -144,6 +144,25 @@ Sets the reagent molecule.
 */
 	void SetMolecule (gcu::Object *molecule);
 /*!
+@param property the identity of the property as defined in objprops.h.
+
+Used by the gcu::Loader mechanism to retrieve properties of mesomers.
+@return the value of the property as a string.
+*/
+	std::string GetProperty (unsigned property) const;
+/*!
+@param property the property id as defined in objprops.h
+@param value the property value as a string
+
+Used when loading to set common properties to mesomers. Currently supported
+property are:
+	GCU_PROP_STOICHIOMETRY,
+	GCU_PROP_MOLECULE.
+@return true if the property could be set, or if the property is not relevant,
+false otherwise.
+*/
+	bool SetProperty (unsigned property, char const *value);
+/*!
 @return the localized object generic name.
 */
 	std::string Name ();

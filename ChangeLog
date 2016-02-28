@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2016-02-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.cc: enhance reaction import/export to CDX format.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/mesomer.cc: ditto.
+	* libs/gcp/reactant.cc: ditto.
+	* libs/gcp/reactant.h: ditto.
+	* libs/gcp/reaction-arrow.cc: ditto.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-prop.cc: ditto.
+	* libs/gcp/reaction-prop.h: ditto.
+	* libs/gcu/object.h: fix documentation.
+	* plugins/loaders/cdx/cdx.cc: enhance reaction import/export.
+
 2016-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/arrow.h: typo.
 	* libs/gcp/mesomer.cc: add a property to set/get the child molecule.
