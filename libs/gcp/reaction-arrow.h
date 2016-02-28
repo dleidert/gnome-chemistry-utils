@@ -125,6 +125,13 @@ It should not be called by a program; call Object::EmitSignal instead.
 */
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 /*!
+@param property the identity of the property as defined in objprops.h.
+
+Used by the gcu::Loader mechanism to retrieve properties of arrows.
+@return the value of the property as a string.
+*/
+	std::string GetProperty (unsigned property) const;
+/*!
 @param property the property id as defined in objprops.h
 @param value the property value as a string
 

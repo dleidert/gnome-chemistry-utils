@@ -33,6 +33,7 @@
 #include "view.h"
 #include "widgetdata.h"
 #include <gcugtk/ui-manager.h>
+#include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
 
@@ -288,6 +289,61 @@ void Reactant::SetMolecule (gcu::Object *molecule)
 		delete Child;
 	Child = molecule;
 	AddChild (molecule);
+}
+
+std::string Reactant::GetProperty (unsigned property) const
+{
+	std::string res;
+	switch (property) {
+	case GCU_PROP_MOLECULE:
+		if (Child)
+			res = Child->GetId ();
+		break;
+	case GCU_PROP_STOICHIOMETRY:
+		if (Stoichiometry)
+			res = Stoichiometry->GetId ();
+		break;
+	default:
+		return Object::GetProperty (property);
+	}
+	return res;
+}
+
+bool Reactant::SetProperty (unsigned property, char const *value)
+{
+	gcu::Document *doc = GetDocument ();
+	switch (property) {
+	case GCU_PROP_MOLECULE: {
+		if (doc == NULL)
+			return false;
+		if (Child != NULL && !strcmp (Child->GetId (), value)) {
+			break;
+		}
+		gcu::Object *new_child = doc->GetDescendant (value);
+		Application *app = static_cast <gcp::Application * > (doc->GetApplication ());
+		std::set < TypeId > const &rules = app->GetRules (ReactantType, RuleMayContain);
+		if (new_child != NULL && rules.find (new_child->GetType ()) != rules.end ()) {
+			if (Child != NULL)
+				Child->SetParent (doc);
+			Child = new_child;
+			AddChild (Child);
+		}
+		break;
+	}
+	case GCU_PROP_STOICHIOMETRY:
+		if (doc == NULL)
+			return false;
+		if (Stoichiometry != NULL && !strcmp (Stoichiometry->GetId (), value)) {
+			break;
+		}
+		if (Stoichiometry != NULL)
+			Stoichiometry->SetParent (doc);
+		Stoichiometry = dynamic_cast < gcp::Text * > (doc->GetDescendant (value));
+		if (Stoichiometry != NULL)
+			AddChild (Stoichiometry);
+		break;
+	}
+	return true;
 }
 
 std::string Reactant::Name ()

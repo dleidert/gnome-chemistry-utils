@@ -145,8 +145,11 @@ Used by the gcu::Loader mechanism to retrieve properties of arrows.
 @param property the property id as defined in objprops.h
 @param value the property value as a string
 
-Used when loading to set common properties to arrows. Only one property is
-currently supported: GCU_PROP_ARROW_COORDS.
+Used when loading to set common properties to arrows.Currently supported
+properties are:
+	CU_PROP_ARROW_COORDS,
+ 	GCU_PROP_ARROW_START_ID,
+	GCU_PROP_ARROW_END_ID.
 @return true if the property could be set, or if the property is not relevant,
 false otherwise.
 */

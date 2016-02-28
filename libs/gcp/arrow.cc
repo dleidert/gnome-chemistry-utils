@@ -206,6 +206,14 @@ std::string Arrow::GetProperty (unsigned property) const
 		res.precision (12);
 		res << m_x / doc->GetScale () << " " << m_y / doc->GetScale () << " " << (m_x + m_width) / doc->GetScale () << " " << (m_y + m_height) / doc->GetScale ();
 		break;
+ 	case GCU_PROP_ARROW_START_ID:
+		if (m_Start)
+			res << m_Start->GetId ();
+		break;
+	case GCU_PROP_ARROW_END_ID:
+		if (m_End)
+			res << m_End->GetId ();
+		break;
 	default:
 		return Object::GetProperty (property);
 	}
@@ -229,6 +237,22 @@ bool Arrow::SetProperty (unsigned property, char const *value)
 		SetCoords (x0, y0, x1, y1);
 		break;
 	}
+ 	case GCU_PROP_ARROW_START_ID: {
+		gcp::Document *doc = static_cast < gcp::Document * > (GetDocument ());
+		if (doc == NULL)
+			return false;
+		SetStartStep (dynamic_cast < Step * > (doc->GetDescendant (value)));
+		break;
+	}
+	case GCU_PROP_ARROW_END_ID: {
+		gcp::Document *doc = static_cast < gcp::Document * > (GetDocument ());
+		if (doc == NULL)
+			return false;
+		SetEndStep (dynamic_cast < Step * > (doc->GetDescendant (value)));
+		break;
+	}
+	default:
+		return Object::SetProperty (property, value);
 	}
 	return true;
 }

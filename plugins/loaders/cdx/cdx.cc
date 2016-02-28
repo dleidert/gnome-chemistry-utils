@@ -37,8 +37,6 @@
 #include <gcp/atom.h>
 #include <gcp/document.h>
 #include <gcp/fragment.h>
-#include <gcp/reactant.h>
-#include <gcp/reaction-prop.h>
 #include <gcp/reaction-step.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -887,12 +885,12 @@ bool CDXLoader::WriteReaction (CDXLoader *loader, GsfOutput *out, Object const *
 		loader->WriteId (NULL, out);
 		// reactants
 		gcp::Arrow const *arrow = static_cast < gcp::Arrow const * > (*it);
-		gcu::Object const *cur = arrow->GetStartStep ();
+		gcu::Object const *cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_START_ID).c_str ());
 		if (cur) {
 			child = cur->GetFirstChild (i);
 			while (child) {
 				if (child->GetType () == gcu::ReactantType)
-					Ids.push_back (loader->m_SavedIds[(static_cast < gcp::Reactant const * > (child))->GetChild ()->GetId ()]);
+					Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_MOLECULE)]);
 				child = cur->GetNextChild (i);
 			}
 			if (!Ids.empty ()) {
@@ -908,12 +906,12 @@ bool CDXLoader::WriteReaction (CDXLoader *loader, GsfOutput *out, Object const *
 			}
 		}
 		// products
-		cur = arrow->GetEndStep ();
+		cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_END_ID).c_str ());
 		if (cur) {
 			child = cur->GetFirstChild (i);
 			while (child) {
 				if (child->GetType () == gcu::ReactantType)
-					Ids.push_back (loader->m_SavedIds[(static_cast < gcp::Reactant const * > (child))->GetChild ()->GetId ()]);
+					Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_MOLECULE)]);
 				child = cur->GetNextChild (i);
 			}
 			if (!Ids.empty ()) {
@@ -940,9 +938,9 @@ bool CDXLoader::WriteReaction (CDXLoader *loader, GsfOutput *out, Object const *
 		double y = const_cast < gcp::Arrow * > (arrow)->GetYAlign ();
 		while (child) {
 			if (y > const_cast < gcu::Object * > (child)->GetYAlign ())
-				Ids_.push_back (loader->m_SavedIds[static_cast < gcp::ReactionProp const * > (child)->GetObject ()->GetId ()]);
+				Ids_.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_ARROW_OBJECT)]);
 			else
-				Ids.push_back (loader->m_SavedIds[static_cast < gcp::ReactionProp const * > (child)->GetObject ()->GetId ()]);
+				Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_ARROW_OBJECT)]);
 			child = arrow->GetNextChild (i);
 		}
 		// objects above the arrow
@@ -2652,9 +2650,9 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 				if (rs == NULL) {
 					if (parent == doc) {
 						rs = reaction->CreateObject ("reaction-step", reaction);
-						static_cast < gcp::Arrow * > (arrow)->SetStartStep (dynamic_cast < gcp::Step * > (rs));
+						arrow->SetProperty (GCU_PROP_ARROW_START_ID, rs->GetId ());
 						reactant = rs->CreateObject ("reactant", rs);
-						static_cast <gcp::Reactant * > (reactant)->SetMolecule (obj);
+						reactant->SetProperty (GCU_PROP_MOLECULE, obj->GetId ());
 					} else {
 						rs = parent->GetParent ();
 						if (rs->GetParent () != reaction) {
@@ -2665,7 +2663,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 				} else {
 					if (parent == doc) {
 						reactant = rs->CreateObject ("reactant", rs);
-						static_cast <gcp::Reactant * > (reactant)->SetMolecule (obj);
+						reactant->SetProperty (GCU_PROP_MOLECULE, obj->GetId ());
 					} else if (rs != parent->GetParent ()) {
 						delete reaction;
 						return;
@@ -2688,9 +2686,9 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 				if (rs == NULL) {
 					if (parent == doc) {
 						rs = reaction->CreateObject ("reaction-step", reaction);
-						static_cast < gcp::Arrow * > (arrow)->SetEndStep (dynamic_cast < gcp::Step * > (rs));
+						arrow->SetProperty (GCU_PROP_ARROW_END_ID, rs->GetId ());
 						reactant = rs->CreateObject ("reactant", rs);
-						static_cast <gcp::Reactant * > (reactant)->SetMolecule (obj);
+						reactant->SetProperty (GCU_PROP_MOLECULE, obj->GetId ());
 					} else {
 						rs = parent->GetParent ();
 						if (rs->GetParent () != reaction) {
@@ -2701,7 +2699,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 				} else {
 					if (parent == doc) {
 						reactant = rs->CreateObject ("reactant", rs);
-						static_cast <gcp::Reactant * > (reactant)->SetMolecule (obj);
+						reactant->SetProperty (GCU_PROP_MOLECULE, obj->GetId ());
 					} else if (rs != parent->GetParent ()) {
 						delete reaction;
 						return;
@@ -2719,7 +2717,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 					if (obj == NULL) // we should emit at least a warning
 						continue;
 					parent = arrow->CreateObject ("reaction-prop", arrow);
-					static_cast < gcp::ReactionProp * > (parent)->SetChild (obj);
+					parent->SetProperty (GCU_PROP_ARROW_OBJECT, obj->GetId ());
 				}
 				jend = (*i).ObjectsBelow.end ();
 				for (j = (*i).ObjectsBelow.begin (); j != jend; j++) {
@@ -2727,7 +2725,7 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 					if (obj == NULL) // we should emit at least a warning
 						continue;
 					parent = arrow->CreateObject ("reaction-prop", arrow);
-					static_cast < gcp::ReactionProp * > (parent)->SetChild (obj);
+					parent->SetProperty (GCU_PROP_ARROW_OBJECT, obj->GetId ());
 				}
 			}
 		}
@@ -2772,7 +2770,7 @@ next_text:
 		}
 		std::list < std::pair <gcu::Object *, gcu::Object * > >::iterator c, cend = couples.end ();
 		for (c = couples.begin (); c != cend; c++) {
-			static_cast < gcp::Reactant * > ((*c).first)->AddStoichiometry (dynamic_cast <gcp::Text *> ((*c).second));
+			(*c).first->SetProperty (GCU_PROP_STOICHIOMETRY, (*c).second->GetId ());
 		}
 	}
 }

@@ -26,7 +26,9 @@
 #include "document.h"
 #include "reaction-prop.h"
 #include "reaction-arrow.h"
+#include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
+#include <sstream>
 #include <cstring>
 
 using namespace gcu;
@@ -57,7 +59,9 @@ static unsigned RoleFromString (char const *role)
 
 ReactionProp::ReactionProp ():
 	Object (ReactionPropType),
-	DialogOwner ()
+	DialogOwner (),
+	m_Object (NULL),
+	m_Role (REACTION_PROP_UNKNOWN)
 {
 }
 
@@ -110,8 +114,35 @@ std::string ReactionProp::Name ()
 	return _("Reaction property");
 }
 
+std::string ReactionProp::GetProperty (unsigned property) const
+{
+	std::ostringstream res;
+	switch (property) {
+	case GCU_PROP_ARROW_OBJECT:
+		res << m_Object->GetId ();
+		break;
+	default:
+		return Object::GetProperty (property);
+	}
+	return res.str ();
+}
+
+bool ReactionProp::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_ARROW_OBJECT:
+		SetChild (GetDocument ()->GetDescendant (value));
+		break;
+	default:
+		return Object::SetProperty (property, value);
+	}
+	return true;
+}
+
 void ReactionProp::SetChild (gcu::Object *child)
 {
+	if (child == NULL)
+		return;
 	if (m_Object)
 		delete m_Object;
 	m_Object = child;
