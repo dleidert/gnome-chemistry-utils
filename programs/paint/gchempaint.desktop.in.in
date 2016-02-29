@@ -4,9 +4,10 @@ Name=GChemPaint@STABILITY_POSTFIX@
 _GenericName=Chemical Structures Editor@STABILITY_POSTFIX@
 _Comment=Edit chemical 2D structures
 Exec=gchempaint-@GCU_API_VER@ %U
-Terminal=false
+# TRANSLATORS: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+_Keywords=chemistry;2D;editor;display;printer;Terminal=false
 Type=Application
 Icon=gchempaint
 Categories=GTK;GNOME;Education;Science;Chemistry;
 MimeType=application/x-gchempaint;chemical/x-cml;chemical/x-pdb;chemical/x-cdx;chemical/x-cdxml;chemical/x-mdl-molfile;chemical/x-ncbi-asn1;chemical/x-ncbi-asn1-binary;chemical/x-ncbi-asn1-xml;
-_Keywords=chemistry;2D;editor;display;printer;
+

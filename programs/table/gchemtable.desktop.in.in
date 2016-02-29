@@ -4,8 +4,8 @@ Name=GChemTable@STABILITY_POSTFIX@
 _GenericName=Periodic table of the elements@STABILITY_POSTFIX@
 _Comment=A Mendeleiev table of the chemical elements
 Exec=gchemtable-@GCU_API_VER@
-Icon=gchemtable
+# TRANSLATORS: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+_Keywords=chemistry;Mendeleiev;periodic table;Icon=gchemtable
 Terminal=false
 Type=Application
 Categories=GTK;GNOME;Education;Science;Chemistry;
-_Keywords=chemistry;Mendeleiev;periodic table;
