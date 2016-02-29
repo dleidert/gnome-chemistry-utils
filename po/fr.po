@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-08 10:51+0100\n"
+"POT-Creation-Date: 2016-02-29 14:25+0100\n"
 "PO-Revision-Date: 2016-02-08 10:53+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -728,7 +728,7 @@ msgstr "GChemPaint est un éditeur de structures chimiques en 2D pour Gnome"
 msgid "Copyright © 2001-2010 by Jean Bréfort"
 msgstr "Copyright © 2001-2010 par Jean Bréfort"
 
-#: ../libs/gcp/arrow.cc:223 ../libs/gcp/reaction-arrow.cc:255
+#: ../libs/gcp/arrow.cc:262 ../libs/gcp/reaction-arrow.cc:256
 msgid "Arrow"
 msgstr "Flèche"
 
@@ -837,7 +837,7 @@ msgid "Save as image"
 msgstr "Sauvegarder en tant qu'image"
 
 #: ../libs/gcp/atom.cc:1187 ../libs/gcp/atom.cc:1201 ../libs/gcp/atom.cc:1214
-#: ../libs/gcr/atomsdlg.cc:425 ../libs/gcu/atom.cc:394
+#: ../libs/gcr/atomsdlg.cc:425 ../libs/gcu/atom.cc:395
 #: ../plugins/paint/atoms/plugin.cc:63
 msgid "Atom"
 msgstr "Atome"
@@ -899,18 +899,18 @@ msgstr "Mettre à l'arrière plan"
 msgid "Bring to front"
 msgstr "Mettre à l'avant plan"
 
-#: ../libs/gcp/brackets.cc:365 ../libs/gcp/brackets.cc:379
+#: ../libs/gcp/brackets.cc:366 ../libs/gcp/brackets.cc:380
 #: ../plugins/paint/selection/brackets.ui.h:6
 #: ../plugins/paint/selection/plugin.cc:78
 #: ../plugins/paint/selection/plugin.cc:79
 msgid "Brackets"
 msgstr "Parenthèses"
 
-#: ../libs/gcp/brackets.cc:368
+#: ../libs/gcp/brackets.cc:369
 msgid "Add stoichiometry"
 msgstr "Ajouter un coefficient stœchiométrique"
 
-#: ../libs/gcp/brackets.cc:382
+#: ../libs/gcp/brackets.cc:383
 msgid "Add superscript"
 msgstr "Ajouter un exposant"
 
@@ -1015,15 +1015,15 @@ msgstr "Étape de mécanisme"
 msgid "Align using this molecule"
 msgstr "Alinger sur cette molécule"
 
-#: ../libs/gcp/mesomer.cc:114
+#: ../libs/gcp/mesomer.cc:115
 msgid "NULL argument to Mesomer constructor!"
 msgstr "Argument NULL pour le contructeur de Mésomère !"
 
-#: ../libs/gcp/mesomer.cc:129
+#: ../libs/gcp/mesomer.cc:130
 msgid "Only one arrow can link two given mesomers."
 msgstr "Une seule flèche peut lier deux formes mésomères."
 
-#: ../libs/gcp/mesomer.cc:168
+#: ../libs/gcp/mesomer.cc:202
 msgid "Mesomer"
 msgstr "Mésomère"
 
@@ -1142,16 +1142,16 @@ msgid "Arrows"
 msgstr "Flèches"
 
 #: ../libs/gcp/preferences.cc:436 ../libs/gcp/preferences.cc:510
-#: ../libs/gcp/preferences.cc:557 ../libs/gcp/text.cc:1068
+#: ../libs/gcp/preferences.cc:557 ../libs/gcp/text.cc:1136
 #: ../plugins/paint/text/plugin.cc:52
 msgid "Text"
 msgstr "Texte"
 
-#: ../libs/gcp/reactant.cc:83
+#: ../libs/gcp/reactant.cc:84
 msgid "Add a stoichiometry coefficient"
 msgstr "Ajouter un coefficient stœchiométrique"
 
-#: ../libs/gcp/reactant.cc:295 ../libs/gcp/reaction-prop.cc:41
+#: ../libs/gcp/reactant.cc:351 ../libs/gcp/reaction-prop.cc:43
 msgid "Reactant"
 msgstr "Réactif"
 
@@ -1171,19 +1171,19 @@ msgstr "Détruire la réaction"
 msgid "Reaction"
 msgstr "Réaction"
 
-#: ../libs/gcp/reaction-arrow.cc:261
+#: ../libs/gcp/reaction-arrow.cc:262
 msgid "Attach selection to arrow..."
 msgstr "Attacher la sélection à la flèche..."
 
-#: ../libs/gcp/reaction-arrow.cc:394
+#: ../libs/gcp/reaction-arrow.cc:408
 msgid "Reaction arrow"
 msgstr "Flèche de réaction"
 
-#: ../libs/gcp/reaction-operator.cc:128
+#: ../libs/gcp/reaction-operator.cc:130
 msgid "Reaction operator"
 msgstr "Opérateur de réaction"
 
-#: ../libs/gcp/reaction-prop.cc:39 ../libs/gcp/theme.cc:526
+#: ../libs/gcp/reaction-prop.cc:41 ../libs/gcp/theme.cc:526
 #: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:97
 #: ../libs/gcr/atomsdlg.cc:214 ../libs/gcr/atomsdlg.cc:438
 #: ../libs/gcr/atomsdlg.cc:536 ../programs/table/gchemtable-elt.cc:58
@@ -1191,35 +1191,35 @@ msgstr "Opérateur de réaction"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: ../libs/gcp/reaction-prop.cc:40
+#: ../libs/gcp/reaction-prop.cc:42
 msgid "Catalyst"
 msgstr "Catalyseur"
 
-#: ../libs/gcp/reaction-prop.cc:42
+#: ../libs/gcp/reaction-prop.cc:44
 msgid "Product"
 msgstr "Produit"
 
-#: ../libs/gcp/reaction-prop.cc:43
+#: ../libs/gcp/reaction-prop.cc:45
 msgid "Solvent"
 msgstr "Solvant"
 
-#: ../libs/gcp/reaction-prop.cc:44
+#: ../libs/gcp/reaction-prop.cc:46
 msgid "Temperature"
 msgstr "Température"
 
-#: ../libs/gcp/reaction-prop.cc:45
+#: ../libs/gcp/reaction-prop.cc:47
 msgid "Pressure"
 msgstr "Pression"
 
-#: ../libs/gcp/reaction-prop.cc:46
+#: ../libs/gcp/reaction-prop.cc:48
 msgid "Time"
 msgstr "Durée"
 
-#: ../libs/gcp/reaction-prop.cc:47
+#: ../libs/gcp/reaction-prop.cc:49
 msgid "Enthalpy"
 msgstr "Enthalpie"
 
-#: ../libs/gcp/reaction-prop.cc:110
+#: ../libs/gcp/reaction-prop.cc:114
 msgid "Reaction property"
 msgstr "Propriété de la réaction"
 
@@ -1227,7 +1227,7 @@ msgstr "Propriété de la réaction"
 msgid "A mechanism step must stay alone inside a reaction step"
 msgstr "Une étape de mécanisme doit être seule dans une étape de réaction."
 
-#: ../libs/gcp/reaction-step.cc:297
+#: ../libs/gcp/reaction-step.cc:294
 msgid "Reaction step"
 msgstr "Étape de réaction"
 
@@ -1235,7 +1235,7 @@ msgstr "Étape de réaction"
 msgid "Only one arrow can link two given steps."
 msgstr "Une seule flèche peut lier deux étapes données."
 
-#: ../libs/gcp/text.cc:130 ../libs/gcp/text.cc:136
+#: ../libs/gcp/text.cc:131 ../libs/gcp/text.cc:137
 msgid "This should not have occured, please file a bug record."
 msgstr ""
 "Un événement inattendu est survenu, merci de faire un rapport de bogue."
@@ -1653,7 +1653,7 @@ msgstr "Bascule entre le mode plein écran et le mode fenêtré"
 msgid "Open _recent"
 msgstr "Ou_vrir récents"
 
-#: ../libs/gcp/window.cc:610 ../libs/gcr/window.cc:470
+#: ../libs/gcp/window.cc:610 ../libs/gcr/window.cc:469
 msgid "Ready"
 msgstr "Prêt"
 
@@ -1883,12 +1883,12 @@ msgstr "Rapporter une anomalie concernant les Gnome Chemistry Utils"
 msgid "About Gnome Crystal"
 msgstr "À propos de Gnome Cristal"
 
-#: ../libs/gcr/window.cc:450 ../libs/gcugtk/chem3dwindow.cc:422
+#: ../libs/gcr/window.cc:449 ../libs/gcugtk/chem3dwindow.cc:421
 #: ../programs/spectra/window.cc:288
 msgid "Open recent"
 msgstr "Récemment ouverts"
 
-#: ../libs/gcr/window.cc:491
+#: ../libs/gcr/window.cc:490
 #, c-format
 msgid "Space group: %u"
 msgstr "Groupe d'espace : %u"
@@ -2495,12 +2495,12 @@ msgstr ""
 "Impossible de charger\n"
 "%s"
 
-#: ../plugins/loaders/cdx/cdx.cc:1140 ../plugins/loaders/cdx/cdx.cc:1144
-#: ../plugins/loaders/cdx/cdx.cc:1272 ../plugins/loaders/cdx/cdx.cc:1278
+#: ../plugins/loaders/cdx/cdx.cc:1648 ../plugins/loaders/cdx/cdx.cc:1652
+#: ../plugins/loaders/cdx/cdx.cc:1780 ../plugins/loaders/cdx/cdx.cc:1786
 msgid "Unsupported feature, please report!"
 msgstr "Fonction non supportée, contactez l'équipe de développement !"
 
-#: ../plugins/loaders/cdx/cdx.cc:1232 ../plugins/loaders/cdxml/cdxml.cc:503
+#: ../plugins/loaders/cdx/cdx.cc:1740 ../plugins/loaders/cdxml/cdxml.cc:503
 #, c-format
 msgid "failed for %s\n"
 msgstr "échec pour %s\n"
@@ -3078,7 +3078,7 @@ msgstr "Identité"
 msgid "Formula"
 msgstr "Formule"
 
-#: ../plugins/paint/selection/bracketstool.cc:207
+#: ../plugins/paint/selection/bracketstool.cc:206
 msgid "Error loading the properties widget description:\n"
 msgstr ""
 "Erreur lors du chargement de la description de la fenêtre des propriétés :\n"
@@ -3371,12 +3371,16 @@ msgid "Invalid or misplaced argument: %s\n"
 msgstr "Argument invalide ou mal placé : %s\n"
 
 #: ../programs/3d/gchem3d.desktop.in.h:1
-msgid "Molecules Viewer"
-msgstr "Visionneuse de molécules"
+msgid "3D molecules viewer"
+msgstr "Visionneuse de molécules en 3D"
 
 #: ../programs/3d/gchem3d.desktop.in.h:2
 msgid "Display chemical 3D structures"
 msgstr "Affiche des structures moléculaires en trois dimensions"
+
+#: ../programs/3d/gchem3d.desktop.in.h:3
+msgid "chemistry;3D;display;molecule;printer;"
+msgstr "chimie;3D;affichage;molécule;imprimante;"
 
 #: ../programs/calc/gchemcalc.cc:281
 msgid "GChemCalc is a simple calculator for chemists"
@@ -3472,12 +3476,16 @@ msgid "A simple calculator for chemistry"
 msgstr "Une calculatrice simple pour chimiste"
 
 #: ../programs/crystal/gcrystal.desktop.in.h:1
-msgid "Gnome Crystal Crystalline Structures Viewer"
-msgstr "Visionneuse de structures cristallines Gnome Cristal"
+msgid "Crystalline Structures Viewer"
+msgstr "Visionneuse de structures cristallines"
 
 #: ../programs/crystal/gcrystal.desktop.in.h:2
 msgid "Edit and display crystalline structures"
 msgstr "Édite et représente des structures cristallines"
+
+#: ../programs/crystal/gcrystal.desktop.in.h:3
+msgid "chemistry;3D;display;crystal;printer;"
+msgstr "chimie;3D;affichage;cristal;imprimante;"
 
 #: ../programs/crystal/application.cc:53
 #, c-format
@@ -3505,6 +3513,10 @@ msgstr "Édite des structures chimiques 2D"
 msgid "molecule;chemistry;"
 msgstr "molécule;chimie;"
 
+#: ../programs/paint/gchempaint.desktop.in.h:6
+msgid "chemistry;2D;editor;display;printer;"
+msgstr "chimie;2D;éditeur;affichage;imprimante;"
+
 #: ../programs/paint/main.cc:43
 msgid "GChemPaint version: "
 msgstr "Version de GChemPaint : "
@@ -3520,6 +3532,10 @@ msgstr "Visionneuse de spectres"
 #: ../programs/spectra/gspectrum.desktop.in.h:2
 msgid "A spectrum viewer for the GNOME desktop"
 msgstr "Une visionneuse de spectre pour le bureau de GNOME"
+
+#: ../programs/spectra/gspectrum.desktop.in.h:3
+msgid "chemistry;spectrum;display;printer;"
+msgstr "chimie;spectre;affichage;imprimante;"
 
 #: ../programs/spectra/window.cc:112
 msgid "GSpectrum is a spectrum viewer for Gnome"
@@ -3881,6 +3897,10 @@ msgstr "Masse atomique"
 msgid "A Mendeleiev table of the chemical elements"
 msgstr "Tableau de Mendeleiev des éléments chimiques"
 
+#: ../programs/table/gchemtable.desktop.in.h:3
+msgid "chemistry;Mendeleiev;periodic table;"
+msgstr "chimie;Mendeleiev;tableau périodique;"
+
 #: ../schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in.h:1
 msgid "Printing resolution"
 msgstr "Résolution de l'imprimante"
@@ -4052,6 +4072,23 @@ msgstr ""
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:16
 msgid "This is the default paper orientation."
 msgstr "Orientation par défaut de la page."
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:17
+msgid "Use direct rendering when exporting an offscreen OpenGL scene."
+msgstr "Utiliser un rendu direcpour exporter une scène OpenGL hors écran."
+
+#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:18
+msgid ""
+"The documentation says that direct rendering from OpenGL to a pixbuf is not "
+"possible, but some implementations only accept direct rendering and crash "
+"otherwise. The default is set at compile time, and if GCrystal or GChem3D "
+"crash, try to change this setting."
+msgstr ""
+"Le documentation dit que le rendu direct par OpenGL vers la mémoire n'est "
+"pas possible, mais certaines implémentations n'acceptent que le rendu direct "
+"et arrêtent le progamme sinon. La valeur par défaut est fixée lors de la "
+"compilation et si une des visionneuses 3D plante, essayez de changer ce "
+"réglage."
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:1
 msgid "Default bond length"
@@ -5737,7 +5774,3 @@ msgid ""
 msgstr ""
 "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> block f </span>"
-
-#, fuzzy
-#~ msgid "Ebullition temperature"
-#~ msgstr "Température de fusion"

@@ -54,7 +54,7 @@
     <key name="direct-rendering" type="b">
       <default>@DIRECT_RENDERING@</default>
       <_summary>Use direct rendering when exporting an offscreen OpenGL scene.</_summary>
-      <_description>The documentation says that direct rendering from OpenGL to a pixbuf is not possible, but some implementations onnly accept direct rendering and crash otherwise. The default is false, and if GCrystal or GChem3D crash, try setting to true.</_description>
+      <_description>The documentation says that direct rendering from OpenGL to a pixbuf is not possible, but some implementations only accept direct rendering and crash otherwise. The default is set at compile time, and if GCrystal or GChem3D crash, try to change this setting.</_description>
     </key>
   </schema>
 </schemalist>

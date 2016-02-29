@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2016-02-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/*/*.desktop.in.in: add a comment for translators.
+	* schemas/org.gnome.gchemutils.gschema.xml.in.in: fixed a key description.
+
 2016-02-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/arrow.cc: enhance reaction import/export to CDX format.
 	* libs/gcp/arrow.h: ditto.

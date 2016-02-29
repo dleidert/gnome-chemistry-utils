@@ -4,10 +4,11 @@ Name=GCrystal@STABILITY_POSTFIX@
 _GenericName=Crystalline Structures Viewer@STABILITY_POSTFIX@
 _Comment=Edit and display crystalline structures
 Exec=gcrystal-@GCU_API_VER@ %U
+# TRANSLATORS: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+_Keywords=chemistry;3D;display;crystal;printer;
 Icon=gcrystal
 Terminal=false
 Type=Application
 DocPath=gcrystal/gcrystal.xml
 Categories=GTK;GNOME;Education;Science;Chemistry;
 MimeType=application/x-gcrystal;chemical/x-cif;chemical/x-cml;
-_Keywords=chemistry;3D;display;crystal;printer;
