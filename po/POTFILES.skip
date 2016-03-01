@@ -11,3 +11,15 @@ plugins/paint/wikipedia/wikipediatool.cc
 schemas/org.gnome.gchemutils.crystal.gschema.xml.in
 schemas/org.gnome.gchemutils.gschema.xml.in
 schemas/org.gnome.gchemutils.paint.gschema.xml.in
+## the following lines are there just to avoid a failure in make distcheck
+sub/gnumeric/plugin.xml.in
+sub/plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in
+sub/programs/3d/gchem3d.desktop.in
+sub/programs/calc/gchemcalc.desktop.in
+sub/programs/crystal/gcrystal.desktop.in
+sub/programs/paint/gchempaint.desktop.in
+sub/programs/spectra/gspectrum.desktop.in
+sub/programs/table/gchemtable.desktop.in
+sub/schemas/org.gnome.gchemutils.crystal.gschema.xml.in
+sub/schemas/org.gnome.gchemutils.gschema.xml.in
+sub/schemas/org.gnome.gchemutils.paint.gschema.xml.in
