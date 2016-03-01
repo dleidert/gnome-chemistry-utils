@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2016-03-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.14.12).
+
 2016-02-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/*/*.desktop.in.in: add a comment for translators.
 	* schemas/org.gnome.gchemutils.gschema.xml.in.in: fixed a key description.
