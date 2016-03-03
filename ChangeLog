@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2016-03-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: fix reading of text with empty runs and avoid
+	writing such weird objects. [see sr#108952 comments #25-27]
+
 2016-03-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.14.12).
 
