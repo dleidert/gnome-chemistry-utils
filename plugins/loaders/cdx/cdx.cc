@@ -1055,54 +1055,56 @@ bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *s
 	}
 	xmlNodePtr child = node->children;
 	if (child == NULL) {
-		// write the font style run
-		WRITEINT16 (state->out, state->index);
-		WRITEINT16 (state->out, child_state.font);
-		guint16 font_type = 0;
-		if (child_state.bold)
-			font_type |= 1;
-		if (child_state.italic)
-			font_type |= 2;
-		if (child_state.underline)
-			font_type |= 4;
-		switch (child_state.position) {
-		case -1:
-			font_type |= 0x20;
-			break;
-		case 1:
-			font_type |= 0x40;
-			break;
-		default:
-			break;
-		}
-		WRITEINT16 (state->out, font_type);
-		WRITEINT16 (state->out, child_state.size);
-		WRITEINT16 (state->out, child_state.color);
 		xmlChar *buf = xmlNodeGetContent (node);
 		guint16 bufsize = strlen (reinterpret_cast < char * > (buf));
-		guint8 *new_text;
-		gsize written;
-		char *converted = g_convert (reinterpret_cast < char * > (buf),
-		                             bufsize,
-		                             Charsets[loader->m_Fonts[child_state.font].encoding].c_str (),
-		                             "utf-8", NULL, &written, NULL);
-		if (converted)
-			new_text = reinterpret_cast < guint8 * > (converted);
-		else { // copying raw text and crossing fingers
-			new_text = reinterpret_cast < guint8 * > (buf);
-			written = bufsize;
-		}
-		if (written > 0) {
-			if (state->buf->size + written > state->buf->capacity) {
-				state->buf->capacity += 100 * ((written % 100) + 1);
-				state->buf->buf = reinterpret_cast < guint8 * > (g_realloc (state->buf->buf, state->buf->capacity));
+		if (bufsize > 0) {
+			// write the font style run
+			WRITEINT16 (state->out, state->index);
+			WRITEINT16 (state->out, child_state.font);
+			guint16 font_type = 0;
+			if (child_state.bold)
+				font_type |= 1;
+			if (child_state.italic)
+				font_type |= 2;
+			if (child_state.underline)
+				font_type |= 4;
+			switch (child_state.position) {
+			case -1:
+				font_type |= 0x20;
+				break;
+			case 1:
+				font_type |= 0x40;
+				break;
+			default:
+				break;
 			}
-			memcpy (state->buf->buf + state->buf->size, new_text, written);
-			state->buf->size += written;
+			WRITEINT16 (state->out, font_type);
+			WRITEINT16 (state->out, child_state.size);
+			WRITEINT16 (state->out, child_state.color);
+			guint8 *new_text;
+			gsize written;
+			char *converted = g_convert (reinterpret_cast < char * > (buf),
+				                         bufsize,
+				                         Charsets[loader->m_Fonts[child_state.font].encoding].c_str (),
+				                         "utf-8", NULL, &written, NULL);
+			if (converted)
+				new_text = reinterpret_cast < guint8 * > (converted);
+			else { // copying raw text and crossing fingers
+				new_text = reinterpret_cast < guint8 * > (buf);
+				written = bufsize;
+			}
+			if (written > 0) {
+				if (state->buf->size + written > state->buf->capacity) {
+					state->buf->capacity += 100 * ((written % 100) + 1);
+					state->buf->buf = reinterpret_cast < guint8 * > (g_realloc (state->buf->buf, state->buf->capacity));
+				}
+				memcpy (state->buf->buf + state->buf->size, new_text, written);
+				state->buf->size += written;
+			}
+			child_state.index = state->buf->size;
+			g_free (converted);
 		}
-		child_state.index = state->buf->size;
 		xmlFree (buf);
-		g_free (converted);
 	} else while (child) {
 		WriteNode (loader, child, &child_state);
 		child = child->next;
@@ -2002,8 +2004,6 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 				guint16 nb;
 				bool interpret = false;
 				attribs attrs, attrs0;
-				attrs0.index = 0; // makes gcc happy
-				attrs0.face = 0; // ditto
 				if (!(READINT16 (in,nb)))
 					return false;
 				list <attribs> attributes;
@@ -2032,20 +2032,40 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 				} else {
 					ostringstream str;
 					str << "<text>";
+					attrs0 = attributes.front ();
+					attributes.pop_front ();
 					while (!attributes.empty ()) {
 						attrs = attributes.front ();
 						attributes.pop_front ();
-						if (attrs.index > 0) {
+						if (attrs.index > attrs0.index) {
+							if ((attrs0.face & 0x60) != 0 && (attrs0.face & 0x60) != 0x60)
+								attrs0.size = attrs0.size * 2 / 3;
+							str << "<font name=\"" << m_Fonts[attrs0.font].name << ", " << (double) attrs0.size / 20. << "\">";
+							str << "<fore " << colors[attrs0.color] << ">";
+							if (attrs0.face & 1)
+								str << "<b>";
+							if (attrs0.face & 2)
+								str << "<i>";
+							if (attrs0.face & 4)
+								str << "<u>";
+							// skip 0x08 == outline since it is not supported
+							// skip 0x10 == shadow since it is not supported
+							if ((attrs0.face & 0x60) == 0x60)
+								interpret = true;
+							else if (attrs0.face & 0x20)
+								str << "<sub height=\"" << (double) attrs0.size / 40. << "\">";
+							else if (attrs0.face & 0x40)
+							str << "<sup height=\"" << (double) attrs0.size / 20. << "\">";
 							attrs0.index = attrs.index - attrs0.index;
 							if (!gsf_input_read (in, attrs0.index, (guint8*) buf))
 								return false;
 							buf[attrs0.index] = 0;
-							std::string encoding = Charsets[m_Fonts[attrs.font].encoding];
+							std::string encoding = Charsets[m_Fonts[attrs0.font].encoding];
 							if (encoding != "Unknown")
 									utf8str = g_convert (buf, attrs0.index, "utf-8", encoding.c_str (),
 													           NULL, NULL, NULL);
 							else { // just copy the string and cross fingers
-								utf8str = reinterpret_cast < char * > (g_malloc (size + 1));
+								utf8str = reinterpret_cast < char * > (g_malloc (attrs0.index + 1));
 								strncpy (utf8str, buf, attrs0.index);
 								utf8str[attrs0.index] = 0;
 							}
@@ -2097,76 +2117,78 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 							str << "</fore>";
 							str << "</font>";
 						}
-						if ((attrs.face & 0x60) != 0 && (attrs.face & 0x60) != 0x60)
-							attrs.size = attrs.size * 2 / 3;
-						str << "<font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 20. << "\">";
-						str << "<fore " << colors[attrs.color] << ">";
-						if (attrs.face & 1)
-							str << "<b>";
-						if (attrs.face & 2)
-							str << "<i>";
-						if (attrs.face & 4)
-							str << "<u>";
-						// skip 0x08 == outline since it is not supported
-						// skip 0x10 == shadow since it is not supported
-						if ((attrs.face & 0x60) == 0x60)
-							interpret = true;
-						else if (attrs.face & 0x20)
-							str << "<sub height=\"" << (double) attrs.size / 40. << "\">";
-						else if (attrs.face & 0x40)
-							str << "<sup height=\"" << (double) attrs.size / 20. << "\">";
 						attrs0 = attrs;
 					}
-					if (!gsf_input_read (in, size, (guint8*) buf))
-						return false;
-					buf[size] = 0;
+					if ((attrs.face & 0x60) != 0 && (attrs.face & 0x60) != 0x60)
+						attrs.size = attrs.size * 2 / 3;
+					str << "<font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 20. << "\">";
+					str << "<fore " << colors[attrs.color] << ">";
+					if (attrs.face & 1)
+						str << "<b>";
+					if (attrs.face & 2)
+						str << "<i>";
+					if (attrs.face & 4)
+						str << "<u>";
+					// skip 0x08 == outline since it is not supported
+					// skip 0x10 == shadow since it is not supported
+					if ((attrs.face & 0x60) == 0x60)
+						interpret = true;
+					else if (attrs.face & 0x20)
+						str << "<sub height=\"" << (double) attrs.size / 40. << "\">";
+					else if (attrs.face & 0x40)
+					str << "<sup height=\"" << (double) attrs.size / 20. << "\">";
 					bool opened = true;
-					std::string encoding = Charsets[m_Fonts[attrs.font].encoding];
-					if (encoding != "Unknown")
-						utf8str = g_convert (buf, size, "utf-8", encoding.c_str (),
-							                       NULL, NULL, NULL);
-					else { // just copy the string and cross fingers
-						utf8str = reinterpret_cast < char * > (g_malloc (size + 1));
-						strncpy (utf8str, buf, size);
-						utf8str[size] = 0;
-					}
-					// supposing the text is ASCII!!
-					if (interpret) {
-						// for now put all numbers as subscripts
-						// FIXME: fix this kludgy code
-						int cur = 0;
-						while (cur < size) {
-							while (cur < size && (utf8str[cur] < '0' || utf8str[cur] > '9'))
-								str << utf8str[cur++];
-							if (cur < size) {
-								if (attrs0.face & 4)
-									str << "</u>";
-								if (attrs0.face & 2)
-									str << "</i>";
-								if (attrs0.face & 1)
-									str << "</b>";
-								str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 30. << "\">";
-								str << "<fore " << colors[attrs.color] << ">";
-								str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
-								while (utf8str[cur] >= '0' && utf8str[cur] <= '9')
-									str << utf8str[cur++];
-								str << "</sub></fore></font>";
-								if (cur < size) {
-									str << "<font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 20. << "\">";
-									str << "<fore " << colors[attrs.color] << ">";
-									if (attrs0.face & 1)
-										str << "<b>";
-									if (attrs0.face & 4)
-										str << "<u>";
-									if (attrs0.face & 2)
-										str << "<i>";
-								} else
-									opened = false;
-							}
+					if (size) {
+						if (!gsf_input_read (in, size, (guint8*) buf))
+							return false;
+						buf[size] = 0;
+						std::string encoding = Charsets[m_Fonts[attrs.font].encoding];
+						if (encoding != "Unknown")
+							utf8str = g_convert (buf, size, "utf-8", encoding.c_str (),
+									                   NULL, NULL, NULL);
+						else { // just copy the string and cross fingers
+							utf8str = reinterpret_cast < char * > (g_malloc (size + 1));
+							strncpy (utf8str, buf, size);
+							utf8str[size] = 0;
 						}
-					} else
-						str << utf8str;
-					g_free (utf8str);
+						// supposing the text is ASCII!!
+						if (interpret) {
+							// for now put all numbers as subscripts
+							// FIXME: fix this kludgy code
+							int cur = 0;
+							while (cur < size) {
+								while (cur < size && (utf8str[cur] < '0' || utf8str[cur] > '9'))
+									str << utf8str[cur++];
+								if (cur < size) {
+									if (attrs0.face & 4)
+										str << "</u>";
+									if (attrs0.face & 2)
+										str << "</i>";
+									if (attrs0.face & 1)
+										str << "</b>";
+									str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 30. << "\">";
+									str << "<fore " << colors[attrs.color] << ">";
+									str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
+									while (utf8str[cur] >= '0' && utf8str[cur] <= '9')
+										str << utf8str[cur++];
+									str << "</sub></fore></font>";
+									if (cur < size) {
+										str << "<font name=\"" << m_Fonts[attrs.font].name << ", " << (double) attrs.size / 20. << "\">";
+										str << "<fore " << colors[attrs.color] << ">";
+										if (attrs0.face & 1)
+											str << "<b>";
+										if (attrs0.face & 4)
+											str << "<u>";
+										if (attrs0.face & 2)
+											str << "<i>";
+									} else
+										opened = false;
+								}
+							}
+						} else
+							str << utf8str;
+						g_free (utf8str);
+					}
 					if (opened) {
 						if ((attrs0.face & 0x60) != 0x60) {
 							if (attrs0.face & 0x40)
