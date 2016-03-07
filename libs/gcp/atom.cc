@@ -1514,6 +1514,34 @@ bool Atom::SetProperty (unsigned property, char const *value)
 	return  true;
 }
 
+std::string Atom::GetProperty (unsigned property) const
+{
+	std::ostringstream res;
+	switch (property) {
+	case GCU_PROP_TEXT_TEXT:
+		if (GetZ () != 6 || m_ShowSymbol) {
+			res << GetSymbol ();
+			if (m_nH > 0) {
+				res << "H";
+				if (m_nH > 1)
+					res << m_nH;
+			}
+		}
+		break;
+	case GCU_PROP_TEXT_POSITION:
+		if (GetZ () != 6 || m_ShowSymbol) {
+			gcu::Document const *doc = GetDocument ();
+			Theme *theme = static_cast < Document const * > (doc)->GetTheme ();
+			res << (m_x - m_width / 2. + theme->GetPadding () / theme->GetZoomFactor ()) / doc->GetScale ()
+				<< " " << (m_y + static_cast < Document const * > (doc)->GetView ()->GetCHeight ()) / doc->GetScale ();
+		}
+		break;
+	default:
+		return gcu::Atom::GetProperty (property);
+	}
+	return res.str ();
+}
+
 bool Atom::UpdateStereoBonds ()
 {
 	unsigned length[4]; // lengths before end or cycle 0 means cyclic bond

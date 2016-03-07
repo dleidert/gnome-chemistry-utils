@@ -418,6 +418,13 @@ Used by the gcu::Loader mechanism to load properties of atoms.
 @return true on success.
 */
 	bool SetProperty (unsigned property, char const *value);
+/*!
+@param property the identity of the property as defined in objprops.h.
+
+Used by the gcu::Loader mechanism to retrieve properties of atoms.
+@return the value of the property as a string.
+*/
+	std::string GetProperty (unsigned property) const;
 
 private:
 	void UpdateAvailablePositions ();

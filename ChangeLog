@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2016-03-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: add support for atoms text and font export to CDX 
+	format.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcu/objprops.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+
 2016-03-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: fix reading of text with empty runs and avoid
 	writing such weird objects. [see sr#108952 comments #25-27]
