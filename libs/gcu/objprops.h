@@ -159,6 +159,12 @@ The bond type: normal, hash, wedge,...
 	GCU_PROP_BOND_TYPE, //normal, hash, wedge,...
 	// Text properties
 /*!
+The poqition of a text object. For a simple text, it is equivalent to
+GCU_PROP_POS2D, but it is differnet for the text representing a chemical
+fragment.
+*/
+	GCU_PROP_TEXT_POSITION,
+/*!
 The text of a textual object.
 */
 	GCU_PROP_TEXT_TEXT,

@@ -217,6 +217,7 @@ private:
 	gint32 m_MaxId;
 	unsigned m_Z;
 	int m_CHeight, m_FontSize;
+	gint16 m_LabelFont, m_LabelFontSize, m_LabelFontFace, m_LabelFontColor;
 	double m_Scale, m_Zoom;
 };
 
@@ -725,6 +726,36 @@ bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj,
 		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x02\x00"));
 		n = strtol (prop.c_str (), NULL, 10);
 		WRITEINT16 (out, n);
+	}
+	prop = obj->GetProperty (GCU_PROP_TEXT_TEXT);
+	if (prop.length () > 0) {
+		n = kCDXObj_Text;
+		WRITEINT16 (out, n);
+		loader->WriteId (NULL, out);
+		string prop2 = obj->GetProperty (GCU_PROP_TEXT_POSITION);
+		if (prop.length ()) {
+			istringstream str (prop);
+			str >> x >> y;
+			x_ = x;
+			y_ = y;
+			n = kCDXProp_2DPosition;
+			WRITEINT16 (out, n);
+			gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x08\x00"));
+			// write y first
+			WRITEINT32 (out, y_);
+			WRITEINT32 (out, x_);
+		}
+		n = kCDXProp_Text;
+		WRITEINT16 (out, n);
+		n = 12 + prop.length ();
+		WRITEINT16 (out, n);
+		gsf_output_write (out, 4, reinterpret_cast <guint8 const *> ("\x01\x00\x00\x00")); // runs count and first index
+		WRITEINT16 (out, loader->m_LabelFont);
+		WRITEINT16 (out, loader->m_LabelFontFace);
+		WRITEINT16 (out, loader->m_LabelFontSize);
+		WRITEINT16 (out, loader->m_LabelFontColor);
+		gsf_output_write (out, prop.length (), reinterpret_cast <guint8 const *> (prop.c_str ()));
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of text
 	}
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of atom
 	return true;
@@ -1336,27 +1367,29 @@ bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_
 	AddInt16Property (out, kCDXProp_CaptionStyleFace, n);
 	str = theme->GetFontFamily ();
 	if (str == "Arial")
-		n = 3;
+		m_LabelFont = 3;
 	else if (str == "Times New Roman")
-		n = 4;
+		m_LabelFont = 4;
 	else {
-		n = 5;
+		m_LabelFont = 5;
 		std::map < unsigned, CDXFont >::iterator it, itend = m_Fonts.end ();
-		for (it = m_Fonts.find (n); it != itend; it++, n++)
+		for (it = m_Fonts.find (n); it != itend; it++, m_LabelFont++)
 			if (str == (*it).second.name)
 				break;
 		if (it == itend)
-			m_Fonts[n] = (CDXFont) {static_cast < guint16 > (n), kCDXCharSetUnicodeISO10646, str};
+			m_Fonts[m_LabelFont] = (CDXFont) {static_cast < guint16 > (m_LabelFont), kCDXCharSetUnicodeISO10646, str};
 	}
-	AddInt16Property (out, kCDXProp_LabelStyleFont, n);
-	n = theme->GetFontSize () * 20 / PANGO_SCALE;
-	AddInt16Property (out, kCDXProp_LabelStyleSize, n);
-	n = 0;
+	AddInt16Property (out, kCDXProp_LabelStyleFont, m_LabelFont);
+	m_LabelFontSize = theme->GetFontSize () * 20 / PANGO_SCALE;
+	AddInt16Property (out, kCDXProp_LabelStyleSize, m_LabelFontSize);
+	m_LabelFontFace = 0x60;
 	if (theme->GetFontWeight () > PANGO_WEIGHT_NORMAL)
-		n |= 1;
+		m_LabelFontFace |= 1;
 	if (theme->GetFontStyle () != PANGO_STYLE_NORMAL)
-		n |= 2;
-	AddInt16Property (out, kCDXProp_LabelStyleFace, n);
+		m_LabelFontFace |= 2;
+	AddInt16Property (out, kCDXProp_LabelStyleFace, m_LabelFontFace);
+	m_LabelFontColor = 0; // black
+	AddInt16Property (out, kCDXProp_LabelStyleColor, m_LabelFontColor);
 	AddInt8Property (out, kCDXProp_CaptionJustification, 0);
 	// write the document contents
 	// there is a need for a two paths procedure
@@ -1539,7 +1572,7 @@ bool CDXLoader::ReadMolecule (GsfInput *in, Object *parent)
 		if (!(READINT16 (in,code)))
 			return false;
 	}
-		static_cast <Molecule*> (mol)->UpdateCycles ();
+	static_cast <Molecule*> (mol)->UpdateCycles ();
 	parent->GetDocument ()->ObjectLoaded (mol);
 	return true;
 }
@@ -1575,7 +1608,7 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 				break;
 			}
 			case kCDXObj_Text:
-				if (Z == 6) {
+				if (Z == 6) { // Why???
 					if (!ReadFragmentText (in, Atom))
 						goto bad_exit;
 					switch (type) {
@@ -1789,7 +1822,9 @@ fragment_success:
 						break;
 					}
 					break;
-				}
+				} else if (!ReadGenericObject (in))
+					goto bad_exit;
+				break;
 			default:
 				if (!ReadGenericObject (in))
 					goto bad_exit;
