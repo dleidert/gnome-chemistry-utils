@@ -107,6 +107,7 @@ Empties a document and reinitialize it.
 @return the gcp::View associated with the document.
 */
 	View* GetView () {return m_pView;}
+	View const*GetView () const {return m_pView;}
 /*!
 Saves the current file.
 */

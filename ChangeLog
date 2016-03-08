@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2016-03-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.h: fixed build.
+
 2016-03-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: add support for atoms text and font export to CDX 
 	format.
