@@ -47,7 +47,7 @@ class Atom: public Object
 {
 public:
 /*!
-The default constructor. Creates an atom with atomic number set to 0.
+The default constructor. Creates an atom with atomic number set to -1.
 */
 	Atom ();
 /*!

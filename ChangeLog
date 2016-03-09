@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-03-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/atom.h: fix documentation.
+	* libs/gcu/molecule.cc: don't crash when analysing "Ac" formula. [#47366]
+	* programs/calc/gchemcalc.cc: ditto.
+
 2016-03-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.h: fixed build.
 
