@@ -85,6 +85,13 @@ static Object* CreateAtom ()
 	return new Atom ();
 }
 
+static Object* CreatePseudoAtom ()
+{
+	Atom *atom = new Atom ();
+	atom->SetZ (0);
+	return atom;
+}
+
 static Object* CreateBond ()
 {
 	return new Bond ();
@@ -105,7 +112,7 @@ GChemCalc::GChemCalc ():
 	formula ("")
 {
 	AddType ("atom", CreateAtom, AtomType);
-	AddType ("pseudo-atom", CreateAtom);
+	AddType ("pseudo-atom", CreatePseudoAtom);
 	AddType ("bond", CreateBond, BondType);
 	AddType ("molecule", CreateMolecule, MoleculeType);
 	AddType ("document", CreateDocument, DocumentType);

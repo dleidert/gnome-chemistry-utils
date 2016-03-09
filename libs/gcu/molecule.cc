@@ -208,6 +208,8 @@ bool Molecule::operator== (Molecule const& molecule) const
 Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, bool add_pseudo)
 {
 	Application *app = Doc->GetApp ();
+	if (app == NULL)
+		app = Application::GetDefaultApplication ();
 	Molecule *mol = reinterpret_cast <Molecule*> (app->CreateObject ("molecule", Doc));
 	if (!mol)
 		return NULL;
@@ -268,6 +270,7 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 						PendingAtoms.top ()->AddBond (bond);
 						PendingAtoms.pop ();
 					}
+					PendingHs = 0;
 					done = true;
 				}
 			}
@@ -333,20 +336,27 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 		bond = reinterpret_cast <Bond*> (app->CreateObject ("bond", mol));
 		bond->SetOrder (1);
 		bond->ReplaceAtom (NULL, atom);
-		if (PendingAtoms.size () > 0)
+		if (PendingAtoms.size () > 0) {
 			atom = PendingAtoms.top ();
-		else {
+			PendingAtoms.pop ();
+		} else {
 			atom = reinterpret_cast <Atom*> (app->CreateObject ("atom", mol));
 			atom->SetZ (1);
 		}
 		bond->ReplaceAtom (NULL, atom);
 		atom->AddBond (bond);
-		PendingAtoms.pop ();
 	} else if (PendingHs + PendingAtoms.size () == 2) {
 		bond = reinterpret_cast <Bond*> (app->CreateObject ("bond", mol));
 		bond->ReplaceAtom (NULL, PendingAtoms.top ());
 		PendingAtoms.pop ();
-		bond->ReplaceAtom (NULL, PendingAtoms.top ());
+		if (PendingAtoms.size () > 0) {
+			atom = PendingAtoms.top ();
+			PendingAtoms.pop ();
+		} else {
+			atom = reinterpret_cast <Atom*> (app->CreateObject ("atom", mol));
+			atom->SetZ (1);
+		}
+		bond->ReplaceAtom (NULL, atom);
 	} else if (PendingHs + PendingAtoms.size () != 0) {
 		mol->SetParent (NULL); // ensure children wil be destroyed
 		delete mol;
