@@ -157,9 +157,15 @@ The bond order.
 The bond type: normal, hash, wedge,...
 	 */
 	GCU_PROP_BOND_TYPE, //normal, hash, wedge,...
+/*!
+The second line position of a double bond when seent from the start atom.
+Legal values are auto, center, left and right. Anythin else is interpreted
+as auto.
+*/
+	GCU_PROP_BOND_DOUBLE_POSITION,
 	// Text properties
 /*!
-The poqition of a text object. For a simple text, it is equivalent to
+The position of a text object. For a simple text, it is equivalent to
 GCU_PROP_POS2D, but it is differnet for the text representing a chemical
 fragment.
 */
@@ -180,6 +186,10 @@ The alignment of a textual object.
 The justification of a textual object.
 */
 	GCU_PROP_TEXT_JUSTIFICATION,
+/*!
+The distance between to consecutive lines.
+*/
+	GCU_PROP_TEXT_INTERLINE,
 /*!
 The position in bytes of the bonded atom in a group of atoms.
 */

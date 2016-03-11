@@ -1060,6 +1060,11 @@ std::string Text::GetProperty (unsigned property) const
 			return "justify";
 		}
 		break;
+	case GCU_PROP_TEXT_INTERLINE: {
+		std::ostringstream str;
+		str << m_Interline;
+		return str.str ();
+	}
 	}
 	return "";
 }

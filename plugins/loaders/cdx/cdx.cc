@@ -783,6 +783,13 @@ bool CDXLoader::WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj,
 		AddInt16Property (out, kCDXProp_Bond_Display, 3);
 	else if (prop == "squiggle")
 		AddInt16Property (out, kCDXProp_Bond_Display, 8);
+	prop = obj->GetProperty (GCU_PROP_BOND_DOUBLE_POSITION);
+	if (prop == "center")
+		AddInt16Property (out, kCDXProp_Bond_DoublePosition, 256);
+	else if (prop == "right")
+		AddInt16Property (out, kCDXProp_Bond_DoublePosition, 257);
+	else if (prop == "left")
+		AddInt16Property (out, kCDXProp_Bond_DoublePosition, 258);
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of bond
 	return true;
 }
@@ -1181,6 +1188,8 @@ bool CDXLoader::WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, 
 		AddInt8Property (out, kCDXProp_CaptionJustification, 1);
 	else if (prop == "justify")
 		AddInt8Property (out, kCDXProp_CaptionJustification, 2);
+	// FIXME: exporting 0 as line height for now, we need to implement line height support in text objects
+	AddInt16Property (out, kCDXProp_CaptionLineHeight, 0);
 	prop = obj->GetProperty (GCU_PROP_TEXT_MARKUP);
 	xmlDocPtr xml = xmlParseMemory (prop.c_str(), prop.length ());
 	xmlNodePtr node = xml->children->children;
@@ -1978,6 +1987,26 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 					Bond->SetProperty (GCU_PROP_BOND_TYPE, "normal");
 				}
 				break;
+			case kCDXProp_Bond_DoublePosition: {
+				gint16 pos;
+				if (size != 2 || !(READINT16 (in, pos)))
+					return false;
+				switch (pos) {
+				case 256:
+					Bond->SetProperty (GCU_PROP_BOND_DOUBLE_POSITION, "center");
+					break;
+				case 257:
+					Bond->SetProperty (GCU_PROP_BOND_DOUBLE_POSITION, "right");
+					break;
+				case 258:
+					Bond->SetProperty (GCU_PROP_BOND_DOUBLE_POSITION, "left");
+					break;
+				default:
+					Bond->SetProperty (GCU_PROP_BOND_DOUBLE_POSITION, "auto");
+					break;
+				}
+				break;
+			}
 			default:
 				if (size && !gsf_input_read (in, size, (guint8*) buf))
 					return false;
@@ -2253,6 +2282,17 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 				if (!gsf_input_read (in, 1, &TextAlign))
 					return false;
 				break;
+			case kCDXProp_LineHeight:
+			case kCDXProp_CaptionLineHeight: {
+				if (size != 2)
+					return false;
+				gint16 height;
+				if (!(READINT16 (in,height)))
+					return false;
+				if (height == 0 || height ==1) // we need a better support for line heights
+					Text->SetProperty (GCU_PROP_TEXT_INTERLINE, "0");	
+				break;
+			}
 			default:
 				if (size && !gsf_input_read (in, size, (guint8*) buf))
 					return false;
