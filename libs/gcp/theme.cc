@@ -613,6 +613,9 @@ bool Theme::Save (xmlDocPtr xml)
 	case PANGO_WEIGHT_LIGHT:
 		buf = "light";
 		break;
+	case PANGO_WEIGHT_SEMILIGHT:
+		buf = "semi-light";
+		break;
 	case PANGO_WEIGHT_NORMAL:
 		buf = "normal";
 		break;
@@ -701,6 +704,9 @@ bool Theme::Save (xmlDocPtr xml)
 		break;
 	case PANGO_WEIGHT_LIGHT:
 		buf = "light";
+		break;
+	case PANGO_WEIGHT_SEMILIGHT:
+		buf = "semi-light";
 		break;
 	case PANGO_WEIGHT_NORMAL:
 		buf = "normal";
@@ -823,6 +829,8 @@ bool Theme::Load (xmlNodePtr node)
 			m_FontWeight= PANGO_WEIGHT_ULTRALIGHT;
 		else if (!strcmp (buf, "light"))
 			m_FontWeight = PANGO_WEIGHT_LIGHT;
+		else if (!strcmp (buf, "semi-light"))
+			m_FontWeight = PANGO_WEIGHT_SEMILIGHT;
 		else if (!strcmp (buf, "normal"))
 			m_FontWeight = PANGO_WEIGHT_NORMAL;
 		else if (!strcmp (buf, "semi-bold"))
@@ -899,6 +907,8 @@ bool Theme::Load (xmlNodePtr node)
 			m_TextFontWeight= PANGO_WEIGHT_ULTRALIGHT;
 		else if (!strcmp (buf, "light"))
 			m_TextFontWeight = PANGO_WEIGHT_LIGHT;
+		else if (!strcmp (buf, "semi-light"))
+			m_TextFontWeight = PANGO_WEIGHT_SEMILIGHT;
 		else if (!strcmp (buf, "normal"))
 			m_TextFontWeight = PANGO_WEIGHT_NORMAL;
 		else if (!strcmp (buf, "semi-bold"))

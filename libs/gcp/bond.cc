@@ -58,6 +58,7 @@ Bond::Bond (): gcu::Bond (), ItemClient ()
 	m_CoordsCalc = false;
 	m_type = NormalBondType;
 	m_level = 0;
+	m_DoublePosition = DoubleBondAuto;
 }
 
 Bond::Bond (Atom* first, Atom* last, unsigned char order):
@@ -65,6 +66,7 @@ Bond::Bond (Atom* first, Atom* last, unsigned char order):
 {
 	m_CoordsCalc = false;
 	m_level = 0;
+	m_DoublePosition = DoubleBondAuto;
 }
 
 Bond::~Bond ()
@@ -435,6 +437,20 @@ bool Bond::SaveNode (G_GNUC_UNUSED xmlDocPtr xml, xmlNodePtr node) const
 		xmlNewProp (node, (xmlChar*) "level", (xmlChar*) buf);
 		g_free (buf);
 	}
+	if (GetOrder () == 2) 
+		switch (m_DoublePosition) {
+		case DoubleBondCenter:
+			xmlNewProp (node, reinterpret_cast < xmlChar const * > ("double-position"), (xmlChar*) "center");
+			break;
+		case DoubleBondLeft:
+			xmlNewProp (node, reinterpret_cast < xmlChar const * > ("double-position"), (xmlChar*) "left");
+			break;
+		case DoubleBondRight:
+			xmlNewProp (node, reinterpret_cast < xmlChar const * > ("double-position"), (xmlChar*) "right");
+			break;
+		default:
+			break;
+		}
 	return true;
 }
 
@@ -463,6 +479,17 @@ bool Bond::LoadNode (xmlNodePtr node)
 		m_level = atoi (buf);
 		xmlFree (buf);
 	}
+	buf = reinterpret_cast < char * > (xmlGetProp (node, (xmlChar*) "double-position"));
+	if (!buf)
+		m_DoublePosition = DoubleBondAuto;
+	else if (!strcmp (buf, "center"))
+		m_DoublePosition = DoubleBondCenter;
+	else if (!strcmp (buf, "left"))
+		m_DoublePosition = DoubleBondLeft;
+	else if (!strcmp (buf, "right"))
+		m_DoublePosition = DoubleBondRight;
+	else
+		m_DoublePosition = DoubleBondAuto;
 	if (m_type == NewmanBondType)
 		// don't care if there is no radius property
 		gcu::ReadFloat (node, "radius", m_coords[15], static_cast < Document * > (GetDocument ())->GetBondLength ());
@@ -897,6 +924,8 @@ struct BondTypeStruct {
 static map<string, struct BondTypeStruct> BondTypesValues;
 bool Bond::SetProperty (unsigned property, char const *value)
 {
+	if (value == NULL || *value == 0)
+		return false;
 	switch (property) {
 	case GCU_PROP_BOND_TYPE: {
 		if (BondTypesValues.size () == 0) {
@@ -926,6 +955,15 @@ bool Bond::SetProperty (unsigned property, char const *value)
 		}
 		break;
 	}
+	case GCU_PROP_BOND_DOUBLE_POSITION:
+		if (!strcmp (value, "center"))
+			m_DoublePosition = DoubleBondCenter;
+		else if (!strcmp (value, "left"))
+			m_DoublePosition = DoubleBondLeft;
+		else if (!strcmp (value, "right"))
+			m_DoublePosition = DoubleBondRight;
+		else
+			m_DoublePosition = DoubleBondAuto;
 	default:
 		gcu::Bond::SetProperty (property, value);
 	}
@@ -948,9 +986,20 @@ string Bond::GetProperty (unsigned property) const
 			return "bold";
 		case UndeterminedBondType:
 			return "unknown";
-
 		}
 	}
+	case GCU_PROP_BOND_DOUBLE_POSITION:
+		switch (m_DoublePosition) {
+		default:
+		case DoubleBondAuto:
+			return "auto";
+		case DoubleBondCenter:
+			return "center";
+		case DoubleBondLeft:
+			return "left";
+		case DoubleBondRight:
+			return "right";
+		}
 	default:
 		return gcu::Bond::GetProperty (property);
 	}

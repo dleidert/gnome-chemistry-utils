@@ -56,6 +56,22 @@ typedef enum
 	NewmanBondType
 } BondType;
 
+/*!\enum DoubleBondPosition gcp/bond.h
+Used to set the second line position of a double bond.
+ - DoubleBondAuto: automatic, GChemPaint places it on the side it thinks the best.
+ - DoubleBondCenter: the two lines are symetric relative to the line joining the two ends.
+ - DoubleBondLeft: the second line is on the left side when viewing from the start.
+ - DoubleBondRight: the second line is on the right side when viewing from the start.
+
+*/
+typedef enum
+{
+	DoubleBondAuto,
+	DoubleBondCenter,
+	DoubleBondLeft,
+	DoubleBondRight
+} DoubleBondPosition;
+
 /*!\struct BondCrossing gcp/bond.h
 This structure is used for crossing bonds, so that the bond behind the other is
 partially hidden.
@@ -297,6 +313,8 @@ private:
 	bool m_CoordsCalc; //true if m_coords have been calculated, false else
 	std::map<Bond*, BondCrossing> m_Crossing;
 	int m_level; // to know which bond should be considered front
+
+GCU_PROP (DoubleBondPosition, DoublePosition)
 };
 
 }	//	namespace gcp

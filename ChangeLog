@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2016-03-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: add a new position property for double bond display.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcp/text.cc: add access to the interline property.
+	* libs/gcp/theme.cc: add support for PANGO_WEIGHT_SEMILIGHT.
+	* libs/gcu/objprops.h: new position property for double bond display.
+	* plugins/loaders/cdx/cdx.cc: enhance imoport and export.
+
 2016-03-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/atom.h: fix documentation.
 	* libs/gcu/molecule.cc: don't crash when analysing "Ac" formula. [#47366]
