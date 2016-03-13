@@ -23,16 +23,21 @@
  */
 
 #include "config.h"
+#include <gcp/document.h>
+#include <gcp/theme.h>
+#include <gcp/view.h>
 #include <gcu/application.h>
 #include <gcu/atom.h>
 #include <gcu/bond.h>
-#include <gcu/document.h>
 #include <gcu/element.h>
 #include <gcu/formula.h>
 #include <gcu/loader.h>
 #include <gcu/molecule.h>
 #include <gcu/objprops.h>
 #include <gcu/xml-utils.h>
+#include <gcp/document.h>
+//#include <gcp/theme.h>
+#include <gcp/view.h>
 
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-libxml.h>
@@ -72,7 +77,8 @@ public:
 private:
 	bool WriteObject (xmlDocPtr xml, xmlNodePtr node, Object const *object, GOIOContext *io);
 	static void AddIntProperty (xmlNodePtr node, char const *id, int value);
-	static void AddStringProperty (xmlNodePtr node, char const *id, string &value);
+	static void AddFloatProperty (xmlNodePtr node, char const *id, double value);
+	static void AddStringProperty (xmlNodePtr node, char const *id, string const &value);
 	static bool WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
 	static bool WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
 	static bool WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
@@ -84,12 +90,14 @@ private:
 	map <string, unsigned> m_SavedIds;
 	int m_MaxId;
 	unsigned m_Z;
+	int m_LabelFont, m_Font;
+	unsigned m_LabelFontFace, m_LabelFontColor;
+	double m_FontSize, m_LabelFontSize, m_Scale, m_Zoom, m_CHeight;
 };
 
 CDXMLLoader::CDXMLLoader ()
 {
 	AddMimeType ("chemical/x-cdxml");
-	KnownProps["BondLength"] = GCU_PROP_THEME_BOND_LENGTH;
 	KnownProps["Comment"] = GCU_PROP_DOC_COMMENT;
 	KnownProps["CreationDate"] = GCU_PROP_DOC_CREATION_TIME;
 	KnownProps["CreationUserName"] = GCU_PROP_DOC_CREATOR;
@@ -100,7 +108,7 @@ CDXMLLoader::CDXMLLoader ()
 	KnownProps["Charge"] = GCU_PROP_ATOM_CHARGE;
 	KnownProps["id"] = GCU_PROP_ID;
 	KnownProps["B"] = GCU_PROP_BOND_BEGIN;
-	KnownProps["DISPLAY"] = GCU_PROP_BOND_TYPE;
+	KnownProps["Display"] = GCU_PROP_BOND_TYPE;
 	KnownProps["E"] = GCU_PROP_BOND_END;
 	KnownProps["Order"] = GCU_PROP_BOND_ORDER;
 	KnownProps["LabelJustification"] =GCU_PROP_TEXT_JUSTIFICATION;
@@ -126,6 +134,8 @@ typedef struct {
 typedef struct {
 	Document *doc;
 	Application *app;
+	gcp::Theme *theme;
+	ostringstream themedesc;
 	GOIOContext *context;
 	stack<Object*> cur;
 	list<CDXMLProps> failed;
@@ -136,6 +146,8 @@ typedef struct {
 	unsigned font;
 	unsigned color;
 	string size;
+	unsigned captionFont, labelFont, textAlign;
+	double CHeight, padding;
 } CDXMLReadState;
 
 static void
@@ -152,13 +164,134 @@ cdxml_doc (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	map<string, unsigned>::iterator it;
+	double bond_dist_ratio = -1., bond_length = 66.24, x;
+	state->themedesc << "<?xml version=\"1.0\"?>" << std::endl << "<theme name=\"ChemDraw\"";
 	if (attrs)
 		while (*attrs) {
-			if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
-				state->doc->SetProperty ((*it).second, (char const *) *attrs);}
-			attrs++;
+			std::string key = reinterpret_cast < char const * > (*attrs);
+			if ((it = KnownProps.find (key)) != KnownProps.end ())
+				state->doc->SetProperty ((*it).second, reinterpret_cast < char const * > (*(attrs + 1)));
+			else if (key == "BondLength") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> bond_length;
+				bond_length *= 8.;
+				state->themedesc << " bond-length=\"" << bond_length << "\" zoom-factor=\"6\"";
+				state->doc->SetScale (8.);
+			} else if (key == "BondSpacing") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> bond_dist_ratio;
+				bond_dist_ratio /= 100.;
+			} else if (key == "LineWidth") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> x;
+				x *= 4. / 3.;
+				state->themedesc << " bond-width=\"" << x << "\" arrow-width=\"" << x << "\" hash-width=\"" << x << "\"";
+			} else if (key == "BoldWidth") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> x;
+				state->themedesc << " stereo-bond-width=\"" << x * 4. / 3. << "\"";
+			} else if (key == "HashSpacing") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> x;
+				state->themedesc << " hash-dist=\"" << x * 4. / 3. << "\"";
+			} else if (key == "ChainAngle")
+				state->themedesc << " bond-angle=\"" << reinterpret_cast < char const * > (*(attrs + 1)) << "\"";
+			else if (key == "MarginWidth") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> x;
+				x *= 4. / 3.;
+				state->padding = x * 2.;
+				state->themedesc << " padding=\"" << x << "\" arrow-padding=\"" << x << "\" object-padding=\"" << x << "\" sign-padding=\"" << x << "\"";
+			} else if (key == "CaptionFont") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> state->captionFont;
+			} else if (key == "CaptionSize") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> x;
+				int size = x * PANGO_SCALE;
+				state->themedesc << " text-font-size=\"" << size << "\"";
+			} else if (key == "CaptionFace") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				int face;
+				input >> face;
+				switch (face & 3) { // we do not support anything else
+				default:
+				case 0:
+					state->themedesc << " text-font-style=\"normal\" text-font-weight=\"normal\"";
+					break;
+				case 1:
+					state->themedesc << " text-font-style=\"normal\" text-font-weight=\"bold\"";
+					break;
+				case 2:
+					state->themedesc << " text-font-style=\"italic\" text-font-weight=\"normal\"";
+					break;
+				case 3:
+					state->themedesc << " text-font-style=\"italic\" text-font-weight=\"bold\"";
+					break;
+				}
+			} else if (key == "LabelFont") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> state->labelFont;
+			} else if (key == "LabelSize") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> x;
+				int size = x * PANGO_SCALE;
+				state->themedesc << " font-size=\"" << size << "\"";
+			} else if (key == "LabelFace") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				int face;
+				input >> face;
+				switch (face & 3) { // we do not support anything else
+				default:
+				case 0:
+					state->themedesc << " font-style=\"normal\" font-weight=\"normal\"";
+					break;
+				case 1:
+					state->themedesc << " font-style=\"normal\" font-weight=\"bold\"";
+					break;
+				case 2:
+					state->themedesc << " font-style=\"italic\" font-weight=\"normal\"";
+					break;
+				case 3:
+					state->themedesc << " font-style=\"italic\" font-weight=\"bold\"";
+					break;
+				}
+			} else if (key == "CaptionJustification") {
+				std::istringstream input (reinterpret_cast < char const * > (*(attrs + 1)));
+				input >> state->textAlign;
+			}
+			attrs += 2;
 		}
+	if (bond_dist_ratio > 0.)
+		state->themedesc << " bond-dist=\"" << bond_length * bond_dist_ratio / 6. << "\"";
 	state->cur.push (state->doc);
+}
+
+static void
+cdxml_page_start (GsfXMLIn *xin, xmlChar const **)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	// we need to set the theme when starting the first page
+	if (state->theme != NULL)
+		return;
+	state->themedesc << "/>";
+	gcp::Document *cpDoc = dynamic_cast <gcp::Document *> (state->doc);
+	if (cpDoc != NULL) {
+		xmlDocPtr xml = xmlParseMemory (state->themedesc.str().c_str(), state->themedesc.str().length());
+		state->theme = new gcp::Theme (NULL);
+		state->theme->Load (xml->children);
+		xmlFreeDoc (xml);
+		gcp::Theme *LocalTheme = gcp::TheThemeManager.GetTheme (state->theme->GetName ().c_str ());
+		if (LocalTheme && *LocalTheme == *(state->theme)) {
+			cpDoc->SetTheme (LocalTheme);
+			delete state->theme;
+			state->theme = LocalTheme;  // don't point to an invalid object
+		} else {
+			gcp::TheThemeManager.AddFileTheme (state->theme, state->doc->GetTitle ().c_str ());
+			cpDoc->SetTheme (state->theme);
+		}
+		state->CHeight = cpDoc->GetView ()->GetCHeight (); // FIXME, we probably miss a factor, may be 6.
+	}
 }
 
 static void
@@ -604,6 +737,10 @@ cdxml_font_start (GsfXMLIn *xin, xmlChar const **attrs)
 				font.name = (char const *) *(attrs + 1);
 			attrs += 2;
 		}
+	if (state->labelFont == font.index)
+		state->themedesc << " font-family=\"" << font.name << "\"";
+	if (state->captionFont == font.index)
+		state->themedesc << " text-font-family=\"" << font.name << "\"";
 	state->fonts[font.index] = font;
 }
 
@@ -709,7 +846,7 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 		GSF_XML_IN_NODE (COLORTABLE, COLOR, -1, "color", GSF_XML_CONTENT, &cdxml_color, NULL),
 	GSF_XML_IN_NODE (CDXML, FONTTABLE, -1, "fonttable", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (FONTTABLE, FONT, -1, "font", GSF_XML_CONTENT, cdxml_font_start, NULL),
-	GSF_XML_IN_NODE (CDXML, PAGE, -1, "page", GSF_XML_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (CDXML, PAGE, -1, "page", GSF_XML_CONTENT, cdxml_page_start, NULL),
 		GSF_XML_IN_NODE (PAGE, T, -1, "t", GSF_XML_NO_CONTENT, cdxml_text_start, cdxml_simple_end),
 			GSF_XML_IN_NODE (T, S, -1, "s", GSF_XML_CONTENT, cdxml_string_start, cdxml_string_end),
 		GSF_XML_IN_NODE (PAGE, FRAGMENT, -1, "fragment", GSF_XML_CONTENT, &cdxml_fragment_start, &cdxml_fragment_end),
@@ -762,6 +899,9 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char 
 	state.colors.push_back ("red=\"0\" green=\"0\" blue=\"0\""); // black
 	state.font = 0;
 	state.color = 0;
+	state.theme = NULL;
+	state.labelFont = -1;
+	state.captionFont = -1;
 
 	if (NULL != in) {
 		GsfXMLInDoc *xml = gsf_xml_in_doc_new (cdxml_dtd, NULL);
@@ -826,6 +966,22 @@ bool CDXMLLoader::WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 	prop = obj->GetProperty (GCU_PROP_ATOM_Z);
 	if (prop != "6")
 		AddStringProperty (node, "Element", prop);
+	prop = obj->GetProperty (GCU_PROP_TEXT_TEXT);
+	if (prop.length () > 0) {
+		xmlNodePtr text = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("t"), NULL);
+		xmlAddChild (node, text);
+		string prop2 = obj->GetProperty (GCU_PROP_TEXT_POSITION);
+		AddStringProperty (text, "p", prop2);
+		AddStringProperty (text, "LabelJustification", "Left");
+		AddStringProperty (text, "LabelAlignment", "Left");
+		xmlNodePtr sub = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("s"), NULL);
+		xmlAddChild (text, sub);
+		AddIntProperty (sub, "font", loader->m_LabelFont);
+		AddIntProperty (sub, "face", loader->m_LabelFontFace);
+		AddIntProperty (sub, "size", loader->m_LabelFontSize);
+		AddIntProperty (sub, "color", loader->m_LabelFontColor);
+		xmlNodeAddContent (sub, reinterpret_cast <xmlChar const *> (prop.c_str ()));
+	}
 	return true;
 }
 
@@ -854,6 +1010,8 @@ bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 		prop = "WedgedHashBegin";
 	else if (prop == "squiggle")
 		prop = "Wavy";
+	else if (prop == "large")
+		prop = "Bold";
 	else
 		prop.clear ();
 	if (prop.length ())
@@ -916,8 +1074,14 @@ void CDXMLLoader::AddIntProperty (xmlNodePtr node, char const *id, int value)
 	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar *> (buf));
 	g_free (buf);
 }
+void CDXMLLoader::AddFloatProperty (xmlNodePtr node, char const *id, double value)
+{
+	std::ostringstream s;
+	s << value;
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar const *> (s.str ().c_str ()));
+}
 
-void CDXMLLoader::AddStringProperty (xmlNodePtr node, char const *id, string &value)
+void CDXMLLoader::AddStringProperty (xmlNodePtr node, char const *id, string const &value)
 {
 	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar const *> (value.c_str ()));
 }
@@ -944,8 +1108,10 @@ bool CDXMLLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED char 
 	m_Colors[9] = GO_COLOR_VIOLET;
 
 	// Init fonts, we always use Unknown as the charset, hoping it is not an issue
-	m_Fonts[3] = (CDXMLFont) {3, string ("Unknown"), string ("Arial")};
-	m_Fonts[4] = (CDXMLFont) {4, string ("Unknown"), string ("Times New Roman")};
+	m_Fonts[3] = (CDXMLFont) {3, string ("iso-8859-1"), string ("Arial")};
+	m_Fonts[4] = (CDXMLFont) {4, string ("iso-8859-1"), string ("Times New Roman")};
+	m_LabelFont = 3;
+	m_LabelFontSize = 10.;
 
 	/* we can't use sax, because we need colors and fonts */
 	xmlDocPtr xml = xmlNewDoc (reinterpret_cast <xmlChar const *> ("1.0"));
@@ -953,12 +1119,76 @@ bool CDXMLLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED char 
 	std::string app = doc->GetApp ()->GetName () + " "VERSION;
 	xmlNewProp (xml->children, reinterpret_cast <xmlChar const *> ("CreationProgram"),
 	            reinterpret_cast <xmlChar const *> (app.c_str ()));
+	// Get the theme (we need a gcp::Document there)
+	gcp::Document const *cpDoc = dynamic_cast < gcp::Document const * > (doc);
+	gcp::Theme const *theme = cpDoc->GetTheme ();
+	m_Zoom = 1. / theme->GetZoomFactor();
+	m_Scale = .75 / m_Zoom;
+	m_CHeight = const_cast < gcp::Document * > (cpDoc)->GetView ()->GetCHeight () * 3.;
 	// determine the bond length and scale the document appropriately
-	string prop = doc->GetProperty (GCU_PROP_THEME_BOND_LENGTH);
-	double scale = strtod (prop.c_str (), NULL);
-	const_cast <Document *> (doc)->SetScale (scale / 30.);
-	xmlNewProp (xml->children, reinterpret_cast <xmlChar const *> ("BondLength"),
-	            reinterpret_cast <xmlChar const *> ("30"));
+	const_cast <Document *> (doc)->SetScale (1. / m_Scale);
+	double l = theme->GetBondLength () * m_Scale;
+	AddFloatProperty (xml->children, "BondLength", l);
+	int n = theme->GetBondDist () * 100. * m_Zoom / theme->GetBondLength ();
+	AddIntProperty (xml->children, "BondSpacing", n);
+	l = theme->GetBondWidth () * .75;
+	AddFloatProperty (xml->children, "LineWidth", l);
+	l = theme->GetStereoBondWidth () * .75;
+	AddFloatProperty (xml->children, "BoldWidth", l);
+	l = theme->GetHashDist () * .75;
+	AddFloatProperty (xml->children, "HashSpacing", l);
+	AddFloatProperty (xml->children, "ChainAngle", theme->GetBondAngle ());
+	l = theme->GetPadding () * .75;
+	AddFloatProperty (xml->children, "MarginWidth", l);
+	std::string str = theme->GetTextFontFamily ();
+	if (str == "Arial")
+		n = 3;
+	else if (str == "Times New Roman")
+		n = 4;
+	else {
+		n = 5;
+		std::map < unsigned, CDXMLFont >::iterator it, itend = m_Fonts.end ();
+		for (it = m_Fonts.find (n); it != itend; it++, n++)
+			if (str == (*it).second.name)
+				break;
+		if (it == itend)
+			m_Fonts[n] = (CDXMLFont) {static_cast < guint16 > (n), "iso-10646", str};
+	}
+	AddIntProperty (xml->children, "CaptionFont", n);
+	n = theme->GetTextFontSize () / PANGO_SCALE;
+	m_FontSize = n * .75;
+	AddIntProperty (xml->children, "CaptionSize", n);
+	n = 0;
+	if (theme->GetTextFontWeight () > PANGO_WEIGHT_NORMAL)
+		n |= 1;
+	if (theme->GetTextFontStyle () != PANGO_STYLE_NORMAL)
+		n |= 2;
+	AddIntProperty (xml->children, "CaptionFace", n);
+	str = theme->GetFontFamily ();
+	if (str == "Arial")
+		m_LabelFont = 3;
+	else if (str == "Times New Roman")
+		m_LabelFont = 4;
+	else {
+		m_LabelFont = 5;
+		std::map < unsigned, CDXMLFont >::iterator it, itend = m_Fonts.end ();
+		for (it = m_Fonts.find (m_LabelFont); it != itend; it++, m_LabelFont++)
+			if (str == (*it).second.name)
+				break;
+		if (it == itend)
+			m_Fonts[m_LabelFont] = (CDXMLFont) {static_cast < guint16 > (m_LabelFont), "iso-10646", str};
+	}
+	AddIntProperty (xml->children, "LabelFont", m_LabelFont);
+	m_LabelFontSize = theme->GetFontSize () / PANGO_SCALE;
+	AddIntProperty (xml->children, "LabelSize", m_LabelFontSize);
+	m_LabelFontFace = 0x60;
+	if (theme->GetFontWeight () > PANGO_WEIGHT_NORMAL)
+		m_LabelFontFace |= 1;
+	if (theme->GetFontStyle () != PANGO_STYLE_NORMAL)
+		m_LabelFontFace |= 2;
+	AddIntProperty (xml->children, "LabelFace", m_LabelFontFace);
+	m_LabelFontColor = 0;
+	AddIntProperty (xml->children, "CaptionJustification", 0);
 	// add color table
 	colors = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("colortable"), NULL);
 	xmlAddChild (xml->children, colors);
