@@ -166,7 +166,7 @@ as auto.
 	// Text properties
 /*!
 The position of a text object. For a simple text, it is equivalent to
-GCU_PROP_POS2D, but it is differnet for the text representing a chemical
+GCU_PROP_POS2D, but it is different for the text representing a chemical
 fragment.
 */
 	GCU_PROP_TEXT_POSITION,

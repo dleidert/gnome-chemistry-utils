@@ -281,6 +281,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					if (LocalTheme && *LocalTheme == *theme) {
 						cpDoc->SetTheme (LocalTheme);
 						delete theme;
+						theme = LocalTheme; // don't point to an invalid object
 					} else {
 						gcp::TheThemeManager.AddFileTheme (theme, doc->GetTitle ().c_str ());
 						cpDoc->SetTheme (theme);
@@ -447,16 +448,16 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				switch (i & 3) { // we do not support anything else
 				default:
 				case 0:
-					themedesc << " text-font-style=\"normal\" text-font_weight=\"normal\"";
+					themedesc << " text-font-style=\"normal\" text-font-weight=\"normal\"";
 					break;
 				case 1:
-					themedesc << " text-font-style=\"normal\" text-font_weight=\"bold\"";
+					themedesc << " text-font-style=\"normal\" text-font-weight=\"bold\"";
 					break;
 				case 2:
-					themedesc << " text-font-style=\"italic\" text-font_weight=\"normal\"";
+					themedesc << " text-font-style=\"italic\" text-font-weight=\"normal\"";
 					break;
 				case 3:
-					themedesc << " text-font-style=\"italic\" text-font_weight=\"bold\"";
+					themedesc << " text-font-style=\"italic\" text-font-weight=\"bold\"";
 					break;
 				}
 				if (!(READINT16 (in, i))) {
@@ -507,16 +508,16 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				switch (i & 3) { // we do not support anything else
 				default:
 				case 0:
-					themedesc << " text-font-style=\"normal\" text-font_weight=\"normal\"";
+					themedesc << " text-font-style=\"normal\" text-font-weight=\"normal\"";
 					break;
 				case 1:
-					themedesc << " text-font-style=\"normal\" text-font_weight=\"bold\"";
+					themedesc << " text-font-style=\"normal\" text-font-weight=\"bold\"";
 					break;
 				case 2:
-					themedesc << " text-font-style=\"italic\" text-font_weight=\"normal\"";
+					themedesc << " text-font-style=\"italic\" text-font-weight=\"normal\"";
 					break;
 				case 3:
-					themedesc << " text-font-style=\"italic\" text-font_weight=\"bold\"";
+					themedesc << " text-font-style=\"italic\" text-font-weight=\"bold\"";
 					break;
 				}
 				break;
@@ -538,16 +539,16 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				switch (i & 3) { // we do not support anything else
 				default:
 				case 0:
-					themedesc << " font-style=\"normal\" font_weight=\"normal\"";
+					themedesc << " font-style=\"normal\" font-weight=\"normal\"";
 					break;
 				case 1:
-					themedesc << " font-style=\"normal\" font_weight=\"bold\"";
+					themedesc << " font-style=\"normal\" font-weight=\"bold\"";
 					break;
 				case 2:
-					themedesc << " font-style=\"italic\" font_weight=\"normal\"";
+					themedesc << " font-style=\"italic\" font-weight=\"normal\"";
 					break;
 				case 3:
-					themedesc << " font-style=\"italic\" font_weight=\"bold\"";
+					themedesc << " font-style=\"italic\" font-weight=\"bold\"";
 					break;
 				}
 				if (!(READINT16 (in, i))) {
@@ -598,16 +599,16 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				switch (i & 3) { // we do not support anything else
 				default:
 				case 0:
-					themedesc << " font-style=\"normal\" font_weight=\"normal\"";
+					themedesc << " font-style=\"normal\" font-weight=\"normal\"";
 					break;
 				case 1:
-					themedesc << " font-style=\"normal\" font_weight=\"bold\"";
+					themedesc << " font-style=\"normal\" font-weight=\"bold\"";
 					break;
 				case 2:
-					themedesc << " font-style=\"italic\" font_weight=\"normal\"";
+					themedesc << " font-style=\"italic\" font-weight=\"normal\"";
 					break;
 				case 3:
-					themedesc << " font-style=\"italic\" font_weight=\"bold\"";
+					themedesc << " font-style=\"italic\" font-weight=\"bold\"";
 					break;
 				}
 				break;

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-03-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/objprops.h: doc typo.
+	* plugins/loaders/cdx/cdx.cc: fix typo in propery name.
+	* plugins/loaders/cdxml/cdxml.cc: load and save theme.
+
 2016-03-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: add a new position property for double bond display.
 	* libs/gcp/bond.h: ditto.
