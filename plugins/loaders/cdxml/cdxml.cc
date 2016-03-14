@@ -112,8 +112,9 @@ CDXMLLoader::CDXMLLoader ()
 	KnownProps["E"] = GCU_PROP_BOND_END;
 	KnownProps["Order"] = GCU_PROP_BOND_ORDER;
 	KnownProps["LabelJustification"] =GCU_PROP_TEXT_JUSTIFICATION;
-	KnownProps["Justification"] =GCU_PROP_TEXT_JUSTIFICATION;
+	KnownProps["CaptionJustification"] =GCU_PROP_TEXT_ALIGNMENT;
 	KnownProps["LabelAlignment"] = GCU_PROP_TEXT_ALIGNMENT;
+	KnownProps["Justification"] =GCU_PROP_TEXT_JUSTIFICATION;
 	// Add write callbacks
 	m_WriteCallbacks["atom"] = WriteAtom;
 	m_WriteCallbacks["bond"] = WriteBond;
@@ -397,14 +398,23 @@ static void
 cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	Object *obj = state->app->CreateObject ("text", state->cur.top ());
+	gcu::Object *obj = state->app->CreateObject ("text", (state->cur.top ()->GetType () == gcu::DocumentType)? state->cur.top (): NULL);
 	state->cur.push (obj);
 	state->doc->ObjectLoaded (obj);
 	char *lowered;
 	map<string, unsigned>::iterator it;
 	if (attrs)
 		while (*attrs)
-			if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
+			if (!strcmp (reinterpret_cast < char const * > (*attrs), "p")) {
+				std::istringstream in (reinterpret_cast < char const * > (attrs[1]));
+				double x, y;
+				in >> x >> y;
+				y -= state->CHeight;
+				std::ostringstream out;
+				out << x << " " << y;
+				obj->SetProperty (GCU_PROP_POS2D, out.str ().c_str ());
+				attrs += 2;
+			} else if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
 				lowered = g_ascii_strdown ((char const *) *attrs++, -1);
 				obj->SetProperty ((*it).second, lowered);
 				g_free (lowered);
@@ -419,6 +429,8 @@ cdxml_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->markup += "</text>";
 	state->cur.top ()->SetProperty (GCU_PROP_TEXT_MARKUP, state->markup.c_str ());
 	state->markup.clear ();
+	if (state->cur.top ()->GetParent () == NULL)
+		delete state->cur.top ();
 	state->cur.pop ();
 }
 
@@ -434,7 +446,7 @@ cdxml_string_start (GsfXMLIn *xin, xmlChar const **attrs)
 				state->font = atoi ((char const *) *attrs);
 				state->markup += "<font name=\"";
 				state->markup += state->fonts[state->font].name;
-				state->markup += " ";
+				state->markup += ",";
 			} else if (!strcmp ((char const *) *attrs, "face"))  {
 				attrs++;
 				state->attributes |= atoi ((char const *) *attrs);
@@ -449,7 +461,7 @@ cdxml_string_start (GsfXMLIn *xin, xmlChar const **attrs)
 				attrs ++;
 			attrs++;
 		}
-	state->markup += string (" ") + state->size + "\">";
+	state->markup += state->size + "\">";
 	if (state->attributes & 0x100)
 		state->markup += string ("<fore ") + state->colors[state->color] + ">";
 	if (state->attributes & 1)
@@ -473,7 +485,6 @@ cdxml_string_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	bool opened = true;
-	//TODO: add xin->content->str
 	if ((state->attributes & 0x60) == 0x60) {
 		// for now put all numbers as subscripts
 		// FIXME: fix this kludgy code
@@ -847,17 +858,14 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 	GSF_XML_IN_NODE (CDXML, FONTTABLE, -1, "fonttable", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (FONTTABLE, FONT, -1, "font", GSF_XML_CONTENT, cdxml_font_start, NULL),
 	GSF_XML_IN_NODE (CDXML, PAGE, -1, "page", GSF_XML_CONTENT, cdxml_page_start, NULL),
-		GSF_XML_IN_NODE (PAGE, T, -1, "t", GSF_XML_NO_CONTENT, cdxml_text_start, cdxml_simple_end),
+		GSF_XML_IN_NODE (PAGE, T, -1, "t", GSF_XML_NO_CONTENT, cdxml_text_start, cdxml_text_end),
 			GSF_XML_IN_NODE (T, S, -1, "s", GSF_XML_CONTENT, cdxml_string_start, cdxml_string_end),
 		GSF_XML_IN_NODE (PAGE, FRAGMENT, -1, "fragment", GSF_XML_CONTENT, &cdxml_fragment_start, &cdxml_fragment_end),
 			GSF_XML_IN_NODE (FRAGMENT, NODE, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
-				GSF_XML_IN_NODE (NODE, T, -1, "t", GSF_XML_NO_CONTENT, NULL, NULL),
+				GSF_XML_IN_NODE (NODE, T, -1, "t", GSF_XML_2ND, NULL, NULL),
 			GSF_XML_IN_NODE (FRAGMENT, BOND, -1, "b", GSF_XML_CONTENT, cdxml_bond_start, cdxml_simple_end),
 		GSF_XML_IN_NODE (PAGE, GROUP, -1, "group", GSF_XML_CONTENT, cdxml_group_start, cdxml_simple_end),
-			GSF_XML_IN_NODE (GROUP, FRAGMENT1, -1, "fragment", GSF_XML_CONTENT, cdxml_fragment_start, cdxml_simple_end),
-				GSF_XML_IN_NODE (FRAGMENT1, NODE1, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
-				GSF_XML_IN_NODE (FRAGMENT1, BOND1, -1, "b", GSF_XML_CONTENT, cdxml_bond_start, cdxml_simple_end),
-				GSF_XML_IN_NODE (FRAGMENT1, T11, -1, "t", GSF_XML_CONTENT, NULL, NULL),
+			GSF_XML_IN_NODE (GROUP, FRAGMENT, -1, "fragment", GSF_XML_2ND, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, GRAPHIC, -1, "graphic", GSF_XML_CONTENT, cdxml_graphic_start, NULL),
 		GSF_XML_IN_NODE (PAGE, ALTGROUP, -1, "altgroup", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, CURVE, -1, "curve", GSF_XML_CONTENT, NULL, NULL),
@@ -895,8 +903,8 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char 
 	state.app = doc->GetApplication ();
 	state.context = io;
 	ContentType success = ContentTypeUnknown;
-	state.colors.push_back ("red=\"1\" green=\"1\" blue=\"1\""); // white
 	state.colors.push_back ("red=\"0\" green=\"0\" blue=\"0\""); // black
+	state.colors.push_back ("red=\"1\" green=\"1\" blue=\"1\""); // white
 	state.font = 0;
 	state.color = 0;
 	state.theme = NULL;

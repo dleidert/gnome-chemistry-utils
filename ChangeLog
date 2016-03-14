@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2016-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/text.cc: fix position reading in SetProperty().
+	* plugins/loaders/cdxml/cdxml.cc: fix text import.
+
 2016-03-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/objprops.h: doc typo.
 	* plugins/loaders/cdx/cdx.cc: fix typo in propery name.

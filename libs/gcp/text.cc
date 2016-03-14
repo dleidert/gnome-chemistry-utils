@@ -1073,8 +1073,9 @@ bool Text::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {
 	case GCU_PROP_POS2D: {
+		std::istringstream str (value);
 		double x, y;
-		sscanf (value, "%lg %lg", &x, &y);
+		str >> x >> y;
 		gcu::Document *doc = GetDocument ();
 		if (doc) {
 			x *= doc->GetScale ();
