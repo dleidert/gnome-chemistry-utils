@@ -26,6 +26,7 @@
 #include <gcp/document.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gcp/widgetdata.h>
 #include <gcu/application.h>
 #include <gcu/atom.h>
 #include <gcu/bond.h>
@@ -35,9 +36,6 @@
 #include <gcu/molecule.h>
 #include <gcu/objprops.h>
 #include <gcu/xml-utils.h>
-#include <gcp/document.h>
-//#include <gcp/theme.h>
-#include <gcp/view.h>
 
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-libxml.h>
@@ -133,6 +131,15 @@ typedef struct {
 } CDXMLProps;
 
 typedef struct {
+	std::list < unsigned > Arrows, Reagents, Products, ObjectsAbove, ObjectsBelow;
+} StepData;
+
+typedef struct {
+	unsigned Id;
+	std::list < StepData > Steps;
+} SchemeData;
+
+typedef struct {
 	Document *doc;
 	Application *app;
 	gcp::Theme *theme;
@@ -141,6 +148,7 @@ typedef struct {
 	stack<Object*> cur;
 	list<CDXMLProps> failed;
 	map<unsigned, CDXMLFont> fonts;
+	std::map <unsigned, std::string> loaded_ids;
 	vector<string> colors;
 	string markup;
 	unsigned attributes;
@@ -149,6 +157,8 @@ typedef struct {
 	string size;
 	unsigned captionFont, labelFont, textAlign;
 	double CHeight, padding;
+	SchemeData scheme;
+	std::list < SchemeData > schemes;
 } CDXMLReadState;
 
 static void
@@ -302,6 +312,14 @@ cdxml_fragment_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	Object *obj = state->app->CreateObject ("molecule", state->cur.top ());
 	state->cur.push (obj);
 	state->doc->ObjectLoaded (obj);
+	if (attrs)
+		while (*attrs) {
+			if (!strcmp (reinterpret_cast < char const * > (*attrs), "id")) {
+				unsigned id = atoi (reinterpret_cast < char const * > (attrs[1]));
+				state->loaded_ids[id] = obj->GetId ();
+			}
+			attrs += 2;
+		}
 }
 
 static void
@@ -405,7 +423,11 @@ cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 	map<string, unsigned>::iterator it;
 	if (attrs)
 		while (*attrs)
-			if (!strcmp (reinterpret_cast < char const * > (*attrs), "p")) {
+			if (!strcmp (reinterpret_cast < char const * > (*attrs), "id")) {
+				unsigned id = atoi (reinterpret_cast < char const * > (attrs[1]));
+				state->loaded_ids[id] = obj->GetId ();
+				attrs += 2;
+			} else if (!strcmp (reinterpret_cast < char const * > (*attrs), "p")) {
 				std::istringstream in (reinterpret_cast < char const * > (attrs[1]));
 				double x, y;
 				in >> x >> y;
@@ -841,10 +863,279 @@ cdxml_graphic_start (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 		if (obj) {
 			obj->SetId (str.str ().c_str ());
+			state->loaded_ids[Id] = str.str ();
 			ostringstream str_;
 			str_ << x0 << " " << y0 << " " << x1 << " " << y1;
 			obj->SetProperty (GCU_PROP_ARROW_COORDS, str_.str ().c_str ());
 			state->doc->ObjectLoaded (obj);
+		}
+	}
+}
+
+static void
+cdxml_step_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	StepData data;
+	if (attrs)
+		while (*attrs) {
+			std::string key = reinterpret_cast < char const * > (*attrs);
+			std::istringstream values (reinterpret_cast < char const * > (attrs[1]));
+			attrs +=2;
+			std::list < unsigned > *target;
+			if (key == "ReactionStepReactants")
+				target = &data.Reagents;
+			else if (key == "ReactionStepProducts")
+				target = &data.Products;
+			else if (key == "ReactionStepArrows")
+				target = &data.Arrows;
+			else if (key == "ReactionStepObjectsAboveArrow")
+				target = &data.ObjectsAbove;
+			else if (key == "ReactionStepObjectsBelowArrow")
+				target = &data.ObjectsBelow;
+			else
+				continue;
+			while (!values.eof ()) {
+				unsigned id;
+				values >> id;
+				target->push_back (id);
+			}
+		}
+	state->scheme.Steps.push_back (data);
+}
+
+static void
+cdxml_scheme_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	state->schemes.push_back (state->scheme);
+	state->scheme.Steps.clear ();
+}
+
+static void build_scheme (CDXMLReadState &state, SchemeData &scheme)
+{
+	gcu::Document *doc = state.doc;
+	std::list < StepData >::iterator i, iend = scheme.Steps.end ();
+	std::list < unsigned >::iterator j, jend;
+	int IsReaction = 0, IsMesomery = 0, IsRetrosynthesis = 0;
+	bool HasMesomeryArrows = false;
+	gcu::Object *parent, *arrow, *obj, *step, *reactant;
+	for (i = scheme.Steps.begin (); i != iend; i++) {
+		if ((*i).Arrows.size () != 1)
+			return; // unsupported feature, don't load the scheme
+		obj = doc->GetChild ((state.loaded_ids[*((*i).Arrows.begin())]).c_str ());
+		if (obj == NULL)
+			return;
+		std::string klass = gcu::Object::GetTypeName (obj->GetType ());
+		if (klass == "retrosynthesis-arrow") {
+			if (IsRetrosynthesis == -1)
+				return;
+			IsRetrosynthesis = 1;
+			IsReaction = IsMesomery = -1;
+		} else if (klass ==  "mesomery-arrow") {
+			if (IsMesomery == -1)
+				return;
+			IsRetrosynthesis = -1;
+			if (IsMesomery == 0 && IsReaction == 0)
+				IsMesomery = 1;
+			HasMesomeryArrows = true;
+		} else if (klass ==  "reaction-arrow") {
+			if (IsReaction == -1 || IsMesomery == -1)
+				return;
+			IsReaction = 1;
+			IsRetrosynthesis = -1;
+			IsMesomery = 0;
+		} else
+			return;
+	}
+	if (IsRetrosynthesis == 1) {
+	} else if (IsMesomery == 1) {
+		gcu::Object *mesomery = doc->CreateObject ("mesomery", doc);
+		ostringstream str;
+		str << "msy" << scheme.Id;
+		mesomery->SetId (str.str ().c_str ());
+		state.loaded_ids[scheme.Id] = mesomery->GetId ();
+		// now, add the objects to the reaction
+		for (i = scheme.Steps.begin (); i != iend; i++) {
+			if ((*i).Reagents.size () != 1 || (*i).Products.size () != 1) {
+				delete mesomery;
+				return;
+			}
+			// first the arrow
+			arrow = doc->GetChild ((state.loaded_ids[*((*i).Arrows.begin())]).c_str ());
+			obj = doc->GetDescendant (state.loaded_ids[*(*i).Reagents.begin ()].c_str ());
+			parent = obj->GetParent ();
+			if (parent == doc)
+				parent = doc->CreateObject ("mesomer", mesomery);
+			else if (parent->GetParent () != mesomery) {
+				delete mesomery;
+				return;
+			}
+			parent->SetProperty (GCU_PROP_MESOMER, obj->GetId ());
+			arrow->SetProperty (GCU_PROP_ARROW_START_ID, parent->GetId ());
+			obj = doc->GetDescendant (state.loaded_ids[*(*i).Products.begin ()].c_str ());
+			parent = obj->GetParent ();
+			if (parent == doc)
+				parent = doc->CreateObject ("mesomer", mesomery);
+			else if (parent->GetParent () != mesomery) {
+				delete mesomery;
+				return;
+			}
+			parent->AddChild (obj);
+			arrow->SetProperty (GCU_PROP_ARROW_END_ID, parent->GetId ());
+			mesomery->AddChild (arrow);
+		}
+		// Ignore objects over and under the arrows for now
+	} else if (IsReaction ==1) {
+		if (HasMesomeryArrows) {
+			// build mesomeries inside reactions
+			// FIXME
+		}
+		gcu::Object *reaction = doc->CreateObject ("reaction", doc);
+		ostringstream str;
+		str << "r" << scheme.Id;
+		reaction->SetId (str.str ().c_str ());
+		state.loaded_ids[scheme.Id] = reaction->GetId ();
+		// now, add the objects to the reaction
+		for (i = scheme.Steps.begin (); i != iend; i++) {
+			// first the arrow
+			arrow = doc->GetChild ((state.loaded_ids[*((*i).Arrows.begin())]).c_str ());
+			reaction->AddChild (arrow);
+			// then reagents
+			jend = (*i).Reagents.end ();
+			parent = NULL;
+			gcu::Object *rs = NULL; // make g++ happy
+			for (j = (*i).Reagents.begin (); j != jend; j++) {
+				obj = doc->GetDescendant (state.loaded_ids[*j].c_str ());
+				if (obj == NULL) {
+					delete reaction;
+					return;
+				}
+				parent = obj->GetParent ();
+				if (rs == NULL) {
+					if (parent == doc) {
+						rs = reaction->CreateObject ("reaction-step", reaction);
+						arrow->SetProperty (GCU_PROP_ARROW_START_ID, rs->GetId ());
+						reactant = rs->CreateObject ("reactant", rs);
+						reactant->SetProperty (GCU_PROP_MOLECULE, obj->GetId ());
+					} else {
+						rs = parent->GetParent ();
+						if (rs->GetParent () != reaction) {
+							delete reaction;
+							return;
+						}
+					}
+				} else {
+					if (parent == doc) {
+						reactant = rs->CreateObject ("reactant", rs);
+						reactant->SetProperty (GCU_PROP_MOLECULE, obj->GetId ());
+					} else if (rs != parent->GetParent ()) {
+						delete reaction;
+						return;
+					}
+				}
+				// search for potential stoichiometry coefficients
+				arrow->SetProperty (GCU_PROP_ARROW_START_ID, rs->GetId ());
+				rs->OnLoaded ();
+			}
+			// same treatment for products
+			jend = (*i).Products.end ();
+			rs = NULL;
+			for (j = (*i).Products.begin (); j != jend; j++) {
+				obj = doc->GetDescendant (state.loaded_ids[*j].c_str ());
+				if (obj == NULL) {
+					delete reaction;
+					return;
+				}
+				parent = obj->GetParent ();
+				if (rs == NULL) {
+					if (parent == doc) {
+						rs = reaction->CreateObject ("reaction-step", reaction);
+						arrow->SetProperty (GCU_PROP_ARROW_END_ID, rs->GetId ());
+						reactant = rs->CreateObject ("reactant", rs);
+						reactant->SetProperty (GCU_PROP_MOLECULE, obj->GetId ());
+					} else {
+						rs = parent->GetParent ();
+						if (rs->GetParent () != reaction) {
+							delete reaction;
+							return;
+						}
+					}
+				} else {
+					if (parent == doc) {
+						reactant = rs->CreateObject ("reactant", rs);
+						reactant->SetProperty (GCU_PROP_MOLECULE, obj->GetId ());
+					} else if (rs != parent->GetParent ()) {
+						delete reaction;
+						return;
+					}
+				}
+				// search for potential stoichiometry coefficients
+				arrow->SetProperty (GCU_PROP_ARROW_END_ID, rs->GetId ());
+				rs->OnLoaded ();
+			}
+			// last, the objects attached above and below the arrow
+			if (!(*i).ObjectsAbove.empty () || !(*i).ObjectsBelow.empty ()) {
+				jend = (*i).ObjectsAbove.end ();
+				for (j = (*i).ObjectsAbove.begin (); j != jend; j++) {
+					obj = doc->GetDescendant (state.loaded_ids[*j].c_str ());
+					if (obj == NULL) // we should emit at least a warning
+						continue;
+					parent = arrow->CreateObject ("reaction-prop", arrow);
+					parent->SetProperty (GCU_PROP_ARROW_OBJECT, obj->GetId ());
+				}
+				jend = (*i).ObjectsBelow.end ();
+				for (j = (*i).ObjectsBelow.begin (); j != jend; j++) {
+					obj = doc->GetDescendant (state.loaded_ids[*j].c_str ());
+					if (obj == NULL) // we should emit at least a warning
+						continue;
+					parent = arrow->CreateObject ("reaction-prop", arrow);
+					parent->SetProperty (GCU_PROP_ARROW_OBJECT, obj->GetId ());
+				}
+			}
+		}
+		// now search for stoichiometry coefficients if any
+		gcp::WidgetData *data = static_cast <gcp::Document * > (doc)->GetView ()->GetData ();
+		gccv::Rect rect;
+		double x0, y0, x1;
+		std::map < std::string, Object * >::iterator k, l, r;
+		std::pair <gcu::Object *, gcu::Object * > couple;
+		std::list < std::pair <gcu::Object *, gcu::Object * > > couples;
+		obj = doc->GetFirstChild (k);
+		while (obj) {
+			// assuming that only text object can be stoichiometric coefs
+			if (obj->GetType () == gcu::TextType) {
+				data->GetObjectBounds (obj, rect);
+				x0 = rect.x0;
+				y0 = (rect.y0 + rect.y1) / 2.;
+				x1 = rect.x1 + state.padding;
+				for (step = reaction->GetFirstChild (l); step; step = reaction->GetNextChild (l)) {
+					if (gcu::Object::GetTypeName (step->GetType ()) != "reaction-step")
+						continue;
+					data->GetObjectBounds (step, rect);
+					if (x0 > rect.x1 || x1 < rect.x0 || y0 > rect.y1 || y0 < rect.y0)
+						continue;
+					for (reactant = step->GetFirstChild (r); reactant; reactant = step->GetNextChild (r)) {
+						if (reactant->GetType () != gcu::ReactantType)
+							continue;
+						data->GetObjectBounds (reactant, rect);
+						if (x0 > rect.x0 || x1 < rect.x0 || y0 > rect.y1 || y0 < rect.y0)
+							continue;
+						// if we get there, we got it
+						// we must not set it now to avoid an invalid iterator at this point, so store in couples.
+						couple.first = reactant;
+						couple.second = obj;
+						couples.push_back (couple);
+						goto next_text;
+					}
+				}
+			}
+next_text:
+			obj = doc->GetNextChild (k);
+		}
+		std::list < std::pair <gcu::Object *, gcu::Object * > >::iterator c, cend = couples.end ();
+		for (c = couples.begin (); c != cend; c++) {
+			(*c).first->SetProperty (GCU_PROP_STOICHIOMETRY, (*c).second->GetId ());
 		}
 	}
 }
@@ -869,9 +1160,9 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 		GSF_XML_IN_NODE (PAGE, GRAPHIC, -1, "graphic", GSF_XML_CONTENT, cdxml_graphic_start, NULL),
 		GSF_XML_IN_NODE (PAGE, ALTGROUP, -1, "altgroup", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, CURVE, -1, "curve", GSF_XML_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (PAGE, STEP, -1, "step", GSF_XML_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (PAGE, SCHEME, -1, "scheme", GSF_XML_CONTENT, NULL, NULL),
-			GSF_XML_IN_NODE (SCHEME, REACTIONSTEP, -1, "step", GSF_XML_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (PAGE, STEP, -1, "step", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (PAGE, SCHEME, -1, "scheme", GSF_XML_NO_CONTENT, NULL, cdxml_scheme_end),
+			GSF_XML_IN_NODE (SCHEME, REACTIONSTEP, -1, "step", GSF_XML_CONTENT, cdxml_step_start, NULL),
 		GSF_XML_IN_NODE (PAGE, SPECTRUM, -1, "spectrum", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, EMBEDDEDOBJECT, -1, "embeddedobject", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, SEQUENCE, -1, "sequence", GSF_XML_CONTENT, NULL, NULL),
@@ -942,6 +1233,15 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char 
 				parent->OnLoaded ();
 		}
 		gsf_xml_in_doc_free (xml);
+	}
+	// Update the view so that the positions are correct
+	static_cast <gcp::Document *> (doc)->GetView ()->Update (doc);
+	// now build schemes
+	std::list < SchemeData >::iterator i, iend = state.schemes.end ();
+	for (i = state.schemes.begin (); i != iend; i++) {
+		if ((*i).Steps.empty ())
+			continue;
+		build_scheme (state, *i);
 	}
 	return success;
 }
