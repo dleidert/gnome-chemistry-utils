@@ -127,7 +127,7 @@ static gint32 ReadInt (GsfInput *input, int size)
 }*/
 
 typedef struct {
-	std::list < unsigned > Arrows, Reagents, Products, ObjectsAbove, ObjectsBelow, Operators;
+	std::list < unsigned > Arrows, Reagents, Products, ObjectsAbove, ObjectsBelow;
 } StepData;
 
 typedef struct {
