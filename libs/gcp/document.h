@@ -228,11 +228,11 @@ Called by the framework when the user fires the Edit/Redo command.
 /*!
 @return the date at which the document was first created.
 */
-	const GDate* GetCreationDate () {return &CreationDate;}
+	const GDateTime* GetCreationDate () {return CreationDate;}
 /*!
 @return the last date at which the document was modified.
 */
-	const GDate* GetRevisionDate () {return &RevisionDate;}
+	const GDateTime* GetRevisionDate () {return RevisionDate;}
 /*!
 @return the author's name.
 */
@@ -459,7 +459,7 @@ private:
 	bool m_bIsLoading, m_bUndoRedo, m_bReadOnly;
 	std::string m_FileType;
 	bool m_bWriteable;
-	GDate CreationDate, RevisionDate;
+	GDateTime *CreationDate, *RevisionDate;
 	std::list<Operation*> m_UndoList, m_RedoList;
 	Operation* m_pCurOp;
 	Application* m_pApp;

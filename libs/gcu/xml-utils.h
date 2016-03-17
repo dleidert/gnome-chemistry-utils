@@ -221,6 +221,28 @@ independent. The date must be stored in the format MM/DD/YYYY.
 */
 bool ReadDate (xmlNodePtr node, char const *name, GDate *date);
 
+/*!
+@param node a pointer to an XML node.
+@param name the property name.
+@param dt the date to serialize.
+
+Adds \a date as a property with name \a name to \a node. This method is locale
+independent. The date will be stored in the format MM/DD/YYYY hh:mm::ss.
+*/
+void WriteDate (xmlNodePtr node, char const *name, GDateTime *dt);
+
+/*!
+@param node a pointer to an XML node.
+@param name the property name.
+@param dt where to store the result.
+
+Retrieves \a date from the \a node property with name \a name. On failure,
+ \a date will be cleared using g_date_clear().
+@return true if the date could be retrieved. This method is locale
+independent. The date must be stored in the format MM/DD/YYYY hh:mm::ss.
+*/
+bool ReadDate (xmlNodePtr node, char const *name, GDateTime **dt);
+
 xmlDocPtr ReadXMLDocFromFile (GFile *file, char const *uri, char const *encoding, GOCmdContext *ctxt);
 xmlDocPtr ReadXMLDocFromURI (char const *uri, char const *encoding, GOCmdContext *ctxt);
 }	//	namespace gcu

@@ -186,6 +186,7 @@ private:
 	static void AddInt32Property (GsfOutput *out, gint16 prop, gint32 value);
 	static void AddBoundingBox (GsfOutput *out, gint32 x0, gint32 y0, gint32 x1, gint32 y1);
 	static void WriteSimpleStringProperty (GsfOutput *out, gint16 id, gint16 length, char const *data);
+	static void WriteDateProperty (GsfOutput *out, gint16 id, GDateTime *date);
 	static bool WriteArrow (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
@@ -232,6 +233,8 @@ CDXLoader::CDXLoader ():
 	m_WriteCallbacks["molecule"] = WriteMolecule;
 	m_WriteCallbacks["reaction"] = WriteReaction;
 	m_WriteCallbacks["reaction-arrow"] = WriteArrow;
+	m_WriteCallbacks["mesomery-arrow"] = WriteArrow;
+	m_WriteCallbacks["retrosynthesis-arrow"] = WriteArrow;
 	m_WriteCallbacks["text"] = WriteText;
 }
 
@@ -251,6 +254,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	double bond_dist_ratio = -1., bond_length = 30.;
 	ostringstream themedesc;
 	gcp::Theme *theme = NULL;
+	doc->SetProperty (GCU_PROP_DOC_CREATOR, ""); // Chemdraw does not use it for now.
 	themedesc << "<?xml version=\"1.0\"?>" << std::endl << "<theme name=\"ChemDraw\"";
 	// note that we read 28 bytes here while headers for recent cdx files have only 22 bytes, remaining are 0x8000 (document) and its id (0)
 	if (!gsf_input_read (in, kCDX_HeaderLength, (guint8*) buf) || strncmp (buf, kCDX_HeaderString, kCDX_HeaderStringLen)) {
@@ -1012,7 +1016,7 @@ bool CDXLoader::WriteReaction (CDXLoader *loader, GsfOutput *out, Object const *
 	return true;
 }
 
-bool CDXLoader::WriteRetrosynthesis(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+bool CDXLoader::WriteRetrosynthesis (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
 {
 	std::map <std::string, Object *>::const_iterator i;
 	gcu::Object const *child = obj->GetFirstChild (i);
@@ -1118,7 +1122,8 @@ bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *s
 				break;
 			}
 			WRITEINT16 (state->out, font_type);
-			WRITEINT16 (state->out, child_state.size);
+			guint16 size =  (child_state.position == 0)? child_state.size: child_state.size * 3 / 2;
+			WRITEINT16 (state->out, size);
 			WRITEINT16 (state->out, child_state.color);
 			guint8 *new_text;
 			gsize written;
@@ -1189,8 +1194,8 @@ bool CDXLoader::WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, 
 		AddInt8Property (out, kCDXProp_CaptionJustification, 1);
 	else if (prop == "justify")
 		AddInt8Property (out, kCDXProp_CaptionJustification, 2);
-	// FIXME: exporting 0 as line height for now, we need to implement line height support in text objects
-	AddInt16Property (out, kCDXProp_CaptionLineHeight, 0);
+	// FIXME: exporting 1 (aka auto) as line height for now, we need to implement line height support in text objects
+	AddInt16Property (out, kCDXProp_CaptionLineHeight, 1);
 	prop = obj->GetProperty (GCU_PROP_TEXT_MARKUP);
 	xmlDocPtr xml = xmlParseMemory (prop.c_str(), prop.length ());
 	xmlNodePtr node = xml->children->children;
@@ -1228,6 +1233,7 @@ bool CDXLoader::WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, 
 	g_object_unref (buf);
 	gsf_output_write (out, contents.size, contents.buf);
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of text
+	xmlFreeDoc (xml);
 	return true;
 }
 
@@ -1256,6 +1262,27 @@ void CDXLoader::WriteSimpleStringProperty (GsfOutput *out, gint16 id, gint16 len
 	WRITEINT16 (out, l);
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00"));
 	gsf_output_write (out, length, reinterpret_cast <guint8 const *> (data));
+}
+
+void CDXLoader::WriteDateProperty (GsfOutput *out, gint16 id,  GDateTime *date)
+{
+	WRITEINT16 (out, id);
+	guint16 n = 14;
+	WRITEINT16 (out, n);
+	n = g_date_time_get_year (date);
+	WRITEINT16 (out, n);
+	n = g_date_time_get_month (date);
+	WRITEINT16 (out, n);
+	n = g_date_time_get_day_of_month (date);
+	WRITEINT16 (out, n);
+	n = g_date_time_get_hour (date);
+	WRITEINT16 (out, n);
+	n = g_date_time_get_minute (date);
+	WRITEINT16 (out, n);
+	n = g_date_time_get_second (date);
+	WRITEINT16 (out, n);
+	n = g_date_time_get_microsecond (date) / 1000;
+	WRITEINT16 (out, n);
 }
 
 void CDXLoader::WriteId (Object const *obj, GsfOutput *out)
@@ -1328,6 +1355,28 @@ bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_
 	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
 	str = doc->GetApp ()->GetName () + " "VERSION;
 	WriteSimpleStringProperty (out, kCDXProp_CreationProgram, str.length (), str.c_str ());
+	// save title authors and the like
+	str = doc->GetProperty (GCU_PROP_DOC_CREATOR);
+	if (str.length () > 0)
+		WriteSimpleStringProperty (out, kCDXProp_CreationUserName, str.length (), str.c_str ());
+/* Don't write dates for now since chemdraw does not use them for now
+	str = doc->GetProperty (GCU_PROP_DOC_CREATION_TIME);
+	unsigned d, m, Y;
+	if (sscanf (str.c_str (), "%u-%u-%u", &Y,&m, &d) == 3) {
+		GDateTime *date = g_date_time_new_utc (Y, m, d, 0, 0, 0.);
+		WriteDateProperty (out, kCDXProp_CreationDate, date);
+		g_date_time_unref (date);
+	}
+	GDateTime *dt = g_date_time_new_now_utc ();
+	WriteDateProperty (out, kCDXProp_ModificationDate, dt);
+	g_date_time_unref (dt);
+*/
+	str = doc->GetProperty (GCU_PROP_DOC_TITLE);
+	if (str.length () > 0)
+		WriteSimpleStringProperty (out, kCDXProp_Name, str.length (), str.c_str ());
+	str = doc->GetProperty (GCU_PROP_DOC_COMMENT);
+	if (str.length () > 0)
+		WriteSimpleStringProperty (out, kCDXProp_Comment, str.length (), str.c_str ());
 	// Get the theme (we need a gcp::Document there)
 	gcp::Document const *cpDoc = dynamic_cast < gcp::Document const * > (doc);
 	gcp::Theme const *theme = cpDoc->GetTheme ();

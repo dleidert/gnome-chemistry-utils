@@ -375,6 +375,27 @@ bool ReadDate (xmlNodePtr node, char const *name, GDate *date)
 		return false;
 }
 
+void WriteDate (xmlNodePtr node, char const *name, GDateTime *dt)
+{
+	char *buf = g_date_time_format (dt, "%m/%d/%Y %H:%M:%S");
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> (name), reinterpret_cast <xmlChar const *> (buf));
+}
+
+bool ReadDate (xmlNodePtr node, char const *name, GDateTime **dt)
+{
+	xmlChar *buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> (name));
+	unsigned d, m, y, hh = 0, mm = 0, res;
+	float ss  =0.;
+	if (buf && (res = sscanf (reinterpret_cast <char const *> (buf), "%2u/%2u/%4u %2u:%2u:%f", &m, &d, &y, &hh, &mm, &ss))) {
+		xmlFree (buf);
+		GTimeZone *tz = g_time_zone_new_utc ();
+		*dt = g_date_time_new (tz, y, m, d, hh, mm, ss);
+		g_time_zone_unref (tz);
+		return res >= 3;
+	} else
+		return false;
+}
+
 struct XmlReadState {
 	GInputStream *input;
 	GOCmdContext *ctxt;

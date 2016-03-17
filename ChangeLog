@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2016-03-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/docprop.cc: use UTC time instead of simple dates.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/document.h: ditto.
+	* libs/gcu/xml-utils.cc: import and export UTC times.
+	* libs/gcu/xml-utils.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: export title.
+	* plugins/loaders/cdxml/cdxml.cc: import and export texts and reactions.
+
 2016-03-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: remove unused field.
 	* plugins/loaders/cdxml/cdxml.cc: load reaction schemes.

@@ -78,8 +78,8 @@ Document::Document (Application *App, bool StandAlone, Window *window):
 	SetTheme (TheThemeManager.GetTheme ("Default"));
 	m_pView = new View (this, !StandAlone);
 	m_bIsLoading = m_bUndoRedo = false;
-	g_date_set_time_t (&CreationDate, time (NULL));
-	g_date_clear (&RevisionDate, 1);
+	CreationDate = g_date_time_new_now_utc ();
+	RevisionDate = NULL;
 	const char* chn = getenv ("REAL_NAME");
 	if (!chn)
 		chn = getenv ("USERNAME");
@@ -112,6 +112,10 @@ Document::~Document ()
 		m_Theme->RemoveClient (this);
 	if (m_App && static_cast < Application * > (m_App)->GetActiveDocument () == this)
 		static_cast < Application * > (m_App)->SetActiveDocument (NULL);
+	if (CreationDate)
+		g_date_time_unref (CreationDate);
+	if (RevisionDate)
+		g_date_time_unref (RevisionDate);
 }
 
 void Document::Clear ()
@@ -144,6 +148,14 @@ void Document::Clear ()
 	while (!m_UndoList.empty ()) {
 		delete m_UndoList.front ();
 		m_UndoList.pop_front ();
+	}
+	if (CreationDate) {
+		g_date_time_unref (CreationDate);
+		CreationDate = NULL;
+	}
+	if (RevisionDate) {
+		g_date_time_unref (RevisionDate);
+		RevisionDate = NULL;
 	}
 }
 
@@ -589,11 +601,12 @@ xmlDocPtr Document::BuildXMLTree () const
 	xmlSetNs (xml->children, ns);
 	if (m_UseAtomColors)
 		xmlNewProp (xml->children, reinterpret_cast < xmlChar const * > ("use-atom-colors"), reinterpret_cast < xmlChar const * > ("true"));
-	if (!g_date_valid (&CreationDate))
-		g_date_set_time_t (&const_cast <Document *> (this)->CreationDate, time (NULL));
-	g_date_set_time_t (&const_cast <Document *> (this)->RevisionDate, time (NULL));
-	gcu::WriteDate (xml->children, "creation", &CreationDate);
-	gcu::WriteDate (xml->children, "revision", &RevisionDate);
+	if (CreationDate == NULL)
+		const_cast < Document * > (this)->CreationDate = g_date_time_new_now_utc ();
+	if (RevisionDate != NULL)
+		const_cast < Document * > (this)->RevisionDate = g_date_time_new_now_utc ();
+	gcu::WriteDate (xml->children, "creation", CreationDate);
+	gcu::WriteDate (xml->children, "revision", RevisionDate);
 	node = xmlNewDocNode (xml, NULL, (xmlChar*)"generator", (xmlChar*)"GChemPaint "VERSION);
 	if (node)
 		xmlAddChild (xml->children, node);
@@ -1191,7 +1204,7 @@ void Document::OnThemeNamesChanged ()
 double Document::GetMedianBondLength ()
 {
 	vector <double> lengths;
-	int failed;
+	int failed = true;
 	lengths.reserve (128);
 	double result = 0.;
 	stack<map< string, Object * >::iterator> iters;
@@ -1219,6 +1232,14 @@ double Document::GetMedianBondLength ()
 	return (failed)? 0: result;
 }
 
+static GDateTime *convert_to_date (char const *value)
+{
+	unsigned Y = 0, M = 0, D = 0, h = 0, m = 0;
+	float s = 0.;
+	sscanf (value, "%u\%u\%u %u:%uù%f\n", &Y, &M, &D, &h, &m, &s);
+	return g_date_time_new_utc (Y,M, D, h, m, s);
+}
+
 bool Document::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {
@@ -1241,10 +1262,14 @@ bool Document::SetProperty (unsigned property, char const *value)
 		m_author = g_strdup (value);
 		break;
 	case GCU_PROP_DOC_CREATION_TIME:
-		g_date_set_parse (&CreationDate, value);
+		if (CreationDate)
+			g_date_time_unref (CreationDate);
+		CreationDate = convert_to_date (value);
 		break;
 	case GCU_PROP_DOC_MODIFICATION_TIME:
-		g_date_set_parse (&RevisionDate, value);
+		if (RevisionDate)
+			g_date_time_unref (RevisionDate);
+		RevisionDate = convert_to_date (value);
 		break;
 	case GCU_PROP_THEME_BOND_LENGTH: {
 		char *end;
@@ -1286,16 +1311,14 @@ std::string Document::GetProperty (unsigned property) const
 		res << m_author;
 		break;
 	case GCU_PROP_DOC_CREATION_TIME: {
-		char buf[16];
-		*buf = 0;
-		g_date_strftime (buf, 16, "%F", &CreationDate);
+		char *buf = g_date_time_format (CreationDate, "%Y/%m/%d %H:%M:%S");
 		res << buf;
 		break;
 	}
 	case GCU_PROP_DOC_MODIFICATION_TIME: {
 		char buf[16];
 		*buf = 0;
-		g_date_strftime (buf, 16, "%F", &RevisionDate);
+		g_date_time_format (RevisionDate, "%Y/%m/%d %H:%M:%S");
 		res << buf;
 		break;
 	}

@@ -121,19 +121,22 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 	g_signal_connect (G_OBJECT (Mail), "activate", G_CALLBACK (on_mail_changed), this);
 	g_signal_connect (G_OBJECT (Mail), "focus-out-event", G_CALLBACK (on_mail_focused_out), this);
 	CreationDate = GTK_LABEL (GetWidget ("creation"));
-	const GDate* Date = pDoc->GetCreationDate ();
-	char tmp[64];
-	/* The following format prints date as "Monday, July 8, 2002" */
-	if (g_date_valid (Date)) {
-		g_date_strftime (tmp, sizeof (tmp), _("%A, %B %d, %Y"), Date);
-		gtk_label_set_text (CreationDate, tmp);
+	GDateTime* dt = const_cast <GDateTime *> (pDoc->GetCreationDate ());
+	/* The following format prints date as "Monday, July 8, 2002 14:34:45" */
+	if (dt != NULL) {
+		dt = g_date_time_to_local (dt);
+		chn = g_date_time_format (dt, _("%A, %B %d, %Y, %H:%M:%S"));
+		g_date_time_unref (dt);
+		gtk_label_set_text (CreationDate, chn);
 	}
 	RevisionDate = GTK_LABEL (GetWidget ("revision"));
-	Date = pDoc->GetRevisionDate ();
-	if (g_date_valid(Date))
+	dt = const_cast <GDateTime *> (pDoc->GetRevisionDate ());
+	if (dt != NULL)
 	{
-		g_date_strftime (tmp, sizeof (tmp), _("%A, %B %d, %Y"), Date);
-		gtk_label_set_text (RevisionDate, tmp);
+		dt = g_date_time_to_local (dt);
+		g_date_time_format (dt, _("%A, %B %d, %Y, %H:%M:%S"));
+		g_date_time_unref (dt);
+		gtk_label_set_text (RevisionDate, chn);
 	}
 	Comments = GTK_TEXT_VIEW (GetWidget ("comments"));
 	Buffer = gtk_text_view_get_buffer (Comments);
