@@ -740,7 +740,11 @@ static void BuildConnectivity (gcu::Atom *atom, set < gcu::Atom * > &ConnectedAt
 
 void Molecule::OnLoaded ()
 {
-	// First check if we have only one molecule or split, this might happen with
+	// First update fragments;
+	std::list < Fragment * >::iterator f, fend = m_Fragments.end ();
+	for (f = m_Fragments.begin (); f != fend; f++)
+		(*f)->Update ();
+	// Then check if we have only one molecule or split, this might happen with
 	// cml (root node being molecule) or malformed files.
 	if (m_Atoms.size () + m_Fragments.size () > 1) {
 		/* FIXME: what should be done with fragments? */
@@ -777,7 +781,8 @@ void Molecule::OnLoaded ()
 			// remove new_mol children from there
 			std::list < gcu::Atom * >::iterator a, aend = new_mol->m_Atoms.end ();
 			std::list < gcu::Bond * >::iterator b, bend = new_mol->m_Bonds.end ();
-			std::list < Fragment * >::iterator f, fend = new_mol->m_Fragments.end ();
+			fend = new_mol->m_Fragments.end ();
+			// update fragments if needed
 			for (a = new_mol->m_Atoms.begin (); a != aend; a++)
 				m_Atoms.remove (*a);
 			for (b = new_mol->m_Bonds.begin (); b != bend; b++)

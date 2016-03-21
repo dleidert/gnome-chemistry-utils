@@ -348,6 +348,7 @@ bool Fragment::OnChanged (bool save)
 				m_EndAtom = CurPos;
 		}
 	}
+	m_Inversable = (m_BeginAtom == 0 || m_EndAtom == m_buf.size ()) && ((m_EndAtom - m_BeginAtom) < m_buf.length ());
 	gccv::Rect rect;
 	m_TextItem->GetPositionAtIndex (m_BeginAtom, rect);
 	m_lbearing = rect.x0;
@@ -477,6 +478,14 @@ void Fragment::UpdateItem ()
 {
 	if (!m_TextItem)
 		return;
+	if (Update ()) {
+		delete m_TextItem;
+		m_TextItem = NULL;
+		delete m_Item;
+		m_Item = NULL;
+		AddItem ();
+		return;
+	}
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
@@ -813,6 +822,7 @@ bool Fragment::Load (xmlNodePtr node)
 		}
 		m_TextItem->RebuildAttributes ();
 	}
+	m_Inversable = (m_BeginAtom == 0 || m_EndAtom == m_buf.size ()) && ((m_EndAtom - m_BeginAtom) < m_buf.length ());
 	m_bLoading = false;
 	pDoc->ObjectLoaded (this);
 	pDoc->ObjectLoaded (m_Atom);
@@ -1508,17 +1518,48 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 	return true;
 }
 
+std::string Fragment::GetProperty (unsigned property) const
+{
+	switch (property) {
+	case GCU_PROP_POS2D: {
+		std::ostringstream str;
+		gcu::Document *doc = GetDocument ();
+		double scale = (doc)? doc->GetScale (): 1.;
+		str << m_x / scale << m_y / scale;
+		return str.str ();
+	}
+	case GCU_PROP_X: {
+		std::ostringstream str;
+		gcu::Document *doc = GetDocument ();
+		double scale = (doc)? doc->GetScale (): 1.;
+		str << m_x / scale;
+		return str.str ();
+	}
+	case GCU_PROP_Y: {
+		std::ostringstream str;
+		gcu::Document *doc = GetDocument ();
+		double scale = (doc)? doc->GetScale (): 1.;
+		str << m_y / scale;
+		return str.str ();
+	}
+	case GCU_PROP_FRAGMENT_ATOM_ID:
+			return m_Atom->GetId ();
+		break;
+	default:
+		break;
+	}
+	return TextObject::GetProperty (property);
+}
+
 bool Fragment::Analyze () {
 	// search if main atom is at start or at end
-	if ((m_BeginAtom == 0 || m_EndAtom == m_buf.size ()) && ((m_EndAtom - m_BeginAtom) < m_buf.length ()) ){
-		m_Inversable = true;
-	}
+	m_Inversable = (m_BeginAtom == 0 || m_EndAtom == m_buf.size ()) && ((m_EndAtom - m_BeginAtom) < m_buf.length ());
 //	int valence = m_Atom->GetValence ();
 	AnalContent ();
 	return true;
 }
 
-void Fragment::Update () {
+bool Fragment::Update () {
 	if (m_Atom->GetBondsNumber () > 0 && m_Inversable) {
 		map<gcu::Atom*, gcu::Bond*>::iterator i;
 		Bond *bond = reinterpret_cast <Bond *> (m_Atom->GetFirstBond (i));
@@ -1536,9 +1577,24 @@ void Fragment::Update () {
 			m_EndAtom = m_buf.length ();
 			m_BeginAtom = m_EndAtom - strlen (m_Atom->GetSymbol ());
 			AnalContent ();
-		} else if (angle > 91. || angle < -91.) {
+			return true;
+		} else if (m_BeginAtom > 0 && (angle > 91. || angle < -91.)) {
+			// build the formula, then write elements in reverse order might be unsecure in some cases (if linked atom has a stoichiometric coefficient)
+			Formula *formula = new Formula (m_buf, GCU_FORMULA_PARSE_RESIDUE);
+			std::list<FormulaElt *> const &elts = formula->GetElements ();
+			m_buf.clear ();
+			std::list<FormulaElt *>::const_reverse_iterator i, end = elts.rend ();
+			for (i = elts.rbegin (); i!= end; i++) {
+				m_buf += (*i)->Text ();
+			}
+			delete formula;
+			m_BeginAtom = 0;
+			m_EndAtom = strlen (m_Atom->GetSymbol ());
+			AnalContent ();
+			return true;
 		}
 	}
+	return false;
 }
 
 gccv::Item *Fragment::GetChargeItem ()

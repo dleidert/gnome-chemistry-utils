@@ -279,6 +279,13 @@ and GCU_PROP_FRAGMENT_ATOM_ID.
 	bool SetProperty (unsigned property, char const *value);
 
 /*!
+@param property the property id as defined in objprops.h
+
+Used when saving to get properties from fragments.
+*/
+	std::string GetProperty (unsigned property) const;
+
+/*!
 Analyses the text in the fragment. This calls gcp::Fragment::AnalContent()
 and updates the attribute list.
 */
@@ -287,8 +294,9 @@ and updates the attribute list.
 /*!
 Changes the order of the symbols if necessary when a bond is at an extremity
 of the fragment.
+@return true, if the order has been reversed.
 */
-	void Update ();
+	bool Update ();
 
 /*!
 @return the gccv::Item used to represent the formal charge of the main atom.
