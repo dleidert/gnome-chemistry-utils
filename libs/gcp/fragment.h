@@ -294,8 +294,9 @@ and updates the attribute list.
 /*!
 Changes the order of the symbols if necessary when a bond is at an extremity
 of the fragment.
+@return true, if the order has been reversed.
 */
-	void Update ();
+	bool Update ();
 
 /*!
 @return the gccv::Item used to represent the formal charge of the main atom.

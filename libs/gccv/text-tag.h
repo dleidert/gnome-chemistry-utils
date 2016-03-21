@@ -36,7 +36,7 @@ namespace gccv {
 /*!
 Text attributes support.
 */
-typedef enum
+enum
 {
 /*!
 Invalid tag.
@@ -102,7 +102,9 @@ Insert a new line.
 First unused value. Larger values might be used by applications.
 */
 	MaxTag
-} Tag;
+};
+
+typedef int Tag;
 
 /*!
 Used for ordering tags.

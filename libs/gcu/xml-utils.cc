@@ -377,6 +377,8 @@ bool ReadDate (xmlNodePtr node, char const *name, GDate *date)
 
 void WriteDate (xmlNodePtr node, char const *name, GDateTime *dt)
 {
+	if (dt == NULL)
+		return;
 	char *buf = g_date_time_format (dt, "%m/%d/%Y %H:%M:%S");
 	xmlNewProp (node, reinterpret_cast <xmlChar const *> (name), reinterpret_cast <xmlChar const *> (buf));
 }

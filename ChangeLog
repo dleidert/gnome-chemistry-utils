@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2016-03-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.h: Change gccv::Tag from enum to int (avods runtime
+	errors).
+	* libs/gcp/fragment.cc: enhance rotation and GetProperty () method.
+	* libs/gcp/fragment.h: change Update () signature.
+	* libs/gcp/molecule.cc: update fragments when loaded.
+	* libs/gcu/xml-utils.cc: don't save an invalid date.
+
 2016-03-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/docprop.cc: use UTC time instead of simple dates.
 	* libs/gcp/document.cc: ditto.
