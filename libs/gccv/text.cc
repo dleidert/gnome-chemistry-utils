@@ -843,6 +843,12 @@ void Text::DeleteTextTag (TextTag *tag, bool rebuild_attributes)
 		RebuildAttributes ();
 }
 
+void Text::ClearTags ()
+{
+	m_Tags.clear ();
+	RebuildAttributes ();
+}
+
 void Text::SetCurTagList (TextTagList *l)
 {
 	if (m_CurTags)
@@ -1659,6 +1665,16 @@ void Text::SetJustification (GtkJustification justification, bool emit_changed)
 		if (client)
 			client->JustificationChanged (justification);
 	}
+}
+
+double Text::GetMaxLineHeight ()
+{
+	double res = 0.;
+	return res;
+	for (unsigned i = 0; i < m_LinesNumber; i++)
+		if (m_Lines[i].m_Height > res)
+			res = m_Lines[i].m_Height;
+	return res;
 }
 
 }

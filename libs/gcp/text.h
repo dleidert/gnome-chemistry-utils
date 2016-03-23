@@ -234,6 +234,7 @@ GCU_RO_PROP (gccv::Tag, GlobalTag)
 
 private:
 	double m_Interline;
+	bool m_VariableLineHeight;
 	GtkJustification m_Justification;
 };
 

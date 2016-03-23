@@ -396,6 +396,7 @@ void Fragment::AddItem ()
 {
 	if (m_Item)
 		return;
+	Update ();
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
@@ -478,14 +479,7 @@ void Fragment::UpdateItem ()
 {
 	if (!m_TextItem)
 		return;
-	if (Update ()) {
-		delete m_TextItem;
-		m_TextItem = NULL;
-		delete m_Item;
-		m_Item = NULL;
-		AddItem ();
-		return;
-	}
+	Update ();
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
@@ -1525,7 +1519,7 @@ std::string Fragment::GetProperty (unsigned property) const
 		std::ostringstream str;
 		gcu::Document *doc = GetDocument ();
 		double scale = (doc)? doc->GetScale (): 1.;
-		str << m_x / scale << m_y / scale;
+		str << m_x / scale << " " << m_y / scale;
 		return str.str ();
 	}
 	case GCU_PROP_X: {
@@ -1542,9 +1536,21 @@ std::string Fragment::GetProperty (unsigned property) const
 		str << m_y / scale;
 		return str.str ();
 	}
+	case GCU_PROP_FRAGMENT_ATOM_START: {
+		std::ostringstream str;
+		str << m_BeginAtom;
+		return str.str ();
+	}
 	case GCU_PROP_FRAGMENT_ATOM_ID:
-			return m_Atom->GetId ();
-		break;
+		return m_Atom->GetId ();
+	case GCU_PROP_TEXT_POSITION: {
+		std::ostringstream str;
+		gcu::Document const *doc = GetDocument ();
+		Theme *theme = static_cast < Document const * > (doc)->GetTheme ();
+		str << (m_x - m_lbearing / theme->GetZoomFactor ()) / doc->GetScale ()
+				<< " " << (m_y + static_cast < Document const * > (doc)->GetView ()->GetCHeight ()) / doc->GetScale ();
+		return str.str ();
+	}
 	default:
 		break;
 	}
@@ -1570,12 +1576,15 @@ bool Fragment::Update () {
 			std::list<FormulaElt *> const &elts = formula->GetElements ();
 			m_buf.clear ();
 			std::list<FormulaElt *>::const_reverse_iterator i, end = elts.rend ();
-			for (i = elts.rbegin (); i!= end; i++) {
+			for (i = elts.rbegin (); i!= end; i++)
 				m_buf += (*i)->Text ();
-			}
 			delete formula;
 			m_EndAtom = m_buf.length ();
 			m_BeginAtom = m_EndAtom - strlen (m_Atom->GetSymbol ());
+			if (m_TextItem)
+				m_TextItem->ClearTags ();
+			else
+				m_TagList.clear ();
 			AnalContent ();
 			return true;
 		} else if (m_BeginAtom > 0 && (angle > 91. || angle < -91.)) {
@@ -1584,9 +1593,8 @@ bool Fragment::Update () {
 			std::list<FormulaElt *> const &elts = formula->GetElements ();
 			m_buf.clear ();
 			std::list<FormulaElt *>::const_reverse_iterator i, end = elts.rend ();
-			for (i = elts.rbegin (); i!= end; i++) {
+			for (i = elts.rbegin (); i!= end; i++)
 				m_buf += (*i)->Text ();
-			}
 			delete formula;
 			m_BeginAtom = 0;
 			m_EndAtom = strlen (m_Atom->GetSymbol ());

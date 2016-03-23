@@ -36,7 +36,7 @@ namespace gccv {
 /*!
 Text attributes support.
 */
-typedef enum
+enum
 {
 /*!
 Invalid tag.

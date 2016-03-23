@@ -170,6 +170,10 @@ Removes an existing TextTag.
 */
 	void DeleteTextTag (TextTag *tag, bool rebuild_attributes = true);
 /*!
+Remove all tags.
+*/
+	void ClearTags ();
+/*!
 @return the current TextTag list for the Text item.
 */
 	std::list <TextTag *> const *GetTags () {return &m_Tags;}
@@ -281,6 +285,10 @@ Sets the justification and notifies the client if requested, and if there is
 actually any client. The justification is meaningful only for multiline texts.
 */
 	void SetJustification (GtkJustification justification, bool emit_changed = false);
+/*!
+@return the default font sioze for the item.
+*/
+	double GetMaxLineHeight ();
 
 private:
 	double m_x, m_y;

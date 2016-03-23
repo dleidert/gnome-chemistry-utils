@@ -93,6 +93,7 @@ private:
 	static void AddStringProperty (xmlNodePtr node, char const *id, string const &value);
 	static bool WriteArrow (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
 	static bool WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
+	static bool WriteFragment (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
 	static bool WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
 	static bool WriteMesomery(CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
 	static bool WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
@@ -137,13 +138,16 @@ CDXMLLoader::CDXMLLoader ()
 	KnownProps["Justification"] =GCU_PROP_TEXT_JUSTIFICATION;
 	// Add write callbacks
 	m_WriteCallbacks["atom"] = WriteAtom;
+	m_WriteCallbacks["fragment"] = WriteFragment;
 	m_WriteCallbacks["bond"] = WriteBond;
 	m_WriteCallbacks["molecule"] = WriteMolecule;
 	m_WriteCallbacks["text"] = WriteText;
 	m_WriteCallbacks["reaction"] = WriteReaction;
 	m_WriteCallbacks["reaction-arrow"] = WriteArrow;
+	m_WriteCallbacks["mesomery"] = WriteMesomery;
 	m_WriteCallbacks["mesomery-arrow"] = WriteArrow;
 	m_WriteCallbacks["retrosynthesis-arrow"] = WriteArrow;
+	m_WriteCallbacks["retrosynthesis"] = WriteRetrosynthesis;
 }
 
 CDXMLLoader::~CDXMLLoader ()
@@ -182,6 +186,7 @@ typedef struct {
 	unsigned font;
 	unsigned color;
 	string size;
+	int line_height;
 	unsigned captionFont, labelFont, textAlign;
 	double CHeight, padding;
 	SchemeData scheme;
@@ -451,10 +456,11 @@ static void
 cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	gcu::Object *obj = state->app->CreateObject ("text", (state->cur.top ()->GetType () == gcu::DocumentType)? state->cur.top (): NULL);
+	gcu::Object *obj = state->app->CreateObject ("text", /*(state->cur.top ()->GetType () == gcu::DocumentType)? */state->cur.top ()/*: NULL*/);
 	state->cur.push (obj);
 	state->doc->ObjectLoaded (obj);
 	char *lowered;
+	state->line_height = 1;
 	map<string, unsigned>::iterator it;
 	if (attrs)
 		while (*attrs)
@@ -470,6 +476,19 @@ cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 				std::ostringstream out;
 				out << x << " " << y;
 				obj->SetProperty (GCU_PROP_POS2D, out.str ().c_str ());
+				attrs += 2;
+			} else if (!strcmp (reinterpret_cast < char const * > (*attrs), "LineHeight") ||
+			           !strcmp (reinterpret_cast < char const * > (*attrs), "CaptionLineHeight")) {
+				std::string val (reinterpret_cast < char const * > (attrs[1]));
+				if (val == "auto")
+					obj->SetProperty (GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT, "false");
+				else if (val == "variable")
+					obj->SetProperty (GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT, "false");
+				else {
+					std::istringstream in (val);
+					in >> state->line_height;
+				}
+				
 				attrs += 2;
 			} else if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
 				lowered = g_ascii_strdown ((char const *) *attrs++, -1);
@@ -488,6 +507,16 @@ cdxml_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->markup.clear ();
 	if (state->cur.top ()->GetParent () == NULL)
 		delete state->cur.top ();
+	else if (state->line_height > 1) {
+		state->cur.top ()->SetProperty (GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT, "false");
+		std::istringstream in (state->cur.top ()->GetProperty (GCU_PROP_TEXT_MAX_LINE_HEIGHT));
+		double lh;
+		in >> lh;
+		std::ostringstream out;
+		out << state->line_height - lh;
+		state->cur.top ()->SetProperty (GCU_PROP_TEXT_INTERLINE, out.str ().c_str ());
+	}
+
 	state->cur.pop ();
 }
 
@@ -727,7 +756,7 @@ fragment_success:
 		}
 		if (mol)
 			delete mol;
-	}
+	} else goto fragment_success;
 }
 
 static void
@@ -1332,11 +1361,53 @@ bool CDXMLLoader::WriteMesomery(CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr p
 {
 	std::map <std::string, Object *>::const_iterator i;
 	gcu::Object const *child = obj->GetFirstChild (i);
+	std::list < gcu::Object const * > arrows;
+	std::list < gcu::Object const * >::const_iterator it, itend;
 	while (child) {
-		// FIXME
-		if (!loader->WriteObject (xml, parent, child, s))
+		std::string name = Object::GetTypeName (child->GetType ());
+		if (name == "mesomery-arrow")
+			arrows.push_back (child);
+		else if (!loader->WriteObject (xml, parent, child, s))
 			return false;
 		child = obj->GetNextChild (i);
+	}
+	itend = arrows.end ();
+	for (it = arrows.begin (); it != itend; it++)
+		// save the graphic object.
+		if (!WriteArrow (loader, xml, parent, *it, s))
+			return false;
+	// Now, save the mesomery
+	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const * > ("scheme"), NULL);
+	xmlAddChild (parent, node);
+	AddIntProperty (node, "id", loader->m_MaxId++);
+	for (it = arrows.begin (); it != itend; it++) {
+		// save the associated step
+		xmlNodePtr step = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const * > ("step"), NULL);
+		xmlAddChild (node, step);
+		AddIntProperty (step, "id", loader->m_MaxId++);
+		// reactants
+		gcu::Object const *arrow = *it;
+		gcu::Object const *cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_START_ID).c_str ());
+		if (cur) {
+			child = cur->GetFirstChild (i);
+			if (child) {
+				std::ostringstream out;
+				out << loader->m_SavedIds[child->GetId ()];
+				AddStringProperty (step, "ReactionStepReactants", out.str ());
+			}
+		}
+		// products
+		cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_END_ID).c_str ());
+		if (cur) {
+			child = cur->GetFirstChild (i);
+			if (child) {
+				std::ostringstream out;
+				out << loader->m_SavedIds[child->GetId ()];
+				AddStringProperty (step, "ReactionStepProducts", out.str ());
+			}
+		}
+		// arrow
+		AddIntProperty (step, "ReactionStepArrows", loader->m_SavedIds[arrow->GetId ()]);
 	}
 	return true;
 }
@@ -1466,7 +1537,7 @@ bool CDXMLLoader::WriteReaction (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr 
 			}
 			AddStringProperty (step, "ReactionStepObjectsAboveArrow", out.str ());
 		}
-		// objects under the arrow
+		// objects below the arrow
 		if (!Ids_.empty ()) {
 			std::ostringstream out;
 			out << Ids_.front ();
@@ -1507,6 +1578,68 @@ bool CDXMLLoader::WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 	if (prop != "6")
 		AddStringProperty (node, "Element", prop);
 	prop = obj->GetProperty (GCU_PROP_TEXT_TEXT);
+	if (prop.length () > 0) {
+		xmlNodePtr text = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("t"), NULL);
+		xmlAddChild (node, text);
+		string prop2 = obj->GetProperty (GCU_PROP_TEXT_POSITION);
+		AddStringProperty (text, "p", prop2);
+		AddStringProperty (text, "LabelJustification", "Left");
+		AddStringProperty (text, "LabelAlignment", "Left");
+		xmlNodePtr sub = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("s"), NULL);
+		xmlAddChild (text, sub);
+		AddIntProperty (sub, "font", loader->m_LabelFont);
+		AddIntProperty (sub, "face", loader->m_LabelFontFace);
+		AddIntProperty (sub, "size", loader->m_LabelFontSize);
+		AddIntProperty (sub, "color", loader->m_LabelFontColor);
+		xmlNodeAddContent (sub, reinterpret_cast <xmlChar const *> (prop.c_str ()));
+	}
+	return true;
+}
+
+bool CDXMLLoader::WriteFragment (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, G_GNUC_UNUSED GOIOContext *s)
+{
+	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("n"), NULL);
+	xmlAddChild (parent, node);
+	loader->m_SavedIds[obj->GetId ()] = loader->m_MaxId;
+	std::string prop = obj->GetProperty (GCU_PROP_FRAGMENT_ATOM_ID);
+	gcu::Object *atom = obj->GetChild (prop.c_str ());
+	loader->m_SavedIds[atom->GetId ()] = loader->m_MaxId;
+	AddIntProperty (node, "id", loader->m_MaxId++);
+	prop = obj->GetProperty (GCU_PROP_POS2D);
+	AddStringProperty (node, "p", prop);
+	AddIntProperty (node, "Z", loader->m_Z++);
+	AddStringProperty (node, "NodeType", "Fragment");
+	prop = obj->GetProperty (GCU_PROP_TEXT_TEXT);
+	std::string pos = obj->GetProperty (GCU_PROP_FRAGMENT_ATOM_START);
+	unsigned as = atoi (pos.c_str ());
+	if (as > 0) {
+		char const *symbol = static_cast < gcu::Atom * > (atom)->GetSymbol ();
+		unsigned ae = as + strlen (symbol);
+		if (ae < prop.length () - 1) {
+			// attachment point is in the middle of the string, we need to bring it to start,
+			// and add put the left part inside brackets
+			std::string left = prop.substr (0, as), right = prop.substr (ae);
+			prop = symbol;
+			prop += "(";
+			gcu::Formula *formula = new gcu::Formula (left, GCU_FORMULA_PARSE_RESIDUE);
+			std::list < FormulaElt * > const &elts = formula->GetElements ();
+			std::list< FormulaElt * >::const_reverse_iterator i, end = elts.rend ();
+			for (i = elts.rbegin (); i!= end; i++)
+				prop += (*i)->Text ();
+			prop += ")";
+			prop += right;
+			delete formula;
+		} else {
+			// atom is at end, we need to revert the formula
+			gcu::Formula *formula = new gcu::Formula (prop, GCU_FORMULA_PARSE_RESIDUE);
+			std::list < FormulaElt * > const &elts = formula->GetElements ();
+			prop.clear ();
+			std::list< FormulaElt * >::const_reverse_iterator i, end = elts.rend ();
+			for (i = elts.rbegin (); i!= end; i++)
+				prop += (*i)->Text ();
+			delete formula;
+		}
+	}
 	if (prop.length () > 0) {
 		xmlNodePtr text = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("t"), NULL);
 		xmlAddChild (node, text);
@@ -1713,8 +1846,18 @@ bool CDXMLLoader::WriteText(CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr paren
 		AddStringProperty (node, "CaptionJustification", "Center");
 	else if (prop == "justify")
 		AddStringProperty (node, "CaptionJustification", "Full");
-	// FIXME: exporting 0 as line height for now, we need to implement line height support in text objects
-	AddStringProperty (node, "CaptionLineHeight", "auto");
+	double inl;
+	std::istringstream in (obj->GetProperty (GCU_PROP_TEXT_INTERLINE));
+	in >> inl;
+	if (inl <= 0.) {
+		prop = obj->GetProperty (GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT);
+		AddStringProperty (node, "CaptionLineHeight", (prop =="true")? "variable": "auto");
+	} else {
+		std::istringstream in (obj->GetProperty (GCU_PROP_TEXT_MAX_LINE_HEIGHT));
+		double lh;
+		in >> lh;
+		AddIntProperty (node, "CaptionLineHeight", inl + lh);
+	}
 	prop = obj->GetProperty (GCU_PROP_TEXT_MARKUP);
 	xmlDocPtr doc = xmlParseMemory (prop.c_str(), prop.length ());
 	xmlNodePtr text_node = doc->children->children;
