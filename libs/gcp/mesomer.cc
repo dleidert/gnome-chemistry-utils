@@ -40,7 +40,8 @@ namespace gcp {
 
 TypeId MesomerType;
 
-Mesomer::Mesomer (): MechanismStep (MesomerType)
+Mesomer::Mesomer (): MechanismStep (MesomerType),
+	 m_Molecule (NULL)
 {
 }
 

@@ -190,6 +190,7 @@ private:
 	static bool WriteArrow (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
+	static bool WriteFragment (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteReaction(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
@@ -229,11 +230,14 @@ CDXLoader::CDXLoader ():
 	AddMimeType ("chemical/x-cdx");
 	// Add write callbacks
 	m_WriteCallbacks["atom"] = WriteAtom;
+	m_WriteCallbacks["fragment"] = WriteFragment;
 	m_WriteCallbacks["bond"] = WriteBond;
 	m_WriteCallbacks["molecule"] = WriteMolecule;
 	m_WriteCallbacks["reaction"] = WriteReaction;
 	m_WriteCallbacks["reaction-arrow"] = WriteArrow;
+	m_WriteCallbacks["mesomery"] = WriteMesomery;
 	m_WriteCallbacks["mesomery-arrow"] = WriteArrow;
+	m_WriteCallbacks["retrosynthesis"] = WriteRetrosynthesis;
 	m_WriteCallbacks["retrosynthesis-arrow"] = WriteArrow;
 	m_WriteCallbacks["text"] = WriteText;
 }
@@ -766,6 +770,95 @@ bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj,
 	return true;
 }
 
+bool CDXLoader::WriteFragment (CDXLoader *loader, GsfOutput *out, Object const *obj, G_GNUC_UNUSED GOIOContext *s)
+{
+	gint16 n = kCDXObj_Node;
+	double x, y;
+	gint32 x_, y_;
+	WRITEINT16 (out, n);
+	std::string prop = obj->GetProperty (GCU_PROP_FRAGMENT_ATOM_ID);
+	gcu::Object *atom = obj->GetChild (prop.c_str ());
+	loader->m_SavedIds[atom->GetId ()] = loader->m_MaxId;
+	loader->WriteId (obj, out);
+	prop = obj->GetProperty (GCU_PROP_POS2D);
+	if (prop.length ()) {
+		istringstream str (prop);
+		str >> x >> y;
+		x_ = x;
+		y_ = y;
+		n = kCDXProp_2DPosition;
+		WRITEINT16 (out, n);
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x08\x00"));
+		// write y first
+		WRITEINT32 (out, y_);
+		WRITEINT32 (out, x_);
+	}
+	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);
+	AddInt16Property (out, kCDXProp_Node_Type, 5);
+	prop = obj->GetProperty (GCU_PROP_TEXT_TEXT);
+	std::string pos = obj->GetProperty (GCU_PROP_FRAGMENT_ATOM_START);
+	unsigned as = atoi (pos.c_str ());
+	if (as > 0) {
+		char const *symbol = static_cast < gcu::Atom * > (atom)->GetSymbol ();
+		unsigned ae = as + strlen (symbol);
+		if (ae < prop.length () - 1) {
+			// attachment point is in the middle of the string, we need to bring it to start,
+			// and add put the left part inside brackets
+			std::string left = prop.substr (0, as), right = prop.substr (ae);
+			prop = symbol;
+			prop += "(";
+			gcu::Formula *formula = new gcu::Formula (left, GCU_FORMULA_PARSE_RESIDUE);
+			std::list < FormulaElt * > const &elts = formula->GetElements ();
+			std::list< FormulaElt * >::const_reverse_iterator i, end = elts.rend ();
+			for (i = elts.rbegin (); i!= end; i++)
+				prop += (*i)->Text ();
+			prop += ")";
+			prop += right;
+			delete formula;
+		} else {
+			// atom is at end, we need to revert the formula
+			gcu::Formula *formula = new gcu::Formula (prop, GCU_FORMULA_PARSE_RESIDUE);
+			std::list < FormulaElt * > const &elts = formula->GetElements ();
+			prop.clear ();
+			std::list< FormulaElt * >::const_reverse_iterator i, end = elts.rend ();
+			for (i = elts.rbegin (); i!= end; i++)
+				prop += (*i)->Text ();
+			delete formula;
+		}
+	}
+	if (prop.length () > 0) {
+		n = kCDXObj_Text;
+		WRITEINT16 (out, n);
+		loader->WriteId (NULL, out);
+		string prop2 = obj->GetProperty (GCU_PROP_TEXT_POSITION);
+		if (prop.length ()) {
+			istringstream str (prop);
+			str >> x >> y;
+			x_ = x;
+			y_ = y;
+			n = kCDXProp_2DPosition;
+			WRITEINT16 (out, n);
+			gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x08\x00"));
+			// write y first
+			WRITEINT32 (out, y_);
+			WRITEINT32 (out, x_);
+		}
+		n = kCDXProp_Text;
+		WRITEINT16 (out, n);
+		n = 12 + prop.length ();
+		WRITEINT16 (out, n);
+		gsf_output_write (out, 4, reinterpret_cast <guint8 const *> ("\x01\x00\x00\x00")); // runs count and first index
+		WRITEINT16 (out, loader->m_LabelFont);
+		WRITEINT16 (out, loader->m_LabelFontFace);
+		WRITEINT16 (out, loader->m_LabelFontSize);
+		WRITEINT16 (out, loader->m_LabelFontColor);
+		gsf_output_write (out, prop.length (), reinterpret_cast <guint8 const *> (prop.c_str ()));
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of text
+	}
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of atom
+	return true;
+}
+
 bool CDXLoader::WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj, G_GNUC_UNUSED GOIOContext *s)
 {
 	gint16 n = kCDXObj_Bond;
@@ -848,8 +941,13 @@ bool CDXLoader::WriteArrow (CDXLoader *loader, GsfOutput *out, Object const *obj
 	loader->AddBoundingBox (out, x0, y0, x1, y1);
 	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);
 	loader->AddInt16Property (out, kCDXProp_Graphic_Type, 1);
-	// FIXME: also support mesomery and retrosynthesis
-	loader->AddInt16Property (out, kCDXProp_Arrow_Type, obj->GetProperty (GCU_PROP_REACTION_ARROW_TYPE) == "double"? 8: 2);
+	std::string type = gcu::Object::GetTypeName (obj->GetType ());
+	if (type == "reaction-arrow")
+		loader->AddInt16Property (out, kCDXProp_Arrow_Type, obj->GetProperty (GCU_PROP_REACTION_ARROW_TYPE) == "double"? 8: 2);
+    else if (type == "mesomery-arrow")
+		loader->AddInt16Property (out, kCDXProp_Arrow_Type, 4);
+	else if (type == "retrosynthesis-arrow")
+		loader->AddInt16Property (out, kCDXProp_Arrow_Type, 32);
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of plus
 	return true;
 }
@@ -858,12 +956,68 @@ bool CDXLoader::WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *o
 {
 	std::map <std::string, Object *>::const_iterator i;
 	gcu::Object const *child = obj->GetFirstChild (i);
+	std::list < gcu::Object const * > arrows;
+	std::list < gcu::Object const * >::const_iterator it, itend;
 	while (child) {
-		// FIXME
-		if (!loader->WriteObject (out, child, s))
+		std::string name = Object::GetTypeName (child->GetType ());
+		if (name == "mesomery-arrow")
+			arrows.push_back (child);
+		else if (!loader->WriteObject (out, child, s))
 			return false;
 		child = obj->GetNextChild (i);
 	}
+	itend = arrows.end ();
+	for (it = arrows.begin (); it != itend; it++)
+		// save the graphic object.
+		if (!WriteArrow (loader, out, *it, s))
+			return false;
+	// Now, save the reaction
+	gint16 n = kCDXObj_ReactionScheme;
+	guint32 id;
+	WRITEINT16 (out, n);
+	loader->WriteId (obj, out);
+	for (it = arrows.begin (); it != itend; it++) {
+		// save the associated step
+		n = kCDXObj_ReactionStep;
+		WRITEINT16 (out, n);
+		std::list < guint32 > Ids, Ids_;
+		loader->WriteId (NULL, out);
+		// reactants
+		gcu::Object const *arrow = *it;
+		gcu::Object const *cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_START_ID).c_str ());
+		if (cur) {
+			child = cur->GetFirstChild (i);
+			if (child) {
+				n = kCDXProp_ReactionStep_Reactants;
+				WRITEINT16 (out, n);
+				n = 4;
+				WRITEINT16 (out, n);
+				id = loader->m_SavedIds[child->GetId ()];
+				WRITEINT32 (out, id);
+			}
+		}
+		// products
+		cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_END_ID).c_str ());
+		if (cur) {
+			child = cur->GetFirstChild (i);
+			if (child) {
+				n = kCDXProp_ReactionStep_Products;
+				WRITEINT16 (out, n);
+				n = 4;
+				WRITEINT16 (out, n);
+				id = loader->m_SavedIds[child->GetId ()];
+				WRITEINT32 (out, id);
+			}
+		}
+		// arrow
+		n = kCDXProp_ReactionStep_Arrows;
+		WRITEINT16 (out, n);
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));
+		id = loader->m_SavedIds[arrow->GetId ()];
+		WRITEINT32 (out, id);
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of step
+	}
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of scheme
 	return true;
 }
 
@@ -1157,7 +1311,7 @@ bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *s
 	return true;
 }
 
-bool CDXLoader::WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+bool CDXLoader::WriteText (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
 {
 	gint16 n = kCDXObj_Text;
 	WRITEINT16 (out, n);
@@ -1194,8 +1348,18 @@ bool CDXLoader::WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, 
 		AddInt8Property (out, kCDXProp_CaptionJustification, 1);
 	else if (prop == "justify")
 		AddInt8Property (out, kCDXProp_CaptionJustification, 2);
-	// FIXME: exporting 1 (aka auto) as line height for now, we need to implement line height support in text objects
-	AddInt16Property (out, kCDXProp_CaptionLineHeight, 1);
+	double inl;
+	std::istringstream in (obj->GetProperty (GCU_PROP_TEXT_INTERLINE));
+	in >> inl;
+	if (inl <= 0.) {
+		prop = obj->GetProperty (GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT);
+		AddInt16Property (out, kCDXProp_CaptionLineHeight, (prop =="true")? 0: 1);
+	} else {
+		std::istringstream in (obj->GetProperty (GCU_PROP_TEXT_MAX_LINE_HEIGHT));
+		double lh;
+		in >> lh;
+		AddInt16Property (out, kCDXProp_CaptionLineHeight, inl + lh);
+	}
 	prop = obj->GetProperty (GCU_PROP_TEXT_MARKUP);
 	xmlDocPtr xml = xmlParseMemory (prop.c_str(), prop.length ());
 	xmlNodePtr node = xml->children->children;
@@ -1752,93 +1916,97 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 						// First, parse the formula.
 						{
 							map< string, Object * >::iterator i;
-							Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
-							// Do the molecule have a pseudo-atom?
-							bool have_pseudo = false;
-							Object *obj = mol->GetFirstChild (i);
-							gcu::Atom *a = NULL;
-							while (obj) {
-								a = dynamic_cast <gcu::Atom *> (obj);
-								if (a && ! a->GetZ ()) {
-									have_pseudo = true;
-									break;
-								}
-								obj = mol->GetNextChild (i);
-							}
-							if (mol == NULL)
-								goto bad_exit;
-							try {
-								// First, parse the formula.
-								Formula form (buf, GCU_FORMULA_PARSE_RESIDUE);
-								// now build a molecule from the formula
-								Molecule *mol2 = Molecule::MoleculeFromFormula (Doc, form, have_pseudo);
-								// Now see if it matches with the molecule
-								if (!mol2 || !(*mol == *mol2)) {
-									if (have_pseudo) {
-										// try adding a new residue
-										// first examine the first atom
-										map < gcu::Bondable *, gcu::Bond * >::iterator i;
-										gcu::Bond *b = a->GetFirstBond (i);
-										int residue_offset = 0;
-										if (!b)
-											goto fragment_error;
-										gcu::Atom *a2 = b->GetAtom (a);
-										if (!a2)
-											goto fragment_error;
-										list<FormulaElt *> const &elts = form.GetElements ();
-										list<FormulaElt *>::const_iterator j = elts.begin ();
-										FormulaAtom *fatom = dynamic_cast <FormulaAtom *> (*j);
-										int valence;
-										if (!fatom || fatom->elt != a2->GetZ ())
-											goto fragment_add;
-										valence = Element::GetElement (fatom->elt)->GetDefaultValence ();
-										switch (valence) {
-										case 2: {
-											/* remove the first atom and replace it by a pseudo-atom, then add the residue
-											this helps with things begining with an oxygen or a sulfur, but might be
-											not enough n other cases */
-											double x, y;
-											a2->GetCoords (&x, &y);
-											a->SetCoords (x, y);
-											a->RemoveBond (b);
-											a2->RemoveBond (b);
-											mol->Remove (b);
-											delete b;
-											if (a2->GetBondsNumber () > 1)
-												goto fragment_error;
-											b = a2->GetFirstBond (i);
-											if (b->GetOrder () != 1)
-												goto fragment_error;
-											b->ReplaceAtom (a2, a);
-											a->AddBond (b);
-											mol->Remove (a2);
-											delete a2;
-											// now remove the atom from the new residue symbol
-											residue_offset += fatom->end;
-											break;
-										}
-										case 3:
-											// we do not support that at the moment
-											goto fragment_error;
-											break;
-										default:
-											// we do not support that at the moment
-											goto fragment_error;
-										}
-fragment_add:
-										// Try create a new document, using the symbol as name
-										parent->GetDocument ()->CreateResidue (buf + residue_offset, buf + residue_offset, mol);
-										goto fragment_success;
+							Molecule *mol = (Doc && Doc->HasChildren ())? dynamic_cast <Molecule *> (Doc->GetFirstChild (i)): NULL;
+							if (mol) {
+								// Do the molecule have a pseudo-atom?
+								bool have_pseudo = false;
+								Object *obj = mol->GetFirstChild (i);
+								gcu::Atom *a = NULL;
+								while (obj) {
+									a = dynamic_cast <gcu::Atom *> (obj);
+									if (a && ! a->GetZ ()) {
+										have_pseudo = true;
+										break;
 									}
-fragment_error:
-									g_warning (_("failed for %s\n"),buf);
+									obj = mol->GetNextChild (i);
 								}
-							}
-							catch (parse_error &error) {
-								int start, length;
-								puts (error.what (start, length));
+								if (mol == NULL)
+									goto bad_exit;
+								try {
+									// First, parse the formula.
+									Formula form (buf, GCU_FORMULA_PARSE_RESIDUE);
+									// now build a molecule from the formula
+									Molecule *mol2 = Molecule::MoleculeFromFormula (Doc, form, have_pseudo);
+									// Now see if it matches with the molecule
+									if (!mol2 || !(*mol == *mol2)) {
+										if (have_pseudo) {
+											// try adding a new residue
+											// first examine the first atom
+											map < gcu::Bondable *, gcu::Bond * >::iterator i;
+											gcu::Bond *b = a->GetFirstBond (i);
+											int residue_offset = 0;
+											if (!b)
+												goto fragment_error;
+											gcu::Atom *a2 = b->GetAtom (a);
+											if (!a2)
+												goto fragment_error;
+											list<FormulaElt *> const &elts = form.GetElements ();
+											list<FormulaElt *>::const_iterator j = elts.begin ();
+											FormulaAtom *fatom = dynamic_cast <FormulaAtom *> (*j);
+											int valence;
+											if (!fatom || fatom->elt != a2->GetZ ())
+												goto fragment_add;
+											valence = Element::GetElement (fatom->elt)->GetDefaultValence ();
+											switch (valence) {
+											case 2: {
+												/* remove the first atom and replace it by a pseudo-atom, then add the residue
+												this helps with things begining with an oxygen or a sulfur, but might be
+												not enough n other cases */
+												double x, y;
+												a2->GetCoords (&x, &y);
+												a->SetCoords (x, y);
+												a->RemoveBond (b);
+												a2->RemoveBond (b);
+												mol->Remove (b);
+												delete b;
+												if (a2->GetBondsNumber () > 1)
+													goto fragment_error;
+												b = a2->GetFirstBond (i);
+												if (b->GetOrder () != 1)
+													goto fragment_error;
+												b->ReplaceAtom (a2, a);
+												a->AddBond (b);
+												mol->Remove (a2);
+												delete a2;
+												// now remove the atom from the new residue symbol
+												residue_offset += fatom->end;
+												break;
+											}
+											case 3:
+												// we do not support that at the moment
+												goto fragment_error;
+												break;
+											default:
+												// we do not support that at the moment
+												goto fragment_error;
+											}
+fragment_add:
+											// Try create a new document, using the symbol as name
+											parent->GetDocument ()->CreateResidue (buf + residue_offset, buf + residue_offset, mol);
+											goto fragment_success;
+										}
+fragment_error:
+										g_warning (_("failed for %s\n"),buf);
+									}
+								}
+								catch (parse_error &error) {
+									int start, length;
+									puts (error.what (start, length));
+								}
 							}
 fragment_success:
+							if (mol)
+								delete mol;
 							string pos = Atom->GetProperty (GCU_PROP_POS2D);
 							mol = dynamic_cast <Molecule *> (parent);
 							if (mol)
@@ -2339,8 +2507,19 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 				gint16 height;
 				if (!(READINT16 (in,height)))
 					return false;
-				if (height == 0 || height ==1) // we need a better support for line heights
-					Text->SetProperty (GCU_PROP_TEXT_INTERLINE, "0");	
+				if (height == 0)
+					Text->SetProperty (GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT, "true");
+				else if (height == 1) // we need a better support for line heights
+					Text->SetProperty (GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT, "false");
+				else if (height > 1) {
+					Text->SetProperty (GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT, "false");
+					std::istringstream in (Text->GetProperty (GCU_PROP_TEXT_MAX_LINE_HEIGHT));
+					double lh;
+					in >> lh;
+					std::ostringstream out;
+					out << height - lh;
+					Text->SetProperty (GCU_PROP_TEXT_INTERLINE, out.str ().c_str ());
+				}
 				break;
 			}
 			default:

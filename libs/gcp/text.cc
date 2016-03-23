@@ -54,6 +54,7 @@ Text::Text ():
 	m_Anchor (gccv::AnchorLineWest),
 	m_GlobalTag (gccv::Invalid),
 	m_Interline (0.),
+	m_VariableLineHeight (true),
 	m_Justification (GTK_JUSTIFY_LEFT)
 {
 }
@@ -63,6 +64,7 @@ Text::Text (double x, double y):
 	m_Anchor (gccv::AnchorLineWest),
 	m_GlobalTag (gccv::Invalid),
 	m_Interline (0.),
+	m_VariableLineHeight (true),
 	m_Justification (GTK_JUSTIFY_LEFT)
 {
 }
@@ -72,6 +74,7 @@ Text::Text (gccv::Tag tag, double x, double y):
 	m_Anchor (gccv::AnchorLineWest),
 	m_GlobalTag (tag),
 	m_Interline (0.),
+	m_VariableLineHeight (true),
 	m_Justification (GTK_JUSTIFY_LEFT)
 {
 }
@@ -1065,6 +1068,18 @@ std::string Text::GetProperty (unsigned property) const
 		str << m_Interline;
 		return str.str ();
 	}
+	case GCU_PROP_TEXT_MAX_LINE_HEIGHT: {
+		std::ostringstream str;
+		if (m_TextItem)
+			str << m_TextItem->GetMaxLineHeight ();
+		else {
+			Theme *theme = static_cast < Document * > (GetDocument ())->GetTheme ();
+			str << static_cast < double > (theme->GetTextFontSize ()) / PANGO_SCALE;
+		}
+		return str.str ();
+	}
+	case GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT:
+		return m_VariableLineHeight? "true": "false";
 	}
 	return "";
 }
@@ -1122,6 +1137,14 @@ bool Text::SetProperty (unsigned property, char const *value)
 				m_Justification = GTK_JUSTIFY_CENTER;
 		else if (!strcmp (value, "justify"))
 				m_Justification = GTK_JUSTIFY_FILL;
+		break;
+	case GCU_PROP_TEXT_INTERLINE: {
+		std::istringstream str (value);
+		str >> m_Interline;
+		break;
+	}
+	case GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT:
+		m_VariableLineHeight = !strcmp (value, "true");
 		break;
 	}
 	return true;

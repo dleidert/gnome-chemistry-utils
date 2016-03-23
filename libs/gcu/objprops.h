@@ -191,6 +191,14 @@ The distance between to consecutive lines.
 */
 	GCU_PROP_TEXT_INTERLINE,
 /*!
+The maximum line height.
+*/
+	GCU_PROP_TEXT_MAX_LINE_HEIGHT,
+/*!
+true if line height is variable.
+*/
+	GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT,
+/*!
 The position in bytes of the bonded atom in a group of atoms.
 */
 	GCU_PROP_FRAGMENT_ATOM_START, // index of the start of the symbol of the bonded atom if any

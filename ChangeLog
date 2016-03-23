@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2016-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: add Text::GetMaxLineHeight().
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/fragment.cc: fix behavior after rotation.
+	* libs/gcp/mesomer.cc: initialize member.
+	* libs/gcp/text.cc: new text properties.
+	* libs/gcp/text.h: ditto.
+	* libs/gcu/objprops.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: save fragments and mesomery.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+
 2016-03-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.h: Change gccv::Tag from enum to int (avods runtime
 	errors).
