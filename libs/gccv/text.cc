@@ -1669,7 +1669,6 @@ void Text::SetJustification (GtkJustification justification, bool emit_changed)
 double Text::GetMaxLineHeight ()
 {
 	double res = 0.;
-	return res;
 	for (unsigned i = 0; i < m_LinesNumber; i++)
 		if (m_Lines[i].m_Height > res)
 			res = m_Lines[i].m_Height;

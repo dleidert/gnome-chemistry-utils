@@ -45,17 +45,10 @@ gcpRetrosynthesisArrow::gcpRetrosynthesisArrow (gcpRetrosynthesis *rs): gcp::Arr
 	SetId ("rsa1");
 	if (rs)
 		rs->AddChild( this);
-	m_Start = m_End = NULL;
 }
 
 gcpRetrosynthesisArrow::~gcpRetrosynthesisArrow ()
 {
-	if (IsLocked ())
-		return;
-	if (m_Start && m_End) {
-		m_Start->RemoveArrow (this, m_End);
-		m_End->RemoveArrow (this, m_Start);
-	}
 }
 
 xmlNodePtr gcpRetrosynthesisArrow::Save (xmlDocPtr xml) const
@@ -67,10 +60,12 @@ xmlNodePtr gcpRetrosynthesisArrow::Save (xmlDocPtr xml) const
 		xmlFreeNode (node);
 		return NULL;
 	}
-	if (m_Start)
-		xmlNewProp (node, (xmlChar*) "start",  (xmlChar*) m_Start->GetId ());
-	if (m_End)
-		xmlNewProp (node, (xmlChar*) "end",  (xmlChar*) m_End->GetId ());
+	gcu::Object *obj = GetStartStep ();
+	if (obj)
+		xmlNewProp (node, (xmlChar*) "start",  (xmlChar*) obj->GetId ());
+	obj = GetEndStep ();
+	if (obj)
+		xmlNewProp (node, (xmlChar*) "end",  (xmlChar*) obj->GetId ());
 	return node;
 }
 
@@ -85,28 +80,18 @@ bool gcpRetrosynthesisArrow::Load (xmlNodePtr node)
 			return true;
 		buf = (char*) xmlGetProp (node, (xmlChar*) "start");
 		if (buf) {
-			doc->SetTarget (buf, reinterpret_cast <Object **> (&m_Start), GetParent (), this, ActionIgnore);
+			doc->SetTarget (buf, reinterpret_cast <Object **> (GetStartStepPtr ()), GetParent (), this, ActionIgnore);
 			xmlFree (buf);
 		}
 		buf = (char*) xmlGetProp (node, (xmlChar*) "end");
 		if (buf) {
-			doc->SetTarget (buf, reinterpret_cast <Object **> (&m_End), GetParent (), this, ActionIgnore);
+			doc->SetTarget (buf, reinterpret_cast <Object **> (GetEndStepPtr ()), GetParent (), this, ActionIgnore);
 			xmlFree (buf);
 		}
-		if (m_Start)
-			m_Start->AddArrow (this, m_End, true);
 		doc->ObjectLoaded (this);
 		return true;
 	}
 	return false;
-}
-
-void gcpRetrosynthesisArrow::OnLoaded ()
-{
-	if (m_Start)
-		m_Start->AddArrow (this, m_End, false);
-	if (m_End)
-		m_End->AddArrow (this, m_Start, true);
 }
 
 void gcpRetrosynthesisArrow::AddItem ()

@@ -26,13 +26,15 @@
 #include "retrosynthesisstep.h"
 #include "retrosynthesis.h"
 #include "retrosynthesisarrow.h"
+#include <gcp/application.h>
 #include <gcp/molecule.h>
 #include <gcp/document.h>
+#include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 
 TypeId RetrosynthesisStepType;
 
-gcpRetrosynthesisStep::gcpRetrosynthesisStep (): Object (RetrosynthesisStepType)
+gcpRetrosynthesisStep::gcpRetrosynthesisStep (): gcp::Step (RetrosynthesisStepType)
 {
 	SetId ("rss1");
 	Molecule = NULL;
@@ -57,7 +59,7 @@ gcpRetrosynthesisStep::~gcpRetrosynthesisStep ()
 	}
 }
 
-gcpRetrosynthesisStep::gcpRetrosynthesisStep (gcpRetrosynthesis *synthesis, gcp::Molecule* molecule) throw (std::invalid_argument): Object (RetrosynthesisStepType)
+gcpRetrosynthesisStep::gcpRetrosynthesisStep (gcpRetrosynthesis *synthesis, gcp::Molecule* molecule) throw (std::invalid_argument): gcp::Step (RetrosynthesisStepType)
 {
 	if (!synthesis || !molecule)
 		throw invalid_argument ("NULL argument to gcpRetrosynthesisStep constructor!");
@@ -113,6 +115,32 @@ bool gcpRetrosynthesisStep::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUS
 	if (GetChildrenNumber () != 1) {
 		delete GetParent ();
 		return false;
+	}
+	return true;
+}
+
+bool gcpRetrosynthesisStep::SetProperty (unsigned property, char const *value)
+{
+	gcu::Document *doc = GetDocument ();
+	switch (property) {
+	case GCU_PROP_MOLECULE: {
+		if (doc == NULL)
+			return false;
+		if (Molecule != NULL && !strcmp (Molecule->GetId (), value)) {
+			break;
+		}
+		gcu::Object *new_child = doc->GetDescendant (value);
+		gcp::Application *app = static_cast <gcp::Application * > (doc->GetApplication ());
+		std::set < TypeId > const &rules = app->GetRules (RetrosynthesisStepType, RuleMayContain);
+		if (new_child != NULL && rules.find (new_child->GetType ()) != rules.end ()) {
+			if (Molecule != NULL)
+				Molecule->SetParent (doc);
+			Molecule = dynamic_cast < gcp::Molecule * > (new_child);
+			if (Molecule)
+				AddChild (Molecule);
+		}
+		break;
+	}
 	}
 	return true;
 }

@@ -48,6 +48,7 @@ public:
 	void Transform2D (Matrix2D& m, double x, double y);
 	int Validate (bool split);
 	void Align ();
+	bool SetProperty (unsigned property, char const *value);
 	std::string Name();
 
 private:

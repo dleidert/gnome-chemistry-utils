@@ -42,15 +42,7 @@ public:
 	bool Load (xmlNodePtr);
 	void AddItem ();
 	void SetSelected (int state);
-	void SetStartStep (gcpRetrosynthesisStep *Step) {m_Start = Step;}
-	gcpRetrosynthesisStep* GetStartStep () {return m_Start;}
-	void SetEndStep (gcpRetrosynthesisStep *Step) {m_End = Step;}
-	gcpRetrosynthesisStep* GetEndStep () {return m_End;}
 	std::string Name();
-	void OnLoaded ();
-
-private:
-	gcpRetrosynthesisStep *m_Start, *m_End;
 };
 
 #endif	// GCHEMPAINT_RETROSYNTHESIS_ARROW_H

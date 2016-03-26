@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2016-03-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fix GetMaxLineHeight().
+	* plugins/loaders/cdx/cdx.cc: import and export retrosynthesis.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/paint/arrows/retrosynthesis.cc: ditto.
+	* plugins/paint/arrows/retrosynthesis.h: ditto.
+	* plugins/paint/arrows/retrosynthesisarrow.cc: ditto.
+	* plugins/paint/arrows/retrosynthesisarrow.h: ditto.
+	* plugins/paint/arrows/retrosynthesisstep.cc: ditto.
+	* plugins/paint/arrows/retrosynthesisstep.h: ditto.
+
 2016-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: add Text::GetMaxLineHeight().
 	* libs/gccv/text.h: ditto.
