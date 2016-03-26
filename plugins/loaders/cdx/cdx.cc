@@ -197,7 +197,8 @@ private:
 	static bool WriteReactionStep(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteRetrosynthesis(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
 	static bool WriteText(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
-	static bool WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *state);
+	bool WriteNode (xmlNodePtr node, WriteTextState *state);
+	bool WriteScheme (GsfOutput *out, Object const *obj, std::string const &arrow_type, GOIOContext *s);
 	void WriteId (Object const *obj, GsfOutput *out);
 
 private:
@@ -952,7 +953,7 @@ bool CDXLoader::WriteArrow (CDXLoader *loader, GsfOutput *out, Object const *obj
 	return true;
 }
 
-bool CDXLoader::WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+bool CDXLoader::WriteScheme (GsfOutput *out, Object const *obj, std::string const &arrow_type, GOIOContext *s)
 {
 	std::map <std::string, Object *>::const_iterator i;
 	gcu::Object const *child = obj->GetFirstChild (i);
@@ -960,28 +961,28 @@ bool CDXLoader::WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *o
 	std::list < gcu::Object const * >::const_iterator it, itend;
 	while (child) {
 		std::string name = Object::GetTypeName (child->GetType ());
-		if (name == "mesomery-arrow")
+		if (name == arrow_type)
 			arrows.push_back (child);
-		else if (!loader->WriteObject (out, child, s))
+		else if (!WriteObject (out, child, s))
 			return false;
 		child = obj->GetNextChild (i);
 	}
 	itend = arrows.end ();
 	for (it = arrows.begin (); it != itend; it++)
 		// save the graphic object.
-		if (!WriteArrow (loader, out, *it, s))
+		if (!WriteArrow (this, out, *it, s))
 			return false;
 	// Now, save the reaction
 	gint16 n = kCDXObj_ReactionScheme;
 	guint32 id;
 	WRITEINT16 (out, n);
-	loader->WriteId (obj, out);
+	WriteId (obj, out);
 	for (it = arrows.begin (); it != itend; it++) {
 		// save the associated step
 		n = kCDXObj_ReactionStep;
 		WRITEINT16 (out, n);
 		std::list < guint32 > Ids, Ids_;
-		loader->WriteId (NULL, out);
+		WriteId (NULL, out);
 		// reactants
 		gcu::Object const *arrow = *it;
 		gcu::Object const *cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_START_ID).c_str ());
@@ -992,7 +993,7 @@ bool CDXLoader::WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *o
 				WRITEINT16 (out, n);
 				n = 4;
 				WRITEINT16 (out, n);
-				id = loader->m_SavedIds[child->GetId ()];
+				id = m_SavedIds[child->GetId ()];
 				WRITEINT32 (out, id);
 			}
 		}
@@ -1005,7 +1006,7 @@ bool CDXLoader::WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *o
 				WRITEINT16 (out, n);
 				n = 4;
 				WRITEINT16 (out, n);
-				id = loader->m_SavedIds[child->GetId ()];
+				id = m_SavedIds[child->GetId ()];
 				WRITEINT32 (out, id);
 			}
 		}
@@ -1013,12 +1014,17 @@ bool CDXLoader::WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *o
 		n = kCDXProp_ReactionStep_Arrows;
 		WRITEINT16 (out, n);
 		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));
-		id = loader->m_SavedIds[arrow->GetId ()];
+		id = m_SavedIds[arrow->GetId ()];
 		WRITEINT32 (out, id);
 		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of step
 	}
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of scheme
 	return true;
+}
+
+bool CDXLoader::WriteMesomery(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
+{
+	return loader->WriteScheme (out, obj, "mesomery-arrow", s);
 }
 
 bool CDXLoader::WriteReactionStep(CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
@@ -1172,18 +1178,10 @@ bool CDXLoader::WriteReaction (CDXLoader *loader, GsfOutput *out, Object const *
 
 bool CDXLoader::WriteRetrosynthesis (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
 {
-	std::map <std::string, Object *>::const_iterator i;
-	gcu::Object const *child = obj->GetFirstChild (i);
-	while (child) {
-		// FIXME
-		if (!loader->WriteObject (out, child, s))
-			return false;
-		child = obj->GetNextChild (i);
-	}
-	return true;
+	return loader->WriteScheme (out, obj, "retrosynthesis-arrow", s);
 }
 
-bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *state)
+bool CDXLoader::WriteNode (xmlNodePtr node, WriteTextState *state)
 {
 	std::string name (reinterpret_cast < char const * > (node->name));
 	WriteTextState child_state = *state;
@@ -1205,12 +1203,12 @@ bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *s
 			child_state.font = 4;
 		else {
 			guint16 i = 5;
-			std::map < unsigned, CDXFont >::iterator it, itend = loader->m_Fonts.end ();
-			for (it = loader->m_Fonts.find (i); it != itend; it++, i++)
+			std::map < unsigned, CDXFont >::iterator it, itend = m_Fonts.end ();
+			for (it = m_Fonts.find (i); it != itend; it++, i++)
 				if (family == (*it).second.name)
 					break;
 			if (it == itend)
-				loader->m_Fonts[i] = (CDXFont) {i, kCDXCharSetUnicodeISO10646, family};
+				m_Fonts[i] = (CDXFont) {i, kCDXCharSetUnicodeISO10646, family};
 			child_state.font = i;
 		}
 	} else if (name == "sub")
@@ -1221,7 +1219,7 @@ bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *s
 		gsize written;
 		guint8 const *new_text;
 		char *converted = g_convert ("\r", 1,
-		                             Charsets[loader->m_Fonts[state->font].encoding].c_str (),
+		                             Charsets[m_Fonts[state->font].encoding].c_str (),
 		                             "utf-8", NULL, &written, NULL);
 		if (converted)
 			new_text = reinterpret_cast < guint8 * > (converted);
@@ -1241,12 +1239,12 @@ bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *s
 	} else if (name == "fore") {
 		GOColor color = ReadColor (node);
 		guint i = 2;
-		std::map < unsigned, GOColor >::iterator it, itend = loader->m_Colors.end ();
-			for (it = loader->m_Colors.find (i); it != itend; it++, i++)
+		std::map < unsigned, GOColor >::iterator it, itend = m_Colors.end ();
+			for (it = m_Colors.find (i); it != itend; it++, i++)
 				if (color == (*it).second)
 					break;
 			if (it == itend)
-				loader->m_Colors[i] = color;
+				m_Colors[i] = color;
 		child_state.color = i;
 		
 	}
@@ -1283,7 +1281,7 @@ bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *s
 			gsize written;
 			char *converted = g_convert (reinterpret_cast < char * > (buf),
 				                         bufsize,
-				                         Charsets[loader->m_Fonts[child_state.font].encoding].c_str (),
+				                         Charsets[m_Fonts[child_state.font].encoding].c_str (),
 				                         "utf-8", NULL, &written, NULL);
 			if (converted)
 				new_text = reinterpret_cast < guint8 * > (converted);
@@ -1304,7 +1302,7 @@ bool CDXLoader::WriteNode (CDXLoader *loader, xmlNodePtr node, WriteTextState *s
 		}
 		xmlFree (buf);
 	} else while (child) {
-		WriteNode (loader, child, &child_state);
+		WriteNode (child, &child_state);
 		child = child->next;
 	}
 	state->index = child_state.index;
@@ -1382,7 +1380,7 @@ bool CDXLoader::WriteText (CDXLoader *loader, GsfOutput *out, Object const *obj,
 	state.index = 0;
 	while (node) {
 		if (strcmp (reinterpret_cast < char const *>(node->name), "position"))
-			WriteNode (loader, node, &state);
+			loader->WriteNode (node, &state);
 		node = node->next;
 	}
 	gsf_off_t count = gsf_output_size (buf);
@@ -2910,6 +2908,54 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 			return;
 	}
 	if (IsRetrosynthesis == 1) {
+		gcu::Object *retrosynthesis = doc->CreateObject ("retrosynthesis", doc);
+		std::set < std::string > targets;
+		std::set < std::string >::iterator target;
+		ostringstream str;
+		str << "rsy" << scheme.Id;
+		retrosynthesis->SetId (str.str ().c_str ());
+		m_LoadedIds[scheme.Id] = retrosynthesis->GetId ();
+		// now, add the objects to the retrosynthesis
+		for (i = scheme.Steps.begin (); i != iend; i++) {
+			if ((*i).Reagents.size () != 1 || (*i).Products.size () != 1) {
+				delete retrosynthesis;
+				return;
+			}
+			// first the arrow
+			arrow = doc->GetChild ((m_LoadedIds[*((*i).Arrows.begin())]).c_str ());
+			obj = doc->GetDescendant (m_LoadedIds[*(*i).Reagents.begin ()].c_str ());
+			parent = obj->GetParent ();
+			if (parent == doc)
+				parent = doc->CreateObject ("retrosynthesis-step", retrosynthesis);
+			else if (parent->GetParent () != retrosynthesis) {
+				delete retrosynthesis;
+				return;
+			}
+			parent->SetProperty (GCU_PROP_MOLECULE, obj->GetId ());
+			arrow->SetProperty (GCU_PROP_ARROW_START_ID, parent->GetId ());
+			targets.insert (parent->GetId ());
+			obj = doc->GetDescendant (m_LoadedIds[*(*i).Products.begin ()].c_str ());
+			parent = obj->GetParent ();
+			if (parent == doc)
+				parent = doc->CreateObject ("retrosynthesis-step", retrosynthesis);
+			else if (parent->GetParent () != retrosynthesis) {
+				delete retrosynthesis;
+				return;
+			}
+			parent->AddChild (obj);
+			arrow->SetProperty (GCU_PROP_ARROW_END_ID, parent->GetId ());
+			target = targets.find (parent->GetId ());
+			if (target != targets.end ())
+				targets.erase (target);
+			retrosynthesis->AddChild (arrow);
+		}
+		if (targets.size () != 1) {
+			delete retrosynthesis;
+			return;
+		}
+		// using GCU_PROP_MOLECULE even if not ideal (the target is a step, not the molecule inside)
+		retrosynthesis->SetProperty (GCU_PROP_MOLECULE, (*targets.begin()).c_str ());
+		// Ignore objects over and under the arrows for now
 	} else if (IsMesomery == 1) {
 		gcu::Object *mesomery = doc->CreateObject ("mesomery", doc);
 		ostringstream str;

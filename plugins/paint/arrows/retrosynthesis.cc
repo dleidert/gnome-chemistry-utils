@@ -31,6 +31,7 @@
 #include <gcp/widgetdata.h>
 #include <gcp/view.h>
 #include <gcugtk/ui-manager.h>
+#include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>
@@ -455,6 +456,25 @@ gcpRetrosynthesis::gcpRetrosynthesis (Object* parent, gcpRetrosynthesisStep *ste
 
 void gcpRetrosynthesis::Transform2D (G_GNUC_UNUSED Matrix2D& m, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
+}
+
+bool gcpRetrosynthesis::SetProperty (unsigned property, char const *value)
+{
+	gcu::Document *doc = GetDocument ();
+	switch (property) {
+	case GCU_PROP_MOLECULE: {
+		if (doc == NULL)
+			return false;
+		if (Target != NULL && !strcmp (Target->GetId (), value)) {
+			break;
+		}
+		gcu::Object *target = GetChild (value);
+		if (target != NULL)
+			Target = static_cast < gcpRetrosynthesisStep * > (target);
+		break;
+	}
+	}
+	return true;
 }
 
 std::string gcpRetrosynthesis::Name ()

@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_RETROSYNTHESIS_STEP_H
 #define GCHEMPAINT_RETROSYNTHESIS_STEP_H
 
-#include <gcu/object.h>
+#include <gcp/step.h>
 
 using namespace std;
 using namespace gcu;
@@ -39,7 +39,7 @@ namespace gcp {
 	class Molecule;
 }
 
-class gcpRetrosynthesisStep: public Object
+class gcpRetrosynthesisStep: public gcp::Step
 {
 public:
 	gcpRetrosynthesisStep ();
@@ -54,6 +54,7 @@ public:
 	map<gcpRetrosynthesisStep *, gcpRetrosynthesisArrow *> *GetArrows () {return &Arrows;}
 	gcpRetrosynthesisArrow const *GetArrow () {return Arrow;}
 	void RemoveArrow (gcpRetrosynthesisArrow *arrow, gcpRetrosynthesisStep *step);
+	bool SetProperty (unsigned property, char const *value);
 	std::string Name();
 
 private:
