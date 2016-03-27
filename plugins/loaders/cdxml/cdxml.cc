@@ -114,6 +114,7 @@ private:
 	int m_LabelFont, m_Font;
 	unsigned m_LabelFontFace, m_LabelFontColor;
 	double m_FontSize, m_LabelFontSize, m_Scale, m_Zoom, m_CHeight;
+	bool m_WriteScheme;
 };
 
 CDXMLLoader::CDXMLLoader ()
@@ -149,6 +150,7 @@ CDXMLLoader::CDXMLLoader ()
 	m_WriteCallbacks["mesomery-arrow"] = WriteArrow;
 	m_WriteCallbacks["retrosynthesis-arrow"] = WriteArrow;
 	m_WriteCallbacks["retrosynthesis"] = WriteRetrosynthesis;
+	m_WriteScheme = true;
 }
 
 CDXMLLoader::~CDXMLLoader ()
@@ -503,21 +505,22 @@ static void
 cdxml_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	state->markup += "</text>";
-	state->cur.top ()->SetProperty (GCU_PROP_TEXT_MARKUP, state->markup.c_str ());
-	state->markup.clear ();
-	if (state->cur.top ()->GetParent () == NULL)
+	if (state->cur.top ()->GetParent () == NULL || (gcu::Object::GetTypeName (state->cur.top ()->GetParent ()->GetType ()) == "atom"))
 		delete state->cur.top ();
-	else if (state->line_height > 1) {
-		state->cur.top ()->SetProperty (GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT, "false");
-		std::istringstream in (state->cur.top ()->GetProperty (GCU_PROP_TEXT_MAX_LINE_HEIGHT));
-		double lh;
-		in >> lh;
-		std::ostringstream out;
-		out << state->line_height - lh;
-		state->cur.top ()->SetProperty (GCU_PROP_TEXT_INTERLINE, out.str ().c_str ());
+	else {
+		state->markup += "</text>";
+		state->cur.top ()->SetProperty (GCU_PROP_TEXT_MARKUP, state->markup.c_str ());
+		if (state->line_height > 1) {
+			state->cur.top ()->SetProperty (GCU_PROP_TEXT_VARIABLE_LINE_HEIGHT, "false");
+			std::istringstream in (state->cur.top ()->GetProperty (GCU_PROP_TEXT_MAX_LINE_HEIGHT));
+			double lh;
+			in >> lh;
+			std::ostringstream out;
+			out << state->line_height - lh;
+			state->cur.top ()->SetProperty (GCU_PROP_TEXT_INTERLINE, out.str ().c_str ());
+		}
 	}
-
+	state->markup.clear ();
 	state->cur.pop ();
 }
 
@@ -1101,8 +1104,9 @@ static void build_scheme (CDXMLReadState &state, SchemeData &scheme)
 		// Ignore objects over and under the arrows for now
 	} else if (IsReaction ==1) {
 		if (HasMesomeryArrows) {
-			// build mesomeries inside reactions
-			// FIXME
+			// build mesomeries inside reactions,
+			// FIXME: nots supported for now
+			return;
 		}
 		gcu::Object *reaction = doc->CreateObject ("reaction", doc);
 		ostringstream str;
@@ -1438,7 +1442,9 @@ bool CDXMLLoader::WriteScheme (xmlDocPtr xml, xmlNodePtr parent, Object const *o
 		// save the graphic object.
 		if (!WriteArrow (this, xml, parent, *it, s))
 			return false;
-	// Now, save the mesomery
+	if (!m_WriteScheme)
+		return true;
+	// Now, save the scheme
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const * > ("scheme"), NULL);
 	xmlAddChild (parent, node);
 	AddIntProperty (node, "id", m_MaxId++);
@@ -1502,8 +1508,15 @@ bool CDXMLLoader::WriteReactionStep(CDXMLLoader *loader, xmlDocPtr xml, xmlNodeP
 			AddIntProperty (node, "Z", loader->m_Z++);
 			AddStringProperty (node, "GraphicType", "Symbol");
 			AddStringProperty (node, "SymbolType", "Plus");
-		} else if (!loader->WriteObject (xml, parent, child, s))
-			return false;
+		} else {
+			// search for a mesomery inside the reaction
+			std::string id = child->GetProperty (GCU_PROP_MOLECULE);
+			gcu::Object *mol = child->GetChild (id.c_str ());
+			if (gcu::Object::GetTypeName (mol->GetType ()) == "mesomery")
+				loader->m_WriteScheme = false;
+			if (!loader->WriteObject (xml, parent, child, s))
+				return false;
+		}
 		child = obj->GetNextChild (i);
 	}
 	return true;
@@ -1515,41 +1528,88 @@ bool CDXMLLoader::WriteReaction (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr 
 	gcu::Object const *child = obj->GetFirstChild (i);
 	std::list < gcu::Object const * > arrows;
 	std::list < gcu::Object const * >::const_iterator it, itend;
+	bool ok = true;
 	while (child) {
 		std::string name = Object::GetTypeName (child->GetType ());
 		if (name == "reaction-step") {
-			if (!loader->WriteReactionStep (loader, xml, parent, child, s))
-				return false;
+			ok &= loader->WriteReactionStep (loader, xml, parent, child, s);
 		} else if (name == "reaction-arrow")
 			arrows.push_back (child);
 		child = obj->GetNextChild (i);
 	}
+	if (!ok)
+		return false;
 	itend = arrows.end ();
 	for (it = arrows.begin (); it != itend; it++)
 		// save the graphic object.
 		if (!WriteArrow (loader, xml, parent, *it, s))
 			return false;
 	// Now, save the reaction
-	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const * > ("scheme"), NULL);
-	xmlAddChild (parent, node);
-	AddIntProperty (node, "id", loader->m_MaxId++);
-	for (it = arrows.begin (); it != itend; it++) {
-		// save the associated step
-		xmlNodePtr step = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const * > ("step"), NULL);
-		xmlAddChild (node, step);
-		AddIntProperty (step, "id", loader->m_MaxId++);
-		std::list < unsigned > Ids, Ids_;
-		// FIXME what happens if the reaction step contains a mesomery?
-		// reactants
-		gcu::Object const *arrow = *it;
-		gcu::Object const *cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_START_ID).c_str ());
-		if (cur) {
-			child = cur->GetFirstChild (i);
-			while (child) {
-				if (child->GetType () == gcu::ReactantType)
-					Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_MOLECULE)]);
-				child = cur->GetNextChild (i);
+	if (loader->m_WriteScheme) {
+		xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const * > ("scheme"), NULL);
+		xmlAddChild (parent, node);
+		AddIntProperty (node, "id", loader->m_MaxId++);
+		for (it = arrows.begin (); it != itend; it++) {
+			// save the associated step
+			xmlNodePtr step = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const * > ("step"), NULL);
+			xmlAddChild (node, step);
+			AddIntProperty (step, "id", loader->m_MaxId++);
+			std::list < unsigned > Ids, Ids_;
+			// FIXME what happens if the reaction step contains a mesomery?
+			// reactants
+			gcu::Object const *arrow = *it;
+			gcu::Object const *cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_START_ID).c_str ());
+			if (cur) {
+				child = cur->GetFirstChild (i);
+				while (child) {
+					if (child->GetType () == gcu::ReactantType)
+						Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_MOLECULE)]);
+					child = cur->GetNextChild (i);
+				}
+				if (!Ids.empty ()) {
+					std::ostringstream out;
+					out << Ids.front ();
+					Ids.pop_front ();
+					while (!Ids.empty ()) {
+						out << " " << Ids.front ();
+						Ids.pop_front ();
+					}
+					AddStringProperty (step, "ReactionStepReactants", out.str ());
+				}
 			}
+			// products
+			cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_END_ID).c_str ());
+			if (cur) {
+				child = cur->GetFirstChild (i);
+				while (child) {
+					if (child->GetType () == gcu::ReactantType)
+						Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_MOLECULE)]);
+					child = cur->GetNextChild (i);
+				}
+				if (!Ids.empty ()) {
+					std::ostringstream out;
+					out << Ids.front ();
+					Ids.pop_front ();
+					while (!Ids.empty ()) {
+						out << " " << Ids.front ();
+						Ids.pop_front ();
+					}
+					AddStringProperty (step, "ReactionStepProducts", out.str ());
+				}
+			}
+			// arrow
+			AddIntProperty (step, "ReactionStepArrows", loader->m_SavedIds[arrow->GetId ()]);
+			// attached objects
+			child = arrow->GetFirstChild (i);
+			double y = arrow->GetYAlign ();
+			while (child) {
+				if (y > child->GetYAlign ())
+					Ids_.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_ARROW_OBJECT)]);
+				else
+					Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_ARROW_OBJECT)]);
+				child = arrow->GetNextChild (i);
+			}
+			// objects above the arrow
 			if (!Ids.empty ()) {
 				std::ostringstream out;
 				out << Ids.front ();
@@ -1558,64 +1618,22 @@ bool CDXMLLoader::WriteReaction (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr 
 					out << " " << Ids.front ();
 					Ids.pop_front ();
 				}
-				AddStringProperty (step, "ReactionStepReactants", out.str ());
+				AddStringProperty (step, "ReactionStepObjectsAboveArrow", out.str ());
 			}
-		}
-		// products
-		cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_END_ID).c_str ());
-		if (cur) {
-			child = cur->GetFirstChild (i);
-			while (child) {
-				if (child->GetType () == gcu::ReactantType)
-					Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_MOLECULE)]);
-				child = cur->GetNextChild (i);
-			}
-			if (!Ids.empty ()) {
+			// objects below the arrow
+			if (!Ids_.empty ()) {
 				std::ostringstream out;
-				out << Ids.front ();
-				Ids.pop_front ();
-				while (!Ids.empty ()) {
-					out << " " << Ids.front ();
-					Ids.pop_front ();
-				}
-				AddStringProperty (step, "ReactionStepProducts", out.str ());
-			}
-		}
-		// arrow
-		AddIntProperty (step, "ReactionStepArrows", loader->m_SavedIds[arrow->GetId ()]);
-		// attached objects
-		child = arrow->GetFirstChild (i);
-		double y = arrow->GetYAlign ();
-		while (child) {
-			if (y > child->GetYAlign ())
-				Ids_.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_ARROW_OBJECT)]);
-			else
-				Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_ARROW_OBJECT)]);
-			child = arrow->GetNextChild (i);
-		}
-		// objects above the arrow
-		if (!Ids.empty ()) {
-			std::ostringstream out;
-			out << Ids.front ();
-			Ids.pop_front ();
-			while (!Ids.empty ()) {
-				out << " " << Ids.front ();
-				Ids.pop_front ();
-			}
-			AddStringProperty (step, "ReactionStepObjectsAboveArrow", out.str ());
-		}
-		// objects below the arrow
-		if (!Ids_.empty ()) {
-			std::ostringstream out;
-			out << Ids_.front ();
-			Ids_.pop_front ();
-			while (!Ids_.empty ()) {
-				out << " " << Ids_.front ();
+				out << Ids_.front ();
 				Ids_.pop_front ();
+				while (!Ids_.empty ()) {
+					out << " " << Ids_.front ();
+					Ids_.pop_front ();
+				}
+				AddStringProperty (step, "ReactionStepObjectsBelowArrow", out.str ());
 			}
-			AddStringProperty (step, "ReactionStepObjectsBelowArrow", out.str ());
 		}
 	}
+	loader->m_WriteScheme = true;
 	return true;
 }
 
@@ -1820,7 +1838,7 @@ bool CDXMLLoader::WriteNode (xmlNodePtr node, WriteTextState *state)
 			if (font_type != 0)
 				AddIntProperty (state->node, "face", font_type);
 		} else
-			xmlNodeAddContent (state->node, (name == "br")? reinterpret_cast < xmlChar const * > ("s\n"): xmlNodeGetContent (node));
+			xmlNodeAddContent (state->node, (name == "br")? reinterpret_cast < xmlChar const * > ("\n"): xmlNodeGetContent (node));
 		return true;
 	} else
 		state->node = NULL;

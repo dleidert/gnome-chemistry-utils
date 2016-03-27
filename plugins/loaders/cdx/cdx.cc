@@ -222,6 +222,7 @@ private:
 	int m_CHeight, m_FontSize;
 	gint16 m_LabelFont, m_LabelFontSize, m_LabelFontFace, m_LabelFontColor;
 	double m_Scale, m_Zoom;
+	bool m_WriteScheme;
 };
 
 CDXLoader::CDXLoader ():
@@ -241,6 +242,7 @@ CDXLoader::CDXLoader ():
 	m_WriteCallbacks["retrosynthesis"] = WriteRetrosynthesis;
 	m_WriteCallbacks["retrosynthesis-arrow"] = WriteArrow;
 	m_WriteCallbacks["text"] = WriteText;
+	m_WriteScheme = true;
 }
 
 CDXLoader::~CDXLoader ()
@@ -973,6 +975,8 @@ bool CDXLoader::WriteScheme (GsfOutput *out, Object const *obj, std::string cons
 		if (!WriteArrow (this, out, *it, s))
 			return false;
 	// Now, save the reaction
+	if (!m_WriteScheme)
+		return true;
 	gint16 n = kCDXObj_ReactionScheme;
 	guint32 id;
 	WRITEINT16 (out, n);
@@ -1048,8 +1052,15 @@ bool CDXLoader::WriteReactionStep(CDXLoader *loader, GsfOutput *out, Object cons
 			loader->AddInt16Property (out, kCDXProp_Graphic_Type, 7);
 			loader->AddInt16Property (out, kCDXProp_Symbol_Type, 8);
 			gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of plus
-		} else if (!loader->WriteObject (out, child, s))
-			return false;
+		} else {
+			// search for a mesomery inside the reaction
+			std::string id = child->GetProperty (GCU_PROP_MOLECULE);
+			gcu::Object *mol = child->GetChild (id.c_str ());
+			if (gcu::Object::GetTypeName (mol->GetType ()) == "mesomery")
+				loader->m_WriteScheme = false;
+			if (!loader->WriteObject (out, child, s))
+				return false;
+		}
 		child = obj->GetNextChild (i);
 	}
 	return true;
@@ -1076,28 +1087,80 @@ bool CDXLoader::WriteReaction (CDXLoader *loader, GsfOutput *out, Object const *
 		if (!WriteArrow (loader, out, *it, s))
 			return false;
 	// Now, save the reaction
-	gint16 n = kCDXObj_ReactionScheme;
-	guint32 id;
-	WRITEINT16 (out, n);
-	loader->WriteId (obj, out);
-	for (it = arrows.begin (); it != itend; it++) {
-		// save the associated step
-		n = kCDXObj_ReactionStep;
+	if (loader->m_WriteScheme) {
+		gint16 n = kCDXObj_ReactionScheme;
+		guint32 id;
 		WRITEINT16 (out, n);
-		std::list < guint32 > Ids, Ids_;
-		loader->WriteId (NULL, out);
-		// reactants
-		gcp::Arrow const *arrow = static_cast < gcp::Arrow const * > (*it);
-		gcu::Object const *cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_START_ID).c_str ());
-		if (cur) {
-			child = cur->GetFirstChild (i);
-			while (child) {
-				if (child->GetType () == gcu::ReactantType)
-					Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_MOLECULE)]);
-				child = cur->GetNextChild (i);
+		loader->WriteId (obj, out);
+		for (it = arrows.begin (); it != itend; it++) {
+			// save the associated step
+			n = kCDXObj_ReactionStep;
+			WRITEINT16 (out, n);
+			std::list < guint32 > Ids, Ids_;
+			loader->WriteId (NULL, out);
+			// reactants
+			gcp::Arrow const *arrow = static_cast < gcp::Arrow const * > (*it);
+			gcu::Object const *cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_START_ID).c_str ());
+			if (cur) {
+				child = cur->GetFirstChild (i);
+				while (child) {
+					if (child->GetType () == gcu::ReactantType)
+						Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_MOLECULE)]);
+					child = cur->GetNextChild (i);
+				}
+				if (!Ids.empty ()) {
+					n = kCDXProp_ReactionStep_Reactants;
+					WRITEINT16 (out, n);
+					n = 4 * Ids.size ();
+					WRITEINT16 (out, n);
+					while (!Ids.empty ()) {
+						id = Ids.front ();
+						WRITEINT32 (out, id);
+						Ids.pop_front ();
+					}
+				}
 			}
+			// products
+			cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_END_ID).c_str ());
+			if (cur) {
+				child = cur->GetFirstChild (i);
+				while (child) {
+					if (child->GetType () == gcu::ReactantType)
+						Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_MOLECULE)]);
+					child = cur->GetNextChild (i);
+				}
+				if (!Ids.empty ()) {
+					n = kCDXProp_ReactionStep_Products;
+					WRITEINT16 (out, n);
+					n = 4 * Ids.size ();
+					WRITEINT16 (out, n);
+					while (!Ids.empty ()) {
+						id = Ids.front ();
+						WRITEINT32 (out, id);
+						Ids.pop_front ();
+					}
+				}
+			}
+			// arrow
+			n = kCDXProp_ReactionStep_Arrows;
+			WRITEINT16 (out, n);
+			gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));
+			id = loader->m_SavedIds[arrow->GetId ()];
+			WRITEINT32 (out, id);
+			// attached objects
+			// quick implementation, if y is lower than arrow y, then above, otherwise under
+			child = arrow->GetFirstChild (i);
+			double y = arrow->GetYAlign ();
+			while (child) {
+				if (y > child->GetYAlign ())
+					Ids_.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_ARROW_OBJECT)]);
+				else
+					Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_ARROW_OBJECT)]);
+				child = arrow->GetNextChild (i);
+			}
+			// objects above the arrow
 			if (!Ids.empty ()) {
-				n = kCDXProp_ReactionStep_Reactants;
+				n = kCDXProp_ReactionStep_ObjectsAboveArrow;
 				WRITEINT16 (out, n);
 				n = 4 * Ids.size ();
 				WRITEINT16 (out, n);
@@ -1107,72 +1170,23 @@ bool CDXLoader::WriteReaction (CDXLoader *loader, GsfOutput *out, Object const *
 					Ids.pop_front ();
 				}
 			}
-		}
-		// products
-		cur = obj->GetDescendant (arrow->GetProperty (GCU_PROP_ARROW_END_ID).c_str ());
-		if (cur) {
-			child = cur->GetFirstChild (i);
-			while (child) {
-				if (child->GetType () == gcu::ReactantType)
-					Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_MOLECULE)]);
-				child = cur->GetNextChild (i);
-			}
-			if (!Ids.empty ()) {
-				n = kCDXProp_ReactionStep_Products;
+			// objects under the arrow
+			if (!Ids_.empty ()) {
+				n = kCDXProp_ReactionStep_ObjectsBelowArrow;
 				WRITEINT16 (out, n);
-				n = 4 * Ids.size ();
+				n = 4 * Ids_.size ();
 				WRITEINT16 (out, n);
-				while (!Ids.empty ()) {
-					id = Ids.front ();
+				while (!Ids_.empty ()) {
+					id = Ids_.front ();
 					WRITEINT32 (out, id);
-					Ids.pop_front ();
+					Ids_.pop_front ();
 				}
 			}
+			gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of step
 		}
-		// arrow
-		n = kCDXProp_ReactionStep_Arrows;
-		WRITEINT16 (out, n);
-		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));
-		id = loader->m_SavedIds[arrow->GetId ()];
-		WRITEINT32 (out, id);
-		// attached objects
-		// quick implementation, if y is lower than arrow y, then above, otherwise under
-		child = arrow->GetFirstChild (i);
-		double y = arrow->GetYAlign ();
-		while (child) {
-			if (y > child->GetYAlign ())
-				Ids_.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_ARROW_OBJECT)]);
-			else
-				Ids.push_back (loader->m_SavedIds[child->GetProperty (GCU_PROP_ARROW_OBJECT)]);
-			child = arrow->GetNextChild (i);
-		}
-		// objects above the arrow
-		if (!Ids.empty ()) {
-			n = kCDXProp_ReactionStep_ObjectsAboveArrow;
-			WRITEINT16 (out, n);
-			n = 4 * Ids.size ();
-			WRITEINT16 (out, n);
-			while (!Ids.empty ()) {
-				id = Ids.front ();
-				WRITEINT32 (out, id);
-				Ids.pop_front ();
-			}
-		}
-		// objects under the arrow
-		if (!Ids_.empty ()) {
-			n = kCDXProp_ReactionStep_ObjectsBelowArrow;
-			WRITEINT16 (out, n);
-			n = 4 * Ids_.size ();
-			WRITEINT16 (out, n);
-			while (!Ids_.empty ()) {
-				id = Ids_.front ();
-				WRITEINT32 (out, id);
-				Ids_.pop_front ();
-			}
-		}
-		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of step
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of scheme
 	}
-	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of scheme
+	loader->m_WriteScheme = true;
 	return true;
 }
 
@@ -2996,7 +3010,8 @@ void CDXLoader::BuildScheme (gcu::Document *doc, SchemeData &scheme)
 	} else if (IsReaction ==1) {
 		if (HasMesomeryArrows) {
 			// build mesomeries inside reactions
-			// FIXME
+			// FIXME: nots supported for now
+			return;
 		}
 		gcu::Object *reaction = doc->CreateObject ("reaction", doc);
 		ostringstream str;
