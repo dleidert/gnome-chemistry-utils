@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-03-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: avoid playing with scheme having different
+	kind of arrows.
+	* plugins/loaders/cdxml/cdxml.cc: ditto and don't duplicate atom symbols.
+
 2016-03-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fix GetMaxLineHeight().
 	* plugins/loaders/cdx/cdx.cc: import and export retrosynthesis.
