@@ -1,4 +1,6 @@
 Version 0.14.12:
+	GChemPaint:
+		* Enhanced Chemdraw formats support.
 	GChemCalc:
 		* Don't crash on "Ac" string. [#47366]
 
