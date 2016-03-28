@@ -21,6 +21,7 @@ chem_viewer_SOURCES = chem-viewer.cc
 chem_viewer_LDADD = $(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la \
 	$(top_builddir)/libs/gcr/libgcrystal-@GCU_API_VER@.la \
 	$(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la \
+	$(top_builddir)/libs/gccv/libgccv-@GCU_API_VER@.la \
 	$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 	$(goffice_LIBS) \
 	$(gtk_LIBS) \
