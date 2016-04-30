@@ -202,7 +202,7 @@ bool ApplicationPrivate::Init (Application *app)
 			g_free (errors);
 			errors = NULL;
 		}
-		app->m_HaveGChem3D = (g_spawn_command_line_sync ("which gchem3d-"GCU_API_VER, &result, &errors, NULL, NULL)
+		app->m_HaveGChem3D = (g_spawn_command_line_sync ("which gchem3d-" GCU_API_VER, &result, &errors, NULL, NULL)
 			&& result && strlen (result));
 		if (result) {
 			g_free (result);

@@ -466,7 +466,7 @@ cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->line_height = 1;
 	map<string, unsigned>::iterator it;
 	if (attrs)
-		while (*attrs)
+		while (*attrs) {
 			if (!strcmp (reinterpret_cast < char const * > (*attrs), "id")) {
 				unsigned id = atoi (reinterpret_cast < char const * > (attrs[1]));
 				state->loaded_ids[id] = obj->GetId ();
@@ -498,6 +498,7 @@ cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 				obj->SetProperty ((*it).second, lowered);
 				g_free (lowered);
 			}
+		}
 	state->markup = "<text>";
 }
 
@@ -1349,7 +1350,7 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char 
 				if (parent != p.obj->GetParent ()) {
 					if (parent)
 						parent->OnLoaded ();
-						parent = p.obj->GetParent ();
+					parent = p.obj->GetParent ();
 				}
 				if (!p.obj->SetProperty (p.property, p.value.c_str ())) {
 					success = ContentTypeUnknown;
@@ -2025,7 +2026,7 @@ bool CDXMLLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED char 
 	/* we can't use sax, because we need colors and fonts */
 	xmlDocPtr xml = xmlNewDoc (reinterpret_cast <xmlChar const *> ("1.0"));
 	xmlDocSetRootElement (xml,  xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("CDXML"), NULL));
-	std::string str = doc->GetApp ()->GetName () + " "VERSION;
+	std::string str = doc->GetApp ()->GetName () + " " VERSION;
 	xmlNewProp (xml->children, reinterpret_cast <xmlChar const *> ("CreationProgram"),
 	            reinterpret_cast <xmlChar const *> (str.c_str ()));
 	// Get the theme (we need a gcp::Document there)

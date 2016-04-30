@@ -397,7 +397,7 @@ bool Element::GetElectronegativity(GcuElectronegativity* en)
 			return true;
 		}
 
-		return false;
+	return false;
 }
 
 const GcuAtomicRadius **Element::GetRadii()

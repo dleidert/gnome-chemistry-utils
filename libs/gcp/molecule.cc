@@ -116,7 +116,7 @@ void MoleculePrivate::ExportTo3D (Molecule *mol)
 	write (f, cml, strlen (cml));
 	close (f);
 	g_free (cml);
-	char *command_line = g_strconcat ("gchem3d-"GCU_API_VER" ", tmpname, NULL);
+	char *command_line = g_strconcat ("gchem3d-" GCU_API_VER " ", tmpname, NULL);
 	g_free (tmpname);
 	g_spawn_command_line_async (command_line, NULL);
 	g_free (command_line);
@@ -674,7 +674,7 @@ void Molecule::OpenCalc ()
 	list<gcu::Atom*>::iterator ia, enda = m_Atoms.end ();
 	ostringstream ofs;
 	int nH;
-	ofs << "gchemcalc-"API_VERSION" ";
+	ofs << "gchemcalc-" API_VERSION " ";
 	for (ia = m_Atoms.begin(); ia != enda; ia++) {
 		ofs << (*ia)->GetSymbol();
 		nH = reinterpret_cast <Atom *> (*ia)->GetAttachedHydrogens ();

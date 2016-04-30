@@ -607,7 +607,9 @@ xmlDocPtr Document::BuildXMLTree () const
 		const_cast < Document * > (this)->RevisionDate = g_date_time_new_now_utc ();
 	gcu::WriteDate (xml->children, "creation", CreationDate);
 	gcu::WriteDate (xml->children, "revision", RevisionDate);
-	node = xmlNewDocNode (xml, NULL, (xmlChar*)"generator", (xmlChar*)"GChemPaint "VERSION);
+	node = xmlNewDocNode (xml, NULL, 
+	                      reinterpret_cast < xmlChar const * > ("generator"),
+	                      reinterpret_cast < xmlChar const * > ("GChemPaint " VERSION));
 	if (node)
 		xmlAddChild (xml->children, node);
 	else

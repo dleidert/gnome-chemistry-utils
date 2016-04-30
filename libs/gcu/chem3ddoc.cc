@@ -122,7 +122,7 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	GError *error = NULL;
 	GFileInfo *info = g_file_query_info (file,
 										 ((mime_type)? G_FILE_ATTRIBUTE_STANDARD_SIZE:
-										 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","G_FILE_ATTRIBUTE_STANDARD_SIZE),
+										 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE "," G_FILE_ATTRIBUTE_STANDARD_SIZE),
 										 G_FILE_QUERY_INFO_NONE,
 										 NULL, &error);
 	if (error) {

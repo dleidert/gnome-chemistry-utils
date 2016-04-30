@@ -350,10 +350,10 @@ bool gcpNewTemplateToolDlg::Apply ()
 			msg = _("Please give a name.");
 		else
 			msg = _("Please choose a category.");
-			gcugtk::Message *box = new gcugtk::Message (static_cast < gcugtk::Application * > (GetApp ()),
-			                                            msg, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-			                                            GetWindow ());
-			box->Show ();
+		gcugtk::Message *box = new gcugtk::Message (static_cast < gcugtk::Application * > (GetApp ()),
+		                                            msg, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+		                                            GetWindow ());
+		box->Show ();
 		return false;
 	}
 	gcpTemplate *temp = new gcpTemplate ();

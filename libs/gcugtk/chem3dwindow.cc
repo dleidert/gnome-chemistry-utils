@@ -125,7 +125,7 @@ void Chem3dWindowPrivate::OnOpenCalc (G_GNUC_UNUSED GtkWidget *widget, Chem3dWin
 {
 	gcu::Molecule *mol = Win->GetDocument ()->GetMol ();
 	std::ostringstream ofs;
-	ofs << "gchemcalc-"API_VERSION" " << mol->GetRawFormula ();
+	ofs << "gchemcalc-" API_VERSION " " << mol->GetRawFormula ();
 	g_spawn_command_line_async (ofs.str ().c_str (), NULL);
 }
 
