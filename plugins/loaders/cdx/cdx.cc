@@ -656,8 +656,8 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					return ContentTypeUnknown;
 				guint16 red, blue, green;
 				for (unsigned i = 0; i < nb; i++) {
-				if (!(READINT16 (in,red)) || !(READINT16 (in,green)) || !(READINT16 (in,blue)))
-					return ContentTypeUnknown;
+					if (!(READINT16 (in,red)) || !(READINT16 (in,green)) || !(READINT16 (in,blue)))
+						return ContentTypeUnknown;
 					ostringstream str;
 					str << "red=\"" << (double) red / 0xffff << "\" green=\"" << (double) green / 0xffff << "\" blue=\"" << (double) blue / 0xffff << "\"";
 					colors.push_back (str.str ());
@@ -1529,7 +1529,7 @@ bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_
 
 	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
 	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
-	str = doc->GetApp ()->GetName () + " "VERSION;
+	str = doc->GetApp ()->GetName () + " " VERSION;
 	WriteSimpleStringProperty (out, kCDXProp_CreationProgram, str.length (), str.c_str ());
 	// save title authors and the like
 	str = doc->GetProperty (GCU_PROP_DOC_CREATOR);

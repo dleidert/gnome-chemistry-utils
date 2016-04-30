@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2016-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: fix gcc-6/g++-6 warnings.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcr/gcrcrystalviewer.cc: ditto.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/chem3ddoc.cc: ditto.
+	* libs/gcugtk/chem3dwindow.cc: ditto.
+	* libs/gcugtk/molecule.cc: ditto.
+	* libs/gcugtk/spectrumdoc.cc: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+
 2016-03-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.14.13).
 

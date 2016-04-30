@@ -70,12 +70,12 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	char const *szlang = getenv ("LANG");
 	string lang = (szlang)? szlang: "C";
 	HelpName = help_name? help_name: Name;
-	HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("-"API_VERSION"/") + lang + string ("/") + HelpName + "-"API_VERSION".xml";
+	HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("-" API_VERSION "/") + lang + string ("/") + HelpName + "-" API_VERSION ".xml";
 	GFile *file = g_file_new_for_uri (HelpFilename.c_str ());
 	bool exists = g_file_query_exists (file, NULL);
 	g_object_unref (file);
 	if (!exists) {
-		HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("-"API_VERSION"/C/") + HelpName + "-"API_VERSION".xml";
+		HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("-" API_VERSION "/C/") + HelpName + "-" API_VERSION ".xml";
 	}
 	HelpBrowser = "yelp"; // there is no more key for that
 	char *dir = g_get_current_dir ();
@@ -602,7 +602,7 @@ char* Application::ConvertToCML (std::string const &uri, const char *mime_type, 
 		GError *error = NULL;
 		GFileInfo *info = g_file_query_info (file,
 											 ((mime_type)? G_FILE_ATTRIBUTE_STANDARD_SIZE:
-											 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","G_FILE_ATTRIBUTE_STANDARD_SIZE),
+											 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE "," G_FILE_ATTRIBUTE_STANDARD_SIZE),
 											 G_FILE_QUERY_INFO_NONE,
 											 NULL, &error);
 		if (error) {

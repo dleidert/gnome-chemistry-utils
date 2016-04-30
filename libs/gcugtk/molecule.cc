@@ -162,7 +162,7 @@ void Molecule::BuildDatabasesMenu (GtkUIManager *UIManager, char const *path_sta
 	if (MoleculePrivate::Databases.empty ()) {
 		// load them using gsf xml support
 		// first $DATADIR/gchemutils/API_VER/databases.xml
-		MoleculePrivate::LoadDatabases (DATADIR"/gchemutils/"GCU_API_VER"/databases.xml");
+		MoleculePrivate::LoadDatabases (DATADIR "/gchemutils/" GCU_API_VER "/databases.xml");
 		// and now $HOME/.gchemutils/datatases.xml
 		std::string home = getenv ("HOME");
 		home += "/.gchemutils/databases.xml";

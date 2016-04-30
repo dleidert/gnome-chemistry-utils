@@ -1451,7 +1451,7 @@ bool Atom::HasAvailableElectrons (bool paired)
 	while (obj) {
 		if ((electron = dynamic_cast <Electron *> (obj)))
 			break;
-			obj = GetNextChild (i);
+		obj = GetNextChild (i);
 	}
 	if (paired) {
 		if (m_nlp)

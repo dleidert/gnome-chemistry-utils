@@ -1833,9 +1833,8 @@ double (*SpectrumDocument::GetConversionFunction (SpectrumUnitType oldu, Spectru
 	case GCU_SPECTRUM_UNIT_HZ:
 		if (go_finite (freq) && newu == GCU_SPECTRUM_UNIT_PPM)
 			factor = 1. / freq;
-			shift = 0.;
-			return mult;
-		break;
+		shift = 0.;
+		return mult;
 	default:
 		break;
 	}

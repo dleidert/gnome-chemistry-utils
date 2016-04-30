@@ -230,5 +230,5 @@ gcr::Cleavage* gcDocument::CreateNewCleavage()
 
 const char* gcDocument::GetProgramId () const
 {
-	return "Gnome Crystal "VERSION;
+	return "Gnome Crystal " VERSION;
 }

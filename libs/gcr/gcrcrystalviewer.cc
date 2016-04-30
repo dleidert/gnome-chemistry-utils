@@ -214,7 +214,7 @@ void gcr_crystal_viewer_set_uri	(GcrCrystalViewer * viewer, const gchar * uri)
 	GFile *file = g_vfs_get_file_for_uri (vfs, uri);
 	GError *error = NULL;
 	GFileInfo *info = g_file_query_info (file,
-										 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","G_FILE_ATTRIBUTE_STANDARD_SIZE,
+										 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE "," G_FILE_ATTRIBUTE_STANDARD_SIZE,
 										 G_FILE_QUERY_INFO_NONE,
 										 NULL, &error);
 	if (error) {
