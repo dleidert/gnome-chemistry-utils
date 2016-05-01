@@ -47,8 +47,15 @@ typedef GtkDrawingAreaClass GccvCanvasClass;
 
 GType gccv_canvas_get_type (void);
 
+static void gccv_canvas_class_init (GObjectClass *klass)
+{
+#if GTK_CHECK_VERSION(3,20,0)
+	gtk_widget_class_set_css_name (reinterpret_cast < GtkWidgetClass * > (klass), "canvas");
+#endif
+}
+
 GSF_CLASS (GccvCanvas, gccv_canvas,
-	   NULL, NULL,
+	   gccv_canvas_class_init, NULL,
 	   gtk_drawing_area_get_type ())
 
 static GtkWidget *gccv_canvas_new (gccv::Canvas *owner)
@@ -97,10 +104,26 @@ bool CanvasPrivate::OnDraw (Canvas *canvas, cairo_t *cr)
 	if (ev && ev->type == GDK_EXPOSE) {
 		double clip_x0, clip_y0, clip_x1, clip_y1;
 		cairo_clip_extents (cr, &clip_x0, &clip_y0, &clip_x1, &clip_y1);
+		if (canvas->m_BackgroundColor != 0) {
+			cairo_save (cr);
+			cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (canvas->m_BackgroundColor));
+			cairo_rectangle (cr, clip_x0, clip_y0, clip_x1 - clip_x0, clip_y1 - clip_y0);
+			cairo_fill (cr);
+			cairo_restore (cr);
+		} else
+			gtk_render_background (ctxt, cr, clip_x0, clip_y0, clip_x1 - clip_x0, clip_y1 - clip_y0);
 		if (x0 <= clip_x1 && x1 >= clip_x0 && y0 <= clip_y1 && y1 >= clip_y0)
 			canvas->m_Root->Draw (cr, clip_x0, clip_y0, clip_x1, clip_y1, false);
-	} else
+	} else {
+		if (canvas->m_BackgroundColor != 0) {
+			cairo_save (cr);
+			cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (canvas->m_BackgroundColor));
+			cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
+			cairo_fill (cr);
+			cairo_restore (cr);
+		}
 		canvas->m_Root->Draw (cr, x0, y0, x1, y1, true);
+	}
 	cairo_restore (cr);
 	pango_font_description_free (canvas->m_Font);
 	canvas->m_Font = NULL;
@@ -198,15 +221,13 @@ void Canvas::Invalidate (double x0, double y0, double x1, double y1)
 		if (y1 < 0.)
 			y1 = 0.;
 	}
-	gtk_widget_queue_draw_area (m_Widget, (int) floor (x0 * m_Zoom), (int) floor (y0 * m_Zoom), (int) (ceil (x1 * m_Zoom) - floor (x0 * m_Zoom)), (int) (ceil (y1 * m_Zoom) - floor (y0 * m_Zoom)));
+	if (x1 > x0 && y1 > y0)
+		gtk_widget_queue_draw_area (m_Widget, (int) floor (x0 * m_Zoom), (int) floor (y0 * m_Zoom), (int) (ceil (x1 * m_Zoom) - floor (x0 * m_Zoom)), (int) (ceil (y1 * m_Zoom) - floor (y0 * m_Zoom)));
 }
 
 void Canvas::SetBackgroundColor (GOColor color)
 {
 	m_BackgroundColor = color;
-	GdkRGBA rgba;
-	go_color_to_gdk_rgba (color, &rgba);
-	gtk_widget_override_background_color (m_Widget, GTK_STATE_FLAG_NORMAL, &rgba);
 }
 
 void Canvas::SetZoom (double zoom)
