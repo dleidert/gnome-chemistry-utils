@@ -188,39 +188,46 @@ public:
 
 bool ApplicationPrivate::Init (Application *app)
 {
-		// Check for programs
-		char *result = NULL, *errors = NULL;
-		// check for ghemical
-		app->m_HaveGhemical = (g_spawn_command_line_sync ("which ghemical", &result, &errors, NULL, NULL)
-			&& result && strlen (result));
-		if (result) {
-			g_free (result);
-			result = NULL;
-		}
-		if (errors) {
-			g_free (errors);
-			errors = NULL;
-		}
-		app->m_HaveGChem3D = (g_spawn_command_line_sync ("which gchem3d-" GCU_API_VER, &result, &errors, NULL, NULL)
-			&& result && strlen (result));
-		if (result) {
-			g_free (result);
-			result = NULL;
-		}
-		if (errors) {
-			g_free (errors);
-			errors = NULL;
-		}
-		app->m_HaveAvogadro = (g_spawn_command_line_sync ("which avogadro", &result, &errors, NULL, NULL)
-			&& result && strlen (result));
-		if (result) {
-			g_free (result);
-			result = NULL;
-		}
-		if (errors) {
-			g_free (errors);
-			errors = NULL;
-		}
+#if GTK_CHECK_VERSION(3,20,0)
+	// init a default style for background in main widget
+	GtkCssProvider *provider = gtk_css_provider_new ();
+	gtk_css_provider_load_from_data	(provider, 	"canvas { color: #000000; background-color: white;} button canvas {background-color: rgba(0,0,0,0);}", -1, NULL);
+	gtk_style_context_add_provider_for_screen (gdk_screen_get_default (), GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+#endif
+
+	// Check for programs
+	char *result = NULL, *errors = NULL;
+	// check for ghemical
+	app->m_HaveGhemical = (g_spawn_command_line_sync ("which ghemical", &result, &errors, NULL, NULL)
+		&& result && strlen (result));
+	if (result) {
+		g_free (result);
+		result = NULL;
+	}
+	if (errors) {
+		g_free (errors);
+		errors = NULL;
+	}
+	app->m_HaveGChem3D = (g_spawn_command_line_sync ("which gchem3d-" GCU_API_VER, &result, &errors, NULL, NULL)
+		&& result && strlen (result));
+	if (result) {
+		g_free (result);
+		result = NULL;
+	}
+	if (errors) {
+		g_free (errors);
+		errors = NULL;
+	}
+	app->m_HaveAvogadro = (g_spawn_command_line_sync ("which avogadro", &result, &errors, NULL, NULL)
+		&& result && strlen (result));
+	if (result) {
+		g_free (result);
+		result = NULL;
+	}
+	if (errors) {
+		g_free (errors);
+		errors = NULL;
+	}
 	return false;
 }
 

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2016-05-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: restore canvas background with gtk+-3.20.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcp/view.cc: ditto.
+
 2016-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: fix gcc-6/g++-6 warnings.
 	* libs/gcp/document.cc: ditto.
