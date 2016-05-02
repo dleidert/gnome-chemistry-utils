@@ -392,27 +392,6 @@ static void on_rotate (GtkWidget *btn, gcp::Application* App)
 		tool->Rotate (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (btn)));
 }
 
-static GtkActionEntry entries[] = {
-	{ "HorizFlip", "gcp_Horiz", N_("Horizontal flip"), NULL,
-		N_("Flip the selection horizontally"), G_CALLBACK (on_flip) },
-	{ "VertFlip", "gcp_Vert", N_("Vertical flip"), NULL,
-		N_("Flip the selection vertically"), G_CALLBACK (on_flip) },
-};
-
-static GtkToggleActionEntry toggles[] = {
-	  { "Rotate", "gcp_Rotate", N_("_Rotate"), NULL,
-		  N_("Rotate the selection"), G_CALLBACK (on_rotate), false }
-};
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='Lasso'>"
-"    <toolitem action='HorizFlip'/>"
-"    <toolitem action='VertFlip'/>"
-"    <toolitem action='Rotate'/>"
-"  </toolbar>"
-"</ui>";
-
 GtkWidget *gcpLassoTool::GetPropertyPage ()
 {
 	GtkWidget *grid, *w;

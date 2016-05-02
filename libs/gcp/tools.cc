@@ -50,26 +50,7 @@ static void help_cb (Tools *box)
 {
 	box->OnHelp ();
 }
-/*
-Tools::Tools (Application *App):
-	gcugtk::Dialog (App, UIDIR"/tools.ui", "tools", GETTEXT_PACKAGE, App),
-	m_Parent (NULL)
-{
-	g_signal_connect (G_OBJECT (dialog), "delete-event", G_CALLBACK (on_delete_event), NULL);
-	Application *pApp = dynamic_cast<Application*> (App);
-	m_ButtonsGrid = GTK_GRID (GetWidget ("tools-buttons"));
-	m_Book = GTK_NOTEBOOK (GetWidget ("tools-book"));
-	GtkWidget *grid = GetWidget ("element-grid");
-	GtkWidget *w = gcu_combo_periodic_new ();
-	m_Mendeleiev = reinterpret_cast <GcuComboPeriodic *> (w);
-	gtk_container_add (GTK_CONTAINER (grid), w);
-	gcu_combo_periodic_set_element (GCU_COMBO_PERIODIC (w), pApp->GetCurZ ());
-	g_signal_connect_swapped (G_OBJECT (w), "changed", G_CALLBACK (element_changed_cb), this);
-	w = GetWidget ("help-btn");
-	g_signal_connect_swapped (G_OBJECT (w), "clicked", G_CALLBACK (help_cb), this);
-	gtk_widget_show_all (GTK_WIDGET (dialog));
-}
-*/
+
 class Toolbar {
 public:
 	Toolbar ();

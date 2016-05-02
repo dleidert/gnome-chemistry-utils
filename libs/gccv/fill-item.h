@@ -59,7 +59,7 @@ The destructor.
 	virtual ~FillItem ();
 
 /*!
-@return the line color whether it is an automatic color or not.
+@return the fill color whether it is an automatic color or not.
 */
 	GOColor GetEffectiveFillColor () const;
 

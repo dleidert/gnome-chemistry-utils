@@ -34,7 +34,6 @@
 #include "electrontool.h"
 #include "orbital.h"
 #include "orbitaltool.h"
-#include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
 
 gcpAtomsPlugin plugin;

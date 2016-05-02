@@ -1,5 +1,30 @@
 ##Text encoding: utf-8
 
+2016-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: update goffice required version.
+	* libs/gccv/canvas.h: cleaned duplicated docs.
+	* libs/gccv/equation.cc: initialize members.
+	* libs/gccv/fill-item.h: fixed docs.
+	* libs/gccv/wedge.h: ditto.
+	* libs/gcp/application.cc: remove obsolete code.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/tools.cc: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/arrows/plugin.cc: ditto.
+	* plugins/paint/atoms/Makefile.am: ditto.
+	* plugins/paint/atoms/orbitaltool.cc: fix preview background.
+	* plugins/paint/atoms/plugin.cc: remove obsolete code.
+	* plugins/paint/bonds/Makefile.am: ditto.
+	* plugins/paint/bonds/plugin.cc: ditto.
+	* plugins/paint/cycles/Makefile.am: ditto.
+	* plugins/paint/cycles/plugin.cc: ditto.
+	* plugins/paint/selection/Makefile.am: ditto.
+	* plugins/paint/selection/lassotool.cc: ditto.
+	* plugins/paint/selection/plugin.cc: ditto.
+	* plugins/paint/text/Makefile.am: ditto.
+	* plugins/paint/text/equation.cc: set the properties dialog transient for
+	main window.
+
 2016-05-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: make thngs usable with gtk+-3.20.
 	* libs/gcp/application.cc: ditto.

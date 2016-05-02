@@ -35,7 +35,6 @@
 #include "retrosynthesis.h"
 #include "retrosynthesisarrow.h"
 #include "retrosynthesisstep.h"
-#include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
 
 gcpArrowsPlugin plugin;

@@ -29,7 +29,6 @@
 #include <gccv/polygon.h>
 #include <gcp/application.h>
 #include "cycletool.h"
-#include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
 
 gcpCyclesPlugin plugin;

@@ -1,5 +1,3 @@
-EXTRA_DIST = $(ui_DATA)
-
 MAINTAINERCLEANFILES = Makefile.in
 
 AM_CPPFLAGS = \
@@ -37,4 +35,4 @@ noinst_HEADERS = \
 	texttool.h
 
 uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/text
-ui_DATA = fontsel.ui eq-props.ui
+dist_ui_DATA = fontsel.ui eq-props.ui

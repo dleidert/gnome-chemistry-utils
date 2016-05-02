@@ -38,7 +38,6 @@
 #include "erasertool.h"
 #include "group.h"
 #include "bracketstool.h"
-#include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
 
 gcpSelectionPlugin plugin;
@@ -55,20 +54,6 @@ gcpSelectionPlugin::gcpSelectionPlugin(): gcp::Plugin()
 gcpSelectionPlugin::~gcpSelectionPlugin()
 {
 }
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='SelectToolbar'>"
-"	 <placeholder name='Select1'>"
-"      <toolitem action='Select'/>"
-"      <toolitem action='Lasso'/>"
-"      <toolitem action='Erase'/>"
-"      <toolitem action='Brackets'/>"
-"	 </placeholder>"
-"	 <placeholder name='Select2'/>"
-"	 <placeholder name='Select3'/>"
-"  </toolbar>"
-"</ui>";
 
 static gcp::ToolDesc tools[] = {
 	{   "Select", N_("Select one or more objects"),

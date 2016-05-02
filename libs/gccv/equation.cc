@@ -32,7 +32,9 @@ Equation::Equation (Canvas *canvas, double x, double y):
 	Rectangle (canvas, x, y, 0., 0.),
 	m_x (x), m_y (y), m_View (NULL),
 	m_Math (NULL),
-	m_Anchor (AnchorLineWest)
+	m_Anchor (AnchorLineWest),
+	m_AutoTextColor (false),
+	m_AutoFont (false)
 {
 }
 
@@ -40,7 +42,9 @@ Equation::Equation (Group *parent, double x, double y, ItemClient *client):
 	Rectangle (parent, x, y, 0., 0., client),
 	m_x (x), m_y (y), m_View (NULL),
 	m_Math (NULL),
-	m_Anchor (AnchorLineWest)
+	m_Anchor (AnchorLineWest),
+	m_AutoTextColor (false),
+	m_AutoFont (false)
 {
 }
 

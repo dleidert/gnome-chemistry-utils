@@ -32,6 +32,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <gcp/window.h>
 #include <gcugtk/dialog.h>
 #include <gcu/xml-utils.h>
 #include <glib/gi18n.h>
@@ -158,6 +159,7 @@ gcpEquationProps::gcpEquationProps (gcp::Document *doc, gcpEquation *equation):
 	m_Doc (doc)
 
 {
+	gtk_window_set_transient_for (dialog, static_cast < gcp::Window * > (doc->GetWindow ())->GetWindow ());
 	GtkNotebook *nb = GTK_NOTEBOOK (GetWidget ("notebook"));
 	GtkWidget *me = go_math_editor_new ();
 	m_Me = GO_MATH_EDITOR (me);
@@ -393,7 +395,7 @@ void gcpEquation::ParentChanged ()
 
 void gcpEquation::SetFontDesc (PangoFontDescription const *desc)
 {
-	if (pango_font_description_equal (m_Font, desc))
+	if (m_Font && pango_font_description_equal (m_Font, desc))
 		return;
 	m_Font = pango_font_description_copy (desc);
 	m_AutoFont = false;

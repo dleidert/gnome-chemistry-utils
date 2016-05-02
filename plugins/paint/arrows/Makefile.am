@@ -1,10 +1,7 @@
 EXTRA_DIST = \
-	$(IMAGES) \
 	org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in
 
-BUILT_SOURCES = gcp-stock-pixbufs.h
-
-CLEANFILES = $(BUILT_SOURCES) $(gsettings_SCHEMAS)
+CLEANFILES = $(gsettings_SCHEMAS)
 
 MAINTAINERCLEANFILES = Makefile.in
 
@@ -48,9 +45,6 @@ noinst_HEADERS = \
 
 uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/arrows
 dist_ui_DATA = arrowtool.ui curvedarrowtool.ui
-
-$(BUILT_SOURCES): $(IMAGES)
-	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@
 
 gsettings_SCHEMAS =	\
 	org.gnome.gchemutils.paint.plugins.arrows.gschema.xml

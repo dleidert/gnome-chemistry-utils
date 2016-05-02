@@ -527,10 +527,6 @@ Application::~Application ()
 		g_object_unref (m_Cursors[i]);
 	// unload plugins
 	Plugin::UnloadPlugins ();
-	std::map < std::string, gccv::Canvas * >::iterator k, kend = m_ToolCanvases.end ();
-	for (k = m_ToolCanvases.begin (); k != kend; k++)
-		delete (*k).second;
-	m_ToolCanvases.clear ();
 }
 
 void Application::ActivateTool (const string& toolname, bool activate)
@@ -944,37 +940,6 @@ void Application::Zoom (double zoom)
 		else
 			new ZoomDlg (m_pActiveDoc);
 	}
-}
-
-static void on_tool_changed (G_GNUC_UNUSED GtkAction *action, GtkAction *current, Application* App)
-{
-	App->OnToolChanged (current);
-}
-
-void Application::OnToolChanged (GtkAction *current)
-{
-	char const *name = gtk_action_get_name (current);
-	if (m_pActiveTool) {
-		if (m_pActiveTool->GetName () == name)
-			return;
-		if (!m_pActiveTool->Activate(false)) {
-			GSList *list = gtk_radio_action_get_group (GTK_RADIO_ACTION (current));
-			while (list) {
-				if (m_pActiveTool->GetName () == gtk_action_get_name ((GtkAction *) list->data)) {
-					gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (list->data), true);
-					break;
-				}
-				list = list->next;
-			}
-			return;
-		}
-	}
-	m_pActiveTool = m_Tools[gtk_action_get_name (current)];
-	Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
-	if (ToolsBox)
-		ToolsBox->OnSelectTool (m_pActiveTool);
-	if (m_pActiveTool)
-		m_pActiveTool->Activate(true);
 }
 
 void Application::OnToolChanged (char const *new_tool_name)

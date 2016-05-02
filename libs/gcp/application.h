@@ -51,26 +51,6 @@ The namespace used for the C++ classes used by GChemPaint.
 
 namespace gcp {
 
-	/*!\struct IconDesc
-Structure to use as icon descriptors for tools.
-See gcp::Application::AddActions() for information about its use.
-*/
-typedef struct
-{
-/*!
-The name of the icon.
-*/
-	char const *name;
-/*!
-The icon as in line bytes or NULL (when using a canvas instead of a bitmap).
-*/
-	unsigned char const *data_24;
-/*!
-	The 24*24 canvas used to display the icon.
-*/
-	gccv::Canvas *canvas;
-} IconDesc;
-
 /*!\struct ToolDesc
 Structure to use as button descriptors for tools.
 See gcp::Application::AddTools() for information about its use.
@@ -300,6 +280,11 @@ Saves the active view as an image.
 Sets the zoom level for the active document window.
 */
 	void Zoom (double zoom);
+/*!
+@param tools an array with the new tools descriptions, last one having its name set to #NULL.
+
+Adds new tools, typically from a plugin.
+*/
 	void AddTools (ToolDesc const *tools);
 /*!
 @param name the name of the toolbar.
@@ -310,11 +295,10 @@ gcp::Application::AddActions() for a case use.
 */
 	void RegisterToolbar (char const *name, int index);
 /*!
-@param current the GtkAction for the activated tool.
+@param new_tool_name the activated tool name.
 
 Call by the framework when the active tool changed.
 */
-	void OnToolChanged (GtkAction *current);
 	void OnToolChanged (char const *new_tool_name);
 /*!
 @param target the Target to add.
@@ -416,20 +400,15 @@ it is pure virtual.
 */
 	bool Have3DSupport () {return m_HaveGhemical | m_HaveGChem3D | m_HaveAvogadro;}
 /*!
-@param path the path associated to a tool
-@param canvas the canvas used as icon for the tool
-
-Associates a canvas to a tool for use as an icon for the tool button. Used to
-have scalable icons using the theme colors whenever possible. 
-*/
-	void AddCanvas (char const *path, gccv::Canvas *canvas) {m_ToolCanvases[path] = canvas;}
-/*!
 @param clipboard a clipboard.
 @param selection_data the available data
 
 Used as callback as gtk_clipboard_request_contents().
 */
 	void ReceiveTargets (GtkClipboard *clipboard, GtkSelectionData *selection_data);
+/*!
+@return the list of the registered tools descriptions.
+*/
 	std::list < ToolDesc const * > const &GetToolDescriptions () const {return m_ToolDescriptions;}
 
 protected:
@@ -489,7 +468,6 @@ private:
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;
 	GdkCursor *m_Cursors[CursorMax];
-	std::map < std::string, gccv::Canvas * > m_ToolCanvases; // to deprecate
 	std::list < ToolDesc const * > m_ToolDescriptions;
 
 /*!\fn GetHaveGhemical

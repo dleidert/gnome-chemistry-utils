@@ -27,7 +27,6 @@
 #include "chaintool.h"
 #include "delocalizedtool.h"
 #include "newman.h"
-#include "gcp-stock-pixbufs.h"
 #include "plugin.h"
 #include <gcp/application.h>
 #include <gcp/settings.h>

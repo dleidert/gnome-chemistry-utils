@@ -154,9 +154,6 @@ GCU_PROP (GOColor, Color)
 @return the font description.
 */
 GCU_RO_PROP (PangoFontDescription *, Font)
-/*!\fn GetLastEventState()
-@return the GdkModifierType value for the last received event.
-*/
 /*!\fn GetBackgroundColor()
 @return the background color.
 */
