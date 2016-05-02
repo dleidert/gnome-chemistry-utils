@@ -27,7 +27,7 @@ chem_viewer_LDADD = $(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la \
 	$(gtk_LIBS) \
 	$(x11_LIBS) \
 	$(xml_LIBS)
-INCLUDES = \
+AM_CPPFLAGS = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)

@@ -140,6 +140,10 @@ Removes the object from the view and destroys the items representing it.
 */
 	PangoFontDescription* GetPangoFontDesc () {return m_PangoFontDesc;}
 /*!
+@return the description of the default font used to display text.
+*/
+	PangoFontDescription* GetPangoTextFontDesc () {return m_PangoTextFontDesc;}
+/*!
 @return the description of the font used to display stoichiometry indices and charges.
 */
 	PangoFontDescription* GetPangoSmallFontDesc () {return m_PangoSmallFontDesc;}
@@ -310,7 +314,7 @@ private:
 	Document* m_pDoc;
 	GtkWidget* m_pWidget;
 	std::list<GtkWidget*> m_Widgets;
-	PangoFontDescription* m_PangoFontDesc, *m_PangoSmallFontDesc;
+	PangoFontDescription* m_PangoFontDesc, *m_PangoSmallFontDesc, *m_PangoTextFontDesc;
 	double m_dFontHeight;
 	gchar* m_sFontName, *m_sSmallFontName;
 	int m_width, m_height;

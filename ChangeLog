@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2016-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* all files: backport display and math equation support from trunk.
+
 2016-05-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: restore canvas background with gtk+-3.20.
 	* libs/gcp/application.cc: ditto.

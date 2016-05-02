@@ -1,12 +1,6 @@
-EXTRA_DIST = $(IMAGES) $(ui_DATA)
-
-BUILT_SOURCES = gcp-stock-pixbufs.h
-
-CLEANFILES = $(BUILT_SOURCES)
-
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = \
+AM_CPPFLAGS = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)
@@ -14,14 +8,6 @@ INCLUDES = \
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DUIDIR=\"$(uidir)\" \
         -DPLUGINSDIR=\"$(textdir)\"
-
-IMAGES = \
-	fragment24.png \
-	text24.png
-
-VARIABLES = \
-	gcp_fragment_24		$(srcdir)/fragment24.png \
-	gcp_text_24		$(srcdir)/text24.png
 
 textdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 text_LTLIBRARIES = text.la
@@ -36,16 +22,17 @@ text_la_LIBADD = \
 
 text_la_SOURCES = \
 	plugin.cc \
+	equation.cc \
 	fragmenttool.cc \
+	mathtool.cc \
 	texttool.cc
 
 noinst_HEADERS = \
 	plugin.h \
+	equation.h \
 	fragmenttool.h \
+	mathtool.h \
 	texttool.h
 
 uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/text
-ui_DATA = fontsel.ui
-
-$(BUILT_SOURCES): $(IMAGES)
-	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@
+dist_ui_DATA = fontsel.ui eq-props.ui

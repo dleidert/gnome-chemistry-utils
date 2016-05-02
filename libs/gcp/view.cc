@@ -92,6 +92,13 @@ View::View (Document *pDoc, bool Embedded):
 	pango_font_description_set_stretch (m_PangoSmallFontDesc, pTheme->GetFontStretch ());
 	pango_font_description_set_size (m_PangoSmallFontDesc, pTheme->GetFontSize () * 2 / 3);
 	m_sSmallFontName = pango_font_description_to_string (m_PangoSmallFontDesc);
+	m_PangoTextFontDesc = pango_font_description_new ();
+	pango_font_description_set_family (m_PangoTextFontDesc, pTheme->GetTextFontFamily ());
+	pango_font_description_set_style (m_PangoTextFontDesc, pTheme->GetTextFontStyle ());
+	pango_font_description_set_weight (m_PangoTextFontDesc, pTheme->GetTextFontWeight ());
+	pango_font_description_set_variant (m_PangoTextFontDesc, pTheme->GetTextFontVariant ());
+	pango_font_description_set_stretch (m_PangoTextFontDesc, pTheme->GetTextFontStretch ());
+	pango_font_description_set_size (m_PangoTextFontDesc, pTheme->GetTextFontSize ());
 	m_width = 400;
 	m_height = 300;
 	m_ActiveRichText = NULL;
@@ -122,6 +129,7 @@ View::~View ()
 		g_free (m_sSmallFontName);
 	pango_font_description_free (m_PangoFontDesc);
 	pango_font_description_free (m_PangoSmallFontDesc);
+	pango_font_description_free (m_PangoTextFontDesc);
 	delete m_UIManager;
 	// we don't need to delete the canvas, since destroying the widget does the job.
 }
@@ -933,6 +941,7 @@ void View::UpdateTheme ()
 		g_free (m_sSmallFontName);
 	pango_font_description_free (m_PangoFontDesc);
 	pango_font_description_free (m_PangoSmallFontDesc);
+	pango_font_description_free (m_PangoTextFontDesc);
 	Theme *pTheme = m_pDoc->GetTheme ();
 	m_PangoFontDesc = pango_font_description_new ();
 	pango_font_description_set_family (m_PangoFontDesc, pTheme->GetFontFamily ());
@@ -950,6 +959,13 @@ void View::UpdateTheme ()
 	pango_font_description_set_stretch (m_PangoSmallFontDesc, pTheme->GetFontStretch ());
 	pango_font_description_set_size (m_PangoSmallFontDesc, pTheme->GetFontSize () * 2 / 3);
 	m_sSmallFontName = pango_font_description_to_string (m_PangoSmallFontDesc);
+	m_PangoTextFontDesc = pango_font_description_new ();
+	pango_font_description_set_family (m_PangoTextFontDesc, pTheme->GetTextFontFamily ());
+	pango_font_description_set_style (m_PangoTextFontDesc, pTheme->GetTextFontStyle ());
+	pango_font_description_set_weight (m_PangoTextFontDesc, pTheme->GetTextFontWeight ());
+	pango_font_description_set_variant (m_PangoTextFontDesc, pTheme->GetTextFontVariant ());
+	pango_font_description_set_stretch (m_PangoTextFontDesc, pTheme->GetTextFontStretch ());
+	pango_font_description_set_size (m_PangoTextFontDesc, pTheme->GetTextFontSize ());
 	Update (m_pDoc);
 }
 

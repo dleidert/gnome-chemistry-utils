@@ -53,7 +53,7 @@ libgcrystal_@GCU_API_VER@_la_LIBADD = \
 		$(gtk_LIBS) \
 		$(xml_LIBS) \
 		-lGL
-INCLUDES = \
+AM_CPPFLAGS = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		-I$(top_builddir)/libs $(goffice_CFLAGS) \
 		$(GCU_CFLAGS)

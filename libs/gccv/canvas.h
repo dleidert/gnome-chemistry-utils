@@ -150,9 +150,10 @@ GCU_PROP (double, Gap)
 @return the foreground color.
 */
 GCU_PROP (GOColor, Color)
-/*!\fn GetLastEventState()
-@return the GdkModifierType value for the last received event.
+/*!\fn GetFont()
+@return the font description.
 */
+GCU_RO_PROP (PangoFontDescription *, Font)
 /*!\fn GetBackgroundColor()
 @return the background color.
 */

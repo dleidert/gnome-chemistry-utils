@@ -119,19 +119,23 @@ double Polygon::Distance (double x, double y, Item **item) const
 
 void Polygon::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
-	GOColor color = GetLineColor ();
-	if (color != 0) {
-		cairo_set_line_width (cr, GetLineWidth ());
-		list <Point>::const_iterator i = m_Points.begin (), end = m_Points.end ();
-		cairo_move_to (cr, (*i).x, (*i).y);
-		for (i++; i != end; i++)
-			cairo_line_to (cr, (*i).x, (*i).y);
-		cairo_close_path (cr);
-		cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-		cairo_set_miter_limit (cr, 10.);
-		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
-		cairo_stroke (cr);
+	GOColor line_color = GetEffectiveLineColor (), fill_color = GetEffectiveFillColor ();
+	list <Point>::const_iterator i = m_Points.begin (), end = m_Points.end ();
+	cairo_move_to (cr, (*i).x, (*i).y);
+	for (i++; i != end; i++)
+		cairo_line_to (cr, (*i).x, (*i).y);
+	cairo_close_path (cr);
+	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
+	cairo_set_miter_limit (cr, 10.);
+	if (fill_color != 0) {
+		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (fill_color));
+		if (line_color != 0)
+			cairo_fill_preserve (cr);
+		else cairo_fill (cr);
 	}
+	if (ApplyLine (cr))
+		cairo_stroke (cr);
+	cairo_restore (cr);
 }
 
 void Polygon::BuildPath (cairo_t *cr) const

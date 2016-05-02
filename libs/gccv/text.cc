@@ -50,7 +50,6 @@ static Context Ctx;
 
 Context::Context ()
 {
-	g_type_init (); // we need it as we use a static instance which might be created before the others needing gobject types
 	cairo_surface_t *s = cairo_pdf_surface_create ("/tmp/foo", 100., 100.);
 	cairo_t *cr = cairo_create (s);
 	cairo_surface_destroy (s);

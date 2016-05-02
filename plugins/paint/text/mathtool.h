@@ -1,10 +1,10 @@
 // -*- C++ -*-
 
 /*
- * Gnome Chemistry Utils
- * gccv/fill-item.cc
+ * GChemPaint text plugin
+ * mathtool.h
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2014 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -22,33 +22,18 @@
  * USA
  */
 
-#include "config.h"
-#include "canvas.h"
-#include "fill-item.h"
+#ifndef GCHEMPAINT_MATH_TOOL_H
+#define GCHEMPAINT_MATH_TOOL_H
 
-namespace gccv {
+#include <gcp/tool.h>
 
-FillItem::FillItem (Canvas *canvas):
-	LineItem (canvas),
-	m_FillColor (GO_COLOR_WHITE),
-	m_AutoFillColor (false)
+class gcpMathTool: public gcp::Tool
 {
-}
+public:
+	gcpMathTool (gcp::Application *App);
+	virtual ~gcpMathTool ();
 
-FillItem::FillItem (Group *parent, ItemClient *client):
-	LineItem (parent, client),
-	m_FillColor (GO_COLOR_WHITE),
-	m_AutoFillColor (false)
-{
-}
+	bool OnClicked ();
+};
 
-FillItem::~FillItem ()
-{
-}
-
-GOColor FillItem::GetEffectiveFillColor () const
-{
-	return m_AutoFillColor? GetCanvas ()->GetColor () ^0xffffff00: m_FillColor;
-}
-
-}
+#endif	// GCHEMPAINT_MATH_TOOL_H

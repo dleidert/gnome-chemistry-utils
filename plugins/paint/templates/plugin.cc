@@ -43,23 +43,14 @@ gcpTemplatesPlugin::~gcpTemplatesPlugin()
 {
 }
 
-static GtkRadioActionEntry entries[] = {
-	{	"Templates", GTK_STOCK_INDEX, N_("Templates"), NULL,
-		N_("Use or manage templates"),
-		0	},
-};
+static gcp::ToolDesc tools[] = {
+	{   "Separator", NULL,
+		gcp::SelectionToolbar, 1, NULL, NULL},
+	{   "Templates", N_("Use or manage templates"),
+		gcp::SelectionToolbar, 1, "user-bookmarks", NULL},
 
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='SelectToolbar'>"
-"	 <placeholder name='Select1'/>"
-"	 <placeholder name='Select2'>"
-"	   <separator/>"
-"	   <toolitem action='Templates'/>"
-"	 </placeholder>"
-"	 <placeholder name='Select3'/>"
-"  </toolbar>"
-"</ui>";
+	{   NULL, NULL, 0, 0, NULL, NULL}
+};
 
 void gcpTemplatesPlugin::Populate (gcp::Application* App)
 {
@@ -115,7 +106,7 @@ void gcpTemplatesPlugin::Populate (gcp::Application* App)
 	g_free (path);
 
 	//Poputate the tools box
-	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, NULL);
+	App->AddTools (tools);
 	new gcpTemplateTool (App);
 	new gcpTemplateTree (App);
 }

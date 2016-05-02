@@ -18,7 +18,7 @@ LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		$(gtk_LIBS) \
 		-lGL
 
-INCLUDES = \
+AM_CPPFLAGS = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)

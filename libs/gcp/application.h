@@ -51,25 +51,49 @@ The namespace used for the C++ classes used by GChemPaint.
 
 namespace gcp {
 
-/*!\struct IconDesc
-Structure to use as icon descriptors for tools.
-See gcp::Application::AddActions() for information about its use.
+/*!\struct ToolDesc
+Structure to use as button descriptors for tools.
+See gcp::Application::AddTools() for information about its use.
 */
 typedef struct
 {
 /*!
-The name of the icon.
+The tool name.
 */
 	char const *name;
 /*!
-The icon as in line bytes or NULL (when using a canvas instead of a bitmap).
+The tool tip.
 */
-	unsigned char const *data_24;
+	char const *tip;
 /*!
-	The 24*24 canvas used to display the icon.
+The tool bar number
 */
-	gccv::Canvas *canvas;
-} IconDesc;
+	unsigned bar;
+/*!
+The tool group inside the toolbar. This field helps merging toolbars with tools
+from different plugins.
+*/
+	unsigned group;
+/*!
+The name of the icon to add to the button.
+*/
+	char const *icon_name;
+/*!
+The widget to add to the tool button, if NULL the icon with %icon_name will
+be used. If both are NULL, the tool button will not be added.
+*/
+	GtkWidget *widget;
+} ToolDesc;
+
+// standard toolbars
+enum {
+	SelectionToolbar,
+	AtomToolbar,
+	BondToolbar,
+	RingToolbar,
+	ArrowToolbar,
+	MaxToolbar
+};
 
 class Target;
 class NewFileDlg;
@@ -257,51 +281,11 @@ Sets the zoom level for the active document window.
 */
 	void Zoom (double zoom);
 /*!
-@param entries an array of GtkRadioActionEntry structures.
-@param nb the number of entries.
-@param ui_description an xml like text describing the user interface.
-@param icons an array of IconDesc structures for the icons used by the buttons.
+@param tools an array with the new tools descriptions, last one having its name set to #NULL.
 
-Adds new buttons in the tools box. The code used in the selection plugin is:
-\code
-static gcp::IconDesc icon_descs[] = {
-	{"gcp_Selection", gcp_selection_24},
-	{"gcp_Eraser", gcp_eraser_24},
-	{NULL, NULL}
-};
-
-static GtkRadioActionEntry entries[] = {
-	{	"Select", "gcp_Selection", N_("Select"), NULL,
-		N_("Select one or more objects"),
-		0	},
-	{	"Erase", "gcp_Eraser", N_("Erase"), NULL,
-		N_("Eraser"),
-		0	}
-};
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='SelectToolbar'>"
-"	 <placeholder name='Select1'>"
-"      <toolitem action='Select'/>"
-"      <toolitem action='Erase'/>"
-"	 </placeholder>"
-"	 <placeholder name='Select2'/>"
-"	 <placeholder name='Select3'/>"
-"  </toolbar>"
-"</ui>";
-
-void gcpSelectionPlugin::Populate (gcp::Application* App)
-{
-	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
-	App->RegisterToolbar ("SelectToolbar", 0);
-	new gcpSelectionTool (App);
-	new gcpEraserTool (App);
-	App->ActivateTool ("Select", true);
-}
-\endcode
+Adds new tools, typically from a plugin.
 */
-	void AddActions (GtkRadioActionEntry const *entries, int nb, char const *ui_description, IconDesc const *icons);
+	void AddTools (ToolDesc const *tools);
 /*!
 @param name the name of the toolbar.
 @param index the rank of the toolbar in the toolbox.
@@ -311,11 +295,11 @@ gcp::Application::AddActions() for a case use.
 */
 	void RegisterToolbar (char const *name, int index);
 /*!
-@param current the GtkAction for the activated tool.
+@param new_tool_name the activated tool name.
 
 Call by the framework when the active tool changed.
 */
-	void OnToolChanged (GtkAction *current);
+	void OnToolChanged (char const *new_tool_name);
 /*!
 @param target the Target to add.
 
@@ -416,20 +400,16 @@ it is pure virtual.
 */
 	bool Have3DSupport () {return m_HaveGhemical | m_HaveGChem3D | m_HaveAvogadro;}
 /*!
-@param path the path associated to a tool
-@param canvas the canvas used as icon for the tool
-
-Associates a canvas to a tool for use as an icon for the tool button. Used to
-have scalable icons using the theme colors whenever possible. 
-*/
-	void AddCanvas (char const *path, gccv::Canvas *canvas) {m_ToolCanvases[path] = canvas;}
-/*!
 @param clipboard a clipboard.
 @param selection_data the available data
 
 Used as callback as gtk_clipboard_request_contents().
 */
 	void ReceiveTargets (GtkClipboard *clipboard, GtkSelectionData *selection_data);
+/*!
+@return the list of the registered tools descriptions.
+*/
+	std::list < ToolDesc const * > const &GetToolDescriptions () const {return m_ToolDescriptions;}
 
 protected:
 /*!
@@ -492,7 +472,7 @@ private:
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;
 	GdkCursor *m_Cursors[CursorMax];
-	std::map < std::string, gccv::Canvas * >m_ToolCanvases;
+	std::list < ToolDesc const * > m_ToolDescriptions;
 
 /*!\fn GetHaveGhemical
 @return true if ghemical is usable on startup.

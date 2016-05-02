@@ -66,8 +66,9 @@ The destructor.
 @param cr the cairo_t to which the line must be rendered.
 
 Sets the line style to \a cairo. cairo_restore must be called when done.
+@return true if the line is not transparent.
 */
-	void ApplyLine (cairo_t *cr) const;
+	bool ApplyLine (cairo_t *cr) const;
 /*!
 @param dashes the dashes lengths.
 @param num_dashes the dashes number inside the pattern.

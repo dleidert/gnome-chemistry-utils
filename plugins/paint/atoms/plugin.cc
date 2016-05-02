@@ -24,6 +24,9 @@
 
 #include "config.h"
 #include "plugin.h"
+#include <gccv/canvas.h>
+#include <gccv/circle.h>
+#include <gccv/leaf.h>
 #include <gcp/application.h>
 #include <gcp/molecule.h>
 #include "elementtool.h"
@@ -31,7 +34,6 @@
 #include "electrontool.h"
 #include "orbital.h"
 #include "orbitaltool.h"
-#include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
 
 gcpAtomsPlugin plugin;
@@ -49,59 +51,58 @@ gcpAtomsPlugin::~gcpAtomsPlugin()
 {
 }
 
-static gcp::IconDesc icon_descs[] = {
-	{"gcp_Element", gcp_element_24, NULL},
-	{"gcp_ChargePlus", gcp_chargep_24, NULL},
-	{"gcp_ChargeMinus", gcp_chargem_24, NULL},
-	{"gcp_ElectronPair", gcp_elecpair_24, NULL},
-	{"gcp_UnpairedElectron", gcp_unpairedelec_24, NULL},
-	{"gcp_Orbit", gcp_orbit_24, NULL},
-	{NULL, NULL, NULL},
-};
+static gcp::ToolDesc tools[] = {
+	{   "Element", N_("Add or modify an atom"),
+		gcp::AtomToolbar, 0, NULL, NULL},
+	{   "ChargePlus", N_("Increment the charge of an atom"),
+		gcp::AtomToolbar, 2, NULL, NULL},
+	{   "ChargeMinus", N_("Decrement the charge of an atom"),
+		gcp::AtomToolbar, 2, NULL, NULL},
+	{   "ElectronPair", N_("Add an electron pair to an atom"),
+		gcp::AtomToolbar, 2, NULL, NULL},
+	{   "UnpairedElectron", N_("Add an unpaired electron to an atom"),
+		gcp::AtomToolbar, 2, NULL, NULL},
+	{   "Orbital", N_("Add or modify an atomic orbital"),
+		gcp::AtomToolbar, 2, NULL, NULL},
 
-static GtkRadioActionEntry entries[] = {
-	{	"Element", "gcp_Element", N_("Atom"), NULL,
-		N_("Add or modify an atom"),
-		0	},
-	{	"ChargePlus", "gcp_ChargePlus", N_("Positive Charge"), NULL,
-		N_("Increment the charge of an atom"),
-		0	},
-	{	"ChargeMinus", "gcp_ChargeMinus", N_("Negative Charge"), NULL,
-		N_("Decrement the charge of an atom"),
-		0	},
-	{	"ElectronPair", "gcp_ElectronPair", N_("Electron Pair"), NULL,
-		N_("Add an electron pair to an atom"),
-		0	},
-	{	"UnpairedElectron", "gcp_UnpairedElectron", N_("Unpaired Electron"), NULL,
-		N_("Add an unpaired electron to an atom"),
-		0	},
-	{	"Orbital", "gcp_Orbit", N_("Orbital"), NULL,
-		N_("Add or modify an atomic orbital"),
-		0	},
+	{   NULL, NULL, 0, 0, NULL, NULL}
 };
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='AtomsToolbar'>"
-"	 <placeholder name='Atom1'>"
-"	   <toolitem action='Element'/>"
-"	 </placeholder>"
-"	 <placeholder name='Atom2'/>"
-"	 <placeholder name='Atom3'>"
-"	   <toolitem action='ChargePlus'/>"
-"	   <toolitem action='ChargeMinus'/>"
-"	   <toolitem action='ElectronPair'/>"
-"	   <toolitem action='UnpairedElectron'/>"
-"	   <toolitem action='Orbital'/>"
-"	 </placeholder>"
-"  </toolbar>"
-"</ui>";
 
 void gcpAtomsPlugin::Populate (gcp::Application* App)
 {
 	OrbitalType = App->AddType ("orbital", CreateOrbital);
-	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
-	App->RegisterToolbar ("AtomsToolbar", 1);
+	tools[0].widget = gtk_label_new ("C");
+	tools[1].widget = gtk_label_new (NULL);
+	gtk_label_set_markup (GTK_LABEL (tools[1].widget), "<span size=\"larger\">⊕</span>");
+	tools[2].widget = gtk_label_new (NULL);
+	gtk_label_set_markup (GTK_LABEL (tools[2].widget), "<span size=\"larger\">⊖</span>");
+	gccv::Canvas *canvas = new gccv::Canvas (NULL);
+	gccv::Circle *circle = new gccv::Circle (canvas, 12., 9., 1.);
+	circle->SetLineWidth (2.);
+	circle->SetAutoColor (true);
+	circle = new gccv::Circle (canvas, 12., 15., 1.);
+	circle->SetLineWidth (2.);
+	circle->SetAutoColor (true);
+	tools[3].widget = canvas->GetWidget ();
+	canvas = new gccv::Canvas (NULL);
+	circle = new gccv::Circle (canvas, 12., 12., 1.);
+	circle->SetLineWidth (2.);
+	circle->SetAutoColor (true);
+	tools[4].widget = canvas->GetWidget ();
+	canvas = new gccv::Canvas (NULL);
+	gccv::Leaf *leaf = new gccv::Leaf (canvas, 12., 12., 11.);
+	leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+	leaf->SetLineWidth (1.);
+	leaf->SetAutoColor (true);
+	leaf->SetFillColor (GO_COLOR_GREY (100));
+	leaf = new gccv::Leaf (canvas, 12., 12., 11.);
+	leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+	leaf->SetRotation (M_PI);
+	leaf->SetLineWidth (1.);
+	leaf->SetAutoColor (true);
+	leaf->SetFillColor (GO_COLOR_WHITE);
+	tools[5].widget = canvas->GetWidget ();
+	App->AddTools (tools);
 	new gcpElementTool (App);
 	new gcpChargeTool (App, "ChargePlus");
 	new gcpChargeTool (App, "ChargeMinus");

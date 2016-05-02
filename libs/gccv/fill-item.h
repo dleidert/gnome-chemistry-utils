@@ -58,6 +58,11 @@ The destructor.
 */
 	virtual ~FillItem ();
 
+/*!
+@return the fill color whether it is an automatic color or not.
+*/
+	GOColor GetEffectiveFillColor () const;
+
 /*!\fn SetFillColor(GOColor color)
 @param color the new fill color.
 
@@ -67,6 +72,16 @@ Sets the fill color for the item.
 @return the fill color for the item.
 */
 GCCV_ITEM_PROP (GOColor, FillColor)
+/*!\fn SetAutoFillColor(bool auto)
+@param auto whether to use a color from the theme.
+
+if \a auto is true, the color used to fill the shape whill be retrieved from
+the Gtk+ theme instead of using the FillColor member.
+*/
+/*!\fn bool GetAutoFillColor()
+@return the line color mode, true if automatic, false otherwise.
+*/
+GCCV_ITEM_PROP (bool, AutoFillColor)
 };
 
 }

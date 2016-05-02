@@ -392,55 +392,34 @@ static void on_rotate (GtkWidget *btn, gcp::Application* App)
 		tool->Rotate (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (btn)));
 }
 
-static GtkActionEntry entries[] = {
-	{ "HorizFlip", "gcp_Horiz", N_("Horizontal flip"), NULL,
-		N_("Flip the selection horizontally"), G_CALLBACK (on_flip) },
-	{ "VertFlip", "gcp_Vert", N_("Vertical flip"), NULL,
-		N_("Flip the selection vertically"), G_CALLBACK (on_flip) },
-};
-
-static GtkToggleActionEntry toggles[] = {
-	  { "Rotate", "gcp_Rotate", N_("_Rotate"), NULL,
-		  N_("Rotate the selection"), G_CALLBACK (on_rotate), false }
-};
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='Lasso'>"
-"    <toolitem action='HorizFlip'/>"
-"    <toolitem action='VertFlip'/>"
-"    <toolitem action='Rotate'/>"
-"  </toolbar>"
-"</ui>";
-
 GtkWidget *gcpLassoTool::GetPropertyPage ()
 {
 	GtkWidget *grid, *w;
-	GtkActionGroup *action_group;
-	GError *error;
+	GtkToolbar *tb;
+	GtkToolItem *ti;
 
 	grid = gtk_grid_new ();
 	g_object_set (G_OBJECT (grid), "orientation", GTK_ORIENTATION_VERTICAL, "border-width", 6, NULL);
-	action_group = gtk_action_group_new ("LassoToolActions");
-	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), m_pApp);
-	gtk_action_group_add_toggle_actions (action_group, toggles, G_N_ELEMENTS (toggles), m_pApp);
-
-	m_UIManager = gtk_ui_manager_new ();
-	if (!gtk_ui_manager_add_ui_from_string (m_UIManager, ui_description, -1, &error))
-	  {
-		g_message ("building property page failed: %s", error->message);
-		g_error_free (error);
-		gtk_widget_destroy (grid);
-		g_object_unref (m_UIManager);
-		m_UIManager = NULL;
-		return NULL;;
-	  }
-	gtk_ui_manager_insert_action_group (m_UIManager, action_group, 0);
-	w = gtk_ui_manager_get_widget (m_UIManager, "/Lasso");
-	gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
-	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);
+	w = gtk_toolbar_new ();
+	tb = GTK_TOOLBAR (w);
+	gtk_toolbar_set_style (tb, GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_show_arrow (tb, false);
 	gtk_container_add (GTK_CONTAINER (grid), w);
+	ti = gtk_tool_button_new ( gtk_image_new_from_icon_name ("object-flip-horizontal", GTK_ICON_SIZE_LARGE_TOOLBAR), NULL);
+	gtk_tool_item_set_tooltip_text (ti, _("Flip the selection horizontally"));
+	gtk_widget_set_name (GTK_WIDGET (ti), "HorizFlip");
+	gtk_toolbar_insert (tb, ti, -1);
+	g_signal_connect (G_OBJECT (ti), "clicked", G_CALLBACK (on_flip), m_pApp);
+	ti = gtk_tool_button_new ( gtk_image_new_from_icon_name ("object-flip-vertical", GTK_ICON_SIZE_LARGE_TOOLBAR), NULL);
+	gtk_tool_item_set_tooltip_text (ti, _("Flip the selection vertically"));
+	gtk_widget_set_name (GTK_WIDGET (ti), "VertFlip");
+	gtk_toolbar_insert (tb, ti, -1);
+	g_signal_connect (G_OBJECT (ti), "clicked", G_CALLBACK (on_flip), m_pApp);
+	ti = gtk_toggle_tool_button_new ();
+	gtk_tool_button_set_icon_widget (GTK_TOOL_BUTTON (ti), gtk_image_new_from_icon_name ("object-rotate-right", GTK_ICON_SIZE_LARGE_TOOLBAR));
+	gtk_tool_item_set_tooltip_text (ti, _("Rotate the selection"));
+	gtk_toolbar_insert (tb, ti, -1);
+	g_signal_connect (G_OBJECT (ti), "toggled", G_CALLBACK (on_rotate), m_pApp);
 	gtk_widget_show_all (grid);
 	return grid;
 }

@@ -121,6 +121,19 @@ AC_SUBST([KDEMIMEDIR])
 AC_PATH_PROG([DOXYGEN], [doxygen], [no])
 AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
 
+lasem=
+for ver in 0.6 0.4 ; do
+  if test "x$lasem" = x; then
+    if pkg-config --exists lasem-$ver; then
+      lasem=lasem-$ver
+    fi
+  fi
+done
+if test "x$lasem" = x; then
+  # Not important.  Things will fail below.
+  lasem=lasem-0.4
+fi
+
 libgoffice=
 dnl Only 0.10.0, or later will work
 for ver in 0.10 ; do
@@ -141,8 +154,9 @@ PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.26.0])
 PKG_CHECK_MODULES(gdk_pixbuf, [gdk-pixbuf-2.0 >= 2.22.0])
 PKG_CHECK_MODULES(gtk, [gtk+-3.0 >= 3.0.0])
 PKG_CHECK_MODULES(xml, [libxml-2.0 >= 2.4.16])
+PKG_CHECK_MODULES(lasem, $lasem >= 0.4.1,)
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
-PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.10.0])
+PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.10.12])
 PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
 PKG_CHECK_MODULES(bodr, [bodr >= 5])
 PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.3.0])
@@ -167,6 +181,12 @@ else
 DIRECT_RENDERING="false"
 fi
 AC_SUBST([DIRECT_RENDERING])
+
+dnl check for lsm_itex_to_mathml
+saved_LIBS=$LIBS
+LIBS="$LIBS $lasem_LIBS"
+AC_CHECK_FUNCS(lsm_itex_to_mathml)
+LIBS=$saved_LIBS
 
 dnl GSettings related stuff
 GLIB_GSETTINGS

@@ -27,14 +27,15 @@
 #include "chaintool.h"
 #include "delocalizedtool.h"
 #include "newman.h"
-#include "gcp-stock-pixbufs.h"
 #include "plugin.h"
 #include <gcp/application.h>
 #include <gcp/settings.h>
 #include <gccv/canvas.h>
 #include <gccv/circle.h>
+#include <gccv/hash.h>
 #include <gccv/line.h>
 #include <gccv/poly-line.h>
+#include <gccv/squiggle.h>
 #include <glib/gi18n-lib.h>
 
 gcpBondsPlugin plugin;
@@ -47,59 +48,27 @@ gcpBondsPlugin::~gcpBondsPlugin ()
 {
 }
 
-static gcp::IconDesc icon_descs[] = {
-	{"gcp_Bond", NULL, NULL},
-	{"gcp_Chain", NULL, NULL},
-	{"gcp_UpBond", gcp_upbond_24, NULL},
-	{"gcp_DownBond", gcp_downbond_24, NULL},
-	{"gcp_iDownBond", gcp_idownbond_24, NULL},
-	{"gcp_XBond", gcp_xbond_24, NULL},
-	{"gcp_ForeBond", gcp_forebond_24, NULL},
-	{"gcp_DelocalizedBond", gcp_delocalizedbond_24, NULL},
-	{"gcp_Newman", NULL, NULL},
-	{NULL, NULL, NULL}
+static gcp::ToolDesc tools[] = {
+	{   "Bond", N_("Add a bond or change the multiplicity of an existing one"),
+		gcp::BondToolbar, 0, NULL, NULL},
+	{   "Chain", N_("Add a chain"),
+		gcp::BondToolbar, 0, NULL, NULL},
+	{   "UpBond", N_("Add a wedge bond"),
+		gcp::BondToolbar, 0, NULL, NULL},
+	{   "DownBond", N_("Add a hash bond"),
+		gcp::BondToolbar, 0, NULL, NULL},
+	{   "SquiggleBond", N_("Add a squiggle bond"),
+		gcp::BondToolbar, 0, NULL, NULL},
+	{   "ForeBond", N_("Add a fore bond"),
+		gcp::BondToolbar, 0, NULL, NULL},
+	{   "DelocalizedBond", N_("Add a delocalized bonds system"),
+		gcp::BondToolbar, 0, NULL, NULL},
+	{   "WeakBond", N_("Add a weak bond"),
+		gcp::BondToolbar, 0, NULL, NULL},
+	{   "Newman", N_("Add a bond in Newman projection"),
+		gcp::BondToolbar, 0, NULL, NULL},
+	{   NULL, NULL, 0, 0, NULL, NULL}
 };
-
-static GtkRadioActionEntry entries[] = {
-	{	"Bond", "gcp_Bond", N_("Bond"), NULL,
-		N_("Add a bond or change the multiplicity of an existing one"),
-		0	},
-	{	"Chain", "gcp_Chain", N_("Chain"), NULL,
-		N_("Add a chain"),
-		0	},
-	{	"UpBond", "gcp_UpBond", N_("Wedge bond tool"), NULL,
-		N_("Add a wedge bond"),
-		0	},
-	{	"DownBond", "gcp_DownBond", N_("Hash bond tool"), NULL,
-		N_("Add a hash bond"),
-		0	},
-	{	"SquiggleBond", "gcp_XBond", N_("Squiggle bond tool"), NULL,
-		N_("Add a squiggle bond"),
-		0	},
-	{	"ForeBond", "gcp_ForeBond", N_("Fore bond tool"), NULL,
-		N_("Add a fore bond"),
-		0	},
-	{	"DelocalizedBond", "gcp_DelocalizedBond", N_("Delocalized bond tool"), NULL,
-		N_("Add a delocalized bonds system"),
-		0	},
-	{	"Newman", "gcp_Newman", N_("Newman projection"), NULL,
-		N_("Add a bond in Newman projection"),
-		0	}
-};
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='BondsToolbar'>"
-"    <toolitem action='Bond'/>"
-"    <toolitem action='Chain'/>"
-"    <toolitem action='UpBond'/>"
-"    <toolitem action='DownBond'/>"
-"    <toolitem action='SquiggleBond'/>"
-"    <toolitem action='ForeBond'/>"
-//"    <toolitem action='DelocalizedBond'/>"
-"    <toolitem action='Newman'/>"
-"  </toolbar>"
-"</ui>";
 
 void gcpBondsPlugin::Populate (gcp::Application* App)
 {
@@ -108,10 +77,7 @@ void gcpBondsPlugin::Populate (gcp::Application* App)
 	gccv::Line *line = new gccv::Line (canvas, 3., 21., 21., 3.);
 	line->SetLineWidth (2.);
 	line->SetAutoColor (true);
-	icon_descs[0].canvas = canvas;
-	App->AddCanvas ("ui/BondsToolbar/Bond", canvas);
-	if (gcp::InvertWedgeHashes)
-		entries[3].stock_id = "gcp_iDownBond";
+	tools[0].widget = canvas->GetWidget ();
 	/* Build a canvas for the chain tool */
 	std::list < gccv::Point > Points;
 	gccv::Point point;
@@ -134,8 +100,43 @@ void gcpBondsPlugin::Populate (gcp::Application* App)
 	gccv::PolyLine *pl = new gccv::PolyLine (canvas, Points);
 	pl->SetLineWidth (2.);
 	pl->SetAutoColor (true);
-	icon_descs[1].canvas = canvas;
-	App->AddCanvas ("ui/BondsToolbar/Chain", canvas);
+	tools[1].widget = canvas->GetWidget ();
+	/* Build a canvas for the wedge bond tool */
+	canvas = new gccv::Canvas (NULL);
+	gccv::Wedge *wedge = new gccv::Wedge (canvas, 2., 22., 19., 5., 8.);
+	wedge->SetAutoColor (true);
+	tools[2].widget = canvas->GetWidget ();
+	/* Build a canvas for the hash bond tool */
+	canvas = new gccv::Canvas (NULL);
+	gccv::Hash *hash = (gcp::InvertWedgeHashes)?
+		new gccv::Hash (canvas, 2., 22., 19., 5., 8.):
+		new gccv::Hash (canvas, 19., 5., 2., 22., 8.);
+	hash->SetAutoColor (true);
+	hash->SetLineWidth (2.);
+	hash->SetLineDist (2.);
+	tools[3].widget = canvas->GetWidget ();
+	/* Build a canvas for the squiggle bond tool */
+	canvas = new gccv::Canvas (NULL);
+	gccv::Squiggle *squiggle = new gccv::Squiggle (canvas, 2., 22., 22., 2.);
+	squiggle->SetLineWidth (2.);
+	squiggle->SetAutoColor (true);
+	squiggle->SetWidth (6.);
+	squiggle->SetStep (3.);
+	tools[4].widget = canvas->GetWidget ();
+	/* Build a canvas for the fore bond tool */
+	canvas = new gccv::Canvas (NULL);
+	line = new gccv::Line (canvas, 3., 21., 21., 3.);
+	line->SetLineWidth (6.);
+	line->SetAutoColor (true);
+	tools[5].widget = canvas->GetWidget ();
+	/* Build a canvas for the weak bond tool */
+	canvas = new gccv::Canvas (NULL);
+	line = new gccv::Line (canvas, 3., 21., 21., 3.);
+	line->SetLineWidth (1.);
+	double dashes[] = {3., 2.};
+	line->SetDashes (dashes, 2, 0.);
+	line->SetAutoColor (true);
+	tools[7].widget = canvas->GetWidget ();
 	/* Build a canvas for the Newton projection tool */
 	canvas = new gccv::Canvas (NULL);
 	gccv::Circle *circle = new gccv::Circle (canvas, 11.5, 11.5, 5.);
@@ -153,14 +154,12 @@ void gcpBondsPlugin::Populate (gcp::Application* App)
 	line->SetAutoColor (true);
 	line = new gccv::Line (canvas, 15.8, 9., 21.5, 5.7);
 	line->SetAutoColor (true);
-	icon_descs[8].canvas = canvas;
-	App->AddCanvas ("ui/BondsToolbar/Newman", canvas);
-	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
-	App->RegisterToolbar ("BondsToolbar", 2);
+	tools[8].widget = canvas->GetWidget ();
+	App->AddTools (tools);
 	new gcpBondTool (App);
 	new gcpChainTool (App);
 	new gcpUpBondTool (App);
-	new gcpDownBondTool (App);
+	new gcpDownBondTool (App, hash);
 	new gcpForeBondTool (App);
 	new gcpSquiggleBondTool (App);
 	new gcpDelocalizedTool (App);

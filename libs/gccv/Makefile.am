@@ -3,12 +3,14 @@ MAINTAINERCLEANFILES = Makefile.in
 lib_LTLIBRARIES = libgccv-@GCU_API_VER@.la
 
 noinst_HEADERS = \
+	arc.h  \
 	arrow.h		\
 	bezier-arrow.h  \
 	brackets.h	\
 	canvas.h	\
 	circle.h	\
 	client.h	\
+	equation.h	\
 	fill-item.h	\
 	group.h		\
 	hash.h		\
@@ -17,6 +19,7 @@ noinst_HEADERS = \
 	leaf.h	\
 	line.h	\
 	line-item.h	\
+	path.h	 \
 	polygon.h	\
 	poly-line.h	\
 	rectangle.h	\
@@ -28,12 +31,14 @@ noinst_HEADERS = \
 	wedge.h
 
 libgccv_@GCU_API_VER@_la_SOURCES =	\
+	arc.cc  \
 	arrow.cc	\
 	bezier-arrow.cc  \
 	brackets.cc	\
 	canvas.cc	\
 	circle.cc	\
 	client.cc	\
+	equation.cc	\
 	fill-item.cc	\
 	group.cc	\
 	hash.cc		\
@@ -42,6 +47,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	leaf.cc	\
 	line.cc	\
 	line-item.cc	\
+	path.cc	 \
 	polygon.cc	\
 	poly-line.cc	\
 	rectangle.cc	\
@@ -57,7 +63,7 @@ libgccv_@GCU_API_VER@_la_LIBADD = \
 		$(cairo_LIBS) \
 		$(gtk_LIBS) \
 		$(goffice_LIBS)
-INCLUDES = \
+AM_CPPFLAGS = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)

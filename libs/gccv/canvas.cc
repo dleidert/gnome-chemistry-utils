@@ -100,6 +100,7 @@ bool CanvasPrivate::OnDraw (Canvas *canvas, cairo_t *cr)
 	GdkRGBA rgba;
 	gtk_style_context_get_color (ctxt, state, &rgba);
 	canvas->m_Color = GO_COLOR_FROM_GDK_RGBA (rgba);
+	gtk_style_context_get (ctxt, state, GTK_STYLE_PROPERTY_FONT, &canvas->m_Font, NULL);
 	if (ev && ev->type == GDK_EXPOSE) {
 		double clip_x0, clip_y0, clip_x1, clip_y1;
 		cairo_clip_extents (cr, &clip_x0, &clip_y0, &clip_x1, &clip_y1);
@@ -124,6 +125,8 @@ bool CanvasPrivate::OnDraw (Canvas *canvas, cairo_t *cr)
 		canvas->m_Root->Draw (cr, x0, y0, x1, y1, true);
 	}
 	cairo_restore (cr);
+	pango_font_description_free (canvas->m_Font);
+	canvas->m_Font = NULL;
 	return true;
 }
 
@@ -181,6 +184,7 @@ Canvas::Canvas (Client *client):
 	m_Zoom (1.),
 	m_Root (NULL),
 	m_Gap (0.),
+	m_Font (NULL),
 	m_BackgroundColor (0)
 {
 	m_Root = new Group (this);

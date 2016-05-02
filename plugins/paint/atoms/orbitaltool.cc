@@ -229,6 +229,7 @@ GtkWidget *gcpOrbitalTool::GetPropertyPage ()
 	g_signal_connect_swapped (G_OBJECT (w), "toggled", G_CALLBACK (TypeChanged), this);
 	GtkWidget *res = builder->GetRefdWidget ("orbital");
 	m_Preview = new gccv::Canvas (NULL);
+	m_Preview->SetBackgroundColor (GO_COLOR_FROM_RGBA (1, 1, 1, 0)); // transparent but not 0.
 	w = m_Preview->GetWidget ();
 	gtk_widget_show (w);
 	gtk_grid_attach (GTK_GRID (res), w, 1, 3, 2, 5);
