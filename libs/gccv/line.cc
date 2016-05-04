@@ -91,8 +91,11 @@ void Line::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 	GOColor color = GetEffectiveLineColor ();
 	if (op == CAIRO_OPERATOR_CLEAR || op == CAIRO_OPERATOR_SOURCE) {
 		cairo_content_t content = cairo_surface_get_content (cairo_get_target (cr));
-		if (!(content & CAIRO_CONTENT_ALPHA))
+		if (!(content & CAIRO_CONTENT_ALPHA)) {
 			color = GetCanvas ()->GetBackgroundColor ();
+			if (color == 0) // FIXME: this is a hack, may be the canvas should have a fallback or access to a GtkStyleContext?
+				color = GO_COLOR_WHITE;
+		}
 	}
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	cairo_stroke (cr);
