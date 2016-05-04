@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2016-05-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/line.cc: fix crossing bonds rendering.
+
 2016-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: update goffice required version.
 	* libs/gccv/canvas.h: cleaned duplicated docs.
