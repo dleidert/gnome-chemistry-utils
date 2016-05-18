@@ -10,7 +10,6 @@ noinst_HEADERS = \
 	canvas.h	\
 	circle.h	\
 	client.h	\
-	equation.h	\
 	fill-item.h	\
 	group.h		\
 	hash.h		\
@@ -38,7 +37,6 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	canvas.cc	\
 	circle.cc	\
 	client.cc	\
-	equation.cc	\
 	fill-item.cc	\
 	group.cc	\
 	hash.cc		\
@@ -67,3 +65,15 @@ AM_CPPFLAGS = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)
+
+
+if GCU_WITH_LASEM
+noinst_HEADERS += \
+	equation.h
+libgccv_@GCU_API_VER@_la_SOURCES += \
+	equation.cc
+libgccv_@GCU_API_VER@_la_LIBADD += \
+	$(lasem_LIBS)
+AM_CPPFLAGS += \
+	$(lasem_CFLAGS)
+endif

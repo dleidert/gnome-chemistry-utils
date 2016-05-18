@@ -22,17 +22,26 @@ text_la_LIBADD = \
 
 text_la_SOURCES = \
 	plugin.cc \
-	equation.cc \
 	fragmenttool.cc \
-	mathtool.cc \
 	texttool.cc
 
 noinst_HEADERS = \
 	plugin.h \
-	equation.h \
 	fragmenttool.h \
-	mathtool.h \
 	texttool.h
+
+if GCU_WITH_LASEM
+text_la_SOURCES += \
+	equation.cc \
+	mathtool.cc
+noinst_HEADERS += \
+	equation.h \
+	mathtool.h
+AM_CPPFLAGS += \
+	$(lasem_CFLAGS)
+text_la_LIBADD += \
+	$(lasem_LIBS)
+endif
 
 uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/text
 dist_ui_DATA = fontsel.ui eq-props.ui

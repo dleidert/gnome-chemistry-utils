@@ -1,6 +1,13 @@
+Version 0.14.13:
+	GChemPaint:
+		* Optional use of Lasem to display maths.
+		* Fix rendering with gtk+ >= 3.20.
+
 Version 0.14.12:
 	GChemPaint:
 		* Enhanced Chemdraw formats support. [sr #108952]
+		* Optional use of Lasem to display maths.
+		* Fix rendering with gtk+ >= 3.20.
 	GChemCalc:
 		* Don't crash on "Ac" string. [#47366]
 

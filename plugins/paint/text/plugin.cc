@@ -25,20 +25,26 @@
 #include "config.h"
 #include "plugin.h"
 #include <gccv/canvas.h>
-#include <gccv/equation.h>
+#if GCU_WITH_LASEM
+#   include <gccv/equation.h>
+#endif
 #include <gcp/application.h>
 #include <gcp/text.h>
 #include <gcp/fragment.h>
 #include "texttool.h"
 #include "mathtool.h"
 #include "fragmenttool.h"
-#include "equation.h"
+#if GCU_WITH_LASEM
+#   include "equation.h"
+#endif
 #include <glib/gi18n-lib.h>
 
+#if GCU_WITH_LASEM
 static gcu::Object *CreateEquation ()
 {
 	return new gcpEquation (0., 0.);
 }
+#endif
 
 gcpTextPlugin plugin;
 
@@ -55,10 +61,12 @@ static gcp::ToolDesc tools[] = {
 		gcp::SelectionToolbar, 2, NULL, NULL},
 	{   "Text", N_("Add or modify a text"),
 		gcp::SelectionToolbar, 2, NULL, NULL},
-	{   "Equation", N_("Add or modify an equation"),
-		gcp::SelectionToolbar, 2, NULL, NULL},
 	{   "Fragment", N_("Add or modify a group of atoms"),
 		gcp::AtomToolbar, 1, NULL, NULL},
+#if GCU_WITH_LASEM
+	{   "Equation", N_("Add or modify an equation"),
+		gcp::SelectionToolbar, 2, NULL, NULL},
+#endif
 	{   NULL, NULL, 0, 0, NULL, NULL}
 };
 
@@ -66,6 +74,10 @@ void gcpTextPlugin::Populate (gcp::Application* App)
 {
 	tools[1].widget = gtk_label_new (NULL);
 	gtk_label_set_markup (GTK_LABEL (tools[1].widget), "<span face=\"serif\" size=\"larger\">T</span>");
+	tools[2].widget = gtk_label_new (NULL);
+	gtk_label_set_markup (GTK_LABEL (tools[2].widget), "CH<sub><span size=\"smaller\">2</span></sub>");
+	g_object_set (G_OBJECT (tools[2].widget), "margin-top", 3, NULL);
+#if GCU_WITH_LASEM
 	EquationType = App->AddType ("equation", CreateEquation);
 	App->AddRule ("reaction-prop", gcu::RuleMayContain, "equation");
 	gccv::Canvas *canvas = new gccv::Canvas (NULL);
@@ -87,12 +99,12 @@ void gcpTextPlugin::Populate (gcp::Application* App)
 	g_object_set_data_full (G_OBJECT (canvas->GetWidget ()), "math", math, g_object_unref);
 	eq->SetLineColor (0);
 	eq->SetFillColor (0);
-	tools[2].widget = canvas->GetWidget ();
-	tools[3].widget = gtk_label_new (NULL);
-	gtk_label_set_markup (GTK_LABEL (tools[3].widget), "CH<sub><span size=\"smaller\">2</span></sub>");
-	g_object_set (G_OBJECT (tools[2].widget), "margin-top", 3, NULL);
+	tools[3].widget = canvas->GetWidget ();
+#endif
 	App->AddTools (tools);
 	new gcpTextTool (App);
+#if GCU_WITH_LASEM
 	new gcpMathTool (App);
+#endif
 	new gcpFragmentTool (App);
 }

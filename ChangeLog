@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2016-05-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: make lasem use optional.
+	* libs/gccv/Makefile.am: ditto.
+	* plugins/paint/text/Makefile.am: ditto.
+	* plugins/paint/text/plugin.cc: ditto.
+
 2016-05-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/line.cc: fix crossing bonds rendering.
 

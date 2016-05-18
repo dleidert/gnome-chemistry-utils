@@ -120,7 +120,11 @@ AC_SUBST([KDEMIMEDIR])
 
 AC_PATH_PROG([DOXYGEN], [doxygen], [no])
 AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
+dnl ***********************
+dnl Should we use lasem ?
+dnl ***********************
 
+gcu_with_lasem=false
 lasem=
 for ver in 0.6 0.4 ; do
   if test "x$lasem" = x; then
@@ -133,6 +137,36 @@ if test "x$lasem" = x; then
   # Not important.  Things will fail below.
   lasem=lasem-0.4
 fi
+AC_ARG_WITH(lasem,
+	AS_HELP_STRING([--with-lasem[=@<:@no/auto/yes@:>@]],
+                         [Build with lasem use (default=auto)]),
+	,[with_lasem=auto])
+
+AS_CASE([$with_lasem],
+	[no],[found_lasem="disabled by request"],
+	[auto], [
+	PKG_CHECK_MODULES(lasem, $lasem >= 0.4.1,
+	[found_lasem="yes";gcu_with_lasem=true], [found_lasem="no, missing or too old lasem library"])
+	],
+	[yes],[found_lasem="yes";
+	PKG_CHECK_MODULES(lasem, $lasem >= 0.4.1);
+	gcu_with_lasem=true
+	],[AC_MSG_ERROR([invalid argument passed to --with-lasem, should be one of @<:@no/auto/yes@:>@])])
+if test "x$gcu_with_lasem" = "xtrue" ; then
+	AC_DEFINE(GCU_WITH_LASEM, 1, [Define if Lasem is used])
+	EXTRA_DEPS="$EXTRA_DEPS $lasem"
+dnl check for lsm_itex_to_mathml
+	saved_CFLAGS=$CFLAGS
+	saved_LIBS=$LIBS
+	CFLAGS="$CFLAGS $lasem_CFLAGS"
+	LIBS="$LIBS $lasem_LIBS"
+	AC_CHECK_FUNCS(lsm_itex_to_mathml)
+	CFLAGS=$saved_CFLAGS
+	LIBS=$saved_LIBS
+fi
+
+AM_CONDITIONAL([GCU_WITH_LASEM], [test "x$gcu_with_lasem" = "xtrue"])
+
 
 libgoffice=
 dnl Only 0.10.0, or later will work
@@ -154,7 +188,6 @@ PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.26.0])
 PKG_CHECK_MODULES(gdk_pixbuf, [gdk-pixbuf-2.0 >= 2.22.0])
 PKG_CHECK_MODULES(gtk, [gtk+-3.0 >= 3.0.0])
 PKG_CHECK_MODULES(xml, [libxml-2.0 >= 2.4.16])
-PKG_CHECK_MODULES(lasem, $lasem >= 0.4.1,)
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
 PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.10.12])
 PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
