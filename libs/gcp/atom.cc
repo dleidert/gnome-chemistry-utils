@@ -1417,7 +1417,7 @@ void Atom::AddItem ()
 		char* markup = NULL;
 		char const *glyph = (charge > 0)? "\xE2\x8a\x95": "\xE2\x8a\x96";
 		if (abs (m_Charge) > 1)
-			markup = g_strdup_printf ("%d%s", abs (m_Charge), glyph);
+			markup = g_strdup_printf ("%d%s", static_cast < int > (abs (m_Charge)), glyph);
 		else
 			markup = g_strdup (glyph);
 		gccv::Text *text = new gccv::Text (group, x, y, this);

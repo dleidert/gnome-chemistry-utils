@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2016-06-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: fix change of the abs() function  signature with
+	recent g++.
+
 2016-05-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: make lasem use optional.
 	* libs/gccv/Makefile.am: ditto.
