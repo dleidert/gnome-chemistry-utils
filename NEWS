@@ -6,6 +6,7 @@ Version 0.15.2
 		* Fix various runtime errors.
 		* Fix embedding of a whole molecule inside brackets. [#47224]
 		* Enhanced Chemdraw CDX format support.
+		* Fix crash with atom charges larger than 1.
 	GChemCalc:
 		* Don't crash on "Ac" string. [#47366]
 	GChemTable:
