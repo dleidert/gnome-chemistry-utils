@@ -713,11 +713,16 @@ void Document::RemoveBond (Bond* pBond)
 	pAtom1 = (Atom*) pBond->GetAtom (1);
 	Molecule *pMol = (Molecule*) pBond->GetMolecule ();
 	char id[16];
-	pMol->Lock (true);
+	if (pMol != NULL)
+		pMol->Lock (true);
 	pAtom0->RemoveBond (pBond);
 	m_pView->Update (pAtom0);
 	pAtom1->RemoveBond (pBond);
 	m_pView->Update (pAtom1);
+	if (pMol == NULL) {
+		delete pBond;
+		return;
+	}
 	pMol->Lock (false);
 	if (pBond->IsCyclic ()) {
 		pBond->RemoveAllCycles ();
