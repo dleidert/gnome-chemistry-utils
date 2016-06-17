@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2016-06-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: fix crash when deleting a bond outside a molecule.
+	[#48256]
+
 2016-06-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: fix change of the abs() function  signature with
 	recent g++.
