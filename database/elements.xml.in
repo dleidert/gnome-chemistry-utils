@@ -561,8 +561,8 @@
 	<color red="0.95" green="0.00" blue="0.12"/>
 </element>
 
-<element Z="113" symbol="Uut" max_bonds="6">
-	<_name>Ununtrium</_name>
+<element Z="113" symbol="Nh" max_bonds="6">
+	<_name>Nihonium</_name>
 	<color red="0.96" green="0.00" blue="0.10"/>
 </element>
 
@@ -571,8 +571,8 @@
 	<color red="0.97" green="0.00" blue="0.10"/>
 </element>
 
-<element Z="115" symbol="Uup" max_bonds="6">
-	<_name>Ununpentium</_name>
+<element Z="115" symbol="Mc" max_bonds="6">
+	<_name>Moscovium</_name>
 	<color red="0.98" green="0.00" blue="0.10"/>
 </element>
 
@@ -581,13 +581,13 @@
 	<color red="0.99" green="0.00" blue="0.10"/>
 </element>
 
-<element Z="117" symbol="Uus" max_bonds="6">
-	<_name>Ununseptium</_name>
+<element Z="117" symbol="Ts" max_bonds="6">
+	<_name>Tennessine</_name>
 	<color red="0.995" green="0.00" blue="0.10"/>
 </element>
 
-<element Z="118" symbol="Uuo" max_bonds="6">
-	<_name>Ununoctium</_name>
+<element Z="118" symbol="Og" max_bonds="6">
+	<_name>Oganesson</_name>
 	<color red="1.00" green="0.00" blue="0.10"/>
 </element>
 

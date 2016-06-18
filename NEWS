@@ -4,6 +4,8 @@ Version 0.14.13:
 		* Fix rendering with gtk+ >= 3.20.
 		* Fix crash with atom charges larger than 1.
 		* Fix crash when deleting a bond outside a molecule. [#48256]
+	Databases:
+		* Update names for elements 113, 115, 177 and 118.
 
 Version 0.14.12:
 	GChemPaint:
