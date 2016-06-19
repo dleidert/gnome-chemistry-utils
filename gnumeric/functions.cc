@@ -225,3 +225,4 @@ go_plugin_init (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 }
 
 }
+
