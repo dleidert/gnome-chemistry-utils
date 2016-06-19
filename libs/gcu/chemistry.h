@@ -206,7 +206,7 @@ gcu_element_get_Z:
 \param symbol: the symbol of the element (e.g. "C" ot "Pt").
 \return the atomic number of the element.
 */
-int gcu_element_get_Z (char* symbol);
+int gcu_element_get_Z (char const *symbol);
 /*!
 \param radius: a pointer to a GcuAtomicRadius structure.
 
@@ -267,6 +267,12 @@ GcuDimensionalValue const *gcu_element_get_electron_affinity (int Z, int N);
 \return the atomic weight as a string without units which needs to be freed with a g_free() call.
 */
 char *gcu_element_get_weight_as_string (int Z);
+/*!
+\param Z: the atomic number.
+
+\return the atomic weight.
+*/
+double gcu_element_get_weight (int Z);
 /*!
 \param Z: the atomic number.
 

@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2016-06-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gnumeric/functions.cc: backported new functions from trunk.
+	* gnumeric/plugin.xml.in.in: ditto.
+	* libs/gcu/chemistry.cc: ditto.
+	* libs/gcu/chemistry.h: ditto.
+
 2016-06-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elements.xml.in: update names for elements 113, 115, 177 and 118.
 

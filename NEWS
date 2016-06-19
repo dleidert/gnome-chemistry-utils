@@ -4,6 +4,8 @@ Version 0.14.13:
 		* Fix rendering with gtk+ >= 3.20.
 		* Fix crash with atom charges larger than 1.
 		* Fix crash when deleting a bond outside a molecule. [#48256]
+	Gnumeric plugin:
+		* Add monoisotopicmass function in gnumeric and more.
 	Databases:
 		* Update names for elements 113, 115, 177 and 118.
 

@@ -12,7 +12,11 @@
 		<service type="function_group" id="Chemistry">
 			<_category>Chemistry</_category>
 			<functions textdomain="gchemutils-@GCU_API_VER@">
-            	<function name="molarmass"/>
+            			<function name="molarmass"/>
+            			<function name="monoisotopicmass"/>
+            			<function name="chemcomposition"/>
+            			<function name="elementnumber"/>
+            			<function name="elementsymbol"/>
 			</functions>
 		</service>
 	</services> 
