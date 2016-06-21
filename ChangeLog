@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2016-06-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/mathtool.h: add a help tag.
+	* docs/help/paint/C: updated user documentation.
+
 2016-06-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gnumeric/functions.cc: backported new functions from trunk.
 	* gnumeric/plugin.xml.in.in: ditto.

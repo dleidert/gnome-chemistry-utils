@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.5//EN"
                "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.14.0">
-  <!ENTITY manrevision "0.14.0">
-  <!ENTITY date "September 2012">
+  <!ENTITY appversion "0.14.13">
+  <!ENTITY manrevision "0.14.1">
+  <!ENTITY date "May 2016">
   <!ENTITY app "GChemPaint">
 ]>
 <!-- 
@@ -22,7 +22,7 @@
   <bookinfo> 
 	 <title>&app; Manual V&manrevision;</title>
 	 <copyright> 
-       <year>2005-2010</year>
+       <year>2005-2016</year>
        <holder>Jean Br&#233;fort</holder>
      </copyright>
 
@@ -71,6 +71,15 @@
    		<revision> 
 		  <revnumber>&app; Manual V&manrevision;</revnumber>
 		  <date>&date;</date> 
+		  <revdescription> 
+			 <para role="author">Jean Br&#233;fort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+   		<revision> 
+		  <revnumber>&app; Manual V0.14.0</revnumber>
+		  <date>September 2012</date> 
 		  <revdescription> 
 			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
@@ -2863,6 +2872,52 @@
 			 </listitem>
 		  </varlistentry>
 		</variablelist> 
+	</sect1>
+<!-- ============= Add or edit equations ================ -->
+	<sect1 id="gchempaint-equation">
+		<title>To Add or Edit a Mathematical Expressionn</title>
+		<para>To add or edit a mathematical expression, use this tool:</para>
+		<figure id="gchempaint-equation-tool"> 
+		  <title>Equation Tool</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the Equation button.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/equation.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>To add a methematical equation, just click where you want to get it.
+		A dialog box pops up where you can type the equation using <ulink type="http"
+		url="https://golem.ph.utexas.edu/~distler/blog/itex2MMLcommands.html">ITeX commands</ulink>.
+		 </para>
+		<figure id="gchempaint-equation-dialog"> 
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the maths editor.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/equation-props.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>
+		The equation will show up while you type the equation.
+		</para>
+		<figure id="gchempaint-equation-sample"> 
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the maths inside &app;.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/einstein.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
 	</sect1>
 
  </chapter>

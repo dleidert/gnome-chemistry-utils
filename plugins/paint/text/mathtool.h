@@ -34,6 +34,7 @@ public:
 	virtual ~gcpMathTool ();
 
 	bool OnClicked ();
+	char const *GetHelpTag () {return "equation";}
 };
 
 #endif	// GCHEMPAINT_MATH_TOOL_H

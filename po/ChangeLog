@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
-2016-02-29  Jean Brefort  <jean.brefort@normalesup.org>
+2016-06-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: updated files list.
+	* fr.po: updated french translation.
+
+2016-02-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* fr.po: updated French translation.
 
 2016-02-08  Jean Bréfort  <jean.brefort@normalesup.org>

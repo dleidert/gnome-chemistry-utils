@@ -131,6 +131,8 @@ plugins/paint/selection/selectiontool.cc
 plugins/paint/templates/plugin.cc
 [type: gettext/glade]plugins/paint/templates/templates.ui
 plugins/paint/templates/templatetool.cc
+[type: gettext/glade]plugins/paint/text/eq-props.ui
+plugins/paint/text/equation.cc
 [type: gettext/glade]plugins/paint/text/fontsel.ui
 plugins/paint/text/fragmenttool.cc
 plugins/paint/text/plugin.cc
