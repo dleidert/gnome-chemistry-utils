@@ -527,11 +527,12 @@ char const *Application::MimeToBabelType (char const *mime_type)
 	return (it == m_BabelTypes.end ())? mime_type: (*it).second.c_str ();
 }
 
-
+#define MAX_ATTEMPTS 10
 int Application::OpenBabelSocket ()
 {
 	struct stat statbuf;
 	static std::string socket_path = "/tmp/babelsocket-";
+	unsigned n = 0;
 	if (socket_path.length () == 17)
 		socket_path += getenv ("USER");
 	if (stat (socket_path.c_str (), &statbuf)) {
@@ -556,9 +557,12 @@ int Application::OpenBabelSocket ()
 	struct sockaddr_un adr_serv;
 	adr_serv.sun_family = AF_UNIX;
 	strcpy (adr_serv.sun_path, socket_path.c_str ());
-	if (connect (res, (const struct sockaddr*) &adr_serv, sizeof (struct sockaddr_un)) == -1) {
+	while (connect (res, (const struct sockaddr*) &adr_serv, sizeof (struct sockaddr_un)) == -1) {
 		perror (_("Connection failed"));
-		return -1;
+		n++;
+		if (n == MAX_ATTEMPTS)
+			return -1;
+		sleep (1);
 	}
 	return res;
 }

@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2016-06-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/application.cc: retry when conncetion to babel server fails.
+
 2016-06-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/text/mathtool.h: add a help tag.
 	* docs/help/paint/C: updated user documentation.
