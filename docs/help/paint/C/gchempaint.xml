@@ -2894,6 +2894,7 @@
 		url="https://golem.ph.utexas.edu/~distler/blog/itex2MMLcommands.html">ITeX commands</ulink>.
 		 </para>
 		<figure id="gchempaint-equation-dialog"> 
+		  <title>Equation dialog box</title>
 		  <screenshot> 
 				<mediaobject>
 					<imageobject>
@@ -2908,6 +2909,7 @@
 		The equation will show up while you type the equation.
 		</para>
 		<figure id="gchempaint-equation-sample"> 
+		  <title>Equation sample</title>
 		  <screenshot> 
 				<mediaobject>
 					<imageobject>
