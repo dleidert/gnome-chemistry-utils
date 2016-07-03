@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2016-07-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.14.14).
+
 2016-06-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/application.cc: retry when conncetion to babel server fails.
 
