@@ -1,3 +1,7 @@
+Version 0.14.14:
+	Mozilla plugin:
+	* Fix build.
+
 Version 0.14.13:
 	GChemPaint:
 		* Optional use of Lasem to display maths.

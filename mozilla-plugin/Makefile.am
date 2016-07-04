@@ -13,7 +13,7 @@ endif
 DEFS += -DLIBEXECDIR=\"$(libexecdir)\" -DDATADIR=\"$(datadir)\"
 
 libmozgcu_la_SOURCES = moz-plugin.c
-libmozgcu_la_CPPFLAGS = $(MOZILLA_CFLAGS)
+libmozgcu_la_CPPFLAGS = $(MOZILLA_CFLAGS) $(glib_CFLAGS)
 libmozgcu_la_LDFLAGS = -module -avoid-version 
 libmozgcu_la_LIBADD = $(MOZILLA_LIBS)
 
