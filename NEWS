@@ -17,6 +17,8 @@ Version 0.15.2
 		* Fix build with gcc-6. [Redhat bug #1307546]
 	Mozilla plugin:
 		* Supports the npapi-sdk package as requirement.
+	GCCV library:
+		* Don't use the abs() function on unsigned numbers.
 	Other: 
 		* Added keywords to desktop files.
 		* Added appdata files.
