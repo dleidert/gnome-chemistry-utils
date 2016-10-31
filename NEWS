@@ -1,3 +1,9 @@
+Version 0.14.15:
+	GCCV library:
+		* Don't use the abs() function on unsigned numbers.
+	Other:
+		* Updated appdata files.
+ 
 Version 0.14.14:
 	Mozilla plugin:
 	* Fix build.

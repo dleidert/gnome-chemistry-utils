@@ -1213,7 +1213,10 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 	case GDK_KEY_Delete:
 	case GDK_KEY_KP_Delete: {
 		if (m_CurPos != m_StartSel) {
-			ReplaceText (empty_st, MIN (m_CurPos, m_StartSel), abs (m_CurPos - m_StartSel));
+			if (m_CurPos > m_StartSel)
+				ReplaceText (empty_st, m_StartSel, m_CurPos - m_StartSel);
+			else 
+				ReplaceText (empty_st, m_CurPos, m_StartSel - m_CurPos);
 			if (client)
 				client->TextChanged (m_CurPos);
 			break;
@@ -1233,7 +1236,10 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		break;
 	case GDK_KEY_BackSpace: {
 		if (m_CurPos != m_StartSel) {
-			ReplaceText (empty_st, MIN (m_CurPos, m_StartSel), abs (m_CurPos - m_StartSel));
+			if (m_CurPos > m_StartSel)
+				ReplaceText (empty_st, m_StartSel, m_CurPos - m_StartSel);
+			else 
+				ReplaceText (empty_st, m_CurPos, m_StartSel - m_CurPos);
 			if (client)
 				client->TextChanged (m_CurPos);
 			break;

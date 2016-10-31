@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2016-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: don't use the abs() function on unsigned numbers.
+	* programs/3d/gchem3d.appdata.xml.in: updated.
+	* programs/calc/gchemcalc.appdata.xml.in: updated.
+	* programs/crystal/gcrystal.appdata.xml.in: updated.
+	* programs/paint/gchempaint.appdata.xml.in: updated.
+	* programs/spectra/gspectrum.appdata.xml.in: updated.
+	* programs/table/gchemtable.appdata.xml.in: updated.
+
 2016-07-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.14.15).
 
