@@ -129,14 +129,6 @@ void gcpBondsPlugin::Populate (gcp::Application* App)
 	line->SetLineWidth (6.);
 	line->SetAutoColor (true);
 	tools[5].widget = canvas->GetWidget ();
-	/* Build a canvas for the weak bond tool */
-	canvas = new gccv::Canvas (NULL);
-	line = new gccv::Line (canvas, 3., 21., 21., 3.);
-	line->SetLineWidth (1.);
-	double dashes[] = {3., 2.};
-	line->SetDashes (dashes, 2, 0.);
-	line->SetAutoColor (true);
-	tools[7].widget = canvas->GetWidget ();
 	/* Build a canvas for the Newton projection tool */
 	canvas = new gccv::Canvas (NULL);
 	gccv::Circle *circle = new gccv::Circle (canvas, 11.5, 11.5, 5.);

@@ -1,3 +1,7 @@
+Version 0.14.16:
+	GChemPaint:
+		* Do not show buttons for non yet implemented tools.
+
 Version 0.14.15:
 	GCCV library:
 		* Don't use the abs() function on unsigned numbers.

@@ -956,16 +956,17 @@ void Application::Zoom (double zoom)
 void Application::OnToolChanged (char const *new_tool_name)
 {
 	Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
+	Tool *new_tool = m_Tools[new_tool_name];
 	if (m_pActiveTool) {
 		if (m_pActiveTool->GetName () == new_tool_name)
 			return;
-		if (!m_pActiveTool->Activate(false)) {
+		if (new_tool == NULL || !m_pActiveTool->Activate(false)) {
 			if (ToolsBox)
 				ToolsBox->OnSelectTool (m_pActiveTool);
 			return;
 		}
 	}
-	m_pActiveTool = m_Tools[new_tool_name];
+	m_pActiveTool = new_tool;
 	if (ToolsBox)
 		ToolsBox->OnSelectTool (m_pActiveTool);
 	if (m_pActiveTool)
