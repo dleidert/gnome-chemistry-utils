@@ -954,7 +954,8 @@ void Application::OnToolChanged (char const *new_tool_name)
 				ToolsBox->OnSelectTool (m_pActiveTool);
 			return;
 		}
-	}
+	} else if (new_tool == NULL)
+		return;
 	m_pActiveTool = new_tool;
 	if (ToolsBox)
 		ToolsBox->OnSelectTool (m_pActiveTool);
