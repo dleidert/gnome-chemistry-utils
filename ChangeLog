@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2016-12-06  Julian Sikorski  <belegdol@gmail.com>
+	* programs/table/gchemtable.desktop.in.in: re-added missing newline (rhbz #1402039)
+
 2016-11-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: version bump (0.14.16).
 	* libs/gcp/application.cc: do not crash when a NULL tool is selected.
