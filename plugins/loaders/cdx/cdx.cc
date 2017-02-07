@@ -866,7 +866,13 @@ bool CDXLoader::WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj,
 {
 	gint16 n = kCDXObj_Bond;
 	WRITEINT16 (out, n);
-	loader->WriteId (obj, out);
+	// the id might already exist because of forward references for crossing bonds
+	std::string ids = obj->GetId ();
+	std::map < std::string, unsigned >::iterator it = loader->m_SavedIds.find (ids);
+	if (it == loader->m_SavedIds.end ())
+		loader->WriteId (obj, out);
+	else
+		WRITEINT32 (out, (*it).second);
 	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);
 	string prop = obj->GetProperty (GCU_PROP_BOND_BEGIN);
 	AddInt32Property (out, kCDXProp_Bond_Begin, loader->m_SavedIds[prop]);
@@ -891,6 +897,32 @@ bool CDXLoader::WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj,
 		AddInt16Property (out, kCDXProp_Bond_DoublePosition, 257);
 	else if (prop == "left")
 		AddInt16Property (out, kCDXProp_Bond_DoublePosition, 258);
+	prop = obj->GetProperty (GCU_PROP_BOND_CROSSING);
+	if (prop.length () > 0) {
+		std::istringstream is (prop);
+		std::set < unsigned > crossing;
+		std::set < unsigned >::iterator j, jend;
+		guint32 id;
+		while (!is.eof ()) {
+			is >> ids;
+			it = loader->m_SavedIds.find (ids);
+			if (it == loader->m_SavedIds.end ()) {
+				id = loader->m_MaxId++;
+				loader->m_SavedIds[ids] = id;
+			} else
+				id = loader->m_SavedIds[ids];
+			crossing.insert (id);
+		}
+		n = kCDXProp_Bond_CrossingBonds;
+		WRITEINT16 (out, n);
+		n = crossing.size () * 4;
+		WRITEINT16 (out, n);
+		jend = crossing.end ();
+		for (j = crossing.begin (); j != jend; j++) {
+			id = *j;
+			WRITEINT32 (out, id);
+		}
+	}
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of bond
 	return true;
 }
@@ -902,6 +934,9 @@ bool CDXLoader::WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *
 	loader->WriteId (obj, out);
 	// save atoms
 	std::map <std::string, Object *>::const_iterator i;
+	std::map < int, std::set < gcu::Object const *> > crossing;
+	std::set < gcu::Object const *>::const_iterator j, jend;
+	int level, minl = G_MAXINT, maxl = G_MININT;
 	Object const *child = obj->GetFirstChild (i);
 	while (child) {
 		if (child->GetType () == AtomType && !loader->WriteObject (out, child, s))
@@ -915,12 +950,30 @@ bool CDXLoader::WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *
 			return false;
 		child = obj->GetNextChild (i);
 	}
-	// save bonds
+	// save non crossing bonds and sort others by level
 	child = obj->GetFirstChild (i);
 	while (child) {
-		if (child->GetType () == BondType && !loader->WriteObject (out, child, s))
-			return false;
+		if (child->GetType () == BondType) {
+			std::string prop (child->GetProperty (GCU_PROP_BOND_CROSSING));
+			if (prop.length () > 0) {
+				prop = child->GetProperty (GCU_PROP_BOND_LEVEL);
+				level = atoi (prop.c_str ());
+				if (level < minl)
+					minl = level;
+				if (level > maxl)
+					maxl = level;
+				crossing[level].insert (child);
+			} else if (!loader->WriteObject (out, child, s))
+				return false;
+		}
 		child = obj->GetNextChild (i);
+	}
+	// now save crossing bond starting with deeper ones.
+	for (level = minl; level <= maxl; level++) {
+		jend = crossing[level].end ();
+		for (j = crossing[level].begin (); j != jend; j++)
+			if (!loader->WriteObject (out, *j, s))
+				return false;
 	}
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of molecule
 	return true;
@@ -2035,7 +2088,16 @@ fragment_success:
 						break;
 					case 7: {
 						bool amb;
+						char saved;
+						int i = 0;
+						// remove modifiers like ' from the buffer
+						while (buf[i] >= 'A' && buf[i] < 'z')
+							i++;
+						saved = buf[i];
+						buf[i] = 0;
 						Residue const *res = parent->GetDocument ()->GetResidue (buf, &amb);
+						// restore the buffer
+						buf[i] = saved;
 						if (res != NULL && res->GetGeneric ()) {
 							string pos = Atom->GetProperty (GCU_PROP_POS2D);
 							Molecule *mol = dynamic_cast <Molecule *> (parent);
@@ -2235,6 +2297,21 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 					Bond->SetProperty (GCU_PROP_BOND_DOUBLE_POSITION, "auto");
 					break;
 				}
+				break;
+			}
+			case kCDXProp_Bond_CrossingBonds: {
+				std::ostringstream out;
+				bool first = true;
+				size /= 4;
+				for (int i = 0; i < size; i++) {
+					READINT32 (in, Id);
+					if (first)
+						first = false;
+					else
+						out << ' ';
+					out << Id;
+				}
+				Bond->SetProperty (GCU_PROP_BOND_CROSSING, out.str ().c_str ());
 				break;
 			}
 			default:

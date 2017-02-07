@@ -143,7 +143,7 @@ The bond order.
 	GCU_PROP_BOND_ORDER,
 /*!
 The bond type: normal, hash, wedge,...
-	 */
+*/
 	GCU_PROP_BOND_TYPE, //normal, hash, wedge,...
 /*!
 The second line position of a double bond when seent from the start atom.
@@ -151,6 +151,14 @@ Legal values are auto, center, left and right. Anythin else is interpreted
 as auto.
 */
 	GCU_PROP_BOND_DOUBLE_POSITION,
+/*!
+The list of Ids of the bonds crossing this one
+*/
+	GCU_PROP_BOND_CROSSING,
+/*!
+The level of a crossing bond.
+*/
+	GCU_PROP_BOND_LEVEL,
 	// Text properties
 /*!
 The position of a text object. For a simple text, it is equivalent to

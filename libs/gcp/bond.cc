@@ -46,6 +46,7 @@
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>
+#include <sstream>
 
 using namespace gccv;
 using namespace gcu;
@@ -964,8 +965,29 @@ bool Bond::SetProperty (unsigned property, char const *value)
 			m_DoublePosition = DoubleBondRight;
 		else
 			m_DoublePosition = DoubleBondAuto;
+		break;
+	case GCU_PROP_BOND_CROSSING: {
+			std::istringstream st (value);
+			std::string id;
+			Molecule *mol = static_cast < gcp::Molecule * > (GetMolecule ());
+			while (!st.eof ()) {
+				st >> id;
+				if (id[0] != 'b')
+					id = "b" + id;
+				gcu::Object *obj = mol->GetChild (id.c_str ());
+				if (obj != NULL) {
+					Bond *bond = dynamic_cast < Bond * > (obj);
+					if (bond == NULL)
+						return false;
+					if (m_Begin != NULL && m_End != NULL && bond->m_Begin != NULL && bond->m_End != NULL && IsCrossing (bond))
+						BringToFront ();
+					// Note: what should we do else? this means that bonds over need to be set last and with valid ends.
+				}
+			}
+		break;
+	}
 	default:
-		gcu::Bond::SetProperty (property, value);
+		return gcu::Bond::SetProperty (property, value);
 	}
 	return  true;
 }
@@ -1000,6 +1022,26 @@ string Bond::GetProperty (unsigned property) const
 		case DoubleBondRight:
 			return "right";
 		}
+	case GCU_PROP_BOND_CROSSING: {
+		std::ostringstream out;
+		if (m_Crossing.size () > 0) {
+			map<Bond*, BondCrossing>::const_iterator i, iend = m_Crossing.end ();
+			bool first = true;
+			for (i = m_Crossing.begin (); i != iend; i++) {
+				out << (*i).first->GetId();
+				if (first)
+					first = false;
+				else
+					out << ' ';
+			}
+		}
+		return out.str ();
+	}
+	case GCU_PROP_BOND_LEVEL: {
+		std::ostringstream out;
+		out << m_level;
+		return out.str ();
+	}
 	default:
 		return gcu::Bond::GetProperty (property);
 	}

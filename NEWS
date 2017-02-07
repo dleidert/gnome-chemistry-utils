@@ -1,3 +1,8 @@
+Version 0.14.17:
+	GChemPaint:
+		* Fix import of generic fragments and crossing bonds from chemdraw
+		files. [50190]
+
 Version 0.14.16:
 	GChemPaint:
 		* Do not show buttons for non yet implemented tools.

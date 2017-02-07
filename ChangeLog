@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2017-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: version bump (0.14.17).
+	* libs/gcp/bond.cc: new properties for bonds crossing.
+	* libs/gcu/objprops.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: fix import of generic fragments and crossing
+	bonds. [50190]
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* programs/table/gchemtable.desktop.in.in: add missing line feed.
+
 2016-12-06  Julian Sikorski  <belegdol@gmail.com>
 	* programs/table/gchemtable.desktop.in.in: re-added missing newline (rhbz #1402039)
 
@@ -8,6 +17,12 @@
 	* libs/gcp/application.cc: do not crash when a NULL tool is selected.
 	* plugins/paint/bonds/plugin.cc: do not show unimplemented weak bond tool
 	button.
+
+2016-11-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: do not crash when a NULL tool is selected.
+
+2016-11-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: do not crash when a NULL tool is selected.
 
 2016-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: don't use the abs() function on unsigned numbers.
