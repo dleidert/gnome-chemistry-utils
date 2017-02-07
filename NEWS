@@ -8,6 +8,8 @@ Version 0.15.2
 		* Enhanced Chemdraw CDX format support.
 		* Fix crash with atom charges larger than 1.
 		* Fix crash when deleting a bond outside a molecule. [#48256]
+		* Fix import of generic fragments and crossing bonds from chemdraw
+		files. [50190]
 	GChemCalc:
 		* Don't crash on "Ac" string. [#47366]
 	GChemTable:

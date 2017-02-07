@@ -137,7 +137,8 @@ CDXMLLoader::CDXMLLoader ()
 	KnownProps["LabelJustification"] =GCU_PROP_TEXT_JUSTIFICATION;
 	KnownProps["CaptionJustification"] =GCU_PROP_TEXT_ALIGNMENT;
 	KnownProps["LabelAlignment"] = GCU_PROP_TEXT_ALIGNMENT;
-	KnownProps["Justification"] =GCU_PROP_TEXT_JUSTIFICATION;
+	KnownProps["Justification"] = GCU_PROP_TEXT_JUSTIFICATION;
+	KnownProps["CrossingBonds"] = GCU_PROP_BOND_CROSSING;
 	// Add write callbacks
 	m_WriteCallbacks["atom"] = WriteAtom;
 	m_WriteCallbacks["fragment"] = WriteFragment;
@@ -194,6 +195,7 @@ typedef struct {
 	double CHeight, padding;
 	SchemeData scheme;
 	std::list < SchemeData > schemes;
+	bool fragment;
 } CDXMLReadState;
 
 static void
@@ -459,7 +461,7 @@ static void
 cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	gcu::Object *obj = state->app->CreateObject ("text", /*(state->cur.top ()->GetType () == gcu::DocumentType)? */state->cur.top ()/*: NULL*/);
+	gcu::Object *obj = state->app->CreateObject ("text", state->cur.top ());
 	state->cur.push (obj);
 	state->doc->ObjectLoaded (obj);
 	char *lowered;
@@ -506,7 +508,7 @@ static void
 cdxml_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	if (state->cur.top ()->GetParent () == NULL || (gcu::Object::GetTypeName (state->cur.top ()->GetParent ()->GetType ()) == "atom"))
+	if (state->cur.top ()->GetParent () == NULL)
 		delete state->cur.top ();
 	else {
 		state->markup += "</text>";
@@ -783,7 +785,7 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 	obj->SetProperty (GCU_PROP_ATOM_Z, "6");
 	state->doc->ObjectLoaded (obj);
 	map<string, unsigned>::iterator it;
-	bool fragment = false;
+	state->fragment = false;
 	if (attrs)
 		while (*attrs) {
 			if ((it = KnownProps.find ((char const *) *attrs)) != KnownProps.end ()) {
@@ -794,7 +796,7 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 					!strcmp ((char const *) *attrs, "Nickname") ||
 					!strcmp ((char const *) *attrs, "Unspecified") ||
 					!strcmp ((char const *) *attrs, "GenericNickname"))
-					fragment = true;
+					state->fragment = true;
 				else if (!strcmp ((char const *) *attrs, "ExternalConnectionPoint")) {
 					// convert the atom to a pseudo atom.
 					string pos = obj->GetProperty (GCU_PROP_POS2D);
@@ -813,7 +815,7 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 			attrs++;
 		}
 	state->cur.push (obj);
-	if (fragment) {
+	if (state->fragment) {
 		static GsfXMLInDoc *doc = NULL;
 		if (NULL == doc)
 			doc = gsf_xml_in_doc_new (atom_dtd, NULL);
@@ -821,6 +823,21 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->doc->ObjectLoaded (obj);
 		gsf_xml_in_push_state (xin, doc, state, (GsfXMLInExtDtor) fragment_done, attrs);
 	}
+}
+
+static void
+cdxml_node_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	if (!state->fragment) {
+		Object *child;
+		map <string, Object *>::iterator i;
+		while ((child = state->cur.top ()->GetFirstChild (i)))
+			delete child;
+	}
+	state->cur.top ()->Lock (false);
+	state->cur.top ()->OnLoaded ();
+	state->cur.pop ();
 }
 
 static void
@@ -1283,7 +1300,7 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 		GSF_XML_IN_NODE (PAGE, T, -1, "t", GSF_XML_NO_CONTENT, cdxml_text_start, cdxml_text_end),
 			GSF_XML_IN_NODE (T, S, -1, "s", GSF_XML_CONTENT, cdxml_string_start, cdxml_string_end),
 		GSF_XML_IN_NODE (PAGE, FRAGMENT, -1, "fragment", GSF_XML_CONTENT, &cdxml_fragment_start, &cdxml_fragment_end),
-			GSF_XML_IN_NODE (FRAGMENT, NODE, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
+			GSF_XML_IN_NODE (FRAGMENT, NODE, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_node_end),
 				GSF_XML_IN_NODE (NODE, T, -1, "t", GSF_XML_2ND, NULL, NULL),
 			GSF_XML_IN_NODE (FRAGMENT, BOND, -1, "b", GSF_XML_CONTENT, cdxml_bond_start, cdxml_simple_end),
 		GSF_XML_IN_NODE (PAGE, GROUP, -1, "group", GSF_XML_CONTENT, cdxml_group_start, cdxml_simple_end),
@@ -1332,6 +1349,7 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char 
 	state.theme = NULL;
 	state.labelFont = -1;
 	state.captionFont = -1;
+	state.fragment = false;
 
 	if (NULL != in) {
 		GsfXMLInDoc *xml = gsf_xml_in_doc_new (cdxml_dtd, NULL);
@@ -1740,8 +1758,16 @@ bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("b"), NULL);
 	xmlAddChild (parent, node);
-	loader->m_SavedIds[obj->GetId ()] = loader->m_MaxId;
-	AddIntProperty (node, "id", loader->m_MaxId++);
+	std::string ids = obj->GetId ();
+	int id;
+	std::map < std::string, unsigned >::iterator it = loader->m_SavedIds.find (ids);
+	// the id might already exist because of forward references for crossing bonds
+	if (it == loader->m_SavedIds.end ()) {
+		id = loader->m_MaxId++;
+		loader->m_SavedIds[obj->GetId ()] = id;
+	} else
+		id = loader->m_SavedIds[ids];
+	AddIntProperty (node, "id", id);
 	AddIntProperty (node, "Z", loader->m_Z++);
 	string prop = obj->GetProperty (GCU_PROP_BOND_BEGIN);
 	AddIntProperty (node, "B", loader->m_SavedIds[prop]);
@@ -1774,6 +1800,27 @@ bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 		AddStringProperty (node, "DoublePosition", "Right");
 	else if (prop == "left")
 		AddStringProperty (node, "DoublePosition", "Left");
+	prop = obj->GetProperty (GCU_PROP_BOND_CROSSING);
+	if (prop.length () > 0) {
+		std::istringstream is (prop);
+		std::ostringstream os;
+		bool first = false;
+		while (!is.eof ()) {
+			is >> ids;
+			it = loader->m_SavedIds.find (ids);
+			if (it == loader->m_SavedIds.end ()) {
+				id = loader->m_MaxId++;
+				loader->m_SavedIds[ids] = id;
+			} else
+				id = loader->m_SavedIds[ids];
+			if (first)
+				first = false;
+			else
+				os << ' ';
+			os << id;
+			AddStringProperty (node, "CrossingBonds", os.str ());
+		}
+	}
 	return true;
 }
 
@@ -1785,6 +1832,10 @@ bool CDXMLLoader::WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr 
 	AddIntProperty (node, "id", loader->m_MaxId++);
 	// save atoms
 	std::map <std::string, Object *>::const_iterator i;
+	std::string prop;
+	std::map < int, std::set < gcu::Object const *> > crossing;
+	std::set < gcu::Object const *>::const_iterator j, jend;
+	int level, minl = G_MAXINT, maxl = G_MININT;
 	Object const *child = obj->GetFirstChild (i);
 	while (child) {
 		if (child->GetType () == AtomType && !loader->WriteObject (xml, node, child, s))
@@ -1801,9 +1852,27 @@ bool CDXMLLoader::WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr 
 	// save bonds
 	child = obj->GetFirstChild (i);
 	while (child) {
-		if (child->GetType () == BondType && !loader->WriteObject (xml, node, child, s))
-			return false;
+		if (child->GetType () == BondType) {
+			prop = child->GetProperty (GCU_PROP_BOND_CROSSING);
+			if (prop.length () > 0) {
+				prop = child->GetProperty (GCU_PROP_BOND_LEVEL);
+				level = atoi (prop.c_str ());
+				if (level < minl)
+					minl = level;
+				if (level > maxl)
+					maxl = level;
+				crossing[level].insert (child);
+			} else if (!loader->WriteObject (xml, node, child, s))
+				return false;
+		}
 		child = obj->GetNextChild (i);
+	}
+	// now save crossing bond starting with deeper ones.
+	for (level = minl; level <= maxl; level++) {
+		jend = crossing[level].end ();
+		for (j = crossing[level].begin (); j != jend; j++)
+			if (!loader->WriteObject (xml, node, *j, s))
+				return false;
 	}
 	return true;
 }
