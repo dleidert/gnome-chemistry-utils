@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2017-02-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.14.18).
+
 2017-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: version bump (0.14.17).
 	* libs/gcp/bond.cc: new properties for bonds crossing.
