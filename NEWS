@@ -19,6 +19,8 @@ Version 0.15.2
 		* Fix build with gcc-6. [Redhat bug #1307546]
 	Mozilla plugin:
 		* Supports the npapi-sdk package as requirement.
+	GCUGtk library:
+		* Fix crash when a modal message window is destroyed. [#50568]
 	GCCV library:
 		* Don't use the abs() function on unsigned numbers.
 	Other: 
