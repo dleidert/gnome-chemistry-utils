@@ -41,8 +41,8 @@ void MessagePrivate::Close (Message *message)
 
 void MessagePrivate::Destroyed (Message *message)
 {
+	gtk_widget_destroy (GTK_WIDGET (message->m_Window));
 	message->m_Window = NULL;
-	delete message;
 }
 
 Message::Message (Application *app, std::string &message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent, bool modal)
