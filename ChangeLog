@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2017-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcugtk/message.cc: fix crash when the window is destroyed. [#50568]
+
 2017-02-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.14.18).
 
