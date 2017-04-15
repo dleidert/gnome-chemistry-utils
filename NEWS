@@ -1,6 +1,8 @@
 Version 0.14.18:
 	GCUGtk library:
 		* Fix crash when a modal message window is destroyed. [#50568]
+	GChemPaint:
+		* Fix crash when changing settings. [#50799].
 
 Version 0.14.17:
 	GChemPaint:

@@ -571,7 +571,7 @@ gcpDownBondTool::gcpDownBondTool (gcp::Application *App, gccv::Wedge *item):
 	m_Wedge (item)
 {
 	m_ConfNode = go_conf_get_node (App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
-	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, GetApplication ());
+	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, this);
 }
 
 gcpDownBondTool::~gcpDownBondTool ()

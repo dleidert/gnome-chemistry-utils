@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2017-04-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/bonds/bondtool.cc: fix crash when changing settings.
+	[#50799].
+
 2017-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcugtk/message.cc: fix crash when the window is destroyed. [#50568]
 
