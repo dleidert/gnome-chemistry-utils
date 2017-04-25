@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2017-04-25  Tz Wang
+	* zh_CN.po: updated simplified chinese translation.
+
 2016-06-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: updated files list.
 	* fr.po: updated french translation.

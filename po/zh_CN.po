@@ -76,7 +76,7 @@ msgstr "异丁基"
 
 #: ../database/residues.xml.in.h:12
 msgid "Phenyl"
-msgstr "苯基"
+msgstr "苄基"
 
 #: ../database/residues.xml.in.h:13
 msgid "Acetyl"
@@ -3464,9 +3464,8 @@ msgid " [file...]"
 msgstr "[文件...]"
 
 #: ../programs/paint/gchempaint.desktop.in.h:2
-#, fuzzy
 msgid "2D Chemical Structures Editor"
-msgstr "2D 化学结构查看器/编辑器"
+msgstr "2D 化学结构编辑器"
 
 #: ../programs/paint/gchempaint.desktop.in.h:3
 msgid "Edit chemical 2D structures"
@@ -3475,7 +3474,7 @@ msgstr "编辑 2D 化学结构"
 #. TRANSLATORS: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: ../programs/paint/gchempaint.desktop.in.h:5
 msgid "molecule;chemistry;"
-msgstr ""
+msgstr "分子;化学;"
 
 #: ../programs/paint/main.cc:43
 msgid "GChemPaint version: "
