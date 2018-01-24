@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2018-01-24  Jean Breéfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/gchem3d.omf.in: fix licenses versions. [#52882]
+	* docs/help/calc/gchemcalc.omf.in: ditto.
+	* docs/help/crystal/gcrystal.omf.in: ditto.
+	* docs/help/spectra/gspectrum.omf.in: ditto.
+	* docs/help/table/gchemtable.omf.in: ditto.
+
 2017-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcugtk/message.cc: fix crash when the window is destroyed. [#50568]
 

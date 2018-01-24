@@ -4,7 +4,7 @@
     <subject category="Applications|Education|Science"/>
     <type>manual</type>
     <relation seriesid="2f606258-b554-4715-9a75-2c20246779f5"/>
-    <rights type="GNU FDL" license.version="1.1" holder="Jean Bréfort"/>
-    <rights type="GNU GPL" license.version="2" holder="Jean Bréfort"/>
+    <rights type="GNU FDL" license.version="1.3" holder="Jean Bréfort"/>
+    <rights type="GNU GPL" license.version="3" holder="Jean Bréfort"/>
   </resource>        
 </omf>

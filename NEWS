@@ -27,6 +27,7 @@ Version 0.15.2
 		* Added keywords to desktop files.
 		* Added appdata files.
 		* Update names for elements 113, 115, 117 and 118.
+		* Fix licenses versions in omf files. [#52882]
 
 Version 0.15.1
 	3d viewer:

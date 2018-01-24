@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GChemPaint-0.14.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-08 09:36+0100\n"
+"POT-Creation-Date: 2016-02-08 10:51+0100\n"
 "PO-Revision-Date: 2016-01-09 23:00+0800\n"
 "Last-Translator: Tianze Wang <zwpwjwtz@126.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -76,7 +76,7 @@ msgstr "异丁基"
 
 #: ../database/residues.xml.in.h:12
 msgid "Phenyl"
-msgstr "苯基"
+msgstr "苄基"
 
 #: ../database/residues.xml.in.h:13
 msgid "Acetyl"
@@ -586,115 +586,25 @@ msgstr "氘"
 msgid "tritium"
 msgstr "氚"
 
-#: ../gnumeric/functions.cc:56
+#: ../gnumeric/functions.cc:52
 msgid "MOLARMASS:molar mass of a chemical entity"
 msgstr "MOLARMASS：化学实体的摩尔质量"
 
-#: ../gnumeric/functions.cc:57 ../gnumeric/functions.cc:86
-#: ../gnumeric/functions.cc:121
+#: ../gnumeric/functions.cc:53
 msgid "formula:the input chemical formula such as \"CCl4\""
 msgstr "formula：化学式的输入形式（例如“CCl4”）"
 
-#: ../gnumeric/functions.cc:58
+#: ../gnumeric/functions.cc:54
 msgid "MOLARMASS calculates a molar mass associated with the given @{formula}."
 msgstr "MOLARMASS 计算所给定 @{formula} 的摩尔质量。"
 
-#: ../gnumeric/functions.cc:59
+#: ../gnumeric/functions.cc:55
 msgid "=molarmass(\"CCl4\")"
 msgstr "=molarmass(\"CCl4\")"
 
-#: ../gnumeric/functions.cc:85
-#, fuzzy
-msgid "MONOISOTOPICMASS:monoisotopic mass of a chemical entity"
-msgstr "MOLARMASS：化学实体的摩尔质量"
-
-#: ../gnumeric/functions.cc:87
-#, fuzzy
-msgid ""
-"MONOISOTOPICMASS calculates a monoisotopic mass associated with the given "
-"@{formula}."
-msgstr "MOLARMASS 计算所给定 @{formula} 的摩尔质量。"
-
-#: ../gnumeric/functions.cc:88
-#, fuzzy
-msgid "=monoisotopicmass(\"CCl4\")"
-msgstr "=molarmass(\"CCl4\")"
-
-#: ../gnumeric/functions.cc:120
-msgid ""
-"CHEMCOMPOSITION:mass percent of a given element inside a chemical entity"
-msgstr ""
-
-#: ../gnumeric/functions.cc:122
-msgid "element:an element symbol \"C\""
-msgstr ""
-
-#: ../gnumeric/functions.cc:123
-#, fuzzy
-msgid ""
-"CHEMCOMPOSITION calculates the mass percent of an element inside the given "
-"@{formula}."
-msgstr "MOLARMASS 计算所给定 @{formula} 的摩尔质量。"
-
-#: ../gnumeric/functions.cc:124
-msgid "=chemcomposition(\"CCl4\",\"C\")"
-msgstr ""
-
-#: ../gnumeric/functions.cc:159
-msgid "ELEMENTNUMBER:element number"
-msgstr ""
-
-#: ../gnumeric/functions.cc:160
-msgid "symbol:an element symbol such as \"C\""
-msgstr ""
-
-#: ../gnumeric/functions.cc:161
-msgid "ELEMENTNUMBER returns the element number for the given @{symbol}."
-msgstr ""
-
-#: ../gnumeric/functions.cc:162
-msgid "=elementnumber(\"C\")"
-msgstr ""
-
-#: ../gnumeric/functions.cc:177
-msgid "ELEMENTSYMBOL:symbol of an element"
-msgstr ""
-
-#: ../gnumeric/functions.cc:178
-msgid "number:the element number such as 12"
-msgstr ""
-
-#: ../gnumeric/functions.cc:179
-msgid "ELEMENTSYMBOL returns the symbol for the given element @{number}."
-msgstr ""
-
-#: ../gnumeric/functions.cc:180
-msgid "=elementsymbol(12)"
-msgstr ""
-
-#: ../gnumeric/functions.cc:197
+#: ../gnumeric/functions.cc:82
 msgid "molarmass"
 msgstr "molarmass"
-
-#: ../gnumeric/functions.cc:200
-#, fuzzy
-msgid "monoisotopicmass"
-msgstr "单一同位素质量："
-
-#: ../gnumeric/functions.cc:203
-#, fuzzy
-msgid "chemcomposition"
-msgstr "组成"
-
-#: ../gnumeric/functions.cc:206
-#, fuzzy
-msgid "elementnumber"
-msgstr "元素"
-
-#: ../gnumeric/functions.cc:209
-#, fuzzy
-msgid "elementsymbol"
-msgstr "元素"
 
 #: ../gnumeric/plugin.xml.in.h:1
 msgid "Chemical Functions"
@@ -815,19 +725,19 @@ msgstr "GChemPaint 是一个 Gnome 下的 2D 化学结构式编辑器"
 msgid "Copyright © 2001-2010 by Jean Bréfort"
 msgstr "版权所有 © 2001-2010 Jean Bréfort"
 
-#: ../libs/gcp/arrow.cc:224 ../libs/gcp/reaction-arrow.cc:426
+#: ../libs/gcp/arrow.cc:223 ../libs/gcp/reaction-arrow.cc:255
 msgid "Arrow"
 msgstr "箭头"
 
-#: ../libs/gcp/application.cc:363
+#: ../libs/gcp/application.cc:352
 msgid "Create a new reaction"
 msgstr "创建一个新反应"
 
-#: ../libs/gcp/application.cc:374
+#: ../libs/gcp/application.cc:360
 msgid "Create a new mesomery relationship"
 msgstr "创建一个新"
 
-#: ../libs/gcp/application.cc:590 ../libs/gcugtk/stringdlg.cc:115
+#: ../libs/gcp/application.cc:581 ../libs/gcugtk/stringdlg.cc:115
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -835,7 +745,7 @@ msgstr ""
 "请输入文件名，\n"
 "不是目录"
 
-#: ../libs/gcp/application.cc:633
+#: ../libs/gcp/application.cc:624
 #, c-format
 msgid ""
 "Sorry, format %s not supported!\n"
@@ -844,7 +754,7 @@ msgstr ""
 "对不起，不支持 %s 格式！\n"
 "保存 %s 失败。"
 
-#: ../libs/gcp/application.cc:634
+#: ../libs/gcp/application.cc:625
 #, c-format
 msgid ""
 "Sorry, format %s not supported!\n"
@@ -853,7 +763,7 @@ msgstr ""
 "对不起，不支持 %s 格式！\n"
 "载入 %s 失败。"
 
-#: ../libs/gcp/application.cc:662 ../libs/gcr/application.cc:233
+#: ../libs/gcp/application.cc:653 ../libs/gcr/application.cc:233
 #: ../libs/gcugtk/chem3dapplication.cc:174 ../libs/gcugtk/stringdlg.cc:131
 #: ../programs/calc/gchemcalc.cc:212 ../programs/spectra/application.cc:95
 #: ../programs/table/gchemtable-app.cc:729
@@ -865,7 +775,7 @@ msgstr ""
 "文件 %s\n"
 "已存在，覆盖吗？"
 
-#: ../libs/gcp/application.cc:674 ../libs/gcr/application.cc:245
+#: ../libs/gcp/application.cc:665 ../libs/gcr/application.cc:245
 #: ../libs/gcugtk/stringdlg.cc:146
 #, c-format
 msgid ""
@@ -875,20 +785,20 @@ msgstr ""
 "处理 %s 时出错：\n"
 "%s"
 
-#: ../libs/gcp/application.cc:783
+#: ../libs/gcp/application.cc:774
 msgid "Error in "
 msgstr "出现错误于 "
 
 #. Note to translator: add a space if needed before the semicolon
-#: ../libs/gcp/application.cc:786
+#: ../libs/gcp/application.cc:777
 msgid ":\n"
 msgstr "：\n"
 
-#: ../libs/gcp/application.cc:877
+#: ../libs/gcp/application.cc:888
 msgid "No filename"
 msgstr "没有文件名"
 
-#: ../libs/gcp/application.cc:880 ../libs/gcr/document.cc:1653
+#: ../libs/gcp/application.cc:891 ../libs/gcr/document.cc:1653
 #, c-format
 msgid ""
 "Could not load file\n"
@@ -897,7 +807,7 @@ msgstr ""
 "不能载入文件\n"
 "%s"
 
-#: ../libs/gcp/application.cc:883 ../libs/gcr/document.cc:1656
+#: ../libs/gcp/application.cc:894 ../libs/gcr/document.cc:1656
 #, c-format
 msgid ""
 "%s: invalid xml file.\n"
@@ -906,87 +816,90 @@ msgstr ""
 "%s: 不可用的 xml 文件。\n"
 "xml 树是空的？"
 
-#: ../libs/gcp/application.cc:886 ../libs/gcr/document.cc:1659
+#: ../libs/gcp/application.cc:897 ../libs/gcr/document.cc:1659
 #, c-format
 msgid "%s: invalid file format."
 msgstr "%s: 不可用的文件格式。"
 
-#: ../libs/gcp/application.cc:889
+#: ../libs/gcp/application.cc:900
 #, c-format
 msgid "%s: parse error."
 msgstr "%s: 解析错误。"
 
-#: ../libs/gcp/application.cc:924 ../libs/gcr/application.cc:140
+#: ../libs/gcp/application.cc:935 ../libs/gcr/application.cc:140
 #: ../libs/gcugtk/chem3dapplication.cc:97 ../programs/calc/gchemcalc.cc:199
 #: ../programs/spectra/application.cc:161
 #: ../programs/table/gchemtable-app.cc:717
 msgid "Save as image"
 msgstr "另存图像为"
 
-#: ../libs/gcp/atom.cc:1188 ../libs/gcp/atom.cc:1202 ../libs/gcp/atom.cc:1215
-#: ../libs/gcr/atomsdlg.cc:425 ../libs/gcu/atom.cc:371
+#: ../libs/gcp/atom.cc:1187 ../libs/gcp/atom.cc:1201 ../libs/gcp/atom.cc:1214
+#: ../libs/gcr/atomsdlg.cc:425 ../libs/gcu/atom.cc:394
+#: ../plugins/paint/atoms/plugin.cc:63
 msgid "Atom"
 msgstr "原子"
 
-#: ../libs/gcp/atom.cc:1191
+#: ../libs/gcp/atom.cc:1190
 msgid "Display symbol"
 msgstr "显示符号"
 
-#: ../libs/gcp/atom.cc:1191
+#: ../libs/gcp/atom.cc:1190
 msgid "Whether to display carbon atom symbol"
 msgstr "是否显示碳原子符号"
 
-#: ../libs/gcp/atom.cc:1206 ../ui/paint/H-pos.ui.h:1
+#: ../libs/gcp/atom.cc:1205 ../ui/paint/H-pos.ui.h:1
 msgid "Hydrogen atoms position"
 msgstr "氢原子位置"
 
-#: ../libs/gcp/atom.cc:1219
+#: ../libs/gcp/atom.cc:1218
 msgid "Show charge"
 msgstr "显示电荷"
 
-#: ../libs/gcp/atom.cc:1219
+#: ../libs/gcp/atom.cc:1218
 msgid "Whether to display atom charge"
 msgstr "是否显示原子电荷"
 
-#: ../libs/gcp/atom.cc:1239
+#: ../libs/gcp/atom.cc:1238 ../plugins/paint/selection/plugin.cc:69
 msgid "Select"
 msgstr "选择"
 
-#: ../libs/gcp/atom.cc:1239
+#: ../libs/gcp/atom.cc:1238
 msgid "Select object"
 msgstr "选择对象"
 
-#: ../libs/gcp/atom.cc:1243
+#: ../libs/gcp/atom.cc:1242
 msgid "Delete"
 msgstr "删除"
 
-#: ../libs/gcp/atom.cc:1243
+#: ../libs/gcp/atom.cc:1242
 msgid "Delete object"
 msgstr "删除对象"
 
-#: ../libs/gcp/atom.cc:1250 ../plugins/paint/atoms/orbital.cc:441
+#: ../libs/gcp/atom.cc:1249 ../plugins/paint/atoms/orbital.cc:413
 msgid "Properties"
 msgstr "属性"
 
-#: ../libs/gcp/atom.cc:1250
+#: ../libs/gcp/atom.cc:1249
 msgid "Object properties"
 msgstr "对象属性"
 
-#: ../libs/gcp/bond.cc:870 ../libs/gcu/bond.cc:357
+#: ../libs/gcp/bond.cc:840 ../libs/gcu/bond.cc:342
+#: ../plugins/paint/bonds/plugin.cc:64
 msgid "Bond"
 msgstr "键"
 
-#: ../libs/gcp/bond.cc:874
+#: ../libs/gcp/bond.cc:844
 msgid "Move to back"
 msgstr "置后"
 
-#: ../libs/gcp/bond.cc:881
+#: ../libs/gcp/bond.cc:851
 msgid "Bring to front"
 msgstr "置前"
 
 #: ../libs/gcp/brackets.cc:365 ../libs/gcp/brackets.cc:379
 #: ../plugins/paint/selection/brackets.ui.h:6
-#: ../plugins/paint/selection/plugin.cc:80
+#: ../plugins/paint/selection/plugin.cc:78
+#: ../plugins/paint/selection/plugin.cc:79
 msgid "Brackets"
 msgstr "括号"
 
@@ -1075,15 +988,15 @@ msgstr "标签"
 msgid "Preview label"
 msgstr "预览标签"
 
-#: ../libs/gcp/fragment.cc:1343
+#: ../libs/gcp/fragment.cc:1342
 msgid "Invalid symbol."
 msgstr "不存在的符号。"
 
-#: ../libs/gcp/fragment.cc:1372
+#: ../libs/gcp/fragment.cc:1371
 msgid "Invalid charge."
 msgstr "不存在的电荷。"
 
-#: ../libs/gcp/fragment.cc:1572
+#: ../libs/gcp/fragment.cc:1551
 msgid "Fragment"
 msgstr "片断"
 
@@ -1144,7 +1057,7 @@ msgstr "删除内消旋关系"
 msgid "Mesomery"
 msgstr "介稳态"
 
-#: ../libs/gcp/mesomery-arrow.cc:152
+#: ../libs/gcp/mesomery-arrow.cc:152 ../plugins/paint/arrows/plugin.cc:81
 msgid "Mesomery arrow"
 msgstr "介稳态箭头"
 
@@ -1189,8 +1102,8 @@ msgid "Select alignment item"
 msgstr "选择对齐的项目"
 
 #: ../libs/gcp/preferences.cc:372 ../libs/gcp/preferences.cc:391
-#: ../libs/gcp/preferences.cc:518 ../libs/gcp/theme.cc:316
-#: ../libs/gcp/theme.cc:324 ../programs/table/gchemtable-app.cc:145
+#: ../libs/gcp/preferences.cc:518 ../libs/gcp/theme.cc:317
+#: ../libs/gcp/theme.cc:325 ../programs/table/gchemtable-app.cc:145
 msgid "Default"
 msgstr "默认"
 
@@ -1206,7 +1119,6 @@ msgstr "原子"
 
 #: ../libs/gcp/preferences.cc:420 ../libs/gcp/preferences.cc:494
 #: ../libs/gcp/preferences.cc:549 ../plugins/paint/selection/brackets.ui.h:7
-#: ../plugins/paint/text/equation.cc:174
 msgid "Font"
 msgstr "字体"
 
@@ -1226,7 +1138,8 @@ msgid "Arrows"
 msgstr "箭头"
 
 #: ../libs/gcp/preferences.cc:436 ../libs/gcp/preferences.cc:510
-#: ../libs/gcp/preferences.cc:557 ../libs/gcp/text.cc:1070
+#: ../libs/gcp/preferences.cc:557 ../libs/gcp/text.cc:1068
+#: ../plugins/paint/text/plugin.cc:52
 msgid "Text"
 msgstr "文本"
 
@@ -1234,126 +1147,77 @@ msgstr "文本"
 msgid "Add a stoichiometry coefficient"
 msgstr "添加一个化学计量系数"
 
-#: ../libs/gcp/reactant.cc:295 ../libs/gcp/reaction-prop.cc:44
+#: ../libs/gcp/reactant.cc:295 ../libs/gcp/reaction-prop.cc:41
 msgid "Reactant"
 msgstr "反应物"
 
-#: ../libs/gcp/reaction.cc:165 ../libs/gcp/reaction.cc:174
+#: ../libs/gcp/reaction.cc:164 ../libs/gcp/reaction.cc:173
 msgid "Error: arrow without a reactant or product."
 msgstr "错误：箭头未连接反应物或产物"
 
-#: ../libs/gcp/reaction.cc:187
+#: ../libs/gcp/reaction.cc:186
 msgid "Error: isolated molecules."
 msgstr "错误：孤立的分子。"
 
-#: ../libs/gcp/reaction.cc:307
+#: ../libs/gcp/reaction.cc:366
 msgid "Destroy the reaction"
 msgstr "删除反应"
 
-#: ../libs/gcp/reaction.cc:337
+#: ../libs/gcp/reaction.cc:396
 msgid "Reaction"
 msgstr "反应"
 
-#: ../libs/gcp/reaction-arrow.cc:430
-#, fuzzy
-msgid "Properties..."
-msgstr "属性...(_r)"
-
-#: ../libs/gcp/reaction-arrow.cc:430
-#, fuzzy
-msgid "Arrow properties"
-msgstr "组属性..."
-
-#: ../libs/gcp/reaction-arrow.cc:445
+#: ../libs/gcp/reaction-arrow.cc:261
 msgid "Attach selection to arrow..."
 msgstr "将选中项关联到箭头..."
 
-#: ../libs/gcp/reaction-arrow.cc:453
-#, fuzzy
-msgid "Invert"
-msgstr "翻转 X 轴"
-
-#: ../libs/gcp/reaction-arrow.cc:453
-#, fuzzy
-msgid "Invert arrow"
-msgstr "介稳态箭头"
-
-#: ../libs/gcp/reaction-arrow.cc:459
-#, fuzzy
-msgid "Full heads"
-msgstr "全箭头(_F)"
-
-#: ../libs/gcp/reaction-arrow.cc:459
-#, fuzzy
-msgid "Half heads"
-msgstr "半箭头(_a)"
-
-#: ../libs/gcp/reaction-arrow.cc:459
-msgid "Swap arrow head style between half and full"
-msgstr ""
-
-#: ../libs/gcp/reaction-arrow.cc:974
+#: ../libs/gcp/reaction-arrow.cc:394
 msgid "Reaction arrow"
 msgstr "反应箭头"
-
-#: ../libs/gcp/reaction-separator.cc:137 ../libs/gcp/step-counter.cc:182
-#, fuzzy
-msgid "Reaction separator"
-msgstr "反应者"
 
 #: ../libs/gcp/reaction-operator.cc:128
 msgid "Reaction operator"
 msgstr "反应者"
 
-#: ../libs/gcp/reaction-prop.cc:42 ../libs/gcp/theme.cc:525
-#: ../libs/gcp/theme.cc:529 ../libs/gcr/atomsdlg.cc:97
+#: ../libs/gcp/reaction-prop.cc:39 ../libs/gcp/theme.cc:526
+#: ../libs/gcp/theme.cc:530 ../libs/gcr/atomsdlg.cc:97
 #: ../libs/gcr/atomsdlg.cc:214 ../libs/gcr/atomsdlg.cc:438
 #: ../libs/gcr/atomsdlg.cc:536 ../programs/table/gchemtable-elt.cc:58
 #: ../ui/crystal/atoms.ui.h:11
 msgid "Unknown"
 msgstr "未知"
 
-#: ../libs/gcp/reaction-prop.cc:43
+#: ../libs/gcp/reaction-prop.cc:40
 msgid "Catalyst"
 msgstr "催化剂"
 
-#: ../libs/gcp/reaction-prop.cc:45
+#: ../libs/gcp/reaction-prop.cc:42
 msgid "Product"
 msgstr "产物"
 
-#: ../libs/gcp/reaction-prop.cc:46
+#: ../libs/gcp/reaction-prop.cc:43
 msgid "Solvent"
 msgstr "溶剂"
 
-#: ../libs/gcp/reaction-prop.cc:47
+#: ../libs/gcp/reaction-prop.cc:44
 msgid "Temperature"
 msgstr "温度"
 
-#: ../libs/gcp/reaction-prop.cc:48
+#: ../libs/gcp/reaction-prop.cc:45
 msgid "Pressure"
 msgstr "压力"
 
-#: ../libs/gcp/reaction-prop.cc:49
+#: ../libs/gcp/reaction-prop.cc:46
 msgid "Time"
 msgstr "时间"
 
-#: ../libs/gcp/reaction-prop.cc:50
+#: ../libs/gcp/reaction-prop.cc:47
 msgid "Enthalpy"
 msgstr "焓"
 
-#: ../libs/gcp/reaction-prop.cc:161
+#: ../libs/gcp/reaction-prop.cc:110
 msgid "Reaction property"
 msgstr "反应属性"
-
-#: ../libs/gcp/reaction-prop.cc:184
-#, fuzzy
-msgid "Role and position..."
-msgstr "氢原子位置"
-
-#: ../libs/gcp/reaction-prop.cc:184
-#, fuzzy
-msgid "Attached object properties"
-msgstr "对象属性"
 
 #: ../libs/gcp/reaction-step.cc:70 ../libs/gcp/reaction-step.cc:90
 msgid "A mechanism step must stay alone inside a reaction step"
@@ -1371,16 +1235,16 @@ msgstr "一个箭头只能连接两个步骤。"
 msgid "This should not have occured, please file a bug record."
 msgstr "这不应当发生，请向开发者报告 bug。"
 
-#: ../libs/gcp/theme.cc:422
+#: ../libs/gcp/theme.cc:423
 msgid "NewTheme1"
 msgstr "新主题1"
 
-#: ../libs/gcp/theme.cc:426
+#: ../libs/gcp/theme.cc:427
 #, c-format
 msgid "NewTheme%d"
 msgstr "新主题%d"
 
-#: ../libs/gcp/view.cc:764 ../libs/gcp/view.cc:790
+#: ../libs/gcp/view.cc:756 ../libs/gcp/view.cc:782
 #: ../libs/gcr/application.cc:302 ../libs/gcugtk/chem3dapplication.cc:194
 #, c-format
 msgid ""
@@ -1390,7 +1254,7 @@ msgstr ""
 "无法创建流！\n"
 "%s"
 
-#: ../libs/gcp/view.cc:812 ../libs/gcu/glview.cc:121
+#: ../libs/gcp/view.cc:804 ../libs/gcu/glview.cc:121
 #, c-format
 msgid "Unable to save image file: %s\n"
 msgstr "无法保存图像文件：%s\n"
@@ -1784,11 +1648,11 @@ msgstr "在全屏和窗口模式间切换"
 msgid "Open _recent"
 msgstr "打开最近文件(_r)"
 
-#: ../libs/gcp/window.cc:610 ../libs/gcr/window.cc:469
+#: ../libs/gcp/window.cc:610 ../libs/gcr/window.cc:470
 msgid "Ready"
 msgstr "就绪"
 
-#: ../libs/gcp/window.cc:779
+#: ../libs/gcp/window.cc:779 ../programs/paint/gchempaint.desktop.in.h:1
 msgid "GChemPaint"
 msgstr "GChemPaint"
 
@@ -2010,12 +1874,12 @@ msgstr "向 Gnome Chemistry Utils 报告软件缺陷"
 msgid "About Gnome Crystal"
 msgstr "关于 Gnome Crystal"
 
-#: ../libs/gcr/window.cc:449 ../libs/gcugtk/chem3dwindow.cc:421
+#: ../libs/gcr/window.cc:450 ../libs/gcugtk/chem3dwindow.cc:422
 #: ../programs/spectra/window.cc:288
 msgid "Open recent"
 msgstr "打开最近文件"
 
-#: ../libs/gcr/window.cc:490
+#: ../libs/gcr/window.cc:491
 #, c-format
 msgid "Space group: %u"
 msgstr "空间群：%u"
@@ -2028,7 +1892,7 @@ msgstr "出现错误于处理 "
 msgid "Connection failed"
 msgstr "连接失败"
 
-#: ../libs/gcu/chain.cc:316
+#: ../libs/gcu/chain.cc:316 ../plugins/paint/bonds/plugin.cc:67
 msgid "Chain"
 msgstr "链"
 
@@ -2150,7 +2014,7 @@ msgstr "字符无效"
 msgid "Chemical file loader type."
 msgstr "化学文件加载器类型。"
 
-#: ../libs/gcu/object.cc:665
+#: ../libs/gcu/object.cc:660
 msgid "Object"
 msgstr "对象"
 
@@ -2200,11 +2064,6 @@ msgstr "未知的定义不完整的空间群。"
 msgid "Attempt to add two values with different units."
 msgstr "试图添加两个单位不同的数值。"
 
-#: ../libs/gcu/xml-utils.cc:421 ../libs/gcu/xml-utils.cc:423
-#, fuzzy
-msgid "Error while parsing XML"
-msgstr "出现错误于处理 "
-
 #: ../libs/gcugtk/application.cc:76
 msgid "Open new windows full screen"
 msgstr "全屏模式打开新窗口"
@@ -2226,7 +2085,7 @@ msgstr "对不起，格式不支持！"
 msgid "GChem3D is a molecular structures viewer for Gnome"
 msgstr "GChem3D 是一个 Gnome 下的分子结构查看器"
 
-#. char const *documentors[] = {NULL};
+#. const gchar * documentors[] = {NULL};
 #: ../libs/gcugtk/chem3dwindow.cc:227
 msgid "Copyright © 2004-2010 Jean Bréfort\n"
 msgstr "版权所有 © 2004-2010 Jean Bréfort\n"
@@ -2388,15 +2247,16 @@ msgstr "文件类型：(_t)"
 msgid "Automatic"
 msgstr "自动"
 
-#: ../libs/gcugtk/gcuchem3dviewer.cc:196
+#: ../libs/gcugtk/gcuchem3dviewer.cc:195
 msgid "Background Color"
 msgstr "背景色"
 
-#: ../libs/gcugtk/gcuchem3dviewer.cc:197
+#: ../libs/gcugtk/gcuchem3dviewer.cc:196
 msgid "Color used to paint the background"
 msgstr "用于绘制背景的颜色"
 
 #: ../libs/gcugtk/gcucomboperiodic.c:95 ../programs/table/gchemtable-app.cc:300
+#: ../programs/table/gchemtable.desktop.in.h:1
 msgid "Periodic table of the elements"
 msgstr "元素周期表"
 
@@ -2613,14 +2473,10 @@ msgstr ""
 "无法关闭文件 %s，错误为：\n"
 "%s"
 
-#: ../libs/gcugtk/ui-builder.cc:43
+#: ../libs/gcugtk/ui-builder.cc:37
 #, c-format
 msgid "Could not load %s."
 msgstr "无法载入 %s。"
-
-#: ../mozilla-plugin/chem-viewer.cc:158
-msgid "Back to initial orientation"
-msgstr ""
 
 #: ../plugins/loaders/cdx/cdx.cc:1140 ../plugins/loaders/cdx/cdx.cc:1144
 #: ../plugins/loaders/cdx/cdx.cc:1272 ../plugins/loaders/cdx/cdx.cc:1278
@@ -2691,25 +2547,6 @@ msgstr "加载器：cml"
 msgid "CML files loader."
 msgstr "CML 文件加载器。"
 
-#. Not sure we are able to support atoms lists at all, but we might
-#: ../plugins/loaders/ctfiles/ctfiles.cc:233
-msgid ""
-"We do not support atoms lists for now, please file a bug report and attach "
-"your file"
-msgstr ""
-
-#: ../plugins/loaders/ctfiles/plugin.xml.in.h:1
-msgid "Loader : CTfiles"
-msgstr "加载器：CTfiles"
-
-#: ../plugins/loaders/ctfiles/plugin.xml.in.h:2
-msgid "CTfiles loader."
-msgstr "CTfiles 加载器。"
-
-#: ../plugins/loaders/ctfiles/plugin.xml.in.h:3
-msgid "CTfiles loader"
-msgstr "CTfiles 加载器"
-
 #: ../plugins/loaders/nuts/plugin.xml.in.h:1
 msgid "Loader : nuts"
 msgstr "加载器：nuts"
@@ -2731,7 +2568,7 @@ msgstr "NUTS 文件加载器"
 #: ../plugins/paint/bonds/bondtool.cc:278
 #: ../plugins/paint/cycles/cycletool.cc:466
 #: ../plugins/paint/selection/lassotool.cc:215
-#: ../plugins/paint/selection/selectiontool.cc:159
+#: ../plugins/paint/selection/selectiontool.cc:164
 #, c-format
 msgid "Orientation: %g"
 msgstr "方位： %g"
@@ -2787,35 +2624,52 @@ msgstr ""
 "若勾选，则与新键相关联的弯箭头将会显示在键的中间位置；否则。将会显示在键另一"
 "端的原子旁。"
 
-#: ../plugins/paint/arrows/plugin.cc:67
+#: ../plugins/paint/arrows/plugin.cc:72
+msgid "Simple arrow"
+msgstr "单箭头"
+
+#: ../plugins/paint/arrows/plugin.cc:73
 msgid "Add an arrow for an irreversible reaction"
 msgstr "为不可逆反应加一个箭头"
 
-#: ../plugins/paint/arrows/plugin.cc:69
+#: ../plugins/paint/arrows/plugin.cc:75
+msgid "Double arrow"
+msgstr "双箭头"
+
+#: ../plugins/paint/arrows/plugin.cc:76
 msgid "Add a pair of arrows for a reversible reaction"
 msgstr "为可逆反应加一对箭头"
 
-#: ../plugins/paint/arrows/plugin.cc:71
+#: ../plugins/paint/arrows/plugin.cc:78
+#: ../plugins/paint/arrows/retrosynthesisarrow.cc:199
+msgid "Retrosynthesis arrow"
+msgstr "逆合成箭头"
+
+#: ../plugins/paint/arrows/plugin.cc:79
 msgid "Add an arrow for a retrosynthesis step"
 msgstr "为逆合成添加一个箭头"
 
-#: ../plugins/paint/arrows/plugin.cc:73
+#: ../plugins/paint/arrows/plugin.cc:82
 msgid "Add a double headed arrow to represent mesomery"
 msgstr "添加双箭头代表消旋体"
 
-#: ../plugins/paint/arrows/plugin.cc:75
+#: ../plugins/paint/arrows/plugin.cc:84
+msgid "Electron pair move arrow"
+msgstr "电子对转移箭头"
+
+#: ../plugins/paint/arrows/plugin.cc:85
 msgid "Add a curved arrow to represent an electron pair move"
 msgstr "添加弯箭头来表示电子对的移动"
 
-#: ../plugins/paint/arrows/plugin.cc:77
+#: ../plugins/paint/arrows/plugin.cc:87
+msgid "Single electron move arrow"
+msgstr "单电子转移箭头"
+
+#: ../plugins/paint/arrows/plugin.cc:88
 msgid "Add a curved arrow to represent an single electron move"
 msgstr "添加弯箭头来表示单电子的转移"
 
-#: ../plugins/paint/arrows/plugin.cc:79
-msgid "Create a catalytic cycle from existing molecules"
-msgstr ""
-
-#: ../plugins/paint/arrows/plugin.cc:87
+#: ../plugins/paint/arrows/plugin.cc:107
 msgid "Create a new retrosynthesis pathway"
 msgstr "创建新的逆合成途径"
 
@@ -2839,19 +2693,16 @@ msgstr "删除反合成路径"
 msgid "Retrosynthesis"
 msgstr "逆合成箭头"
 
-#: ../plugins/paint/arrows/retrosynthesisarrow.cc:199
-msgid "Retrosynthesis arrow"
-msgstr "逆合成箭头"
-
 #: ../plugins/paint/arrows/retrosynthesisstep.cc:122
 msgid "Retrosynthesis step"
 msgstr "逆合成步骤"
 
-#: ../plugins/paint/atoms/orbital.cc:426 ../plugins/paint/atoms/orbital.cc:438
+#: ../plugins/paint/atoms/orbital.cc:398 ../plugins/paint/atoms/orbital.cc:410
+#: ../plugins/paint/atoms/plugin.cc:78
 msgid "Orbital"
 msgstr "轨道"
 
-#: ../plugins/paint/atoms/orbital.cc:441
+#: ../plugins/paint/atoms/orbital.cc:413
 #: ../plugins/paint/atoms/orbital-prop.ui.h:1
 msgid "Orbital properties"
 msgstr "轨道属性"
@@ -2913,32 +2764,43 @@ msgstr "d<sub>xy</sub>"
 msgid "d<sub>z<span size=\"smaller\" rise=\"0\">2</span></sub>"
 msgstr "d<sub>z<span size=\"smaller\" rise=\"0\">2</span></sub>"
 
-#: ../plugins/paint/atoms/orbital.ui.h:11
-#: ../plugins/paint/atoms/orbital-prop.ui.h:11
-msgid "hybrid sp"
-msgstr ""
-
-#: ../plugins/paint/atoms/plugin.cc:56
+#: ../plugins/paint/atoms/plugin.cc:64
 msgid "Add or modify an atom"
 msgstr "增加或修改一个原子"
 
-#: ../plugins/paint/atoms/plugin.cc:58
+#: ../plugins/paint/atoms/plugin.cc:66
+msgid "Positive Charge"
+msgstr "正电荷"
+
+#: ../plugins/paint/atoms/plugin.cc:67
 msgid "Increment the charge of an atom"
 msgstr "增加一个原子的电荷"
 
-#: ../plugins/paint/atoms/plugin.cc:60
+#: ../plugins/paint/atoms/plugin.cc:69
+msgid "Negative Charge"
+msgstr "负电荷"
+
+#: ../plugins/paint/atoms/plugin.cc:70
 msgid "Decrement the charge of an atom"
 msgstr "减少一个原子的电荷"
 
-#: ../plugins/paint/atoms/plugin.cc:62
+#: ../plugins/paint/atoms/plugin.cc:72
+msgid "Electron Pair"
+msgstr "电子对"
+
+#: ../plugins/paint/atoms/plugin.cc:73
 msgid "Add an electron pair to an atom"
 msgstr "为原子增加一对电子"
 
-#: ../plugins/paint/atoms/plugin.cc:64
+#: ../plugins/paint/atoms/plugin.cc:75
+msgid "Unpaired Electron"
+msgstr "未成对电子"
+
+#: ../plugins/paint/atoms/plugin.cc:76
 msgid "Add an unpaired electron to an atom"
 msgstr "为原子增加一个不成对电子"
 
-#: ../plugins/paint/atoms/plugin.cc:66
+#: ../plugins/paint/atoms/plugin.cc:79
 msgid "Add or modify an atomic orbital"
 msgstr "增加或修改一个原子轨道"
 
@@ -3002,40 +2864,59 @@ msgstr "<b>后方</b>"
 msgid "Bond order:"
 msgstr "键级："
 
-#: ../plugins/paint/bonds/plugin.cc:53
+#: ../plugins/paint/bonds/plugin.cc:65
 msgid "Add a bond or change the multiplicity of an existing one"
 msgstr "在现有的基础上添加一个键或电荷"
 
-#: ../plugins/paint/bonds/plugin.cc:55
+#: ../plugins/paint/bonds/plugin.cc:68
 msgid "Add a chain"
 msgstr "添加一条链"
 
-#: ../plugins/paint/bonds/plugin.cc:57
+#: ../plugins/paint/bonds/plugin.cc:70
+msgid "Wedge bond tool"
+msgstr "楔形键工具"
+
+#: ../plugins/paint/bonds/plugin.cc:71
 msgid "Add a wedge bond"
 msgstr "添加一根楔形键"
 
-#: ../plugins/paint/bonds/plugin.cc:59
+#: ../plugins/paint/bonds/plugin.cc:73
+msgid "Hash bond tool"
+msgstr "虚线键工具"
+
+#: ../plugins/paint/bonds/plugin.cc:74
 msgid "Add a hash bond"
 msgstr "添加一根虚线键"
 
-#: ../plugins/paint/bonds/plugin.cc:61
+#: ../plugins/paint/bonds/plugin.cc:76
+msgid "Squiggle bond tool"
+msgstr "波浪键工具"
+
+#: ../plugins/paint/bonds/plugin.cc:77
 msgid "Add a squiggle bond"
 msgstr "添加一条波浪键"
 
-#: ../plugins/paint/bonds/plugin.cc:63
+#: ../plugins/paint/bonds/plugin.cc:79
+msgid "Fore bond tool"
+msgstr "前置键工具"
+
+#: ../plugins/paint/bonds/plugin.cc:80
 msgid "Add a fore bond"
 msgstr "添加一根前置键"
 
-#: ../plugins/paint/bonds/plugin.cc:65
+#: ../plugins/paint/bonds/plugin.cc:82
+msgid "Delocalized bond tool"
+msgstr "离域键工具"
+
+#: ../plugins/paint/bonds/plugin.cc:83
 msgid "Add a delocalized bonds system"
 msgstr "添加一个离域键系统"
 
-#: ../plugins/paint/bonds/plugin.cc:67
-#, fuzzy
-msgid "Add a weak bond"
-msgstr "添加一根楔形键"
+#: ../plugins/paint/bonds/plugin.cc:85
+msgid "Newman projection"
+msgstr "纽曼投影"
 
-#: ../plugins/paint/bonds/plugin.cc:69
+#: ../plugins/paint/bonds/plugin.cc:86
 msgid "Add a bond in Newman projection"
 msgstr "添加一个键的纽曼投影"
 
@@ -3043,33 +2924,61 @@ msgstr "添加一个键的纽曼投影"
 msgid "Cycle _Size"
 msgstr "环大小：(_S)"
 
-#: ../plugins/paint/cycles/plugin.cc:46
+#: ../plugins/paint/cycles/plugin.cc:54
 msgid "Three atoms cycle"
 msgstr "三元环"
 
-#: ../plugins/paint/cycles/plugin.cc:48
+#: ../plugins/paint/cycles/plugin.cc:55
+msgid "Add a three membered cycle"
+msgstr "增加一个三元环"
+
+#: ../plugins/paint/cycles/plugin.cc:57
 msgid "Four atoms cycle"
 msgstr "四元环"
 
-#: ../plugins/paint/cycles/plugin.cc:50
+#: ../plugins/paint/cycles/plugin.cc:58
+msgid "Add a four membered cycle"
+msgstr "增加一个四元环"
+
+#: ../plugins/paint/cycles/plugin.cc:60
 msgid "Five atoms cycle"
 msgstr "五元环"
 
-#: ../plugins/paint/cycles/plugin.cc:52
+#: ../plugins/paint/cycles/plugin.cc:61
+msgid "Add a five membered cycle"
+msgstr "增加一个五元环"
+
+#: ../plugins/paint/cycles/plugin.cc:63
 msgid "Six atoms cycle"
 msgstr "六元环"
 
-#: ../plugins/paint/cycles/plugin.cc:54
+#: ../plugins/paint/cycles/plugin.cc:64
+msgid "Add a six membered cycle"
+msgstr "增加一个六元环"
+
+#: ../plugins/paint/cycles/plugin.cc:66
 msgid "Seven atoms cycle"
 msgstr "七元环"
 
-#: ../plugins/paint/cycles/plugin.cc:56
+#: ../plugins/paint/cycles/plugin.cc:67
+msgid "Add a seven membered cycle"
+msgstr "增加一个七元环"
+
+#: ../plugins/paint/cycles/plugin.cc:69
 msgid "Eight atoms cycle"
 msgstr "八元环"
 
-#: ../plugins/paint/cycles/plugin.cc:58
+#: ../plugins/paint/cycles/plugin.cc:70
+msgid "Add an eight membered cycle"
+msgstr "增加一个八元环"
+
+#: ../plugins/paint/cycles/plugin.cc:72
 msgid "Variable sized cycle"
 msgstr "不同大小的环"
+
+#: ../plugins/paint/cycles/plugin.cc:73
+msgid "Add a cycle"
+msgstr "增加一个环"
 
 #: ../plugins/paint/residues/plugin.cc:72
 msgid "_Edit residues..."
@@ -3220,56 +3129,65 @@ msgid "Distance:"
 msgstr "距离"
 
 #: ../plugins/paint/selection/lassotool.cc:396
+#: ../plugins/paint/selection/selectiontool.cc:480
 msgid "Horizontal flip"
 msgstr "水平翻转"
 
 #: ../plugins/paint/selection/lassotool.cc:397
-#: ../plugins/paint/selection/lassotool.cc:430
-#: ../plugins/paint/selection/selectiontool.cc:488
+#: ../plugins/paint/selection/selectiontool.cc:481
 msgid "Flip the selection horizontally"
 msgstr "对选择做水平翻转"
 
 #: ../plugins/paint/selection/lassotool.cc:398
+#: ../plugins/paint/selection/selectiontool.cc:482
 msgid "Vertical flip"
 msgstr "垂直翻转"
 
 #: ../plugins/paint/selection/lassotool.cc:399
-#: ../plugins/paint/selection/lassotool.cc:435
-#: ../plugins/paint/selection/selectiontool.cc:493
+#: ../plugins/paint/selection/selectiontool.cc:483
 msgid "Flip the selection vertically"
 msgstr "对选择做垂直翻转"
 
 #: ../plugins/paint/selection/lassotool.cc:403
+#: ../plugins/paint/selection/selectiontool.cc:489
 msgid "_Rotate"
 msgstr "旋转(_R)"
 
 #: ../plugins/paint/selection/lassotool.cc:404
-#: ../plugins/paint/selection/lassotool.cc:441
-#: ../plugins/paint/selection/selectiontool.cc:499
+#: ../plugins/paint/selection/selectiontool.cc:490
 msgid "Rotate the selection"
 msgstr "旋转所选部分"
 
-#: ../plugins/paint/selection/plugin.cc:74
+#: ../plugins/paint/selection/plugin.cc:70
 msgid "Select one or more objects"
 msgstr "选择一个或多个对象"
 
+#: ../plugins/paint/selection/plugin.cc:72 ../plugins/paint/text/plugin.cc:55
+msgid "Erase"
+msgstr "删除"
+
+#: ../plugins/paint/selection/plugin.cc:73
+msgid "Eraser"
+msgstr "橡皮"
+
+#: ../plugins/paint/selection/plugin.cc:75
 #: ../plugins/paint/selection/plugin.cc:76
 msgid "Area selection"
 msgstr "选择的区域"
 
-#: ../plugins/paint/selection/plugin.cc:78
-msgid "Eraser"
-msgstr "橡皮"
-
-#: ../plugins/paint/selection/selectiontool.cc:386
+#: ../plugins/paint/selection/selectiontool.cc:391
 msgid "Creation failed!"
 msgstr "创建失败！"
 
-#: ../plugins/paint/selection/selectiontool.cc:414
+#: ../plugins/paint/selection/selectiontool.cc:419
 msgid "Group and/or align objects"
 msgstr "给对象分组或对齐"
 
-#: ../plugins/paint/selection/selectiontool.cc:530
+#: ../plugins/paint/selection/selectiontool.cc:484
+msgid "Merge"
+msgstr "合并"
+
+#: ../plugins/paint/selection/selectiontool.cc:485
 msgid "Merge two molecules"
 msgstr "合并两个分子"
 
@@ -3281,12 +3199,16 @@ msgstr "姓名(_N)"
 msgid "_Category:"
 msgstr "目录(_C)"
 
-#: ../plugins/paint/templates/plugin.cc:49
+#: ../plugins/paint/templates/plugin.cc:47
+msgid "Templates"
+msgstr "模板"
+
+#: ../plugins/paint/templates/plugin.cc:48
 msgid "Use or manage templates"
 msgstr "使用或管理模板"
 
-#: ../plugins/paint/templates/plugin.cc:215
-#: ../plugins/paint/templates/plugin.cc:217
+#: ../plugins/paint/templates/plugin.cc:224
+#: ../plugins/paint/templates/plugin.cc:226
 msgid "Miscellaneous"
 msgstr "杂项"
 
@@ -3313,20 +3235,6 @@ msgstr "请给一个名字。"
 #: ../plugins/paint/templates/templatetool.cc:352
 msgid "Please choose a category."
 msgstr "请选择一个目录。"
-
-#: ../plugins/paint/text/eq-props.ui.h:1
-#, fuzzy
-msgid "Equation properties"
-msgstr "电子特性"
-
-#: ../plugins/paint/text/equation.cc:167
-msgid "ITeX string"
-msgstr ""
-
-#: ../plugins/paint/text/equation.cc:360
-#, fuzzy
-msgid "Equation"
-msgstr "反应"
 
 #: ../plugins/paint/text/fontsel.ui.h:1
 msgid "_Family:"
@@ -3397,16 +3305,11 @@ msgstr "电荷"
 msgid "stoichiometry"
 msgstr "化学计量"
 
-#: ../plugins/paint/text/plugin.cc:56
+#: ../plugins/paint/text/plugin.cc:53
 msgid "Add or modify a text"
 msgstr "增加或修改一个文本"
 
-#: ../plugins/paint/text/plugin.cc:58
-#, fuzzy
-msgid "Add or modify an equation"
-msgstr "增加或修改一个原子"
-
-#: ../plugins/paint/text/plugin.cc:60
+#: ../plugins/paint/text/plugin.cc:56
 msgid "Add or modify a group of atoms"
 msgstr "增加或修改一组原子"
 
@@ -3439,8 +3342,7 @@ msgid "Invalid or misplaced argument: %s\n"
 msgstr "参数不存在或位置有误：%s\n"
 
 #: ../programs/3d/gchem3d.desktop.in.h:1
-#, fuzzy
-msgid "Molecules Viewer (0.16 unstable)"
+msgid "Molecules Viewer"
 msgstr "分子查看器"
 
 #: ../programs/3d/gchem3d.desktop.in.h:2
@@ -3451,7 +3353,7 @@ msgstr "显示 3D 化学结构"
 msgid "GChemCalc is a simple calculator for chemists"
 msgstr "GChemCalc 是一个为化学工作者准备的简单计算器"
 
-#. char const *documentors[] = {NULL};
+#. const gchar * documentors[] = {NULL};
 #: ../programs/calc/gchemcalc.cc:283 ../programs/table/gchemtable-app.cc:395
 msgid "Copyright © 2005-2010 Jean Bréfort"
 msgstr "版权所有 © 2005-2010 Jean Bréfort"
@@ -3532,18 +3434,16 @@ msgstr "元素"
 msgid "Mass %"
 msgstr "质量 %"
 
-#: ../programs/calc/gchemcalc.desktop.in.h:1
-#, fuzzy
-msgid "Chemical calculator (0.16 unstable)"
-msgstr "GChemPaint 控件"
+#: ../programs/calc/gchemcalc.desktop.in.h:1 ../ui/calc/gchemcalc.ui.h:1
+msgid "Chemical calculator"
+msgstr "化学计算器"
 
 #: ../programs/calc/gchemcalc.desktop.in.h:2
 msgid "A simple calculator for chemistry"
 msgstr "简单的化学计算器"
 
 #: ../programs/crystal/gcrystal.desktop.in.h:1
-#, fuzzy
-msgid "Gnome Crystal Crystalline Structures Viewer (0.16 unstable)"
+msgid "Gnome Crystal Crystalline Structures Viewer"
 msgstr "GChemPaint 是一个 Gnome 下的 2D 化学结构式编辑器"
 
 #: ../programs/crystal/gcrystal.desktop.in.h:2
@@ -3563,14 +3463,18 @@ msgstr "Gnome Chemistry Utils 版本： "
 msgid " [file...]"
 msgstr "[文件...]"
 
-#: ../programs/paint/gchempaint.desktop.in.h:1
-#, fuzzy
-msgid "GChemPaint Chemical Structures Editor (0.16 unstable)"
-msgstr "GChemPaint 化学结构编辑器"
-
 #: ../programs/paint/gchempaint.desktop.in.h:2
+msgid "2D Chemical Structures Editor"
+msgstr "2D 化学结构编辑器"
+
+#: ../programs/paint/gchempaint.desktop.in.h:3
 msgid "Edit chemical 2D structures"
 msgstr "编辑 2D 化学结构"
+
+#. TRANSLATORS: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: ../programs/paint/gchempaint.desktop.in.h:5
+msgid "molecule;chemistry;"
+msgstr "分子;化学;"
 
 #: ../programs/paint/main.cc:43
 msgid "GChemPaint version: "
@@ -3581,8 +3485,7 @@ msgid "GSpectrum"
 msgstr "GSpectrum"
 
 #: ../programs/spectra/gspectrum.desktop.in.h:1
-#, fuzzy
-msgid "Spectrum viewer (0.16 unstable)"
+msgid "Spectrum viewer"
 msgstr "光谱查看器"
 
 #: ../programs/spectra/gspectrum.desktop.in.h:2
@@ -3593,7 +3496,7 @@ msgstr "GNOME 桌面的光谱查看器"
 msgid "GSpectrum is a spectrum viewer for Gnome"
 msgstr "GSpectrum 是  Gnome 下的光谱查看器"
 
-#. char const *documentors[] = {NULL};
+#. const gchar * documentors[] = {NULL};
 #: ../programs/spectra/window.cc:114
 msgid "Copyright © 2007-2010 Jean Bréfort\n"
 msgstr "版权所有 © 2007-2010 Jean Bréfort\n"
@@ -3763,6 +3666,8 @@ msgid "Create an melting temperature chart"
 msgstr "创建熔点图表"
 
 #: ../programs/table/gchemtable-app.cc:184
+#: ../programs/table/gchemtable-curve.cc:409
+#: ../programs/table/gchemtable-data.cc:541
 msgid "Boiling temperature"
 msgstr "熔化温度"
 
@@ -3921,12 +3826,6 @@ msgstr "熔化温度"
 msgid "Melting point"
 msgstr "熔点"
 
-#: ../programs/table/gchemtable-curve.cc:409
-#: ../programs/table/gchemtable-data.cc:541
-#, fuzzy
-msgid "Ebullition temperature"
-msgstr "熔化温度"
-
 #: ../programs/table/gchemtable-curve.cc:412
 #: ../programs/table/gchemtable-curve.cc:416
 msgid "Boiling point"
@@ -3945,11 +3844,6 @@ msgstr "不支持"
 #: ../programs/table/gchemtable-data.cc:531
 msgid "Atomic mass"
 msgstr "原子质量"
-
-#: ../programs/table/gchemtable.desktop.in.h:1
-#, fuzzy
-msgid "Periodic table of the elements (0.16 unstable)"
-msgstr "元素周期表"
 
 #: ../programs/table/gchemtable.desktop.in.h:2
 msgid "A Mendeleiev table of the chemical elements"
@@ -4101,18 +3995,6 @@ msgstr "默认的纸张设定，例如 iso_a4，或 na_letter，例如 PWG 5101.
 #: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:16
 msgid "This is the default paper orientation."
 msgstr "这是默认的纸张方向。"
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:17
-msgid "Use direct rendering when exporting an offscreen OpenGL scene."
-msgstr ""
-
-#: ../schemas/org.gnome.gchemutils.gschema.xml.in.in.h:18
-msgid ""
-"The documentation says that direct rendering from OpenGL to a pixbuf is not "
-"possible, but some implementations only accept direct rendering and crash "
-"otherwise. The default is false, and if GCrystal or GChem3D crash, try "
-"setting to true."
-msgstr ""
 
 #: ../schemas/org.gnome.gchemutils.paint.gschema.xml.in.in.h:1
 msgid "Default bond length"
@@ -4755,10 +4637,6 @@ msgstr "脱氧腺苷"
 msgid "Deoxyguanosine"
 msgstr "脱氧鸟苷"
 
-#: ../ui/calc/gchemcalc.ui.h:1
-msgid "Chemical calculator"
-msgstr "化学计算器"
-
 #: ../ui/calc/gchemcalc.ui.h:4
 msgid "Molecular weight:"
 msgstr "分子质量："
@@ -5289,32 +5167,6 @@ msgstr "箭头关联对象"
 msgid "_Role:"
 msgstr "角色(_R)"
 
-#: ../ui/paint/arrow-object.ui.h:3
-msgid "Step:"
-msgstr ""
-
-#: ../ui/paint/arrow-object.ui.h:4
-msgid "Numbered reaction step for this object."
-msgstr ""
-
-#: ../ui/paint/arrow-object.ui.h:5
-#, fuzzy
-msgid "Line:"
-msgstr "赖氨酸"
-
-#: ../ui/paint/arrow-object.ui.h:6
-#, fuzzy
-msgid "Position:"
-msgstr " 位置：(_P)"
-
-#: ../ui/paint/arrow-object.ui.h:7
-msgid "Line where this object should appear inside the step."
-msgstr ""
-
-#: ../ui/paint/arrow-object.ui.h:8
-msgid "Position inside the line."
-msgstr ""
-
 #: ../ui/paint/docprop.ui.h:9
 msgid "<b>Theme</b>"
 msgstr "<b>主题</b>"
@@ -5551,44 +5403,7 @@ msgstr "电荷符号大小："
 msgid "Size of the charge sign in pixels."
 msgstr "电荷符号大小，单位为像素。"
 
-#: ../ui/paint/reaction-arrow-prop.ui.h:1
-msgid "Maximum lines above the arrow:"
-msgstr ""
-
-#: ../ui/paint/reaction-arrow-prop.ui.h:2
-msgid ""
-"When objects are attached to the arrow, they are arranged in lines. This is "
-"the maximum number of lines that should lie above the arrow (when the arrow "
-"is horizontal and goes from left to right)."
-msgstr ""
-
-#: ../ui/paint/reaction-arrow-prop.ui.h:3
-msgid "Steps numbering scheme:"
-msgstr ""
-
-#: ../ui/paint/reaction-arrow-prop.ui.h:4
-msgid ""
-"Steps numbering scheme used when the arrow represents several reactions at "
-"once."
-msgstr ""
-
-#: ../ui/paint/reaction-arrow-prop.ui.h:5
-msgid "1., 2., 3., 4."
-msgstr ""
-
-#: ../ui/paint/reaction-arrow-prop.ui.h:6
-msgid "I., II., III. IV."
-msgstr ""
-
-#: ../ui/paint/reaction-arrow-prop.ui.h:7
-msgid "i., ii., iii., iv."
-msgstr ""
-
 #: ../ui/paint/tools.ui.h:1
-msgid " "
-msgstr ""
-
-#: ../ui/paint/tools.ui.h:2
 msgid "_Current element:"
 msgstr "当前元素：(_C)"
 
@@ -5781,86 +5596,21 @@ msgstr ""
 "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> f 区 </span>"
 
-#: ../libs/gcp/reaction-substractor.cc:55
 #, fuzzy
-msgid "Reaction substrator"
-msgstr "反应者"
+#~ msgid "Ebullition temperature"
+#~ msgstr "熔化温度"
 
-#, fuzzy
-#~ msgid "Electronegativity "
-#~ msgstr "电负性"
+#~ msgid "Loader : CTfiles"
+#~ msgstr "加载器：CTfiles"
 
-#~ msgid "Simple arrow"
-#~ msgstr "单箭头"
+#~ msgid "CTfiles loader."
+#~ msgstr "CTfiles 加载器。"
 
-#~ msgid "Double arrow"
-#~ msgstr "双箭头"
+#~ msgid "CTfiles loader"
+#~ msgstr "CTfiles 加载器"
 
-#~ msgid "Electron pair move arrow"
-#~ msgstr "电子对转移箭头"
-
-#~ msgid "Single electron move arrow"
-#~ msgstr "单电子转移箭头"
-
-#~ msgid "Positive Charge"
-#~ msgstr "正电荷"
-
-#~ msgid "Negative Charge"
-#~ msgstr "负电荷"
-
-#~ msgid "Electron Pair"
-#~ msgstr "电子对"
-
-#~ msgid "Unpaired Electron"
-#~ msgstr "未成对电子"
-
-#~ msgid "Wedge bond tool"
-#~ msgstr "楔形键工具"
-
-#~ msgid "Hash bond tool"
-#~ msgstr "虚线键工具"
-
-#~ msgid "Squiggle bond tool"
-#~ msgstr "波浪键工具"
-
-#~ msgid "Fore bond tool"
-#~ msgstr "前置键工具"
-
-#~ msgid "Delocalized bond tool"
-#~ msgstr "离域键工具"
-
-#~ msgid "Newman projection"
-#~ msgstr "纽曼投影"
-
-#~ msgid "Add a three membered cycle"
-#~ msgstr "增加一个三元环"
-
-#~ msgid "Add a four membered cycle"
-#~ msgstr "增加一个四元环"
-
-#~ msgid "Add a five membered cycle"
-#~ msgstr "增加一个五元环"
-
-#~ msgid "Add a six membered cycle"
-#~ msgstr "增加一个六元环"
-
-#~ msgid "Add a seven membered cycle"
-#~ msgstr "增加一个七元环"
-
-#~ msgid "Add an eight membered cycle"
-#~ msgstr "增加一个八元环"
-
-#~ msgid "Add a cycle"
-#~ msgstr "增加一个环"
-
-#~ msgid "Erase"
-#~ msgstr "删除"
-
-#~ msgid "Merge"
-#~ msgstr "合并"
-
-#~ msgid "Templates"
-#~ msgstr "模板"
+#~ msgid "GChemPaint Chemical Structures Editor"
+#~ msgstr "GChemPaint 化学结构编辑器"
 
 #~ msgid ""
 #~ "Could not open file\n"
@@ -5886,12 +5636,24 @@ msgstr "反应者"
 #~ msgstr "新模板"
 
 #, fuzzy
+#~ msgid "Chemical calculator (0.14 unstable)"
+#~ msgstr "GChemPaint 控件"
+
+#, fuzzy
+#~ msgid "Periodic table of the elements (0.14 unstable)"
+#~ msgstr "元素周期表"
+
+#, fuzzy
 #~ msgid "All atoms"
 #~ msgstr "原子"
 
 #, fuzzy
 #~ msgid "Selected atom"
 #~ msgstr "选择工具"
+
+#, fuzzy
+#~ msgid "Lines"
+#~ msgstr "赖氨酸"
 
 #, fuzzy
 #~ msgid "Portrait"
