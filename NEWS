@@ -3,6 +3,8 @@ Version 0.14.18:
 		* Fix crash when a modal message window is destroyed. [#50568]
 	GChemPaint:
 		* Fix crash when changing settings. [#50799].
+	Other:
+		* Fix licenses versions in omf files. [#52882]
 
 Version 0.14.17:
 	GChemPaint:
