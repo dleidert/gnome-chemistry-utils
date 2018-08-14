@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2018-08-14  Julian Sikorski  <belegdol@fedoraproject.org>
+	* configure.ac: bump libspreadsheet requirement to 1.12.42.
+	* gnumeric/functions.cc: fix building with libspreadsheet-1.12.42. [#54500]
+
 2018-01-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/3d/gchem3d.omf.in: fix licenses versions. [#52882]
 	* docs/help/calc/gchemcalc.omf.in: ditto.
